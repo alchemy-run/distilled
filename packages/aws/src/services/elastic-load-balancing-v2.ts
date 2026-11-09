@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1929,7 +1930,7 @@ export type AddListenerCertificatesError =
  * certificates in the *Network Load Balancers Guide*.
  */
 export const addListenerCertificates: API.OperationMethod<
-  AddListenerCertificatesInput,
+  AddListenerCertificatesInput & RegionInput,
   AddListenerCertificatesOutput,
   AddListenerCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -1962,7 +1963,7 @@ export type AddTagsError =
  * same key, `AddTags` updates its value.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +1996,7 @@ export type AddTrustStoreRevocationsError =
  * Adds the specified revocation file to the specified trust store.
  */
 export const addTrustStoreRevocations: API.OperationMethod<
-  AddTrustStoreRevocationsInput,
+  AddTrustStoreRevocationsInput & RegionInput,
   AddTrustStoreRevocationsOutput,
   AddTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
@@ -2056,7 +2057,7 @@ export type CreateListenerError =
  * attempt to create multiple listeners with the same settings, each call succeeds.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerInput,
+  CreateListenerInput & RegionInput,
   CreateListenerOutput,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type CreateLoadBalancerError =
  * attempt to create multiple load balancers with the same settings, each call succeeds.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateLoadBalancerInput,
+  CreateLoadBalancerInput & RegionInput,
   CreateLoadBalancerOutput,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -2182,7 +2183,7 @@ export type CreateRuleError =
  * Listener rules in the *Network Load Balancers Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleInput,
+  CreateRuleInput & RegionInput,
   CreateRuleOutput,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -2237,7 +2238,7 @@ export type CreateTargetGroupError =
  * attempt to create multiple target groups with the same settings, each call succeeds.
  */
 export const createTargetGroup: API.OperationMethod<
-  CreateTargetGroupInput,
+  CreateTargetGroupInput & RegionInput,
   CreateTargetGroupOutput,
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type CreateTrustStoreError =
  * For more information, see Mutual TLS for Application Load Balancers.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreInput,
+  CreateTrustStoreInput & RegionInput,
   CreateTrustStoreOutput,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2301,7 +2302,7 @@ export type DeleteListenerError = ListenerNotFoundException | ResourceInUseExcep
  * attached.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerInput,
+  DeleteListenerInput & RegionInput,
   DeleteListenerOutput,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -2333,7 +2334,7 @@ export type DeleteLoadBalancerError =
  * need these EC2 instances, you can stop or terminate them.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteLoadBalancerInput,
+  DeleteLoadBalancerInput & RegionInput,
   DeleteLoadBalancerOutput,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -2355,7 +2356,7 @@ export type DeleteRuleError = OperationNotPermittedException | RuleNotFoundExcep
  * You can't delete the default rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
+  DeleteRuleInput & RegionInput,
   DeleteRuleOutput,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type DeleteSharedTrustStoreAssociationError =
  * Deletes a shared trust store association.
  */
 export const deleteSharedTrustStoreAssociation: API.OperationMethod<
-  DeleteSharedTrustStoreAssociationInput,
+  DeleteSharedTrustStoreAssociationInput & RegionInput,
   DeleteSharedTrustStoreAssociationOutput,
   DeleteSharedTrustStoreAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2408,7 +2409,7 @@ export type DeleteTargetGroupError = ResourceInUseException | CommonErrors;
  * them.
  */
 export const deleteTargetGroup: API.OperationMethod<
-  DeleteTargetGroupInput,
+  DeleteTargetGroupInput & RegionInput,
   DeleteTargetGroupOutput,
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2432,7 @@ export type DeleteTrustStoreError =
  * Deletes a trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreInput,
+  DeleteTrustStoreInput & RegionInput,
   DeleteTrustStoreOutput,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2472,7 +2473,7 @@ export type DeregisterTargetsError =
  * Note: If the specified target does not exist, the action returns successfully.
  */
 export const deregisterTargets: API.OperationMethod<
-  DeregisterTargetsInput,
+  DeregisterTargetsInput & RegionInput,
   DeregisterTargetsOutput,
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2504,7 +2505,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * Load Balancers
  */
 export const describeAccountLimits: API.PaginatedOperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -2526,7 +2527,7 @@ export type DescribeCapacityReservationError = LoadBalancerNotFoundException | C
  * Describes the capacity reservation status for the specified load balancer.
  */
 export const describeCapacityReservation: API.OperationMethod<
-  DescribeCapacityReservationInput,
+  DescribeCapacityReservationInput & RegionInput,
   DescribeCapacityReservationOutput,
   DescribeCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -2546,7 +2547,7 @@ export type DescribeListenerAttributesError = ListenerNotFoundException | Common
  * Describes the attributes for the specified listener.
  */
 export const describeListenerAttributes: API.OperationMethod<
-  DescribeListenerAttributesInput,
+  DescribeListenerAttributesInput & RegionInput,
   DescribeListenerAttributesOutput,
   DescribeListenerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2575,7 +2576,7 @@ export type DescribeListenerCertificatesError = ListenerNotFoundException | Comm
  * Guide.
  */
 export const describeListenerCertificates: API.PaginatedOperationMethod<
-  DescribeListenerCertificatesInput,
+  DescribeListenerCertificatesInput & RegionInput,
   DescribeListenerCertificatesOutput,
   DescribeListenerCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2603,7 +2604,7 @@ export type DescribeListenersError =
  * balancer or one or more listeners.
  */
 export const describeListeners: API.PaginatedOperationMethod<
-  DescribeListenersInput,
+  DescribeListenersInput & RegionInput,
   DescribeListenersOutput,
   DescribeListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2637,7 +2638,7 @@ export type DescribeLoadBalancerAttributesError = LoadBalancerNotFoundException 
  * Guide
  */
 export const describeLoadBalancerAttributes: API.OperationMethod<
-  DescribeLoadBalancerAttributesInput,
+  DescribeLoadBalancerAttributesInput & RegionInput,
   DescribeLoadBalancerAttributesOutput,
   DescribeLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2658,7 @@ export type DescribeLoadBalancersError = LoadBalancerNotFoundException | CommonE
  * Describes the specified load balancers or all of your load balancers.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeLoadBalancersInput,
+  DescribeLoadBalancersInput & RegionInput,
   DescribeLoadBalancersOutput,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -2684,7 +2685,7 @@ export type DescribeRulesError =
  * either a listener or rules.
  */
 export const describeRules: API.PaginatedOperationMethod<
-  DescribeRulesInput,
+  DescribeRulesInput & RegionInput,
   DescribeRulesOutput,
   DescribeRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2709,7 +2710,7 @@ export type DescribeSSLPoliciesError = SSLPolicyNotFoundException | CommonErrors
  * Security policies in the *Network Load Balancers Guide*.
  */
 export const describeSSLPolicies: API.OperationMethod<
-  DescribeSSLPoliciesInput,
+  DescribeSSLPoliciesInput & RegionInput,
   DescribeSSLPoliciesOutput,
   DescribeSSLPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2737,7 +2738,7 @@ export type DescribeTagsError =
  * Balancers, target groups, listeners, or rules.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -2774,7 +2775,7 @@ export type DescribeTargetGroupAttributesError = TargetGroupNotFoundException | 
  * Guide
  */
 export const describeTargetGroupAttributes: API.OperationMethod<
-  DescribeTargetGroupAttributesInput,
+  DescribeTargetGroupAttributesInput & RegionInput,
   DescribeTargetGroupAttributesOutput,
   DescribeTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2800,7 +2801,7 @@ export type DescribeTargetGroupsError =
  * one or more target groups.
  */
 export const describeTargetGroups: API.PaginatedOperationMethod<
-  DescribeTargetGroupsInput,
+  DescribeTargetGroupsInput & RegionInput,
   DescribeTargetGroupsOutput,
   DescribeTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2826,7 +2827,7 @@ export type DescribeTargetHealthError =
  * Describes the health of the specified targets or all of your targets.
  */
 export const describeTargetHealth: API.OperationMethod<
-  DescribeTargetHealthInput,
+  DescribeTargetHealthInput & RegionInput,
   DescribeTargetHealthOutput,
   DescribeTargetHealthError,
   Credentials | HttpClient.HttpClient
@@ -2846,7 +2847,7 @@ export type DescribeTrustStoreAssociationsError = TrustStoreNotFoundException | 
  * Describes all resources associated with the specified trust store.
  */
 export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
-  DescribeTrustStoreAssociationsInput,
+  DescribeTrustStoreAssociationsInput & RegionInput,
   DescribeTrustStoreAssociationsOutput,
   DescribeTrustStoreAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2877,7 +2878,7 @@ export type DescribeTrustStoreRevocationsError =
  * files.
  */
 export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
-  DescribeTrustStoreRevocationsInput,
+  DescribeTrustStoreRevocationsInput & RegionInput,
   DescribeTrustStoreRevocationsOutput,
   DescribeTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2904,7 +2905,7 @@ export type DescribeTrustStoresError = TrustStoreNotFoundException | CommonError
  * Describes all trust stores for the specified account.
  */
 export const describeTrustStores: API.PaginatedOperationMethod<
-  DescribeTrustStoresInput,
+  DescribeTrustStoresInput & RegionInput,
   DescribeTrustStoresOutput,
   DescribeTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -2931,7 +2932,7 @@ export type GetResourcePolicyError = ResourceNotFoundException | CommonErrors;
  * Retrieves the resource policy for a specified resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2954,7 +2955,7 @@ export type GetTrustStoreCaCertificatesBundleError = TrustStoreNotFoundException
  * active for ten minutes.
  */
 export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
-  GetTrustStoreCaCertificatesBundleInput,
+  GetTrustStoreCaCertificatesBundleInput & RegionInput,
   GetTrustStoreCaCertificatesBundleOutput,
   GetTrustStoreCaCertificatesBundleError,
   Credentials | HttpClient.HttpClient
@@ -2980,7 +2981,7 @@ export type GetTrustStoreRevocationContentError =
  * active for ten minutes.
  */
 export const getTrustStoreRevocationContent: API.OperationMethod<
-  GetTrustStoreRevocationContentInput,
+  GetTrustStoreRevocationContentInput & RegionInput,
   GetTrustStoreRevocationContentOutput,
   GetTrustStoreRevocationContentError,
   Credentials | HttpClient.HttpClient
@@ -3012,7 +3013,7 @@ export type ModifyCapacityReservationError =
  * or `ResetCapacityReservation`.
  */
 export const modifyCapacityReservation: API.OperationMethod<
-  ModifyCapacityReservationInput,
+  ModifyCapacityReservationInput & RegionInput,
   ModifyCapacityReservationOutput,
   ModifyCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -3041,7 +3042,7 @@ export type ModifyIpPoolsError = LoadBalancerNotFoundException | CommonErrors;
  * [Application Load Balancers] Modify the IP pool associated to a load balancer.
  */
 export const modifyIpPools: API.OperationMethod<
-  ModifyIpPoolsInput,
+  ModifyIpPoolsInput & RegionInput,
   ModifyIpPoolsOutput,
   ModifyIpPoolsError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type ModifyListenerError =
  * actions plus the new action.
  */
 export const modifyListener: API.OperationMethod<
-  ModifyListenerInput,
+  ModifyListenerInput & RegionInput,
   ModifyListenerOutput,
   ModifyListenerError,
   Credentials | HttpClient.HttpClient
@@ -3133,7 +3134,7 @@ export type ModifyListenerAttributesError =
  * Modifies the specified attributes of the specified listener.
  */
 export const modifyListenerAttributes: API.OperationMethod<
-  ModifyListenerAttributesInput,
+  ModifyListenerAttributesInput & RegionInput,
   ModifyListenerAttributesOutput,
   ModifyListenerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3160,7 +3161,7 @@ export type ModifyLoadBalancerAttributesError =
  * existing attributes that you do not modify retain their current values.
  */
 export const modifyLoadBalancerAttributes: API.OperationMethod<
-  ModifyLoadBalancerAttributesInput,
+  ModifyLoadBalancerAttributesInput & RegionInput,
   ModifyLoadBalancerAttributesOutput,
   ModifyLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3197,7 +3198,7 @@ export type ModifyRuleError =
  * actions plus the new action.
  */
 export const modifyRule: API.OperationMethod<
-  ModifyRuleInput,
+  ModifyRuleInput & RegionInput,
   ModifyRuleOutput,
   ModifyRuleError,
   Credentials | HttpClient.HttpClient
@@ -3233,7 +3234,7 @@ export type ModifyTargetGroupError =
  * specified target group.
  */
 export const modifyTargetGroup: API.OperationMethod<
-  ModifyTargetGroupInput,
+  ModifyTargetGroupInput & RegionInput,
   ModifyTargetGroupOutput,
   ModifyTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3256,7 +3257,7 @@ export type ModifyTargetGroupAttributesError =
  * Modifies the specified attributes of the specified target group.
  */
 export const modifyTargetGroupAttributes: API.OperationMethod<
-  ModifyTargetGroupAttributesInput,
+  ModifyTargetGroupAttributesInput & RegionInput,
   ModifyTargetGroupAttributesOutput,
   ModifyTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3280,7 +3281,7 @@ export type ModifyTrustStoreError =
  * Update the ca certificate bundle for the specified trust store.
  */
 export const modifyTrustStore: API.OperationMethod<
-  ModifyTrustStoreInput,
+  ModifyTrustStoreInput & RegionInput,
   ModifyTrustStoreOutput,
   ModifyTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -3328,7 +3329,7 @@ export type RegisterTargetsError =
  * Gateway Load Balancer
  */
 export const registerTargets: API.OperationMethod<
-  RegisterTargetsInput,
+  RegisterTargetsInput & RegionInput,
   RegisterTargetsOutput,
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -3357,7 +3358,7 @@ export type RemoveListenerCertificatesError =
  * listener.
  */
 export const removeListenerCertificates: API.OperationMethod<
-  RemoveListenerCertificatesInput,
+  RemoveListenerCertificatesInput & RegionInput,
   RemoveListenerCertificatesOutput,
   RemoveListenerCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -3386,7 +3387,7 @@ export type RemoveTagsError =
  * Load Balancers, target groups, listeners, or rules.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -3416,7 +3417,7 @@ export type RemoveTrustStoreRevocationsError =
  * Removes the specified revocation file from the specified trust store.
  */
 export const removeTrustStoreRevocations: API.OperationMethod<
-  RemoveTrustStoreRevocationsInput,
+  RemoveTrustStoreRevocationsInput & RegionInput,
   RemoveTrustStoreRevocationsOutput,
   RemoveTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
@@ -3440,7 +3441,7 @@ export type SetIpAddressTypeError =
  * Sets the type of IP addresses used by the subnets of the specified load balancer.
  */
 export const setIpAddressType: API.OperationMethod<
-  SetIpAddressTypeInput,
+  SetIpAddressTypeInput & RegionInput,
   SetIpAddressTypeOutput,
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
@@ -3471,7 +3472,7 @@ export type SetRulePrioritiesError =
  * existing rules that you do not specify retain their current priority.
  */
 export const setRulePriorities: API.OperationMethod<
-  SetRulePrioritiesInput,
+  SetRulePrioritiesInput & RegionInput,
   SetRulePrioritiesOutput,
   SetRulePrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -3502,7 +3503,7 @@ export type SetSecurityGroupsError =
  * You can't associate a security group with a Gateway Load Balancer.
  */
 export const setSecurityGroups: API.OperationMethod<
-  SetSecurityGroupsInput,
+  SetSecurityGroupsInput & RegionInput,
   SetSecurityGroupsOutput,
   SetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3536,7 +3537,7 @@ export type SetSubnetsError =
  * replace the previously enabled subnets.
  */
 export const setSubnets: API.OperationMethod<
-  SetSubnetsInput,
+  SetSubnetsInput & RegionInput,
   SetSubnetsOutput,
   SetSubnetsError,
   Credentials | HttpClient.HttpClient

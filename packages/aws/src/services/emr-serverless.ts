@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -718,7 +719,7 @@ export type CancelJobRunError =
  * Cancels a job run.
  */
 export const cancelJobRun: API.OperationMethod<
-  CancelJobRunRequest,
+  CancelJobRunRequest & RegionInput,
   CancelJobRunResponse,
   CancelJobRunError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type CreateApplicationError =
  * Creates an application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -772,7 +773,7 @@ export type DeleteApplicationError =
  * Deletes an application. An application has to be in a stopped or created state in order to be deleted.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -796,7 +797,7 @@ export type GetApplicationError =
  * Displays detailed information about a specified application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -824,7 +825,7 @@ export type GetDashboardForJobRunError =
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
 export const getDashboardForJobRun: API.OperationMethod<
-  GetDashboardForJobRunRequest,
+  GetDashboardForJobRunRequest & RegionInput,
   GetDashboardForJobRunResponse,
   GetDashboardForJobRunError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type GetJobRunError =
  * Displays detailed information about a job run.
  */
 export const getJobRun: API.OperationMethod<
-  GetJobRunRequest,
+  GetJobRunRequest & RegionInput,
   GetJobRunResponse,
   GetJobRunError,
   Credentials | HttpClient.HttpClient
@@ -876,7 +877,7 @@ export type GetResourceDashboardError =
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
 export const getResourceDashboard: API.OperationMethod<
-  GetResourceDashboardRequest,
+  GetResourceDashboardRequest & RegionInput,
   GetResourceDashboardResponse,
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
@@ -900,7 +901,7 @@ export type GetSessionError =
  * Displays detailed information about a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type GetSessionEndpointError =
  * Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -944,7 +945,7 @@ export type ListApplicationsError = InternalServerException | ValidationExceptio
  * Lists applications based on a set of parameters.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -975,7 +976,7 @@ export type ListJobRunAttemptsError =
  * Lists all attempt of a job run.
  */
 export const listJobRunAttempts: API.PaginatedOperationMethod<
-  ListJobRunAttemptsRequest,
+  ListJobRunAttemptsRequest & RegionInput,
   ListJobRunAttemptsResponse,
   ListJobRunAttemptsError,
   Credentials | HttpClient.HttpClient,
@@ -1002,7 +1003,7 @@ export type ListJobRunsError = InternalServerException | ValidationException | C
  * Lists job runs based on a set of parameters.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1033,7 +1034,7 @@ export type ListSessionsError =
  * Lists sessions for the specified application. You can filter sessions by state and creation time.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1064,7 +1065,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1089,7 +1090,7 @@ export type StartApplicationError =
  * Starts a specified application and initializes initial capacity if configured.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1119,7 +1120,7 @@ export type StartJobRunError =
  * Starts a job run.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Credentials | HttpClient.HttpClient
@@ -1150,7 +1151,7 @@ export type StartSessionError =
  * Creates and starts a new session on the specified application. The application must be in the `STARTED` state or have `AutoStart` enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type StopApplicationError =
  * Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type TagResourceError =
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1228,7 +1229,7 @@ export type TerminateSessionError =
  * Terminates the specified session. After you terminate a session, it enters the `TERMINATING` state and then the `TERMINATED` state. You can still access the Spark History Server for a terminated session through the `GetResourceDashboard` operation.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1252,7 +1253,7 @@ export type UntagResourceError =
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1276,7 +1277,7 @@ export type UpdateApplicationError =
  * Updates a specified application. An application has to be in a stopped or created state in order to be updated.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient

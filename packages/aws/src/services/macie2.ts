@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1932,7 +1933,7 @@ export type AcceptInvitationError =
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1968,7 +1969,7 @@ export type BatchGetCustomDataIdentifiersError =
  * Retrieves information about one or more custom data identifiers.
  */
 export const batchGetCustomDataIdentifiers: API.OperationMethod<
-  BatchGetCustomDataIdentifiersRequest,
+  BatchGetCustomDataIdentifiersRequest & RegionInput,
   BatchGetCustomDataIdentifiersResponse,
   BatchGetCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient
@@ -2002,7 +2003,7 @@ export type BatchUpdateAutomatedDiscoveryAccountsError =
  * Changes the status of automated sensitive data discovery for one or more accounts.
  */
 export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
-  BatchUpdateAutomatedDiscoveryAccountsRequest,
+  BatchUpdateAutomatedDiscoveryAccountsRequest & RegionInput,
   BatchUpdateAutomatedDiscoveryAccountsResponse,
   BatchUpdateAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient
@@ -2037,7 +2038,7 @@ export type CreateAllowListError =
  * Creates and defines the settings for an allow list.
  */
 export const createAllowList: API.OperationMethod<
-  CreateAllowListRequest,
+  CreateAllowListRequest & RegionInput,
   CreateAllowListResponse,
   CreateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2075,7 +2076,7 @@ export type CreateClassificationJobError =
  * Creates and defines the settings for a classification job.
  */
 export const createClassificationJob: API.OperationMethod<
-  CreateClassificationJobRequest,
+  CreateClassificationJobRequest & RegionInput,
   CreateClassificationJobResponse,
   CreateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2113,7 +2114,7 @@ export type CreateCustomDataIdentifierError =
  * Creates and defines the criteria and other settings for a custom data identifier.
  */
 export const createCustomDataIdentifier: API.OperationMethod<
-  CreateCustomDataIdentifierRequest,
+  CreateCustomDataIdentifierRequest & RegionInput,
   CreateCustomDataIdentifierResponse,
   CreateCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2151,7 +2152,7 @@ export type CreateFindingsFilterError =
  * Creates and defines the criteria and other settings for a findings filter.
  */
 export const createFindingsFilter: API.OperationMethod<
-  CreateFindingsFilterRequest,
+  CreateFindingsFilterRequest & RegionInput,
   CreateFindingsFilterResponse,
   CreateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2189,7 @@ export type CreateInvitationsError =
  * Sends an Amazon Macie membership invitation to one or more accounts.
  */
 export const createInvitations: API.OperationMethod<
-  CreateInvitationsRequest,
+  CreateInvitationsRequest & RegionInput,
   CreateInvitationsResponse,
   CreateInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type CreateMemberError =
  * Associates an account with an Amazon Macie administrator account.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberRequest,
+  CreateMemberRequest & RegionInput,
   CreateMemberResponse,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2260,7 +2261,7 @@ export type CreateSampleFindingsError =
  * Creates sample findings.
  */
 export const createSampleFindings: API.OperationMethod<
-  CreateSampleFindingsRequest,
+  CreateSampleFindingsRequest & RegionInput,
   CreateSampleFindingsResponse,
   CreateSampleFindingsError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2297,7 @@ export type DeclineInvitationsError =
  * Declines Amazon Macie membership invitations that were received from specific accounts.
  */
 export const declineInvitations: API.OperationMethod<
-  DeclineInvitationsRequest,
+  DeclineInvitationsRequest & RegionInput,
   DeclineInvitationsResponse,
   DeclineInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2331,7 @@ export type DeleteAllowListError =
  * Deletes an allow list.
  */
 export const deleteAllowList: API.OperationMethod<
-  DeleteAllowListRequest,
+  DeleteAllowListRequest & RegionInput,
   DeleteAllowListResponse,
   DeleteAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type DeleteCustomDataIdentifierError =
  * Soft deletes a custom data identifier.
  */
 export const deleteCustomDataIdentifier: API.OperationMethod<
-  DeleteCustomDataIdentifierRequest,
+  DeleteCustomDataIdentifierRequest & RegionInput,
   DeleteCustomDataIdentifierResponse,
   DeleteCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2400,7 +2401,7 @@ export type DeleteFindingsFilterError =
  * Deletes a findings filter.
  */
 export const deleteFindingsFilter: API.OperationMethod<
-  DeleteFindingsFilterRequest,
+  DeleteFindingsFilterRequest & RegionInput,
   DeleteFindingsFilterResponse,
   DeleteFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2436,7 +2437,7 @@ export type DeleteInvitationsError =
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
 export const deleteInvitations: API.OperationMethod<
-  DeleteInvitationsRequest,
+  DeleteInvitationsRequest & RegionInput,
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2472,7 +2473,7 @@ export type DeleteMemberError =
  * Deletes the association between an Amazon Macie administrator account and an account.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberRequest,
+  DeleteMemberRequest & RegionInput,
   DeleteMemberResponse,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -2508,7 +2509,7 @@ export type DescribeBucketsError =
  * Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const describeBuckets: API.PaginatedOperationMethod<
-  DescribeBucketsRequest,
+  DescribeBucketsRequest & RegionInput,
   DescribeBucketsResponse,
   DescribeBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -2551,7 +2552,7 @@ export type DescribeClassificationJobError =
  * Retrieves the status and settings for a classification job.
  */
 export const describeClassificationJob: API.OperationMethod<
-  DescribeClassificationJobRequest,
+  DescribeClassificationJobRequest & RegionInput,
   DescribeClassificationJobResponse,
   DescribeClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2587,7 +2588,7 @@ export type DescribeOrganizationConfigurationError =
  * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2623,7 +2624,7 @@ export type DisableMacieError =
  * Disables Amazon Macie and deletes all settings and resources for a Macie account.
  */
 export const disableMacie: API.OperationMethod<
-  DisableMacieRequest,
+  DisableMacieRequest & RegionInput,
   DisableMacieResponse,
   DisableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2659,7 +2660,7 @@ export type DisableOrganizationAdminAccountError =
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2695,7 +2696,7 @@ export type DisassociateFromAdministratorAccountError =
  * Disassociates a member account from its Amazon Macie administrator account.
  */
 export const disassociateFromAdministratorAccount: API.OperationMethod<
-  DisassociateFromAdministratorAccountRequest,
+  DisassociateFromAdministratorAccountRequest & RegionInput,
   DisassociateFromAdministratorAccountResponse,
   DisassociateFromAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2731,7 +2732,7 @@ export type DisassociateFromMasterAccountError =
  * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
  */
 export const disassociateFromMasterAccount: API.OperationMethod<
-  DisassociateFromMasterAccountRequest,
+  DisassociateFromMasterAccountRequest & RegionInput,
   DisassociateFromMasterAccountResponse,
   DisassociateFromMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -2767,7 +2768,7 @@ export type DisassociateMemberError =
  * Disassociates an Amazon Macie administrator account from a member account.
  */
 export const disassociateMember: API.OperationMethod<
-  DisassociateMemberRequest,
+  DisassociateMemberRequest & RegionInput,
   DisassociateMemberResponse,
   DisassociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2803,7 +2804,7 @@ export type EnableMacieError =
  * Enables Amazon Macie and specifies the configuration settings for a Macie account.
  */
 export const enableMacie: API.OperationMethod<
-  EnableMacieRequest,
+  EnableMacieRequest & RegionInput,
   EnableMacieResponse,
   EnableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2839,7 +2840,7 @@ export type EnableOrganizationAdminAccountError =
  * Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2875,7 +2876,7 @@ export type GetAdministratorAccountError =
  * Retrieves information about the Amazon Macie administrator account for an account.
  */
 export const getAdministratorAccount: API.OperationMethod<
-  GetAdministratorAccountRequest,
+  GetAdministratorAccountRequest & RegionInput,
   GetAdministratorAccountResponse,
   GetAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2909,7 +2910,7 @@ export type GetAllowListError =
  * Retrieves the settings and status of an allow list.
  */
 export const getAllowList: API.OperationMethod<
-  GetAllowListRequest,
+  GetAllowListRequest & RegionInput,
   GetAllowListResponse,
   GetAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type GetAutomatedDiscoveryConfigurationError =
  * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
-  GetAutomatedDiscoveryConfigurationRequest,
+  GetAutomatedDiscoveryConfigurationRequest & RegionInput,
   GetAutomatedDiscoveryConfigurationResponse,
   GetAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2973,7 +2974,7 @@ export type GetBucketStatisticsError =
  * Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const getBucketStatistics: API.OperationMethod<
-  GetBucketStatisticsRequest,
+  GetBucketStatisticsRequest & RegionInput,
   GetBucketStatisticsResponse,
   GetBucketStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3009,7 +3010,7 @@ export type GetClassificationExportConfigurationError =
  * Retrieves the configuration settings for storing data classification results.
  */
 export const getClassificationExportConfiguration: API.OperationMethod<
-  GetClassificationExportConfigurationRequest,
+  GetClassificationExportConfigurationRequest & RegionInput,
   GetClassificationExportConfigurationResponse,
   GetClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3044,7 @@ export type GetClassificationScopeError =
  * Retrieves the classification scope settings for an account.
  */
 export const getClassificationScope: API.OperationMethod<
-  GetClassificationScopeRequest,
+  GetClassificationScopeRequest & RegionInput,
   GetClassificationScopeResponse,
   GetClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3078,7 @@ export type GetCustomDataIdentifierError =
  * Retrieves the criteria and other settings for a custom data identifier.
  */
 export const getCustomDataIdentifier: API.OperationMethod<
-  GetCustomDataIdentifierRequest,
+  GetCustomDataIdentifierRequest & RegionInput,
   GetCustomDataIdentifierResponse,
   GetCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -3113,7 +3114,7 @@ export type GetFindingsError =
  * Retrieves the details of one or more findings.
  */
 export const getFindings: API.OperationMethod<
-  GetFindingsRequest,
+  GetFindingsRequest & RegionInput,
   GetFindingsResponse,
   GetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3150,7 @@ export type GetFindingsFilterError =
  * Retrieves the criteria and other settings for a findings filter.
  */
 export const getFindingsFilter: API.OperationMethod<
-  GetFindingsFilterRequest,
+  GetFindingsFilterRequest & RegionInput,
   GetFindingsFilterResponse,
   GetFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -3185,7 +3186,7 @@ export type GetFindingsPublicationConfigurationError =
  * Retrieves the configuration settings for publishing findings to Security Hub.
  */
 export const getFindingsPublicationConfiguration: API.OperationMethod<
-  GetFindingsPublicationConfigurationRequest,
+  GetFindingsPublicationConfigurationRequest & RegionInput,
   GetFindingsPublicationConfigurationResponse,
   GetFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3221,7 +3222,7 @@ export type GetFindingStatisticsError =
  * Retrieves (queries) aggregated statistical data about findings.
  */
 export const getFindingStatistics: API.OperationMethod<
-  GetFindingStatisticsRequest,
+  GetFindingStatisticsRequest & RegionInput,
   GetFindingStatisticsResponse,
   GetFindingStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3257,7 +3258,7 @@ export type GetInvitationsCountError =
  * Retrieves the count of Amazon Macie membership invitations that were received by an account.
  */
 export const getInvitationsCount: API.OperationMethod<
-  GetInvitationsCountRequest,
+  GetInvitationsCountRequest & RegionInput,
   GetInvitationsCountResponse,
   GetInvitationsCountError,
   Credentials | HttpClient.HttpClient
@@ -3293,7 +3294,7 @@ export type GetMacieSessionError =
  * Retrieves the status and configuration settings for an Amazon Macie account.
  */
 export const getMacieSession: API.OperationMethod<
-  GetMacieSessionRequest,
+  GetMacieSessionRequest & RegionInput,
   GetMacieSessionResponse,
   GetMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -3329,7 +3330,7 @@ export type GetMasterAccountError =
  * (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
  */
 export const getMasterAccount: API.OperationMethod<
-  GetMasterAccountRequest,
+  GetMasterAccountRequest & RegionInput,
   GetMasterAccountResponse,
   GetMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -3365,7 +3366,7 @@ export type GetMemberError =
  * Retrieves information about an account that's associated with an Amazon Macie administrator account.
  */
 export const getMember: API.OperationMethod<
-  GetMemberRequest,
+  GetMemberRequest & RegionInput,
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -3400,7 +3401,7 @@ export type GetResourceProfileError =
  * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
  */
 export const getResourceProfile: API.OperationMethod<
-  GetResourceProfileRequest,
+  GetResourceProfileRequest & RegionInput,
   GetResourceProfileResponse,
   GetResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3432,7 +3433,7 @@ export type GetRevealConfigurationError =
  * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const getRevealConfiguration: API.OperationMethod<
-  GetRevealConfigurationRequest,
+  GetRevealConfigurationRequest & RegionInput,
   GetRevealConfigurationResponse,
   GetRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3464,7 +3465,7 @@ export type GetSensitiveDataOccurrencesError =
  * Retrieves occurrences of sensitive data reported by a finding.
  */
 export const getSensitiveDataOccurrences: API.OperationMethod<
-  GetSensitiveDataOccurrencesRequest,
+  GetSensitiveDataOccurrencesRequest & RegionInput,
   GetSensitiveDataOccurrencesResponse,
   GetSensitiveDataOccurrencesError,
   Credentials | HttpClient.HttpClient
@@ -3496,7 +3497,7 @@ export type GetSensitiveDataOccurrencesAvailabilityError =
  * Checks whether occurrences of sensitive data can be retrieved for a finding.
  */
 export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
-  GetSensitiveDataOccurrencesAvailabilityRequest,
+  GetSensitiveDataOccurrencesAvailabilityRequest & RegionInput,
   GetSensitiveDataOccurrencesAvailabilityResponse,
   GetSensitiveDataOccurrencesAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -3527,7 +3528,7 @@ export type GetSensitivityInspectionTemplateError =
  * Retrieves the settings for the sensitivity inspection template for an account.
  */
 export const getSensitivityInspectionTemplate: API.OperationMethod<
-  GetSensitivityInspectionTemplateRequest,
+  GetSensitivityInspectionTemplateRequest & RegionInput,
   GetSensitivityInspectionTemplateResponse,
   GetSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3561,7 +3562,7 @@ export type GetUsageStatisticsError =
  * Retrieves (queries) quotas and aggregated usage data for one or more accounts.
  */
 export const getUsageStatistics: API.PaginatedOperationMethod<
-  GetUsageStatisticsRequest,
+  GetUsageStatisticsRequest & RegionInput,
   GetUsageStatisticsResponse,
   GetUsageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -3604,7 +3605,7 @@ export type GetUsageTotalsError =
  * Retrieves (queries) aggregated usage data for an account.
  */
 export const getUsageTotals: API.OperationMethod<
-  GetUsageTotalsRequest,
+  GetUsageTotalsRequest & RegionInput,
   GetUsageTotalsResponse,
   GetUsageTotalsError,
   Credentials | HttpClient.HttpClient
@@ -3637,7 +3638,7 @@ export type ListAllowListsError =
  * Retrieves a subset of information about all the allow lists for an account.
  */
 export const listAllowLists: API.PaginatedOperationMethod<
-  ListAllowListsRequest,
+  ListAllowListsRequest & RegionInput,
   ListAllowListsResponse,
   ListAllowListsError,
   Credentials | HttpClient.HttpClient,
@@ -3675,7 +3676,7 @@ export type ListAutomatedDiscoveryAccountsError =
  * Retrieves the status of automated sensitive data discovery for one or more accounts.
  */
 export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
-  ListAutomatedDiscoveryAccountsRequest,
+  ListAutomatedDiscoveryAccountsRequest & RegionInput,
   ListAutomatedDiscoveryAccountsResponse,
   ListAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3716,7 +3717,7 @@ export type ListClassificationJobsError =
  * Retrieves a subset of information about one or more classification jobs.
  */
 export const listClassificationJobs: API.PaginatedOperationMethod<
-  ListClassificationJobsRequest,
+  ListClassificationJobsRequest & RegionInput,
   ListClassificationJobsResponse,
   ListClassificationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3756,7 +3757,7 @@ export type ListClassificationScopesError =
  * Retrieves a subset of information about the classification scope for an account.
  */
 export const listClassificationScopes: API.PaginatedOperationMethod<
-  ListClassificationScopesRequest,
+  ListClassificationScopesRequest & RegionInput,
   ListClassificationScopesResponse,
   ListClassificationScopesError,
   Credentials | HttpClient.HttpClient,
@@ -3795,7 +3796,7 @@ export type ListCustomDataIdentifiersError =
  * Retrieves a subset of information about the custom data identifiers for an account.
  */
 export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
-  ListCustomDataIdentifiersRequest,
+  ListCustomDataIdentifiersRequest & RegionInput,
   ListCustomDataIdentifiersResponse,
   ListCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3838,7 +3839,7 @@ export type ListFindingsError =
  * Retrieves a subset of information about one or more findings.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3881,7 +3882,7 @@ export type ListFindingsFiltersError =
  * Retrieves a subset of information about all the findings filters for an account.
  */
 export const listFindingsFilters: API.PaginatedOperationMethod<
-  ListFindingsFiltersRequest,
+  ListFindingsFiltersRequest & RegionInput,
   ListFindingsFiltersResponse,
   ListFindingsFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -3924,7 +3925,7 @@ export type ListInvitationsError =
  * Retrieves information about Amazon Macie membership invitations that were received by an account.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -3959,7 +3960,7 @@ export type ListManagedDataIdentifiersError = CommonErrors;
  * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
  */
 export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
-  ListManagedDataIdentifiersRequest,
+  ListManagedDataIdentifiersRequest & RegionInput,
   ListManagedDataIdentifiersResponse,
   ListManagedDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3989,7 +3990,7 @@ export type ListMembersError =
  * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -4032,7 +4033,7 @@ export type ListOrganizationAdminAccountsError =
  * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -4073,7 +4074,7 @@ export type ListResourceProfileArtifactsError =
  * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
  */
 export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
-  ListResourceProfileArtifactsRequest,
+  ListResourceProfileArtifactsRequest & RegionInput,
   ListResourceProfileArtifactsResponse,
   ListResourceProfileArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -4108,7 +4109,7 @@ export type ListResourceProfileDetectionsError =
  * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
 export const listResourceProfileDetections: API.PaginatedOperationMethod<
-  ListResourceProfileDetectionsRequest,
+  ListResourceProfileDetectionsRequest & RegionInput,
   ListResourceProfileDetectionsResponse,
   ListResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4148,7 +4149,7 @@ export type ListSensitivityInspectionTemplatesError =
  * Retrieves a subset of information about the sensitivity inspection template for an account.
  */
 export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
-  ListSensitivityInspectionTemplatesRequest,
+  ListSensitivityInspectionTemplatesRequest & RegionInput,
   ListSensitivityInspectionTemplatesResponse,
   ListSensitivityInspectionTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4181,7 +4182,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4209,7 +4210,7 @@ export type PutClassificationExportConfigurationError =
  * Adds or updates the configuration settings for storing data classification results.
  */
 export const putClassificationExportConfiguration: API.OperationMethod<
-  PutClassificationExportConfigurationRequest,
+  PutClassificationExportConfigurationRequest & RegionInput,
   PutClassificationExportConfigurationResponse,
   PutClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4245,7 +4246,7 @@ export type PutFindingsPublicationConfigurationError =
  * Updates the configuration settings for publishing findings to Security Hub.
  */
 export const putFindingsPublicationConfiguration: API.OperationMethod<
-  PutFindingsPublicationConfigurationRequest,
+  PutFindingsPublicationConfigurationRequest & RegionInput,
   PutFindingsPublicationConfigurationResponse,
   PutFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4281,7 +4282,7 @@ export type SearchResourcesError =
  * Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesRequest,
+  SearchResourcesRequest & RegionInput,
   SearchResourcesResponse,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4316,7 +4317,7 @@ export type TagResourceError = CommonErrors;
  * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4344,7 +4345,7 @@ export type TestCustomDataIdentifierError =
  * Tests criteria for a custom data identifier.
  */
 export const testCustomDataIdentifier: API.OperationMethod<
-  TestCustomDataIdentifierRequest,
+  TestCustomDataIdentifierRequest & RegionInput,
   TestCustomDataIdentifierResponse,
   TestCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -4372,7 +4373,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an Amazon Macie resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4398,7 +4399,7 @@ export type UpdateAllowListError =
  * Updates the settings for an allow list.
  */
 export const updateAllowList: API.OperationMethod<
-  UpdateAllowListRequest,
+  UpdateAllowListRequest & RegionInput,
   UpdateAllowListResponse,
   UpdateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -4429,7 +4430,7 @@ export type UpdateAutomatedDiscoveryConfigurationError =
  * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
-  UpdateAutomatedDiscoveryConfigurationRequest,
+  UpdateAutomatedDiscoveryConfigurationRequest & RegionInput,
   UpdateAutomatedDiscoveryConfigurationResponse,
   UpdateAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4462,7 +4463,7 @@ export type UpdateClassificationJobError =
  * Changes the status of a classification job.
  */
 export const updateClassificationJob: API.OperationMethod<
-  UpdateClassificationJobRequest,
+  UpdateClassificationJobRequest & RegionInput,
   UpdateClassificationJobResponse,
   UpdateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -4496,7 +4497,7 @@ export type UpdateClassificationScopeError =
  * Updates the classification scope settings for an account.
  */
 export const updateClassificationScope: API.OperationMethod<
-  UpdateClassificationScopeRequest,
+  UpdateClassificationScopeRequest & RegionInput,
   UpdateClassificationScopeResponse,
   UpdateClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -4530,7 +4531,7 @@ export type UpdateFindingsFilterError =
  * Updates the criteria and other settings for a findings filter.
  */
 export const updateFindingsFilter: API.OperationMethod<
-  UpdateFindingsFilterRequest,
+  UpdateFindingsFilterRequest & RegionInput,
   UpdateFindingsFilterResponse,
   UpdateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -4566,7 +4567,7 @@ export type UpdateMacieSessionError =
  * Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
  */
 export const updateMacieSession: API.OperationMethod<
-  UpdateMacieSessionRequest,
+  UpdateMacieSessionRequest & RegionInput,
   UpdateMacieSessionResponse,
   UpdateMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -4602,7 +4603,7 @@ export type UpdateMemberSessionError =
  * Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
  */
 export const updateMemberSession: API.OperationMethod<
-  UpdateMemberSessionRequest,
+  UpdateMemberSessionRequest & RegionInput,
   UpdateMemberSessionResponse,
   UpdateMemberSessionError,
   Credentials | HttpClient.HttpClient
@@ -4638,7 +4639,7 @@ export type UpdateOrganizationConfigurationError =
  * Updates the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4673,7 +4674,7 @@ export type UpdateResourceProfileError =
  * Updates the sensitivity score for an S3 bucket.
  */
 export const updateResourceProfile: API.OperationMethod<
-  UpdateResourceProfileRequest,
+  UpdateResourceProfileRequest & RegionInput,
   UpdateResourceProfileResponse,
   UpdateResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4707,7 +4708,7 @@ export type UpdateResourceProfileDetectionsError =
  * Updates the sensitivity scoring settings for an S3 bucket.
  */
 export const updateResourceProfileDetections: API.OperationMethod<
-  UpdateResourceProfileDetectionsRequest,
+  UpdateResourceProfileDetectionsRequest & RegionInput,
   UpdateResourceProfileDetectionsResponse,
   UpdateResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient
@@ -4739,7 +4740,7 @@ export type UpdateRevealConfigurationError =
  * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const updateRevealConfiguration: API.OperationMethod<
-  UpdateRevealConfigurationRequest,
+  UpdateRevealConfigurationRequest & RegionInput,
   UpdateRevealConfigurationResponse,
   UpdateRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4770,7 +4771,7 @@ export type UpdateSensitivityInspectionTemplateError =
  * Updates the settings for the sensitivity inspection template for an account.
  */
 export const updateSensitivityInspectionTemplate: API.OperationMethod<
-  UpdateSensitivityInspectionTemplateRequest,
+  UpdateSensitivityInspectionTemplateRequest & RegionInput,
   UpdateSensitivityInspectionTemplateResponse,
   UpdateSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient

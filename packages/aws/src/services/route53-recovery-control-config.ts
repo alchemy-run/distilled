@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -568,7 +569,7 @@ export type CreateClusterError =
  * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -604,7 +605,7 @@ export type CreateControlPanelError =
  * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
  */
 export const createControlPanel: API.OperationMethod<
-  CreateControlPanelRequest,
+  CreateControlPanelRequest & RegionInput,
   CreateControlPanelResponse,
   CreateControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -644,7 +645,7 @@ export type CreateRoutingControlError =
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const createRoutingControl: API.OperationMethod<
-  CreateRoutingControlRequest,
+  CreateRoutingControlRequest & RegionInput,
   CreateRoutingControlResponse,
   CreateRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -680,7 +681,7 @@ export type CreateSafetyRuleError = InternalServerException | ValidationExceptio
  * For more information, see Safety rules in the Amazon Route 53 Application Recovery Controller Developer Guide.
  */
 export const createSafetyRule: API.OperationMethod<
-  CreateSafetyRuleRequest,
+  CreateSafetyRuleRequest & RegionInput,
   CreateSafetyRuleResponse,
   CreateSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -707,7 +708,7 @@ export type DeleteClusterError =
  * Delete a cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -741,7 +742,7 @@ export type DeleteControlPanelError =
  * Deletes a control panel.
  */
 export const deleteControlPanel: API.OperationMethod<
-  DeleteControlPanelRequest,
+  DeleteControlPanelRequest & RegionInput,
   DeleteControlPanelResponse,
   DeleteControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -775,7 +776,7 @@ export type DeleteRoutingControlError =
  * Deletes a routing control.
  */
 export const deleteRoutingControl: API.OperationMethod<
-  DeleteRoutingControlRequest,
+  DeleteRoutingControlRequest & RegionInput,
   DeleteRoutingControlResponse,
   DeleteRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -807,7 +808,7 @@ export type DeleteSafetyRuleError =
  * />
  */
 export const deleteSafetyRule: API.OperationMethod<
-  DeleteSafetyRuleRequest,
+  DeleteSafetyRuleRequest & RegionInput,
   DeleteSafetyRuleResponse,
   DeleteSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -834,7 +835,7 @@ export type DescribeClusterError =
  * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DescribeControlPanelError =
  * Displays details about a control panel.
  */
 export const describeControlPanel: API.OperationMethod<
-  DescribeControlPanelRequest,
+  DescribeControlPanelRequest & RegionInput,
   DescribeControlPanelResponse,
   DescribeControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +905,7 @@ export type DescribeRoutingControlError =
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const describeRoutingControl: API.OperationMethod<
-  DescribeRoutingControlRequest,
+  DescribeRoutingControlRequest & RegionInput,
   DescribeRoutingControlResponse,
   DescribeRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -934,7 +935,7 @@ export type DescribeSafetyRuleError =
  * Returns information about a safety rule.
  */
 export const describeSafetyRule: API.OperationMethod<
-  DescribeSafetyRuleRequest,
+  DescribeSafetyRuleRequest & RegionInput,
   DescribeSafetyRuleResponse,
   DescribeSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type GetResourcePolicyError =
  * Get information about the resource policy for a cluster.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -981,7 +982,7 @@ export type ListAssociatedRoute53HealthChecksError =
  * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
  */
 export const listAssociatedRoute53HealthChecks: API.PaginatedOperationMethod<
-  ListAssociatedRoute53HealthChecksRequest,
+  ListAssociatedRoute53HealthChecksRequest & RegionInput,
   ListAssociatedRoute53HealthChecksResponse,
   ListAssociatedRoute53HealthChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1014,7 +1015,7 @@ export type ListClustersError =
  * Returns an array of all the clusters in an account.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1053,7 +1054,7 @@ export type ListControlPanelsError =
  * Returns an array of control panels in an account or in a cluster.
  */
 export const listControlPanels: API.PaginatedOperationMethod<
-  ListControlPanelsRequest,
+  ListControlPanelsRequest & RegionInput,
   ListControlPanelsResponse,
   ListControlPanelsError,
   Credentials | HttpClient.HttpClient,
@@ -1092,7 +1093,7 @@ export type ListRoutingControlsError =
  * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
  */
 export const listRoutingControls: API.PaginatedOperationMethod<
-  ListRoutingControlsRequest,
+  ListRoutingControlsRequest & RegionInput,
   ListRoutingControlsResponse,
   ListRoutingControlsError,
   Credentials | HttpClient.HttpClient,
@@ -1131,7 +1132,7 @@ export type ListSafetyRulesError =
  * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
  */
 export const listSafetyRules: API.PaginatedOperationMethod<
-  ListSafetyRulesRequest,
+  ListSafetyRulesRequest & RegionInput,
   ListSafetyRulesResponse,
   ListSafetyRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1168,7 +1169,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1192,7 +1193,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1216,7 +1217,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1243,7 +1244,7 @@ export type UpdateClusterError =
  * Updates an existing cluster. You can only update the network type of a cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1277,7 +1278,7 @@ export type UpdateControlPanelError =
  * Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
  */
 export const updateControlPanel: API.OperationMethod<
-  UpdateControlPanelRequest,
+  UpdateControlPanelRequest & RegionInput,
   UpdateControlPanelResponse,
   UpdateControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -1311,7 +1312,7 @@ export type UpdateRoutingControlError =
  * Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const updateRoutingControl: API.OperationMethod<
-  UpdateRoutingControlRequest,
+  UpdateRoutingControlRequest & RegionInput,
   UpdateRoutingControlResponse,
   UpdateRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -1342,7 +1343,7 @@ export type UpdateSafetyRuleError =
  * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
  */
 export const updateSafetyRule: API.OperationMethod<
-  UpdateSafetyRuleRequest,
+  UpdateSafetyRuleRequest & RegionInput,
   UpdateSafetyRuleResponse,
   UpdateSafetyRuleError,
   Credentials | HttpClient.HttpClient

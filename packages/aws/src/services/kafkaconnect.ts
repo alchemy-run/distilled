@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -671,7 +672,7 @@ export type CreateConnectorError =
  * Creates a connector using the specified properties.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -709,7 +710,7 @@ export type CreateCustomPluginError =
  * Creates a custom plugin using the specified properties.
  */
 export const createCustomPlugin: API.OperationMethod<
-  CreateCustomPluginRequest,
+  CreateCustomPluginRequest & RegionInput,
   CreateCustomPluginResponse,
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type CreateWorkerConfigurationError =
  * Creates a worker configuration using the specified properties.
  */
 export const createWorkerConfiguration: API.OperationMethod<
-  CreateWorkerConfigurationRequest,
+  CreateWorkerConfigurationRequest & RegionInput,
   CreateWorkerConfigurationResponse,
   CreateWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -784,7 +785,7 @@ export type DeleteConnectorError =
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type DeleteCustomPluginError =
  * Deletes a custom plugin.
  */
 export const deleteCustomPlugin: API.OperationMethod<
-  DeleteCustomPluginRequest,
+  DeleteCustomPluginRequest & RegionInput,
   DeleteCustomPluginResponse,
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type DeleteWorkerConfigurationError =
  * Deletes the specified worker configuration.
  */
 export const deleteWorkerConfiguration: API.OperationMethod<
-  DeleteWorkerConfigurationRequest,
+  DeleteWorkerConfigurationRequest & RegionInput,
   DeleteWorkerConfigurationResponse,
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type DescribeConnectorError =
  * Returns summary information about the connector.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type DescribeConnectorOperationError =
  * Returns information about the specified connector's operations.
  */
 export const describeConnectorOperation: API.OperationMethod<
-  DescribeConnectorOperationRequest,
+  DescribeConnectorOperationRequest & RegionInput,
   DescribeConnectorOperationResponse,
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +965,7 @@ export type DescribeCustomPluginError =
  * A summary description of the custom plugin.
  */
 export const describeCustomPlugin: API.OperationMethod<
-  DescribeCustomPluginRequest,
+  DescribeCustomPluginRequest & RegionInput,
   DescribeCustomPluginResponse,
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type DescribeWorkerConfigurationError =
  * Returns information about a worker configuration.
  */
 export const describeWorkerConfiguration: API.OperationMethod<
-  DescribeWorkerConfigurationRequest,
+  DescribeWorkerConfigurationRequest & RegionInput,
   DescribeWorkerConfigurationResponse,
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1036,7 +1037,7 @@ export type ListConnectorOperationsError =
  * Lists information about a connector's operation(s).
  */
 export const listConnectorOperations: API.PaginatedOperationMethod<
-  ListConnectorOperationsRequest,
+  ListConnectorOperationsRequest & RegionInput,
   ListConnectorOperationsResponse,
   ListConnectorOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1079,7 +1080,7 @@ export type ListConnectorsError =
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1122,7 +1123,7 @@ export type ListCustomPluginsError =
  * Returns a list of all of the custom plugins in this account and Region.
  */
 export const listCustomPlugins: API.PaginatedOperationMethod<
-  ListCustomPluginsRequest,
+  ListCustomPluginsRequest & RegionInput,
   ListCustomPluginsResponse,
   ListCustomPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -1165,7 +1166,7 @@ export type ListTagsForResourceError =
  * Lists all the tags attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type ListWorkerConfigurationsError =
  * Returns a list of all of the worker configurations in this account and Region.
  */
 export const listWorkerConfigurations: API.PaginatedOperationMethod<
-  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsRequest & RegionInput,
   ListWorkerConfigurationsResponse,
   ListWorkerConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1244,7 +1245,7 @@ export type RestartConnectorError =
  * Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to `DescribeConnectorOperation` to track the state of the restart.
  */
 export const restartConnector: API.OperationMethod<
-  RestartConnectorRequest,
+  RestartConnectorRequest & RegionInput,
   RestartConnectorResponse,
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type TagResourceError =
  * Attaches tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1319,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1354,7 +1355,7 @@ export type UpdateConnectorError =
  * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient

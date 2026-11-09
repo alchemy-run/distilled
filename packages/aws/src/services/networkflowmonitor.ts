@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -565,7 +566,7 @@ export type CreateMonitorError =
  * Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorInput,
+  CreateMonitorInput & RegionInput,
   CreateMonitorOutput,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -609,7 +610,7 @@ export type CreateScopeError =
  * - *Target identifiers*, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
  */
 export const createScope: API.OperationMethod<
-  CreateScopeInput,
+  CreateScopeInput & RegionInput,
   CreateScopeOutput,
   CreateScopeError,
   Credentials | HttpClient.HttpClient
@@ -643,7 +644,7 @@ export type DeleteMonitorError =
  * Deletes a monitor in Network Flow Monitor.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorInput,
+  DeleteMonitorInput & RegionInput,
   DeleteMonitorOutput,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -678,7 +679,7 @@ export type DeleteScopeError =
  * Deletes a scope that has been defined.
  */
 export const deleteScope: API.OperationMethod<
-  DeleteScopeInput,
+  DeleteScopeInput & RegionInput,
   DeleteScopeOutput,
   DeleteScopeError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type GetMonitorError =
  * Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorInput,
+  GetMonitorInput & RegionInput,
   GetMonitorOutput,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +750,7 @@ export type GetQueryResultsMonitorTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod<
-  GetQueryResultsMonitorTopContributorsInput,
+  GetQueryResultsMonitorTopContributorsInput & RegionInput,
   GetQueryResultsMonitorTopContributorsOutput,
   GetQueryResultsMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient,
@@ -796,7 +797,7 @@ export type GetQueryResultsWorkloadInsightsTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const getQueryResultsWorkloadInsightsTopContributors: API.PaginatedOperationMethod<
-  GetQueryResultsWorkloadInsightsTopContributorsInput,
+  GetQueryResultsWorkloadInsightsTopContributorsInput & RegionInput,
   GetQueryResultsWorkloadInsightsTopContributorsOutput,
   GetQueryResultsWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient,
@@ -845,7 +846,7 @@ export type GetQueryResultsWorkloadInsightsTopContributorsDataError =
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
 export const getQueryResultsWorkloadInsightsTopContributorsData: API.PaginatedOperationMethod<
-  GetQueryResultsWorkloadInsightsTopContributorsDataInput,
+  GetQueryResultsWorkloadInsightsTopContributorsDataInput & RegionInput,
   GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
   GetQueryResultsWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient,
@@ -897,7 +898,7 @@ export type GetQueryStatusMonitorTopContributorsError =
  * When you run a query, use this call to check the status of the query to make sure that the query has `SUCCEEDED` before you review the results.
  */
 export const getQueryStatusMonitorTopContributors: API.OperationMethod<
-  GetQueryStatusMonitorTopContributorsInput,
+  GetQueryStatusMonitorTopContributorsInput & RegionInput,
   GetQueryStatusMonitorTopContributorsOutput,
   GetQueryStatusMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -933,7 +934,7 @@ export type GetQueryStatusWorkloadInsightsTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
-  GetQueryStatusWorkloadInsightsTopContributorsInput,
+  GetQueryStatusWorkloadInsightsTopContributorsInput & RegionInput,
   GetQueryStatusWorkloadInsightsTopContributorsOutput,
   GetQueryStatusWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type GetQueryStatusWorkloadInsightsTopContributorsDataError =
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
 export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMethod<
-  GetQueryStatusWorkloadInsightsTopContributorsDataInput,
+  GetQueryStatusWorkloadInsightsTopContributorsDataInput & RegionInput,
   GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
   GetQueryStatusWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient
@@ -1012,7 +1013,7 @@ export type GetScopeError =
  * Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
  */
 export const getScope: API.OperationMethod<
-  GetScopeInput,
+  GetScopeInput & RegionInput,
   GetScopeOutput,
   GetScopeError,
   Credentials | HttpClient.HttpClient
@@ -1044,7 +1045,7 @@ export type ListMonitorsError =
  * List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the `STATUS` parameter.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsInput,
+  ListMonitorsInput & RegionInput,
   ListMonitorsOutput,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -1082,7 +1083,7 @@ export type ListScopesError =
  * List all the scopes for an account.
  */
 export const listScopes: API.PaginatedOperationMethod<
-  ListScopesInput,
+  ListScopesInput & RegionInput,
   ListScopesOutput,
   ListScopesError,
   Credentials | HttpClient.HttpClient,
@@ -1122,7 +1123,7 @@ export type ListTagsForResourceError =
  * Returns all the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1159,7 +1160,7 @@ export type StartQueryMonitorTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
 export const startQueryMonitorTopContributors: API.OperationMethod<
-  StartQueryMonitorTopContributorsInput,
+  StartQueryMonitorTopContributorsInput & RegionInput,
   StartQueryMonitorTopContributorsOutput,
   StartQueryMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1195,7 +1196,7 @@ export type StartQueryWorkloadInsightsTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
 export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
-  StartQueryWorkloadInsightsTopContributorsInput,
+  StartQueryWorkloadInsightsTopContributorsInput & RegionInput,
   StartQueryWorkloadInsightsTopContributorsOutput,
   StartQueryWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1232,7 @@ export type StartQueryWorkloadInsightsTopContributorsDataError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
-  StartQueryWorkloadInsightsTopContributorsDataInput,
+  StartQueryWorkloadInsightsTopContributorsDataInput & RegionInput,
   StartQueryWorkloadInsightsTopContributorsDataOutput,
   StartQueryWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1270,7 @@ export type StopQueryMonitorTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const stopQueryMonitorTopContributors: API.OperationMethod<
-  StopQueryMonitorTopContributorsInput,
+  StopQueryMonitorTopContributorsInput & RegionInput,
   StopQueryMonitorTopContributorsOutput,
   StopQueryMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1303,7 +1304,7 @@ export type StopQueryWorkloadInsightsTopContributorsError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
-  StopQueryWorkloadInsightsTopContributorsInput,
+  StopQueryWorkloadInsightsTopContributorsInput & RegionInput,
   StopQueryWorkloadInsightsTopContributorsOutput,
   StopQueryWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1337,7 +1338,7 @@ export type StopQueryWorkloadInsightsTopContributorsDataError =
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
 export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
-  StopQueryWorkloadInsightsTopContributorsDataInput,
+  StopQueryWorkloadInsightsTopContributorsDataInput & RegionInput,
   StopQueryWorkloadInsightsTopContributorsDataOutput,
   StopQueryWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1371,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1404,7 +1405,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type UpdateMonitorError =
  * Update a monitor to add or remove local or remote resources.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorInput,
+  UpdateMonitorInput & RegionInput,
   UpdateMonitorOutput,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type UpdateScopeError =
  * Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
  */
 export const updateScope: API.OperationMethod<
-  UpdateScopeInput,
+  UpdateScopeInput & RegionInput,
   UpdateScopeOutput,
   UpdateScopeError,
   Credentials | HttpClient.HttpClient

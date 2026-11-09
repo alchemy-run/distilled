@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -440,7 +441,7 @@ export type BatchGetTokenBalanceError =
  * ERC-721, and ERC 1155 token standards are supported.
  */
 export const batchGetTokenBalance: API.OperationMethod<
-  BatchGetTokenBalanceInput,
+  BatchGetTokenBalanceInput & RegionInput,
   BatchGetTokenBalanceOutput,
   BatchGetTokenBalanceError,
   Credentials | HttpClient.HttpClient
@@ -480,7 +481,7 @@ export type GetAssetContractError =
  * Metadata will be available for additional contracts in the future.
  */
 export const getAssetContract: API.OperationMethod<
-  GetAssetContractInput,
+  GetAssetContractInput & RegionInput,
   GetAssetContractOutput,
   GetAssetContractError,
   Credentials | HttpClient.HttpClient
@@ -517,7 +518,7 @@ export type GetTokenBalanceError =
  * ERC-721, and ERC 1155 token standards are supported.
  */
 export const getTokenBalance: API.OperationMethod<
-  GetTokenBalanceInput,
+  GetTokenBalanceInput & RegionInput,
   GetTokenBalanceOutput,
   GetTokenBalanceError,
   Credentials | HttpClient.HttpClient
@@ -555,7 +556,7 @@ export type GetTransactionError =
  * finality.
  */
 export const getTransaction: API.OperationMethod<
-  GetTransactionInput,
+  GetTransactionInput & RegionInput,
   GetTransactionOutput,
   GetTransactionError,
   Credentials | HttpClient.HttpClient
@@ -592,7 +593,7 @@ export type ListAssetContractsError =
  * operation.
  */
 export const listAssetContracts: API.PaginatedOperationMethod<
-  ListAssetContractsInput,
+  ListAssetContractsInput & RegionInput,
   ListAssetContractsOutput,
   ListAssetContractsError,
   Credentials | HttpClient.HttpClient,
@@ -633,7 +634,7 @@ export type ListFilteredTransactionEventsError =
  * This operation is only supported on the Bitcoin networks.
  */
 export const listFilteredTransactionEvents: API.PaginatedOperationMethod<
-  ListFilteredTransactionEventsInput,
+  ListFilteredTransactionEventsInput & RegionInput,
   ListFilteredTransactionEventsOutput,
   ListFilteredTransactionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -682,7 +683,7 @@ export type ListTokenBalancesError =
  * the `tokenFilter` when using this operation.
  */
 export const listTokenBalances: API.PaginatedOperationMethod<
-  ListTokenBalancesInput,
+  ListTokenBalancesInput & RegionInput,
   ListTokenBalancesOutput,
   ListTokenBalancesError,
   Credentials | HttpClient.HttpClient,
@@ -725,7 +726,7 @@ export type ListTransactionEventsError =
  * finality.
  */
 export const listTransactionEvents: API.PaginatedOperationMethod<
-  ListTransactionEventsInput,
+  ListTransactionEventsInput & RegionInput,
   ListTransactionEventsOutput,
   ListTransactionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -764,7 +765,7 @@ export type ListTransactionsError =
  * Lists all the transaction events for a transaction.
  */
 export const listTransactions: API.PaginatedOperationMethod<
-  ListTransactionsInput,
+  ListTransactionsInput & RegionInput,
   ListTransactionsOutput,
   ListTransactionsError,
   Credentials | HttpClient.HttpClient,

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -875,7 +876,7 @@ export type CreateAccessPointError =
  * permissions to tag resources during creation.
  */
 export const createAccessPoint: API.OperationMethod<
-  CreateAccessPointRequest,
+  CreateAccessPointRequest & RegionInput,
   AccessPointDescription,
   CreateAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type CreateFileSystemError =
  * information, see Granting permissions to tag resources during creation.
  */
 export const createFileSystem: API.OperationMethod<
-  CreateFileSystemRequest,
+  CreateFileSystemRequest & RegionInput,
   FileSystemDescription,
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type CreateMountTargetError =
  * - `ec2:CreateNetworkInterface`
  */
 export const createMountTarget: API.OperationMethod<
-  CreateMountTargetRequest,
+  CreateMountTargetRequest & RegionInput,
   MountTargetDescription,
   CreateMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1191,7 +1192,7 @@ export type CreateReplicationConfigurationError =
  * Guide.
  */
 export const createReplicationConfiguration: API.OperationMethod<
-  CreateReplicationConfigurationRequest,
+  CreateReplicationConfigurationRequest & RegionInput,
   ReplicationConfigurationDescription,
   CreateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1233,7 @@ export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -1260,7 +1261,7 @@ export type DeleteAccessPointError =
  * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
  */
 export const deleteAccessPoint: API.OperationMethod<
-  DeleteAccessPointRequest,
+  DeleteAccessPointRequest & RegionInput,
   DeleteAccessPointResponse,
   DeleteAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type DeleteFileSystemError =
  * `elasticfilesystem:DeleteFileSystem` action.
  */
 export const deleteFileSystem: API.OperationMethod<
-  DeleteFileSystemRequest,
+  DeleteFileSystemRequest & RegionInput,
   DeleteFileSystemResponse,
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type DeleteFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
 export const deleteFileSystemPolicy: API.OperationMethod<
-  DeleteFileSystemPolicyRequest,
+  DeleteFileSystemPolicyRequest & RegionInput,
   DeleteFileSystemPolicyResponse,
   DeleteFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1381,7 +1382,7 @@ export type DeleteMountTargetError =
  * - `ec2:DeleteNetworkInterface`
  */
 export const deleteMountTarget: API.OperationMethod<
-  DeleteMountTargetRequest,
+  DeleteMountTargetRequest & RegionInput,
   DeleteMountTargetResponse,
   DeleteMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -1412,7 +1413,7 @@ export type DeleteReplicationConfigurationError =
  * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
 export const deleteReplicationConfiguration: API.OperationMethod<
-  DeleteReplicationConfigurationRequest,
+  DeleteReplicationConfigurationRequest & RegionInput,
   DeleteReplicationConfigurationResponse,
   DeleteReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerEr
  * action.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type DescribeAccessPointsError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const describeAccessPoints: API.PaginatedOperationMethod<
-  DescribeAccessPointsRequest,
+  DescribeAccessPointsRequest & RegionInput,
   DescribeAccessPointsResponse,
   DescribeAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -1499,7 +1500,7 @@ export type DescribeAccountPreferencesError = InternalServerError | CommonErrors
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
 export const describeAccountPreferences: API.OperationMethod<
-  DescribeAccountPreferencesRequest,
+  DescribeAccountPreferencesRequest & RegionInput,
   DescribeAccountPreferencesResponse,
   DescribeAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1525,7 +1526,7 @@ export type DescribeBackupPolicyError =
  * Returns the backup policy for the specified EFS file system.
  */
 export const describeBackupPolicy: API.OperationMethod<
-  DescribeBackupPolicyRequest,
+  DescribeBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   DescribeBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1559,7 +1560,7 @@ export type DescribeFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
  */
 export const describeFileSystemPolicy: API.OperationMethod<
-  DescribeFileSystemPolicyRequest,
+  DescribeFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   DescribeFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1606,7 +1607,7 @@ export type DescribeFileSystemsError =
  * `elasticfilesystem:DescribeFileSystems` action.
  */
 export const describeFileSystems: API.PaginatedOperationMethod<
-  DescribeFileSystemsRequest,
+  DescribeFileSystemsRequest & RegionInput,
   DescribeFileSystemsResponse,
   DescribeFileSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -1644,7 +1645,7 @@ export type DescribeLifecycleConfigurationError =
  * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
  */
 export const describeLifecycleConfiguration: API.OperationMethod<
-  DescribeLifecycleConfigurationRequest,
+  DescribeLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   DescribeLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1677,7 +1678,7 @@ export type DescribeMountTargetsError =
  * you specify in `MountTargetId`.
  */
 export const describeMountTargets: API.PaginatedOperationMethod<
-  DescribeMountTargetsRequest,
+  DescribeMountTargetsRequest & RegionInput,
   DescribeMountTargetsResponse,
   DescribeMountTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1725,7 +1726,7 @@ export type DescribeMountTargetSecurityGroupsError =
  * network interface.
  */
 export const describeMountTargetSecurityGroups: API.OperationMethod<
-  DescribeMountTargetSecurityGroupsRequest,
+  DescribeMountTargetSecurityGroupsRequest & RegionInput,
   DescribeMountTargetSecurityGroupsResponse,
   DescribeMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type DescribeReplicationConfigurationsError =
  * Amazon Web Services Region are retrieved.
  */
 export const describeReplicationConfigurations: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationsRequest,
+  DescribeReplicationConfigurationsRequest & RegionInput,
   DescribeReplicationConfigurationsResponse,
   DescribeReplicationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1799,7 +1800,7 @@ export type DescribeTagsError =
  * `elasticfilesystem:DescribeTags` action.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1834,7 +1835,7 @@ export type ListTagsForResourceError =
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1882,7 +1883,7 @@ export type ModifyMountTargetSecurityGroupsError =
  * interface.
  */
 export const modifyMountTargetSecurityGroups: API.OperationMethod<
-  ModifyMountTargetSecurityGroupsRequest,
+  ModifyMountTargetSecurityGroupsRequest & RegionInput,
   ModifyMountTargetSecurityGroupsResponse,
   ModifyMountTargetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type PutAccountPreferencesError = BadRequest | InternalServerError | Comm
  * receive an error and must use short IDs for file system and mount target resources.
  */
 export const putAccountPreferences: API.OperationMethod<
-  PutAccountPreferencesRequest,
+  PutAccountPreferencesRequest & RegionInput,
   PutAccountPreferencesResponse,
   PutAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type PutBackupPolicyError =
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
 export const putBackupPolicy: API.OperationMethod<
-  PutBackupPolicyRequest,
+  PutBackupPolicyRequest & RegionInput,
   BackupPolicyDescription,
   PutBackupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1986,7 +1987,7 @@ export type PutFileSystemPolicyError =
  * This operation requires permissions for the `elasticfilesystem:PutFileSystemPolicy` action.
  */
 export const putFileSystemPolicy: API.OperationMethod<
-  PutFileSystemPolicyRequest,
+  PutFileSystemPolicyRequest & RegionInput,
   FileSystemPolicyDescription,
   PutFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2069,7 +2070,7 @@ export type PutLifecycleConfigurationError =
  * need the same Key Management Service permissions as when you created the encrypted file system.
  */
 export const putLifecycleConfiguration: API.OperationMethod<
-  PutLifecycleConfigurationRequest,
+  PutLifecycleConfigurationRequest & RegionInput,
   LifecycleConfigurationDescription,
   PutLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type TagResourceError =
  * This operation requires permissions for the `elasticfilesystem:TagResource` action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type UntagResourceError =
  * This operation requires permissions for the `elasticfilesystem:UntagResource` action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type UpdateFileSystemError =
  * system.
  */
 export const updateFileSystem: API.OperationMethod<
-  UpdateFileSystemRequest,
+  UpdateFileSystemRequest & RegionInput,
   FileSystemDescription,
   UpdateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -2194,7 +2195,7 @@ export type UpdateFileSystemProtectionError =
  * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
 export const updateFileSystemProtection: API.OperationMethod<
-  UpdateFileSystemProtectionRequest,
+  UpdateFileSystemProtectionRequest & RegionInput,
   FileSystemProtectionDescription,
   UpdateFileSystemProtectionError,
   Credentials | HttpClient.HttpClient

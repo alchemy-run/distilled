@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -168,7 +169,7 @@ export type BatchGetMetricsError = CommonErrors;
  * Used to retrieve training metrics from SageMaker.
  */
 export const batchGetMetrics: API.OperationMethod<
-  BatchGetMetricsRequest,
+  BatchGetMetricsRequest & RegionInput,
   BatchGetMetricsResponse,
   BatchGetMetricsError,
   Credentials | HttpClient.HttpClient
@@ -188,7 +189,7 @@ export type BatchPutMetricsError = CommonErrors;
  * Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
  */
 export const batchPutMetrics: API.OperationMethod<
-  BatchPutMetricsRequest,
+  BatchPutMetricsRequest & RegionInput,
   BatchPutMetricsResponse,
   BatchPutMetricsError,
   Credentials | HttpClient.HttpClient

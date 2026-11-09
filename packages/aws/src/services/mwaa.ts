@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -434,7 +435,7 @@ export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
  */
 export const createCliToken: API.OperationMethod<
-  CreateCliTokenRequest,
+  CreateCliTokenRequest & RegionInput,
   CreateCliTokenResponse,
   CreateCliTokenError,
   Credentials | HttpClient.HttpClient
@@ -460,7 +461,7 @@ export type CreateEnvironmentError =
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -491,7 +492,7 @@ export type CreateWebLoginTokenError =
  * Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
  */
 export const createWebLoginToken: API.OperationMethod<
-  CreateWebLoginTokenRequest,
+  CreateWebLoginTokenRequest & RegionInput,
   CreateWebLoginTokenResponse,
   CreateWebLoginTokenError,
   Credentials | HttpClient.HttpClient
@@ -522,7 +523,7 @@ export type DeleteEnvironmentError =
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentOutput,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -552,7 +553,7 @@ export type GetEnvironmentError =
  * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type InvokeRestApiError =
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API
  */
 export const invokeRestApi: API.OperationMethod<
-  InvokeRestApiRequest,
+  InvokeRestApiRequest & RegionInput,
   InvokeRestApiResponse,
   InvokeRestApiError,
   Credentials | HttpClient.HttpClient
@@ -608,7 +609,7 @@ export type ListEnvironmentsError = InternalServerException | ValidationExceptio
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -640,7 +641,7 @@ export type ListTagsForResourceError =
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -661,7 +662,7 @@ export type PublishMetricsError = InternalServerException | ValidationException 
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
 export const publishMetrics: API.OperationMethod<
-  PublishMetricsInput,
+  PublishMetricsInput & RegionInput,
   PublishMetricsOutput,
   PublishMetricsError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type TagResourceError =
  * Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -711,7 +712,7 @@ export type UntagResourceError =
  * Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -737,7 +738,7 @@ export type UpdateEnvironmentError =
  * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient

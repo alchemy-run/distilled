@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1292,7 +1293,7 @@ export type CreateAutoPredictorError =
  * `ReferencePredictorArn` and `PredictorName`.
  */
 export const createAutoPredictor: API.OperationMethod<
-  CreateAutoPredictorRequest,
+  CreateAutoPredictorRequest & RegionInput,
   CreateAutoPredictorResponse,
   CreateAutoPredictorError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type CreateDatasetError =
  * the status.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1393,7 +1394,7 @@ export type CreateDatasetGroupError =
  * use the dataset group to create a predictor. To get the status, use the DescribeDatasetGroup operation.
  */
 export const createDatasetGroup: API.OperationMethod<
-  CreateDatasetGroupRequest,
+  CreateDatasetGroupRequest & RegionInput,
   CreateDatasetGroupResponse,
   CreateDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1447,7 @@ export type CreateDatasetImportJobError =
  * ListDatasetImportJobs operation.
  */
 export const createDatasetImportJob: API.OperationMethod<
-  CreateDatasetImportJobRequest,
+  CreateDatasetImportJobRequest & RegionInput,
   CreateDatasetImportJobResponse,
   CreateDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type CreateExplainabilityError =
  * points.
  */
 export const createExplainability: API.OperationMethod<
-  CreateExplainabilityRequest,
+  CreateExplainabilityRequest & RegionInput,
   CreateExplainabilityResponse,
   CreateExplainabilityError,
   Credentials | HttpClient.HttpClient
@@ -1597,7 +1598,7 @@ export type CreateExplainabilityExportError =
  * can access the export in your Amazon S3 bucket. To get the status, use the DescribeExplainabilityExport operation.
  */
 export const createExplainabilityExport: API.OperationMethod<
-  CreateExplainabilityExportRequest,
+  CreateExplainabilityExportRequest & RegionInput,
   CreateExplainabilityExportResponse,
   CreateExplainabilityExportError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type CreateForecastError =
  * However, you can use the `TimeSeriesSelector` object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
  */
 export const createForecast: API.OperationMethod<
-  CreateForecastRequest,
+  CreateForecastRequest & RegionInput,
   CreateForecastResponse,
   CreateForecastError,
   Credentials | HttpClient.HttpClient
@@ -1700,7 +1701,7 @@ export type CreateForecastExportJobError =
  * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation.
  */
 export const createForecastExportJob: API.OperationMethod<
-  CreateForecastExportJobRequest,
+  CreateForecastExportJobRequest & RegionInput,
   CreateForecastExportJobResponse,
   CreateForecastExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type CreateMonitorError =
  * For more information, see Predictor Monitoring.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorRequest,
+  CreateMonitorRequest & RegionInput,
   CreateMonitorResponse,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type CreatePredictorError =
  * status, use the DescribePredictor operation.
  */
 export const createPredictor: API.OperationMethod<
-  CreatePredictorRequest,
+  CreatePredictorRequest & RegionInput,
   CreatePredictorResponse,
   CreatePredictorError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type CreatePredictorBacktestExportJobError =
  * can access the export in your Amazon S3 bucket. To get the status, use the DescribePredictorBacktestExportJob operation.
  */
 export const createPredictorBacktestExportJob: API.OperationMethod<
-  CreatePredictorBacktestExportJobRequest,
+  CreatePredictorBacktestExportJobRequest & RegionInput,
   CreatePredictorBacktestExportJobResponse,
   CreatePredictorBacktestExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1911,7 +1912,7 @@ export type CreateWhatIfAnalysisError =
  * The TimeSeriesSelector object defines the items that you want in the what-if analysis.
  */
 export const createWhatIfAnalysis: API.OperationMethod<
-  CreateWhatIfAnalysisRequest,
+  CreateWhatIfAnalysisRequest & RegionInput,
   CreateWhatIfAnalysisResponse,
   CreateWhatIfAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type CreateWhatIfForecastError =
  * what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
  */
 export const createWhatIfForecast: API.OperationMethod<
-  CreateWhatIfForecastRequest,
+  CreateWhatIfForecastRequest & RegionInput,
   CreateWhatIfForecastResponse,
   CreateWhatIfForecastError,
   Credentials | HttpClient.HttpClient
@@ -1994,7 +1995,7 @@ export type CreateWhatIfForecastExportError =
  * you can access the forecast in your Amazon S3 bucket. To get the status, use the DescribeWhatIfForecastExport operation.
  */
 export const createWhatIfForecastExport: API.OperationMethod<
-  CreateWhatIfForecastExportRequest,
+  CreateWhatIfForecastExportRequest & RegionInput,
   CreateWhatIfForecastExportResponse,
   CreateWhatIfForecastExportError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2031,7 @@ export type DeleteDatasetError =
  * omitting the deleted dataset's ARN.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2059,7 @@ export type DeleteDatasetGroupError =
  * This operation deletes only the dataset group, not the datasets in the group.
  */
 export const deleteDatasetGroup: API.OperationMethod<
-  DeleteDatasetGroupRequest,
+  DeleteDatasetGroupRequest & RegionInput,
   DeleteDatasetGroupResponse,
   DeleteDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2085,7 +2086,7 @@ export type DeleteDatasetImportJobError =
  * operation.
  */
 export const deleteDatasetImportJob: API.OperationMethod<
-  DeleteDatasetImportJobRequest,
+  DeleteDatasetImportJobRequest & RegionInput,
   DeleteDatasetImportJobResponse,
   DeleteDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2112,7 +2113,7 @@ export type DeleteExplainabilityError =
  * `CREATE_FAILED`. To get the status, use the DescribeExplainability operation.
  */
 export const deleteExplainability: API.OperationMethod<
-  DeleteExplainabilityRequest,
+  DeleteExplainabilityRequest & RegionInput,
   DeleteExplainabilityResponse,
   DeleteExplainabilityError,
   Credentials | HttpClient.HttpClient
@@ -2136,7 +2137,7 @@ export type DeleteExplainabilityExportError =
  * Deletes an Explainability export.
  */
 export const deleteExplainabilityExport: API.OperationMethod<
-  DeleteExplainabilityExportRequest,
+  DeleteExplainabilityExportRequest & RegionInput,
   DeleteExplainabilityExportResponse,
   DeleteExplainabilityExportError,
   Credentials | HttpClient.HttpClient
@@ -2165,7 +2166,7 @@ export type DeleteForecastError =
  * can no longer query the forecast.
  */
 export const deleteForecast: API.OperationMethod<
-  DeleteForecastRequest,
+  DeleteForecastRequest & RegionInput,
   DeleteForecastResponse,
   DeleteForecastError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2192,7 @@ export type DeleteForecastExportJobError =
  * `CREATE_FAILED`. To get the status, use the DescribeForecastExportJob operation.
  */
 export const deleteForecastExportJob: API.OperationMethod<
-  DeleteForecastExportJobRequest,
+  DeleteForecastExportJobRequest & RegionInput,
   DeleteForecastExportJobResponse,
   DeleteForecastExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2215,7 +2216,7 @@ export type DeleteMonitorError =
  * Deletes a monitor resource. You can only delete a monitor resource with a status of `ACTIVE`, `ACTIVE_STOPPED`, `CREATE_FAILED`, or `CREATE_STOPPED`.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorRequest,
+  DeleteMonitorRequest & RegionInput,
   DeleteMonitorResponse,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -2240,7 +2241,7 @@ export type DeletePredictorError =
  * `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribePredictor operation.
  */
 export const deletePredictor: API.OperationMethod<
-  DeletePredictorRequest,
+  DeletePredictorRequest & RegionInput,
   DeletePredictorResponse,
   DeletePredictorError,
   Credentials | HttpClient.HttpClient
@@ -2264,7 +2265,7 @@ export type DeletePredictorBacktestExportJobError =
  * Deletes a predictor backtest export job.
  */
 export const deletePredictorBacktestExportJob: API.OperationMethod<
-  DeletePredictorBacktestExportJobRequest,
+  DeletePredictorBacktestExportJobRequest & RegionInput,
   DeletePredictorBacktestExportJobResponse,
   DeletePredictorBacktestExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2308,7 +2309,7 @@ export type DeleteResourceTreeError =
  * delete datasets or exported files stored in Amazon S3.
  */
 export const deleteResourceTree: API.OperationMethod<
-  DeleteResourceTreeRequest,
+  DeleteResourceTreeRequest & RegionInput,
   DeleteResourceTreeResponse,
   DeleteResourceTreeError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2336,7 @@ export type DeleteWhatIfAnalysisError =
  * You can't delete a what-if analysis while any of its forecasts are being exported.
  */
 export const deleteWhatIfAnalysis: API.OperationMethod<
-  DeleteWhatIfAnalysisRequest,
+  DeleteWhatIfAnalysisRequest & RegionInput,
   DeleteWhatIfAnalysisResponse,
   DeleteWhatIfAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -2362,7 +2363,7 @@ export type DeleteWhatIfForecastError =
  * You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis.
  */
 export const deleteWhatIfForecast: API.OperationMethod<
-  DeleteWhatIfForecastRequest,
+  DeleteWhatIfForecastRequest & RegionInput,
   DeleteWhatIfForecastResponse,
   DeleteWhatIfForecastError,
   Credentials | HttpClient.HttpClient
@@ -2387,7 +2388,7 @@ export type DeleteWhatIfForecastExportError =
  * operation. You can delete only what-if forecast exports that have a status of `ACTIVE` or `CREATE_FAILED`. To get the status, use the DescribeWhatIfForecastExport operation.
  */
 export const deleteWhatIfForecastExport: API.OperationMethod<
-  DeleteWhatIfForecastExportRequest,
+  DeleteWhatIfForecastExportRequest & RegionInput,
   DeleteWhatIfForecastExportResponse,
   DeleteWhatIfForecastExportError,
   Credentials | HttpClient.HttpClient
@@ -2410,7 +2411,7 @@ export type DescribeAutoPredictorError =
  * Describes a predictor created using the CreateAutoPredictor operation.
  */
 export const describeAutoPredictor: API.OperationMethod<
-  DescribeAutoPredictorRequest,
+  DescribeAutoPredictorRequest & RegionInput,
   DescribeAutoPredictorResponse,
   DescribeAutoPredictorError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type DescribeDatasetError = InvalidInputException | ResourceNotFoundExcep
  * - `Status`
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2474,7 +2475,7 @@ export type DescribeDatasetGroupError =
  * - `Status`
  */
 export const describeDatasetGroup: API.OperationMethod<
-  DescribeDatasetGroupRequest,
+  DescribeDatasetGroupRequest & RegionInput,
   DescribeDatasetGroupResponse,
   DescribeDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2513,7 +2514,7 @@ export type DescribeDatasetImportJobError =
  * - `Message` - If an error occurred, information about the error.
  */
 export const describeDatasetImportJob: API.OperationMethod<
-  DescribeDatasetImportJobRequest,
+  DescribeDatasetImportJobRequest & RegionInput,
   DescribeDatasetImportJobResponse,
   DescribeDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2536,7 +2537,7 @@ export type DescribeExplainabilityError =
  * Describes an Explainability resource created using the CreateExplainability operation.
  */
 export const describeExplainability: API.OperationMethod<
-  DescribeExplainabilityRequest,
+  DescribeExplainabilityRequest & RegionInput,
   DescribeExplainabilityResponse,
   DescribeExplainabilityError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type DescribeExplainabilityExportError =
  * Describes an Explainability export created using the CreateExplainabilityExport operation.
  */
 export const describeExplainabilityExport: API.OperationMethod<
-  DescribeExplainabilityExportRequest,
+  DescribeExplainabilityExportRequest & RegionInput,
   DescribeExplainabilityExportResponse,
   DescribeExplainabilityExportError,
   Credentials | HttpClient.HttpClient
@@ -2596,7 +2597,7 @@ export type DescribeForecastError =
  * - `Message` - If an error occurred, information about the error.
  */
 export const describeForecast: API.OperationMethod<
-  DescribeForecastRequest,
+  DescribeForecastRequest & RegionInput,
   DescribeForecastResponse,
   DescribeForecastError,
   Credentials | HttpClient.HttpClient
@@ -2631,7 +2632,7 @@ export type DescribeForecastExportJobError =
  * - `Message` - If an error occurred, information about the error.
  */
 export const describeForecastExportJob: API.OperationMethod<
-  DescribeForecastExportJobRequest,
+  DescribeForecastExportJobRequest & RegionInput,
   DescribeForecastExportJobResponse,
   DescribeForecastExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2665,7 +2666,7 @@ export type DescribeMonitorError = InvalidInputException | ResourceNotFoundExcep
  * - `Status`
  */
 export const describeMonitor: API.OperationMethod<
-  DescribeMonitorRequest,
+  DescribeMonitorRequest & RegionInput,
   DescribeMonitorResponse,
   DescribeMonitorError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type DescribePredictorError =
  * - `Message` - If an error occurred, information about the error.
  */
 export const describePredictor: API.OperationMethod<
-  DescribePredictorRequest,
+  DescribePredictorRequest & RegionInput,
   DescribePredictorResponse,
   DescribePredictorError,
   Credentials | HttpClient.HttpClient
@@ -2744,7 +2745,7 @@ export type DescribePredictorBacktestExportJobError =
  * - `Message` (if an error occurred)
  */
 export const describePredictorBacktestExportJob: API.OperationMethod<
-  DescribePredictorBacktestExportJobRequest,
+  DescribePredictorBacktestExportJobRequest & RegionInput,
   DescribePredictorBacktestExportJobResponse,
   DescribePredictorBacktestExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2777,7 +2778,7 @@ export type DescribeWhatIfAnalysisError =
  * - `Status`
  */
 export const describeWhatIfAnalysis: API.OperationMethod<
-  DescribeWhatIfAnalysisRequest,
+  DescribeWhatIfAnalysisRequest & RegionInput,
   DescribeWhatIfAnalysisResponse,
   DescribeWhatIfAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -2810,7 +2811,7 @@ export type DescribeWhatIfForecastError =
  * - `Status`
  */
 export const describeWhatIfForecast: API.OperationMethod<
-  DescribeWhatIfForecastRequest,
+  DescribeWhatIfForecastRequest & RegionInput,
   DescribeWhatIfForecastResponse,
   DescribeWhatIfForecastError,
   Credentials | HttpClient.HttpClient
@@ -2843,7 +2844,7 @@ export type DescribeWhatIfForecastExportError =
  * - `Status`
  */
 export const describeWhatIfForecastExport: API.OperationMethod<
-  DescribeWhatIfForecastExportRequest,
+  DescribeWhatIfForecastExportRequest & RegionInput,
   DescribeWhatIfForecastExportResponse,
   DescribeWhatIfForecastExportError,
   Credentials | HttpClient.HttpClient
@@ -2884,7 +2885,7 @@ export type GetAccuracyMetricsError =
  * DescribePredictor operation.
  */
 export const getAccuracyMetrics: API.OperationMethod<
-  GetAccuracyMetricsRequest,
+  GetAccuracyMetricsRequest & RegionInput,
   GetAccuracyMetricsResponse,
   GetAccuracyMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2908,7 +2909,7 @@ export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
  * operation.
  */
 export const listDatasetGroups: API.PaginatedOperationMethod<
-  ListDatasetGroupsRequest,
+  ListDatasetGroupsRequest & RegionInput,
   ListDatasetGroupsResponse,
   ListDatasetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2942,7 +2943,7 @@ export type ListDatasetImportJobsError =
  * operation. You can filter the list by providing an array of Filter objects.
  */
 export const listDatasetImportJobs: API.PaginatedOperationMethod<
-  ListDatasetImportJobsRequest,
+  ListDatasetImportJobsRequest & RegionInput,
   ListDatasetImportJobsResponse,
   ListDatasetImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2971,7 +2972,7 @@ export type ListDatasetsError = InvalidNextTokenException | CommonErrors;
  * To retrieve the complete set of properties, use the ARN with the DescribeDataset operation.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3006,7 +3007,7 @@ export type ListExplainabilitiesError =
  * use the ARN with the DescribeExplainability operation.
  */
 export const listExplainabilities: API.PaginatedOperationMethod<
-  ListExplainabilitiesRequest,
+  ListExplainabilitiesRequest & RegionInput,
   ListExplainabilitiesResponse,
   ListExplainabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3040,7 +3041,7 @@ export type ListExplainabilityExportsError =
  * the ARN with the DescribeExplainability operation.
  */
 export const listExplainabilityExports: API.PaginatedOperationMethod<
-  ListExplainabilityExportsRequest,
+  ListExplainabilityExportsRequest & RegionInput,
   ListExplainabilityExportsResponse,
   ListExplainabilityExportsError,
   Credentials | HttpClient.HttpClient,
@@ -3073,7 +3074,7 @@ export type ListForecastExportJobsError =
  * operation. You can filter the list using an array of Filter objects.
  */
 export const listForecastExportJobs: API.PaginatedOperationMethod<
-  ListForecastExportJobsRequest,
+  ListForecastExportJobsRequest & RegionInput,
   ListForecastExportJobsResponse,
   ListForecastExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3104,7 +3105,7 @@ export type ListForecastsError = InvalidInputException | InvalidNextTokenExcepti
  * Filter objects.
  */
 export const listForecasts: API.PaginatedOperationMethod<
-  ListForecastsRequest,
+  ListForecastsRequest & RegionInput,
   ListForecastsResponse,
   ListForecastsError,
   Credentials | HttpClient.HttpClient,
@@ -3139,7 +3140,7 @@ export type ListMonitorEvaluationsError =
  * more information about retrieving monitoring results see Viewing Monitoring Results.
  */
 export const listMonitorEvaluations: API.PaginatedOperationMethod<
-  ListMonitorEvaluationsRequest,
+  ListMonitorEvaluationsRequest & RegionInput,
   ListMonitorEvaluationsResponse,
   ListMonitorEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -3167,7 +3168,7 @@ export type ListMonitorsError = InvalidInputException | InvalidNextTokenExceptio
  * can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsRequest,
+  ListMonitorsRequest & RegionInput,
   ListMonitorsResponse,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -3201,7 +3202,7 @@ export type ListPredictorBacktestExportJobsError =
  * the ARN with the DescribePredictorBacktestExportJob operation.
  */
 export const listPredictorBacktestExportJobs: API.PaginatedOperationMethod<
-  ListPredictorBacktestExportJobsRequest,
+  ListPredictorBacktestExportJobsRequest & RegionInput,
   ListPredictorBacktestExportJobsResponse,
   ListPredictorBacktestExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3233,7 +3234,7 @@ export type ListPredictorsError = InvalidInputException | InvalidNextTokenExcept
  * can filter the list using an array of Filter objects.
  */
 export const listPredictors: API.PaginatedOperationMethod<
-  ListPredictorsRequest,
+  ListPredictorsRequest & RegionInput,
   ListPredictorsResponse,
   ListPredictorsError,
   Credentials | HttpClient.HttpClient,
@@ -3263,7 +3264,7 @@ export type ListTagsForResourceError =
  * Lists the tags for an Amazon Forecast resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type ListWhatIfAnalysesError =
  * Returns a list of what-if analyses created using the CreateWhatIfAnalysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation.
  */
 export const listWhatIfAnalyses: API.PaginatedOperationMethod<
-  ListWhatIfAnalysesRequest,
+  ListWhatIfAnalysesRequest & RegionInput,
   ListWhatIfAnalysesResponse,
   ListWhatIfAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -3316,7 +3317,7 @@ export type ListWhatIfForecastExportsError =
  * Returns a list of what-if forecast exports created using the CreateWhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecastExport operation.
  */
 export const listWhatIfForecastExports: API.PaginatedOperationMethod<
-  ListWhatIfForecastExportsRequest,
+  ListWhatIfForecastExportsRequest & RegionInput,
   ListWhatIfForecastExportsResponse,
   ListWhatIfForecastExportsError,
   Credentials | HttpClient.HttpClient,
@@ -3346,7 +3347,7 @@ export type ListWhatIfForecastsError =
  * Returns a list of what-if forecasts created using the CreateWhatIfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation.
  */
 export const listWhatIfForecasts: API.PaginatedOperationMethod<
-  ListWhatIfForecastsRequest,
+  ListWhatIfForecastsRequest & RegionInput,
   ListWhatIfForecastsResponse,
   ListWhatIfForecastsError,
   Credentials | HttpClient.HttpClient,
@@ -3378,7 +3379,7 @@ export type ResumeResourceError =
  * Resumes a stopped monitor resource.
  */
 export const resumeResource: API.OperationMethod<
-  ResumeResourceRequest,
+  ResumeResourceRequest & RegionInput,
   ResumeResourceResponse,
   ResumeResourceError,
   Credentials | HttpClient.HttpClient
@@ -3428,7 +3429,7 @@ export type StopResourceError =
  * - Explainability Export Job
  */
 export const stopResource: API.OperationMethod<
-  StopResourceRequest,
+  StopResourceRequest & RegionInput,
   StopResourceResponse,
   StopResourceError,
   Credentials | HttpClient.HttpClient
@@ -3455,7 +3456,7 @@ export type TagResourceError =
  * deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3475,7 +3476,7 @@ export type UntagResourceError = InvalidInputException | ResourceNotFoundExcepti
  * Deletes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3503,7 +3504,7 @@ export type UpdateDatasetGroupError =
  * operation to get the status.
  */
 export const updateDatasetGroup: API.OperationMethod<
-  UpdateDatasetGroupRequest,
+  UpdateDatasetGroupRequest & RegionInput,
   UpdateDatasetGroupResponse,
   UpdateDatasetGroupError,
   Credentials | HttpClient.HttpClient

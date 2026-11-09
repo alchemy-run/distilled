@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -742,7 +743,7 @@ export type GetApplicationComponentDetailsError =
  * Retrieves details about an application component.
  */
 export const getApplicationComponentDetails: API.OperationMethod<
-  GetApplicationComponentDetailsRequest,
+  GetApplicationComponentDetailsRequest & RegionInput,
   GetApplicationComponentDetailsResponse,
   GetApplicationComponentDetailsError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +768,7 @@ export type GetApplicationComponentStrategiesError =
  * running on a server.
  */
 export const getApplicationComponentStrategies: API.OperationMethod<
-  GetApplicationComponentStrategiesRequest,
+  GetApplicationComponentStrategiesRequest & RegionInput,
   GetApplicationComponentStrategiesResponse,
   GetApplicationComponentStrategiesError,
   Credentials | HttpClient.HttpClient
@@ -792,7 +793,7 @@ export type GetAssessmentError =
  * Retrieves the status of an on-going assessment.
  */
 export const getAssessment: API.OperationMethod<
-  GetAssessmentRequest,
+  GetAssessmentRequest & RegionInput,
   GetAssessmentResponse,
   GetAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -823,7 +824,7 @@ export type GetImportFileTaskError =
  * Retrieves the details about a specific import task.
  */
 export const getImportFileTask: API.OperationMethod<
-  GetImportFileTaskRequest,
+  GetImportFileTaskRequest & RegionInput,
   GetImportFileTaskResponse,
   GetImportFileTaskError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +855,7 @@ export type GetLatestAssessmentIdError =
  * Retrieve the latest ID of a specific assessment task.
  */
 export const getLatestAssessmentId: API.OperationMethod<
-  GetLatestAssessmentIdRequest,
+  GetLatestAssessmentIdRequest & RegionInput,
   GetLatestAssessmentIdResponse,
   GetLatestAssessmentIdError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type GetPortfolioPreferencesError =
  * Retrieves your migration and modernization preferences.
  */
 export const getPortfolioPreferences: API.OperationMethod<
-  GetPortfolioPreferencesRequest,
+  GetPortfolioPreferencesRequest & RegionInput,
   GetPortfolioPreferencesResponse,
   GetPortfolioPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -914,7 +915,7 @@ export type GetPortfolioSummaryError =
  * number of anti-patterns.
  */
 export const getPortfolioSummary: API.OperationMethod<
-  GetPortfolioSummaryRequest,
+  GetPortfolioSummaryRequest & RegionInput,
   GetPortfolioSummaryResponse,
   GetPortfolioSummaryError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type GetRecommendationReportDetailsError =
  * Retrieves detailed information about the specified recommendation report.
  */
 export const getRecommendationReportDetails: API.OperationMethod<
-  GetRecommendationReportDetailsRequest,
+  GetRecommendationReportDetailsRequest & RegionInput,
   GetRecommendationReportDetailsResponse,
   GetRecommendationReportDetailsError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type GetServerDetailsError =
  * Retrieves detailed information about a specified server.
  */
 export const getServerDetails: API.PaginatedOperationMethod<
-  GetServerDetailsRequest,
+  GetServerDetailsRequest & RegionInput,
   GetServerDetailsResponse,
   GetServerDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -1011,7 +1012,7 @@ export type GetServerStrategiesError =
  * Retrieves recommended strategies and tools for the specified server.
  */
 export const getServerStrategies: API.OperationMethod<
-  GetServerStrategiesRequest,
+  GetServerStrategiesRequest & RegionInput,
   GetServerStrategiesResponse,
   GetServerStrategiesError,
   Credentials | HttpClient.HttpClient
@@ -1042,7 +1043,7 @@ export type ListAnalyzableServersError =
  * Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
  */
 export const listAnalyzableServers: API.PaginatedOperationMethod<
-  ListAnalyzableServersRequest,
+  ListAnalyzableServersRequest & RegionInput,
   ListAnalyzableServersResponse,
   ListAnalyzableServersError,
   Credentials | HttpClient.HttpClient,
@@ -1079,7 +1080,7 @@ export type ListApplicationComponentsError =
  * Retrieves a list of all the application components (processes).
  */
 export const listApplicationComponents: API.PaginatedOperationMethod<
-  ListApplicationComponentsRequest,
+  ListApplicationComponentsRequest & RegionInput,
   ListApplicationComponentsResponse,
   ListApplicationComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1116,7 +1117,7 @@ export type ListCollectorsError =
  * Retrieves a list of all the installed collectors.
  */
 export const listCollectors: API.PaginatedOperationMethod<
-  ListCollectorsRequest,
+  ListCollectorsRequest & RegionInput,
   ListCollectorsResponse,
   ListCollectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1153,7 +1154,7 @@ export type ListImportFileTaskError =
  * Retrieves a list of all the imports performed.
  */
 export const listImportFileTask: API.PaginatedOperationMethod<
-  ListImportFileTaskRequest,
+  ListImportFileTaskRequest & RegionInput,
   ListImportFileTaskResponse,
   ListImportFileTaskError,
   Credentials | HttpClient.HttpClient,
@@ -1190,7 +1191,7 @@ export type ListServersError =
  * Returns a list of all the servers.
  */
 export const listServers: API.PaginatedOperationMethod<
-  ListServersRequest,
+  ListServersRequest & RegionInput,
   ListServersResponse,
   ListServersError,
   Credentials | HttpClient.HttpClient,
@@ -1228,7 +1229,7 @@ export type PutPortfolioPreferencesError =
  * Saves the specified migration and modernization preferences.
  */
 export const putPortfolioPreferences: API.OperationMethod<
-  PutPortfolioPreferencesRequest,
+  PutPortfolioPreferencesRequest & RegionInput,
   PutPortfolioPreferencesResponse,
   PutPortfolioPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1259,7 +1260,7 @@ export type StartAssessmentError =
  * Starts the assessment of an on-premises environment.
  */
 export const startAssessment: API.OperationMethod<
-  StartAssessmentRequest,
+  StartAssessmentRequest & RegionInput,
   StartAssessmentResponse,
   StartAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1290,7 +1291,7 @@ export type StartImportFileTaskError =
  * Starts a file import.
  */
 export const startImportFileTask: API.OperationMethod<
-  StartImportFileTaskRequest,
+  StartImportFileTaskRequest & RegionInput,
   StartImportFileTaskResponse,
   StartImportFileTaskError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type StartRecommendationReportGenerationError =
  * Starts generating a recommendation report.
  */
 export const startRecommendationReportGeneration: API.OperationMethod<
-  StartRecommendationReportGenerationRequest,
+  StartRecommendationReportGenerationRequest & RegionInput,
   StartRecommendationReportGenerationResponse,
   StartRecommendationReportGenerationError,
   Credentials | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type StopAssessmentError =
  * Stops the assessment of an on-premises environment.
  */
 export const stopAssessment: API.OperationMethod<
-  StopAssessmentRequest,
+  StopAssessmentRequest & RegionInput,
   StopAssessmentResponse,
   StopAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1383,7 +1384,7 @@ export type UpdateApplicationComponentConfigError =
  * Updates the configuration of an application component.
  */
 export const updateApplicationComponentConfig: API.OperationMethod<
-  UpdateApplicationComponentConfigRequest,
+  UpdateApplicationComponentConfigRequest & RegionInput,
   UpdateApplicationComponentConfigResponse,
   UpdateApplicationComponentConfigError,
   Credentials | HttpClient.HttpClient
@@ -1413,7 +1414,7 @@ export type UpdateServerConfigError =
  * Updates the configuration of the specified server.
  */
 export const updateServerConfig: API.OperationMethod<
-  UpdateServerConfigRequest,
+  UpdateServerConfigRequest & RegionInput,
   UpdateServerConfigResponse,
   UpdateServerConfigError,
   Credentials | HttpClient.HttpClient

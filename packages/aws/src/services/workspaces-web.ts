@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1252,7 +1253,7 @@ export type AssociateBrowserSettingsError =
  * Associates a browser settings resource with a web portal.
  */
 export const associateBrowserSettings: API.OperationMethod<
-  AssociateBrowserSettingsRequest,
+  AssociateBrowserSettingsRequest & RegionInput,
   AssociateBrowserSettingsResponse,
   AssociateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type AssociateDataProtectionSettingsError =
  * Associates a data protection settings resource with a web portal.
  */
 export const associateDataProtectionSettings: API.OperationMethod<
-  AssociateDataProtectionSettingsRequest,
+  AssociateDataProtectionSettingsRequest & RegionInput,
   AssociateDataProtectionSettingsResponse,
   AssociateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1320,7 +1321,7 @@ export type AssociateIpAccessSettingsError =
  * Associates an IP access settings resource with a web portal.
  */
 export const associateIpAccessSettings: API.OperationMethod<
-  AssociateIpAccessSettingsRequest,
+  AssociateIpAccessSettingsRequest & RegionInput,
   AssociateIpAccessSettingsResponse,
   AssociateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1354,7 +1355,7 @@ export type AssociateNetworkSettingsError =
  * Associates a network settings resource with a web portal.
  */
 export const associateNetworkSettings: API.OperationMethod<
-  AssociateNetworkSettingsRequest,
+  AssociateNetworkSettingsRequest & RegionInput,
   AssociateNetworkSettingsResponse,
   AssociateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type AssociateSessionLoggerError =
  * Associates a session logger with a portal.
  */
 export const associateSessionLogger: API.OperationMethod<
-  AssociateSessionLoggerRequest,
+  AssociateSessionLoggerRequest & RegionInput,
   AssociateSessionLoggerResponse,
   AssociateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -1422,7 +1423,7 @@ export type AssociateTrustStoreError =
  * Associates a trust store with a web portal.
  */
 export const associateTrustStore: API.OperationMethod<
-  AssociateTrustStoreRequest,
+  AssociateTrustStoreRequest & RegionInput,
   AssociateTrustStoreResponse,
   AssociateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1457,7 @@ export type AssociateUserAccessLoggingSettingsError =
  * Associates a user access logging settings resource with a web portal.
  */
 export const associateUserAccessLoggingSettings: API.OperationMethod<
-  AssociateUserAccessLoggingSettingsRequest,
+  AssociateUserAccessLoggingSettingsRequest & RegionInput,
   AssociateUserAccessLoggingSettingsResponse,
   AssociateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1490,7 +1491,7 @@ export type AssociateUserSettingsError =
  * Associates a user settings resource with a web portal.
  */
 export const associateUserSettings: API.OperationMethod<
-  AssociateUserSettingsRequest,
+  AssociateUserSettingsRequest & RegionInput,
   AssociateUserSettingsResponse,
   AssociateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1525,7 +1526,7 @@ export type CreateBrowserSettingsError =
  * Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
  */
 export const createBrowserSettings: API.OperationMethod<
-  CreateBrowserSettingsRequest,
+  CreateBrowserSettingsRequest & RegionInput,
   CreateBrowserSettingsResponse,
   CreateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1561,7 +1562,7 @@ export type CreateDataProtectionSettingsError =
  * Creates a data protection settings resource that can be associated with a web portal.
  */
 export const createDataProtectionSettings: API.OperationMethod<
-  CreateDataProtectionSettingsRequest,
+  CreateDataProtectionSettingsRequest & RegionInput,
   CreateDataProtectionSettingsResponse,
   CreateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1597,7 +1598,7 @@ export type CreateIdentityProviderError =
  * Creates an identity provider resource that is then associated with a web portal.
  */
 export const createIdentityProvider: API.OperationMethod<
-  CreateIdentityProviderRequest,
+  CreateIdentityProviderRequest & RegionInput,
   CreateIdentityProviderResponse,
   CreateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -1632,7 +1633,7 @@ export type CreateIpAccessSettingsError =
  * Creates an IP access settings resource that can be associated with a web portal.
  */
 export const createIpAccessSettings: API.OperationMethod<
-  CreateIpAccessSettingsRequest,
+  CreateIpAccessSettingsRequest & RegionInput,
   CreateIpAccessSettingsResponse,
   CreateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type CreateNetworkSettingsError =
  * Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
  */
 export const createNetworkSettings: API.OperationMethod<
-  CreateNetworkSettingsRequest,
+  CreateNetworkSettingsRequest & RegionInput,
   CreateNetworkSettingsResponse,
   CreateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CreatePortalError =
  * Creates a web portal.
  */
 export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
+  CreatePortalRequest & RegionInput,
   CreatePortalResponse,
   CreatePortalError,
   Credentials | HttpClient.HttpClient
@@ -1736,7 +1737,7 @@ export type CreateSessionLoggerError =
  * Creates a session logger.
  */
 export const createSessionLogger: API.OperationMethod<
-  CreateSessionLoggerRequest,
+  CreateSessionLoggerRequest & RegionInput,
   CreateSessionLoggerResponse,
   CreateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type CreateTrustStoreError =
  * Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreRequest,
+  CreateTrustStoreRequest & RegionInput,
   CreateTrustStoreResponse,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1805,7 @@ export type CreateUserAccessLoggingSettingsError =
  * Creates a user access logging settings resource that can be associated with a web portal.
  */
 export const createUserAccessLoggingSettings: API.OperationMethod<
-  CreateUserAccessLoggingSettingsRequest,
+  CreateUserAccessLoggingSettingsRequest & RegionInput,
   CreateUserAccessLoggingSettingsResponse,
   CreateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1839,7 +1840,7 @@ export type CreateUserSettingsError =
  * Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
  */
 export const createUserSettings: API.OperationMethod<
-  CreateUserSettingsRequest,
+  CreateUserSettingsRequest & RegionInput,
   CreateUserSettingsResponse,
   CreateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1874,7 @@ export type DeleteBrowserSettingsError =
  * Deletes browser settings.
  */
 export const deleteBrowserSettings: API.OperationMethod<
-  DeleteBrowserSettingsRequest,
+  DeleteBrowserSettingsRequest & RegionInput,
   DeleteBrowserSettingsResponse,
   DeleteBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1905,7 +1906,7 @@ export type DeleteDataProtectionSettingsError =
  * Deletes data protection settings.
  */
 export const deleteDataProtectionSettings: API.OperationMethod<
-  DeleteDataProtectionSettingsRequest,
+  DeleteDataProtectionSettingsRequest & RegionInput,
   DeleteDataProtectionSettingsResponse,
   DeleteDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1937,7 +1938,7 @@ export type DeleteIdentityProviderError =
  * Deletes the identity provider.
  */
 export const deleteIdentityProvider: API.OperationMethod<
-  DeleteIdentityProviderRequest,
+  DeleteIdentityProviderRequest & RegionInput,
   DeleteIdentityProviderResponse,
   DeleteIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type DeleteIpAccessSettingsError =
  * Deletes IP access settings.
  */
 export const deleteIpAccessSettings: API.OperationMethod<
-  DeleteIpAccessSettingsRequest,
+  DeleteIpAccessSettingsRequest & RegionInput,
   DeleteIpAccessSettingsResponse,
   DeleteIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2002,7 @@ export type DeleteNetworkSettingsError =
  * Deletes network settings.
  */
 export const deleteNetworkSettings: API.OperationMethod<
-  DeleteNetworkSettingsRequest,
+  DeleteNetworkSettingsRequest & RegionInput,
   DeleteNetworkSettingsResponse,
   DeleteNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2033,7 +2034,7 @@ export type DeletePortalError =
  * Deletes a web portal.
  */
 export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
+  DeletePortalRequest & RegionInput,
   DeletePortalResponse,
   DeletePortalError,
   Credentials | HttpClient.HttpClient
@@ -2065,7 +2066,7 @@ export type DeleteSessionLoggerError =
  * Deletes a session logger resource.
  */
 export const deleteSessionLogger: API.OperationMethod<
-  DeleteSessionLoggerRequest,
+  DeleteSessionLoggerRequest & RegionInput,
   DeleteSessionLoggerResponse,
   DeleteSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type DeleteTrustStoreError =
  * Deletes the trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreRequest,
+  DeleteTrustStoreRequest & RegionInput,
   DeleteTrustStoreResponse,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2129,7 +2130,7 @@ export type DeleteUserAccessLoggingSettingsError =
  * Deletes user access logging settings.
  */
 export const deleteUserAccessLoggingSettings: API.OperationMethod<
-  DeleteUserAccessLoggingSettingsRequest,
+  DeleteUserAccessLoggingSettingsRequest & RegionInput,
   DeleteUserAccessLoggingSettingsResponse,
   DeleteUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type DeleteUserSettingsError =
  * Deletes user settings.
  */
 export const deleteUserSettings: API.OperationMethod<
-  DeleteUserSettingsRequest,
+  DeleteUserSettingsRequest & RegionInput,
   DeleteUserSettingsResponse,
   DeleteUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2194,7 +2195,7 @@ export type DisassociateBrowserSettingsError =
  * Disassociates browser settings from a web portal.
  */
 export const disassociateBrowserSettings: API.OperationMethod<
-  DisassociateBrowserSettingsRequest,
+  DisassociateBrowserSettingsRequest & RegionInput,
   DisassociateBrowserSettingsResponse,
   DisassociateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type DisassociateDataProtectionSettingsError =
  * Disassociates data protection settings from a web portal.
  */
 export const disassociateDataProtectionSettings: API.OperationMethod<
-  DisassociateDataProtectionSettingsRequest,
+  DisassociateDataProtectionSettingsRequest & RegionInput,
   DisassociateDataProtectionSettingsResponse,
   DisassociateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2262,7 +2263,7 @@ export type DisassociateIpAccessSettingsError =
  * Disassociates IP access settings from a web portal.
  */
 export const disassociateIpAccessSettings: API.OperationMethod<
-  DisassociateIpAccessSettingsRequest,
+  DisassociateIpAccessSettingsRequest & RegionInput,
   DisassociateIpAccessSettingsResponse,
   DisassociateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2297,7 @@ export type DisassociateNetworkSettingsError =
  * Disassociates network settings from a web portal.
  */
 export const disassociateNetworkSettings: API.OperationMethod<
-  DisassociateNetworkSettingsRequest,
+  DisassociateNetworkSettingsRequest & RegionInput,
   DisassociateNetworkSettingsResponse,
   DisassociateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2329,7 +2330,7 @@ export type DisassociateSessionLoggerError =
  * Disassociates a session logger from a portal.
  */
 export const disassociateSessionLogger: API.OperationMethod<
-  DisassociateSessionLoggerRequest,
+  DisassociateSessionLoggerRequest & RegionInput,
   DisassociateSessionLoggerResponse,
   DisassociateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2362,7 +2363,7 @@ export type DisassociateTrustStoreError =
  * Disassociates a trust store from a web portal.
  */
 export const disassociateTrustStore: API.OperationMethod<
-  DisassociateTrustStoreRequest,
+  DisassociateTrustStoreRequest & RegionInput,
   DisassociateTrustStoreResponse,
   DisassociateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2396,7 +2397,7 @@ export type DisassociateUserAccessLoggingSettingsError =
  * Disassociates user access logging settings from a web portal.
  */
 export const disassociateUserAccessLoggingSettings: API.OperationMethod<
-  DisassociateUserAccessLoggingSettingsRequest,
+  DisassociateUserAccessLoggingSettingsRequest & RegionInput,
   DisassociateUserAccessLoggingSettingsResponse,
   DisassociateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2430,7 +2431,7 @@ export type DisassociateUserSettingsError =
  * Disassociates user settings from a web portal.
  */
 export const disassociateUserSettings: API.OperationMethod<
-  DisassociateUserSettingsRequest,
+  DisassociateUserSettingsRequest & RegionInput,
   DisassociateUserSettingsResponse,
   DisassociateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2463,7 +2464,7 @@ export type ExpireSessionError =
  * Expires an active secure browser session.
  */
 export const expireSession: API.OperationMethod<
-  ExpireSessionRequest,
+  ExpireSessionRequest & RegionInput,
   ExpireSessionResponse,
   ExpireSessionError,
   Credentials | HttpClient.HttpClient
@@ -2495,7 +2496,7 @@ export type GetBrowserSettingsError =
  * Gets browser settings.
  */
 export const getBrowserSettings: API.OperationMethod<
-  GetBrowserSettingsRequest,
+  GetBrowserSettingsRequest & RegionInput,
   GetBrowserSettingsResponse,
   GetBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2527,7 +2528,7 @@ export type GetDataProtectionSettingsError =
  * Gets the data protection settings.
  */
 export const getDataProtectionSettings: API.OperationMethod<
-  GetDataProtectionSettingsRequest,
+  GetDataProtectionSettingsRequest & RegionInput,
   GetDataProtectionSettingsResponse,
   GetDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type GetIdentityProviderError =
  * Gets the identity provider.
  */
 export const getIdentityProvider: API.OperationMethod<
-  GetIdentityProviderRequest,
+  GetIdentityProviderRequest & RegionInput,
   GetIdentityProviderResponse,
   GetIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -2591,7 +2592,7 @@ export type GetIpAccessSettingsError =
  * Gets the IP access settings.
  */
 export const getIpAccessSettings: API.OperationMethod<
-  GetIpAccessSettingsRequest,
+  GetIpAccessSettingsRequest & RegionInput,
   GetIpAccessSettingsResponse,
   GetIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2623,7 +2624,7 @@ export type GetNetworkSettingsError =
  * Gets the network settings.
  */
 export const getNetworkSettings: API.OperationMethod<
-  GetNetworkSettingsRequest,
+  GetNetworkSettingsRequest & RegionInput,
   GetNetworkSettingsResponse,
   GetNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2655,7 +2656,7 @@ export type GetPortalError =
  * Gets the web portal.
  */
 export const getPortal: API.OperationMethod<
-  GetPortalRequest,
+  GetPortalRequest & RegionInput,
   GetPortalResponse,
   GetPortalError,
   Credentials | HttpClient.HttpClient
@@ -2687,7 +2688,7 @@ export type GetPortalServiceProviderMetadataError =
  * Gets the service provider metadata.
  */
 export const getPortalServiceProviderMetadata: API.OperationMethod<
-  GetPortalServiceProviderMetadataRequest,
+  GetPortalServiceProviderMetadataRequest & RegionInput,
   GetPortalServiceProviderMetadataResponse,
   GetPortalServiceProviderMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2719,7 +2720,7 @@ export type GetSessionError =
  * Gets information for a secure browser session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -2751,7 +2752,7 @@ export type GetSessionLoggerError =
  * Gets details about a specific session logger resource.
  */
 export const getSessionLogger: API.OperationMethod<
-  GetSessionLoggerRequest,
+  GetSessionLoggerRequest & RegionInput,
   GetSessionLoggerResponse,
   GetSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2783,7 +2784,7 @@ export type GetTrustStoreError =
  * Gets the trust store.
  */
 export const getTrustStore: API.OperationMethod<
-  GetTrustStoreRequest,
+  GetTrustStoreRequest & RegionInput,
   GetTrustStoreResponse,
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2815,7 +2816,7 @@ export type GetTrustStoreCertificateError =
  * Gets the trust store certificate.
  */
 export const getTrustStoreCertificate: API.OperationMethod<
-  GetTrustStoreCertificateRequest,
+  GetTrustStoreCertificateRequest & RegionInput,
   GetTrustStoreCertificateResponse,
   GetTrustStoreCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2847,7 +2848,7 @@ export type GetUserAccessLoggingSettingsError =
  * Gets user access logging settings.
  */
 export const getUserAccessLoggingSettings: API.OperationMethod<
-  GetUserAccessLoggingSettingsRequest,
+  GetUserAccessLoggingSettingsRequest & RegionInput,
   GetUserAccessLoggingSettingsResponse,
   GetUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2879,7 +2880,7 @@ export type GetUserSettingsError =
  * Gets user settings.
  */
 export const getUserSettings: API.OperationMethod<
-  GetUserSettingsRequest,
+  GetUserSettingsRequest & RegionInput,
   GetUserSettingsResponse,
   GetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2910,7 +2911,7 @@ export type ListBrowserSettingsError =
  * Retrieves a list of browser settings.
  */
 export const listBrowserSettings: API.PaginatedOperationMethod<
-  ListBrowserSettingsRequest,
+  ListBrowserSettingsRequest & RegionInput,
   ListBrowserSettingsResponse,
   ListBrowserSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2946,7 +2947,7 @@ export type ListDataProtectionSettingsError =
  * Retrieves a list of data protection settings.
  */
 export const listDataProtectionSettings: API.PaginatedOperationMethod<
-  ListDataProtectionSettingsRequest,
+  ListDataProtectionSettingsRequest & RegionInput,
   ListDataProtectionSettingsResponse,
   ListDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2983,7 +2984,7 @@ export type ListIdentityProvidersError =
  * Retrieves a list of identity providers for a specific web portal.
  */
 export const listIdentityProviders: API.PaginatedOperationMethod<
-  ListIdentityProvidersRequest,
+  ListIdentityProvidersRequest & RegionInput,
   ListIdentityProvidersResponse,
   ListIdentityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -3019,7 +3020,7 @@ export type ListIpAccessSettingsError =
  * Retrieves a list of IP access settings.
  */
 export const listIpAccessSettings: API.PaginatedOperationMethod<
-  ListIpAccessSettingsRequest,
+  ListIpAccessSettingsRequest & RegionInput,
   ListIpAccessSettingsResponse,
   ListIpAccessSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3055,7 +3056,7 @@ export type ListNetworkSettingsError =
  * Retrieves a list of network settings.
  */
 export const listNetworkSettings: API.PaginatedOperationMethod<
-  ListNetworkSettingsRequest,
+  ListNetworkSettingsRequest & RegionInput,
   ListNetworkSettingsResponse,
   ListNetworkSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3091,7 +3092,7 @@ export type ListPortalsError =
  * Retrieves a list or web portals.
  */
 export const listPortals: API.PaginatedOperationMethod<
-  ListPortalsRequest,
+  ListPortalsRequest & RegionInput,
   ListPortalsResponse,
   ListPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -3127,7 +3128,7 @@ export type ListSessionLoggersError =
  * Lists all available session logger resources.
  */
 export const listSessionLoggers: API.PaginatedOperationMethod<
-  ListSessionLoggersRequest,
+  ListSessionLoggersRequest & RegionInput,
   ListSessionLoggersResponse,
   ListSessionLoggersError,
   Credentials | HttpClient.HttpClient,
@@ -3165,7 +3166,7 @@ export type ListSessionsError =
  * Lists information for multiple secure browser sessions from a specific portal.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -3204,7 +3205,7 @@ export type ListTagsForResourceError =
  * Retrieves a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3236,7 +3237,7 @@ export type ListTrustStoreCertificatesError =
  * Retrieves a list of trust store certificates.
  */
 export const listTrustStoreCertificates: API.PaginatedOperationMethod<
-  ListTrustStoreCertificatesRequest,
+  ListTrustStoreCertificatesRequest & RegionInput,
   ListTrustStoreCertificatesResponse,
   ListTrustStoreCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3273,7 +3274,7 @@ export type ListTrustStoresError =
  * Retrieves a list of trust stores.
  */
 export const listTrustStores: API.PaginatedOperationMethod<
-  ListTrustStoresRequest,
+  ListTrustStoresRequest & RegionInput,
   ListTrustStoresResponse,
   ListTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -3309,7 +3310,7 @@ export type ListUserAccessLoggingSettingsError =
  * Retrieves a list of user access logging settings.
  */
 export const listUserAccessLoggingSettings: API.PaginatedOperationMethod<
-  ListUserAccessLoggingSettingsRequest,
+  ListUserAccessLoggingSettingsRequest & RegionInput,
   ListUserAccessLoggingSettingsResponse,
   ListUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3345,7 +3346,7 @@ export type ListUserSettingsError =
  * Retrieves a list of user settings.
  */
 export const listUserSettings: API.PaginatedOperationMethod<
-  ListUserSettingsRequest,
+  ListUserSettingsRequest & RegionInput,
   ListUserSettingsResponse,
   ListUserSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3383,7 +3384,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3416,7 +3417,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3448,7 +3449,7 @@ export type UpdateBrowserSettingsError =
  * Updates browser settings.
  */
 export const updateBrowserSettings: API.OperationMethod<
-  UpdateBrowserSettingsRequest,
+  UpdateBrowserSettingsRequest & RegionInput,
   UpdateBrowserSettingsResponse,
   UpdateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3480,7 +3481,7 @@ export type UpdateDataProtectionSettingsError =
  * Updates data protection settings.
  */
 export const updateDataProtectionSettings: API.OperationMethod<
-  UpdateDataProtectionSettingsRequest,
+  UpdateDataProtectionSettingsRequest & RegionInput,
   UpdateDataProtectionSettingsResponse,
   UpdateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3512,7 +3513,7 @@ export type UpdateIdentityProviderError =
  * Updates the identity provider.
  */
 export const updateIdentityProvider: API.OperationMethod<
-  UpdateIdentityProviderRequest,
+  UpdateIdentityProviderRequest & RegionInput,
   UpdateIdentityProviderResponse,
   UpdateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3544,7 +3545,7 @@ export type UpdateIpAccessSettingsError =
  * Updates IP access settings.
  */
 export const updateIpAccessSettings: API.OperationMethod<
-  UpdateIpAccessSettingsRequest,
+  UpdateIpAccessSettingsRequest & RegionInput,
   UpdateIpAccessSettingsResponse,
   UpdateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3576,7 +3577,7 @@ export type UpdateNetworkSettingsError =
  * Updates network settings.
  */
 export const updateNetworkSettings: API.OperationMethod<
-  UpdateNetworkSettingsRequest,
+  UpdateNetworkSettingsRequest & RegionInput,
   UpdateNetworkSettingsResponse,
   UpdateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3610,7 +3611,7 @@ export type UpdatePortalError =
  * Updates a web portal.
  */
 export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
+  UpdatePortalRequest & RegionInput,
   UpdatePortalResponse,
   UpdatePortalError,
   Credentials | HttpClient.HttpClient
@@ -3644,7 +3645,7 @@ export type UpdateSessionLoggerError =
  * Updates the details of a session logger.
  */
 export const updateSessionLogger: API.OperationMethod<
-  UpdateSessionLoggerRequest,
+  UpdateSessionLoggerRequest & RegionInput,
   UpdateSessionLoggerResponse,
   UpdateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -3677,7 +3678,7 @@ export type UpdateTrustStoreError =
  * Updates the trust store.
  */
 export const updateTrustStore: API.OperationMethod<
-  UpdateTrustStoreRequest,
+  UpdateTrustStoreRequest & RegionInput,
   UpdateTrustStoreResponse,
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -3710,7 +3711,7 @@ export type UpdateUserAccessLoggingSettingsError =
  * Updates the user access logging settings.
  */
 export const updateUserAccessLoggingSettings: API.OperationMethod<
-  UpdateUserAccessLoggingSettingsRequest,
+  UpdateUserAccessLoggingSettingsRequest & RegionInput,
   UpdateUserAccessLoggingSettingsResponse,
   UpdateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3742,7 +3743,7 @@ export type UpdateUserSettingsError =
  * Updates the user settings.
  */
 export const updateUserSettings: API.OperationMethod<
-  UpdateUserSettingsRequest,
+  UpdateUserSettingsRequest & RegionInput,
   UpdateUserSettingsResponse,
   UpdateUserSettingsError,
   Credentials | HttpClient.HttpClient

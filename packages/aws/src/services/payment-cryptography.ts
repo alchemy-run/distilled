@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -768,7 +769,7 @@ export type AddKeyReplicationRegionsError =
  * - GetDefaultKeyReplicationRegions
  */
 export const addKeyReplicationRegions: API.OperationMethod<
-  AddKeyReplicationRegionsInput,
+  AddKeyReplicationRegionsInput & RegionInput,
   AddKeyReplicationRegionsOutput,
   AddKeyReplicationRegionsError,
   Credentials | HttpClient.HttpClient
@@ -813,7 +814,7 @@ export type AssociateMpaTeamError =
  * - GetMpaTeamAssociation
  */
 export const associateMpaTeam: API.OperationMethod<
-  AssociateMpaTeamInput,
+  AssociateMpaTeamInput & RegionInput,
   AssociateMpaTeamOutput,
   AssociateMpaTeamError,
   Credentials | HttpClient.HttpClient
@@ -867,7 +868,7 @@ export type CreateAliasError =
  * - UpdateAlias
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasInput,
+  CreateAliasInput & RegionInput,
   CreateAliasOutput,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -925,7 +926,7 @@ export type CreateKeyError =
  * - ListKeys
  */
 export const createKey: API.OperationMethod<
-  CreateKeyInput,
+  CreateKeyInput & RegionInput,
   CreateKeyOutput,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -976,7 +977,7 @@ export type DeleteAliasError =
  * - UpdateAlias
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasInput,
+  DeleteAliasInput & RegionInput,
   DeleteAliasOutput,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -1026,7 +1027,7 @@ export type DeleteKeyError =
  * - StopKeyUsage
  */
 export const deleteKey: API.OperationMethod<
-  DeleteKeyInput,
+  DeleteKeyInput & RegionInput,
   DeleteKeyOutput,
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type DeleteResourcePolicyError =
  * - GetResourcePolicy
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1118,7 +1119,7 @@ export type DisableDefaultKeyReplicationRegionsError =
  * - GetDefaultKeyReplicationRegions
  */
 export const disableDefaultKeyReplicationRegions: API.OperationMethod<
-  DisableDefaultKeyReplicationRegionsInput,
+  DisableDefaultKeyReplicationRegionsInput & RegionInput,
   DisableDefaultKeyReplicationRegionsOutput,
   DisableDefaultKeyReplicationRegionsError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type DisassociateMpaTeamError =
  * - GetMpaTeamAssociation
  */
 export const disassociateMpaTeam: API.OperationMethod<
-  DisassociateMpaTeamInput,
+  DisassociateMpaTeamInput & RegionInput,
   DisassociateMpaTeamOutput,
   DisassociateMpaTeamError,
   Credentials | HttpClient.HttpClient
@@ -1212,7 +1213,7 @@ export type EnableDefaultKeyReplicationRegionsError =
  * - GetDefaultKeyReplicationRegions
  */
 export const enableDefaultKeyReplicationRegions: API.OperationMethod<
-  EnableDefaultKeyReplicationRegionsInput,
+  EnableDefaultKeyReplicationRegionsInput & RegionInput,
   EnableDefaultKeyReplicationRegionsOutput,
   EnableDefaultKeyReplicationRegionsError,
   Credentials | HttpClient.HttpClient
@@ -1336,7 +1337,7 @@ export type ExportKeyError =
  * - ImportKey
  */
 export const exportKey: API.OperationMethod<
-  ExportKeyInput,
+  ExportKeyInput & RegionInput,
   ExportKeyOutput,
   ExportKeyError,
   Credentials | HttpClient.HttpClient
@@ -1383,7 +1384,7 @@ export type GetAliasError =
  * - UpdateAlias
  */
 export const getAlias: API.OperationMethod<
-  GetAliasInput,
+  GetAliasInput & RegionInput,
   GetAliasOutput,
   GetAliasError,
   Credentials | HttpClient.HttpClient
@@ -1417,7 +1418,7 @@ export type GetCertificateSigningRequestError =
  * Creates a certificate signing request (CSR) from a key pair.
  */
 export const getCertificateSigningRequest: API.OperationMethod<
-  GetCertificateSigningRequestInput,
+  GetCertificateSigningRequestInput & RegionInput,
   GetCertificateSigningRequestOutput,
   GetCertificateSigningRequestError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type GetDefaultKeyReplicationRegionsError =
  * - DisableDefaultKeyReplicationRegions
  */
 export const getDefaultKeyReplicationRegions: API.OperationMethod<
-  GetDefaultKeyReplicationRegionsInput,
+  GetDefaultKeyReplicationRegionsInput & RegionInput,
   GetDefaultKeyReplicationRegionsOutput,
   GetDefaultKeyReplicationRegionsError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1508,7 @@ export type GetKeyError =
  * - ListKeys
  */
 export const getKey: API.OperationMethod<
-  GetKeyInput,
+  GetKeyInput & RegionInput,
   GetKeyOutput,
   GetKeyError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type GetMpaTeamAssociationError =
  * - DisassociateMpaTeam
  */
 export const getMpaTeamAssociation: API.OperationMethod<
-  GetMpaTeamAssociationInput,
+  GetMpaTeamAssociationInput & RegionInput,
   GetMpaTeamAssociationOutput,
   GetMpaTeamAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1601,7 +1602,7 @@ export type GetParametersForExportError =
  * - GetParametersForImport
  */
 export const getParametersForExport: API.OperationMethod<
-  GetParametersForExportInput,
+  GetParametersForExportInput & RegionInput,
   GetParametersForExportOutput,
   GetParametersForExportError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type GetParametersForImportError =
  * - ImportKey
  */
 export const getParametersForImport: API.OperationMethod<
-  GetParametersForImportInput,
+  GetParametersForImportInput & RegionInput,
   GetParametersForImportOutput,
   GetParametersForImportError,
   Credentials | HttpClient.HttpClient
@@ -1691,7 +1692,7 @@ export type GetPublicKeyCertificateError =
  * **Cross-account use:** This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies.
  */
 export const getPublicKeyCertificate: API.OperationMethod<
-  GetPublicKeyCertificateInput,
+  GetPublicKeyCertificateInput & RegionInput,
   GetPublicKeyCertificateOutput,
   GetPublicKeyCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type GetResourcePolicyError =
  * - DeleteResourcePolicy
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type ImportKeyError =
  * - GetParametersForImport
  */
 export const importKey: API.OperationMethod<
-  ImportKeyInput,
+  ImportKeyInput & RegionInput,
   ImportKeyOutput,
   ImportKeyError,
   Credentials | HttpClient.HttpClient
@@ -1913,7 +1914,7 @@ export type ListAliasesError =
  * - UpdateAlias
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesInput,
+  ListAliasesInput & RegionInput,
   ListAliasesOutput,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -1966,7 +1967,7 @@ export type ListKeysError =
  * - GetKey
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysInput,
+  ListKeysInput & RegionInput,
   ListKeysOutput,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2017,7 +2018,7 @@ export type ListTagsForResourceError =
  * - UntagResource
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2073,7 +2074,7 @@ export type PutResourcePolicyError =
  * - DeleteResourcePolicy
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2123,7 +2124,7 @@ export type RemoveKeyReplicationRegionsError =
  * - DisableDefaultKeyReplicationRegions
  */
 export const removeKeyReplicationRegions: API.OperationMethod<
-  RemoveKeyReplicationRegionsInput,
+  RemoveKeyReplicationRegionsInput & RegionInput,
   RemoveKeyReplicationRegionsOutput,
   RemoveKeyReplicationRegionsError,
   Credentials | HttpClient.HttpClient
@@ -2172,7 +2173,7 @@ export type RestoreKeyError =
  * - StopKeyUsage
  */
 export const restoreKey: API.OperationMethod<
-  RestoreKeyInput,
+  RestoreKeyInput & RegionInput,
   RestoreKeyOutput,
   RestoreKeyError,
   Credentials | HttpClient.HttpClient
@@ -2216,7 +2217,7 @@ export type StartKeyUsageError =
  * - StopKeyUsage
  */
 export const startKeyUsage: API.OperationMethod<
-  StartKeyUsageInput,
+  StartKeyUsageInput & RegionInput,
   StartKeyUsageOutput,
   StartKeyUsageError,
   Credentials | HttpClient.HttpClient
@@ -2264,7 +2265,7 @@ export type StopKeyUsageError =
  * - StartKeyUsage
  */
 export const stopKeyUsage: API.OperationMethod<
-  StopKeyUsageInput,
+  StopKeyUsageInput & RegionInput,
   StopKeyUsageOutput,
   StopKeyUsageError,
   Credentials | HttpClient.HttpClient
@@ -2314,7 +2315,7 @@ export type TagResourceError =
  * - UntagResource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2362,7 @@ export type UntagResourceError =
  * - TagResource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2410,7 @@ export type UpdateAliasError =
  * - ListAliases
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasInput,
+  UpdateAliasInput & RegionInput,
   UpdateAliasOutput,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient

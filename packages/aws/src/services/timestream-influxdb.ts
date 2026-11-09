@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1038,7 +1039,7 @@ export type CreateDbBackupError =
  * Creates a new on-demand backup of a Timestream for InfluxDB resource.
  */
 export const createDbBackup: API.OperationMethod<
-  CreateDbBackupInput,
+  CreateDbBackupInput & RegionInput,
   CreateDbBackupOutput,
   CreateDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1074,7 +1075,7 @@ export type CreateDbClusterError =
  * Creates a new Timestream for InfluxDB cluster.
  */
 export const createDbCluster: API.OperationMethod<
-  CreateDbClusterInput,
+  CreateDbClusterInput & RegionInput,
   CreateDbClusterOutput,
   CreateDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1110,7 +1111,7 @@ export type CreateDbInstanceError =
  * Creates a new Timestream for InfluxDB DB instance.
  */
 export const createDbInstance: API.OperationMethod<
-  CreateDbInstanceInput,
+  CreateDbInstanceInput & RegionInput,
   CreateDbInstanceOutput,
   CreateDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type CreateDbParameterGroupError =
  * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
  */
 export const createDbParameterGroup: API.OperationMethod<
-  CreateDbParameterGroupInput,
+  CreateDbParameterGroupInput & RegionInput,
   CreateDbParameterGroupOutput,
   CreateDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1182,7 @@ export type DeleteDbBackupError =
  * Deletes a Timestream for InfluxDB backup.
  */
 export const deleteDbBackup: API.OperationMethod<
-  DeleteDbBackupInput,
+  DeleteDbBackupInput & RegionInput,
   DeleteDbBackupOutput,
   DeleteDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type DeleteDbClusterError =
  * Deletes a Timestream for InfluxDB cluster.
  */
 export const deleteDbCluster: API.OperationMethod<
-  DeleteDbClusterInput,
+  DeleteDbClusterInput & RegionInput,
   DeleteDbClusterOutput,
   DeleteDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1249,7 +1250,7 @@ export type DeleteDbInstanceError =
  * Deletes a Timestream for InfluxDB DB instance.
  */
 export const deleteDbInstance: API.OperationMethod<
-  DeleteDbInstanceInput,
+  DeleteDbInstanceInput & RegionInput,
   DeleteDbInstanceOutput,
   DeleteDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1282,7 +1283,7 @@ export type GetDbBackupError =
  * Returns information about a specific Timestream for InfluxDB backup.
  */
 export const getDbBackup: API.OperationMethod<
-  GetDbBackupInput,
+  GetDbBackupInput & RegionInput,
   GetDbBackupOutput,
   GetDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1314,7 +1315,7 @@ export type GetDbClusterError =
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
 export const getDbCluster: API.OperationMethod<
-  GetDbClusterInput,
+  GetDbClusterInput & RegionInput,
   GetDbClusterOutput,
   GetDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1346,7 +1347,7 @@ export type GetDbInstanceError =
  * Returns a Timestream for InfluxDB DB instance.
  */
 export const getDbInstance: API.OperationMethod<
-  GetDbInstanceInput,
+  GetDbInstanceInput & RegionInput,
   GetDbInstanceOutput,
   GetDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1378,7 +1379,7 @@ export type GetDbParameterGroupError =
  * Returns a Timestream for InfluxDB DB parameter group.
  */
 export const getDbParameterGroup: API.OperationMethod<
-  GetDbParameterGroupInput,
+  GetDbParameterGroupInput & RegionInput,
   GetDbParameterGroupOutput,
   GetDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1410,7 +1411,7 @@ export type ListDbBackupsError =
  * Returns a list of Timestream for InfluxDB backups.
  */
 export const listDbBackups: API.PaginatedOperationMethod<
-  ListDbBackupsInput,
+  ListDbBackupsInput & RegionInput,
   ListDbBackupsOutput,
   ListDbBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -1449,7 +1450,7 @@ export type ListDbClustersError =
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
 export const listDbClusters: API.PaginatedOperationMethod<
-  ListDbClustersInput,
+  ListDbClustersInput & RegionInput,
   ListDbClustersOutput,
   ListDbClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1488,7 +1489,7 @@ export type ListDbInstancesError =
  * Returns a list of Timestream for InfluxDB DB instances.
  */
 export const listDbInstances: API.PaginatedOperationMethod<
-  ListDbInstancesInput,
+  ListDbInstancesInput & RegionInput,
   ListDbInstancesOutput,
   ListDbInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1528,7 @@ export type ListDbInstancesForClusterError =
  * Returns a list of Timestream for InfluxDB clusters.
  */
 export const listDbInstancesForCluster: API.PaginatedOperationMethod<
-  ListDbInstancesForClusterInput,
+  ListDbInstancesForClusterInput & RegionInput,
   ListDbInstancesForClusterOutput,
   ListDbInstancesForClusterError,
   Credentials | HttpClient.HttpClient,
@@ -1566,7 +1567,7 @@ export type ListDbParameterGroupsError =
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
 export const listDbParameterGroups: API.PaginatedOperationMethod<
-  ListDbParameterGroupsInput,
+  ListDbParameterGroupsInput & RegionInput,
   ListDbParameterGroupsOutput,
   ListDbParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1599,7 +1600,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * A list of tags applied to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type RebootDbClusterError =
  * Reboots a Timestream for InfluxDB cluster.
  */
 export const rebootDbCluster: API.OperationMethod<
-  RebootDbClusterInput,
+  RebootDbClusterInput & RegionInput,
   RebootDbClusterOutput,
   RebootDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type RebootDbInstanceError =
  * Reboots a Timestream for InfluxDB instance.
  */
 export const rebootDbInstance: API.OperationMethod<
-  RebootDbInstanceInput,
+  RebootDbInstanceInput & RegionInput,
   RebootDbInstanceOutput,
   RebootDbInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type RestoreFromDbBackupError =
  * Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
  */
 export const restoreFromDbBackup: API.OperationMethod<
-  RestoreFromDbBackupInput,
+  RestoreFromDbBackupInput & RegionInput,
   RestoreFromDbBackupOutput,
   RestoreFromDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1726,7 +1727,7 @@ export type TagResourceError =
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1746,7 +1747,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type UpdateDbClusterError =
  * Updates a Timestream for InfluxDB cluster.
  */
 export const updateDbCluster: API.OperationMethod<
-  UpdateDbClusterInput,
+  UpdateDbClusterInput & RegionInput,
   UpdateDbClusterOutput,
   UpdateDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1807,7 +1808,7 @@ export type UpdateDbInstanceError =
  * Updates a Timestream for InfluxDB DB instance.
  */
 export const updateDbInstance: API.OperationMethod<
-  UpdateDbInstanceInput,
+  UpdateDbInstanceInput & RegionInput,
   UpdateDbInstanceOutput,
   UpdateDbInstanceError,
   Credentials | HttpClient.HttpClient

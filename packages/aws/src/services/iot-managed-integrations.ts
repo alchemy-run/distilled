@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1653,7 +1654,7 @@ export type CreateAccountAssociationError =
  * Creates a new account association via the destination id.
  */
 export const createAccountAssociation: API.OperationMethod<
-  CreateAccountAssociationRequest,
+  CreateAccountAssociationRequest & RegionInput,
   CreateAccountAssociationResponse,
   CreateAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1688,7 +1689,7 @@ export type CreateCloudConnectorError =
  * Creates a C2C (cloud-to-cloud) connector.
  */
 export const createCloudConnector: API.OperationMethod<
-  CreateCloudConnectorRequest,
+  CreateCloudConnectorRequest & RegionInput,
   CreateCloudConnectorResponse,
   CreateCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1722,7 +1723,7 @@ export type CreateConnectorDestinationError =
  * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
  */
 export const createConnectorDestination: API.OperationMethod<
-  CreateConnectorDestinationRequest,
+  CreateConnectorDestinationRequest & RegionInput,
   CreateConnectorDestinationResponse,
   CreateConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1760,7 +1761,7 @@ export type CreateCredentialLockerError =
  * This operation will not trigger the creation of all the manufacturing resources.
  */
 export const createCredentialLocker: API.OperationMethod<
-  CreateCredentialLockerRequest,
+  CreateCredentialLockerRequest & RegionInput,
   CreateCredentialLockerResponse,
   CreateCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type CreateDestinationError =
  * Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
  */
 export const createDestination: API.OperationMethod<
-  CreateDestinationRequest,
+  CreateDestinationRequest & RegionInput,
   CreateDestinationResponse,
   CreateDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type CreateEventLogConfigurationError =
  * Set the event log configuration for the account, resource type, or specific resource.
  */
 export const createEventLogConfiguration: API.OperationMethod<
-  CreateEventLogConfigurationRequest,
+  CreateEventLogConfigurationRequest & RegionInput,
   CreateEventLogConfigurationResponse,
   CreateEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type CreateManagedThingError =
  * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
  */
 export const createManagedThing: API.OperationMethod<
-  CreateManagedThingRequest,
+  CreateManagedThingRequest & RegionInput,
   CreateManagedThingResponse,
   CreateManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type CreateNotificationConfigurationError =
  * Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
  */
 export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationRequest & RegionInput,
   CreateNotificationConfigurationResponse,
   CreateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type CreateOtaTaskError =
  * Create an over-the-air (OTA) task to target a device.
  */
 export const createOtaTask: API.OperationMethod<
-  CreateOtaTaskRequest,
+  CreateOtaTaskRequest & RegionInput,
   CreateOtaTaskResponse,
   CreateOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type CreateOtaTaskConfigurationError =
  * Create a configuraiton for the over-the-air (OTA) task.
  */
 export const createOtaTaskConfiguration: API.OperationMethod<
-  CreateOtaTaskConfigurationRequest,
+  CreateOtaTaskConfigurationRequest & RegionInput,
   CreateOtaTaskConfigurationResponse,
   CreateOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2002,7 @@ export type CreateProvisioningProfileError =
  * Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process.
  */
 export const createProvisioningProfile: API.OperationMethod<
-  CreateProvisioningProfileRequest,
+  CreateProvisioningProfileRequest & RegionInput,
   CreateProvisioningProfileResponse,
   CreateProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2040,7 @@ export type DeleteAccountAssociationError =
  * You must first call the `DeregisterAccountAssociation` to remove the connection between the managed thing and the third-party account before calling the `DeleteAccountAssociation` API.
  */
 export const deleteAccountAssociation: API.OperationMethod<
-  DeleteAccountAssociationRequest,
+  DeleteAccountAssociationRequest & RegionInput,
   DeleteAccountAssociationResponse,
   DeleteAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2074,7 @@ export type DeleteCloudConnectorError =
  * Delete a cloud connector.
  */
 export const deleteCloudConnector: API.OperationMethod<
-  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorRequest & RegionInput,
   DeleteCloudConnectorResponse,
   DeleteCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2108,7 +2109,7 @@ export type DeleteConnectorDestinationError =
  * Deletion can't be done if the account association has used this connector destination.
  */
 export const deleteConnectorDestination: API.OperationMethod<
-  DeleteConnectorDestinationRequest,
+  DeleteConnectorDestinationRequest & RegionInput,
   DeleteConnectorDestinationResponse,
   DeleteConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2143,7 +2144,7 @@ export type DeleteCredentialLockerError =
  * This operation can't be undone and any existing device won't be able to use IoT managed integrations.
  */
 export const deleteCredentialLocker: API.OperationMethod<
-  DeleteCredentialLockerRequest,
+  DeleteCredentialLockerRequest & RegionInput,
   DeleteCredentialLockerResponse,
   DeleteCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -2176,7 +2177,7 @@ export type DeleteDestinationError =
  * Deletes a notification destination specified by name.
  */
 export const deleteDestination: API.OperationMethod<
-  DeleteDestinationRequest,
+  DeleteDestinationRequest & RegionInput,
   DeleteDestinationResponse,
   DeleteDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type DeleteEventLogConfigurationError =
  * Delete an event log configuration.
  */
 export const deleteEventLogConfiguration: API.OperationMethod<
-  DeleteEventLogConfigurationRequest,
+  DeleteEventLogConfigurationRequest & RegionInput,
   DeleteEventLogConfigurationResponse,
   DeleteEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2243,7 +2244,7 @@ export type DeleteManagedThingError =
  * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
  */
 export const deleteManagedThing: API.OperationMethod<
-  DeleteManagedThingRequest,
+  DeleteManagedThingRequest & RegionInput,
   DeleteManagedThingResponse,
   DeleteManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2279,7 @@ export type DeleteNotificationConfigurationError =
  * Deletes a notification configuration.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationRequest & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type DeleteOtaTaskError =
  * Delete the over-the-air (OTA) task.
  */
 export const deleteOtaTask: API.OperationMethod<
-  DeleteOtaTaskRequest,
+  DeleteOtaTaskRequest & RegionInput,
   DeleteOtaTaskResponse,
   DeleteOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2345,7 @@ export type DeleteOtaTaskConfigurationError =
  * Delete the over-the-air (OTA) task configuration.
  */
 export const deleteOtaTaskConfiguration: API.OperationMethod<
-  DeleteOtaTaskConfigurationRequest,
+  DeleteOtaTaskConfigurationRequest & RegionInput,
   DeleteOtaTaskConfigurationResponse,
   DeleteOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type DeleteProvisioningProfileError =
  * Delete a provisioning profile.
  */
 export const deleteProvisioningProfile: API.OperationMethod<
-  DeleteProvisioningProfileRequest,
+  DeleteProvisioningProfileRequest & RegionInput,
   DeleteProvisioningProfileResponse,
   DeleteProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -2415,7 +2416,7 @@ export type DeregisterAccountAssociationError =
  * Deregister an account association from a managed thing.
  */
 export const deregisterAccountAssociation: API.OperationMethod<
-  DeregisterAccountAssociationRequest,
+  DeregisterAccountAssociationRequest & RegionInput,
   DeregisterAccountAssociationResponse,
   DeregisterAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type GetAccountAssociationError =
  * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
  */
 export const getAccountAssociation: API.OperationMethod<
-  GetAccountAssociationRequest,
+  GetAccountAssociationRequest & RegionInput,
   GetAccountAssociationResponse,
   GetAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2482,7 +2483,7 @@ export type GetCloudConnectorError =
  * Get configuration details for a cloud connector.
  */
 export const getCloudConnector: API.OperationMethod<
-  GetCloudConnectorRequest,
+  GetCloudConnectorRequest & RegionInput,
   GetCloudConnectorResponse,
   GetCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2514,7 +2515,7 @@ export type GetConnectorDestinationError =
  * Get connector destination details linked to a cloud-to-cloud (C2C) connector.
  */
 export const getConnectorDestination: API.OperationMethod<
-  GetConnectorDestinationRequest,
+  GetConnectorDestinationRequest & RegionInput,
   GetConnectorDestinationResponse,
   GetConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2547,7 +2548,7 @@ export type GetCredentialLockerError =
  * Get information on an existing credential locker
  */
 export const getCredentialLocker: API.OperationMethod<
-  GetCredentialLockerRequest,
+  GetCredentialLockerRequest & RegionInput,
   GetCredentialLockerResponse,
   GetCredentialLockerError,
   Credentials | HttpClient.HttpClient
@@ -2582,7 +2583,7 @@ export type GetCustomEndpointError =
  * Returns the IoT managed integrations custom endpoint.
  */
 export const getCustomEndpoint: API.OperationMethod<
-  GetCustomEndpointRequest,
+  GetCustomEndpointRequest & RegionInput,
   GetCustomEndpointResponse,
   GetCustomEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2618,7 +2619,7 @@ export type GetDefaultEncryptionConfigurationError =
  * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
  */
 export const getDefaultEncryptionConfiguration: API.OperationMethod<
-  GetDefaultEncryptionConfigurationRequest,
+  GetDefaultEncryptionConfigurationRequest & RegionInput,
   GetDefaultEncryptionConfigurationResponse,
   GetDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type GetDestinationError =
  * Gets a destination by name.
  */
 export const getDestination: API.OperationMethod<
-  GetDestinationRequest,
+  GetDestinationRequest & RegionInput,
   GetDestinationResponse,
   GetDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type GetDeviceDiscoveryError =
  * Get the current state of a device discovery.
  */
 export const getDeviceDiscovery: API.OperationMethod<
-  GetDeviceDiscoveryRequest,
+  GetDeviceDiscoveryRequest & RegionInput,
   GetDeviceDiscoveryResponse,
   GetDeviceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -2720,7 +2721,7 @@ export type GetEventLogConfigurationError =
  * Get an event log configuration.
  */
 export const getEventLogConfiguration: API.OperationMethod<
-  GetEventLogConfigurationRequest,
+  GetEventLogConfigurationRequest & RegionInput,
   GetEventLogConfigurationResponse,
   GetEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2754,7 @@ export type GetHubConfigurationError =
  * Get a hub configuration.
  */
 export const getHubConfiguration: API.OperationMethod<
-  GetHubConfigurationRequest,
+  GetHubConfigurationRequest & RegionInput,
   GetHubConfigurationResponse,
   GetHubConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type GetManagedThingError =
  * Get details of a managed thing including its attributes and capabilities.
  */
 export const getManagedThing: API.OperationMethod<
-  GetManagedThingRequest,
+  GetManagedThingRequest & RegionInput,
   GetManagedThingResponse,
   GetManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2825,7 @@ export type GetManagedThingCapabilitiesError =
  * Get the capabilities for a managed thing using the device ID.
  */
 export const getManagedThingCapabilities: API.OperationMethod<
-  GetManagedThingCapabilitiesRequest,
+  GetManagedThingCapabilitiesRequest & RegionInput,
   GetManagedThingCapabilitiesResponse,
   GetManagedThingCapabilitiesError,
   Credentials | HttpClient.HttpClient
@@ -2860,7 +2861,7 @@ export type GetManagedThingCertificateError =
  * Retrieves the certificate PEM for a managed IoT thing.
  */
 export const getManagedThingCertificate: API.OperationMethod<
-  GetManagedThingCertificateRequest,
+  GetManagedThingCertificateRequest & RegionInput,
   GetManagedThingCertificateResponse,
   GetManagedThingCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2896,7 +2897,7 @@ export type GetManagedThingConnectivityDataError =
  * Get the connectivity status of a managed thing.
  */
 export const getManagedThingConnectivityData: API.OperationMethod<
-  GetManagedThingConnectivityDataRequest,
+  GetManagedThingConnectivityDataRequest & RegionInput,
   GetManagedThingConnectivityDataResponse,
   GetManagedThingConnectivityDataError,
   Credentials | HttpClient.HttpClient
@@ -2934,7 +2935,7 @@ export type GetManagedThingMetaDataError =
  * The `managedThing` `metadata` parameter is used for associating attributes with a `managedThing` that can be used for grouping over-the-air (OTA) tasks. Name value pairs in `metadata` can be used in the `OtaTargetQueryString` parameter for the `CreateOtaTask` API operation.
  */
 export const getManagedThingMetaData: API.OperationMethod<
-  GetManagedThingMetaDataRequest,
+  GetManagedThingMetaDataRequest & RegionInput,
   GetManagedThingMetaDataResponse,
   GetManagedThingMetaDataError,
   Credentials | HttpClient.HttpClient
@@ -2970,7 +2971,7 @@ export type GetManagedThingStateError =
  * Returns the managed thing state for the given device Id.
  */
 export const getManagedThingState: API.OperationMethod<
-  GetManagedThingStateRequest,
+  GetManagedThingStateRequest & RegionInput,
   GetManagedThingStateResponse,
   GetManagedThingStateError,
   Credentials | HttpClient.HttpClient
@@ -3004,7 +3005,7 @@ export type GetNotificationConfigurationError =
  * Get a notification configuration for a specified event type.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3036,7 +3037,7 @@ export type GetOtaTaskError =
  * Get details of the over-the-air (OTA) task by its task id.
  */
 export const getOtaTask: API.OperationMethod<
-  GetOtaTaskRequest,
+  GetOtaTaskRequest & RegionInput,
   GetOtaTaskResponse,
   GetOtaTaskError,
   Credentials | HttpClient.HttpClient
@@ -3068,7 +3069,7 @@ export type GetOtaTaskConfigurationError =
  * Get a configuraiton for the over-the-air (OTA) task.
  */
 export const getOtaTaskConfiguration: API.OperationMethod<
-  GetOtaTaskConfigurationRequest,
+  GetOtaTaskConfigurationRequest & RegionInput,
   GetOtaTaskConfigurationResponse,
   GetOtaTaskConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3102,7 +3103,7 @@ export type GetProvisioningProfileError =
  * Get details of a provisioning profile.
  */
 export const getProvisioningProfile: API.OperationMethod<
-  GetProvisioningProfileRequest,
+  GetProvisioningProfileRequest & RegionInput,
   GetProvisioningProfileResponse,
   GetProvisioningProfileError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type GetRuntimeLogConfigurationError =
  * Get the runtime log configuration for a specific managed thing.
  */
 export const getRuntimeLogConfiguration: API.OperationMethod<
-  GetRuntimeLogConfigurationRequest,
+  GetRuntimeLogConfigurationRequest & RegionInput,
   GetRuntimeLogConfigurationResponse,
   GetRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3170,7 +3171,7 @@ export type GetSchemaVersionError =
  * Gets a schema version with the provided information.
  */
 export const getSchemaVersion: API.OperationMethod<
-  GetSchemaVersionRequest,
+  GetSchemaVersionRequest & RegionInput,
   GetSchemaVersionResponse,
   GetSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -3204,7 +3205,7 @@ export type ListAccountAssociationsError =
  * Lists all account associations, with optional filtering by connector destination ID.
  */
 export const listAccountAssociations: API.PaginatedOperationMethod<
-  ListAccountAssociationsRequest,
+  ListAccountAssociationsRequest & RegionInput,
   ListAccountAssociationsResponse,
   ListAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3242,7 +3243,7 @@ export type ListCloudConnectorsError =
  * Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and `type`.
  */
 export const listCloudConnectors: API.PaginatedOperationMethod<
-  ListCloudConnectorsRequest,
+  ListCloudConnectorsRequest & RegionInput,
   ListCloudConnectorsResponse,
   ListCloudConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -3279,7 +3280,7 @@ export type ListConnectorDestinationsError =
  * Lists all connector destinations, with optional filtering by cloud connector ID.
  */
 export const listConnectorDestinations: API.PaginatedOperationMethod<
-  ListConnectorDestinationsRequest,
+  ListConnectorDestinationsRequest & RegionInput,
   ListConnectorDestinationsResponse,
   ListConnectorDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -3317,7 +3318,7 @@ export type ListCredentialLockersError =
  * List information on an existing credential locker.
  */
 export const listCredentialLockers: API.PaginatedOperationMethod<
-  ListCredentialLockersRequest,
+  ListCredentialLockersRequest & RegionInput,
   ListCredentialLockersResponse,
   ListCredentialLockersError,
   Credentials | HttpClient.HttpClient,
@@ -3355,7 +3356,7 @@ export type ListDestinationsError =
  * List all notification destinations.
  */
 export const listDestinations: API.PaginatedOperationMethod<
-  ListDestinationsRequest,
+  ListDestinationsRequest & RegionInput,
   ListDestinationsResponse,
   ListDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -3394,7 +3395,7 @@ export type ListDeviceDiscoveriesError =
  * Lists all device discovery tasks, with optional filtering by type and status.
  */
 export const listDeviceDiscoveries: API.PaginatedOperationMethod<
-  ListDeviceDiscoveriesRequest,
+  ListDeviceDiscoveriesRequest & RegionInput,
   ListDeviceDiscoveriesResponse,
   ListDeviceDiscoveriesError,
   Credentials | HttpClient.HttpClient,
@@ -3436,7 +3437,7 @@ export type ListDiscoveredDevicesError =
  * Lists all devices discovered during a specific device discovery task.
  */
 export const listDiscoveredDevices: API.PaginatedOperationMethod<
-  ListDiscoveredDevicesRequest,
+  ListDiscoveredDevicesRequest & RegionInput,
   ListDiscoveredDevicesResponse,
   ListDiscoveredDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3476,7 +3477,7 @@ export type ListEventLogConfigurationsError =
  * List all event log configurations for an account.
  */
 export const listEventLogConfigurations: API.PaginatedOperationMethod<
-  ListEventLogConfigurationsRequest,
+  ListEventLogConfigurationsRequest & RegionInput,
   ListEventLogConfigurationsResponse,
   ListEventLogConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3513,7 +3514,7 @@ export type ListManagedThingAccountAssociationsError =
  * Lists all account associations for a specific managed thing.
  */
 export const listManagedThingAccountAssociations: API.PaginatedOperationMethod<
-  ListManagedThingAccountAssociationsRequest,
+  ListManagedThingAccountAssociationsRequest & RegionInput,
   ListManagedThingAccountAssociationsResponse,
   ListManagedThingAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3552,7 +3553,7 @@ export type ListManagedThingsError =
  * Listing all managed things with provision for filters.
  */
 export const listManagedThings: API.PaginatedOperationMethod<
-  ListManagedThingsRequest,
+  ListManagedThingsRequest & RegionInput,
   ListManagedThingsResponse,
   ListManagedThingsError,
   Credentials | HttpClient.HttpClient,
@@ -3594,7 +3595,7 @@ export type ListManagedThingSchemasError =
  * List schemas associated with a managed thing.
  */
 export const listManagedThingSchemas: API.PaginatedOperationMethod<
-  ListManagedThingSchemasRequest,
+  ListManagedThingSchemasRequest & RegionInput,
   ListManagedThingSchemasResponse,
   ListManagedThingSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -3634,7 +3635,7 @@ export type ListNotificationConfigurationsError =
  * List all notification configurations.
  */
 export const listNotificationConfigurations: API.PaginatedOperationMethod<
-  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsRequest & RegionInput,
   ListNotificationConfigurationsResponse,
   ListNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3671,7 +3672,7 @@ export type ListOtaTaskConfigurationsError =
  * List all of the over-the-air (OTA) task configurations.
  */
 export const listOtaTaskConfigurations: API.PaginatedOperationMethod<
-  ListOtaTaskConfigurationsRequest,
+  ListOtaTaskConfigurationsRequest & RegionInput,
   ListOtaTaskConfigurationsResponse,
   ListOtaTaskConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3709,7 +3710,7 @@ export type ListOtaTaskExecutionsError =
  * List all of the over-the-air (OTA) task executions.
  */
 export const listOtaTaskExecutions: API.PaginatedOperationMethod<
-  ListOtaTaskExecutionsRequest,
+  ListOtaTaskExecutionsRequest & RegionInput,
   ListOtaTaskExecutionsResponse,
   ListOtaTaskExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3748,7 +3749,7 @@ export type ListOtaTasksError =
  * List all of the over-the-air (OTA) tasks.
  */
 export const listOtaTasks: API.PaginatedOperationMethod<
-  ListOtaTasksRequest,
+  ListOtaTasksRequest & RegionInput,
   ListOtaTasksResponse,
   ListOtaTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3788,7 +3789,7 @@ export type ListProvisioningProfilesError =
  * List the provisioning profiles within the Amazon Web Services account.
  */
 export const listProvisioningProfiles: API.PaginatedOperationMethod<
-  ListProvisioningProfilesRequest,
+  ListProvisioningProfilesRequest & RegionInput,
   ListProvisioningProfilesResponse,
   ListProvisioningProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -3829,7 +3830,7 @@ export type ListSchemaVersionsError =
  * Lists schema versions with the provided information.
  */
 export const listSchemaVersions: API.PaginatedOperationMethod<
-  ListSchemaVersionsRequest,
+  ListSchemaVersionsRequest & RegionInput,
   ListSchemaVersionsResponse,
   ListSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3868,7 +3869,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3901,7 +3902,7 @@ export type PutDefaultEncryptionConfigurationError =
  * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
  */
 export const putDefaultEncryptionConfiguration: API.OperationMethod<
-  PutDefaultEncryptionConfigurationRequest,
+  PutDefaultEncryptionConfigurationRequest & RegionInput,
   PutDefaultEncryptionConfigurationResponse,
   PutDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3936,7 +3937,7 @@ export type PutHubConfigurationError =
  * Update a hub configuration.
  */
 export const putHubConfiguration: API.OperationMethod<
-  PutHubConfigurationRequest,
+  PutHubConfigurationRequest & RegionInput,
   PutHubConfigurationResponse,
   PutHubConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3969,7 +3970,7 @@ export type PutRuntimeLogConfigurationError =
  * Set the runtime log configuration for a specific managed thing.
  */
 export const putRuntimeLogConfiguration: API.OperationMethod<
-  PutRuntimeLogConfigurationRequest,
+  PutRuntimeLogConfigurationRequest & RegionInput,
   PutRuntimeLogConfigurationResponse,
   PutRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4002,7 +4003,7 @@ export type RegisterAccountAssociationError =
  * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
  */
 export const registerAccountAssociation: API.OperationMethod<
-  RegisterAccountAssociationRequest,
+  RegisterAccountAssociationRequest & RegionInput,
   RegisterAccountAssociationResponse,
   RegisterAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4037,7 +4038,7 @@ export type RegisterCustomEndpointError =
  * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
  */
 export const registerCustomEndpoint: API.OperationMethod<
-  RegisterCustomEndpointRequest,
+  RegisterCustomEndpointRequest & RegionInput,
   RegisterCustomEndpointResponse,
   RegisterCustomEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4071,7 +4072,7 @@ export type ResetRuntimeLogConfigurationError =
  * Reset a runtime log configuration for a specific managed thing.
  */
 export const resetRuntimeLogConfiguration: API.OperationMethod<
-  ResetRuntimeLogConfigurationRequest,
+  ResetRuntimeLogConfigurationRequest & RegionInput,
   ResetRuntimeLogConfigurationResponse,
   ResetRuntimeLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4104,7 +4105,7 @@ export type SendConnectorEventError =
  * Relays third-party device events for a connector such as a new device or a device state change event.
  */
 export const sendConnectorEvent: API.OperationMethod<
-  SendConnectorEventRequest,
+  SendConnectorEventRequest & RegionInput,
   SendConnectorEventResponse,
   SendConnectorEventError,
   Credentials | HttpClient.HttpClient
@@ -4139,7 +4140,7 @@ export type SendManagedThingCommandError =
  * Send the command to the device represented by the managed thing.
  */
 export const sendManagedThingCommand: API.OperationMethod<
-  SendManagedThingCommandRequest,
+  SendManagedThingCommandRequest & RegionInput,
   SendManagedThingCommandResponse,
   SendManagedThingCommandError,
   Credentials | HttpClient.HttpClient
@@ -4175,7 +4176,7 @@ export type StartAccountAssociationRefreshError =
  * Initiates a refresh of an existing account association to update its authorization and connection status.
  */
 export const startAccountAssociationRefresh: API.OperationMethod<
-  StartAccountAssociationRefreshRequest,
+  StartAccountAssociationRefreshRequest & RegionInput,
   StartAccountAssociationRefreshResponse,
   StartAccountAssociationRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4212,7 +4213,7 @@ export type StartDeviceDiscoveryError =
  * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
  */
 export const startDeviceDiscovery: API.OperationMethod<
-  StartDeviceDiscoveryRequest,
+  StartDeviceDiscoveryRequest & RegionInput,
   StartDeviceDiscoveryResponse,
   StartDeviceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -4247,7 +4248,7 @@ export type TagResourceError =
  * Adds tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4279,7 +4280,7 @@ export type UntagResourceError =
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4314,7 @@ export type UpdateAccountAssociationError =
  * Updates the properties of an existing account association.
  */
 export const updateAccountAssociation: API.OperationMethod<
-  UpdateAccountAssociationRequest,
+  UpdateAccountAssociationRequest & RegionInput,
   UpdateAccountAssociationResponse,
   UpdateAccountAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4348,7 +4349,7 @@ export type UpdateCloudConnectorError =
  * Update an existing cloud connector.
  */
 export const updateCloudConnector: API.OperationMethod<
-  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorRequest & RegionInput,
   UpdateCloudConnectorResponse,
   UpdateCloudConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4382,7 @@ export type UpdateConnectorDestinationError =
  * Updates the properties of an existing connector destination.
  */
 export const updateConnectorDestination: API.OperationMethod<
-  UpdateConnectorDestinationRequest,
+  UpdateConnectorDestinationRequest & RegionInput,
   UpdateConnectorDestinationResponse,
   UpdateConnectorDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type UpdateDestinationError =
  * Update a destination specified by name.
  */
 export const updateDestination: API.OperationMethod<
-  UpdateDestinationRequest,
+  UpdateDestinationRequest & RegionInput,
   UpdateDestinationResponse,
   UpdateDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4445,7 +4446,7 @@ export type UpdateEventLogConfigurationError =
  * Update an event log configuration by log configuration ID.
  */
 export const updateEventLogConfiguration: API.OperationMethod<
-  UpdateEventLogConfigurationRequest,
+  UpdateEventLogConfigurationRequest & RegionInput,
   UpdateEventLogConfigurationResponse,
   UpdateEventLogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4480,7 +4481,7 @@ export type UpdateManagedThingError =
  * Update the attributes and capabilities associated with a managed thing.
  */
 export const updateManagedThing: API.OperationMethod<
-  UpdateManagedThingRequest,
+  UpdateManagedThingRequest & RegionInput,
   UpdateManagedThingResponse,
   UpdateManagedThingError,
   Credentials | HttpClient.HttpClient
@@ -4515,7 +4516,7 @@ export type UpdateNotificationConfigurationError =
  * Update a notification configuration.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationRequest & RegionInput,
   UpdateNotificationConfigurationResponse,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4547,7 +4548,7 @@ export type UpdateOtaTaskError =
  * Update an over-the-air (OTA) task.
  */
 export const updateOtaTask: API.OperationMethod<
-  UpdateOtaTaskRequest,
+  UpdateOtaTaskRequest & RegionInput,
   UpdateOtaTaskResponse,
   UpdateOtaTaskError,
   Credentials | HttpClient.HttpClient

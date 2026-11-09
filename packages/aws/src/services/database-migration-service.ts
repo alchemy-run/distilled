@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2814,7 +2815,7 @@ export type AddTagsToResourceError =
  * description.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type ApplyPendingMaintenanceActionError = ResourceNotFoundFault | CommonE
  * instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionMessage,
+  ApplyPendingMaintenanceActionMessage & RegionInput,
   ApplyPendingMaintenanceActionResponse,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -2867,7 +2868,7 @@ export type BatchStartRecommendationsError =
  * HTTP status code of `200`.
  */
 export const batchStartRecommendations: API.OperationMethod<
-  BatchStartRecommendationsRequest,
+  BatchStartRecommendationsRequest & RegionInput,
   BatchStartRecommendationsResponse,
   BatchStartRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2895,7 +2896,7 @@ export type CancelMetadataModelConversionError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const cancelMetadataModelConversion: API.OperationMethod<
-  CancelMetadataModelConversionMessage,
+  CancelMetadataModelConversionMessage & RegionInput,
   CancelMetadataModelConversionResponse,
   CancelMetadataModelConversionError,
   Credentials | HttpClient.HttpClient
@@ -2923,7 +2924,7 @@ export type CancelMetadataModelCreationError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const cancelMetadataModelCreation: API.OperationMethod<
-  CancelMetadataModelCreationMessage,
+  CancelMetadataModelCreationMessage & RegionInput,
   CancelMetadataModelCreationResponse,
   CancelMetadataModelCreationError,
   Credentials | HttpClient.HttpClient
@@ -2951,7 +2952,7 @@ export type CancelReplicationTaskAssessmentRunError =
  * running.
  */
 export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
-  CancelReplicationTaskAssessmentRunMessage,
+  CancelReplicationTaskAssessmentRunMessage & RegionInput,
   CancelReplicationTaskAssessmentRunResponse,
   CancelReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -2977,7 +2978,7 @@ export type CreateDataMigrationError =
  * Creates a data migration using the provided settings.
  */
 export const createDataMigration: API.OperationMethod<
-  CreateDataMigrationMessage,
+  CreateDataMigrationMessage & RegionInput,
   CreateDataMigrationResponse,
   CreateDataMigrationError,
   Credentials | HttpClient.HttpClient
@@ -3013,7 +3014,7 @@ export type CreateDataProviderError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createDataProvider: API.OperationMethod<
-  CreateDataProviderMessage,
+  CreateDataProviderMessage & RegionInput,
   CreateDataProviderResponse,
   CreateDataProviderError,
   Credentials | HttpClient.HttpClient
@@ -3053,7 +3054,7 @@ export type CreateEndpointError =
  * task.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointMessage,
+  CreateEndpointMessage & RegionInput,
   CreateEndpointResponse,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3107,7 +3108,7 @@ export type CreateEventSubscriptionError =
  * Notifications in the *Database Migration Service User Guide.*
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResponse,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3146,7 +3147,7 @@ export type CreateFleetAdvisorCollectorError =
  * Creates a Fleet Advisor collector using the specified parameters.
  */
 export const createFleetAdvisorCollector: API.OperationMethod<
-  CreateFleetAdvisorCollectorRequest,
+  CreateFleetAdvisorCollectorRequest & RegionInput,
   CreateFleetAdvisorCollectorResponse,
   CreateFleetAdvisorCollectorError,
   Credentials | HttpClient.HttpClient
@@ -3186,7 +3187,7 @@ export type CreateInstanceProfileError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileMessage,
+  CreateInstanceProfileMessage & RegionInput,
   CreateInstanceProfileResponse,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3231,7 +3232,7 @@ export type CreateMigrationProjectError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createMigrationProject: API.OperationMethod<
-  CreateMigrationProjectMessage,
+  CreateMigrationProjectMessage & RegionInput,
   CreateMigrationProjectResponse,
   CreateMigrationProjectError,
   Credentials | HttpClient.HttpClient
@@ -3270,7 +3271,7 @@ export type CreateReplicationConfigError =
  * before you start the replication.
  */
 export const createReplicationConfig: API.OperationMethod<
-  CreateReplicationConfigMessage,
+  CreateReplicationConfigMessage & RegionInput,
   CreateReplicationConfigResponse,
   CreateReplicationConfigError,
   Credentials | HttpClient.HttpClient
@@ -3321,7 +3322,7 @@ export type CreateReplicationInstanceError =
  * engine version, see Release Notes.
  */
 export const createReplicationInstance: API.OperationMethod<
-  CreateReplicationInstanceMessage,
+  CreateReplicationInstanceMessage & RegionInput,
   CreateReplicationInstanceResponse,
   CreateReplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3371,7 +3372,7 @@ export type CreateReplicationSubnetGroupError =
  * DMS console, then choose your subnet group. Next, choose Delete from Actions.
  */
 export const createReplicationSubnetGroup: API.OperationMethod<
-  CreateReplicationSubnetGroupMessage,
+  CreateReplicationSubnetGroupMessage & RegionInput,
   CreateReplicationSubnetGroupResponse,
   CreateReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3405,7 +3406,7 @@ export type CreateReplicationTaskError =
  * Creates a replication task using the specified parameters.
  */
 export const createReplicationTask: API.OperationMethod<
-  CreateReplicationTaskMessage,
+  CreateReplicationTaskMessage & RegionInput,
   CreateReplicationTaskResponse,
   CreateReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -3435,7 +3436,7 @@ export type DeleteCertificateError =
  * Deletes the specified certificate.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateMessage,
+  DeleteCertificateMessage & RegionInput,
   DeleteCertificateResponse,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3459,7 +3460,7 @@ export type DeleteConnectionError =
  * Deletes the connection between a replication instance and an endpoint.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionMessage,
+  DeleteConnectionMessage & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3483,7 +3484,7 @@ export type DeleteDataMigrationError =
  * Deletes the specified data migration.
  */
 export const deleteDataMigration: API.OperationMethod<
-  DeleteDataMigrationMessage,
+  DeleteDataMigrationMessage & RegionInput,
   DeleteDataMigrationResponse,
   DeleteDataMigrationError,
   Credentials | HttpClient.HttpClient
@@ -3515,7 +3516,7 @@ export type DeleteDataProviderError =
  * before you can delete the data provider.
  */
 export const deleteDataProvider: API.OperationMethod<
-  DeleteDataProviderMessage,
+  DeleteDataProviderMessage & RegionInput,
   DeleteDataProviderResponse,
   DeleteDataProviderError,
   Credentials | HttpClient.HttpClient
@@ -3543,7 +3544,7 @@ export type DeleteEndpointError = InvalidResourceStateFault | ResourceNotFoundFa
  * endpoint.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointMessage,
+  DeleteEndpointMessage & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3567,7 +3568,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an DMS event subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResponse,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3593,7 +3594,7 @@ export type DeleteFleetAdvisorCollectorError =
  * Deletes the specified Fleet Advisor collector.
  */
 export const deleteFleetAdvisorCollector: API.OperationMethod<
-  DeleteCollectorRequest,
+  DeleteCollectorRequest & RegionInput,
   DeleteFleetAdvisorCollectorResponse,
   DeleteFleetAdvisorCollectorError,
   Credentials | HttpClient.HttpClient
@@ -3619,7 +3620,7 @@ export type DeleteFleetAdvisorDatabasesError =
  * Deletes the specified Fleet Advisor collector databases.
  */
 export const deleteFleetAdvisorDatabases: API.OperationMethod<
-  DeleteFleetAdvisorDatabasesRequest,
+  DeleteFleetAdvisorDatabasesRequest & RegionInput,
   DeleteFleetAdvisorDatabasesResponse,
   DeleteFleetAdvisorDatabasesError,
   Credentials | HttpClient.HttpClient
@@ -3651,7 +3652,7 @@ export type DeleteInstanceProfileError =
  * modified before you can delete the instance profile.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileMessage,
+  DeleteInstanceProfileMessage & RegionInput,
   DeleteInstanceProfileResponse,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3688,7 @@ export type DeleteMigrationProjectError =
  * The migration project must be closed before you can delete it.
  */
 export const deleteMigrationProject: API.OperationMethod<
-  DeleteMigrationProjectMessage,
+  DeleteMigrationProjectMessage & RegionInput,
   DeleteMigrationProjectResponse,
   DeleteMigrationProjectError,
   Credentials | HttpClient.HttpClient
@@ -3719,7 +3720,7 @@ export type DeleteReplicationConfigError =
  * replication is in a non-RUNNING and non-STARTING state.
  */
 export const deleteReplicationConfig: API.OperationMethod<
-  DeleteReplicationConfigMessage,
+  DeleteReplicationConfigMessage & RegionInput,
   DeleteReplicationConfigResponse,
   DeleteReplicationConfigError,
   Credentials | HttpClient.HttpClient
@@ -3745,7 +3746,7 @@ export type DeleteReplicationInstanceError =
  * before you can delete it.
  */
 export const deleteReplicationInstance: API.OperationMethod<
-  DeleteReplicationInstanceMessage,
+  DeleteReplicationInstanceMessage & RegionInput,
   DeleteReplicationInstanceResponse,
   DeleteReplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3769,7 +3770,7 @@ export type DeleteReplicationSubnetGroupError =
  * Deletes a subnet group.
  */
 export const deleteReplicationSubnetGroup: API.OperationMethod<
-  DeleteReplicationSubnetGroupMessage,
+  DeleteReplicationSubnetGroupMessage & RegionInput,
   DeleteReplicationSubnetGroupResponse,
   DeleteReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3792,7 +3793,7 @@ export type DeleteReplicationTaskError =
  * Deletes the specified replication task.
  */
 export const deleteReplicationTask: API.OperationMethod<
-  DeleteReplicationTaskMessage,
+  DeleteReplicationTaskMessage & RegionInput,
   DeleteReplicationTaskResponse,
   DeleteReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -3820,7 +3821,7 @@ export type DeleteReplicationTaskAssessmentRunError =
  * stored in your Amazon S3 bucket.
  */
 export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
-  DeleteReplicationTaskAssessmentRunMessage,
+  DeleteReplicationTaskAssessmentRunMessage & RegionInput,
   DeleteReplicationTaskAssessmentRunResponse,
   DeleteReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -3847,7 +3848,7 @@ export type DescribeAccountAttributesError = CommonErrors;
  * This command does not take any parameters.
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesMessage,
+  DescribeAccountAttributesMessage & RegionInput,
   DescribeAccountAttributesResponse,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3889,7 +3890,7 @@ export type DescribeApplicableIndividualAssessmentsError =
  * individual assessments that you can specify in an assessment run for the task.
  */
 export const describeApplicableIndividualAssessments: API.PaginatedOperationMethod<
-  DescribeApplicableIndividualAssessmentsMessage,
+  DescribeApplicableIndividualAssessmentsMessage & RegionInput,
   DescribeApplicableIndividualAssessmentsResponse,
   DescribeApplicableIndividualAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3911,7 +3912,7 @@ export type DescribeCertificatesError = ResourceNotFoundFault | CommonErrors;
  * Provides a description of the certificate.
  */
 export const describeCertificates: API.PaginatedOperationMethod<
-  DescribeCertificatesMessage,
+  DescribeCertificatesMessage & RegionInput,
   DescribeCertificatesResponse,
   DescribeCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3934,7 +3935,7 @@ export type DescribeConnectionsError = ResourceNotFoundFault | CommonErrors;
  * instance and an endpoint. Connections are created when you test an endpoint.
  */
 export const describeConnections: API.PaginatedOperationMethod<
-  DescribeConnectionsMessage,
+  DescribeConnectionsMessage & RegionInput,
   DescribeConnectionsResponse,
   DescribeConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3960,7 +3961,7 @@ export type DescribeConversionConfigurationError = ResourceNotFoundFault | Commo
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeConversionConfiguration: API.OperationMethod<
-  DescribeConversionConfigurationMessage,
+  DescribeConversionConfigurationMessage & RegionInput,
   DescribeConversionConfigurationResponse,
   DescribeConversionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3984,7 +3985,7 @@ export type DescribeDataMigrationsError =
  * Returns information about data migrations.
  */
 export const describeDataMigrations: API.PaginatedOperationMethod<
-  DescribeDataMigrationsMessage,
+  DescribeDataMigrationsMessage & RegionInput,
   DescribeDataMigrationsResponse,
   DescribeDataMigrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4020,7 +4021,7 @@ export type DescribeDataProvidersError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeDataProviders: API.PaginatedOperationMethod<
-  DescribeDataProvidersMessage,
+  DescribeDataProvidersMessage & RegionInput,
   DescribeDataProvidersResponse,
   DescribeDataProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -4042,7 +4043,7 @@ export type DescribeEndpointsError = ResourceNotFoundFault | CommonErrors;
  * Returns information about the endpoints for your account in the current region.
  */
 export const describeEndpoints: API.PaginatedOperationMethod<
-  DescribeEndpointsMessage,
+  DescribeEndpointsMessage & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -4065,7 +4066,7 @@ export type DescribeEndpointSettingsError = CommonErrors;
  * endpoint for a specific database engine.
  */
 export const describeEndpointSettings: API.PaginatedOperationMethod<
-  DescribeEndpointSettingsMessage,
+  DescribeEndpointSettingsMessage & RegionInput,
   DescribeEndpointSettingsResponse,
   DescribeEndpointSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -4087,7 +4088,7 @@ export type DescribeEndpointTypesError = CommonErrors;
  * Returns information about the type of endpoints available.
  */
 export const describeEndpointTypes: API.PaginatedOperationMethod<
-  DescribeEndpointTypesMessage,
+  DescribeEndpointTypesMessage & RegionInput,
   DescribeEndpointTypesResponse,
   DescribeEndpointTypesError,
   Credentials | HttpClient.HttpClient,
@@ -4109,7 +4110,7 @@ export type DescribeEngineVersionsError = CommonErrors;
  * Returns information about the replication instance versions used in the project.
  */
 export const describeEngineVersions: API.PaginatedOperationMethod<
-  DescribeEngineVersionsMessage,
+  DescribeEngineVersionsMessage & RegionInput,
   DescribeEngineVersionsResponse,
   DescribeEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4133,7 +4134,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * and Notifications in the *Database Migration Service User Guide.*
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   DescribeEventCategoriesResponse,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -4155,7 +4156,7 @@ export type DescribeEventsError = CommonErrors;
  * Notifications in the *Database Migration Service User Guide.*
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4183,7 +4184,7 @@ export type DescribeEventSubscriptionsError = ResourceNotFoundFault | CommonErro
  * subscription.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   DescribeEventSubscriptionsResponse,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4211,7 +4212,7 @@ export type DescribeExtensionPackAssociationsError = CommonErrors;
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeExtensionPackAssociations: API.PaginatedOperationMethod<
-  DescribeExtensionPackAssociationsMessage,
+  DescribeExtensionPackAssociationsMessage & RegionInput,
   DescribeExtensionPackAssociationsResponse,
   DescribeExtensionPackAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4235,7 +4236,7 @@ export type DescribeFleetAdvisorCollectorsError = InvalidResourceStateFault | Co
  * Returns a list of the Fleet Advisor collectors in your account.
  */
 export const describeFleetAdvisorCollectors: API.PaginatedOperationMethod<
-  DescribeFleetAdvisorCollectorsRequest,
+  DescribeFleetAdvisorCollectorsRequest & RegionInput,
   DescribeFleetAdvisorCollectorsResponse,
   DescribeFleetAdvisorCollectorsError,
   Credentials | HttpClient.HttpClient,
@@ -4263,7 +4264,7 @@ export type DescribeFleetAdvisorDatabasesError = InvalidResourceStateFault | Com
  * Returns a list of Fleet Advisor databases in your account.
  */
 export const describeFleetAdvisorDatabases: API.PaginatedOperationMethod<
-  DescribeFleetAdvisorDatabasesRequest,
+  DescribeFleetAdvisorDatabasesRequest & RegionInput,
   DescribeFleetAdvisorDatabasesResponse,
   DescribeFleetAdvisorDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -4292,7 +4293,7 @@ export type DescribeFleetAdvisorLsaAnalysisError = InvalidResourceStateFault | C
  * Advisor collectors.
  */
 export const describeFleetAdvisorLsaAnalysis: API.PaginatedOperationMethod<
-  DescribeFleetAdvisorLsaAnalysisRequest,
+  DescribeFleetAdvisorLsaAnalysisRequest & RegionInput,
   DescribeFleetAdvisorLsaAnalysisResponse,
   DescribeFleetAdvisorLsaAnalysisError,
   Credentials | HttpClient.HttpClient,
@@ -4321,7 +4322,7 @@ export type DescribeFleetAdvisorSchemaObjectSummaryError = InvalidResourceStateF
  * collectors.
  */
 export const describeFleetAdvisorSchemaObjectSummary: API.PaginatedOperationMethod<
-  DescribeFleetAdvisorSchemaObjectSummaryRequest,
+  DescribeFleetAdvisorSchemaObjectSummaryRequest & RegionInput,
   DescribeFleetAdvisorSchemaObjectSummaryResponse,
   DescribeFleetAdvisorSchemaObjectSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4349,7 +4350,7 @@ export type DescribeFleetAdvisorSchemasError = InvalidResourceStateFault | Commo
  * Returns a list of schemas detected by Fleet Advisor Collectors in your account.
  */
 export const describeFleetAdvisorSchemas: API.PaginatedOperationMethod<
-  DescribeFleetAdvisorSchemasRequest,
+  DescribeFleetAdvisorSchemasRequest & RegionInput,
   DescribeFleetAdvisorSchemasResponse,
   DescribeFleetAdvisorSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -4384,7 +4385,7 @@ export type DescribeInstanceProfilesError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeInstanceProfiles: API.PaginatedOperationMethod<
-  DescribeInstanceProfilesMessage,
+  DescribeInstanceProfilesMessage & RegionInput,
   DescribeInstanceProfilesResponse,
   DescribeInstanceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4410,7 +4411,7 @@ export type DescribeMetadataModelError = AccessDeniedFault | ResourceNotFoundFau
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModel: API.OperationMethod<
-  DescribeMetadataModelMessage,
+  DescribeMetadataModelMessage & RegionInput,
   DescribeMetadataModelResponse,
   DescribeMetadataModelError,
   Credentials | HttpClient.HttpClient
@@ -4436,7 +4437,7 @@ export type DescribeMetadataModelAssessmentsError = ResourceNotFoundFault | Comm
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelAssessments: API.PaginatedOperationMethod<
-  DescribeMetadataModelAssessmentsMessage,
+  DescribeMetadataModelAssessmentsMessage & RegionInput,
   DescribeMetadataModelAssessmentsResponse,
   DescribeMetadataModelAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4465,7 +4466,7 @@ export type DescribeMetadataModelChildrenError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelChildren: API.PaginatedOperationMethod<
-  DescribeMetadataModelChildrenMessage,
+  DescribeMetadataModelChildrenMessage & RegionInput,
   DescribeMetadataModelChildrenResponse,
   DescribeMetadataModelChildrenError,
   Credentials | HttpClient.HttpClient,
@@ -4501,7 +4502,7 @@ export type DescribeMetadataModelConversionsError = ResourceNotFoundFault | Comm
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelConversions: API.PaginatedOperationMethod<
-  DescribeMetadataModelConversionsMessage,
+  DescribeMetadataModelConversionsMessage & RegionInput,
   DescribeMetadataModelConversionsResponse,
   DescribeMetadataModelConversionsError,
   Credentials | HttpClient.HttpClient,
@@ -4535,7 +4536,7 @@ export type DescribeMetadataModelCreationsError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelCreations: API.PaginatedOperationMethod<
-  DescribeMetadataModelCreationsMessage,
+  DescribeMetadataModelCreationsMessage & RegionInput,
   DescribeMetadataModelCreationsResponse,
   DescribeMetadataModelCreationsError,
   Credentials | HttpClient.HttpClient,
@@ -4568,7 +4569,7 @@ export type DescribeMetadataModelExportsAsScriptError = ResourceNotFoundFault | 
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelExportsAsScript: API.PaginatedOperationMethod<
-  DescribeMetadataModelExportsAsScriptMessage,
+  DescribeMetadataModelExportsAsScriptMessage & RegionInput,
   DescribeMetadataModelExportsAsScriptResponse,
   DescribeMetadataModelExportsAsScriptError,
   Credentials | HttpClient.HttpClient,
@@ -4596,7 +4597,7 @@ export type DescribeMetadataModelExportsToTargetError = ResourceNotFoundFault | 
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelExportsToTarget: API.PaginatedOperationMethod<
-  DescribeMetadataModelExportsToTargetMessage,
+  DescribeMetadataModelExportsToTargetMessage & RegionInput,
   DescribeMetadataModelExportsToTargetResponse,
   DescribeMetadataModelExportsToTargetError,
   Credentials | HttpClient.HttpClient,
@@ -4624,7 +4625,7 @@ export type DescribeMetadataModelImportsError = ResourceNotFoundFault | CommonEr
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelImports: API.PaginatedOperationMethod<
-  DescribeMetadataModelImportsMessage,
+  DescribeMetadataModelImportsMessage & RegionInput,
   DescribeMetadataModelImportsResponse,
   DescribeMetadataModelImportsError,
   Credentials | HttpClient.HttpClient,
@@ -4655,7 +4656,7 @@ export type DescribeMigrationProjectsError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMigrationProjects: API.PaginatedOperationMethod<
-  DescribeMigrationProjectsMessage,
+  DescribeMigrationProjectsMessage & RegionInput,
   DescribeMigrationProjectsResponse,
   DescribeMigrationProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -4678,7 +4679,7 @@ export type DescribeOrderableReplicationInstancesError = CommonErrors;
  * specified region.
  */
 export const describeOrderableReplicationInstances: API.PaginatedOperationMethod<
-  DescribeOrderableReplicationInstancesMessage,
+  DescribeOrderableReplicationInstancesMessage & RegionInput,
   DescribeOrderableReplicationInstancesResponse,
   DescribeOrderableReplicationInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4701,7 +4702,7 @@ export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | Com
  * in the current Region.
  */
 export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
-  DescribePendingMaintenanceActionsMessage,
+  DescribePendingMaintenanceActionsMessage & RegionInput,
   DescribePendingMaintenanceActionsResponse,
   DescribePendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4729,7 +4730,7 @@ export type DescribeRecommendationLimitationsError =
  * engines.
  */
 export const describeRecommendationLimitations: API.PaginatedOperationMethod<
-  DescribeRecommendationLimitationsRequest,
+  DescribeRecommendationLimitationsRequest & RegionInput,
   DescribeRecommendationLimitationsResponse,
   DescribeRecommendationLimitationsError,
   Credentials | HttpClient.HttpClient,
@@ -4761,7 +4762,7 @@ export type DescribeRecommendationsError =
  * databases.
  */
 export const describeRecommendations: API.PaginatedOperationMethod<
-  DescribeRecommendationsRequest,
+  DescribeRecommendationsRequest & RegionInput,
   DescribeRecommendationsResponse,
   DescribeRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -4790,7 +4791,7 @@ export type DescribeRefreshSchemasStatusError =
  * Returns the status of the RefreshSchemas operation.
  */
 export const describeRefreshSchemasStatus: API.OperationMethod<
-  DescribeRefreshSchemasStatusMessage,
+  DescribeRefreshSchemasStatusMessage & RegionInput,
   DescribeRefreshSchemasStatusResponse,
   DescribeRefreshSchemasStatusError,
   Credentials | HttpClient.HttpClient
@@ -4811,7 +4812,7 @@ export type DescribeReplicationConfigsError = ResourceNotFoundFault | CommonErro
  * structures.
  */
 export const describeReplicationConfigs: API.PaginatedOperationMethod<
-  DescribeReplicationConfigsMessage,
+  DescribeReplicationConfigsMessage & RegionInput,
   DescribeReplicationConfigsResponse,
   DescribeReplicationConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4834,7 +4835,7 @@ export type DescribeReplicationInstancesError = ResourceNotFoundFault | CommonEr
  * region.
  */
 export const describeReplicationInstances: API.PaginatedOperationMethod<
-  DescribeReplicationInstancesMessage,
+  DescribeReplicationInstancesMessage & RegionInput,
   DescribeReplicationInstancesResponse,
   DescribeReplicationInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4859,7 +4860,7 @@ export type DescribeReplicationInstanceTaskLogsError =
  * Returns information about the task logs for the specified task.
  */
 export const describeReplicationInstanceTaskLogs: API.PaginatedOperationMethod<
-  DescribeReplicationInstanceTaskLogsMessage,
+  DescribeReplicationInstanceTaskLogsMessage & RegionInput,
   DescribeReplicationInstanceTaskLogsResponse,
   DescribeReplicationInstanceTaskLogsError,
   Credentials | HttpClient.HttpClient,
@@ -4882,7 +4883,7 @@ export type DescribeReplicationsError = ResourceNotFoundFault | CommonErrors;
  * provisioned DMS Serverless replications.
  */
 export const describeReplications: API.PaginatedOperationMethod<
-  DescribeReplicationsMessage,
+  DescribeReplicationsMessage & RegionInput,
   DescribeReplicationsResponse,
   DescribeReplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -4904,7 +4905,7 @@ export type DescribeReplicationSubnetGroupsError = ResourceNotFoundFault | Commo
  * Returns information about the replication subnet groups.
  */
 export const describeReplicationSubnetGroups: API.PaginatedOperationMethod<
-  DescribeReplicationSubnetGroupsMessage,
+  DescribeReplicationSubnetGroupsMessage & RegionInput,
   DescribeReplicationSubnetGroupsResponse,
   DescribeReplicationSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4930,7 +4931,7 @@ export type DescribeReplicationTableStatisticsError =
  * given DMS Serverless replication configuration.
  */
 export const describeReplicationTableStatistics: API.PaginatedOperationMethod<
-  DescribeReplicationTableStatisticsMessage,
+  DescribeReplicationTableStatisticsMessage & RegionInput,
   DescribeReplicationTableStatisticsResponse,
   DescribeReplicationTableStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -4956,7 +4957,7 @@ export type DescribeReplicationTaskAssessmentResultsError = ResourceNotFoundFaul
  * report in the *Database Migration Service User Guide*.
  */
 export const describeReplicationTaskAssessmentResults: API.PaginatedOperationMethod<
-  DescribeReplicationTaskAssessmentResultsMessage,
+  DescribeReplicationTaskAssessmentResultsMessage & RegionInput,
   DescribeReplicationTaskAssessmentResultsResponse,
   DescribeReplicationTaskAssessmentResultsError,
   Credentials | HttpClient.HttpClient,
@@ -4986,7 +4987,7 @@ export type DescribeReplicationTaskAssessmentRunsError = ResourceNotFoundFault |
  * operation.
  */
 export const describeReplicationTaskAssessmentRuns: API.PaginatedOperationMethod<
-  DescribeReplicationTaskAssessmentRunsMessage,
+  DescribeReplicationTaskAssessmentRunsMessage & RegionInput,
   DescribeReplicationTaskAssessmentRunsResponse,
   DescribeReplicationTaskAssessmentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -5013,7 +5014,7 @@ export type DescribeReplicationTaskIndividualAssessmentsError =
  * migration tasks, and assessment status values.
  */
 export const describeReplicationTaskIndividualAssessments: API.PaginatedOperationMethod<
-  DescribeReplicationTaskIndividualAssessmentsMessage,
+  DescribeReplicationTaskIndividualAssessmentsMessage & RegionInput,
   DescribeReplicationTaskIndividualAssessmentsResponse,
   DescribeReplicationTaskIndividualAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -5040,7 +5041,7 @@ export type DescribeReplicationTasksError = ResourceNotFoundFault | CommonErrors
  * region.
  */
 export const describeReplicationTasks: API.PaginatedOperationMethod<
-  DescribeReplicationTasksMessage,
+  DescribeReplicationTasksMessage & RegionInput,
   DescribeReplicationTasksResponse,
   DescribeReplicationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -5062,7 +5063,7 @@ export type DescribeSchemasError = InvalidResourceStateFault | ResourceNotFoundF
  * Returns information about the schema for the specified endpoint.
  */
 export const describeSchemas: API.PaginatedOperationMethod<
-  DescribeSchemasMessage,
+  DescribeSchemasMessage & RegionInput,
   DescribeSchemasResponse,
   DescribeSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -5093,7 +5094,7 @@ export type DescribeTableStatisticsError =
  * last update to the table.
  */
 export const describeTableStatistics: API.PaginatedOperationMethod<
-  DescribeTableStatisticsMessage,
+  DescribeTableStatisticsMessage & RegionInput,
   DescribeTableStatisticsResponse,
   DescribeTableStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -5120,7 +5121,7 @@ export type ExportMetadataModelAssessmentError = ResourceNotFoundFault | CommonE
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const exportMetadataModelAssessment: API.OperationMethod<
-  ExportMetadataModelAssessmentMessage,
+  ExportMetadataModelAssessmentMessage & RegionInput,
   ExportMetadataModelAssessmentResponse,
   ExportMetadataModelAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -5148,7 +5149,7 @@ export type GetTargetSelectionRulesError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const getTargetSelectionRules: API.OperationMethod<
-  GetTargetSelectionRulesMessage,
+  GetTargetSelectionRulesMessage & RegionInput,
   GetTargetSelectionRulesResponse,
   GetTargetSelectionRulesError,
   Credentials | HttpClient.HttpClient
@@ -5173,7 +5174,7 @@ export type ImportCertificateError =
  * Uploads the specified certificate.
  */
 export const importCertificate: API.OperationMethod<
-  ImportCertificateMessage,
+  ImportCertificateMessage & RegionInput,
   ImportCertificateResponse,
   ImportCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5205,7 +5206,7 @@ export type ListTagsForResourceError =
  * data type description.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5232,7 +5233,7 @@ export type ModifyConversionConfigurationError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const modifyConversionConfiguration: API.OperationMethod<
-  ModifyConversionConfigurationMessage,
+  ModifyConversionConfigurationMessage & RegionInput,
   ModifyConversionConfigurationResponse,
   ModifyConversionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5256,7 +5257,7 @@ export type ModifyDataMigrationError =
  * Modifies an existing DMS data migration.
  */
 export const modifyDataMigration: API.OperationMethod<
-  ModifyDataMigrationMessage,
+  ModifyDataMigrationMessage & RegionInput,
   ModifyDataMigrationResponse,
   ModifyDataMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5288,7 +5289,7 @@ export type ModifyDataProviderError =
  * it.
  */
 export const modifyDataProvider: API.OperationMethod<
-  ModifyDataProviderMessage,
+  ModifyDataProviderMessage & RegionInput,
   ModifyDataProviderResponse,
   ModifyDataProviderError,
   Credentials | HttpClient.HttpClient
@@ -5326,7 +5327,7 @@ export type ModifyEndpointError =
  * task.
  */
 export const modifyEndpoint: API.OperationMethod<
-  ModifyEndpointMessage,
+  ModifyEndpointMessage & RegionInput,
   ModifyEndpointResponse,
   ModifyEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5363,7 +5364,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing DMS event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResponse,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5409,7 +5410,7 @@ export type ModifyInstanceProfileError =
  * modified before you can modify the instance profile.
  */
 export const modifyInstanceProfile: API.OperationMethod<
-  ModifyInstanceProfileMessage,
+  ModifyInstanceProfileMessage & RegionInput,
   ModifyInstanceProfileResponse,
   ModifyInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5450,7 +5451,7 @@ export type ModifyMigrationProjectError =
  * The migration project must be closed before you can modify it.
  */
 export const modifyMigrationProject: API.OperationMethod<
-  ModifyMigrationProjectMessage,
+  ModifyMigrationProjectMessage & RegionInput,
   ModifyMigrationProjectResponse,
   ModifyMigrationProjectError,
   Credentials | HttpClient.HttpClient
@@ -5492,7 +5493,7 @@ export type ModifyReplicationConfigError =
  * provisioning state that allows you to run this command is FAILED_PROVISION.
  */
 export const modifyReplicationConfig: API.OperationMethod<
-  ModifyReplicationConfigMessage,
+  ModifyReplicationConfigMessage & RegionInput,
   ModifyReplicationConfigResponse,
   ModifyReplicationConfigError,
   Credentials | HttpClient.HttpClient
@@ -5532,7 +5533,7 @@ export type ModifyReplicationInstanceError =
  * Some settings are applied during the maintenance window.
  */
 export const modifyReplicationInstance: API.OperationMethod<
-  ModifyReplicationInstanceMessage,
+  ModifyReplicationInstanceMessage & RegionInput,
   ModifyReplicationInstanceResponse,
   ModifyReplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -5569,7 +5570,7 @@ export type ModifyReplicationSubnetGroupError =
  * Modifies the settings for the specified replication subnet group.
  */
 export const modifyReplicationSubnetGroup: API.OperationMethod<
-  ModifyReplicationSubnetGroupMessage,
+  ModifyReplicationSubnetGroupMessage & RegionInput,
   ModifyReplicationSubnetGroupResponse,
   ModifyReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -5606,7 +5607,7 @@ export type ModifyReplicationTaskError =
  * *Database Migration Service User Guide*.
  */
 export const modifyReplicationTask: API.OperationMethod<
-  ModifyReplicationTaskMessage,
+  ModifyReplicationTaskMessage & RegionInput,
   ModifyReplicationTaskResponse,
   ModifyReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -5639,7 +5640,7 @@ export type MoveReplicationTaskError =
  * be created with the same or later DMS version as the current replication instance.
  */
 export const moveReplicationTask: API.OperationMethod<
-  MoveReplicationTaskMessage,
+  MoveReplicationTaskMessage & RegionInput,
   MoveReplicationTaskResponse,
   MoveReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -5669,7 +5670,7 @@ export type RebootReplicationInstanceError =
  * replication instance becomes available again.
  */
 export const rebootReplicationInstance: API.OperationMethod<
-  RebootReplicationInstanceMessage,
+  RebootReplicationInstanceMessage & RegionInput,
   RebootReplicationInstanceResponse,
   RebootReplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -5696,7 +5697,7 @@ export type RefreshSchemasError =
  * DescribeRefreshSchemasStatus operation.
  */
 export const refreshSchemas: API.OperationMethod<
-  RefreshSchemasMessage,
+  RefreshSchemasMessage & RegionInput,
   RefreshSchemasResponse,
   RefreshSchemasError,
   Credentials | HttpClient.HttpClient
@@ -5728,7 +5729,7 @@ export type ReloadReplicationTablesError =
  * will throw an `InvalidResourceStateFault` exception.
  */
 export const reloadReplicationTables: API.OperationMethod<
-  ReloadReplicationTablesMessage,
+  ReloadReplicationTablesMessage & RegionInput,
   ReloadReplicationTablesResponse,
   ReloadReplicationTablesError,
   Credentials | HttpClient.HttpClient
@@ -5751,7 +5752,7 @@ export type ReloadTablesError = InvalidResourceStateFault | ResourceNotFoundFaul
  * the service will throw an `InvalidResourceStateFault` exception.
  */
 export const reloadTables: API.OperationMethod<
-  ReloadTablesMessage,
+  ReloadTablesMessage & RegionInput,
   ReloadTablesResponse,
   ReloadTablesError,
   Credentials | HttpClient.HttpClient
@@ -5778,7 +5779,7 @@ export type RemoveTagsFromResourceError =
  * description.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -5803,7 +5804,7 @@ export type RunFleetAdvisorLsaAnalysisError =
  * Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
  */
 export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
-  RunFleetAdvisorLsaAnalysisRequest,
+  RunFleetAdvisorLsaAnalysisRequest & RegionInput,
   RunFleetAdvisorLsaAnalysisResponse,
   RunFleetAdvisorLsaAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -5829,7 +5830,7 @@ export type StartDataMigrationError =
  * Starts the specified data migration.
  */
 export const startDataMigration: API.OperationMethod<
-  StartDataMigrationMessage,
+  StartDataMigrationMessage & RegionInput,
   StartDataMigrationResponse,
   StartDataMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5880,7 +5881,7 @@ export type StartExtensionPackAssociationError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startExtensionPackAssociation: API.OperationMethod<
-  StartExtensionPackAssociationMessage,
+  StartExtensionPackAssociationMessage & RegionInput,
   StartExtensionPackAssociationResponse,
   StartExtensionPackAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5937,7 +5938,7 @@ export type StartMetadataModelAssessmentError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelAssessment: API.OperationMethod<
-  StartMetadataModelAssessmentMessage,
+  StartMetadataModelAssessmentMessage & RegionInput,
   StartMetadataModelAssessmentResponse,
   StartMetadataModelAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -6016,7 +6017,7 @@ export type StartMetadataModelConversionError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelConversion: API.OperationMethod<
-  StartMetadataModelConversionMessage,
+  StartMetadataModelConversionMessage & RegionInput,
   StartMetadataModelConversionResponse,
   StartMetadataModelConversionError,
   Credentials | HttpClient.HttpClient
@@ -6079,7 +6080,7 @@ export type StartMetadataModelCreationError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelCreation: API.OperationMethod<
-  StartMetadataModelCreationMessage,
+  StartMetadataModelCreationMessage & RegionInput,
   StartMetadataModelCreationResponse,
   StartMetadataModelCreationError,
   Credentials | HttpClient.HttpClient
@@ -6129,7 +6130,7 @@ export type StartMetadataModelExportAsScriptError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelExportAsScript: API.OperationMethod<
-  StartMetadataModelExportAsScriptMessage,
+  StartMetadataModelExportAsScriptMessage & RegionInput,
   StartMetadataModelExportAsScriptResponse,
   StartMetadataModelExportAsScriptError,
   Credentials | HttpClient.HttpClient
@@ -6189,7 +6190,7 @@ export type StartMetadataModelExportToTargetError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelExportToTarget: API.OperationMethod<
-  StartMetadataModelExportToTargetMessage,
+  StartMetadataModelExportToTargetMessage & RegionInput,
   StartMetadataModelExportToTargetResponse,
   StartMetadataModelExportToTargetError,
   Credentials | HttpClient.HttpClient
@@ -6238,7 +6239,7 @@ export type StartMetadataModelImportError =
  * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelImport: API.OperationMethod<
-  StartMetadataModelImportMessage,
+  StartMetadataModelImportMessage & RegionInput,
   StartMetadataModelImportResponse,
   StartMetadataModelImportError,
   Credentials | HttpClient.HttpClient
@@ -6276,7 +6277,7 @@ export type StartRecommendationsError =
  * You can create recommendations for multiple source databases using BatchStartRecommendations.
  */
 export const startRecommendations: API.OperationMethod<
-  StartRecommendationsRequest,
+  StartRecommendationsRequest & RegionInput,
   StartRecommendationsResponse,
   StartRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -6304,7 +6305,7 @@ export type StartReplicationError =
  * Serverless replication.
  */
 export const startReplication: API.OperationMethod<
-  StartReplicationMessage,
+  StartReplicationMessage & RegionInput,
   StartReplicationResponse,
   StartReplicationError,
   Credentials | HttpClient.HttpClient
@@ -6331,7 +6332,7 @@ export type StartReplicationTaskError =
  * *Database Migration Service User Guide.*
  */
 export const startReplicationTask: API.OperationMethod<
-  StartReplicationTaskMessage,
+  StartReplicationTaskMessage & RegionInput,
   StartReplicationTaskResponse,
   StartReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -6367,7 +6368,7 @@ export type StartReplicationTaskAssessmentError =
  * Guide.
  */
 export const startReplicationTaskAssessment: API.OperationMethod<
-  StartReplicationTaskAssessmentMessage,
+  StartReplicationTaskAssessmentMessage & RegionInput,
   StartReplicationTaskAssessmentResponse,
   StartReplicationTaskAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -6407,7 +6408,7 @@ export type StartReplicationTaskAssessmentRunError =
  * run and its individual assessments complete.
  */
 export const startReplicationTaskAssessmentRun: API.OperationMethod<
-  StartReplicationTaskAssessmentRunMessage,
+  StartReplicationTaskAssessmentRunMessage & RegionInput,
   StartReplicationTaskAssessmentRunResponse,
   StartReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -6444,7 +6445,7 @@ export type StopDataMigrationError =
  * Stops the specified data migration.
  */
 export const stopDataMigration: API.OperationMethod<
-  StopDataMigrationMessage,
+  StopDataMigrationMessage & RegionInput,
   StopDataMigrationResponse,
   StopDataMigrationError,
   Credentials | HttpClient.HttpClient
@@ -6470,7 +6471,7 @@ export type StopReplicationError =
  * replications.
  */
 export const stopReplication: API.OperationMethod<
-  StopReplicationMessage,
+  StopReplicationMessage & RegionInput,
   StopReplicationResponse,
   StopReplicationError,
   Credentials | HttpClient.HttpClient
@@ -6493,7 +6494,7 @@ export type StopReplicationTaskError =
  * Stops the replication task.
  */
 export const stopReplicationTask: API.OperationMethod<
-  StopReplicationTaskMessage,
+  StopReplicationTaskMessage & RegionInput,
   StopReplicationTaskResponse,
   StopReplicationTaskError,
   Credentials | HttpClient.HttpClient
@@ -6519,7 +6520,7 @@ export type TestConnectionError =
  * Tests the connection between the replication instance and the endpoint.
  */
 export const testConnection: API.OperationMethod<
-  TestConnectionMessage,
+  TestConnectionMessage & RegionInput,
   TestConnectionResponse,
   TestConnectionError,
   Credentials | HttpClient.HttpClient
@@ -6559,7 +6560,7 @@ export type UpdateSubscriptionsToEventBridgeError =
  * *Amazon Web Services Database Migration Service User Guide*.
  */
 export const updateSubscriptionsToEventBridge: API.OperationMethod<
-  UpdateSubscriptionsToEventBridgeMessage,
+  UpdateSubscriptionsToEventBridgeMessage & RegionInput,
   UpdateSubscriptionsToEventBridgeResponse,
   UpdateSubscriptionsToEventBridgeError,
   Credentials | HttpClient.HttpClient

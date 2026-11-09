@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1526,7 +1527,7 @@ export type AssociateVehicleFleetError =
  * Adds, or associates, a vehicle with a fleet.
  */
 export const associateVehicleFleet: API.OperationMethod<
-  AssociateVehicleFleetRequest,
+  AssociateVehicleFleetRequest & RegionInput,
   AssociateVehicleFleetResponse,
   AssociateVehicleFleetError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type BatchCreateVehicleError =
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const batchCreateVehicle: API.OperationMethod<
-  BatchCreateVehicleRequest,
+  BatchCreateVehicleRequest & RegionInput,
   BatchCreateVehicleResponse,
   BatchCreateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1603,7 +1604,7 @@ export type BatchUpdateVehicleError =
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const batchUpdateVehicle: API.OperationMethod<
-  BatchUpdateVehicleRequest,
+  BatchUpdateVehicleRequest & RegionInput,
   BatchUpdateVehicleResponse,
   BatchUpdateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type CreateCampaignError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1688,7 +1689,7 @@ export type CreateDecoderManifestError =
  * - The signal decoders are specified in the model manifest.
  */
 export const createDecoderManifest: API.OperationMethod<
-  CreateDecoderManifestRequest,
+  CreateDecoderManifestRequest & RegionInput,
   CreateDecoderManifestResponse,
   CreateDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type CreateFleetError =
  * *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResponse,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1770,7 @@ export type CreateModelManifestError =
  * in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createModelManifest: API.OperationMethod<
-  CreateModelManifestRequest,
+  CreateModelManifestRequest & RegionInput,
   CreateModelManifestResponse,
   CreateModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type CreateSignalCatalogError =
  * models.
  */
 export const createSignalCatalog: API.OperationMethod<
-  CreateSignalCatalogRequest,
+  CreateSignalCatalogRequest & RegionInput,
   CreateSignalCatalogResponse,
   CreateSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1845,7 +1846,7 @@ export type CreateStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createStateTemplate: API.OperationMethod<
-  CreateStateTemplateRequest,
+  CreateStateTemplateRequest & RegionInput,
   CreateStateTemplateResponse,
   CreateStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1890,7 +1891,7 @@ export type CreateVehicleError =
  * (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createVehicle: API.OperationMethod<
-  CreateVehicleRequest,
+  CreateVehicleRequest & RegionInput,
   CreateVehicleResponse,
   CreateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1924,7 +1925,7 @@ export type DeleteCampaignError =
  * and removes it from any vehicles.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1956,7 +1957,7 @@ export type DeleteDecoderManifestError =
  * associated with it.
  */
 export const deleteDecoderManifest: API.OperationMethod<
-  DeleteDecoderManifestRequest,
+  DeleteDecoderManifestRequest & RegionInput,
   DeleteDecoderManifestResponse,
   DeleteDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -1989,7 +1990,7 @@ export type DeleteFleetError =
  * CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type DeleteModelManifestError =
  * Deletes a vehicle model (model manifest).
  */
 export const deleteModelManifest: API.OperationMethod<
-  DeleteModelManifestRequest,
+  DeleteModelManifestRequest & RegionInput,
   DeleteModelManifestResponse,
   DeleteModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -2052,7 +2053,7 @@ export type DeleteSignalCatalogError =
  * Deletes a signal catalog.
  */
 export const deleteSignalCatalog: API.OperationMethod<
-  DeleteSignalCatalogRequest,
+  DeleteSignalCatalogRequest & RegionInput,
   DeleteSignalCatalogResponse,
   DeleteSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2084,7 @@ export type DeleteStateTemplateError =
  * Deletes a state template.
  */
 export const deleteStateTemplate: API.OperationMethod<
-  DeleteStateTemplateRequest,
+  DeleteStateTemplateRequest & RegionInput,
   DeleteStateTemplateResponse,
   DeleteStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2113,7 +2114,7 @@ export type DeleteVehicleError =
  * Deletes a vehicle and removes it from any campaigns.
  */
 export const deleteVehicle: API.OperationMethod<
-  DeleteVehicleRequest,
+  DeleteVehicleRequest & RegionInput,
   DeleteVehicleResponse,
   DeleteVehicleError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2146,7 @@ export type DisassociateVehicleFleetError =
  * fleet doesn't delete the vehicle.
  */
 export const disassociateVehicleFleet: API.OperationMethod<
-  DisassociateVehicleFleetRequest,
+  DisassociateVehicleFleetRequest & RegionInput,
   DisassociateVehicleFleetResponse,
   DisassociateVehicleFleetError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type GetCampaignError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const getCampaign: API.OperationMethod<
-  GetCampaignRequest,
+  GetCampaignRequest & RegionInput,
   GetCampaignResponse,
   GetCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type GetDecoderManifestError =
  * Retrieves information about a created decoder manifest.
  */
 export const getDecoderManifest: API.OperationMethod<
-  GetDecoderManifestRequest,
+  GetDecoderManifestRequest & RegionInput,
   GetDecoderManifestResponse,
   GetDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -2239,7 +2240,7 @@ export type GetEncryptionConfigurationError =
  * Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
  */
 export const getEncryptionConfiguration: API.OperationMethod<
-  GetEncryptionConfigurationRequest,
+  GetEncryptionConfigurationRequest & RegionInput,
   GetEncryptionConfigurationResponse,
   GetEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type GetFleetError =
  * Retrieves information about a fleet.
  */
 export const getFleet: API.OperationMethod<
-  GetFleetRequest,
+  GetFleetRequest & RegionInput,
   GetFleetResponse,
   GetFleetError,
   Credentials | HttpClient.HttpClient
@@ -2297,7 +2298,7 @@ export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException
  * Retrieves the logging options.
  */
 export const getLoggingOptions: API.OperationMethod<
-  GetLoggingOptionsRequest,
+  GetLoggingOptionsRequest & RegionInput,
   GetLoggingOptionsResponse,
   GetLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type GetModelManifestError =
  * Retrieves information about a vehicle model (model manifest).
  */
 export const getModelManifest: API.OperationMethod<
-  GetModelManifestRequest,
+  GetModelManifestRequest & RegionInput,
   GetModelManifestResponse,
   GetModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -2359,7 +2360,7 @@ export type GetRegisterAccountStatusError =
  * This API operation doesn't require input parameters.
  */
 export const getRegisterAccountStatus: API.OperationMethod<
-  GetRegisterAccountStatusRequest,
+  GetRegisterAccountStatusRequest & RegionInput,
   GetRegisterAccountStatusResponse,
   GetRegisterAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -2390,7 +2391,7 @@ export type GetSignalCatalogError =
  * Retrieves information about a signal catalog.
  */
 export const getSignalCatalog: API.OperationMethod<
-  GetSignalCatalogRequest,
+  GetSignalCatalogRequest & RegionInput,
   GetSignalCatalogResponse,
   GetSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2423,7 +2424,7 @@ export type GetStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const getStateTemplate: API.OperationMethod<
-  GetStateTemplateRequest,
+  GetStateTemplateRequest & RegionInput,
   GetStateTemplateResponse,
   GetStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2455,7 +2456,7 @@ export type GetVehicleError =
  * Retrieves information about a vehicle.
  */
 export const getVehicle: API.OperationMethod<
-  GetVehicleRequest,
+  GetVehicleRequest & RegionInput,
   GetVehicleResponse,
   GetVehicleError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2488,7 @@ export type GetVehicleStatusError =
  * associated with a vehicle.
  */
 export const getVehicleStatus: API.PaginatedOperationMethod<
-  GetVehicleStatusRequest,
+  GetVehicleStatusRequest & RegionInput,
   GetVehicleStatusResponse,
   GetVehicleStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2529,7 +2530,7 @@ export type ImportDecoderManifestError =
  * The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
  */
 export const importDecoderManifest: API.OperationMethod<
-  ImportDecoderManifestRequest,
+  ImportDecoderManifestRequest & RegionInput,
   ImportDecoderManifestResponse,
   ImportDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -2567,7 +2568,7 @@ export type ImportSignalCatalogError =
  * device.
  */
 export const importSignalCatalog: API.OperationMethod<
-  ImportSignalCatalogRequest,
+  ImportSignalCatalogRequest & RegionInput,
   ImportSignalCatalogResponse,
   ImportSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2602,7 +2603,7 @@ export type ListCampaignsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -2637,7 +2638,7 @@ export type ListDecoderManifestNetworkInterfacesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifestNetworkInterfaces: API.PaginatedOperationMethod<
-  ListDecoderManifestNetworkInterfacesRequest,
+  ListDecoderManifestNetworkInterfacesRequest & RegionInput,
   ListDecoderManifestNetworkInterfacesResponse,
   ListDecoderManifestNetworkInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -2677,7 +2678,7 @@ export type ListDecoderManifestsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifests: API.PaginatedOperationMethod<
-  ListDecoderManifestsRequest,
+  ListDecoderManifestsRequest & RegionInput,
   ListDecoderManifestsResponse,
   ListDecoderManifestsError,
   Credentials | HttpClient.HttpClient,
@@ -2717,7 +2718,7 @@ export type ListDecoderManifestSignalsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifestSignals: API.PaginatedOperationMethod<
-  ListDecoderManifestSignalsRequest,
+  ListDecoderManifestSignalsRequest & RegionInput,
   ListDecoderManifestSignalsResponse,
   ListDecoderManifestSignalsError,
   Credentials | HttpClient.HttpClient,
@@ -2758,7 +2759,7 @@ export type ListFleetsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsRequest,
+  ListFleetsRequest & RegionInput,
   ListFleetsResponse,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -2799,7 +2800,7 @@ export type ListFleetsForVehicleError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listFleetsForVehicle: API.PaginatedOperationMethod<
-  ListFleetsForVehicleRequest,
+  ListFleetsForVehicleRequest & RegionInput,
   ListFleetsForVehicleResponse,
   ListFleetsForVehicleError,
   Credentials | HttpClient.HttpClient,
@@ -2841,7 +2842,7 @@ export type ListModelManifestNodesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listModelManifestNodes: API.PaginatedOperationMethod<
-  ListModelManifestNodesRequest,
+  ListModelManifestNodesRequest & RegionInput,
   ListModelManifestNodesResponse,
   ListModelManifestNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2882,7 +2883,7 @@ export type ListModelManifestsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listModelManifests: API.PaginatedOperationMethod<
-  ListModelManifestsRequest,
+  ListModelManifestsRequest & RegionInput,
   ListModelManifestsResponse,
   ListModelManifestsError,
   Credentials | HttpClient.HttpClient,
@@ -2923,7 +2924,7 @@ export type ListSignalCatalogNodesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listSignalCatalogNodes: API.PaginatedOperationMethod<
-  ListSignalCatalogNodesRequest,
+  ListSignalCatalogNodesRequest & RegionInput,
   ListSignalCatalogNodesResponse,
   ListSignalCatalogNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2967,7 +2968,7 @@ export type ListSignalCatalogsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listSignalCatalogs: API.PaginatedOperationMethod<
-  ListSignalCatalogsRequest,
+  ListSignalCatalogsRequest & RegionInput,
   ListSignalCatalogsResponse,
   ListSignalCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -3006,7 +3007,7 @@ export type ListStateTemplatesError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const listStateTemplates: API.PaginatedOperationMethod<
-  ListStateTemplatesRequest,
+  ListStateTemplatesRequest & RegionInput,
   ListStateTemplatesResponse,
   ListStateTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3044,7 +3045,7 @@ export type ListTagsForResourceError =
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3078,7 @@ export type ListVehiclesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listVehicles: API.PaginatedOperationMethod<
-  ListVehiclesRequest,
+  ListVehiclesRequest & RegionInput,
   ListVehiclesResponse,
   ListVehiclesError,
   Credentials | HttpClient.HttpClient,
@@ -3117,7 +3118,7 @@ export type ListVehiclesInFleetError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listVehiclesInFleet: API.PaginatedOperationMethod<
-  ListVehiclesInFleetRequest,
+  ListVehiclesInFleetRequest & RegionInput,
   ListVehiclesInFleetResponse,
   ListVehiclesInFleetError,
   Credentials | HttpClient.HttpClient,
@@ -3160,7 +3161,7 @@ export type PutEncryptionConfigurationError =
  * encryption in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const putEncryptionConfiguration: API.OperationMethod<
-  PutEncryptionConfigurationRequest,
+  PutEncryptionConfigurationRequest & RegionInput,
   PutEncryptionConfigurationResponse,
   PutEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3193,7 +3194,7 @@ export type PutLoggingOptionsError =
  * Creates or updates the logging option.
  */
 export const putLoggingOptions: API.OperationMethod<
-  PutLoggingOptionsRequest,
+  PutLoggingOptionsRequest & RegionInput,
   PutLoggingOptionsResponse,
   PutLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -3248,7 +3249,7 @@ export type RegisterAccountError =
  * contain many users and roles.
  */
 export const registerAccount: API.OperationMethod<
-  RegisterAccountRequest,
+  RegisterAccountRequest & RegionInput,
   RegisterAccountResponse,
   RegisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -3282,7 +3283,7 @@ export type TagResourceError =
  * used to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3314,7 +3315,7 @@ export type UntagResourceError =
  * Removes the given tags (metadata) from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3346,7 +3347,7 @@ export type UpdateCampaignError =
  * Updates a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -3383,7 +3384,7 @@ export type UpdateDecoderManifestError =
  * `ACTIVE` decoder manifests can be associated with vehicles.
  */
 export const updateDecoderManifest: API.OperationMethod<
-  UpdateDecoderManifestRequest,
+  UpdateDecoderManifestRequest & RegionInput,
   UpdateDecoderManifestResponse,
   UpdateDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -3418,7 +3419,7 @@ export type UpdateFleetError =
  * Updates the description of an existing fleet.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResponse,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3454,7 +3455,7 @@ export type UpdateModelManifestError =
  * vehicle model, it can't be updated.
  */
 export const updateModelManifest: API.OperationMethod<
-  UpdateModelManifestRequest,
+  UpdateModelManifestRequest & RegionInput,
   UpdateModelManifestResponse,
   UpdateModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -3492,7 +3493,7 @@ export type UpdateSignalCatalogError =
  * Updates a signal catalog.
  */
 export const updateSignalCatalog: API.OperationMethod<
-  UpdateSignalCatalogRequest,
+  UpdateSignalCatalogRequest & RegionInput,
   UpdateSignalCatalogResponse,
   UpdateSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -3532,7 +3533,7 @@ export type UpdateStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const updateStateTemplate: API.OperationMethod<
-  UpdateStateTemplateRequest,
+  UpdateStateTemplateRequest & RegionInput,
   UpdateStateTemplateResponse,
   UpdateStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3570,7 +3571,7 @@ export type UpdateVehicleError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const updateVehicle: API.OperationMethod<
-  UpdateVehicleRequest,
+  UpdateVehicleRequest & RegionInput,
   UpdateVehicleResponse,
   UpdateVehicleError,
   Credentials | HttpClient.HttpClient

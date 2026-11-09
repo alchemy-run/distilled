@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -441,7 +442,7 @@ export type CancelParticipantAuthenticationError =
  * authentication.
  */
 export const cancelParticipantAuthentication: API.OperationMethod<
-  CancelParticipantAuthenticationRequest,
+  CancelParticipantAuthenticationRequest & RegionInput,
   CancelParticipantAuthenticationResponse,
   CancelParticipantAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -483,7 +484,7 @@ export type CompleteAttachmentUploadError =
  * authentication.
  */
 export const completeAttachmentUpload: API.OperationMethod<
-  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadRequest & RegionInput,
   CompleteAttachmentUploadResponse,
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type CreateParticipantConnectionError =
  * authentication.
  */
 export const createParticipantConnection: API.OperationMethod<
-  CreateParticipantConnectionRequest,
+  CreateParticipantConnectionRequest & RegionInput,
   CreateParticipantConnectionResponse,
   CreateParticipantConnectionError,
   Credentials | HttpClient.HttpClient
@@ -611,7 +612,7 @@ export type DescribeViewError =
  * For security recommendations, see Connect Customer Chat security best practices.
  */
 export const describeView: API.OperationMethod<
-  DescribeViewRequest,
+  DescribeViewRequest & RegionInput,
   DescribeViewResponse,
   DescribeViewError,
   Credentials | HttpClient.HttpClient
@@ -650,7 +651,7 @@ export type DisconnectParticipantError =
  * authentication.
  */
 export const disconnectParticipant: API.OperationMethod<
-  DisconnectParticipantRequest,
+  DisconnectParticipantRequest & RegionInput,
   DisconnectParticipantResponse,
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
@@ -694,7 +695,7 @@ export type GetAttachmentError =
  * authentication.
  */
 export const getAttachment: API.OperationMethod<
-  GetAttachmentRequest,
+  GetAttachmentRequest & RegionInput,
   GetAttachmentResponse,
   GetAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -739,7 +740,7 @@ export type GetAuthenticationUrlError =
  * authentication.
  */
 export const getAuthenticationUrl: API.OperationMethod<
-  GetAuthenticationUrlRequest,
+  GetAuthenticationUrlRequest & RegionInput,
   GetAuthenticationUrlResponse,
   GetAuthenticationUrlError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type GetTranscriptError =
  * authentication.
  */
 export const getTranscript: API.PaginatedOperationMethod<
-  GetTranscriptRequest,
+  GetTranscriptRequest & RegionInput,
   GetTranscriptResponse,
   GetTranscriptError,
   Credentials | HttpClient.HttpClient,
@@ -847,7 +848,7 @@ export type SendEventError =
  * authentication.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -886,7 +887,7 @@ export type SendMessageError =
  * authentication.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +927,7 @@ export type StartAttachmentUploadError =
  * authentication.
  */
 export const startAttachmentUpload: API.OperationMethod<
-  StartAttachmentUploadRequest,
+  StartAttachmentUploadRequest & RegionInput,
   StartAttachmentUploadResponse,
   StartAttachmentUploadError,
   Credentials | HttpClient.HttpClient

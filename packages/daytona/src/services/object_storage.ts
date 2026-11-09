@@ -25,6 +25,8 @@ const TELEMETRY = {
 } as const;
 
 export interface GetPushAccessRequest {
+  /** Region the build context will be used in. When that region has its own build-context bucket, the returned credentials target it; otherwise they target the Daytona-hosted bucket. */
+  regionId?: string;
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string;
 }
@@ -67,6 +69,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          regionId: S.optional(S.String.pipe(T.Query())),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
         }).pipe(T.Http({ method: "GET", uri: "/object-storage/push-access", code: 200 })),
       ).annotate({ identifier: "GetPushAccessRequest" });

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -532,7 +533,7 @@ export type AssociateRepositoryError =
  * CodeGuru Reviewer in the *CodeGuru Reviewer User Guide.*
  */
 export const associateRepository: API.OperationMethod<
-  AssociateRepositoryRequest,
+  AssociateRepositoryRequest & RegionInput,
   AssociateRepositoryResponse,
   AssociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type CreateCodeReviewError =
  * automatically triggered by a pull request.
  */
 export const createCodeReview: API.OperationMethod<
-  CreateCodeReviewRequest,
+  CreateCodeReviewRequest & RegionInput,
   CreateCodeReviewResponse,
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +602,7 @@ export type DescribeCodeReviewError =
  * Returns the metadata associated with the code review along with its status.
  */
 export const describeCodeReview: API.OperationMethod<
-  DescribeCodeReviewRequest,
+  DescribeCodeReviewRequest & RegionInput,
   DescribeCodeReviewResponse,
   DescribeCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type DescribeRecommendationFeedbackError =
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
 export const describeRecommendationFeedback: API.OperationMethod<
-  DescribeRecommendationFeedbackRequest,
+  DescribeRecommendationFeedbackRequest & RegionInput,
   DescribeRecommendationFeedbackResponse,
   DescribeRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -666,7 +667,7 @@ export type DescribeRepositoryAssociationError =
  * repository association.
  */
 export const describeRepositoryAssociation: API.OperationMethod<
-  DescribeRepositoryAssociationRequest,
+  DescribeRepositoryAssociationRequest & RegionInput,
   DescribeRepositoryAssociationResponse,
   DescribeRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -699,7 +700,7 @@ export type DisassociateRepositoryError =
  * Removes the association between Amazon CodeGuru Reviewer and a repository.
  */
 export const disassociateRepository: API.OperationMethod<
-  DisassociateRepositoryRequest,
+  DisassociateRepositoryRequest & RegionInput,
   DisassociateRepositoryResponse,
   DisassociateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -731,7 +732,7 @@ export type ListCodeReviewsError =
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
 export const listCodeReviews: API.PaginatedOperationMethod<
-  ListCodeReviewsRequest,
+  ListCodeReviewsRequest & RegionInput,
   ListCodeReviewsResponse,
   ListCodeReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -769,7 +770,7 @@ export type ListRecommendationFeedbackError =
  * feedback for all CodeGuru Reviewer users.
  */
 export const listRecommendationFeedback: API.PaginatedOperationMethod<
-  ListRecommendationFeedbackRequest,
+  ListRecommendationFeedbackRequest & RegionInput,
   ListRecommendationFeedbackResponse,
   ListRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient,
@@ -807,7 +808,7 @@ export type ListRecommendationsError =
  * Returns the list of all recommendations for a completed code review.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -844,7 +845,7 @@ export type ListRepositoryAssociationsError =
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
  */
 export const listRepositoryAssociations: API.PaginatedOperationMethod<
-  ListRepositoryAssociationsRequest,
+  ListRepositoryAssociationsRequest & RegionInput,
   ListRepositoryAssociationsResponse,
   ListRepositoryAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -875,7 +876,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags associated with an associated repository resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type PutRecommendationFeedbackError =
  * different reactions the previous feedback is overwritten.
  */
 export const putRecommendationFeedback: API.OperationMethod<
-  PutRecommendationFeedbackRequest,
+  PutRecommendationFeedbackRequest & RegionInput,
   PutRecommendationFeedbackResponse,
   PutRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type TagResourceError =
  * Adds one or more tags to an associated repository.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type UntagResourceError =
  * Removes a tag from an associated repository.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

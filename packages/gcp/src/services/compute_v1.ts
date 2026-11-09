@@ -38580,7 +38580,13 @@ export const deleteFirewallPolicies: API.OperationMethod<
   span: "DeleteFirewallPolicies",
 }));
 
-export type DeleteFirewallsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+export type DeleteFirewallsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | ResourceNotReady
+  | GcpOpError;
 /** Deletes the specified firewall. */
 export const deleteFirewalls: API.OperationMethod<
   DeleteFirewallsRequest,
@@ -38590,7 +38596,7 @@ export const deleteFirewalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeleteFirewallsRequest>,
   output: __S(38641, __c1207, 17) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ResourceNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

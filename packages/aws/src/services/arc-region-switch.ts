@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1414,7 +1415,7 @@ export type ApprovePlanExecutionStepError =
  * You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
  */
 export const approvePlanExecutionStep: API.OperationMethod<
-  ApprovePlanExecutionStepRequest,
+  ApprovePlanExecutionStepRequest & RegionInput,
   ApprovePlanExecutionStepResponse,
   ApprovePlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type CancelPlanExecutionError =
  * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
  */
 export const cancelPlanExecution: API.OperationMethod<
-  CancelPlanExecutionRequest,
+  CancelPlanExecutionRequest & RegionInput,
   CancelPlanExecutionResponse,
   CancelPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1461,7 +1462,7 @@ export type CreatePlanError = CommonErrors;
  * You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
  */
 export const createPlan: API.OperationMethod<
-  CreatePlanRequest,
+  CreatePlanRequest & RegionInput,
   CreatePlanResponse,
   CreatePlanError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type DeletePlanError = IllegalStateException | ResourceNotFoundException 
  * You cannot delete a plan that has an active execution in progress.
  */
 export const deletePlan: API.OperationMethod<
-  DeletePlanRequest,
+  DeletePlanRequest & RegionInput,
   DeletePlanResponse,
   DeletePlanError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetPlanError = ResourceNotFoundException | CommonErrors;
  * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
  */
 export const getPlan: API.OperationMethod<
-  GetPlanRequest,
+  GetPlanRequest & RegionInput,
   GetPlanResponse,
   GetPlanError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type GetPlanEvaluationStatusError =
  * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
  */
 export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
-  GetPlanEvaluationStatusRequest,
+  GetPlanEvaluationStatusRequest & RegionInput,
   GetPlanEvaluationStatusResponse,
   GetPlanEvaluationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1556,7 +1557,7 @@ export type GetPlanExecutionError =
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
 export const getPlanExecution: API.PaginatedOperationMethod<
-  GetPlanExecutionRequest,
+  GetPlanExecutionRequest & RegionInput,
   GetPlanExecutionResponse,
   GetPlanExecutionError,
   Credentials | HttpClient.HttpClient,
@@ -1583,7 +1584,7 @@ export type GetPlanInRegionError = AccessDeniedException | ResourceNotFoundExcep
  * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
  */
 export const getPlanInRegion: API.OperationMethod<
-  GetPlanInRegionRequest,
+  GetPlanInRegionRequest & RegionInput,
   GetPlanInRegionResponse,
   GetPlanInRegionError,
   Credentials | HttpClient.HttpClient
@@ -1606,7 +1607,7 @@ export type ListPlanExecutionEventsError =
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
 export const listPlanExecutionEvents: API.PaginatedOperationMethod<
-  ListPlanExecutionEventsRequest,
+  ListPlanExecutionEventsRequest & RegionInput,
   ListPlanExecutionEventsResponse,
   ListPlanExecutionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1636,7 +1637,7 @@ export type ListPlanExecutionsError =
  * Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
  */
 export const listPlanExecutions: API.PaginatedOperationMethod<
-  ListPlanExecutionsRequest,
+  ListPlanExecutionsRequest & RegionInput,
   ListPlanExecutionsResponse,
   ListPlanExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1663,7 +1664,7 @@ export type ListPlansError = CommonErrors;
  * Lists all Region switch plans in your Amazon Web Services account.
  */
 export const listPlans: API.PaginatedOperationMethod<
-  ListPlansRequest,
+  ListPlansRequest & RegionInput,
   ListPlansResponse,
   ListPlansError,
   Credentials | HttpClient.HttpClient,
@@ -1690,7 +1691,7 @@ export type ListPlansInRegionError = AccessDeniedException | CommonErrors;
  * Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
  */
 export const listPlansInRegion: API.PaginatedOperationMethod<
-  ListPlansInRegionRequest,
+  ListPlansInRegionRequest & RegionInput,
   ListPlansInRegionResponse,
   ListPlansInRegionError,
   Credentials | HttpClient.HttpClient,
@@ -1722,7 +1723,7 @@ export type ListRoute53HealthChecksError =
  * List the Amazon Route 53 health checks.
  */
 export const listRoute53HealthChecks: API.PaginatedOperationMethod<
-  ListRoute53HealthChecksRequest,
+  ListRoute53HealthChecksRequest & RegionInput,
   ListRoute53HealthChecksResponse,
   ListRoute53HealthChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1759,7 +1760,7 @@ export type ListRoute53HealthChecksInRegionError =
  * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
  */
 export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
-  ListRoute53HealthChecksInRegionRequest,
+  ListRoute53HealthChecksInRegionRequest & RegionInput,
   ListRoute53HealthChecksInRegionResponse,
   ListRoute53HealthChecksInRegionError,
   Credentials | HttpClient.HttpClient,
@@ -1796,7 +1797,7 @@ export type ListServiceQuotaWarningsError =
  * Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
  */
 export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
-  ListServiceQuotaWarningsRequest,
+  ListServiceQuotaWarningsRequest & RegionInput,
   ListServiceQuotaWarningsResponse,
   ListServiceQuotaWarningsError,
   Credentials | HttpClient.HttpClient,
@@ -1826,7 +1827,7 @@ export type ListTagsForResourceError =
  * Lists the tags attached to a Region switch resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1854,7 +1855,7 @@ export type StartPlanExecutionError =
  * Specifing `ungraceful` mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
  */
 export const startPlanExecution: API.OperationMethod<
-  StartPlanExecutionRequest,
+  StartPlanExecutionRequest & RegionInput,
   StartPlanExecutionResponse,
   StartPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1880,7 +1881,7 @@ export type TagResourceError = InternalServerException | ResourceNotFoundExcepti
  * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Removes tags from a Region switch resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1920,7 +1921,7 @@ export type UpdatePlanError = ResourceNotFoundException | CommonErrors;
  * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
  */
 export const updatePlan: API.OperationMethod<
-  UpdatePlanRequest,
+  UpdatePlanRequest & RegionInput,
   UpdatePlanResponse,
   UpdatePlanError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type UpdatePlanExecutionError =
  * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
  */
 export const updatePlanExecution: API.OperationMethod<
-  UpdatePlanExecutionRequest,
+  UpdatePlanExecutionRequest & RegionInput,
   UpdatePlanExecutionResponse,
   UpdatePlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1968,7 @@ export type UpdatePlanExecutionStepError =
  * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
  */
 export const updatePlanExecutionStep: API.OperationMethod<
-  UpdatePlanExecutionStepRequest,
+  UpdatePlanExecutionStepRequest & RegionInput,
   UpdatePlanExecutionStepResponse,
   UpdatePlanExecutionStepError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -205,7 +206,7 @@ export type GetActionRecommendationsError =
  * For more information about getting action recommendations, see Getting action recommendations.
  */
 export const getActionRecommendations: API.OperationMethod<
-  GetActionRecommendationsRequest,
+  GetActionRecommendationsRequest & RegionInput,
   GetActionRecommendationsResponse,
   GetActionRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -232,7 +233,7 @@ export type GetPersonalizedRankingError =
  * PERSONALIZED_RANKING.
  */
 export const getPersonalizedRanking: API.OperationMethod<
-  GetPersonalizedRankingRequest,
+  GetPersonalizedRankingRequest & RegionInput,
   GetPersonalizedRankingResponse,
   GetPersonalizedRankingError,
   Credentials | HttpClient.HttpClient
@@ -266,7 +267,7 @@ export type GetRecommendationsError =
  * For information on use case requirements see Choosing recommender use cases.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient

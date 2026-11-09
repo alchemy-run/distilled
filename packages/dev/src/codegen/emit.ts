@@ -141,7 +141,7 @@ export interface OperationConstOptions {
   readonly exportName: string;
   /** Full type annotation (e.g. `API.OperationMethod<A, B, E, R>`). */
   readonly typeAnnotation: string;
-  /** `API.make` or `API.makePaginated` (with namespace prefix). */
+  /** `API.make`, `API.makePaginated` or `API.makeStreaming` (with namespace prefix). */
   readonly factory: string;
   /** The config object source (including braces). */
   readonly config: string;

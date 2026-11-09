@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -647,7 +648,7 @@ export type CreateBrandProfileError =
  * Creates a brand profile. A brand profile is a lightweight container that holds your brand identity information as flexible attributes. After you create a brand profile, use the CreateBrandProfileAttributes operation to add company information, addresses, compliance documents, and logos.
  */
 export const createBrandProfile: API.OperationMethod<
-  CreateBrandProfileInput,
+  CreateBrandProfileInput & RegionInput,
   CreateBrandProfileOutput,
   CreateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -682,7 +683,7 @@ export type CreateBrandProfileAttributesError =
  * Creates up to 10 attributes for a brand profile in a single request. For attributes of type IMAGE or DOCUMENT, the response includes a presigned Amazon S3 URL that you use to upload the media. This operation is atomic: either all of the attributes are created, or none of them are.
  */
 export const createBrandProfileAttributes: API.OperationMethod<
-  CreateBrandProfileAttributesInput,
+  CreateBrandProfileAttributesInput & RegionInput,
   CreateBrandProfileAttributesOutput,
   CreateBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type CreateBrandProfileFromRegistrationError =
  * Creates a brand profile and populates its attributes from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createBrandProfileFromRegistration: API.OperationMethod<
-  CreateBrandProfileFromRegistrationInput,
+  CreateBrandProfileFromRegistrationInput & RegionInput,
   CreateBrandProfileFromRegistrationOutput,
   CreateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type CreateNotifyCodeConfigurationError =
  * Creates a notify code configuration. A notify code configuration is a reusable policy that defines how one-time passcodes are generated and rendered, including the code type, length, validity period, maximum number of attempts, and channel templates.
  */
 export const createNotifyCodeConfiguration: API.OperationMethod<
-  CreateNotifyCodeConfigurationInput,
+  CreateNotifyCodeConfigurationInput & RegionInput,
   CreateNotifyCodeConfigurationOutput,
   CreateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type CreateRegistrationsFromBrandProfileError =
  * Creates one or more registrations in the DRAFT state and prefills their fields from the attributes of a brand profile. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const createRegistrationsFromBrandProfile: API.OperationMethod<
-  CreateRegistrationsFromBrandProfileInput,
+  CreateRegistrationsFromBrandProfileInput & RegionInput,
   CreateRegistrationsFromBrandProfileOutput,
   CreateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -821,7 +822,7 @@ export type DeleteBrandProfileError =
  * Deletes a brand profile. This operation also deletes the attributes of the profile and any associated media. The request fails if deletion protection is enabled for the profile.
  */
 export const deleteBrandProfile: API.OperationMethod<
-  DeleteBrandProfileInput,
+  DeleteBrandProfileInput & RegionInput,
   DeleteBrandProfileOutput,
   DeleteBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -855,7 +856,7 @@ export type DeleteBrandProfileAttributeError =
  * Deletes a brand profile attribute. If the attribute stores media, this operation also deletes the associated media.
  */
 export const deleteBrandProfileAttribute: API.OperationMethod<
-  DeleteBrandProfileAttributeInput,
+  DeleteBrandProfileAttributeInput & RegionInput,
   DeleteBrandProfileAttributeOutput,
   DeleteBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type DeleteNotifyCodeConfigurationError =
  * Deletes a notify code configuration. Verifications that are already in progress are not affected, because they capture the policy at the time that the passcode was sent.
  */
 export const deleteNotifyCodeConfiguration: API.OperationMethod<
-  DeleteNotifyCodeConfigurationInput,
+  DeleteNotifyCodeConfigurationInput & RegionInput,
   DeleteNotifyCodeConfigurationOutput,
   DeleteNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type GetBrandProfileError =
  * Retrieves the metadata for a brand profile, including its name, status, deletion protection setting, and timestamps. To retrieve the attributes of the profile, use the ListBrandProfileAttributes operation.
  */
 export const getBrandProfile: API.OperationMethod<
-  GetBrandProfileInput,
+  GetBrandProfileInput & RegionInput,
   GetBrandProfileOutput,
   GetBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type GetBrandProfileAttributeError =
  * Retrieves a single brand profile attribute.
  */
 export const getBrandProfileAttribute: API.OperationMethod<
-  GetBrandProfileAttributeInput,
+  GetBrandProfileAttributeInput & RegionInput,
   GetBrandProfileAttributeOutput,
   GetBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -986,7 +987,7 @@ export type GetJobError =
  * Retrieves the current state of an asynchronous job, including its status and any resources that it created or updated.
  */
 export const getJob: API.OperationMethod<
-  GetJobInput,
+  GetJobInput & RegionInput,
   Job,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1018,7 +1019,7 @@ export type GetNotifyCodeConfigurationError =
  * Retrieves a notify code configuration.
  */
 export const getNotifyCodeConfiguration: API.OperationMethod<
-  GetNotifyCodeConfigurationInput,
+  GetNotifyCodeConfigurationInput & RegionInput,
   GetNotifyCodeConfigurationOutput,
   GetNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1050,7 +1051,7 @@ export type ListBrandProfileAttributesError =
  * Retrieves a paginated list of the attributes for a brand profile.
  */
 export const listBrandProfileAttributes: API.PaginatedOperationMethod<
-  ListBrandProfileAttributesInput,
+  ListBrandProfileAttributesInput & RegionInput,
   ListBrandProfileAttributesOutput,
   ListBrandProfileAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -1088,7 +1089,7 @@ export type ListBrandProfilesError =
  * Retrieves a paginated list of the brand profiles in your account. Use the nextToken parameter to retrieve additional results.
  */
 export const listBrandProfiles: API.PaginatedOperationMethod<
-  ListBrandProfilesInput,
+  ListBrandProfilesInput & RegionInput,
   ListBrandProfilesOutput,
   ListBrandProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1125,7 +1126,7 @@ export type ListJobsError =
  * Retrieves a paginated list of the asynchronous jobs in your account. You can filter the results by status, brand profile, or operation type.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsInput,
+  ListJobsInput & RegionInput,
   ListJobsOutput,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1162,7 +1163,7 @@ export type ListNotifyCodeConfigurationsError =
  * Retrieves a paginated list of the notify code configurations in your account.
  */
 export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
-  ListNotifyCodeConfigurationsInput,
+  ListNotifyCodeConfigurationsInput & RegionInput,
   ListNotifyCodeConfigurationsOutput,
   ListNotifyCodeConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1200,7 +1201,7 @@ export type ListRegistrationsFromBrandProfileError =
  * Retrieves a paginated list of the registrations that were created from a brand profile through the synchronization operations.
  */
 export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
-  ListRegistrationsFromBrandProfileInput,
+  ListRegistrationsFromBrandProfileInput & RegionInput,
   ListRegistrationsFromBrandProfileOutput,
   ListRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient,
@@ -1239,7 +1240,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags that are associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1273,7 +1274,7 @@ export type SendNotifyCodeVerificationError =
  * Generates a one-time passcode and delivers it to a recipient over the requested channel. The passcode policy is captured from the referenced notify code configuration at the time of the request, so later updates to the configuration do not affect verifications that are already in progress.
  */
 export const sendNotifyCodeVerification: API.OperationMethod<
-  SendNotifyCodeVerificationInput,
+  SendNotifyCodeVerificationInput & RegionInput,
   SendNotifyCodeVerificationOutput,
   SendNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type TagResourceError =
  * Adds or overwrites the tags on a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type UntagResourceError =
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type UpdateBrandProfileError =
  * Updates the name or the deletion protection setting of a brand profile. To change the information that is stored in the profile, use the brand profile attribute operations.
  */
 export const updateBrandProfile: API.OperationMethod<
-  UpdateBrandProfileInput,
+  UpdateBrandProfileInput & RegionInput,
   UpdateBrandProfileOutput,
   UpdateBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1408,7 +1409,7 @@ export type UpdateBrandProfileAttributeError =
  * Updates the value, description, or category of an existing brand profile attribute.
  */
 export const updateBrandProfileAttribute: API.OperationMethod<
-  UpdateBrandProfileAttributeInput,
+  UpdateBrandProfileAttributeInput & RegionInput,
   UpdateBrandProfileAttributeOutput,
   UpdateBrandProfileAttributeError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type UpdateBrandProfileFromRegistrationError =
  * Imports or refreshes the attributes of an existing brand profile from an existing registration. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateBrandProfileFromRegistration: API.OperationMethod<
-  UpdateBrandProfileFromRegistrationInput,
+  UpdateBrandProfileFromRegistrationInput & RegionInput,
   UpdateBrandProfileFromRegistrationOutput,
   UpdateBrandProfileFromRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type UpdateNotifyCodeConfigurationError =
  * Updates the mutable fields of a notify code configuration. Only the fields that you supply are changed. For the template and language fields, supplying an empty value clears the currently stored value.
  */
 export const updateNotifyCodeConfiguration: API.OperationMethod<
-  UpdateNotifyCodeConfigurationInput,
+  UpdateNotifyCodeConfigurationInput & RegionInput,
   UpdateNotifyCodeConfigurationOutput,
   UpdateNotifyCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type UpdateRegistrationsFromBrandProfileError =
  * Repushes the attributes of a brand profile into existing DRAFT registrations. This operation runs asynchronously. Use the GetJob operation to track its progress.
  */
 export const updateRegistrationsFromBrandProfile: API.OperationMethod<
-  UpdateRegistrationsFromBrandProfileInput,
+  UpdateRegistrationsFromBrandProfileInput & RegionInput,
   UpdateRegistrationsFromBrandProfileOutput,
   UpdateRegistrationsFromBrandProfileError,
   Credentials | HttpClient.HttpClient
@@ -1542,7 +1543,7 @@ export type ValidateNotifyCodeVerificationError =
  * Validates a one-time passcode that a recipient submitted. Validation succeeds when the passcode matches, the validity period has not elapsed, and the maximum number of attempts has not been exceeded.
  */
 export const validateNotifyCodeVerification: API.OperationMethod<
-  ValidateNotifyCodeVerificationInput,
+  ValidateNotifyCodeVerificationInput & RegionInput,
   ValidateNotifyCodeVerificationOutput,
   ValidateNotifyCodeVerificationError,
   Credentials | HttpClient.HttpClient

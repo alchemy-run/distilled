@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -296,7 +297,7 @@ export type CreateRescoreExecutionPlanError =
  * ranking a search service's results.
  */
 export const createRescoreExecutionPlan: API.OperationMethod<
-  CreateRescoreExecutionPlanRequest,
+  CreateRescoreExecutionPlanRequest & RegionInput,
   CreateRescoreExecutionPlanResponse,
   CreateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type DeleteRescoreExecutionPlanError =
  * used for provisioning the `Rescore` API.
  */
 export const deleteRescoreExecutionPlan: API.OperationMethod<
-  DeleteRescoreExecutionPlanRequest,
+  DeleteRescoreExecutionPlanRequest & RegionInput,
   DeleteRescoreExecutionPlanResponse,
   DeleteRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -367,7 +368,7 @@ export type DescribeRescoreExecutionPlanError =
  * resource used for provisioning the `Rescore` API.
  */
 export const describeRescoreExecutionPlan: API.OperationMethod<
-  DescribeRescoreExecutionPlanRequest,
+  DescribeRescoreExecutionPlanRequest & RegionInput,
   DescribeRescoreExecutionPlanResponse,
   DescribeRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type ListRescoreExecutionPlansError =
  * provisioning the `Rescore` API.
  */
 export const listRescoreExecutionPlans: API.PaginatedOperationMethod<
-  ListRescoreExecutionPlansRequest,
+  ListRescoreExecutionPlansRequest & RegionInput,
   ListRescoreExecutionPlansResponse,
   ListRescoreExecutionPlansError,
   Credentials | HttpClient.HttpClient,
@@ -439,7 +440,7 @@ export type ListTagsForResourceError =
  * can have tags associated with it.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -475,7 +476,7 @@ export type RescoreError =
  * improve the search service's results.
  */
 export const rescore: API.OperationMethod<
-  RescoreRequest,
+  RescoreRequest & RegionInput,
   RescoreResult,
   RescoreError,
   Credentials | HttpClient.HttpClient
@@ -512,7 +513,7 @@ export type TagResourceError =
  * the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -547,7 +548,7 @@ export type UntagResourceError =
  * `Rescore` operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -586,7 +587,7 @@ export type UpdateRescoreExecutionPlanError =
  * results.
  */
 export const updateRescoreExecutionPlan: API.OperationMethod<
-  UpdateRescoreExecutionPlanRequest,
+  UpdateRescoreExecutionPlanRequest & RegionInput,
   UpdateRescoreExecutionPlanResponse,
   UpdateRescoreExecutionPlanError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2177,7 +2178,7 @@ export type AssociateFacesError =
  * disassociations of FaceID(s) taking place.
  */
 export const associateFaces: API.OperationMethod<
-  AssociateFacesRequest,
+  AssociateFacesRequest & RegionInput,
   AssociateFacesResponse,
   AssociateFacesError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type CompareFacesError =
  * `rekognition:CompareFaces` action.
  */
 export const compareFaces: API.OperationMethod<
-  CompareFacesRequest,
+  CompareFacesRequest & RegionInput,
   CompareFacesResponse,
   CompareFacesError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2336,7 @@ export type CopyProjectVersionError =
  * This operation requires permissions to perform the `rekognition:CopyProjectVersion` action.
  */
 export const copyProjectVersion: API.OperationMethod<
-  CopyProjectVersionRequest,
+  CopyProjectVersionRequest & RegionInput,
   CopyProjectVersionResponse,
   CopyProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -2389,7 +2390,7 @@ export type CreateCollectionError =
  * operation.
  */
 export const createCollection: API.OperationMethod<
-  CreateCollectionRequest,
+  CreateCollectionRequest & RegionInput,
   CreateCollectionResponse,
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type CreateDatasetError =
  * If you want to copy an existing dataset, you also require permission to perform the `rekognition:ListDatasetEntries` action.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2504,7 +2505,7 @@ export type CreateFaceLivenessSessionError =
  * the 'FaceMovementAndLightChallenge' settings is applied by default.
  */
 export const createFaceLivenessSession: API.OperationMethod<
-  CreateFaceLivenessSessionRequest,
+  CreateFaceLivenessSessionRequest & RegionInput,
   CreateFaceLivenessSessionResponse,
   CreateFaceLivenessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2543,7 +2544,7 @@ export type CreateProjectError =
  * perform the `rekognition:CreateProject` action.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2609,7 +2610,7 @@ export type CreateProjectVersionError =
  * files to create training and test datasets for the project.
  */
 export const createProjectVersion: API.OperationMethod<
-  CreateProjectVersionRequest,
+  CreateProjectVersionRequest & RegionInput,
   CreateProjectVersionResponse,
   CreateProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -2681,7 +2682,7 @@ export type CreateStreamProcessorError =
  * `rekognition:CreateStreamProcessor` action. If you want to tag your stream processor, you also require permission to perform the `rekognition:TagResource` operation.
  */
 export const createStreamProcessor: API.OperationMethod<
-  CreateStreamProcessorRequest,
+  CreateStreamProcessorRequest & RegionInput,
   CreateStreamProcessorResponse,
   CreateStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -2728,7 +2729,7 @@ export type CreateUserError =
  * results from making multiple `CreateUser` calls.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2770,7 +2771,7 @@ export type DeleteCollectionError =
  * `rekognition:DeleteCollection` action.
  */
 export const deleteCollection: API.OperationMethod<
-  DeleteCollectionRequest,
+  DeleteCollectionRequest & RegionInput,
   DeleteCollectionResponse,
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2817,7 +2818,7 @@ export type DeleteDatasetError =
  * This operation requires permissions to perform the `rekognition:DeleteDataset` action.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2857,7 +2858,7 @@ export type DeleteFacesError =
  * action.
  */
 export const deleteFaces: API.OperationMethod<
-  DeleteFacesRequest,
+  DeleteFacesRequest & RegionInput,
   DeleteFacesResponse,
   DeleteFacesError,
   Credentials | HttpClient.HttpClient
@@ -2901,7 +2902,7 @@ export type DeleteProjectError =
  * `rekognition:DeleteProject` action.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2944,7 @@ export type DeleteProjectPolicyError =
  * This operation requires permissions to perform the `rekognition:DeleteProjectPolicy` action.
  */
 export const deleteProjectPolicy: API.OperationMethod<
-  DeleteProjectPolicyRequest,
+  DeleteProjectPolicyRequest & RegionInput,
   DeleteProjectPolicyResponse,
   DeleteProjectPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2987,7 +2988,7 @@ export type DeleteProjectVersionError =
  * `rekognition:DeleteProjectVersion` action.
  */
 export const deleteProjectVersion: API.OperationMethod<
-  DeleteProjectVersionRequest,
+  DeleteProjectVersionRequest & RegionInput,
   DeleteProjectVersionResponse,
   DeleteProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -3029,7 +3030,7 @@ export type DeleteStreamProcessorError =
  * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
  */
 export const deleteStreamProcessor: API.OperationMethod<
-  DeleteStreamProcessorRequest,
+  DeleteStreamProcessorRequest & RegionInput,
   DeleteStreamProcessorResponse,
   DeleteStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -3070,7 +3071,7 @@ export type DeleteUserError =
  * 200 response, an empty HTTP body is returned.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type DescribeCollectionError =
  * Amazon Rekognition Developer Guide.
  */
 export const describeCollection: API.OperationMethod<
-  DescribeCollectionRequest,
+  DescribeCollectionRequest & RegionInput,
   DescribeCollectionResponse,
   DescribeCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3150,7 +3151,7 @@ export type DescribeDatasetError =
  * This operation requires permissions to perform the `rekognition:DescribeDataset` action.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3186,7 +3187,7 @@ export type DescribeProjectsError =
  * This operation requires permissions to perform the `rekognition:DescribeProjects` action.
  */
 export const describeProjects: API.PaginatedOperationMethod<
-  DescribeProjectsRequest,
+  DescribeProjectsRequest & RegionInput,
   DescribeProjectsResponse,
   DescribeProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -3233,7 +3234,7 @@ export type DescribeProjectVersionsError =
  * action.
  */
 export const describeProjectVersions: API.PaginatedOperationMethod<
-  DescribeProjectVersionsRequest,
+  DescribeProjectVersionsRequest & RegionInput,
   DescribeProjectVersionsResponse,
   DescribeProjectVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3281,7 +3282,7 @@ export type DescribeStreamProcessorError =
  * and the current status of the stream processor.
  */
 export const describeStreamProcessor: API.OperationMethod<
-  DescribeStreamProcessorRequest,
+  DescribeStreamProcessorRequest & RegionInput,
   DescribeStreamProcessorResponse,
   DescribeStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type DetectCustomLabelsError =
  * *Analyzing an image* in the Amazon Rekognition Custom Labels Developer Guide.
  */
 export const detectCustomLabels: API.OperationMethod<
-  DetectCustomLabelsRequest,
+  DetectCustomLabelsRequest & RegionInput,
   DetectCustomLabelsResponse,
   DetectCustomLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3422,7 +3423,7 @@ export type DetectFacesError =
  * action.
  */
 export const detectFaces: API.OperationMethod<
-  DetectFacesRequest,
+  DetectFacesRequest & RegionInput,
   DetectFacesResponse,
   DetectFacesError,
   Credentials | HttpClient.HttpClient
@@ -3563,7 +3564,7 @@ export type DetectLabelsError =
  * `rekognition:DetectLabels` action.
  */
 export const detectLabels: API.OperationMethod<
-  DetectLabelsRequest,
+  DetectLabelsRequest & RegionInput,
   DetectLabelsResponse,
   DetectLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3622,7 +3623,7 @@ export type DetectModerationLabelsError =
  * `ProjectVersionArn` to the `ProjectVersion` argument.
  */
 export const detectModerationLabels: API.OperationMethod<
-  DetectModerationLabelsRequest,
+  DetectModerationLabelsRequest & RegionInput,
   DetectModerationLabelsResponse,
   DetectModerationLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3694,7 +3695,7 @@ export type DetectProtectiveEquipmentError =
  * This operation requires permissions to perform the `rekognition:DetectProtectiveEquipment` action.
  */
 export const detectProtectiveEquipment: API.OperationMethod<
-  DetectProtectiveEquipmentRequest,
+  DetectProtectiveEquipmentRequest & RegionInput,
   DetectProtectiveEquipmentResponse,
   DetectProtectiveEquipmentError,
   Credentials | HttpClient.HttpClient
@@ -3761,7 +3762,7 @@ export type DetectTextError =
  * Guide.
  */
 export const detectText: API.OperationMethod<
-  DetectTextRequest,
+  DetectTextRequest & RegionInput,
   DetectTextResponse,
   DetectTextError,
   Credentials | HttpClient.HttpClient
@@ -3806,7 +3807,7 @@ export type DisassociateFacesError =
  * at one time.
  */
 export const disassociateFaces: API.OperationMethod<
-  DisassociateFacesRequest,
+  DisassociateFacesRequest & RegionInput,
   DisassociateFacesResponse,
   DisassociateFacesError,
   Credentials | HttpClient.HttpClient
@@ -3857,7 +3858,7 @@ export type DistributeDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:DistributeDatasetEntries` action.
  */
 export const distributeDatasetEntries: API.OperationMethod<
-  DistributeDatasetEntriesRequest,
+  DistributeDatasetEntriesRequest & RegionInput,
   DistributeDatasetEntriesResponse,
   DistributeDatasetEntriesError,
   Credentials | HttpClient.HttpClient
@@ -3900,7 +3901,7 @@ export type GetCelebrityInfoError =
  * `rekognition:GetCelebrityInfo` action.
  */
 export const getCelebrityInfo: API.OperationMethod<
-  GetCelebrityInfoRequest,
+  GetCelebrityInfoRequest & RegionInput,
   GetCelebrityInfoResponse,
   GetCelebrityInfoError,
   Credentials | HttpClient.HttpClient
@@ -3978,7 +3979,7 @@ export type GetCelebrityRecognitionError =
  * value returned from the previous call to `GetCelebrityRecognition`.
  */
 export const getCelebrityRecognition: API.PaginatedOperationMethod<
-  GetCelebrityRecognitionRequest,
+  GetCelebrityRecognitionRequest & RegionInput,
   GetCelebrityRecognitionResponse,
   GetCelebrityRecognitionError,
   Credentials | HttpClient.HttpClient,
@@ -4050,7 +4051,7 @@ export type GetContentModerationError =
  * For more information, see moderating content in the Amazon Rekognition Developer Guide.
  */
 export const getContentModeration: API.PaginatedOperationMethod<
-  GetContentModerationRequest,
+  GetContentModerationRequest & RegionInput,
   GetContentModerationResponse,
   GetContentModerationError,
   Credentials | HttpClient.HttpClient,
@@ -4109,7 +4110,7 @@ export type GetFaceDetectionError =
  * `FaceOccluded` and `EyeDirection` will always be "null".
  */
 export const getFaceDetection: API.PaginatedOperationMethod<
-  GetFaceDetectionRequest,
+  GetFaceDetectionRequest & RegionInput,
   GetFaceDetectionResponse,
   GetFaceDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4163,7 +4164,7 @@ export type GetFaceLivenessSessionResultsError =
  * obstructed face, and `Metadata` about the client that streamed the session.
  */
 export const getFaceLivenessSessionResults: API.OperationMethod<
-  GetFaceLivenessSessionResultsRequest,
+  GetFaceLivenessSessionResultsRequest & RegionInput,
   GetFaceLivenessSessionResultsResponse,
   GetFaceLivenessSessionResultsError,
   Credentials | HttpClient.HttpClient
@@ -4228,7 +4229,7 @@ export type GetFaceSearchError =
  * parameter.
  */
 export const getFaceSearch: API.PaginatedOperationMethod<
-  GetFaceSearchRequest,
+  GetFaceSearchRequest & RegionInput,
   GetFaceSearchResponse,
   GetFaceSearchError,
   Credentials | HttpClient.HttpClient,
@@ -4335,7 +4336,7 @@ export type GetLabelDetectionError =
  * "ERROR" notification if the job encounters an issue.
  */
 export const getLabelDetection: API.PaginatedOperationMethod<
-  GetLabelDetectionRequest,
+  GetLabelDetectionRequest & RegionInput,
   GetLabelDetectionResponse,
   GetLabelDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4382,7 +4383,7 @@ export type GetMediaAnalysisJobError =
  * Takes a `JobId` returned by StartMediaAnalysisJob.
  */
 export const getMediaAnalysisJob: API.OperationMethod<
-  GetMediaAnalysisJobRequest,
+  GetMediaAnalysisJobRequest & RegionInput,
   GetMediaAnalysisJobResponse,
   GetMediaAnalysisJobError,
   Credentials | HttpClient.HttpClient
@@ -4449,7 +4450,7 @@ export type GetPersonTrackingError =
  * value returned from the previous call to `GetPersonTracking`.
  */
 export const getPersonTracking: API.PaginatedOperationMethod<
-  GetPersonTrackingRequest,
+  GetPersonTrackingRequest & RegionInput,
   GetPersonTrackingResponse,
   GetPersonTrackingError,
   Credentials | HttpClient.HttpClient,
@@ -4516,7 +4517,7 @@ export type GetSegmentDetectionError =
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
 export const getSegmentDetection: API.PaginatedOperationMethod<
-  GetSegmentDetectionRequest,
+  GetSegmentDetectionRequest & RegionInput,
   GetSegmentDetectionResponse,
   GetSegmentDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4579,7 +4580,7 @@ export type GetTextDetectionError =
  * call to `GetTextDetection`.
  */
 export const getTextDetection: API.PaginatedOperationMethod<
-  GetTextDetectionRequest,
+  GetTextDetectionRequest & RegionInput,
   GetTextDetectionResponse,
   GetTextDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4715,7 +4716,7 @@ export type IndexFacesError =
  * action.
  */
 export const indexFaces: API.OperationMethod<
-  IndexFacesRequest,
+  IndexFacesRequest & RegionInput,
   IndexFacesResponse,
   IndexFacesError,
   Credentials | HttpClient.HttpClient
@@ -4762,7 +4763,7 @@ export type ListCollectionsError =
  * `rekognition:ListCollections` action.
  */
 export const listCollections: API.PaginatedOperationMethod<
-  ListCollectionsRequest,
+  ListCollectionsRequest & RegionInput,
   ListCollectionsResponse,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4822,7 +4823,7 @@ export type ListDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:ListDatasetEntries` action.
  */
 export const listDatasetEntries: API.PaginatedOperationMethod<
-  ListDatasetEntriesRequest,
+  ListDatasetEntriesRequest & RegionInput,
   ListDatasetEntriesResponse,
   ListDatasetEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -4875,7 +4876,7 @@ export type ListDatasetLabelsError =
  * in the *Amazon Rekognition Custom Labels Developer Guide*.
  */
 export const listDatasetLabels: API.PaginatedOperationMethod<
-  ListDatasetLabelsRequest,
+  ListDatasetLabelsRequest & RegionInput,
   ListDatasetLabelsResponse,
   ListDatasetLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -4926,7 +4927,7 @@ export type ListFacesError =
  * action.
  */
 export const listFaces: API.PaginatedOperationMethod<
-  ListFacesRequest,
+  ListFacesRequest & RegionInput,
   ListFacesResponse,
   ListFacesError,
   Credentials | HttpClient.HttpClient,
@@ -4973,7 +4974,7 @@ export type ListMediaAnalysisJobsError =
  * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
  */
 export const listMediaAnalysisJobs: API.PaginatedOperationMethod<
-  ListMediaAnalysisJobsRequest,
+  ListMediaAnalysisJobsRequest & RegionInput,
   ListMediaAnalysisJobsResponse,
   ListMediaAnalysisJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5020,7 +5021,7 @@ export type ListProjectPoliciesError =
  * This operation requires permissions to perform the `rekognition:ListProjectPolicies` action.
  */
 export const listProjectPolicies: API.PaginatedOperationMethod<
-  ListProjectPoliciesRequest,
+  ListProjectPoliciesRequest & RegionInput,
   ListProjectPoliciesResponse,
   ListProjectPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -5067,7 +5068,7 @@ export type ListStreamProcessorsError =
  * Gets a list of stream processors that you have created with CreateStreamProcessor.
  */
 export const listStreamProcessors: API.PaginatedOperationMethod<
-  ListStreamProcessorsRequest,
+  ListStreamProcessorsRequest & RegionInput,
   ListStreamProcessorsResponse,
   ListStreamProcessorsError,
   Credentials | HttpClient.HttpClient,
@@ -5111,7 +5112,7 @@ export type ListTagsForResourceError =
  * `rekognition:ListTagsForResource` action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5150,7 +5151,7 @@ export type ListUsersError =
  * subsequent request to retrieve the next set of identities.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -5217,7 +5218,7 @@ export type PutProjectPolicyError =
  * This operation requires permissions to perform the `rekognition:PutProjectPolicy` action.
  */
 export const putProjectPolicy: API.OperationMethod<
-  PutProjectPolicyRequest,
+  PutProjectPolicyRequest & RegionInput,
   PutProjectPolicyResponse,
   PutProjectPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5289,7 +5290,7 @@ export type RecognizeCelebritiesError =
  * `rekognition:RecognizeCelebrities` operation.
  */
 export const recognizeCelebrities: API.OperationMethod<
-  RecognizeCelebritiesRequest,
+  RecognizeCelebritiesRequest & RegionInput,
   RecognizeCelebritiesResponse,
   RecognizeCelebritiesError,
   Credentials | HttpClient.HttpClient
@@ -5342,7 +5343,7 @@ export type SearchFacesError =
  * action.
  */
 export const searchFaces: API.OperationMethod<
-  SearchFacesRequest,
+  SearchFacesRequest & RegionInput,
   SearchFacesResponse,
   SearchFacesError,
   Credentials | HttpClient.HttpClient
@@ -5420,7 +5421,7 @@ export type SearchFacesByImageError =
  * `rekognition:SearchFacesByImage` action.
  */
 export const searchFacesByImage: API.OperationMethod<
-  SearchFacesByImageRequest,
+  SearchFacesByImageRequest & RegionInput,
   SearchFacesByImageResponse,
   SearchFacesByImageError,
   Credentials | HttpClient.HttpClient
@@ -5462,7 +5463,7 @@ export type SearchUsersError =
  * similarity first.
  */
 export const searchUsers: API.OperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResponse,
   SearchUsersError,
   Credentials | HttpClient.HttpClient
@@ -5509,7 +5510,7 @@ export type SearchUsersByImageError =
  * `SearchedFace` object.
  */
 export const searchUsersByImage: API.OperationMethod<
-  SearchUsersByImageRequest,
+  SearchUsersByImageRequest & RegionInput,
   SearchUsersByImageResponse,
   SearchUsersByImageError,
   Credentials | HttpClient.HttpClient
@@ -5561,7 +5562,7 @@ export type StartCelebrityRecognitionError =
  * For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
  */
 export const startCelebrityRecognition: API.OperationMethod<
-  StartCelebrityRecognitionRequest,
+  StartCelebrityRecognitionRequest & RegionInput,
   StartCelebrityRecognitionResponse,
   StartCelebrityRecognitionError,
   Credentials | HttpClient.HttpClient
@@ -5614,7 +5615,7 @@ export type StartContentModerationError =
  * For more information, see Moderating content in the Amazon Rekognition Developer Guide.
  */
 export const startContentModeration: API.OperationMethod<
-  StartContentModerationRequest,
+  StartContentModerationRequest & RegionInput,
   StartContentModerationResponse,
   StartContentModerationError,
   Credentials | HttpClient.HttpClient
@@ -5667,7 +5668,7 @@ export type StartFaceDetectionError =
  * Amazon Rekognition Developer Guide.
  */
 export const startFaceDetection: API.OperationMethod<
-  StartFaceDetectionRequest,
+  StartFaceDetectionRequest & RegionInput,
   StartFaceDetectionResponse,
   StartFaceDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5718,7 +5719,7 @@ export type StartFaceSearchError =
  * Searching stored videos for faces.
  */
 export const startFaceSearch: API.OperationMethod<
-  StartFaceSearchRequest,
+  StartFaceSearchRequest & RegionInput,
   StartFaceSearchResponse,
   StartFaceSearchError,
   Credentials | HttpClient.HttpClient
@@ -5786,7 +5787,7 @@ export type StartLabelDetectionError =
  * labels returned. The default is 50.
  */
 export const startLabelDetection: API.OperationMethod<
-  StartLabelDetectionRequest,
+  StartLabelDetectionRequest & RegionInput,
   StartLabelDetectionResponse,
   StartLabelDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5834,7 +5835,7 @@ export type StartMediaAnalysisJobError =
  * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
  */
 export const startMediaAnalysisJob: API.OperationMethod<
-  StartMediaAnalysisJobRequest,
+  StartMediaAnalysisJobRequest & RegionInput,
   StartMediaAnalysisJobResponse,
   StartMediaAnalysisJobError,
   Credentials | HttpClient.HttpClient
@@ -5891,7 +5892,7 @@ export type StartPersonTrackingError =
  * (`JobId`) from the initial call to `StartPersonTracking`.
  */
 export const startPersonTracking: API.OperationMethod<
-  StartPersonTrackingRequest,
+  StartPersonTrackingRequest & RegionInput,
   StartPersonTrackingResponse,
   StartPersonTrackingError,
   Credentials | HttpClient.HttpClient
@@ -5942,7 +5943,7 @@ export type StartProjectVersionError =
  * `rekognition:StartProjectVersion` action.
  */
 export const startProjectVersion: API.OperationMethod<
-  StartProjectVersionRequest,
+  StartProjectVersionRequest & RegionInput,
   StartProjectVersionResponse,
   StartProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -5998,7 +5999,7 @@ export type StartSegmentDetectionError =
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
 export const startSegmentDetection: API.OperationMethod<
-  StartSegmentDetectionRequest,
+  StartSegmentDetectionRequest & RegionInput,
   StartSegmentDetectionResponse,
   StartSegmentDetectionError,
   Credentials | HttpClient.HttpClient
@@ -6045,7 +6046,7 @@ export type StartStreamProcessorError =
  * If you are using a label detection stream processor to detect labels, you need to provide a `Start selector` and a `Stop selector` to determine the length of the stream processing time.
  */
 export const startStreamProcessor: API.OperationMethod<
-  StartStreamProcessorRequest,
+  StartStreamProcessorRequest & RegionInput,
   StartStreamProcessorResponse,
   StartStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -6092,7 +6093,7 @@ export type StartTextDetectionError =
  * from the initial call to `StartTextDetection`.
  */
 export const startTextDetection: API.OperationMethod<
-  StartTextDetectionRequest,
+  StartTextDetectionRequest & RegionInput,
   StartTextDetectionResponse,
   StartTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -6136,7 +6137,7 @@ export type StopProjectVersionError =
  * This operation requires permissions to perform the `rekognition:StopProjectVersion` action.
  */
 export const stopProjectVersion: API.OperationMethod<
-  StopProjectVersionRequest,
+  StopProjectVersionRequest & RegionInput,
   StopProjectVersionResponse,
   StopProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -6177,7 +6178,7 @@ export type StopStreamProcessorError =
  * Stops a running stream processor that was created by CreateStreamProcessor.
  */
 export const stopStreamProcessor: API.OperationMethod<
-  StopStreamProcessorRequest,
+  StopStreamProcessorRequest & RegionInput,
   StopStreamProcessorResponse,
   StopStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -6218,7 +6219,7 @@ export type TagResourceError =
  * action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6257,7 +6258,7 @@ export type UntagResourceError =
  * `rekognition:UntagResource` action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6319,7 +6320,7 @@ export type UpdateDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:UpdateDatasetEntries` action.
  */
 export const updateDatasetEntries: API.OperationMethod<
-  UpdateDatasetEntriesRequest,
+  UpdateDatasetEntriesRequest & RegionInput,
   UpdateDatasetEntriesResponse,
   UpdateDatasetEntriesError,
   Credentials | HttpClient.HttpClient
@@ -6361,7 +6362,7 @@ export type UpdateStreamProcessorError =
  * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
  */
 export const updateStreamProcessor: API.OperationMethod<
-  UpdateStreamProcessorRequest,
+  UpdateStreamProcessorRequest & RegionInput,
   UpdateStreamProcessorResponse,
   UpdateStreamProcessorError,
   Credentials | HttpClient.HttpClient

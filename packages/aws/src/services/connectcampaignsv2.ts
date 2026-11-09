@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -809,7 +810,7 @@ export type CreateCampaignError =
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -842,7 +843,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from the specified Amazon Connect account.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -873,7 +874,7 @@ export type DeleteCampaignChannelSubtypeConfigError =
  * Deletes the channel subtype config of a campaign. This API is idempotent.
  */
 export const deleteCampaignChannelSubtypeConfig: API.OperationMethod<
-  DeleteCampaignChannelSubtypeConfigRequest,
+  DeleteCampaignChannelSubtypeConfigRequest & RegionInput,
   DeleteCampaignChannelSubtypeConfigResponse,
   DeleteCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -906,7 +907,7 @@ export type DeleteCampaignCommunicationLimitsError =
  * Deletes the communication limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationLimits: API.OperationMethod<
-  DeleteCampaignCommunicationLimitsRequest,
+  DeleteCampaignCommunicationLimitsRequest & RegionInput,
   DeleteCampaignCommunicationLimitsResponse,
   DeleteCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type DeleteCampaignCommunicationTimeError =
  * Deletes the communication time config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationTime: API.OperationMethod<
-  DeleteCampaignCommunicationTimeRequest,
+  DeleteCampaignCommunicationTimeRequest & RegionInput,
   DeleteCampaignCommunicationTimeResponse,
   DeleteCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -974,7 +975,7 @@ export type DeleteCampaignEntryLimitsError =
  * Deletes the entry limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignEntryLimits: API.OperationMethod<
-  DeleteCampaignEntryLimitsRequest,
+  DeleteCampaignEntryLimitsRequest & RegionInput,
   DeleteCampaignEntryLimitsResponse,
   DeleteCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1008,7 +1009,7 @@ export type DeleteConnectInstanceConfigError =
  * Deletes a connect instance config from the specified AWS account.
  */
 export const deleteConnectInstanceConfig: API.OperationMethod<
-  DeleteConnectInstanceConfigRequest,
+  DeleteConnectInstanceConfigRequest & RegionInput,
   DeleteConnectInstanceConfigResponse,
   DeleteConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type DeleteConnectInstanceIntegrationError =
  * Delete the integration for the specified Amazon Connect instance.
  */
 export const deleteConnectInstanceIntegration: API.OperationMethod<
-  DeleteConnectInstanceIntegrationRequest,
+  DeleteConnectInstanceIntegrationRequest & RegionInput,
   DeleteConnectInstanceIntegrationResponse,
   DeleteConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type DeleteInstanceOnboardingJobError =
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
 export const deleteInstanceOnboardingJob: API.OperationMethod<
-  DeleteInstanceOnboardingJobRequest,
+  DeleteInstanceOnboardingJobRequest & RegionInput,
   DeleteInstanceOnboardingJobResponse,
   DeleteInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1104,7 +1105,7 @@ export type DescribeCampaignError =
  * Describes the specific campaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type GetCampaignStateError =
  * Get state of a campaign for the specified Amazon Connect account.
  */
 export const getCampaignState: API.OperationMethod<
-  GetCampaignStateRequest,
+  GetCampaignStateRequest & RegionInput,
   GetCampaignStateResponse,
   GetCampaignStateError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type GetCampaignStateBatchError =
  * Get state of campaigns for the specified Amazon Connect account.
  */
 export const getCampaignStateBatch: API.OperationMethod<
-  GetCampaignStateBatchRequest,
+  GetCampaignStateBatchRequest & RegionInput,
   GetCampaignStateBatchResponse,
   GetCampaignStateBatchError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type GetConnectInstanceConfigError =
  * Get the specific Connect instance config.
  */
 export const getConnectInstanceConfig: API.OperationMethod<
-  GetConnectInstanceConfigRequest,
+  GetConnectInstanceConfigRequest & RegionInput,
   GetConnectInstanceConfigResponse,
   GetConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type GetInstanceCommunicationLimitsError =
  * Get the instance communication limits.
  */
 export const getInstanceCommunicationLimits: API.OperationMethod<
-  GetInstanceCommunicationLimitsRequest,
+  GetInstanceCommunicationLimitsRequest & RegionInput,
   GetInstanceCommunicationLimitsResponse,
   GetInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type GetInstanceOnboardingJobStatusError =
  * Get the specific instance onboarding job status.
  */
 export const getInstanceOnboardingJobStatus: API.OperationMethod<
-  GetInstanceOnboardingJobStatusRequest,
+  GetInstanceOnboardingJobStatusRequest & RegionInput,
   GetInstanceOnboardingJobStatusResponse,
   GetInstanceOnboardingJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1285,7 +1286,7 @@ export type ListCampaignsError =
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -1318,7 +1319,7 @@ export type ListConnectInstanceIntegrationsError =
  * Provides summary information about the integration under the specified Connect instance.
  */
 export const listConnectInstanceIntegrations: API.PaginatedOperationMethod<
-  ListConnectInstanceIntegrationsRequest,
+  ListConnectInstanceIntegrationsRequest & RegionInput,
   ListConnectInstanceIntegrationsResponse,
   ListConnectInstanceIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1357,7 +1358,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type PauseCampaignError =
  * Pauses a campaign for the specified Amazon Connect account.
  */
 export const pauseCampaign: API.OperationMethod<
-  PauseCampaignRequest,
+  PauseCampaignRequest & RegionInput,
   PauseCampaignResponse,
   PauseCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1426,7 +1427,7 @@ export type PutConnectInstanceIntegrationError =
  * Put or update the integration for the specified Amazon Connect instance.
  */
 export const putConnectInstanceIntegration: API.OperationMethod<
-  PutConnectInstanceIntegrationRequest,
+  PutConnectInstanceIntegrationRequest & RegionInput,
   PutConnectInstanceIntegrationResponse,
   PutConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1460,7 @@ export type PutInstanceCommunicationLimitsError =
  * Put the instance communication limits. This API is idempotent.
  */
 export const putInstanceCommunicationLimits: API.OperationMethod<
-  PutInstanceCommunicationLimitsRequest,
+  PutInstanceCommunicationLimitsRequest & RegionInput,
   PutInstanceCommunicationLimitsResponse,
   PutInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1494,7 @@ export type PutOutboundRequestBatchError =
  * Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
 export const putOutboundRequestBatch: API.OperationMethod<
-  PutOutboundRequestBatchRequest,
+  PutOutboundRequestBatchRequest & RegionInput,
   PutOutboundRequestBatchResponse,
   PutOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1529,7 +1530,7 @@ export type PutProfileOutboundRequestBatchError =
  * Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
  */
 export const putProfileOutboundRequestBatch: API.OperationMethod<
-  PutProfileOutboundRequestBatchRequest,
+  PutProfileOutboundRequestBatchRequest & RegionInput,
   PutProfileOutboundRequestBatchResponse,
   PutProfileOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type ResumeCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const resumeCampaign: API.OperationMethod<
-  ResumeCampaignRequest,
+  ResumeCampaignRequest & RegionInput,
   ResumeCampaignResponse,
   ResumeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1601,7 +1602,7 @@ export type StartCampaignError =
  * Starts a campaign for the specified Amazon Connect account.
  */
 export const startCampaign: API.OperationMethod<
-  StartCampaignRequest,
+  StartCampaignRequest & RegionInput,
   StartCampaignResponse,
   StartCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1637,7 @@ export type StartInstanceOnboardingJobError =
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
 export const startInstanceOnboardingJob: API.OperationMethod<
-  StartInstanceOnboardingJobRequest,
+  StartInstanceOnboardingJobRequest & RegionInput,
   StartInstanceOnboardingJobResponse,
   StartInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1671,7 +1672,7 @@ export type StopCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const stopCampaign: API.OperationMethod<
-  StopCampaignRequest,
+  StopCampaignRequest & RegionInput,
   StopCampaignResponse,
   StopCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1705,7 +1706,7 @@ export type TagResourceError =
  * Tag a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1737,7 +1738,7 @@ export type UntagResourceError =
  * Untag a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1770,7 @@ export type UpdateCampaignChannelSubtypeConfigError =
  * Updates the channel subtype config of a campaign. This API is idempotent.
  */
 export const updateCampaignChannelSubtypeConfig: API.OperationMethod<
-  UpdateCampaignChannelSubtypeConfigRequest,
+  UpdateCampaignChannelSubtypeConfigRequest & RegionInput,
   UpdateCampaignChannelSubtypeConfigResponse,
   UpdateCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1803,7 @@ export type UpdateCampaignCommunicationLimitsError =
  * Updates the communication limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationLimits: API.OperationMethod<
-  UpdateCampaignCommunicationLimitsRequest,
+  UpdateCampaignCommunicationLimitsRequest & RegionInput,
   UpdateCampaignCommunicationLimitsResponse,
   UpdateCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1837,7 @@ export type UpdateCampaignCommunicationTimeError =
  * Updates the communication time config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationTime: API.OperationMethod<
-  UpdateCampaignCommunicationTimeRequest,
+  UpdateCampaignCommunicationTimeRequest & RegionInput,
   UpdateCampaignCommunicationTimeResponse,
   UpdateCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type UpdateCampaignEntryLimitsError =
  * Updates the entry limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignEntryLimits: API.OperationMethod<
-  UpdateCampaignEntryLimitsRequest,
+  UpdateCampaignEntryLimitsRequest & RegionInput,
   UpdateCampaignEntryLimitsResponse,
   UpdateCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1904,7 +1905,7 @@ export type UpdateCampaignFlowAssociationError =
  * Updates the campaign flow associated with a campaign. This API is idempotent.
  */
 export const updateCampaignFlowAssociation: API.OperationMethod<
-  UpdateCampaignFlowAssociationRequest,
+  UpdateCampaignFlowAssociationRequest & RegionInput,
   UpdateCampaignFlowAssociationResponse,
   UpdateCampaignFlowAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1937,7 +1938,7 @@ export type UpdateCampaignNameError =
  * Updates the name of a campaign. This API is idempotent.
  */
 export const updateCampaignName: API.OperationMethod<
-  UpdateCampaignNameRequest,
+  UpdateCampaignNameRequest & RegionInput,
   UpdateCampaignNameResponse,
   UpdateCampaignNameError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type UpdateCampaignScheduleError =
  * Updates the schedule for a campaign. This API is idempotent.
  */
 export const updateCampaignSchedule: API.OperationMethod<
-  UpdateCampaignScheduleRequest,
+  UpdateCampaignScheduleRequest & RegionInput,
   UpdateCampaignScheduleResponse,
   UpdateCampaignScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2004,7 +2005,7 @@ export type UpdateCampaignSourceError =
  * Updates the campaign source with a campaign. This API is idempotent.
  */
 export const updateCampaignSource: API.OperationMethod<
-  UpdateCampaignSourceRequest,
+  UpdateCampaignSourceRequest & RegionInput,
   UpdateCampaignSourceResponse,
   UpdateCampaignSourceError,
   Credentials | HttpClient.HttpClient

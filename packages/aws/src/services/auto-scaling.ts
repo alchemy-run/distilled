@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1988,7 +1989,7 @@ export type AttachInstancesError =
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachInstances: API.OperationMethod<
-  AttachInstancesQuery,
+  AttachInstancesQuery & RegionInput,
   AttachInstancesResponse,
   AttachInstancesError,
   Credentials | HttpClient.HttpClient
@@ -2031,7 +2032,7 @@ export type AttachLoadBalancersError =
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachLoadBalancers: API.OperationMethod<
-  AttachLoadBalancersType,
+  AttachLoadBalancersType & RegionInput,
   AttachLoadBalancersResultType,
   AttachLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2084,7 @@ export type AttachLoadBalancerTargetGroupsError =
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const attachLoadBalancerTargetGroups: API.OperationMethod<
-  AttachLoadBalancerTargetGroupsType,
+  AttachLoadBalancerTargetGroupsType & RegionInput,
   AttachLoadBalancerTargetGroupsResultType,
   AttachLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2128,7 @@ export type AttachTrafficSourcesError =
  * DetachTrafficSources API.
  */
 export const attachTrafficSources: API.OperationMethod<
-  AttachTrafficSourcesType,
+  AttachTrafficSourcesType & RegionInput,
   AttachTrafficSourcesResultType,
   AttachTrafficSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2147,7 +2148,7 @@ export type BatchDeleteScheduledActionError = ResourceContentionFault | CommonEr
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
  */
 export const batchDeleteScheduledAction: API.OperationMethod<
-  BatchDeleteScheduledActionType,
+  BatchDeleteScheduledActionType & RegionInput,
   BatchDeleteScheduledActionAnswer,
   BatchDeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2171,7 +2172,7 @@ export type BatchPutScheduledUpdateGroupActionError =
  * Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
  */
 export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
-  BatchPutScheduledUpdateGroupActionType,
+  BatchPutScheduledUpdateGroupActionType & RegionInput,
   BatchPutScheduledUpdateGroupActionAnswer,
   BatchPutScheduledUpdateGroupActionError,
   Credentials | HttpClient.HttpClient
@@ -2204,7 +2205,7 @@ export type CancelInstanceRefreshError =
  * Use the RollbackInstanceRefresh API to roll back instead.
  */
 export const cancelInstanceRefresh: API.OperationMethod<
-  CancelInstanceRefreshType,
+  CancelInstanceRefreshType & RegionInput,
   CancelInstanceRefreshAnswer,
   CancelInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -2253,7 +2254,7 @@ export type CompleteLifecycleActionError = ResourceContentionFault | CommonError
  * action in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const completeLifecycleAction: API.OperationMethod<
-  CompleteLifecycleActionType,
+  CompleteLifecycleActionType & RegionInput,
   CompleteLifecycleActionAnswer,
   CompleteLifecycleActionError,
   Credentials | HttpClient.HttpClient
@@ -2295,7 +2296,7 @@ export type CreateAutoScalingGroupError =
  * units that you use for weighting instances.
  */
 export const createAutoScalingGroup: API.OperationMethod<
-  CreateAutoScalingGroupType,
+  CreateAutoScalingGroupType & RegionInput,
   CreateAutoScalingGroupResponse,
   CreateAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2338,7 +2339,7 @@ export type CreateLaunchConfigurationError =
  * For information about using launch templates, see Launch templates in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const createLaunchConfiguration: API.OperationMethod<
-  CreateLaunchConfigurationType,
+  CreateLaunchConfigurationType & RegionInput,
   CreateLaunchConfigurationResponse,
   CreateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2369,7 +2370,7 @@ export type CreateOrUpdateTagsError =
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const createOrUpdateTags: API.OperationMethod<
-  CreateOrUpdateTagsType,
+  CreateOrUpdateTagsType & RegionInput,
   CreateOrUpdateTagsResponse,
   CreateOrUpdateTagsError,
   Credentials | HttpClient.HttpClient
@@ -2414,7 +2415,7 @@ export type DeleteAutoScalingGroupError =
  * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deleteAutoScalingGroup: API.OperationMethod<
-  DeleteAutoScalingGroupType,
+  DeleteAutoScalingGroupType & RegionInput,
   DeleteAutoScalingGroupResponse,
   DeleteAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2440,7 +2441,7 @@ export type DeleteLaunchConfigurationError =
  * completes, the launch configuration is no longer available for use.
  */
 export const deleteLaunchConfiguration: API.OperationMethod<
-  LaunchConfigurationNameType,
+  LaunchConfigurationNameType & RegionInput,
   DeleteLaunchConfigurationResponse,
   DeleteLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2467,7 +2468,7 @@ export type DeleteLifecycleHookError =
  * instances).
  */
 export const deleteLifecycleHook: API.OperationMethod<
-  DeleteLifecycleHookType,
+  DeleteLifecycleHookType & RegionInput,
   DeleteLifecycleHookAnswer,
   DeleteLifecycleHookError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2488,7 @@ export type DeleteNotificationConfigurationError = ResourceContentionFault | Com
  * Deletes the specified notification.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationType,
+  DeleteNotificationConfigurationType & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2514,7 +2515,7 @@ export type DeletePolicyError = ResourceContentionFault | ServiceLinkedRoleFailu
  * policy in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyType,
+  DeletePolicyType & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type DeleteScheduledActionError =
  * Deletes the specified scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionType,
+  DeleteScheduledActionType & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -2557,7 +2558,7 @@ export type DeleteTagsError = ResourceContentionFault | ResourceInUseFault | Com
  * Deletes the specified tags.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsType,
+  DeleteTagsType & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type DeleteWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const deleteWarmPool: API.OperationMethod<
-  DeleteWarmPoolType,
+  DeleteWarmPoolType & RegionInput,
   DeleteWarmPoolAnswer,
   DeleteWarmPoolError,
   Credentials | HttpClient.HttpClient
@@ -2615,7 +2616,7 @@ export type DescribeAccountLimitsError = ResourceContentionFault | CommonErrors;
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeAccountLimits: API.OperationMethod<
-  DescribeAccountLimitsRequest,
+  DescribeAccountLimitsRequest & RegionInput,
   DescribeAccountLimitsAnswer,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2644,7 +2645,7 @@ export type DescribeAdjustmentTypesError = ResourceContentionFault | CommonError
  * - `PercentChangeInCapacity`
  */
 export const describeAdjustmentTypes: API.OperationMethod<
-  DescribeAdjustmentTypesRequest,
+  DescribeAdjustmentTypesRequest & RegionInput,
   DescribeAdjustmentTypesAnswer,
   DescribeAdjustmentTypesError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type DescribeAutoScalingGroupsError =
  * DescribeWarmPool API.
  */
 export const describeAutoScalingGroups: API.PaginatedOperationMethod<
-  AutoScalingGroupNamesType,
+  AutoScalingGroupNamesType & RegionInput,
   AutoScalingGroupsType,
   DescribeAutoScalingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2706,7 +2707,7 @@ export type DescribeAutoScalingInstancesError =
  * Gets information about the Auto Scaling instances in the account and Region.
  */
 export const describeAutoScalingInstances: API.PaginatedOperationMethod<
-  DescribeAutoScalingInstancesType,
+  DescribeAutoScalingInstancesType & RegionInput,
   AutoScalingInstancesType,
   DescribeAutoScalingInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2733,7 +2734,7 @@ export type DescribeAutoScalingNotificationTypesError = ResourceContentionFault 
  * Describes the notification types that are supported by Amazon EC2 Auto Scaling.
  */
 export const describeAutoScalingNotificationTypes: API.OperationMethod<
-  DescribeAutoScalingNotificationTypesRequest,
+  DescribeAutoScalingNotificationTypesRequest & RegionInput,
   DescribeAutoScalingNotificationTypesAnswer,
   DescribeAutoScalingNotificationTypesError,
   Credentials | HttpClient.HttpClient
@@ -2768,7 +2769,7 @@ export type DescribeInstanceRefreshesError =
  * about the rollback of the instance refresh.
  */
 export const describeInstanceRefreshes: API.PaginatedOperationMethod<
-  DescribeInstanceRefreshesType,
+  DescribeInstanceRefreshesType & RegionInput,
   DescribeInstanceRefreshesAnswer,
   DescribeInstanceRefreshesError,
   Credentials | HttpClient.HttpClient,
@@ -2797,7 +2798,7 @@ export type DescribeLaunchConfigurationsError =
  * Gets information about the launch configurations in the account and Region.
  */
 export const describeLaunchConfigurations: API.PaginatedOperationMethod<
-  LaunchConfigurationNamesType,
+  LaunchConfigurationNamesType & RegionInput,
   LaunchConfigurationsType,
   DescribeLaunchConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -2827,7 +2828,7 @@ export type DescribeLifecycleHooksError =
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
 export const describeLifecycleHooks: API.OperationMethod<
-  DescribeLifecycleHooksType,
+  DescribeLifecycleHooksType & RegionInput,
   DescribeLifecycleHooksAnswer,
   DescribeLifecycleHooksError,
   Credentials | HttpClient.HttpClient
@@ -2853,7 +2854,7 @@ export type DescribeLifecycleHookTypesError = ResourceContentionFault | CommonEr
  * - `autoscaling:EC2_INSTANCE_TERMINATING`
  */
 export const describeLifecycleHookTypes: API.OperationMethod<
-  DescribeLifecycleHookTypesRequest,
+  DescribeLifecycleHookTypesRequest & RegionInput,
   DescribeLifecycleHookTypesAnswer,
   DescribeLifecycleHookTypesError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2907,7 @@ export type DescribeLoadBalancersError = InvalidNextToken | ResourceContentionFa
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeLoadBalancersRequest,
+  DescribeLoadBalancersRequest & RegionInput,
   DescribeLoadBalancersResponse,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -2968,7 +2969,7 @@ export type DescribeLoadBalancerTargetGroupsError =
  * were attached by using AttachTrafficSources.
  */
 export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
-  DescribeLoadBalancerTargetGroupsRequest,
+  DescribeLoadBalancerTargetGroupsRequest & RegionInput,
   DescribeLoadBalancerTargetGroupsResponse,
   DescribeLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2994,7 +2995,7 @@ export type DescribeMetricCollectionTypesError = ResourceContentionFault | Commo
  * Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
  */
 export const describeMetricCollectionTypes: API.OperationMethod<
-  DescribeMetricCollectionTypesRequest,
+  DescribeMetricCollectionTypesRequest & RegionInput,
   DescribeMetricCollectionTypesAnswer,
   DescribeMetricCollectionTypesError,
   Credentials | HttpClient.HttpClient
@@ -3018,7 +3019,7 @@ export type DescribeNotificationConfigurationsError =
  * Auto Scaling groups.
  */
 export const describeNotificationConfigurations: API.PaginatedOperationMethod<
-  DescribeNotificationConfigurationsType,
+  DescribeNotificationConfigurationsType & RegionInput,
   DescribeNotificationConfigurationsAnswer,
   DescribeNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3049,7 +3050,7 @@ export type DescribePoliciesError =
  * Gets information about the scaling policies in the account and Region.
  */
 export const describePolicies: API.PaginatedOperationMethod<
-  DescribePoliciesType,
+  DescribePoliciesType & RegionInput,
   PoliciesType,
   DescribePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3089,7 +3090,7 @@ export type DescribeScalingActivitiesError =
  * failure. For help interpreting the `StatusMessage`, see Troubleshooting Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeScalingActivities: API.PaginatedOperationMethod<
-  DescribeScalingActivitiesType,
+  DescribeScalingActivitiesType & RegionInput,
   ActivitiesType,
   DescribeScalingActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3117,7 +3118,7 @@ export type DescribeScalingProcessTypesError = ResourceContentionFault | CommonE
  * and SuspendProcesses APIs.
  */
 export const describeScalingProcessTypes: API.OperationMethod<
-  DescribeScalingProcessTypesRequest,
+  DescribeScalingProcessTypesRequest & RegionInput,
   ProcessesType,
   DescribeScalingProcessTypesError,
   Credentials | HttpClient.HttpClient
@@ -3145,7 +3146,7 @@ export type DescribeScheduledActionsError =
  * the DescribeScalingActivities API.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsType,
+  DescribeScheduledActionsType & RegionInput,
   ScheduledActionsType,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3183,7 +3184,7 @@ export type DescribeTagsError = InvalidNextToken | ResourceContentionFault | Com
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsType,
+  DescribeTagsType & RegionInput,
   TagsType,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -3214,7 +3215,7 @@ export type DescribeTerminationPolicyTypesError = ResourceContentionFault | Comm
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeTerminationPolicyTypes: API.OperationMethod<
-  DescribeTerminationPolicyTypesRequest,
+  DescribeTerminationPolicyTypesRequest & RegionInput,
   DescribeTerminationPolicyTypesAnswer,
   DescribeTerminationPolicyTypesError,
   Credentials | HttpClient.HttpClient
@@ -3240,7 +3241,7 @@ export type DescribeTrafficSourcesError = InvalidNextToken | ResourceContentionF
  * sources for the specified Auto Scaling group.
  */
 export const describeTrafficSources: API.PaginatedOperationMethod<
-  DescribeTrafficSourcesRequest,
+  DescribeTrafficSourcesRequest & RegionInput,
   DescribeTrafficSourcesResponse,
   DescribeTrafficSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3273,7 +3274,7 @@ export type DescribeWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const describeWarmPool: API.PaginatedOperationMethod<
-  DescribeWarmPoolType,
+  DescribeWarmPoolType & RegionInput,
   DescribeWarmPoolAnswer,
   DescribeWarmPoolError,
   Credentials | HttpClient.HttpClient,
@@ -3313,7 +3314,7 @@ export type DetachInstancesError = ResourceContentionFault | CommonErrors;
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const detachInstances: API.OperationMethod<
-  DetachInstancesQuery,
+  DetachInstancesQuery & RegionInput,
   DetachInstancesAnswer,
   DetachInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3348,7 +3349,7 @@ export type DetachLoadBalancersError = ResourceContentionFault | CommonErrors;
  * API call. The instances remain running.
  */
 export const detachLoadBalancers: API.OperationMethod<
-  DetachLoadBalancersType,
+  DetachLoadBalancersType & RegionInput,
   DetachLoadBalancersResultType,
   DetachLoadBalancersError,
   Credentials | HttpClient.HttpClient
@@ -3385,7 +3386,7 @@ export type DetachLoadBalancerTargetGroupsError = ResourceContentionFault | Comm
  * were attached by using AttachTrafficSources.
  */
 export const detachLoadBalancerTargetGroups: API.OperationMethod<
-  DetachLoadBalancerTargetGroupsType,
+  DetachLoadBalancerTargetGroupsType & RegionInput,
   DetachLoadBalancerTargetGroupsResultType,
   DetachLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3411,7 +3412,7 @@ export type DetachTrafficSourcesError = ResourceContentionFault | CommonErrors;
  * API call. The instances continue to run.
  */
 export const detachTrafficSources: API.OperationMethod<
-  DetachTrafficSourcesType,
+  DetachTrafficSourcesType & RegionInput,
   DetachTrafficSourcesResultType,
   DetachTrafficSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3431,7 +3432,7 @@ export type DisableMetricsCollectionError = ResourceContentionFault | CommonErro
  * Disables group metrics collection for the specified Auto Scaling group.
  */
 export const disableMetricsCollection: API.OperationMethod<
-  DisableMetricsCollectionQuery,
+  DisableMetricsCollectionQuery & RegionInput,
   DisableMetricsCollectionResponse,
   DisableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3457,7 +3458,7 @@ export type EnableMetricsCollectionError = ResourceContentionFault | CommonError
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const enableMetricsCollection: API.OperationMethod<
-  EnableMetricsCollectionQuery,
+  EnableMetricsCollectionQuery & RegionInput,
   EnableMetricsCollectionResponse,
   EnableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3489,7 +3490,7 @@ export type EnterStandbyError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const enterStandby: API.OperationMethod<
-  EnterStandbyQuery,
+  EnterStandbyQuery & RegionInput,
   EnterStandbyAnswer,
   EnterStandbyError,
   Credentials | HttpClient.HttpClient
@@ -3513,7 +3514,7 @@ export type ExecutePolicyError =
  * scaling policy.
  */
 export const executePolicy: API.OperationMethod<
-  ExecutePolicyType,
+  ExecutePolicyType & RegionInput,
   ExecutePolicyResponse,
   ExecutePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3540,7 +3541,7 @@ export type ExitStandbyError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const exitStandby: API.OperationMethod<
-  ExitStandbyQuery,
+  ExitStandbyQuery & RegionInput,
   ExitStandbyAnswer,
   ExitStandbyError,
   Credentials | HttpClient.HttpClient
@@ -3571,7 +3572,7 @@ export type GetPredictiveScalingForecastError = ResourceContentionFault | Common
  * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const getPredictiveScalingForecast: API.OperationMethod<
-  GetPredictiveScalingForecastType,
+  GetPredictiveScalingForecastType & RegionInput,
   GetPredictiveScalingForecastAnswer,
   GetPredictiveScalingForecastError,
   Credentials | HttpClient.HttpClient
@@ -3596,7 +3597,7 @@ export type LaunchInstancesError =
  * other details if launch is successful or error details if launch is unsuccessful.
  */
 export const launchInstances: API.OperationMethod<
-  LaunchInstancesRequest,
+  LaunchInstancesRequest & RegionInput,
   LaunchInstancesResult,
   LaunchInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3662,7 +3663,7 @@ export type PutLifecycleHookError =
  * hook, you can delete it by calling the DeleteLifecycleHook API.
  */
 export const putLifecycleHook: API.OperationMethod<
-  PutLifecycleHookType,
+  PutLifecycleHookType & RegionInput,
   PutLifecycleHookAnswer,
   PutLifecycleHookError,
   Credentials | HttpClient.HttpClient
@@ -3697,7 +3698,7 @@ export type PutNotificationConfigurationError =
  * fails.
  */
 export const putNotificationConfiguration: API.OperationMethod<
-  PutNotificationConfigurationType,
+  PutNotificationConfigurationType & RegionInput,
   PutNotificationConfigurationResponse,
   PutNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3734,7 +3735,7 @@ export type PutScalingPolicyError =
  * you can delete it by calling the DeletePolicy API.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyType,
+  PutScalingPolicyType & RegionInput,
   PolicyARNType,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3770,7 +3771,7 @@ export type PutScheduledUpdateGroupActionError =
  * message.
  */
 export const putScheduledUpdateGroupAction: API.OperationMethod<
-  PutScheduledUpdateGroupActionType,
+  PutScheduledUpdateGroupActionType & RegionInput,
   PutScheduledUpdateGroupActionResponse,
   PutScheduledUpdateGroupActionError,
   Credentials | HttpClient.HttpClient
@@ -3811,7 +3812,7 @@ export type PutWarmPoolError =
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const putWarmPool: API.OperationMethod<
-  PutWarmPoolType,
+  PutWarmPoolType & RegionInput,
   PutWarmPoolAnswer,
   PutWarmPoolError,
   Credentials | HttpClient.HttpClient
@@ -3860,7 +3861,7 @@ export type RecordLifecycleActionHeartbeatError = ResourceContentionFault | Comm
  * hooks in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const recordLifecycleActionHeartbeat: API.OperationMethod<
-  RecordLifecycleActionHeartbeatType,
+  RecordLifecycleActionHeartbeatType & RegionInput,
   RecordLifecycleActionHeartbeatAnswer,
   RecordLifecycleActionHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -3884,7 +3885,7 @@ export type ResumeProcessesError = ResourceContentionFault | ResourceInUseFault 
  * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const resumeProcesses: API.OperationMethod<
-  ScalingProcessQuery,
+  ScalingProcessQuery & RegionInput,
   ResumeProcessesResponse,
   ResumeProcessesError,
   Credentials | HttpClient.HttpClient
@@ -3930,7 +3931,7 @@ export type RollbackInstanceRefreshError =
  * DescribeInstanceRefreshes API operation.
  */
 export const rollbackInstanceRefresh: API.OperationMethod<
-  RollbackInstanceRefreshType,
+  RollbackInstanceRefreshType & RegionInput,
   RollbackInstanceRefreshAnswer,
   RollbackInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -3965,7 +3966,7 @@ export type SetDesiredCapacityError =
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const setDesiredCapacity: API.OperationMethod<
-  SetDesiredCapacityType,
+  SetDesiredCapacityType & RegionInput,
   SetDesiredCapacityResponse,
   SetDesiredCapacityError,
   Credentials | HttpClient.HttpClient
@@ -3989,7 +3990,7 @@ export type SetInstanceHealthError = ResourceContentionFault | CommonErrors;
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const setInstanceHealth: API.OperationMethod<
-  SetInstanceHealthQuery,
+  SetInstanceHealthQuery & RegionInput,
   SetInstanceHealthResponse,
   SetInstanceHealthError,
   Credentials | HttpClient.HttpClient
@@ -4020,7 +4021,7 @@ export type SetInstanceProtectionError =
  * fails.
  */
 export const setInstanceProtection: API.OperationMethod<
-  SetInstanceProtectionQuery,
+  SetInstanceProtectionQuery & RegionInput,
   SetInstanceProtectionAnswer,
   SetInstanceProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4070,7 +4071,7 @@ export type StartInstanceRefreshError =
  * RollbackInstanceRefresh API.
  */
 export const startInstanceRefresh: API.OperationMethod<
-  StartInstanceRefreshType,
+  StartInstanceRefreshType & RegionInput,
   StartInstanceRefreshAnswer,
   StartInstanceRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4098,7 +4099,7 @@ export type SuspendProcessesError = ResourceContentionFault | ResourceInUseFault
  * To resume processes that have been suspended, call the ResumeProcesses API.
  */
 export const suspendProcesses: API.OperationMethod<
-  ScalingProcessQuery,
+  ScalingProcessQuery & RegionInput,
   SuspendProcessesResponse,
   SuspendProcessesError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4142,7 @@ export type TerminateInstanceInAutoScalingGroupError =
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
 export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
-  TerminateInstanceInAutoScalingGroupType,
+  TerminateInstanceInAutoScalingGroupType & RegionInput,
   ActivityType,
   TerminateInstanceInAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -4206,7 +4207,7 @@ export type UpdateAutoScalingGroupError =
  * policies, you can update them by calling the PutScalingPolicy API.
  */
 export const updateAutoScalingGroup: API.OperationMethod<
-  UpdateAutoScalingGroupType,
+  UpdateAutoScalingGroupType & RegionInput,
   UpdateAutoScalingGroupResponse,
   UpdateAutoScalingGroupError,
   Credentials | HttpClient.HttpClient

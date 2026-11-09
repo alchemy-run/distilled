@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -205,7 +206,7 @@ export type GetExportError = InvalidParameterValueException | NoSuchExportExcept
  * Returns information for an existing domain export.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -229,7 +230,7 @@ export type ListExportsError =
  * Lists all exports that were created. The results are paginated and can be filtered by domain name.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -262,7 +263,7 @@ export type StartDomainExportError =
  * Initiates the export of a SimpleDB domain to an S3 bucket.
  */
 export const startDomainExport: API.OperationMethod<
-  StartDomainExportRequest,
+  StartDomainExportRequest & RegionInput,
   StartDomainExportResponse,
   StartDomainExportError,
   Credentials | HttpClient.HttpClient

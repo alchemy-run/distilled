@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -186,7 +187,7 @@ export type CreateHomeRegionControlError =
  * This API sets up the home region for the calling account only.
  */
 export const createHomeRegionControl: API.OperationMethod<
-  CreateHomeRegionControlRequest,
+  CreateHomeRegionControlRequest & RegionInput,
   CreateHomeRegionControlResult,
   CreateHomeRegionControlError,
   Credentials | HttpClient.HttpClient
@@ -219,7 +220,7 @@ export type DeleteHomeRegionControlError =
  * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
  */
 export const deleteHomeRegionControl: API.OperationMethod<
-  DeleteHomeRegionControlRequest,
+  DeleteHomeRegionControlRequest & RegionInput,
   DeleteHomeRegionControlResult,
   DeleteHomeRegionControlError,
   Credentials | HttpClient.HttpClient
@@ -252,7 +253,7 @@ export type DescribeHomeRegionControlsError =
  * fields.
  */
 export const describeHomeRegionControls: API.PaginatedOperationMethod<
-  DescribeHomeRegionControlsRequest,
+  DescribeHomeRegionControlsRequest & RegionInput,
   DescribeHomeRegionControlsResult,
   DescribeHomeRegionControlsError,
   Credentials | HttpClient.HttpClient,
@@ -294,7 +295,7 @@ export type GetHomeRegionError =
  * Migration Hub home region.
  */
 export const getHomeRegion: API.OperationMethod<
-  GetHomeRegionRequest,
+  GetHomeRegionRequest & RegionInput,
   GetHomeRegionResult,
   GetHomeRegionError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -666,7 +667,7 @@ export type CreateSignalingChannelError =
  * `CreateSignalingChannel` is an asynchronous operation.
  */
 export const createSignalingChannel: API.OperationMethod<
-  CreateSignalingChannelInput,
+  CreateSignalingChannelInput & RegionInput,
   CreateSignalingChannelOutput,
   CreateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -711,7 +712,7 @@ export type CreateStreamError =
  * action.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +750,7 @@ export type DeleteEdgeConfigurationError =
  * When the deletion process has completed successfully, the edge configuration is no longer accessible.
  */
 export const deleteEdgeConfiguration: API.OperationMethod<
-  DeleteEdgeConfigurationInput,
+  DeleteEdgeConfigurationInput & RegionInput,
   DeleteEdgeConfigurationOutput,
   DeleteEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -784,7 +785,7 @@ export type DeleteSignalingChannelError =
  * recent version is deleted.
  */
 export const deleteSignalingChannel: API.OperationMethod<
-  DeleteSignalingChannelInput,
+  DeleteSignalingChannelInput & RegionInput,
   DeleteSignalingChannelOutput,
   DeleteSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type DeleteStreamError =
  * action.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type DescribeEdgeConfigurationError =
  * evaluate the health of the Edge Agent.
  */
 export const describeEdgeConfiguration: API.OperationMethod<
-  DescribeEdgeConfigurationInput,
+  DescribeEdgeConfigurationInput & RegionInput,
   DescribeEdgeConfigurationOutput,
   DescribeEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DescribeImageGenerationConfigurationError =
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
 export const describeImageGenerationConfiguration: API.OperationMethod<
-  DescribeImageGenerationConfigurationInput,
+  DescribeImageGenerationConfigurationInput & RegionInput,
   DescribeImageGenerationConfigurationOutput,
   DescribeImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type DescribeMappedResourceConfigurationError =
  * or `streamARN` should be provided in the input.
  */
 export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
-  DescribeMappedResourceConfigurationInput,
+  DescribeMappedResourceConfigurationInput & RegionInput,
   DescribeMappedResourceConfigurationOutput,
   DescribeMappedResourceConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -966,7 +967,7 @@ export type DescribeMediaStorageConfigurationError =
  * or `ChannelARN` in the input.
  */
 export const describeMediaStorageConfiguration: API.OperationMethod<
-  DescribeMediaStorageConfigurationInput,
+  DescribeMediaStorageConfigurationInput & RegionInput,
   DescribeMediaStorageConfigurationOutput,
   DescribeMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type DescribeNotificationConfigurationError =
  * Gets the `NotificationConfiguration` for a given Kinesis video stream.
  */
 export const describeNotificationConfiguration: API.OperationMethod<
-  DescribeNotificationConfigurationInput,
+  DescribeNotificationConfigurationInput & RegionInput,
   DescribeNotificationConfigurationOutput,
   DescribeNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1028,7 +1029,7 @@ export type DescribeSignalingChannelError =
  * describe.
  */
 export const describeSignalingChannel: API.OperationMethod<
-  DescribeSignalingChannelInput,
+  DescribeSignalingChannelInput & RegionInput,
   DescribeSignalingChannelOutput,
   DescribeSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type DescribeStreamError =
  * either the `StreamName` or the `StreamARN`.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -1093,7 +1094,7 @@ export type DescribeStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
  */
 export const describeStreamStorageConfiguration: API.OperationMethod<
-  DescribeStreamStorageConfigurationInput,
+  DescribeStreamStorageConfigurationInput & RegionInput,
   DescribeStreamStorageConfigurationOutput,
   DescribeStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1132,7 +1133,7 @@ export type GetDataEndpointError =
  * `StreamARN`.
  */
 export const getDataEndpoint: API.OperationMethod<
-  GetDataEndpointInput,
+  GetDataEndpointInput & RegionInput,
   GetDataEndpointOutput,
   GetDataEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type GetSignalingChannelEndpointError =
  * an endpoint that a client can use to communicate only with a `MASTER`.
  */
 export const getSignalingChannelEndpoint: API.OperationMethod<
-  GetSignalingChannelEndpointInput,
+  GetSignalingChannelEndpointInput & RegionInput,
   GetSignalingChannelEndpointOutput,
   GetSignalingChannelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type ListEdgeAgentConfigurationsError =
  * In the request, you must specify the Edge Agent `HubDeviceArn`.
  */
 export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
-  ListEdgeAgentConfigurationsInput,
+  ListEdgeAgentConfigurationsInput & RegionInput,
   ListEdgeAgentConfigurationsOutput,
   ListEdgeAgentConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1242,7 +1243,7 @@ export type ListSignalingChannelsError =
  * you can specify a `ChannelNameCondition`.
  */
 export const listSignalingChannels: API.PaginatedOperationMethod<
-  ListSignalingChannelsInput,
+  ListSignalingChannelsInput & RegionInput,
   ListSignalingChannelsOutput,
   ListSignalingChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1274,7 +1275,7 @@ export type ListStreamsError =
  * `StreamNameCondition`.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1306,7 +1307,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags associated with the specified signaling channel.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type ListTagsForStreamError =
  * `StreamARN`.
  */
 export const listTagsForStream: API.OperationMethod<
-  ListTagsForStreamInput,
+  ListTagsForStreamInput & RegionInput,
   ListTagsForStreamOutput,
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type StartEdgeConfigurationUpdateError =
  * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
  */
 export const startEdgeConfigurationUpdate: API.OperationMethod<
-  StartEdgeConfigurationUpdateInput,
+  StartEdgeConfigurationUpdateInput & RegionInput,
   StartEdgeConfigurationUpdateOutput,
   StartEdgeConfigurationUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type TagResourceError =
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type TagStreamError =
  * A Kinesis video stream can support up to 50 tags.
  */
 export const tagStream: API.OperationMethod<
-  TagStreamInput,
+  TagStreamInput & RegionInput,
   TagStreamOutput,
   TagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type UntagResourceError =
  * ignored.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1548,7 +1549,7 @@ export type UntagStreamError =
  * `StreamARN`.
  */
 export const untagStream: API.OperationMethod<
-  UntagStreamInput,
+  UntagStreamInput & RegionInput,
   UntagStreamOutput,
   UntagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1602,7 +1603,7 @@ export type UpdateDataRetentionError =
  * any data older than one hour is deleted immediately.
  */
 export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionInput,
+  UpdateDataRetentionInput & RegionInput,
   UpdateDataRetentionOutput,
   UpdateDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type UpdateImageGenerationConfigurationError =
  * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
  */
 export const updateImageGenerationConfiguration: API.OperationMethod<
-  UpdateImageGenerationConfigurationInput,
+  UpdateImageGenerationConfigurationInput & RegionInput,
   UpdateImageGenerationConfigurationOutput,
   UpdateImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1685,7 @@ export type UpdateMediaStorageConfigurationError =
  * connection between a peer and the storage session.
  */
 export const updateMediaStorageConfiguration: API.OperationMethod<
-  UpdateMediaStorageConfigurationInput,
+  UpdateMediaStorageConfigurationInput & RegionInput,
   UpdateMediaStorageConfigurationOutput,
   UpdateMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1718,7 +1719,7 @@ export type UpdateNotificationConfigurationError =
  * Updates the notification information for a stream.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationInput,
+  UpdateNotificationConfigurationInput & RegionInput,
   UpdateNotificationConfigurationOutput,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1759,7 +1760,7 @@ export type UpdateSignalingChannelError =
  * value.
  */
 export const updateSignalingChannel: API.OperationMethod<
-  UpdateSignalingChannelInput,
+  UpdateSignalingChannelInput & RegionInput,
   UpdateSignalingChannelOutput,
   UpdateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type UpdateStreamError =
  * complete.
  */
 export const updateStream: API.OperationMethod<
-  UpdateStreamInput,
+  UpdateStreamInput & RegionInput,
   UpdateStreamOutput,
   UpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -1847,7 +1848,7 @@ export type UpdateStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
  */
 export const updateStreamStorageConfiguration: API.OperationMethod<
-  UpdateStreamStorageConfigurationInput,
+  UpdateStreamStorageConfigurationInput & RegionInput,
   UpdateStreamStorageConfigurationOutput,
   UpdateStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient

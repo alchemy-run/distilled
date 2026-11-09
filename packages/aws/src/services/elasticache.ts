@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2442,7 +2443,7 @@ export type AddTagsToResourceError =
  * Guide.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   TagListMessage,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2492,7 +2493,7 @@ export type AuthorizeCacheSecurityGroupIngressError =
  * ElastiCache cluster in another region.
  */
 export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
-  AuthorizeCacheSecurityGroupIngressMessage,
+  AuthorizeCacheSecurityGroupIngressMessage & RegionInput,
   AuthorizeCacheSecurityGroupIngressResult,
   AuthorizeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -2523,7 +2524,7 @@ export type BatchApplyUpdateActionError =
  * Updates.
  */
 export const batchApplyUpdateAction: API.OperationMethod<
-  BatchApplyUpdateActionMessage,
+  BatchApplyUpdateActionMessage & RegionInput,
   UpdateActionResultsMessage,
   BatchApplyUpdateActionError,
   Credentials | HttpClient.HttpClient
@@ -2548,7 +2549,7 @@ export type BatchStopUpdateActionError =
  * Service Updates.
  */
 export const batchStopUpdateAction: API.OperationMethod<
-  BatchStopUpdateActionMessage,
+  BatchStopUpdateActionMessage & RegionInput,
   UpdateActionResultsMessage,
   BatchStopUpdateActionError,
   Credentials | HttpClient.HttpClient
@@ -2572,7 +2573,7 @@ export type CompleteMigrationError =
  * Complete the migration of data.
  */
 export const completeMigration: API.OperationMethod<
-  CompleteMigrationMessage,
+  CompleteMigrationMessage & RegionInput,
   CompleteMigrationResponse,
   CompleteMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2605,7 +2606,7 @@ export type CopyServerlessCacheSnapshotError =
  * Creates a copy of an existing serverless cache's snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const copyServerlessCacheSnapshot: API.OperationMethod<
-  CopyServerlessCacheSnapshotRequest,
+  CopyServerlessCacheSnapshotRequest & RegionInput,
   CopyServerlessCacheSnapshotResponse,
   CopyServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2712,7 +2713,7 @@ export type CopySnapshotError =
  * ElastiCache User Guide.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotMessage,
+  CopySnapshotMessage & RegionInput,
   CopySnapshotResult,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type CreateCacheClusterError =
  * This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
  */
 export const createCacheCluster: API.OperationMethod<
-  CreateCacheClusterMessage,
+  CreateCacheClusterMessage & RegionInput,
   CreateCacheClusterResult,
   CreateCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -2812,7 +2813,7 @@ export type CreateCacheParameterGroupError =
  * Parameter Groups in the ElastiCache User Guide.
  */
 export const createCacheParameterGroup: API.OperationMethod<
-  CreateCacheParameterGroupMessage,
+  CreateCacheParameterGroupMessage & RegionInput,
   CreateCacheParameterGroupResult,
   CreateCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2850,7 +2851,7 @@ export type CreateCacheSecurityGroupError =
  * VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
  */
 export const createCacheSecurityGroup: API.OperationMethod<
-  CreateCacheSecurityGroupMessage,
+  CreateCacheSecurityGroupMessage & RegionInput,
   CreateCacheSecurityGroupResult,
   CreateCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -2886,7 +2887,7 @@ export type CreateCacheSubnetGroupError =
  * Cloud (Amazon VPC).
  */
 export const createCacheSubnetGroup: API.OperationMethod<
-  CreateCacheSubnetGroupMessage,
+  CreateCacheSubnetGroupMessage & RegionInput,
   CreateCacheSubnetGroupResult,
   CreateCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2931,7 +2932,7 @@ export type CreateGlobalReplicationGroupError =
  * the secondary cluster.
  */
 export const createGlobalReplicationGroup: API.OperationMethod<
-  CreateGlobalReplicationGroupMessage,
+  CreateGlobalReplicationGroupMessage & RegionInput,
   CreateGlobalReplicationGroupResult,
   CreateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3012,7 +3013,7 @@ export type CreateReplicationGroupError =
  * This operation is valid for Valkey and Redis OSS only.
  */
 export const createReplicationGroup: API.OperationMethod<
-  CreateReplicationGroupMessage,
+  CreateReplicationGroupMessage & RegionInput,
   CreateReplicationGroupResult,
   CreateReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3064,7 +3065,7 @@ export type CreateServerlessCacheError =
  * Creates a serverless cache.
  */
 export const createServerlessCache: API.OperationMethod<
-  CreateServerlessCacheRequest,
+  CreateServerlessCacheRequest & RegionInput,
   CreateServerlessCacheResponse,
   CreateServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -3105,7 +3106,7 @@ export type CreateServerlessCacheSnapshotError =
  * This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const createServerlessCacheSnapshot: API.OperationMethod<
-  CreateServerlessCacheSnapshotRequest,
+  CreateServerlessCacheSnapshotRequest & RegionInput,
   CreateServerlessCacheSnapshotResponse,
   CreateServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3148,7 +3149,7 @@ export type CreateSnapshotError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotMessage,
+  CreateSnapshotMessage & RegionInput,
   CreateSnapshotResult,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3188,7 +3189,7 @@ export type CreateUserError =
  * Using Role Based Access Control (RBAC).
  */
 export const createUser: API.OperationMethod<
-  CreateUserMessage,
+  CreateUserMessage & RegionInput,
   User,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -3226,7 +3227,7 @@ export type CreateUserGroupError =
  * information, see Using Role Based Access Control (RBAC)
  */
 export const createUserGroup: API.OperationMethod<
-  CreateUserGroupMessage,
+  CreateUserGroupMessage & RegionInput,
   UserGroup,
   CreateUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type DecreaseNodeGroupsInGlobalReplicationGroupError =
  * Decreases the number of node groups in a Global datastore
  */
 export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
-  DecreaseNodeGroupsInGlobalReplicationGroupMessage,
+  DecreaseNodeGroupsInGlobalReplicationGroupMessage & RegionInput,
   DecreaseNodeGroupsInGlobalReplicationGroupResult,
   DecreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3301,7 +3302,7 @@ export type DecreaseReplicaCountError =
  * cluster down time.
  */
 export const decreaseReplicaCount: API.OperationMethod<
-  DecreaseReplicaCountMessage,
+  DecreaseReplicaCountMessage & RegionInput,
   DecreaseReplicaCountResult,
   DecreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type DeleteCacheClusterError =
  * - A cluster that is not in the `available` state
  */
 export const deleteCacheCluster: API.OperationMethod<
-  DeleteCacheClusterMessage,
+  DeleteCacheClusterMessage & RegionInput,
   DeleteCacheClusterResult,
   DeleteCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -3396,7 +3397,7 @@ export type DeleteCacheParameterGroupError =
  * parameter groups in your account.
  */
 export const deleteCacheParameterGroup: API.OperationMethod<
-  DeleteCacheParameterGroupMessage,
+  DeleteCacheParameterGroupMessage & RegionInput,
   DeleteCacheParameterGroupResponse,
   DeleteCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3429,7 +3430,7 @@ export type DeleteCacheSecurityGroupError =
  * clusters.
  */
 export const deleteCacheSecurityGroup: API.OperationMethod<
-  DeleteCacheSecurityGroupMessage,
+  DeleteCacheSecurityGroupMessage & RegionInput,
   DeleteCacheSecurityGroupResponse,
   DeleteCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -3460,7 +3461,7 @@ export type DeleteCacheSubnetGroupError =
  * clusters.
  */
 export const deleteCacheSubnetGroup: API.OperationMethod<
-  DeleteCacheSubnetGroupMessage,
+  DeleteCacheSubnetGroupMessage & RegionInput,
   DeleteCacheSubnetGroupResponse,
   DeleteCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3502,7 +3503,7 @@ export type DeleteGlobalReplicationGroupError =
  * operation.
  */
 export const deleteGlobalReplicationGroup: API.OperationMethod<
-  DeleteGlobalReplicationGroupMessage,
+  DeleteGlobalReplicationGroupMessage & RegionInput,
   DeleteGlobalReplicationGroupResult,
   DeleteGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3547,7 +3548,7 @@ export type DeleteReplicationGroupError =
  * - This operation is valid for Redis OSS only.
  */
 export const deleteReplicationGroup: API.OperationMethod<
-  DeleteReplicationGroupMessage,
+  DeleteReplicationGroupMessage & RegionInput,
   DeleteReplicationGroupResult,
   DeleteReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3586,7 +3587,7 @@ export type DeleteServerlessCacheError =
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
 export const deleteServerlessCache: API.OperationMethod<
-  DeleteServerlessCacheRequest,
+  DeleteServerlessCacheRequest & RegionInput,
   DeleteServerlessCacheResponse,
   DeleteServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -3619,7 +3620,7 @@ export type DeleteServerlessCacheSnapshotError =
  * Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const deleteServerlessCacheSnapshot: API.OperationMethod<
-  DeleteServerlessCacheSnapshotRequest,
+  DeleteServerlessCacheSnapshotRequest & RegionInput,
   DeleteServerlessCacheSnapshotResponse,
   DeleteServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3653,7 +3654,7 @@ export type DeleteSnapshotError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotMessage,
+  DeleteSnapshotMessage & RegionInput,
   DeleteSnapshotResult,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3686,7 +3687,7 @@ export type DeleteUserError =
  * see Using Role Based Access Control (RBAC).
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserMessage,
+  DeleteUserMessage & RegionInput,
   User,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3719,7 +3720,7 @@ export type DeleteUserGroupError =
  * information, see Using Role Based Access Control (RBAC).
  */
 export const deleteUserGroup: API.OperationMethod<
-  DeleteUserGroupMessage,
+  DeleteUserGroupMessage & RegionInput,
   UserGroup,
   DeleteUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -3768,7 +3769,7 @@ export type DescribeCacheClustersError =
  * for the removed nodes is displayed.
  */
 export const describeCacheClusters: API.PaginatedOperationMethod<
-  DescribeCacheClustersMessage,
+  DescribeCacheClustersMessage & RegionInput,
   CacheClusterMessage,
   DescribeCacheClustersError,
   Credentials | HttpClient.HttpClient,
@@ -3799,7 +3800,7 @@ export type DescribeCacheEngineVersionsError = CommonErrors;
  * Returns a list of the available cache engines and their versions.
  */
 export const describeCacheEngineVersions: API.PaginatedOperationMethod<
-  DescribeCacheEngineVersionsMessage,
+  DescribeCacheEngineVersionsMessage & RegionInput,
   CacheEngineVersionMessage,
   DescribeCacheEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3831,7 +3832,7 @@ export type DescribeCacheParameterGroupsError =
  * is specified, the list contains only the descriptions for that group.
  */
 export const describeCacheParameterGroups: API.PaginatedOperationMethod<
-  DescribeCacheParameterGroupsMessage,
+  DescribeCacheParameterGroupsMessage & RegionInput,
   CacheParameterGroupsMessage,
   DescribeCacheParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3866,7 +3867,7 @@ export type DescribeCacheParametersError =
  * Returns the detailed parameter list for a particular cache parameter group.
  */
 export const describeCacheParameters: API.PaginatedOperationMethod<
-  DescribeCacheParametersMessage,
+  DescribeCacheParametersMessage & RegionInput,
   CacheParameterGroupDetails,
   DescribeCacheParametersError,
   Credentials | HttpClient.HttpClient,
@@ -3903,7 +3904,7 @@ export type DescribeCacheSecurityGroupsError =
  * when you have ElastiCache in Classic setup
  */
 export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
-  DescribeCacheSecurityGroupsMessage,
+  DescribeCacheSecurityGroupsMessage & RegionInput,
   CacheSecurityGroupMessage,
   DescribeCacheSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3937,7 +3938,7 @@ export type DescribeCacheSubnetGroupsError = CacheSubnetGroupNotFoundFault | Com
  * default.
  */
 export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
-  DescribeCacheSubnetGroupsMessage,
+  DescribeCacheSubnetGroupsMessage & RegionInput,
   CacheSubnetGroupMessage,
   DescribeCacheSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3968,7 +3969,7 @@ export type DescribeEngineDefaultParametersError =
  * engine.
  */
 export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
-  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersMessage & RegionInput,
   DescribeEngineDefaultParametersResult,
   DescribeEngineDefaultParametersError,
   Credentials | HttpClient.HttpClient,
@@ -4003,7 +4004,7 @@ export type DescribeEventsError =
  * can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4035,7 +4036,7 @@ export type DescribeGlobalReplicationGroupsError =
  * specified, returns information about all Global datastores.
  */
 export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
-  DescribeGlobalReplicationGroupsMessage,
+  DescribeGlobalReplicationGroupsMessage & RegionInput,
   DescribeGlobalReplicationGroupsResult,
   DescribeGlobalReplicationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4074,7 +4075,7 @@ export type DescribeReplicationGroupsError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const describeReplicationGroups: API.PaginatedOperationMethod<
-  DescribeReplicationGroupsMessage,
+  DescribeReplicationGroupsMessage & RegionInput,
   ReplicationGroupMessage,
   DescribeReplicationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4110,7 +4111,7 @@ export type DescribeReservedCacheNodesError =
  * reserved cache node.
  */
 export const describeReservedCacheNodes: API.PaginatedOperationMethod<
-  DescribeReservedCacheNodesMessage,
+  DescribeReservedCacheNodesMessage & RegionInput,
   ReservedCacheNodeMessage,
   DescribeReservedCacheNodesError,
   Credentials | HttpClient.HttpClient,
@@ -4145,7 +4146,7 @@ export type DescribeReservedCacheNodesOfferingsError =
  * Lists available reserved cache node offerings.
  */
 export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
-  DescribeReservedCacheNodesOfferingsMessage,
+  DescribeReservedCacheNodesOfferingsMessage & RegionInput,
   ReservedCacheNodesOfferingMessage,
   DescribeReservedCacheNodesOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -4182,7 +4183,7 @@ export type DescribeServerlessCachesError =
  * this Amazon Web Services account.
  */
 export const describeServerlessCaches: API.PaginatedOperationMethod<
-  DescribeServerlessCachesRequest,
+  DescribeServerlessCachesRequest & RegionInput,
   DescribeServerlessCachesResponse,
   DescribeServerlessCachesError,
   Credentials | HttpClient.HttpClient,
@@ -4221,7 +4222,7 @@ export type DescribeServerlessCacheSnapshotsError =
  * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
-  DescribeServerlessCacheSnapshotsRequest,
+  DescribeServerlessCacheSnapshotsRequest & RegionInput,
   DescribeServerlessCacheSnapshotsResponse,
   DescribeServerlessCacheSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -4257,7 +4258,7 @@ export type DescribeServiceUpdatesError =
  * Returns details of the service updates
  */
 export const describeServiceUpdates: API.PaginatedOperationMethod<
-  DescribeServiceUpdatesMessage,
+  DescribeServiceUpdatesMessage & RegionInput,
   ServiceUpdatesMessage,
   DescribeServiceUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -4298,7 +4299,7 @@ export type DescribeSnapshotsError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsMessage,
+  DescribeSnapshotsMessage & RegionInput,
   DescribeSnapshotsListMessage,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -4333,7 +4334,7 @@ export type DescribeUpdateActionsError =
  * Returns details of the update actions
  */
 export const describeUpdateActions: API.PaginatedOperationMethod<
-  DescribeUpdateActionsMessage,
+  DescribeUpdateActionsMessage & RegionInput,
   UpdateActionsMessage,
   DescribeUpdateActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4364,7 +4365,7 @@ export type DescribeUserGroupsError =
  * Returns a list of user groups.
  */
 export const describeUserGroups: API.PaginatedOperationMethod<
-  DescribeUserGroupsMessage,
+  DescribeUserGroupsMessage & RegionInput,
   DescribeUserGroupsResult,
   DescribeUserGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4399,7 +4400,7 @@ export type DescribeUsersError =
  * Returns a list of users.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersMessage,
+  DescribeUsersMessage & RegionInput,
   DescribeUsersResult,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
@@ -4433,7 +4434,7 @@ export type DisassociateGlobalReplicationGroupError =
  * remain as a standalone cluster in that Amazon region.
  */
 export const disassociateGlobalReplicationGroup: API.OperationMethod<
-  DisassociateGlobalReplicationGroupMessage,
+  DisassociateGlobalReplicationGroupMessage & RegionInput,
   DisassociateGlobalReplicationGroupResult,
   DisassociateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4463,7 +4464,7 @@ export type ExportServerlessCacheSnapshotError =
  * Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
  */
 export const exportServerlessCacheSnapshot: API.OperationMethod<
-  ExportServerlessCacheSnapshotRequest,
+  ExportServerlessCacheSnapshotRequest & RegionInput,
   ExportServerlessCacheSnapshotResponse,
   ExportServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4494,7 +4495,7 @@ export type FailoverGlobalReplicationGroupError =
  * become primary, and all other clusters will become secondary.
  */
 export const failoverGlobalReplicationGroup: API.OperationMethod<
-  FailoverGlobalReplicationGroupMessage,
+  FailoverGlobalReplicationGroupMessage & RegionInput,
   FailoverGlobalReplicationGroupResult,
   FailoverGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4523,7 +4524,7 @@ export type IncreaseNodeGroupsInGlobalReplicationGroupError =
  * Increase the number of node groups in the Global datastore
  */
 export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
-  IncreaseNodeGroupsInGlobalReplicationGroupMessage,
+  IncreaseNodeGroupsInGlobalReplicationGroupMessage & RegionInput,
   IncreaseNodeGroupsInGlobalReplicationGroupResult,
   IncreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4563,7 +4564,7 @@ export type IncreaseReplicaCountError =
  * cluster down time.
  */
 export const increaseReplicaCount: API.OperationMethod<
-  IncreaseReplicaCountMessage,
+  IncreaseReplicaCountMessage & RegionInput,
   IncreaseReplicaCountResult,
   IncreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
@@ -4607,7 +4608,7 @@ export type ListAllowedNodeTypeModificationsError =
  * types returned by this operation.
  */
 export const listAllowedNodeTypeModifications: API.OperationMethod<
-  ListAllowedNodeTypeModificationsMessage,
+  ListAllowedNodeTypeModificationsMessage & RegionInput,
   AllowedNodeTypeModificationsMessage,
   ListAllowedNodeTypeModificationsError,
   Credentials | HttpClient.HttpClient
@@ -4659,7 +4660,7 @@ export type ListTagsForResourceError =
  * `ListTagsForResource` returns an error.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   TagListMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4710,7 +4711,7 @@ export type ModifyCacheClusterError =
  * cluster configuration parameters by specifying the parameters and the new values.
  */
 export const modifyCacheCluster: API.OperationMethod<
-  ModifyCacheClusterMessage,
+  ModifyCacheClusterMessage & RegionInput,
   ModifyCacheClusterResult,
   ModifyCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -4749,7 +4750,7 @@ export type ModifyCacheParameterGroupError =
  * in a single request by submitting a list parameter name and value pairs.
  */
 export const modifyCacheParameterGroup: API.OperationMethod<
-  ModifyCacheParameterGroupMessage,
+  ModifyCacheParameterGroupMessage & RegionInput,
   CacheParameterGroupNameMessage,
   ModifyCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4781,7 +4782,7 @@ export type ModifyCacheSubnetGroupError =
  * Modifies an existing cache subnet group.
  */
 export const modifyCacheSubnetGroup: API.OperationMethod<
-  ModifyCacheSubnetGroupMessage,
+  ModifyCacheSubnetGroupMessage & RegionInput,
   ModifyCacheSubnetGroupResult,
   ModifyCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -4811,7 +4812,7 @@ export type ModifyGlobalReplicationGroupError =
  * Modifies the settings for a Global datastore.
  */
 export const modifyGlobalReplicationGroup: API.OperationMethod<
-  ModifyGlobalReplicationGroupMessage,
+  ModifyGlobalReplicationGroupMessage & RegionInput,
   ModifyGlobalReplicationGroupResult,
   ModifyGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4860,7 +4861,7 @@ export type ModifyReplicationGroupError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const modifyReplicationGroup: API.OperationMethod<
-  ModifyReplicationGroupMessage,
+  ModifyReplicationGroupMessage & RegionInput,
   ModifyReplicationGroupResult,
   ModifyReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4909,7 +4910,7 @@ export type ModifyReplicationGroupShardConfigurationError =
  * remove shards, or rebalance the keyspaces among existing shards.
  */
 export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
-  ModifyReplicationGroupShardConfigurationMessage,
+  ModifyReplicationGroupShardConfigurationMessage & RegionInput,
   ModifyReplicationGroupShardConfigurationResult,
   ModifyReplicationGroupShardConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4949,7 +4950,7 @@ export type ModifyServerlessCacheError =
  * This API modifies the attributes of a serverless cache.
  */
 export const modifyServerlessCache: API.OperationMethod<
-  ModifyServerlessCacheRequest,
+  ModifyServerlessCacheRequest & RegionInput,
   ModifyServerlessCacheResponse,
   ModifyServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -4984,7 +4985,7 @@ export type ModifyUserError =
  * Changes user password(s) and/or access string.
  */
 export const modifyUser: API.OperationMethod<
-  ModifyUserMessage,
+  ModifyUserMessage & RegionInput,
   User,
   ModifyUserError,
   Credentials | HttpClient.HttpClient
@@ -5019,7 +5020,7 @@ export type ModifyUserGroupError =
  * Changes the list of users that belong to the user group.
  */
 export const modifyUserGroup: API.OperationMethod<
-  ModifyUserGroupMessage,
+  ModifyUserGroupMessage & RegionInput,
   UserGroup,
   ModifyUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -5056,7 +5057,7 @@ export type PurchaseReservedCacheNodesOfferingError =
  * for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
  */
 export const purchaseReservedCacheNodesOffering: API.OperationMethod<
-  PurchaseReservedCacheNodesOfferingMessage,
+  PurchaseReservedCacheNodesOfferingMessage & RegionInput,
   PurchaseReservedCacheNodesOfferingResult,
   PurchaseReservedCacheNodesOfferingError,
   Credentials | HttpClient.HttpClient
@@ -5088,7 +5089,7 @@ export type RebalanceSlotsInGlobalReplicationGroupError =
  * cluster.
  */
 export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
-  RebalanceSlotsInGlobalReplicationGroupMessage,
+  RebalanceSlotsInGlobalReplicationGroupMessage & RegionInput,
   RebalanceSlotsInGlobalReplicationGroupResult,
   RebalanceSlotsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -5130,7 +5131,7 @@ export type RebootCacheClusterError =
  * reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
  */
 export const rebootCacheCluster: API.OperationMethod<
-  RebootCacheClusterMessage,
+  RebootCacheClusterMessage & RegionInput,
   RebootCacheClusterResult,
   RebootCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -5173,7 +5174,7 @@ export type RemoveTagsFromResourceError =
  * be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   TagListMessage,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -5221,7 +5222,7 @@ export type ResetCacheParameterGroupError =
  * `CacheParameterGroupName` parameters.
  */
 export const resetCacheParameterGroup: API.OperationMethod<
-  ResetCacheParameterGroupMessage,
+  ResetCacheParameterGroupMessage & RegionInput,
   CacheParameterGroupNameMessage,
   ResetCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -5254,7 +5255,7 @@ export type RevokeCacheSecurityGroupIngressError =
  * from an Amazon EC2 security group that had been previously authorized.
  */
 export const revokeCacheSecurityGroupIngress: API.OperationMethod<
-  RevokeCacheSecurityGroupIngressMessage,
+  RevokeCacheSecurityGroupIngressMessage & RegionInput,
   RevokeCacheSecurityGroupIngressResult,
   RevokeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -5285,7 +5286,7 @@ export type StartMigrationError =
  * Start the migration of data.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationMessage,
+  StartMigrationMessage & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5370,7 +5371,7 @@ export type TestFailoverError =
  * Multi-AZ in the *ElastiCache User Guide*.
  */
 export const testFailover: API.OperationMethod<
-  TestFailoverMessage,
+  TestFailoverMessage & RegionInput,
   TestFailoverResult,
   TestFailoverError,
   Credentials | HttpClient.HttpClient
@@ -5405,7 +5406,7 @@ export type TestMigrationError =
  * Async API to test connection between source and target replication group.
  */
 export const testMigration: API.OperationMethod<
-  TestMigrationMessage,
+  TestMigrationMessage & RegionInput,
   TestMigrationResponse,
   TestMigrationError,
   Credentials | HttpClient.HttpClient

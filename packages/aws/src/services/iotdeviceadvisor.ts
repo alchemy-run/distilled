@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -400,7 +401,7 @@ export type CreateSuiteDefinitionError =
  * Requires permission to access the CreateSuiteDefinition action.
  */
 export const createSuiteDefinition: API.OperationMethod<
-  CreateSuiteDefinitionRequest,
+  CreateSuiteDefinitionRequest & RegionInput,
   CreateSuiteDefinitionResponse,
   CreateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -425,7 +426,7 @@ export type DeleteSuiteDefinitionError =
  * Requires permission to access the DeleteSuiteDefinition action.
  */
 export const deleteSuiteDefinition: API.OperationMethod<
-  DeleteSuiteDefinitionRequest,
+  DeleteSuiteDefinitionRequest & RegionInput,
   DeleteSuiteDefinitionResponse,
   DeleteSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type GetEndpointError =
  * Gets information about an Device Advisor endpoint.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -475,7 +476,7 @@ export type GetSuiteDefinitionError =
  * Requires permission to access the GetSuiteDefinition action.
  */
 export const getSuiteDefinition: API.OperationMethod<
-  GetSuiteDefinitionRequest,
+  GetSuiteDefinitionRequest & RegionInput,
   GetSuiteDefinitionResponse,
   GetSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -501,7 +502,7 @@ export type GetSuiteRunError =
  * Requires permission to access the GetSuiteRun action.
  */
 export const getSuiteRun: API.OperationMethod<
-  GetSuiteRunRequest,
+  GetSuiteRunRequest & RegionInput,
   GetSuiteRunResponse,
   GetSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -527,7 +528,7 @@ export type GetSuiteRunReportError =
  * Requires permission to access the GetSuiteRunReport action.
  */
 export const getSuiteRunReport: API.OperationMethod<
-  GetSuiteRunReportRequest,
+  GetSuiteRunReportRequest & RegionInput,
   GetSuiteRunReportResponse,
   GetSuiteRunReportError,
   Credentials | HttpClient.HttpClient
@@ -552,7 +553,7 @@ export type ListSuiteDefinitionsError =
  * Requires permission to access the ListSuiteDefinitions action.
  */
 export const listSuiteDefinitions: API.PaginatedOperationMethod<
-  ListSuiteDefinitionsRequest,
+  ListSuiteDefinitionsRequest & RegionInput,
   ListSuiteDefinitionsResponse,
   ListSuiteDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -581,7 +582,7 @@ export type ListSuiteRunsError = InternalServerException | ValidationException |
  * Requires permission to access the ListSuiteRuns action.
  */
 export const listSuiteRuns: API.PaginatedOperationMethod<
-  ListSuiteRunsRequest,
+  ListSuiteRunsRequest & RegionInput,
   ListSuiteRunsResponse,
   ListSuiteRunsError,
   Credentials | HttpClient.HttpClient,
@@ -613,7 +614,7 @@ export type ListTagsForResourceError =
  * Requires permission to access the ListTagsForResource action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -639,7 +640,7 @@ export type StartSuiteRunError =
  * Requires permission to access the StartSuiteRun action.
  */
 export const startSuiteRun: API.OperationMethod<
-  StartSuiteRunRequest,
+  StartSuiteRunRequest & RegionInput,
   StartSuiteRunResponse,
   StartSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -665,7 +666,7 @@ export type StopSuiteRunError =
  * Requires permission to access the StopSuiteRun action.
  */
 export const stopSuiteRun: API.OperationMethod<
-  StopSuiteRunRequest,
+  StopSuiteRunRequest & RegionInput,
   StopSuiteRunResponse,
   StopSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -691,7 +692,7 @@ export type TagResourceError =
  * Requires permission to access the TagResource action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -717,7 +718,7 @@ export type UntagResourceError =
  * Requires permission to access the UntagResource action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -742,7 +743,7 @@ export type UpdateSuiteDefinitionError =
  * Requires permission to access the UpdateSuiteDefinition action.
  */
 export const updateSuiteDefinition: API.OperationMethod<
-  UpdateSuiteDefinitionRequest,
+  UpdateSuiteDefinitionRequest & RegionInput,
   UpdateSuiteDefinitionResponse,
   UpdateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient

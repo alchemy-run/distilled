@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1665,7 +1666,7 @@ export type CancelTrainedModelError =
  * Submits a request to cancel the trained model job.
  */
 export const cancelTrainedModel: API.OperationMethod<
-  CancelTrainedModelRequest,
+  CancelTrainedModelRequest & RegionInput,
   CancelTrainedModelResponse,
   CancelTrainedModelError,
   Credentials | HttpClient.HttpClient
@@ -1697,7 +1698,7 @@ export type CancelTrainedModelInferenceJobError =
  * Submits a request to cancel a trained model inference job.
  */
 export const cancelTrainedModelInferenceJob: API.OperationMethod<
-  CancelTrainedModelInferenceJobRequest,
+  CancelTrainedModelInferenceJobRequest & RegionInput,
   CancelTrainedModelInferenceJobResponse,
   CancelTrainedModelInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1730,7 +1731,7 @@ export type CreateAudienceModelError =
  * Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API.
  */
 export const createAudienceModel: API.OperationMethod<
-  CreateAudienceModelRequest,
+  CreateAudienceModelRequest & RegionInput,
   CreateAudienceModelResponse,
   CreateAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -1764,7 +1765,7 @@ export type CreateConfiguredAudienceModelError =
  * Defines the information necessary to create a configured audience model.
  */
 export const createConfiguredAudienceModel: API.OperationMethod<
-  CreateConfiguredAudienceModelRequest,
+  CreateConfiguredAudienceModelRequest & RegionInput,
   CreateConfiguredAudienceModelResponse,
   CreateConfiguredAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -1797,7 +1798,7 @@ export type CreateConfiguredModelAlgorithmError =
  * Creates a configured model algorithm using a container image stored in an ECR repository.
  */
 export const createConfiguredModelAlgorithm: API.OperationMethod<
-  CreateConfiguredModelAlgorithmRequest,
+  CreateConfiguredModelAlgorithmRequest & RegionInput,
   CreateConfiguredModelAlgorithmResponse,
   CreateConfiguredModelAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -1830,7 +1831,7 @@ export type CreateConfiguredModelAlgorithmAssociationError =
  * Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
  */
 export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
-  CreateConfiguredModelAlgorithmAssociationRequest,
+  CreateConfiguredModelAlgorithmAssociationRequest & RegionInput,
   CreateConfiguredModelAlgorithmAssociationResponse,
   CreateConfiguredModelAlgorithmAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1864,7 +1865,7 @@ export type CreateMLInputChannelError =
  * Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
  */
 export const createMLInputChannel: API.OperationMethod<
-  CreateMLInputChannelRequest,
+  CreateMLInputChannelRequest & RegionInput,
   CreateMLInputChannelResponse,
   CreateMLInputChannelError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type CreateTrainedModelError =
  * Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
  */
 export const createTrainedModel: API.OperationMethod<
-  CreateTrainedModelRequest,
+  CreateTrainedModelRequest & RegionInput,
   CreateTrainedModelResponse,
   CreateTrainedModelError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type CreateTrainingDatasetError =
  * Defines the information necessary to create a training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation.
  */
 export const createTrainingDataset: API.OperationMethod<
-  CreateTrainingDatasetRequest,
+  CreateTrainingDatasetRequest & RegionInput,
   CreateTrainingDatasetResponse,
   CreateTrainingDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1958,7 +1959,7 @@ export type DeleteAudienceGenerationJobError =
  * Deletes the specified audience generation job, and removes all data associated with the job.
  */
 export const deleteAudienceGenerationJob: API.OperationMethod<
-  DeleteAudienceGenerationJobRequest,
+  DeleteAudienceGenerationJobRequest & RegionInput,
   DeleteAudienceGenerationJobResponse,
   DeleteAudienceGenerationJobError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1991,7 @@ export type DeleteAudienceModelError =
  * Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
  */
 export const deleteAudienceModel: API.OperationMethod<
-  DeleteAudienceModelRequest,
+  DeleteAudienceModelRequest & RegionInput,
   DeleteAudienceModelResponse,
   DeleteAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -2022,7 +2023,7 @@ export type DeleteConfiguredAudienceModelError =
  * Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
  */
 export const deleteConfiguredAudienceModel: API.OperationMethod<
-  DeleteConfiguredAudienceModelRequest,
+  DeleteConfiguredAudienceModelRequest & RegionInput,
   DeleteConfiguredAudienceModelResponse,
   DeleteConfiguredAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -2053,7 +2054,7 @@ export type DeleteConfiguredAudienceModelPolicyError =
  * Deletes the specified configured audience model policy.
  */
 export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
-  DeleteConfiguredAudienceModelPolicyRequest,
+  DeleteConfiguredAudienceModelPolicyRequest & RegionInput,
   DeleteConfiguredAudienceModelPolicyResponse,
   DeleteConfiguredAudienceModelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2084,7 +2085,7 @@ export type DeleteConfiguredModelAlgorithmError =
  * Deletes a configured model algorithm.
  */
 export const deleteConfiguredModelAlgorithm: API.OperationMethod<
-  DeleteConfiguredModelAlgorithmRequest,
+  DeleteConfiguredModelAlgorithmRequest & RegionInput,
   DeleteConfiguredModelAlgorithmResponse,
   DeleteConfiguredModelAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type DeleteConfiguredModelAlgorithmAssociationError =
  * Deletes a configured model algorithm association.
  */
 export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
-  DeleteConfiguredModelAlgorithmAssociationRequest,
+  DeleteConfiguredModelAlgorithmAssociationRequest & RegionInput,
   DeleteConfiguredModelAlgorithmAssociationResponse,
   DeleteConfiguredModelAlgorithmAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2147,7 +2148,7 @@ export type DeleteMLConfigurationError =
  * Deletes a ML modeling configuration.
  */
 export const deleteMLConfiguration: API.OperationMethod<
-  DeleteMLConfigurationRequest,
+  DeleteMLConfigurationRequest & RegionInput,
   DeleteMLConfigurationResponse,
   DeleteMLConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type DeleteMLInputChannelDataError =
  * Provides the information necessary to delete an ML input channel.
  */
 export const deleteMLInputChannelData: API.OperationMethod<
-  DeleteMLInputChannelDataRequest,
+  DeleteMLInputChannelDataRequest & RegionInput,
   DeleteMLInputChannelDataResponse,
   DeleteMLInputChannelDataError,
   Credentials | HttpClient.HttpClient
@@ -2210,7 +2211,7 @@ export type DeleteTrainedModelOutputError =
  * Deletes the model artifacts stored by the service.
  */
 export const deleteTrainedModelOutput: API.OperationMethod<
-  DeleteTrainedModelOutputRequest,
+  DeleteTrainedModelOutputRequest & RegionInput,
   DeleteTrainedModelOutputResponse,
   DeleteTrainedModelOutputError,
   Credentials | HttpClient.HttpClient
@@ -2242,7 +2243,7 @@ export type DeleteTrainingDatasetError =
  * Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation. This action deletes the metadata.
  */
 export const deleteTrainingDataset: API.OperationMethod<
-  DeleteTrainingDatasetRequest,
+  DeleteTrainingDatasetRequest & RegionInput,
   DeleteTrainingDatasetResponse,
   DeleteTrainingDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2273,7 +2274,7 @@ export type GetAudienceGenerationJobError =
  * Returns information about an audience generation job.
  */
 export const getAudienceGenerationJob: API.OperationMethod<
-  GetAudienceGenerationJobRequest,
+  GetAudienceGenerationJobRequest & RegionInput,
   GetAudienceGenerationJobResponse,
   GetAudienceGenerationJobError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type GetAudienceModelError =
  * Returns information about an audience model
  */
 export const getAudienceModel: API.OperationMethod<
-  GetAudienceModelRequest,
+  GetAudienceModelRequest & RegionInput,
   GetAudienceModelResponse,
   GetAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -2333,7 +2334,7 @@ export type GetCollaborationConfiguredModelAlgorithmAssociationError =
  * Returns information about the configured model algorithm association in a collaboration.
  */
 export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationMethod<
-  GetCollaborationConfiguredModelAlgorithmAssociationRequest,
+  GetCollaborationConfiguredModelAlgorithmAssociationRequest & RegionInput,
   GetCollaborationConfiguredModelAlgorithmAssociationResponse,
   GetCollaborationConfiguredModelAlgorithmAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2371,7 +2372,7 @@ export type GetCollaborationMLInputChannelError =
  * Returns information about a specific ML input channel in a collaboration.
  */
 export const getCollaborationMLInputChannel: API.OperationMethod<
-  GetCollaborationMLInputChannelRequest,
+  GetCollaborationMLInputChannelRequest & RegionInput,
   GetCollaborationMLInputChannelResponse,
   GetCollaborationMLInputChannelError,
   Credentials | HttpClient.HttpClient
@@ -2401,7 +2402,7 @@ export type GetCollaborationTrainedModelError =
  * Returns information about a trained model in a collaboration.
  */
 export const getCollaborationTrainedModel: API.OperationMethod<
-  GetCollaborationTrainedModelRequest,
+  GetCollaborationTrainedModelRequest & RegionInput,
   GetCollaborationTrainedModelResponse,
   GetCollaborationTrainedModelError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2432,7 @@ export type GetConfiguredAudienceModelError =
  * Returns information about a specified configured audience model.
  */
 export const getConfiguredAudienceModel: API.OperationMethod<
-  GetConfiguredAudienceModelRequest,
+  GetConfiguredAudienceModelRequest & RegionInput,
   GetConfiguredAudienceModelResponse,
   GetConfiguredAudienceModelError,
   Credentials | HttpClient.HttpClient
@@ -2461,7 +2462,7 @@ export type GetConfiguredAudienceModelPolicyError =
  * Returns information about a configured audience model policy.
  */
 export const getConfiguredAudienceModelPolicy: API.OperationMethod<
-  GetConfiguredAudienceModelPolicyRequest,
+  GetConfiguredAudienceModelPolicyRequest & RegionInput,
   GetConfiguredAudienceModelPolicyResponse,
   GetConfiguredAudienceModelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2492,7 @@ export type GetConfiguredModelAlgorithmError =
  * Returns information about a configured model algorithm.
  */
 export const getConfiguredModelAlgorithm: API.OperationMethod<
-  GetConfiguredModelAlgorithmRequest,
+  GetConfiguredModelAlgorithmRequest & RegionInput,
   GetConfiguredModelAlgorithmResponse,
   GetConfiguredModelAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -2521,7 +2522,7 @@ export type GetConfiguredModelAlgorithmAssociationError =
  * Returns information about a configured model algorithm association.
  */
 export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
-  GetConfiguredModelAlgorithmAssociationRequest,
+  GetConfiguredModelAlgorithmAssociationRequest & RegionInput,
   GetConfiguredModelAlgorithmAssociationResponse,
   GetConfiguredModelAlgorithmAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2551,7 +2552,7 @@ export type GetMLConfigurationError =
  * Returns information about a specific ML configuration.
  */
 export const getMLConfiguration: API.OperationMethod<
-  GetMLConfigurationRequest,
+  GetMLConfigurationRequest & RegionInput,
   GetMLConfigurationResponse,
   GetMLConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2581,7 +2582,7 @@ export type GetMLInputChannelError =
  * Returns information about an ML input channel.
  */
 export const getMLInputChannel: API.OperationMethod<
-  GetMLInputChannelRequest,
+  GetMLInputChannelRequest & RegionInput,
   GetMLInputChannelResponse,
   GetMLInputChannelError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type GetTrainedModelError =
  * Returns information about a trained model.
  */
 export const getTrainedModel: API.OperationMethod<
-  GetTrainedModelRequest,
+  GetTrainedModelRequest & RegionInput,
   GetTrainedModelResponse,
   GetTrainedModelError,
   Credentials | HttpClient.HttpClient
@@ -2641,7 +2642,7 @@ export type GetTrainedModelInferenceJobError =
  * Returns information about a trained model inference job.
  */
 export const getTrainedModelInferenceJob: API.OperationMethod<
-  GetTrainedModelInferenceJobRequest,
+  GetTrainedModelInferenceJobRequest & RegionInput,
   GetTrainedModelInferenceJobResponse,
   GetTrainedModelInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -2671,7 +2672,7 @@ export type GetTrainingDatasetError =
  * Returns information about a training dataset.
  */
 export const getTrainingDataset: API.OperationMethod<
-  GetTrainingDatasetRequest,
+  GetTrainingDatasetRequest & RegionInput,
   GetTrainingDatasetResponse,
   GetTrainingDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2700,7 +2701,7 @@ export type ListAudienceExportJobsError =
  * Returns a list of the audience export jobs.
  */
 export const listAudienceExportJobs: API.PaginatedOperationMethod<
-  ListAudienceExportJobsRequest,
+  ListAudienceExportJobsRequest & RegionInput,
   ListAudienceExportJobsResponse,
   ListAudienceExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2731,7 +2732,7 @@ export type ListAudienceGenerationJobsError =
  * Returns a list of audience generation jobs.
  */
 export const listAudienceGenerationJobs: API.PaginatedOperationMethod<
-  ListAudienceGenerationJobsRequest,
+  ListAudienceGenerationJobsRequest & RegionInput,
   ListAudienceGenerationJobsResponse,
   ListAudienceGenerationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2762,7 +2763,7 @@ export type ListAudienceModelsError =
  * Returns a list of audience models.
  */
 export const listAudienceModels: API.PaginatedOperationMethod<
-  ListAudienceModelsRequest,
+  ListAudienceModelsRequest & RegionInput,
   ListAudienceModelsResponse,
   ListAudienceModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2793,7 +2794,7 @@ export type ListCollaborationConfiguredModelAlgorithmAssociationsError =
  * Returns a list of the configured model algorithm associations in a collaboration.
  */
 export const listCollaborationConfiguredModelAlgorithmAssociations: API.PaginatedOperationMethod<
-  ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
+  ListCollaborationConfiguredModelAlgorithmAssociationsRequest & RegionInput,
   ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
   ListCollaborationConfiguredModelAlgorithmAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2832,7 +2833,7 @@ export type ListCollaborationMLInputChannelsError =
  * Returns a list of the ML input channels in a collaboration.
  */
 export const listCollaborationMLInputChannels: API.PaginatedOperationMethod<
-  ListCollaborationMLInputChannelsRequest,
+  ListCollaborationMLInputChannelsRequest & RegionInput,
   ListCollaborationMLInputChannelsResponse,
   ListCollaborationMLInputChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2863,7 +2864,7 @@ export type ListCollaborationTrainedModelExportJobsError =
  * Returns a list of the export jobs for a trained model in a collaboration.
  */
 export const listCollaborationTrainedModelExportJobs: API.PaginatedOperationMethod<
-  ListCollaborationTrainedModelExportJobsRequest,
+  ListCollaborationTrainedModelExportJobsRequest & RegionInput,
   ListCollaborationTrainedModelExportJobsResponse,
   ListCollaborationTrainedModelExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2894,7 +2895,7 @@ export type ListCollaborationTrainedModelInferenceJobsError =
  * Returns a list of trained model inference jobs in a specified collaboration.
  */
 export const listCollaborationTrainedModelInferenceJobs: API.PaginatedOperationMethod<
-  ListCollaborationTrainedModelInferenceJobsRequest,
+  ListCollaborationTrainedModelInferenceJobsRequest & RegionInput,
   ListCollaborationTrainedModelInferenceJobsResponse,
   ListCollaborationTrainedModelInferenceJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2925,7 +2926,7 @@ export type ListCollaborationTrainedModelsError =
  * Returns a list of the trained models in a collaboration.
  */
 export const listCollaborationTrainedModels: API.PaginatedOperationMethod<
-  ListCollaborationTrainedModelsRequest,
+  ListCollaborationTrainedModelsRequest & RegionInput,
   ListCollaborationTrainedModelsResponse,
   ListCollaborationTrainedModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2956,7 +2957,7 @@ export type ListConfiguredAudienceModelsError =
  * Returns a list of the configured audience models.
  */
 export const listConfiguredAudienceModels: API.PaginatedOperationMethod<
-  ListConfiguredAudienceModelsRequest,
+  ListConfiguredAudienceModelsRequest & RegionInput,
   ListConfiguredAudienceModelsResponse,
   ListConfiguredAudienceModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2987,7 +2988,7 @@ export type ListConfiguredModelAlgorithmAssociationsError =
  * Returns a list of configured model algorithm associations.
  */
 export const listConfiguredModelAlgorithmAssociations: API.PaginatedOperationMethod<
-  ListConfiguredModelAlgorithmAssociationsRequest,
+  ListConfiguredModelAlgorithmAssociationsRequest & RegionInput,
   ListConfiguredModelAlgorithmAssociationsResponse,
   ListConfiguredModelAlgorithmAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3018,7 +3019,7 @@ export type ListConfiguredModelAlgorithmsError =
  * Returns a list of configured model algorithms.
  */
 export const listConfiguredModelAlgorithms: API.PaginatedOperationMethod<
-  ListConfiguredModelAlgorithmsRequest,
+  ListConfiguredModelAlgorithmsRequest & RegionInput,
   ListConfiguredModelAlgorithmsResponse,
   ListConfiguredModelAlgorithmsError,
   Credentials | HttpClient.HttpClient,
@@ -3049,7 +3050,7 @@ export type ListMLInputChannelsError =
  * Returns a list of ML input channels.
  */
 export const listMLInputChannels: API.PaginatedOperationMethod<
-  ListMLInputChannelsRequest,
+  ListMLInputChannelsRequest & RegionInput,
   ListMLInputChannelsResponse,
   ListMLInputChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -3080,7 +3081,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a provided resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3104,7 +3105,7 @@ export type ListTrainedModelInferenceJobsError =
  * Returns a list of trained model inference jobs that match the request parameters.
  */
 export const listTrainedModelInferenceJobs: API.PaginatedOperationMethod<
-  ListTrainedModelInferenceJobsRequest,
+  ListTrainedModelInferenceJobsRequest & RegionInput,
   ListTrainedModelInferenceJobsResponse,
   ListTrainedModelInferenceJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3135,7 +3136,7 @@ export type ListTrainedModelsError =
  * Returns a list of trained models.
  */
 export const listTrainedModels: API.PaginatedOperationMethod<
-  ListTrainedModelsRequest,
+  ListTrainedModelsRequest & RegionInput,
   ListTrainedModelsResponse,
   ListTrainedModelsError,
   Credentials | HttpClient.HttpClient,
@@ -3167,7 +3168,7 @@ export type ListTrainedModelVersionsError =
  * Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
  */
 export const listTrainedModelVersions: API.PaginatedOperationMethod<
-  ListTrainedModelVersionsRequest,
+  ListTrainedModelVersionsRequest & RegionInput,
   ListTrainedModelVersionsResponse,
   ListTrainedModelVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3203,7 +3204,7 @@ export type ListTrainingDatasetsError =
  * Returns a list of training datasets.
  */
 export const listTrainingDatasets: API.PaginatedOperationMethod<
-  ListTrainingDatasetsRequest,
+  ListTrainingDatasetsRequest & RegionInput,
   ListTrainingDatasetsResponse,
   ListTrainingDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3235,7 +3236,7 @@ export type PutConfiguredAudienceModelPolicyError =
  * Create or update the resource policy for a configured audience model.
  */
 export const putConfiguredAudienceModelPolicy: API.OperationMethod<
-  PutConfiguredAudienceModelPolicyRequest,
+  PutConfiguredAudienceModelPolicyRequest & RegionInput,
   PutConfiguredAudienceModelPolicyResponse,
   PutConfiguredAudienceModelPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3264,7 +3265,7 @@ export type PutMLConfigurationError =
  * Assigns information about an ML configuration.
  */
 export const putMLConfiguration: API.OperationMethod<
-  PutMLConfigurationRequest,
+  PutMLConfigurationRequest & RegionInput,
   PutMLConfigurationResponse,
   PutMLConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3291,7 +3292,7 @@ export type StartAudienceExportJobError =
  * Export an audience of a specified size after you have generated an audience.
  */
 export const startAudienceExportJob: API.OperationMethod<
-  StartAudienceExportJobRequest,
+  StartAudienceExportJobRequest & RegionInput,
   StartAudienceExportJobResponse,
   StartAudienceExportJobError,
   Credentials | HttpClient.HttpClient
@@ -3325,7 +3326,7 @@ export type StartAudienceGenerationJobError =
  * Information necessary to start the audience generation job.
  */
 export const startAudienceGenerationJob: API.OperationMethod<
-  StartAudienceGenerationJobRequest,
+  StartAudienceGenerationJobRequest & RegionInput,
   StartAudienceGenerationJobResponse,
   StartAudienceGenerationJobError,
   Credentials | HttpClient.HttpClient
@@ -3358,7 +3359,7 @@ export type StartTrainedModelExportJobError =
  * Provides the information necessary to start a trained model export job.
  */
 export const startTrainedModelExportJob: API.OperationMethod<
-  StartTrainedModelExportJobRequest,
+  StartTrainedModelExportJobRequest & RegionInput,
   StartTrainedModelExportJobResponse,
   StartTrainedModelExportJobError,
   Credentials | HttpClient.HttpClient
@@ -3391,7 +3392,7 @@ export type StartTrainedModelInferenceJobError =
  * Defines the information necessary to begin a trained model inference job.
  */
 export const startTrainedModelInferenceJob: API.OperationMethod<
-  StartTrainedModelInferenceJobRequest,
+  StartTrainedModelInferenceJobRequest & RegionInput,
   StartTrainedModelInferenceJobResponse,
   StartTrainedModelInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -3422,7 +3423,7 @@ export type TagResourceError =
  * Adds metadata tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3446,7 +3447,7 @@ export type UntagResourceError =
  * Removes metadata tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3472,7 +3473,7 @@ export type UpdateConfiguredAudienceModelError =
  * Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
  */
 export const updateConfiguredAudienceModel: API.OperationMethod<
-  UpdateConfiguredAudienceModelRequest,
+  UpdateConfiguredAudienceModelRequest & RegionInput,
   UpdateConfiguredAudienceModelResponse,
   UpdateConfiguredAudienceModelError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1294,7 +1295,7 @@ export type BatchDescribeEntitiesError =
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
 export const batchDescribeEntities: API.OperationMethod<
-  BatchDescribeEntitiesRequest,
+  BatchDescribeEntitiesRequest & RegionInput,
   BatchDescribeEntitiesResponse,
   BatchDescribeEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1330,7 @@ export type CancelChangeSetError =
  * calls.
  */
 export const cancelChangeSet: API.OperationMethod<
-  CancelChangeSetRequest,
+  CancelChangeSetRequest & RegionInput,
   CancelChangeSetResponse,
   CancelChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type DeleteResourcePolicyError =
  * ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1400,7 +1401,7 @@ export type DescribeAssessmentError =
  * `ListAssessments` action.
  */
 export const describeAssessment: API.PaginatedOperationMethod<
-  DescribeAssessmentRequest,
+  DescribeAssessmentRequest & RegionInput,
   DescribeAssessmentResponse,
   DescribeAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -1439,7 +1440,7 @@ export type DescribeChangeSetError =
  * Provides information about a given change set.
  */
 export const describeChangeSet: API.OperationMethod<
-  DescribeChangeSetRequest,
+  DescribeChangeSetRequest & RegionInput,
   DescribeChangeSetResponse,
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type DescribeEntityError =
  * Returns the metadata and content of the entity.
  */
 export const describeEntity: API.OperationMethod<
-  DescribeEntityRequest,
+  DescribeEntityRequest & RegionInput,
   DescribeEntityResponse,
   DescribeEntityError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type GetResourcePolicyError =
  * ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1548,7 @@ export type ListAssessmentsError =
  * Results are sorted by assessment creation time in descending order.
  */
 export const listAssessments: API.PaginatedOperationMethod<
-  ListAssessmentsRequest,
+  ListAssessmentsRequest & RegionInput,
   ListAssessmentsResponse,
   ListAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1590,7 +1591,7 @@ export type ListChangeSetsError =
  * calls.
  */
 export const listChangeSets: API.PaginatedOperationMethod<
-  ListChangeSetsRequest,
+  ListChangeSetsRequest & RegionInput,
   ListChangeSetsResponse,
   ListChangeSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1628,7 +1629,7 @@ export type ListEntitiesError =
  * Provides the list of entities of a given type.
  */
 export const listEntities: API.PaginatedOperationMethod<
-  ListEntitiesRequest,
+  ListEntitiesRequest & RegionInput,
   ListEntitiesResponse,
   ListEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1667,7 +1668,7 @@ export type ListTagsForResourceError =
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1700,7 +1701,7 @@ export type PutResourcePolicyError =
  * `AmiProduct` and `ContainerProduct`.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1752,7 @@ export type StartChangeSetError =
  * and Java shapes on GitHub.
  */
 export const startChangeSet: API.OperationMethod<
-  StartChangeSetRequest,
+  StartChangeSetRequest & RegionInput,
   StartChangeSetResponse,
   StartChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1785,7 +1786,7 @@ export type TagResourceError =
  * Tags a resource (either an entity or change set).
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1817,7 +1818,7 @@ export type UntagResourceError =
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

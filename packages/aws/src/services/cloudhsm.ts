@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -350,7 +351,7 @@ export type AddTagsToResourceError =
  * resource.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -386,7 +387,7 @@ export type CreateHapgError =
  * group of partitions that spans multiple physical HSMs.
  */
 export const createHapg: API.OperationMethod<
-  CreateHapgRequest,
+  CreateHapgRequest & RegionInput,
   CreateHapgResponse,
   CreateHapgError,
   Credentials | HttpClient.HttpClient
@@ -430,7 +431,7 @@ export type CreateHsmError =
  * initialized when the status changes to `RUNNING`.
  */
 export const createHsm: API.OperationMethod<
-  CreateHsmRequest,
+  CreateHsmRequest & RegionInput,
   CreateHsmResponse,
   CreateHsmError,
   Credentials | HttpClient.HttpClient
@@ -465,7 +466,7 @@ export type CreateLunaClientError =
  * Creates an HSM client.
  */
 export const createLunaClient: API.OperationMethod<
-  CreateLunaClientRequest,
+  CreateLunaClientRequest & RegionInput,
   CreateLunaClientResponse,
   CreateLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -500,7 +501,7 @@ export type DeleteHapgError =
  * Deletes a high-availability partition group.
  */
 export const deleteHapg: API.OperationMethod<
-  DeleteHapgRequest,
+  DeleteHapgRequest & RegionInput,
   DeleteHapgResponse,
   DeleteHapgError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type DeleteHsmError =
  * cannot be recovered.
  */
 export const deleteHsm: API.OperationMethod<
-  DeleteHsmRequest,
+  DeleteHsmRequest & RegionInput,
   DeleteHsmResponse,
   DeleteHsmError,
   Credentials | HttpClient.HttpClient
@@ -571,7 +572,7 @@ export type DeleteLunaClientError =
  * Deletes a client.
  */
 export const deleteLunaClient: API.OperationMethod<
-  DeleteLunaClientRequest,
+  DeleteLunaClientRequest & RegionInput,
   DeleteLunaClientResponse,
   DeleteLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -606,7 +607,7 @@ export type DescribeHapgError =
  * Retrieves information about a high-availability partition group.
  */
 export const describeHapg: API.OperationMethod<
-  DescribeHapgRequest,
+  DescribeHapgRequest & RegionInput,
   DescribeHapgResponse,
   DescribeHapgError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DescribeHsmError =
  * number.
  */
 export const describeHsm: API.OperationMethod<
-  DescribeHsmRequest,
+  DescribeHsmRequest & RegionInput,
   DescribeHsmResponse,
   DescribeHsmError,
   Credentials | HttpClient.HttpClient
@@ -677,7 +678,7 @@ export type DescribeLunaClientError =
  * Retrieves information about an HSM client.
  */
 export const describeLunaClient: API.OperationMethod<
-  DescribeLunaClientRequest,
+  DescribeLunaClientRequest & RegionInput,
   DescribeLunaClientResponse,
   DescribeLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type GetConfigError =
  * groups the client is associated with.
  */
 export const getConfig: API.OperationMethod<
-  GetConfigRequest,
+  GetConfigRequest & RegionInput,
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
@@ -748,7 +749,7 @@ export type ListAvailableZonesError =
  * Lists the Availability Zones that have available AWS CloudHSM capacity.
  */
 export const listAvailableZones: API.OperationMethod<
-  ListAvailableZonesRequest,
+  ListAvailableZonesRequest & RegionInput,
   ListAvailableZonesResponse,
   ListAvailableZonesError,
   Credentials | HttpClient.HttpClient
@@ -788,7 +789,7 @@ export type ListHapgsError =
  * items.
  */
 export const listHapgs: API.OperationMethod<
-  ListHapgsRequest,
+  ListHapgsRequest & RegionInput,
   ListHapgsResponse,
   ListHapgsError,
   Credentials | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type ListHsmsError =
  * items.
  */
 export const listHsms: API.OperationMethod<
-  ListHsmsRequest,
+  ListHsmsRequest & RegionInput,
   ListHsmsResponse,
   ListHsmsError,
   Credentials | HttpClient.HttpClient
@@ -869,7 +870,7 @@ export type ListLunaClientsError =
  * of items.
  */
 export const listLunaClients: API.OperationMethod<
-  ListLunaClientsRequest,
+  ListLunaClientsRequest & RegionInput,
   ListLunaClientsResponse,
   ListLunaClientsError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags for the specified AWS CloudHSM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type ModifyHapgError =
  * Modifies an existing high-availability partition group.
  */
 export const modifyHapg: API.OperationMethod<
-  ModifyHapgRequest,
+  ModifyHapgRequest & RegionInput,
   ModifyHapgResponse,
   ModifyHapgError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type ModifyHsmError =
  * operation during a maintenance window.
  */
 export const modifyHsm: API.OperationMethod<
-  ModifyHsmRequest,
+  ModifyHsmRequest & RegionInput,
   ModifyHsmResponse,
   ModifyHsmError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
  * client's HSMs.
  */
 export const modifyLunaClient: API.OperationMethod<
-  ModifyLunaClientRequest,
+  ModifyLunaClientRequest & RegionInput,
   ModifyLunaClientResponse,
   ModifyLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type RemoveTagsFromResourceError =
  * value for an existing tag, use AddTagsToResource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient

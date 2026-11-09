@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1041,7 +1042,7 @@ export type AutocompleteError =
  * For more information, see Autocomplete in the *Amazon Location Service Developer Guide*.
  */
 export const autocomplete: API.OperationMethod<
-  AutocompleteRequest,
+  AutocompleteRequest & RegionInput,
   AutocompleteResponse,
   AutocompleteError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type GeocodeError =
  * For more information, see Geocode in the *Amazon Location Service Developer Guide*.
  */
 export const geocode: API.OperationMethod<
-  GeocodeRequest,
+  GeocodeRequest & RegionInput,
   GeocodeResponse,
   GeocodeError,
   Credentials | HttpClient.HttpClient
@@ -1105,7 +1106,7 @@ export type GetPlaceError =
  * For more information, see GetPlace in the *Amazon Location Service Developer Guide*.
  */
 export const getPlace: API.OperationMethod<
-  GetPlaceRequest,
+  GetPlaceRequest & RegionInput,
   GetPlaceResponse,
   GetPlaceError,
   Credentials | HttpClient.HttpClient
@@ -1137,7 +1138,7 @@ export type ReverseGeocodeError =
  * For more information, see Reverse Geocode in the *Amazon Location Service Developer Guide*.
  */
 export const reverseGeocode: API.OperationMethod<
-  ReverseGeocodeRequest,
+  ReverseGeocodeRequest & RegionInput,
   ReverseGeocodeResponse,
   ReverseGeocodeError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type SearchNearbyError =
  * For more information, see Search Nearby in the *Amazon Location Service Developer Guide*.
  */
 export const searchNearby: API.OperationMethod<
-  SearchNearbyRequest,
+  SearchNearbyRequest & RegionInput,
   SearchNearbyResponse,
   SearchNearbyError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type SearchTextError =
  * For more information, see Search Text in the *Amazon Location Service Developer Guide*.
  */
 export const searchText: API.OperationMethod<
-  SearchTextRequest,
+  SearchTextRequest & RegionInput,
   SearchTextResponse,
   SearchTextError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type SuggestError =
  * For more information, see Suggest in the *Amazon Location Service Developer Guide*.
  */
 export const suggest: API.OperationMethod<
-  SuggestRequest,
+  SuggestRequest & RegionInput,
   SuggestResponse,
   SuggestError,
   Credentials | HttpClient.HttpClient

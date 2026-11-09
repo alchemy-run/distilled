@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -372,7 +373,7 @@ export type CreateMonitorError =
  * probe.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorInput,
+  CreateMonitorInput & RegionInput,
   CreateMonitorOutput,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -410,7 +411,7 @@ export type CreateProbeError =
  * probe for.
  */
 export const createProbe: API.OperationMethod<
-  CreateProbeInput,
+  CreateProbeInput & RegionInput,
   CreateProbeOutput,
   CreateProbeError,
   Credentials | HttpClient.HttpClient
@@ -446,7 +447,7 @@ export type DeleteMonitorError =
  * `ListMonitors` to get a list of monitor names.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorInput,
+  DeleteMonitorInput & RegionInput,
   DeleteMonitorOutput,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -485,7 +486,7 @@ export type DeleteProbeError =
  * single probe at a time using this action.
  */
 export const deleteProbe: API.OperationMethod<
-  DeleteProbeInput,
+  DeleteProbeInput & RegionInput,
   DeleteProbeOutput,
   DeleteProbeError,
   Credentials | HttpClient.HttpClient
@@ -521,7 +522,7 @@ export type GetMonitorError =
  * `ListMonitors` to get a list of monitor names.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorInput,
+  GetMonitorInput & RegionInput,
   GetMonitorOutput,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -556,7 +557,7 @@ export type GetProbeError =
  * `GetMonitor` to get a list of probes and probe IDs.
  */
 export const getProbe: API.OperationMethod<
-  GetProbeInput,
+  GetProbeInput & RegionInput,
   GetProbeOutput,
   GetProbeError,
   Credentials | HttpClient.HttpClient
@@ -587,7 +588,7 @@ export type ListMonitorsError =
  * Returns a list of all of your monitors.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsInput,
+  ListMonitorsInput & RegionInput,
   ListMonitorsOutput,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -626,7 +627,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type TagResourceError =
  * Adds key-value pairs to a monitor or probe.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -694,7 +695,7 @@ export type UntagResourceError =
  * Removes a key-value pair from a monitor or probe.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -731,7 +732,7 @@ export type UpdateMonitorError =
  * Run `ListMonitors` to get a list of monitor names.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorInput,
+  UpdateMonitorInput & RegionInput,
   UpdateMonitorOutput,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -785,7 +786,7 @@ export type UpdateProbeError =
  * probe.
  */
 export const updateProbe: API.OperationMethod<
-  UpdateProbeInput,
+  UpdateProbeInput & RegionInput,
   UpdateProbeOutput,
   UpdateProbeError,
   Credentials | HttpClient.HttpClient

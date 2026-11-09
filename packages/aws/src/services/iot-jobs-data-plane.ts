@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -306,7 +307,7 @@ export type DescribeJobExecutionError =
  * Requires permission to access the DescribeJobExecution action.
  */
 export const describeJobExecution: API.OperationMethod<
-  DescribeJobExecutionRequest,
+  DescribeJobExecutionRequest & RegionInput,
   DescribeJobExecutionResponse,
   DescribeJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -341,7 +342,7 @@ export type GetPendingJobExecutionsError =
  * Requires permission to access the GetPendingJobExecutions action.
  */
 export const getPendingJobExecutions: API.OperationMethod<
-  GetPendingJobExecutionsRequest,
+  GetPendingJobExecutionsRequest & RegionInput,
   GetPendingJobExecutionsResponse,
   GetPendingJobExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -375,7 +376,7 @@ export type StartCommandExecutionError =
  * execution on a specific device.
  */
 export const startCommandExecution: API.OperationMethod<
-  StartCommandExecutionRequest,
+  StartCommandExecutionRequest & RegionInput,
   StartCommandExecutionResponse,
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -411,7 +412,7 @@ export type StartNextPendingJobExecutionError =
  * Requires permission to access the StartNextPendingJobExecution action.
  */
 export const startNextPendingJobExecution: API.OperationMethod<
-  StartNextPendingJobExecutionRequest,
+  StartNextPendingJobExecutionRequest & RegionInput,
   StartNextPendingJobExecutionResponse,
   StartNextPendingJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -446,7 +447,7 @@ export type UpdateJobExecutionError =
  * Requires permission to access the UpdateJobExecution action.
  */
 export const updateJobExecution: API.OperationMethod<
-  UpdateJobExecutionRequest,
+  UpdateJobExecutionRequest & RegionInput,
   UpdateJobExecutionResponse,
   UpdateJobExecutionError,
   Credentials | HttpClient.HttpClient

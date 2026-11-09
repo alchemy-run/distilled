@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -404,7 +405,7 @@ export type CreateScalingPlanError =
  * Creates a scaling plan.
  */
 export const createScalingPlan: API.OperationMethod<
-  CreateScalingPlanRequest,
+  CreateScalingPlanRequest & RegionInput,
   CreateScalingPlanResponse,
   CreateScalingPlanError,
   Credentials | HttpClient.HttpClient
@@ -440,7 +441,7 @@ export type DeleteScalingPlanError =
  * delete those resources separately.
  */
 export const deleteScalingPlan: API.OperationMethod<
-  DeleteScalingPlanRequest,
+  DeleteScalingPlanRequest & RegionInput,
   DeleteScalingPlanResponse,
   DeleteScalingPlanError,
   Credentials | HttpClient.HttpClient
@@ -470,7 +471,7 @@ export type DescribeScalingPlanResourcesError =
  * Describes the scalable resources in the specified scaling plan.
  */
 export const describeScalingPlanResources: API.OperationMethod<
-  DescribeScalingPlanResourcesRequest,
+  DescribeScalingPlanResourcesRequest & RegionInput,
   DescribeScalingPlanResourcesResponse,
   DescribeScalingPlanResourcesError,
   Credentials | HttpClient.HttpClient
@@ -500,7 +501,7 @@ export type DescribeScalingPlansError =
  * Describes one or more of your scaling plans.
  */
 export const describeScalingPlans: API.OperationMethod<
-  DescribeScalingPlansRequest,
+  DescribeScalingPlansRequest & RegionInput,
   DescribeScalingPlansResponse,
   DescribeScalingPlansError,
   Credentials | HttpClient.HttpClient
@@ -532,7 +533,7 @@ export type GetScalingPlanResourceForecastDataError =
  * available for up to 56 days.
  */
 export const getScalingPlanResourceForecastData: API.OperationMethod<
-  GetScalingPlanResourceForecastDataRequest,
+  GetScalingPlanResourceForecastDataRequest & RegionInput,
   GetScalingPlanResourceForecastDataResponse,
   GetScalingPlanResourceForecastDataError,
   Credentials | HttpClient.HttpClient
@@ -560,7 +561,7 @@ export type UpdateScalingPlanError =
  * deleted.
  */
 export const updateScalingPlan: API.OperationMethod<
-  UpdateScalingPlanRequest,
+  UpdateScalingPlanRequest & RegionInput,
   UpdateScalingPlanResponse,
   UpdateScalingPlanError,
   Credentials | HttpClient.HttpClient

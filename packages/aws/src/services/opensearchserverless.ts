@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -933,7 +934,7 @@ export type BatchGetCollectionError = InternalServerException | ValidationExcept
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollection: API.OperationMethod<
-  BatchGetCollectionRequest,
+  BatchGetCollectionRequest & RegionInput,
   BatchGetCollectionResponse,
   BatchGetCollectionError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type BatchGetCollectionGroupError =
  * Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollectionGroup: API.OperationMethod<
-  BatchGetCollectionGroupRequest,
+  BatchGetCollectionGroupRequest & RegionInput,
   BatchGetCollectionGroupResponse,
   BatchGetCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type BatchGetEffectiveLifecyclePolicyError =
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
-  BatchGetEffectiveLifecyclePolicyRequest,
+  BatchGetEffectiveLifecyclePolicyRequest & RegionInput,
   BatchGetEffectiveLifecyclePolicyResponse,
   BatchGetEffectiveLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1002,7 +1003,7 @@ export type BatchGetLifecyclePolicyError =
  * Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetLifecyclePolicy: API.OperationMethod<
-  BatchGetLifecyclePolicyRequest,
+  BatchGetLifecyclePolicyRequest & RegionInput,
   BatchGetLifecyclePolicyResponse,
   BatchGetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type BatchGetVpcEndpointError = InternalServerException | ValidationExcep
  * Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const batchGetVpcEndpoint: API.OperationMethod<
-  BatchGetVpcEndpointRequest,
+  BatchGetVpcEndpointRequest & RegionInput,
   BatchGetVpcEndpointResponse,
   BatchGetVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1048,7 @@ export type CreateAccessPolicyError =
  * Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const createAccessPolicy: API.OperationMethod<
-  CreateAccessPolicyRequest,
+  CreateAccessPolicyRequest & RegionInput,
   CreateAccessPolicyResponse,
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type CreateCollectionError =
  * Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const createCollection: API.OperationMethod<
-  CreateCollectionRequest,
+  CreateCollectionRequest & RegionInput,
   CreateCollectionResponse,
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type CreateCollectionGroupError =
  * For more information, see Managing collection groups.
  */
 export const createCollectionGroup: API.OperationMethod<
-  CreateCollectionGroupRequest,
+  CreateCollectionGroupRequest & RegionInput,
   CreateCollectionGroupResponse,
   CreateCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type CreateIndexError =
  * Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the *OpenSearch User Guide*.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -1171,7 +1172,7 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type CreateSecurityConfigError =
  * Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const createSecurityConfig: API.OperationMethod<
-  CreateSecurityConfigRequest,
+  CreateSecurityConfigRequest & RegionInput,
   CreateSecurityConfigResponse,
   CreateSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1232,7 @@ export type CreateSecurityPolicyError =
  * Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const createSecurityPolicy: API.OperationMethod<
-  CreateSecurityPolicyRequest,
+  CreateSecurityPolicyRequest & RegionInput,
   CreateSecurityPolicyResponse,
   CreateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1261,7 +1262,7 @@ export type CreateVpcEndpointError =
  * Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type DeleteAccessPolicyError =
  * Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const deleteAccessPolicy: API.OperationMethod<
-  DeleteAccessPolicyRequest,
+  DeleteAccessPolicyRequest & RegionInput,
   DeleteAccessPolicyResponse,
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type DeleteCollectionError =
  * Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollection: API.OperationMethod<
-  DeleteCollectionRequest,
+  DeleteCollectionRequest & RegionInput,
   DeleteCollectionResponse,
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1351,7 +1352,7 @@ export type DeleteCollectionGroupError =
  * Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollectionGroup: API.OperationMethod<
-  DeleteCollectionGroupRequest,
+  DeleteCollectionGroupRequest & RegionInput,
   DeleteCollectionGroupResponse,
   DeleteCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1380,7 +1381,7 @@ export type DeleteIndexError =
  * Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type DeleteLifecyclePolicyError =
  * Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type DeleteSecurityConfigError =
  * Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const deleteSecurityConfig: API.OperationMethod<
-  DeleteSecurityConfigRequest,
+  DeleteSecurityConfigRequest & RegionInput,
   DeleteSecurityConfigResponse,
   DeleteSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type DeleteSecurityPolicyError =
  * Deletes an OpenSearch Serverless security policy.
  */
 export const deleteSecurityPolicy: API.OperationMethod<
-  DeleteSecurityPolicyRequest,
+  DeleteSecurityPolicyRequest & RegionInput,
   DeleteSecurityPolicyResponse,
   DeleteSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type DeleteVpcEndpointError =
  * Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1524,7 +1525,7 @@ export type GetAccessPolicyError =
  * Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const getAccessPolicy: API.OperationMethod<
-  GetAccessPolicyRequest,
+  GetAccessPolicyRequest & RegionInput,
   GetAccessPolicyResponse,
   GetAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type GetAccountSettingsError = InternalServerException | ValidationExcept
  * Returns account-level settings related to OpenSearch Serverless.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1568,7 +1569,7 @@ export type GetIndexError =
  * Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -1588,7 +1589,7 @@ export type GetPoliciesStatsError = InternalServerException | CommonErrors;
  * Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
  */
 export const getPoliciesStats: API.OperationMethod<
-  GetPoliciesStatsRequest,
+  GetPoliciesStatsRequest & RegionInput,
   GetPoliciesStatsResponse,
   GetPoliciesStatsError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type GetSecurityConfigError =
  * Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const getSecurityConfig: API.OperationMethod<
-  GetSecurityConfigRequest,
+  GetSecurityConfigRequest & RegionInput,
   GetSecurityConfigResponse,
   GetSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1637,7 @@ export type GetSecurityPolicyError =
  * Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const getSecurityPolicy: API.OperationMethod<
-  GetSecurityPolicyRequest,
+  GetSecurityPolicyRequest & RegionInput,
   GetSecurityPolicyResponse,
   GetSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type ListAccessPoliciesError = InternalServerException | ValidationExcept
  * Returns information about a list of OpenSearch Serverless access policies.
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1681,7 +1682,7 @@ export type ListCollectionGroupsError =
  * Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const listCollectionGroups: API.PaginatedOperationMethod<
-  ListCollectionGroupsRequest,
+  ListCollectionGroupsRequest & RegionInput,
   ListCollectionGroupsResponse,
   ListCollectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1705,7 +1706,7 @@ export type ListCollectionsError = InternalServerException | ValidationException
  * Make sure to include an empty request body {} if you don't include any collection filters in the request.
  */
 export const listCollections: API.PaginatedOperationMethod<
-  ListCollectionsRequest,
+  ListCollectionsRequest & RegionInput,
   ListCollectionsResponse,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1730,7 +1731,7 @@ export type ListLifecyclePoliciesError =
  * Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1752,7 +1753,7 @@ export type ListSecurityConfigsError = InternalServerException | ValidationExcep
  * Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const listSecurityConfigs: API.PaginatedOperationMethod<
-  ListSecurityConfigsRequest,
+  ListSecurityConfigsRequest & RegionInput,
   ListSecurityConfigsResponse,
   ListSecurityConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -1777,7 +1778,7 @@ export type ListSecurityPoliciesError =
  * Returns information about configured OpenSearch Serverless security policies.
  */
 export const listSecurityPolicies: API.PaginatedOperationMethod<
-  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesRequest & RegionInput,
   ListSecurityPoliciesResponse,
   ListSecurityPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1803,7 +1804,7 @@ export type ListTagsForResourceError =
  * Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1823,7 +1824,7 @@ export type ListVpcEndpointsError = InternalServerException | ValidationExceptio
  * Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const listVpcEndpoints: API.PaginatedOperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1851,7 +1852,7 @@ export type TagResourceError =
  * Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1882,7 +1883,7 @@ export type UntagResourceError =
  * Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1912,7 +1913,7 @@ export type UpdateAccessPolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const updateAccessPolicy: API.OperationMethod<
-  UpdateAccessPolicyRequest,
+  UpdateAccessPolicyRequest & RegionInput,
   UpdateAccessPolicyResponse,
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type UpdateAccountSettingsError =
  * Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1965,7 +1966,7 @@ export type UpdateCollectionError =
  * Updates an OpenSearch Serverless collection.
  */
 export const updateCollection: API.OperationMethod<
-  UpdateCollectionRequest,
+  UpdateCollectionRequest & RegionInput,
   UpdateCollectionResponse,
   UpdateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1991,7 @@ export type UpdateCollectionGroupError =
  * Updates the description and capacity limits of a collection group.
  */
 export const updateCollectionGroup: API.OperationMethod<
-  UpdateCollectionGroupRequest,
+  UpdateCollectionGroupRequest & RegionInput,
   UpdateCollectionGroupResponse,
   UpdateCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -2019,7 +2020,7 @@ export type UpdateIndexError =
  * Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2045,7 +2046,7 @@ export type UpdateLifecyclePolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2076,7 +2077,7 @@ export type UpdateSecurityConfigError =
  * Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const updateSecurityConfig: API.OperationMethod<
-  UpdateSecurityConfigRequest,
+  UpdateSecurityConfigRequest & RegionInput,
   UpdateSecurityConfigResponse,
   UpdateSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -2107,7 +2108,7 @@ export type UpdateSecurityPolicyError =
  * Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const updateSecurityPolicy: API.OperationMethod<
-  UpdateSecurityPolicyRequest,
+  UpdateSecurityPolicyRequest & RegionInput,
   UpdateSecurityPolicyResponse,
   UpdateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2137,7 +2138,7 @@ export type UpdateVpcEndpointError =
  * Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient

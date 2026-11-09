@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -419,7 +420,7 @@ export type CreateDeploymentError =
  * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type DeleteDeploymentError =
  * Deletes a deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -478,7 +479,7 @@ export type GetDeploymentError =
  * Returns information about the deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -501,7 +502,7 @@ export type GetDeploymentPatternVersionError =
  * Returns information about a deployment pattern version.
  */
 export const getDeploymentPatternVersion: API.OperationMethod<
-  GetDeploymentPatternVersionInput,
+  GetDeploymentPatternVersionInput & RegionInput,
   GetDeploymentPatternVersionOutput,
   GetDeploymentPatternVersionError,
   Credentials | HttpClient.HttpClient
@@ -525,7 +526,7 @@ export type GetWorkloadError =
  * Returns information about a workload.
  */
 export const getWorkload: API.OperationMethod<
-  GetWorkloadInput,
+  GetWorkloadInput & RegionInput,
   GetWorkloadOutput,
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -549,7 +550,7 @@ export type GetWorkloadDeploymentPatternError =
  * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
 export const getWorkloadDeploymentPattern: API.OperationMethod<
-  GetWorkloadDeploymentPatternInput,
+  GetWorkloadDeploymentPatternInput & RegionInput,
   GetWorkloadDeploymentPatternOutput,
   GetWorkloadDeploymentPatternError,
   Credentials | HttpClient.HttpClient
@@ -573,7 +574,7 @@ export type ListDeploymentEventsError =
  * Lists the events of a deployment.
  */
 export const listDeploymentEvents: API.PaginatedOperationMethod<
-  ListDeploymentEventsInput,
+  ListDeploymentEventsInput & RegionInput,
   ListDeploymentEventsOutput,
   ListDeploymentEventsError,
   Credentials | HttpClient.HttpClient,
@@ -604,7 +605,7 @@ export type ListDeploymentPatternVersionsError =
  * Lists the deployment pattern versions.
  */
 export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
-  ListDeploymentPatternVersionsInput,
+  ListDeploymentPatternVersionsInput & RegionInput,
   ListDeploymentPatternVersionsOutput,
   ListDeploymentPatternVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -631,7 +632,7 @@ export type ListDeploymentsError = InternalServerException | ValidationException
  * Lists the deployments that have been created.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -662,7 +663,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type ListWorkloadDeploymentPatternsError =
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
 export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
-  ListWorkloadDeploymentPatternsInput,
+  ListWorkloadDeploymentPatternsInput & RegionInput,
   ListWorkloadDeploymentPatternsOutput,
   ListWorkloadDeploymentPatternsError,
   Credentials | HttpClient.HttpClient,
@@ -713,7 +714,7 @@ export type ListWorkloadsError = InternalServerException | ValidationException |
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsInput,
+  ListWorkloadsInput & RegionInput,
   ListWorkloadsOutput,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -744,7 +745,7 @@ export type TagResourceError =
  * Adds the specified tags to the given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type UntagResourceError =
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type UpdateDeploymentError =
  * Updates a deployment.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentInput,
+  UpdateDeploymentInput & RegionInput,
   UpdateDeploymentOutput,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient

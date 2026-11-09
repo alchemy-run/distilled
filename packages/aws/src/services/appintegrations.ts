@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -558,7 +559,7 @@ export type CreateApplicationError =
  * Creates and persists an Application resource.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -599,7 +600,7 @@ export type CreateDataIntegrationError =
  * using the `CreateDataIntegration` API.
  */
 export const createDataIntegration: API.OperationMethod<
-  CreateDataIntegrationRequest,
+  CreateDataIntegrationRequest & RegionInput,
   CreateDataIntegrationResponse,
   CreateDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -635,7 +636,7 @@ export type CreateDataIntegrationAssociationError =
  * Creates and persists a DataIntegrationAssociation resource.
  */
 export const createDataIntegrationAssociation: API.OperationMethod<
-  CreateDataIntegrationAssociationRequest,
+  CreateDataIntegrationAssociationRequest & RegionInput,
   CreateDataIntegrationAssociationResponse,
   CreateDataIntegrationAssociationError,
   Credentials | HttpClient.HttpClient
@@ -674,7 +675,7 @@ export type CreateEventIntegrationError =
  * EventIntegration control plane.
  */
 export const createEventIntegration: API.OperationMethod<
-  CreateEventIntegrationRequest,
+  CreateEventIntegrationRequest & RegionInput,
   CreateEventIntegrationResponse,
   CreateEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -711,7 +712,7 @@ export type DeleteApplicationError =
  * associations.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type DeleteDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const deleteDataIntegration: API.OperationMethod<
-  DeleteDataIntegrationRequest,
+  DeleteDataIntegrationRequest & RegionInput,
   DeleteDataIntegrationResponse,
   DeleteDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -786,7 +787,7 @@ export type DeleteEventIntegrationError =
  * with clients, the request is rejected.
  */
 export const deleteEventIntegration: API.OperationMethod<
-  DeleteEventIntegrationRequest,
+  DeleteEventIntegrationRequest & RegionInput,
   DeleteEventIntegrationResponse,
   DeleteEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type GetApplicationError =
  * Get an Application resource.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type GetDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const getDataIntegration: API.OperationMethod<
-  GetDataIntegrationRequest,
+  GetDataIntegrationRequest & RegionInput,
   GetDataIntegrationResponse,
   GetDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type GetEventIntegrationError =
  * Returns information about the event integration.
  */
 export const getEventIntegration: API.OperationMethod<
-  GetEventIntegrationRequest,
+  GetEventIntegrationRequest & RegionInput,
   GetEventIntegrationResponse,
   GetEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +927,7 @@ export type ListApplicationAssociationsError =
  * Returns a paginated list of application associations for an application.
  */
 export const listApplicationAssociations: API.PaginatedOperationMethod<
-  ListApplicationAssociationsRequest,
+  ListApplicationAssociationsRequest & RegionInput,
   ListApplicationAssociationsResponse,
   ListApplicationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -966,7 +967,7 @@ export type ListApplicationsError =
  * Lists applications in the account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1010,7 +1011,7 @@ export type ListDataIntegrationAssociationsError =
  * CreateDataIntegration API.
  */
 export const listDataIntegrationAssociations: API.PaginatedOperationMethod<
-  ListDataIntegrationAssociationsRequest,
+  ListDataIntegrationAssociationsRequest & RegionInput,
   ListDataIntegrationAssociationsResponse,
   ListDataIntegrationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1054,7 +1055,7 @@ export type ListDataIntegrationsError =
  * CreateDataIntegration API.
  */
 export const listDataIntegrations: API.PaginatedOperationMethod<
-  ListDataIntegrationsRequest,
+  ListDataIntegrationsRequest & RegionInput,
   ListDataIntegrationsResponse,
   ListDataIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1094,7 +1095,7 @@ export type ListEventIntegrationAssociationsError =
  * Returns a paginated list of event integration associations in the account.
  */
 export const listEventIntegrationAssociations: API.PaginatedOperationMethod<
-  ListEventIntegrationAssociationsRequest,
+  ListEventIntegrationAssociationsRequest & RegionInput,
   ListEventIntegrationAssociationsResponse,
   ListEventIntegrationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1134,7 +1135,7 @@ export type ListEventIntegrationsError =
  * Returns a paginated list of event integrations in the account.
  */
 export const listEventIntegrations: API.PaginatedOperationMethod<
-  ListEventIntegrationsRequest,
+  ListEventIntegrationsRequest & RegionInput,
   ListEventIntegrationsResponse,
   ListEventIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1173,7 +1174,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1237,7 +1238,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1272,7 +1273,7 @@ export type UpdateApplicationError =
  * Updates and persists an Application resource.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1312,7 +1313,7 @@ export type UpdateDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const updateDataIntegration: API.OperationMethod<
-  UpdateDataIntegrationRequest,
+  UpdateDataIntegrationRequest & RegionInput,
   UpdateDataIntegrationResponse,
   UpdateDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1348,7 +1349,7 @@ export type UpdateDataIntegrationAssociationError =
  * Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
  */
 export const updateDataIntegrationAssociation: API.OperationMethod<
-  UpdateDataIntegrationAssociationRequest,
+  UpdateDataIntegrationAssociationRequest & RegionInput,
   UpdateDataIntegrationAssociationResponse,
   UpdateDataIntegrationAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1382,7 +1383,7 @@ export type UpdateEventIntegrationError =
  * Updates the description of an event integration.
  */
 export const updateEventIntegration: API.OperationMethod<
-  UpdateEventIntegrationRequest,
+  UpdateEventIntegrationRequest & RegionInput,
   UpdateEventIntegrationResponse,
   UpdateEventIntegrationError,
   Credentials | HttpClient.HttpClient

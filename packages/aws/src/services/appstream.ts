@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1995,7 +1996,7 @@ export type AssociateAppBlockBuilderAppBlockError =
  * Associates the specified app block builder with the specified app block.
  */
 export const associateAppBlockBuilderAppBlock: API.OperationMethod<
-  AssociateAppBlockBuilderAppBlockRequest,
+  AssociateAppBlockBuilderAppBlockRequest & RegionInput,
   AssociateAppBlockBuilderAppBlockResult,
   AssociateAppBlockBuilderAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2028,7 @@ export type AssociateApplicationFleetError =
  * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
  */
 export const associateApplicationFleet: API.OperationMethod<
-  AssociateApplicationFleetRequest,
+  AssociateApplicationFleetRequest & RegionInput,
   AssociateApplicationFleetResult,
   AssociateApplicationFleetError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2059,7 @@ export type AssociateApplicationToEntitlementError =
  * Associates an application to entitle.
  */
 export const associateApplicationToEntitlement: API.OperationMethod<
-  AssociateApplicationToEntitlementRequest,
+  AssociateApplicationToEntitlementRequest & RegionInput,
   AssociateApplicationToEntitlementResult,
   AssociateApplicationToEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type AssociateFleetError =
  * Associates the specified fleet with the specified stack.
  */
 export const associateFleet: API.OperationMethod<
-  AssociateFleetRequest,
+  AssociateFleetRequest & RegionInput,
   AssociateFleetResult,
   AssociateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2123,7 +2124,7 @@ export type AssociateSoftwareToImageBuilderError =
  * Associates license included application(s) with an existing image builder instance.
  */
 export const associateSoftwareToImageBuilder: API.OperationMethod<
-  AssociateSoftwareToImageBuilderRequest,
+  AssociateSoftwareToImageBuilderRequest & RegionInput,
   AssociateSoftwareToImageBuilderResult,
   AssociateSoftwareToImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2152,7 +2153,7 @@ export type BatchAssociateUserStackError =
  * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
  */
 export const batchAssociateUserStack: API.OperationMethod<
-  BatchAssociateUserStackRequest,
+  BatchAssociateUserStackRequest & RegionInput,
   BatchAssociateUserStackResult,
   BatchAssociateUserStackError,
   Credentials | HttpClient.HttpClient
@@ -2175,7 +2176,7 @@ export type BatchDisassociateUserStackError =
  * Disassociates the specified users from the specified stacks.
  */
 export const batchDisassociateUserStack: API.OperationMethod<
-  BatchDisassociateUserStackRequest,
+  BatchDisassociateUserStackRequest & RegionInput,
   BatchDisassociateUserStackResult,
   BatchDisassociateUserStackError,
   Credentials | HttpClient.HttpClient
@@ -2202,7 +2203,7 @@ export type CopyImageError =
  * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
  */
 export const copyImage: API.OperationMethod<
-  CopyImageRequest,
+  CopyImageRequest & RegionInput,
   CopyImageResponse,
   CopyImageError,
   Credentials | HttpClient.HttpClient
@@ -2242,7 +2243,7 @@ export type CreateAppBlockError =
  * This is only supported for Elastic fleets.
  */
 export const createAppBlock: API.OperationMethod<
-  CreateAppBlockRequest,
+  CreateAppBlockRequest & RegionInput,
   CreateAppBlockResult,
   CreateAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -2278,7 +2279,7 @@ export type CreateAppBlockBuilderError =
  * Creates an app block builder.
  */
 export const createAppBlockBuilder: API.OperationMethod<
-  CreateAppBlockBuilderRequest,
+  CreateAppBlockBuilderRequest & RegionInput,
   CreateAppBlockBuilderResult,
   CreateAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2312,7 +2313,7 @@ export type CreateAppBlockBuilderStreamingURLError =
  * Creates a URL to start a create app block builder streaming session.
  */
 export const createAppBlockBuilderStreamingURL: API.OperationMethod<
-  CreateAppBlockBuilderStreamingURLRequest,
+  CreateAppBlockBuilderStreamingURLRequest & RegionInput,
   CreateAppBlockBuilderStreamingURLResult,
   CreateAppBlockBuilderStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2346,7 +2347,7 @@ export type CreateApplicationError =
  * This is only supported for Elastic fleets.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResult,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type CreateDirectoryConfigError =
  * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
 export const createDirectoryConfig: API.OperationMethod<
-  CreateDirectoryConfigRequest,
+  CreateDirectoryConfigRequest & RegionInput,
   CreateDirectoryConfigResult,
   CreateDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -2416,7 +2417,7 @@ export type CreateEntitlementError =
  * Application Framework.
  */
 export const createEntitlement: API.OperationMethod<
-  CreateEntitlementRequest,
+  CreateEntitlementRequest & RegionInput,
   CreateEntitlementResult,
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type CreateExportImageTaskError =
  * Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
  */
 export const createExportImageTask: API.OperationMethod<
-  CreateExportImageTaskRequest,
+  CreateExportImageTaskRequest & RegionInput,
   CreateExportImageTaskResult,
   CreateExportImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -2489,7 +2490,7 @@ export type CreateFleetError =
  * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResult,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type CreateImageBuilderError =
  * The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
  */
 export const createImageBuilder: API.OperationMethod<
-  CreateImageBuilderRequest,
+  CreateImageBuilderRequest & RegionInput,
   CreateImageBuilderResult,
   CreateImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2570,7 +2571,7 @@ export type CreateImageBuilderStreamingURLError =
  * Creates a URL to start an image builder streaming session.
  */
 export const createImageBuilderStreamingURL: API.OperationMethod<
-  CreateImageBuilderStreamingURLRequest,
+  CreateImageBuilderStreamingURLRequest & RegionInput,
   CreateImageBuilderStreamingURLResult,
   CreateImageBuilderStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2600,7 +2601,7 @@ export type CreateImportedImageError =
  * Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
  */
 export const createImportedImage: API.OperationMethod<
-  CreateImportedImageRequest,
+  CreateImportedImageRequest & RegionInput,
   CreateImportedImageResult,
   CreateImportedImageError,
   Credentials | HttpClient.HttpClient
@@ -2639,7 +2640,7 @@ export type CreateStackError =
  * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
  */
 export const createStack: API.OperationMethod<
-  CreateStackRequest,
+  CreateStackRequest & RegionInput,
   CreateStackResult,
   CreateStackError,
   Credentials | HttpClient.HttpClient
@@ -2673,7 +2674,7 @@ export type CreateStreamingURLError =
  * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
  */
 export const createStreamingURL: API.OperationMethod<
-  CreateStreamingURLRequest,
+  CreateStreamingURLRequest & RegionInput,
   CreateStreamingURLResult,
   CreateStreamingURLError,
   Credentials | HttpClient.HttpClient
@@ -2705,7 +2706,7 @@ export type CreateThemeForStackError =
  * Creates custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const createThemeForStack: API.OperationMethod<
-  CreateThemeForStackRequest,
+  CreateThemeForStackRequest & RegionInput,
   CreateThemeForStackResult,
   CreateThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -2743,7 +2744,7 @@ export type CreateUpdatedImageError =
  * Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const createUpdatedImage: API.OperationMethod<
-  CreateUpdatedImageRequest,
+  CreateUpdatedImageRequest & RegionInput,
   CreateUpdatedImageResult,
   CreateUpdatedImageError,
   Credentials | HttpClient.HttpClient
@@ -2775,7 +2776,7 @@ export type CreateUsageReportSubscriptionError =
  * Creates a usage report subscription. Usage reports are generated daily.
  */
 export const createUsageReportSubscription: API.OperationMethod<
-  CreateUsageReportSubscriptionRequest,
+  CreateUsageReportSubscriptionRequest & RegionInput,
   CreateUsageReportSubscriptionResult,
   CreateUsageReportSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type CreateUserError =
  * Creates a new user in the user pool.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResult,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2831,7 +2832,7 @@ export type DeleteAppBlockError =
  * Deletes an app block.
  */
 export const deleteAppBlock: API.OperationMethod<
-  DeleteAppBlockRequest,
+  DeleteAppBlockRequest & RegionInput,
   DeleteAppBlockResult,
   DeleteAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2860,7 @@ export type DeleteAppBlockBuilderError =
  * block.
  */
 export const deleteAppBlockBuilder: API.OperationMethod<
-  DeleteAppBlockBuilderRequest,
+  DeleteAppBlockBuilderRequest & RegionInput,
   DeleteAppBlockBuilderResult,
   DeleteAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -2889,7 +2890,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResult,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2917,7 +2918,7 @@ export type DeleteDirectoryConfigError =
  * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
  */
 export const deleteDirectoryConfig: API.OperationMethod<
-  DeleteDirectoryConfigRequest,
+  DeleteDirectoryConfigRequest & RegionInput,
   DeleteDirectoryConfigResult,
   DeleteDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -2942,7 +2943,7 @@ export type DeleteEntitlementError =
  * Deletes the specified entitlement.
  */
 export const deleteEntitlement: API.OperationMethod<
-  DeleteEntitlementRequest,
+  DeleteEntitlementRequest & RegionInput,
   DeleteEntitlementResult,
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -2971,7 +2972,7 @@ export type DeleteFleetError =
  * Deletes the specified fleet.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResult,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -2997,7 +2998,7 @@ export type DeleteImageError =
  * After you delete an image, you cannot provision new capacity using the image.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResult,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -3026,7 +3027,7 @@ export type DeleteImageBuilderError =
  * Deletes the specified image builder and releases the capacity.
  */
 export const deleteImageBuilder: API.OperationMethod<
-  DeleteImageBuilderRequest,
+  DeleteImageBuilderRequest & RegionInput,
   DeleteImageBuilderResult,
   DeleteImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -3053,7 +3054,7 @@ export type DeleteImagePermissionsError =
  * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
  */
 export const deleteImagePermissions: API.OperationMethod<
-  DeleteImagePermissionsRequest,
+  DeleteImagePermissionsRequest & RegionInput,
   DeleteImagePermissionsResult,
   DeleteImagePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -3078,7 +3079,7 @@ export type DeleteStackError =
  * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
  */
 export const deleteStack: API.OperationMethod<
-  DeleteStackRequest,
+  DeleteStackRequest & RegionInput,
   DeleteStackResult,
   DeleteStackError,
   Credentials | HttpClient.HttpClient
@@ -3107,7 +3108,7 @@ export type DeleteThemeForStackError =
  * Deletes custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const deleteThemeForStack: API.OperationMethod<
-  DeleteThemeForStackRequest,
+  DeleteThemeForStackRequest & RegionInput,
   DeleteThemeForStackResult,
   DeleteThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -3134,7 +3135,7 @@ export type DeleteUsageReportSubscriptionError =
  * Disables usage report generation.
  */
 export const deleteUsageReportSubscription: API.OperationMethod<
-  DeleteUsageReportSubscriptionRequest,
+  DeleteUsageReportSubscriptionRequest & RegionInput,
   DeleteUsageReportSubscriptionResult,
   DeleteUsageReportSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3154,7 +3155,7 @@ export type DeleteUserError = ResourceNotFoundException | CommonErrors;
  * Deletes a user from the user pool.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResult,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3177,7 +3178,7 @@ export type DescribeAppBlockBuilderAppBlockAssociationsError =
  * Retrieves a list that describes one or more app block builder associations.
  */
 export const describeAppBlockBuilderAppBlockAssociations: API.PaginatedOperationMethod<
-  DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  DescribeAppBlockBuilderAppBlockAssociationsRequest & RegionInput,
   DescribeAppBlockBuilderAppBlockAssociationsResult,
   DescribeAppBlockBuilderAppBlockAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3206,7 +3207,7 @@ export type DescribeAppBlockBuildersError =
  * Retrieves a list that describes one or more app block builders.
  */
 export const describeAppBlockBuilders: API.PaginatedOperationMethod<
-  DescribeAppBlockBuildersRequest,
+  DescribeAppBlockBuildersRequest & RegionInput,
   DescribeAppBlockBuildersResult,
   DescribeAppBlockBuildersError,
   Credentials | HttpClient.HttpClient,
@@ -3235,7 +3236,7 @@ export type DescribeAppBlocksError =
  * Retrieves a list that describes one or more app blocks.
  */
 export const describeAppBlocks: API.OperationMethod<
-  DescribeAppBlocksRequest,
+  DescribeAppBlocksRequest & RegionInput,
   DescribeAppBlocksResult,
   DescribeAppBlocksError,
   Credentials | HttpClient.HttpClient
@@ -3258,7 +3259,7 @@ export type DescribeApplicationFleetAssociationsError =
  * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
  */
 export const describeApplicationFleetAssociations: API.OperationMethod<
-  DescribeApplicationFleetAssociationsRequest,
+  DescribeApplicationFleetAssociationsRequest & RegionInput,
   DescribeApplicationFleetAssociationsResult,
   DescribeApplicationFleetAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3282,7 @@ export type DescribeApplicationsError =
  * Retrieves a list that describes one or more applications.
  */
 export const describeApplications: API.OperationMethod<
-  DescribeApplicationsRequest,
+  DescribeApplicationsRequest & RegionInput,
   DescribeApplicationsResult,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -3305,7 +3306,7 @@ export type DescribeAppLicenseUsageError =
  * Retrieves license included application usage information.
  */
 export const describeAppLicenseUsage: API.OperationMethod<
-  DescribeAppLicenseUsageRequest,
+  DescribeAppLicenseUsageRequest & RegionInput,
   DescribeAppLicenseUsageResult,
   DescribeAppLicenseUsageError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type DescribeDirectoryConfigsError = ResourceNotFoundException | CommonEr
  * Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
  */
 export const describeDirectoryConfigs: API.OperationMethod<
-  DescribeDirectoryConfigsRequest,
+  DescribeDirectoryConfigsRequest & RegionInput,
   DescribeDirectoryConfigsResult,
   DescribeDirectoryConfigsError,
   Credentials | HttpClient.HttpClient
@@ -3355,7 +3356,7 @@ export type DescribeEntitlementsError =
  * Retrieves a list that describes one of more entitlements.
  */
 export const describeEntitlements: API.OperationMethod<
-  DescribeEntitlementsRequest,
+  DescribeEntitlementsRequest & RegionInput,
   DescribeEntitlementsResult,
   DescribeEntitlementsError,
   Credentials | HttpClient.HttpClient
@@ -3375,7 +3376,7 @@ export type DescribeFleetsError = ResourceNotFoundException | CommonErrors;
  * Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
  */
 export const describeFleets: API.OperationMethod<
-  DescribeFleetsRequest,
+  DescribeFleetsRequest & RegionInput,
   DescribeFleetsResult,
   DescribeFleetsError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3396,7 @@ export type DescribeImageBuildersError = ResourceNotFoundException | CommonError
  * Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
  */
 export const describeImageBuilders: API.OperationMethod<
-  DescribeImageBuildersRequest,
+  DescribeImageBuildersRequest & RegionInput,
   DescribeImageBuildersResult,
   DescribeImageBuildersError,
   Credentials | HttpClient.HttpClient
@@ -3415,7 +3416,7 @@ export type DescribeImagePermissionsError = ResourceNotFoundException | CommonEr
  * Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
  */
 export const describeImagePermissions: API.PaginatedOperationMethod<
-  DescribeImagePermissionsRequest,
+  DescribeImagePermissionsRequest & RegionInput,
   DescribeImagePermissionsResult,
   DescribeImagePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -3444,7 +3445,7 @@ export type DescribeImagesError =
  * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResult,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -3472,7 +3473,7 @@ export type DescribeSessionsError = InvalidParameterCombinationException | Commo
  * the default is to authenticate users using a streaming URL.
  */
 export const describeSessions: API.OperationMethod<
-  DescribeSessionsRequest,
+  DescribeSessionsRequest & RegionInput,
   DescribeSessionsResult,
   DescribeSessionsError,
   Credentials | HttpClient.HttpClient
@@ -3495,7 +3496,7 @@ export type DescribeSoftwareAssociationsError =
  * Retrieves license included application associations for a specified resource.
  */
 export const describeSoftwareAssociations: API.OperationMethod<
-  DescribeSoftwareAssociationsRequest,
+  DescribeSoftwareAssociationsRequest & RegionInput,
   DescribeSoftwareAssociationsResult,
   DescribeSoftwareAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3515,7 +3516,7 @@ export type DescribeStacksError = ResourceNotFoundException | CommonErrors;
  * Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
  */
 export const describeStacks: API.OperationMethod<
-  DescribeStacksRequest,
+  DescribeStacksRequest & RegionInput,
   DescribeStacksResult,
   DescribeStacksError,
   Credentials | HttpClient.HttpClient
@@ -3538,7 +3539,7 @@ export type DescribeThemeForStackError =
  * Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const describeThemeForStack: API.OperationMethod<
-  DescribeThemeForStackRequest,
+  DescribeThemeForStackRequest & RegionInput,
   DescribeThemeForStackResult,
   DescribeThemeForStackError,
   Credentials | HttpClient.HttpClient
@@ -3561,7 +3562,7 @@ export type DescribeUsageReportSubscriptionsError =
  * Retrieves a list that describes one or more usage report subscriptions.
  */
 export const describeUsageReportSubscriptions: API.OperationMethod<
-  DescribeUsageReportSubscriptionsRequest,
+  DescribeUsageReportSubscriptionsRequest & RegionInput,
   DescribeUsageReportSubscriptionsResult,
   DescribeUsageReportSubscriptionsError,
   Credentials | HttpClient.HttpClient
@@ -3585,7 +3586,7 @@ export type DescribeUsersError =
  * Retrieves a list that describes one or more specified users in the user pool.
  */
 export const describeUsers: API.OperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResult,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient
@@ -3616,7 +3617,7 @@ export type DescribeUserStackAssociationsError =
  * - The user name (email address of the user associated with the stack) and the authentication type for the user
  */
 export const describeUserStackAssociations: API.OperationMethod<
-  DescribeUserStackAssociationsRequest,
+  DescribeUserStackAssociationsRequest & RegionInput,
   DescribeUserStackAssociationsResult,
   DescribeUserStackAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3636,7 +3637,7 @@ export type DisableUserError = ResourceNotFoundException | CommonErrors;
  * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResult,
   DisableUserError,
   Credentials | HttpClient.HttpClient
@@ -3661,7 +3662,7 @@ export type DisassociateAppBlockBuilderAppBlockError =
  * Disassociates a specified app block builder from a specified app block.
  */
 export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
-  DisassociateAppBlockBuilderAppBlockRequest,
+  DisassociateAppBlockBuilderAppBlockRequest & RegionInput,
   DisassociateAppBlockBuilderAppBlockResult,
   DisassociateAppBlockBuilderAppBlockError,
   Credentials | HttpClient.HttpClient
@@ -3690,7 +3691,7 @@ export type DisassociateApplicationFleetError =
  * Disassociates the specified application from the fleet.
  */
 export const disassociateApplicationFleet: API.OperationMethod<
-  DisassociateApplicationFleetRequest,
+  DisassociateApplicationFleetRequest & RegionInput,
   DisassociateApplicationFleetResult,
   DisassociateApplicationFleetError,
   Credentials | HttpClient.HttpClient
@@ -3718,7 +3719,7 @@ export type DisassociateApplicationFromEntitlementError =
  * Deletes the specified application from the specified entitlement.
  */
 export const disassociateApplicationFromEntitlement: API.OperationMethod<
-  DisassociateApplicationFromEntitlementRequest,
+  DisassociateApplicationFromEntitlementRequest & RegionInput,
   DisassociateApplicationFromEntitlementResult,
   DisassociateApplicationFromEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -3743,7 +3744,7 @@ export type DisassociateFleetError =
  * Disassociates the specified fleet from the specified stack.
  */
 export const disassociateFleet: API.OperationMethod<
-  DisassociateFleetRequest,
+  DisassociateFleetRequest & RegionInput,
   DisassociateFleetResult,
   DisassociateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3773,7 +3774,7 @@ export type DisassociateSoftwareFromImageBuilderError =
  * Removes license included application(s) association(s) from an image builder instance.
  */
 export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
-  DisassociateSoftwareFromImageBuilderRequest,
+  DisassociateSoftwareFromImageBuilderRequest & RegionInput,
   DisassociateSoftwareFromImageBuilderResult,
   DisassociateSoftwareFromImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -3802,7 +3803,7 @@ export type DrainSessionInstanceError =
  * Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets.
  */
 export const drainSessionInstance: API.OperationMethod<
-  DrainSessionInstanceRequest,
+  DrainSessionInstanceRequest & RegionInput,
   DrainSessionInstanceResult,
   DrainSessionInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3829,7 +3830,7 @@ export type EnableUserError =
  * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
  */
 export const enableUser: API.OperationMethod<
-  EnableUserRequest,
+  EnableUserRequest & RegionInput,
   EnableUserResult,
   EnableUserError,
   Credentials | HttpClient.HttpClient
@@ -3849,7 +3850,7 @@ export type ExpireSessionError = CommonErrors;
  * Immediately stops the specified streaming session.
  */
 export const expireSession: API.OperationMethod<
-  ExpireSessionRequest,
+  ExpireSessionRequest & RegionInput,
   ExpireSessionResult,
   ExpireSessionError,
   Credentials | HttpClient.HttpClient
@@ -3872,7 +3873,7 @@ export type GetExportImageTaskError =
  * Retrieves information about an export image task, including its current state, progress, and any error details.
  */
 export const getExportImageTask: API.OperationMethod<
-  GetExportImageTaskRequest,
+  GetExportImageTaskRequest & RegionInput,
   GetExportImageTaskResult,
   GetExportImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -3892,7 +3893,7 @@ export type ListAssociatedFleetsError = CommonErrors;
  * Retrieves the name of the fleet that is associated with the specified stack.
  */
 export const listAssociatedFleets: API.OperationMethod<
-  ListAssociatedFleetsRequest,
+  ListAssociatedFleetsRequest & RegionInput,
   ListAssociatedFleetsResult,
   ListAssociatedFleetsError,
   Credentials | HttpClient.HttpClient
@@ -3912,7 +3913,7 @@ export type ListAssociatedStacksError = CommonErrors;
  * Retrieves the name of the stack with which the specified fleet is associated.
  */
 export const listAssociatedStacks: API.OperationMethod<
-  ListAssociatedStacksRequest,
+  ListAssociatedStacksRequest & RegionInput,
   ListAssociatedStacksResult,
   ListAssociatedStacksError,
   Credentials | HttpClient.HttpClient
@@ -3936,7 +3937,7 @@ export type ListEntitledApplicationsError =
  * Retrieves a list of entitled applications.
  */
 export const listEntitledApplications: API.OperationMethod<
-  ListEntitledApplicationsRequest,
+  ListEntitledApplicationsRequest & RegionInput,
   ListEntitledApplicationsResult,
   ListEntitledApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -3956,7 +3957,7 @@ export type ListExportImageTasksError = OperationNotPermittedException | CommonE
  * Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
  */
 export const listExportImageTasks: API.OperationMethod<
-  ListExportImageTasksRequest,
+  ListExportImageTasksRequest & RegionInput,
   ListExportImageTasksResult,
   ListExportImageTasksError,
   Credentials | HttpClient.HttpClient
@@ -3978,7 +3979,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4012,7 +4013,7 @@ export type StartAppBlockBuilderError =
  * fleet instance with application builder assistance functionality.
  */
 export const startAppBlockBuilder: API.OperationMethod<
-  StartAppBlockBuilderRequest,
+  StartAppBlockBuilderRequest & RegionInput,
   StartAppBlockBuilderResult,
   StartAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4049,7 +4050,7 @@ export type StartFleetError =
  * Starts the specified fleet.
  */
 export const startFleet: API.OperationMethod<
-  StartFleetRequest,
+  StartFleetRequest & RegionInput,
   StartFleetResult,
   StartFleetError,
   Credentials | HttpClient.HttpClient
@@ -4084,7 +4085,7 @@ export type StartImageBuilderError =
  * Starts the specified image builder.
  */
 export const startImageBuilder: API.OperationMethod<
-  StartImageBuilderRequest,
+  StartImageBuilderRequest & RegionInput,
   StartImageBuilderResult,
   StartImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4114,7 +4115,7 @@ export type StartSoftwareDeploymentToImageBuilderError =
  * Initiates license included applications deployment to an image builder instance.
  */
 export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
-  StartSoftwareDeploymentToImageBuilderRequest,
+  StartSoftwareDeploymentToImageBuilderRequest & RegionInput,
   StartSoftwareDeploymentToImageBuilderResult,
   StartSoftwareDeploymentToImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4145,7 +4146,7 @@ export type StopAppBlockBuilderError =
  * persisted.
  */
 export const stopAppBlockBuilder: API.OperationMethod<
-  StopAppBlockBuilderRequest,
+  StopAppBlockBuilderRequest & RegionInput,
   StopAppBlockBuilderResult,
   StopAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4172,7 +4173,7 @@ export type StopFleetError =
  * Stops the specified fleet.
  */
 export const stopFleet: API.OperationMethod<
-  StopFleetRequest,
+  StopFleetRequest & RegionInput,
   StopFleetResult,
   StopFleetError,
   Credentials | HttpClient.HttpClient
@@ -4196,7 +4197,7 @@ export type StopImageBuilderError =
  * Stops the specified image builder.
  */
 export const stopImageBuilder: API.OperationMethod<
-  StopImageBuilderRequest,
+  StopImageBuilderRequest & RegionInput,
   StopImageBuilderResult,
   StopImageBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4232,7 +4233,7 @@ export type TagResourceError =
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4256,7 +4257,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4292,7 +4293,7 @@ export type UpdateAppBlockBuilderError =
  * in the `STOPPED` state, you can update any attribute except the Name.
  */
 export const updateAppBlockBuilder: API.OperationMethod<
-  UpdateAppBlockBuilderRequest,
+  UpdateAppBlockBuilderRequest & RegionInput,
   UpdateAppBlockBuilderResult,
   UpdateAppBlockBuilderError,
   Credentials | HttpClient.HttpClient
@@ -4327,7 +4328,7 @@ export type UpdateApplicationError =
  * Updates the specified application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResult,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4358,7 +4359,7 @@ export type UpdateDirectoryConfigError =
  * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
 export const updateDirectoryConfig: API.OperationMethod<
-  UpdateDirectoryConfigRequest,
+  UpdateDirectoryConfigRequest & RegionInput,
   UpdateDirectoryConfigResult,
   UpdateDirectoryConfigError,
   Credentials | HttpClient.HttpClient
@@ -4390,7 +4391,7 @@ export type UpdateEntitlementError =
  * Updates the specified entitlement.
  */
 export const updateEntitlement: API.OperationMethod<
-  UpdateEntitlementRequest,
+  UpdateEntitlementRequest & RegionInput,
   UpdateEntitlementResult,
   UpdateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -4449,7 +4450,7 @@ export type UpdateFleetError =
  * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResult,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -4485,7 +4486,7 @@ export type UpdateImagePermissionsError =
  * Adds or updates permissions for the specified private image.
  */
 export const updateImagePermissions: API.OperationMethod<
-  UpdateImagePermissionsRequest,
+  UpdateImagePermissionsRequest & RegionInput,
   UpdateImagePermissionsResult,
   UpdateImagePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -4515,7 +4516,7 @@ export type UpdateStackError =
  * Updates the specified fields for the specified stack.
  */
 export const updateStack: API.OperationMethod<
-  UpdateStackRequest,
+  UpdateStackRequest & RegionInput,
   UpdateStackResult,
   UpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -4552,7 +4553,7 @@ export type UpdateThemeForStackError =
  * Updates custom branding that customizes the appearance of the streaming application catalog page.
  */
 export const updateThemeForStack: API.OperationMethod<
-  UpdateThemeForStackRequest,
+  UpdateThemeForStackRequest & RegionInput,
   UpdateThemeForStackResult,
   UpdateThemeForStackError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -738,7 +739,7 @@ export type DescribeEntitiesDetectionV2JobError =
  * to get the status of a detection job.
  */
 export const describeEntitiesDetectionV2Job: API.OperationMethod<
-  DescribeEntitiesDetectionV2JobRequest,
+  DescribeEntitiesDetectionV2JobRequest & RegionInput,
   DescribeEntitiesDetectionV2JobResponse,
   DescribeEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -769,7 +770,7 @@ export type DescribeICD10CMInferenceJobError =
  * status of an inference job.
  */
 export const describeICD10CMInferenceJob: API.OperationMethod<
-  DescribeICD10CMInferenceJobRequest,
+  DescribeICD10CMInferenceJobRequest & RegionInput,
   DescribeICD10CMInferenceJobResponse,
   DescribeICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type DescribePHIDetectionJobError =
  * Use this operation to get the status of a detection job.
  */
 export const describePHIDetectionJob: API.OperationMethod<
-  DescribePHIDetectionJobRequest,
+  DescribePHIDetectionJobRequest & RegionInput,
   DescribePHIDetectionJobResponse,
   DescribePHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +832,7 @@ export type DescribeRxNormInferenceJobError =
  * status of an inference job.
  */
 export const describeRxNormInferenceJob: API.OperationMethod<
-  DescribeRxNormInferenceJobRequest,
+  DescribeRxNormInferenceJobRequest & RegionInput,
   DescribeRxNormInferenceJobResponse,
   DescribeRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +862,7 @@ export type DescribeSNOMEDCTInferenceJobError =
  * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
  */
 export const describeSNOMEDCTInferenceJob: API.OperationMethod<
-  DescribeSNOMEDCTInferenceJobRequest,
+  DescribeSNOMEDCTInferenceJobRequest & RegionInput,
   DescribeSNOMEDCTInferenceJobResponse,
   DescribeSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DetectEntitiesError =
  * information.
  */
 export const detectEntities: API.OperationMethod<
-  DetectEntitiesRequest,
+  DetectEntitiesRequest & RegionInput,
   DetectEntitiesResponse,
   DetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DetectEntitiesV2Error =
  * `Direction` entities as attributes instead of types.
  */
 export const detectEntitiesV2: API.OperationMethod<
-  DetectEntitiesV2Request,
+  DetectEntitiesV2Request & RegionInput,
   DetectEntitiesV2Response,
   DetectEntitiesV2Error,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type DetectPHIError =
  * only detects entities in English language texts.
  */
 export const detectPHI: API.OperationMethod<
-  DetectPHIRequest,
+  DetectPHIRequest & RegionInput,
   DetectPHIResponse,
   DetectPHIError,
   Credentials | HttpClient.HttpClient
@@ -1015,7 +1016,7 @@ export type InferICD10CMError =
  * English language texts.
  */
 export const inferICD10CM: API.OperationMethod<
-  InferICD10CMRequest,
+  InferICD10CMRequest & RegionInput,
   InferICD10CMResponse,
   InferICD10CMError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type InferRxNormError =
  * Amazon Comprehend Medical only detects medical entities in English language texts.
  */
 export const inferRxNorm: API.OperationMethod<
-  InferRxNormRequest,
+  InferRxNormRequest & RegionInput,
   InferRxNormResponse,
   InferRxNormError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1086,7 @@ export type InferSNOMEDCTError =
  * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
  */
 export const inferSNOMEDCT: API.OperationMethod<
-  InferSNOMEDCTRequest,
+  InferSNOMEDCTRequest & RegionInput,
   InferSNOMEDCTResponse,
   InferSNOMEDCTError,
   Credentials | HttpClient.HttpClient
@@ -1117,7 +1118,7 @@ export type ListEntitiesDetectionV2JobsError =
  * Gets a list of medical entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionV2Jobs: API.OperationMethod<
-  ListEntitiesDetectionV2JobsRequest,
+  ListEntitiesDetectionV2JobsRequest & RegionInput,
   ListEntitiesDetectionV2JobsResponse,
   ListEntitiesDetectionV2JobsError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type ListICD10CMInferenceJobsError =
  * Gets a list of InferICD10CM jobs that you have submitted.
  */
 export const listICD10CMInferenceJobs: API.OperationMethod<
-  ListICD10CMInferenceJobsRequest,
+  ListICD10CMInferenceJobsRequest & RegionInput,
   ListICD10CMInferenceJobsResponse,
   ListICD10CMInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type ListPHIDetectionJobsError =
  * submitted.
  */
 export const listPHIDetectionJobs: API.OperationMethod<
-  ListPHIDetectionJobsRequest,
+  ListPHIDetectionJobsRequest & RegionInput,
   ListPHIDetectionJobsResponse,
   ListPHIDetectionJobsError,
   Credentials | HttpClient.HttpClient
@@ -1208,7 +1209,7 @@ export type ListRxNormInferenceJobsError =
  * Gets a list of InferRxNorm jobs that you have submitted.
  */
 export const listRxNormInferenceJobs: API.OperationMethod<
-  ListRxNormInferenceJobsRequest,
+  ListRxNormInferenceJobsRequest & RegionInput,
   ListRxNormInferenceJobsResponse,
   ListRxNormInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type ListSNOMEDCTInferenceJobsError =
  * Gets a list of InferSNOMEDCT jobs a user has submitted.
  */
 export const listSNOMEDCTInferenceJobs: API.OperationMethod<
-  ListSNOMEDCTInferenceJobsRequest,
+  ListSNOMEDCTInferenceJobsRequest & RegionInput,
   ListSNOMEDCTInferenceJobsResponse,
   ListSNOMEDCTInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1270,7 @@ export type StartEntitiesDetectionV2JobError =
  * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
  */
 export const startEntitiesDetectionV2Job: API.OperationMethod<
-  StartEntitiesDetectionV2JobRequest,
+  StartEntitiesDetectionV2JobRequest & RegionInput,
   StartEntitiesDetectionV2JobResponse,
   StartEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type StartICD10CMInferenceJobError =
  * job.
  */
 export const startICD10CMInferenceJob: API.OperationMethod<
-  StartICD10CMInferenceJobRequest,
+  StartICD10CMInferenceJobRequest & RegionInput,
   StartICD10CMInferenceJobResponse,
   StartICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type StartPHIDetectionJobError =
  * `DescribePHIDetectionJob` operation to track the status of a job.
  */
 export const startPHIDetectionJob: API.OperationMethod<
-  StartPHIDetectionJobRequest,
+  StartPHIDetectionJobRequest & RegionInput,
   StartPHIDetectionJobResponse,
   StartPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type StartRxNormInferenceJobError =
  * job.
  */
 export const startRxNormInferenceJob: API.OperationMethod<
-  StartRxNormInferenceJobRequest,
+  StartRxNormInferenceJobRequest & RegionInput,
   StartRxNormInferenceJobResponse,
   StartRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1394,7 +1395,7 @@ export type StartSNOMEDCTInferenceJobError =
  * Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
  */
 export const startSNOMEDCTInferenceJob: API.OperationMethod<
-  StartSNOMEDCTInferenceJobRequest,
+  StartSNOMEDCTInferenceJobRequest & RegionInput,
   StartSNOMEDCTInferenceJobResponse,
   StartSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1423,7 +1424,7 @@ export type StopEntitiesDetectionV2JobError =
  * Stops a medical entities detection job in progress.
  */
 export const stopEntitiesDetectionV2Job: API.OperationMethod<
-  StopEntitiesDetectionV2JobRequest,
+  StopEntitiesDetectionV2JobRequest & RegionInput,
   StopEntitiesDetectionV2JobResponse,
   StopEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type StopICD10CMInferenceJobError =
  * Stops an InferICD10CM inference job in progress.
  */
 export const stopICD10CMInferenceJob: API.OperationMethod<
-  StopICD10CMInferenceJobRequest,
+  StopICD10CMInferenceJobRequest & RegionInput,
   StopICD10CMInferenceJobResponse,
   StopICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type StopPHIDetectionJobError =
  * Stops a protected health information (PHI) detection job in progress.
  */
 export const stopPHIDetectionJob: API.OperationMethod<
-  StopPHIDetectionJobRequest,
+  StopPHIDetectionJobRequest & RegionInput,
   StopPHIDetectionJobResponse,
   StopPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type StopRxNormInferenceJobError =
  * Stops an InferRxNorm inference job in progress.
  */
 export const stopRxNormInferenceJob: API.OperationMethod<
-  StopRxNormInferenceJobRequest,
+  StopRxNormInferenceJobRequest & RegionInput,
   StopRxNormInferenceJobResponse,
   StopRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1521,7 @@ export type StopSNOMEDCTInferenceJobError =
  * Stops an InferSNOMEDCT inference job in progress.
  */
 export const stopSNOMEDCTInferenceJob: API.OperationMethod<
-  StopSNOMEDCTInferenceJobRequest,
+  StopSNOMEDCTInferenceJobRequest & RegionInput,
   StopSNOMEDCTInferenceJobResponse,
   StopSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient

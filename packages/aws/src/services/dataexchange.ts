@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1092,7 +1093,7 @@ export type AcceptDataGrantError =
  * This operation accepts a data grant.
  */
 export const acceptDataGrant: API.OperationMethod<
-  AcceptDataGrantRequest,
+  AcceptDataGrantRequest & RegionInput,
   AcceptDataGrantResponse,
   AcceptDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type CancelJobError =
  * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1158,7 +1159,7 @@ export type CreateDataGrantError =
  * This operation creates a data grant.
  */
 export const createDataGrant: API.OperationMethod<
-  CreateDataGrantRequest,
+  CreateDataGrantRequest & RegionInput,
   CreateDataGrantResponse,
   CreateDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1191,7 +1192,7 @@ export type CreateDataSetError =
  * This operation creates a data set.
  */
 export const createDataSet: API.OperationMethod<
-  CreateDataSetRequest,
+  CreateDataSetRequest & RegionInput,
   CreateDataSetResponse,
   CreateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1223,7 +1224,7 @@ export type CreateEventActionError =
  * This operation creates an event action.
  */
 export const createEventAction: API.OperationMethod<
-  CreateEventActionRequest,
+  CreateEventActionRequest & RegionInput,
   CreateEventActionResponse,
   CreateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type CreateJobError =
  * This operation creates a job.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1290,7 @@ export type CreateRevisionError =
  * This operation creates a revision for a data set.
  */
 export const createRevision: API.OperationMethod<
-  CreateRevisionRequest,
+  CreateRevisionRequest & RegionInput,
   CreateRevisionResponse,
   CreateRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type DeleteAssetError =
  * This operation deletes an asset.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1356,7 @@ export type DeleteDataGrantError =
  * This operation deletes a data grant.
  */
 export const deleteDataGrant: API.OperationMethod<
-  DeleteDataGrantRequest,
+  DeleteDataGrantRequest & RegionInput,
   DeleteDataGrantResponse,
   DeleteDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type DeleteDataSetError =
  * This operation deletes a data set.
  */
 export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
+  DeleteDataSetRequest & RegionInput,
   DeleteDataSetResponse,
   DeleteDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1420,7 +1421,7 @@ export type DeleteEventActionError =
  * This operation deletes the event action.
  */
 export const deleteEventAction: API.OperationMethod<
-  DeleteEventActionRequest,
+  DeleteEventActionRequest & RegionInput,
   DeleteEventActionResponse,
   DeleteEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1452,7 +1453,7 @@ export type DeleteRevisionError =
  * This operation deletes a revision.
  */
 export const deleteRevision: API.OperationMethod<
-  DeleteRevisionRequest,
+  DeleteRevisionRequest & RegionInput,
   DeleteRevisionResponse,
   DeleteRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1484,7 +1485,7 @@ export type GetAssetError =
  * This operation returns information about an asset.
  */
 export const getAsset: API.OperationMethod<
-  GetAssetRequest,
+  GetAssetRequest & RegionInput,
   GetAssetResponse,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type GetDataGrantError =
  * This operation returns information about a data grant.
  */
 export const getDataGrant: API.OperationMethod<
-  GetDataGrantRequest,
+  GetDataGrantRequest & RegionInput,
   GetDataGrantResponse,
   GetDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type GetDataSetError =
  * This operation returns information about a data set.
  */
 export const getDataSet: API.OperationMethod<
-  GetDataSetRequest,
+  GetDataSetRequest & RegionInput,
   GetDataSetResponse,
   GetDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1576,7 +1577,7 @@ export type GetEventActionError =
  * This operation retrieves information about an event action.
  */
 export const getEventAction: API.OperationMethod<
-  GetEventActionRequest,
+  GetEventActionRequest & RegionInput,
   GetEventActionResponse,
   GetEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1606,7 +1607,7 @@ export type GetJobError =
  * This operation returns information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type GetReceivedDataGrantError =
  * This operation returns information about a received data grant.
  */
 export const getReceivedDataGrant: API.OperationMethod<
-  GetReceivedDataGrantRequest,
+  GetReceivedDataGrantRequest & RegionInput,
   GetReceivedDataGrantResponse,
   GetReceivedDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1668,7 +1669,7 @@ export type GetRevisionError =
  * This operation returns information about a revision.
  */
 export const getRevision: API.OperationMethod<
-  GetRevisionRequest,
+  GetRevisionRequest & RegionInput,
   GetRevisionResponse,
   GetRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1699,7 +1700,7 @@ export type ListDataGrantsError =
  * This operation returns information about all data grants.
  */
 export const listDataGrants: API.PaginatedOperationMethod<
-  ListDataGrantsRequest,
+  ListDataGrantsRequest & RegionInput,
   ListDataGrantsResponse,
   ListDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1737,7 +1738,7 @@ export type ListDataSetRevisionsError =
  * This operation lists a data set's revisions sorted by CreatedAt in descending order.
  */
 export const listDataSetRevisions: API.PaginatedOperationMethod<
-  ListDataSetRevisionsRequest,
+  ListDataSetRevisionsRequest & RegionInput,
   ListDataSetRevisionsResponse,
   ListDataSetRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1774,7 +1775,7 @@ export type ListDataSetsError =
  * This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1811,7 +1812,7 @@ export type ListEventActionsError =
  * This operation lists your event actions.
  */
 export const listEventActions: API.PaginatedOperationMethod<
-  ListEventActionsRequest,
+  ListEventActionsRequest & RegionInput,
   ListEventActionsResponse,
   ListEventActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1848,7 +1849,7 @@ export type ListJobsError =
  * This operation lists your jobs sorted by CreatedAt in descending order.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1886,7 +1887,7 @@ export type ListReceivedDataGrantsError =
  * This operation returns information about all received data grants.
  */
 export const listReceivedDataGrants: API.PaginatedOperationMethod<
-  ListReceivedDataGrantsRequest,
+  ListReceivedDataGrantsRequest & RegionInput,
   ListReceivedDataGrantsResponse,
   ListReceivedDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1924,7 +1925,7 @@ export type ListRevisionAssetsError =
  * This operation lists a revision's assets sorted alphabetically in descending order.
  */
 export const listRevisionAssets: API.PaginatedOperationMethod<
-  ListRevisionAssetsRequest,
+  ListRevisionAssetsRequest & RegionInput,
   ListRevisionAssetsResponse,
   ListRevisionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1956,7 +1957,7 @@ export type ListTagsForResourceError = CommonErrors;
  * This operation lists the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1983,7 +1984,7 @@ export type RevokeRevisionError =
  * This operation revokes subscribers' access to a revision.
  */
 export const revokeRevision: API.OperationMethod<
-  RevokeRevisionRequest,
+  RevokeRevisionRequest & RegionInput,
   RevokeRevisionResponse,
   RevokeRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2016,7 +2017,7 @@ export type SendApiAssetError =
  * This operation invokes an API Gateway API asset. The request is proxied to the provider's API Gateway API.
  */
 export const sendApiAsset: API.OperationMethod<
-  SendApiAssetRequest,
+  SendApiAssetRequest & RegionInput,
   SendApiAssetResponse,
   SendApiAssetError,
   Credentials | HttpClient.HttpClient
@@ -2050,7 +2051,7 @@ export type SendDataSetNotificationError =
  * The type of event associated with the data set.
  */
 export const sendDataSetNotification: API.OperationMethod<
-  SendDataSetNotificationRequest,
+  SendDataSetNotificationRequest & RegionInput,
   SendDataSetNotificationResponse,
   SendDataSetNotificationError,
   Credentials | HttpClient.HttpClient
@@ -2084,7 +2085,7 @@ export type StartJobError =
  * This operation starts a job.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2112,7 @@ export type TagResourceError = CommonErrors;
  * This operation tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2131,7 +2132,7 @@ export type UntagResourceError = CommonErrors;
  * This operation removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2158,7 +2159,7 @@ export type UpdateAssetError =
  * This operation updates an asset.
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2192,7 @@ export type UpdateDataSetError =
  * This operation updates a data set.
  */
 export const updateDataSet: API.OperationMethod<
-  UpdateDataSetRequest,
+  UpdateDataSetRequest & RegionInput,
   UpdateDataSetResponse,
   UpdateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -2223,7 +2224,7 @@ export type UpdateEventActionError =
  * This operation updates the event action.
  */
 export const updateEventAction: API.OperationMethod<
-  UpdateEventActionRequest,
+  UpdateEventActionRequest & RegionInput,
   UpdateEventActionResponse,
   UpdateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2257,7 @@ export type UpdateRevisionError =
  * This operation updates a revision.
  */
 export const updateRevision: API.OperationMethod<
-  UpdateRevisionRequest,
+  UpdateRevisionRequest & RegionInput,
   UpdateRevisionResponse,
   UpdateRevisionError,
   Credentials | HttpClient.HttpClient

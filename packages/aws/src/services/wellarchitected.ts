@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2233,7 +2234,7 @@ export type AssociateLensesError =
  * By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
  */
 export const associateLenses: API.OperationMethod<
-  AssociateLensesInput,
+  AssociateLensesInput & RegionInput,
   AssociateLensesResponse,
   AssociateLensesError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type AssociateProfilesError =
  * Associate a profile with a workload.
  */
 export const associateProfiles: API.OperationMethod<
-  AssociateProfilesInput,
+  AssociateProfilesInput & RegionInput,
   AssociateProfilesResponse,
   AssociateProfilesError,
   Credentials | HttpClient.HttpClient
@@ -2302,7 +2303,7 @@ export type CreateAgentContextError =
  * Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
  */
 export const createAgentContext: API.OperationMethod<
-  CreateAgentContextRequest,
+  CreateAgentContextRequest & RegionInput,
   CreateAgentContextResponse,
   CreateAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -2338,7 +2339,7 @@ export type CreateAgentGoalError =
  * Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process.
  */
 export const createAgentGoal: API.OperationMethod<
-  CreateAgentGoalRequest,
+  CreateAgentGoalRequest & RegionInput,
   CreateAgentGoalResponse,
   CreateAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -2373,7 +2374,7 @@ export type CreateAgentProfileError =
  * Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources.
  */
 export const createAgentProfile: API.OperationMethod<
-  CreateAgentProfileRequest,
+  CreateAgentProfileRequest & RegionInput,
   CreateAgentProfileResponse,
   CreateAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type CreateLensShareError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const createLensShare: API.OperationMethod<
-  CreateLensShareInput,
+  CreateLensShareInput & RegionInput,
   CreateLensShareOutput,
   CreateLensShareError,
   Credentials | HttpClient.HttpClient
@@ -2460,7 +2461,7 @@ export type CreateLensVersionError =
  * Use this operation to publish a new lens version after you have imported a lens. The `LensAlias` is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
  */
 export const createLensVersion: API.OperationMethod<
-  CreateLensVersionInput,
+  CreateLensVersionInput & RegionInput,
   CreateLensVersionOutput,
   CreateLensVersionError,
   Credentials | HttpClient.HttpClient
@@ -2496,7 +2497,7 @@ export type CreateMilestoneError =
  * Create a milestone for an existing workload.
  */
 export const createMilestone: API.OperationMethod<
-  CreateMilestoneInput,
+  CreateMilestoneInput & RegionInput,
   CreateMilestoneOutput,
   CreateMilestoneError,
   Credentials | HttpClient.HttpClient
@@ -2531,7 +2532,7 @@ export type CreateProfileError =
  * Create a profile.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileInput,
+  CreateProfileInput & RegionInput,
   CreateProfileOutput,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -2566,7 +2567,7 @@ export type CreateProfileShareError =
  * Create a profile share.
  */
 export const createProfileShare: API.OperationMethod<
-  CreateProfileShareInput,
+  CreateProfileShareInput & RegionInput,
   CreateProfileShareOutput,
   CreateProfileShareError,
   Credentials | HttpClient.HttpClient
@@ -2606,7 +2607,7 @@ export type CreateReviewTemplateError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const createReviewTemplate: API.OperationMethod<
-  CreateReviewTemplateInput,
+  CreateReviewTemplateInput & RegionInput,
   CreateReviewTemplateOutput,
   CreateReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type CreateTemplateShareError =
  * By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
  */
 export const createTemplateShare: API.OperationMethod<
-  CreateTemplateShareInput,
+  CreateTemplateShareInput & RegionInput,
   CreateTemplateShareOutput,
   CreateTemplateShareError,
   Credentials | HttpClient.HttpClient
@@ -2706,7 +2707,7 @@ export type CreateWorkloadError =
  * - `wellarchitected:GetReviewTemplateLensReview`
  */
 export const createWorkload: API.OperationMethod<
-  CreateWorkloadInput,
+  CreateWorkloadInput & RegionInput,
   CreateWorkloadOutput,
   CreateWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -2748,7 +2749,7 @@ export type CreateWorkloadShareError =
  * For more information, see Sharing a workload in the *Well-Architected Tool User Guide*.
  */
 export const createWorkloadShare: API.OperationMethod<
-  CreateWorkloadShareInput,
+  CreateWorkloadShareInput & RegionInput,
   CreateWorkloadShareOutput,
   CreateWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2783,7 @@ export type DeleteAgentContextError =
  * Deletes a context associated with a profile.
  */
 export const deleteAgentContext: API.OperationMethod<
-  DeleteAgentContextRequest,
+  DeleteAgentContextRequest & RegionInput,
   DeleteAgentContextResponse,
   DeleteAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -2814,7 +2815,7 @@ export type DeleteAgentGoalError =
  * Deletes an optimization goal from a profile.
  */
 export const deleteAgentGoal: API.OperationMethod<
-  DeleteAgentGoalRequest,
+  DeleteAgentGoalRequest & RegionInput,
   DeleteAgentGoalResponse,
   DeleteAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -2847,7 +2848,7 @@ export type DeleteAgentProfileError =
  * Deletes an optimization profile and its associated configuration. This action cannot be undone.
  */
 export const deleteAgentProfile: API.OperationMethod<
-  DeleteAgentProfileRequest,
+  DeleteAgentProfileRequest & RegionInput,
   DeleteAgentProfileResponse,
   DeleteAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -2887,7 +2888,7 @@ export type DeleteLensError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLens: API.OperationMethod<
-  DeleteLensInput,
+  DeleteLensInput & RegionInput,
   DeleteLensResponse,
   DeleteLensError,
   Credentials | HttpClient.HttpClient
@@ -2927,7 +2928,7 @@ export type DeleteLensShareError =
  * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLensShare: API.OperationMethod<
-  DeleteLensShareInput,
+  DeleteLensShareInput & RegionInput,
   DeleteLensShareResponse,
   DeleteLensShareError,
   Credentials | HttpClient.HttpClient
@@ -2965,7 +2966,7 @@ export type DeleteProfileError =
  * By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileInput,
+  DeleteProfileInput & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -2999,7 +3000,7 @@ export type DeleteProfileShareError =
  * Delete a profile share.
  */
 export const deleteProfileShare: API.OperationMethod<
-  DeleteProfileShareInput,
+  DeleteProfileShareInput & RegionInput,
   DeleteProfileShareResponse,
   DeleteProfileShareError,
   Credentials | HttpClient.HttpClient
@@ -3037,7 +3038,7 @@ export type DeleteReviewTemplateError =
  * After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteReviewTemplate: API.OperationMethod<
-  DeleteReviewTemplateInput,
+  DeleteReviewTemplateInput & RegionInput,
   DeleteReviewTemplateResponse,
   DeleteReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3073,7 +3074,7 @@ export type DeleteTemplateShareError =
  * After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteTemplateShare: API.OperationMethod<
-  DeleteTemplateShareInput,
+  DeleteTemplateShareInput & RegionInput,
   DeleteTemplateShareResponse,
   DeleteTemplateShareError,
   Credentials | HttpClient.HttpClient
@@ -3107,7 +3108,7 @@ export type DeleteWorkloadError =
  * Delete an existing workload.
  */
 export const deleteWorkload: API.OperationMethod<
-  DeleteWorkloadInput,
+  DeleteWorkloadInput & RegionInput,
   DeleteWorkloadResponse,
   DeleteWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -3141,7 +3142,7 @@ export type DeleteWorkloadShareError =
  * Delete a workload share.
  */
 export const deleteWorkloadShare: API.OperationMethod<
-  DeleteWorkloadShareInput,
+  DeleteWorkloadShareInput & RegionInput,
   DeleteWorkloadShareResponse,
   DeleteWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -3179,7 +3180,7 @@ export type DisassociateLensesError =
  * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be removed from a workload.
  */
 export const disassociateLenses: API.OperationMethod<
-  DisassociateLensesInput,
+  DisassociateLensesInput & RegionInput,
   DisassociateLensesResponse,
   DisassociateLensesError,
   Credentials | HttpClient.HttpClient
@@ -3213,7 +3214,7 @@ export type DisassociateProfilesError =
  * Disassociate a profile from a workload.
  */
 export const disassociateProfiles: API.OperationMethod<
-  DisassociateProfilesInput,
+  DisassociateProfilesInput & RegionInput,
   DisassociateProfilesResponse,
   DisassociateProfilesError,
   Credentials | HttpClient.HttpClient
@@ -3254,7 +3255,7 @@ export type ExportLensError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const exportLens: API.OperationMethod<
-  ExportLensInput,
+  ExportLensInput & RegionInput,
   ExportLensOutput,
   ExportLensError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type GetAgentContextError =
  * Retrieves detailed information about a specific context associated with a profile.
  */
 export const getAgentContext: API.OperationMethod<
-  GetAgentContextRequest,
+  GetAgentContextRequest & RegionInput,
   GetAgentContextResponse,
   GetAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -3318,7 +3319,7 @@ export type GetAgentGoalError =
  * Retrieves detailed information about a specific optimization goal.
  */
 export const getAgentGoal: API.OperationMethod<
-  GetAgentGoalRequest,
+  GetAgentGoalRequest & RegionInput,
   GetAgentGoalResponse,
   GetAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -3350,7 +3351,7 @@ export type GetAgentProfileError =
  * Retrieves detailed information about an optimization profile, including its configuration and metadata.
  */
 export const getAgentProfile: API.OperationMethod<
-  GetAgentProfileRequest,
+  GetAgentProfileRequest & RegionInput,
   GetAgentProfileResponse,
   GetAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -3382,7 +3383,7 @@ export type GetAgentRecommendationError =
  * Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
  */
 export const getAgentRecommendation: API.OperationMethod<
-  GetAgentRecommendationRequest,
+  GetAgentRecommendationRequest & RegionInput,
   GetAgentRecommendationResponse,
   GetAgentRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -3414,7 +3415,7 @@ export type GetAgentRecommendationGenerationError =
  * Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
  */
 export const getAgentRecommendationGeneration: API.OperationMethod<
-  GetAgentRecommendationGenerationRequest,
+  GetAgentRecommendationGenerationRequest & RegionInput,
   GetAgentRecommendationGenerationResponse,
   GetAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
@@ -3446,7 +3447,7 @@ export type GetAnswerError =
  * Get the answer to a specific question in a workload review.
  */
 export const getAnswer: API.OperationMethod<
-  GetAnswerInput,
+  GetAnswerInput & RegionInput,
   GetAnswerOutput,
   GetAnswerError,
   Credentials | HttpClient.HttpClient
@@ -3480,7 +3481,7 @@ export type GetConsolidatedReportError =
  * You can optionally choose to include workloads that have been shared with you.
  */
 export const getConsolidatedReport: API.PaginatedOperationMethod<
-  GetConsolidatedReportInput,
+  GetConsolidatedReportInput & RegionInput,
   GetConsolidatedReportOutput,
   GetConsolidatedReportError,
   Credentials | HttpClient.HttpClient,
@@ -3517,7 +3518,7 @@ export type GetGlobalSettingsError =
  * Global settings for all workloads.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsOutput,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3548,7 +3549,7 @@ export type GetLensError =
  * Get an existing lens.
  */
 export const getLens: API.OperationMethod<
-  GetLensInput,
+  GetLensInput & RegionInput,
   GetLensOutput,
   GetLensError,
   Credentials | HttpClient.HttpClient
@@ -3580,7 +3581,7 @@ export type GetLensReviewError =
  * Get lens review.
  */
 export const getLensReview: API.OperationMethod<
-  GetLensReviewInput,
+  GetLensReviewInput & RegionInput,
   GetLensReviewOutput,
   GetLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -3612,7 +3613,7 @@ export type GetLensReviewReportError =
  * Get lens review report.
  */
 export const getLensReviewReport: API.OperationMethod<
-  GetLensReviewReportInput,
+  GetLensReviewReportInput & RegionInput,
   GetLensReviewReportOutput,
   GetLensReviewReportError,
   Credentials | HttpClient.HttpClient
@@ -3644,7 +3645,7 @@ export type GetLensVersionDifferenceError =
  * Get lens version differences.
  */
 export const getLensVersionDifference: API.OperationMethod<
-  GetLensVersionDifferenceInput,
+  GetLensVersionDifferenceInput & RegionInput,
   GetLensVersionDifferenceOutput,
   GetLensVersionDifferenceError,
   Credentials | HttpClient.HttpClient
@@ -3676,7 +3677,7 @@ export type GetMilestoneError =
  * Get a milestone for an existing workload.
  */
 export const getMilestone: API.OperationMethod<
-  GetMilestoneInput,
+  GetMilestoneInput & RegionInput,
   GetMilestoneOutput,
   GetMilestoneError,
   Credentials | HttpClient.HttpClient
@@ -3708,7 +3709,7 @@ export type GetProfileError =
  * Get profile information.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileInput,
+  GetProfileInput & RegionInput,
   GetProfileOutput,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -3740,7 +3741,7 @@ export type GetProfileTemplateError =
  * Get profile template.
  */
 export const getProfileTemplate: API.OperationMethod<
-  GetProfileTemplateInput,
+  GetProfileTemplateInput & RegionInput,
   GetProfileTemplateOutput,
   GetProfileTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3772,7 +3773,7 @@ export type GetReviewTemplateError =
  * Get review template.
  */
 export const getReviewTemplate: API.OperationMethod<
-  GetReviewTemplateInput,
+  GetReviewTemplateInput & RegionInput,
   GetReviewTemplateOutput,
   GetReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3804,7 +3805,7 @@ export type GetReviewTemplateAnswerError =
  * Get review template answer.
  */
 export const getReviewTemplateAnswer: API.OperationMethod<
-  GetReviewTemplateAnswerInput,
+  GetReviewTemplateAnswerInput & RegionInput,
   GetReviewTemplateAnswerOutput,
   GetReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -3836,7 +3837,7 @@ export type GetReviewTemplateLensReviewError =
  * Get a lens review associated with a review template.
  */
 export const getReviewTemplateLensReview: API.OperationMethod<
-  GetReviewTemplateLensReviewInput,
+  GetReviewTemplateLensReviewInput & RegionInput,
   GetReviewTemplateLensReviewOutput,
   GetReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -3868,7 +3869,7 @@ export type GetWorkloadError =
  * Get an existing workload.
  */
 export const getWorkload: API.OperationMethod<
-  GetWorkloadInput,
+  GetWorkloadInput & RegionInput,
   GetWorkloadOutput,
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -3914,7 +3915,7 @@ export type ImportLensError =
  * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const importLens: API.OperationMethod<
-  ImportLensInput,
+  ImportLensInput & RegionInput,
   ImportLensOutput,
   ImportLensError,
   Credentials | HttpClient.HttpClient
@@ -3947,7 +3948,7 @@ export type ListAgentContextsError =
  * Lists contexts associated with a profile.
  */
 export const listAgentContexts: API.PaginatedOperationMethod<
-  ListAgentContextsRequest,
+  ListAgentContextsRequest & RegionInput,
   ListAgentContextsResponse,
   ListAgentContextsError,
   Credentials | HttpClient.HttpClient,
@@ -3984,7 +3985,7 @@ export type ListAgentGoalsError =
  * Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process.
  */
 export const listAgentGoals: API.PaginatedOperationMethod<
-  ListAgentGoalsRequest,
+  ListAgentGoalsRequest & RegionInput,
   ListAgentGoalsResponse,
   ListAgentGoalsError,
   Credentials | HttpClient.HttpClient,
@@ -4021,7 +4022,7 @@ export type ListAgentProfilesError =
  * Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
  */
 export const listAgentProfiles: API.PaginatedOperationMethod<
-  ListAgentProfilesRequest,
+  ListAgentProfilesRequest & RegionInput,
   ListAgentProfilesResponse,
   ListAgentProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4059,7 +4060,7 @@ export type ListAgentRecommendationGenerationsError =
  * Lists recommendation generation processes for a specified profile.
  */
 export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
-  ListAgentRecommendationGenerationsRequest,
+  ListAgentRecommendationGenerationsRequest & RegionInput,
   ListAgentRecommendationGenerationsResponse,
   ListAgentRecommendationGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -4098,7 +4099,7 @@ export type ListAgentRecommendationItemsError =
  * Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
  */
 export const listAgentRecommendationItems: API.PaginatedOperationMethod<
-  ListAgentRecommendationItemsRequest,
+  ListAgentRecommendationItemsRequest & RegionInput,
   ListAgentRecommendationItemsResponse,
   ListAgentRecommendationItemsError,
   Credentials | HttpClient.HttpClient,
@@ -4137,7 +4138,7 @@ export type ListAgentRecommendationsError =
  * Lists active optimization recommendations for a specified profile with optional filtering by state.
  */
 export const listAgentRecommendations: API.PaginatedOperationMethod<
-  ListAgentRecommendationsRequest,
+  ListAgentRecommendationsRequest & RegionInput,
   ListAgentRecommendationsResponse,
   ListAgentRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -4176,7 +4177,7 @@ export type ListAnswersError =
  * List of answers for a particular workload and lens.
  */
 export const listAnswers: API.PaginatedOperationMethod<
-  ListAnswersInput,
+  ListAnswersInput & RegionInput,
   ListAnswersOutput,
   ListAnswersError,
   Credentials | HttpClient.HttpClient,
@@ -4214,7 +4215,7 @@ export type ListCheckDetailsError =
  * List of Trusted Advisor check details by account related to the workload.
  */
 export const listCheckDetails: API.PaginatedOperationMethod<
-  ListCheckDetailsInput,
+  ListCheckDetailsInput & RegionInput,
   ListCheckDetailsOutput,
   ListCheckDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4252,7 +4253,7 @@ export type ListCheckSummariesError =
  * List of Trusted Advisor checks summarized for all accounts related to the workload.
  */
 export const listCheckSummaries: API.PaginatedOperationMethod<
-  ListCheckSummariesInput,
+  ListCheckSummariesInput & RegionInput,
   ListCheckSummariesOutput,
   ListCheckSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4289,7 +4290,7 @@ export type ListLensesError =
  * List the available lenses.
  */
 export const listLenses: API.PaginatedOperationMethod<
-  ListLensesInput,
+  ListLensesInput & RegionInput,
   ListLensesOutput,
   ListLensesError,
   Credentials | HttpClient.HttpClient,
@@ -4326,7 +4327,7 @@ export type ListLensReviewImprovementsError =
  * List the improvements of a particular lens review.
  */
 export const listLensReviewImprovements: API.PaginatedOperationMethod<
-  ListLensReviewImprovementsInput,
+  ListLensReviewImprovementsInput & RegionInput,
   ListLensReviewImprovementsOutput,
   ListLensReviewImprovementsError,
   Credentials | HttpClient.HttpClient,
@@ -4364,7 +4365,7 @@ export type ListLensReviewsError =
  * List lens reviews for a particular workload.
  */
 export const listLensReviews: API.PaginatedOperationMethod<
-  ListLensReviewsInput,
+  ListLensReviewsInput & RegionInput,
   ListLensReviewsOutput,
   ListLensReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -4402,7 +4403,7 @@ export type ListLensSharesError =
  * List the lens shares associated with the lens.
  */
 export const listLensShares: API.PaginatedOperationMethod<
-  ListLensSharesInput,
+  ListLensSharesInput & RegionInput,
   ListLensSharesOutput,
   ListLensSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4440,7 +4441,7 @@ export type ListMilestonesError =
  * List all milestones for an existing workload.
  */
 export const listMilestones: API.PaginatedOperationMethod<
-  ListMilestonesInput,
+  ListMilestonesInput & RegionInput,
   ListMilestonesOutput,
   ListMilestonesError,
   Credentials | HttpClient.HttpClient,
@@ -4477,7 +4478,7 @@ export type ListNotificationsError =
  * List lens notifications.
  */
 export const listNotifications: API.PaginatedOperationMethod<
-  ListNotificationsInput,
+  ListNotificationsInput & RegionInput,
   ListNotificationsOutput,
   ListNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -4513,7 +4514,7 @@ export type ListProfileNotificationsError =
  * List profile notifications.
  */
 export const listProfileNotifications: API.PaginatedOperationMethod<
-  ListProfileNotificationsInput,
+  ListProfileNotificationsInput & RegionInput,
   ListProfileNotificationsOutput,
   ListProfileNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -4549,7 +4550,7 @@ export type ListProfilesError =
  * List profiles.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesInput,
+  ListProfilesInput & RegionInput,
   ListProfilesOutput,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4586,7 +4587,7 @@ export type ListProfileSharesError =
  * List profile shares.
  */
 export const listProfileShares: API.PaginatedOperationMethod<
-  ListProfileSharesInput,
+  ListProfileSharesInput & RegionInput,
   ListProfileSharesOutput,
   ListProfileSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4624,7 +4625,7 @@ export type ListReviewTemplateAnswersError =
  * List the answers of a review template.
  */
 export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
-  ListReviewTemplateAnswersInput,
+  ListReviewTemplateAnswersInput & RegionInput,
   ListReviewTemplateAnswersOutput,
   ListReviewTemplateAnswersError,
   Credentials | HttpClient.HttpClient,
@@ -4661,7 +4662,7 @@ export type ListReviewTemplatesError =
  * List review templates.
  */
 export const listReviewTemplates: API.PaginatedOperationMethod<
-  ListReviewTemplatesInput,
+  ListReviewTemplatesInput & RegionInput,
   ListReviewTemplatesOutput,
   ListReviewTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4699,7 +4700,7 @@ export type ListShareInvitationsError =
  * `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually exclusive. Use the parameter that matches your `ShareResourceType`.
  */
 export const listShareInvitations: API.PaginatedOperationMethod<
-  ListShareInvitationsInput,
+  ListShareInvitationsInput & RegionInput,
   ListShareInvitationsOutput,
   ListShareInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -4735,7 +4736,7 @@ export type ListTagsForResourceError =
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4761,7 +4762,7 @@ export type ListTemplateSharesError =
  * List review template shares.
  */
 export const listTemplateShares: API.PaginatedOperationMethod<
-  ListTemplateSharesInput,
+  ListTemplateSharesInput & RegionInput,
   ListTemplateSharesOutput,
   ListTemplateSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4798,7 +4799,7 @@ export type ListWorkloadsError =
  * Paginated list of workloads.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsInput,
+  ListWorkloadsInput & RegionInput,
   ListWorkloadsOutput,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -4835,7 +4836,7 @@ export type ListWorkloadSharesError =
  * List the workload shares associated with the workload.
  */
 export const listWorkloadShares: API.PaginatedOperationMethod<
-  ListWorkloadSharesInput,
+  ListWorkloadSharesInput & RegionInput,
   ListWorkloadSharesOutput,
   ListWorkloadSharesError,
   Credentials | HttpClient.HttpClient,
@@ -4873,7 +4874,7 @@ export type PutAgentRecommendationFeedbackError =
  * Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
  */
 export const putAgentRecommendationFeedback: API.OperationMethod<
-  PutAgentRecommendationFeedbackRequest,
+  PutAgentRecommendationFeedbackRequest & RegionInput,
   PutAgentRecommendationFeedbackResponse,
   PutAgentRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4906,7 +4907,7 @@ export type StartAgentRecommendationGenerationError =
  * Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
  */
 export const startAgentRecommendationGeneration: API.OperationMethod<
-  StartAgentRecommendationGenerationRequest,
+  StartAgentRecommendationGenerationRequest & RegionInput,
   StartAgentRecommendationGenerationResponse,
   StartAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
@@ -4935,7 +4936,7 @@ export type TagResourceError = InternalServerException | ResourceNotFoundExcepti
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4961,7 +4962,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4987,7 +4988,7 @@ export type UpdateAgentContextError =
  * Updates an existing context associated with a profile.
  */
 export const updateAgentContext: API.OperationMethod<
-  UpdateAgentContextRequest,
+  UpdateAgentContextRequest & RegionInput,
   UpdateAgentContextResponse,
   UpdateAgentContextError,
   Credentials | HttpClient.HttpClient
@@ -5019,7 +5020,7 @@ export type UpdateAgentGoalError =
  * Updates the pillars and title of an existing goal associated with a profile.
  */
 export const updateAgentGoal: API.OperationMethod<
-  UpdateAgentGoalRequest,
+  UpdateAgentGoalRequest & RegionInput,
   UpdateAgentGoalResponse,
   UpdateAgentGoalError,
   Credentials | HttpClient.HttpClient
@@ -5051,7 +5052,7 @@ export type UpdateAgentProfileError =
  * Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
  */
 export const updateAgentProfile: API.OperationMethod<
-  UpdateAgentProfileRequest,
+  UpdateAgentProfileRequest & RegionInput,
   UpdateAgentProfileResponse,
   UpdateAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -5083,7 +5084,7 @@ export type UpdateAgentRecommendationStatusError =
  * Updates the status of a recommendation to track its progress through the implementation lifecycle.
  */
 export const updateAgentRecommendationStatus: API.OperationMethod<
-  UpdateAgentRecommendationStatusRequest,
+  UpdateAgentRecommendationStatusRequest & RegionInput,
   UpdateAgentRecommendationStatusResponse,
   UpdateAgentRecommendationStatusError,
   Credentials | HttpClient.HttpClient
@@ -5116,7 +5117,7 @@ export type UpdateAnswerError =
  * Update the answer to a specific question in a workload review.
  */
 export const updateAnswer: API.OperationMethod<
-  UpdateAnswerInput,
+  UpdateAnswerInput & RegionInput,
   UpdateAnswerOutput,
   UpdateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -5149,7 +5150,7 @@ export type UpdateGlobalSettingsError =
  * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsInput,
+  UpdateGlobalSettingsInput & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5182,7 +5183,7 @@ export type UpdateIntegrationError =
  * Update integration features.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationInput,
+  UpdateIntegrationInput & RegionInput,
   UpdateIntegrationResponse,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5216,7 +5217,7 @@ export type UpdateLensReviewError =
  * Update lens review for a particular workload.
  */
 export const updateLensReview: API.OperationMethod<
-  UpdateLensReviewInput,
+  UpdateLensReviewInput & RegionInput,
   UpdateLensReviewOutput,
   UpdateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5250,7 +5251,7 @@ export type UpdateProfileError =
  * Update a profile.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileInput,
+  UpdateProfileInput & RegionInput,
   UpdateProfileOutput,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -5284,7 +5285,7 @@ export type UpdateReviewTemplateError =
  * Update a review template.
  */
 export const updateReviewTemplate: API.OperationMethod<
-  UpdateReviewTemplateInput,
+  UpdateReviewTemplateInput & RegionInput,
   UpdateReviewTemplateOutput,
   UpdateReviewTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5318,7 +5319,7 @@ export type UpdateReviewTemplateAnswerError =
  * Update a review template answer.
  */
 export const updateReviewTemplateAnswer: API.OperationMethod<
-  UpdateReviewTemplateAnswerInput,
+  UpdateReviewTemplateAnswerInput & RegionInput,
   UpdateReviewTemplateAnswerOutput,
   UpdateReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
@@ -5352,7 +5353,7 @@ export type UpdateReviewTemplateLensReviewError =
  * Update a lens review associated with a review template.
  */
 export const updateReviewTemplateLensReview: API.OperationMethod<
-  UpdateReviewTemplateLensReviewInput,
+  UpdateReviewTemplateLensReviewInput & RegionInput,
   UpdateReviewTemplateLensReviewOutput,
   UpdateReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5388,7 +5389,7 @@ export type UpdateShareInvitationError =
  * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
  */
 export const updateShareInvitation: API.OperationMethod<
-  UpdateShareInvitationInput,
+  UpdateShareInvitationInput & RegionInput,
   UpdateShareInvitationOutput,
   UpdateShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -5422,7 +5423,7 @@ export type UpdateWorkloadError =
  * Update an existing workload.
  */
 export const updateWorkload: API.OperationMethod<
-  UpdateWorkloadInput,
+  UpdateWorkloadInput & RegionInput,
   UpdateWorkloadOutput,
   UpdateWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -5456,7 +5457,7 @@ export type UpdateWorkloadShareError =
  * Update a workload share.
  */
 export const updateWorkloadShare: API.OperationMethod<
-  UpdateWorkloadShareInput,
+  UpdateWorkloadShareInput & RegionInput,
   UpdateWorkloadShareOutput,
   UpdateWorkloadShareError,
   Credentials | HttpClient.HttpClient
@@ -5491,7 +5492,7 @@ export type UpgradeLensReviewError =
  * Upgrade lens review for a particular workload.
  */
 export const upgradeLensReview: API.OperationMethod<
-  UpgradeLensReviewInput,
+  UpgradeLensReviewInput & RegionInput,
   UpgradeLensReviewResponse,
   UpgradeLensReviewError,
   Credentials | HttpClient.HttpClient
@@ -5527,7 +5528,7 @@ export type UpgradeProfileVersionError =
  * Upgrade a profile.
  */
 export const upgradeProfileVersion: API.OperationMethod<
-  UpgradeProfileVersionInput,
+  UpgradeProfileVersionInput & RegionInput,
   UpgradeProfileVersionResponse,
   UpgradeProfileVersionError,
   Credentials | HttpClient.HttpClient
@@ -5562,7 +5563,7 @@ export type UpgradeReviewTemplateLensReviewError =
  * Upgrade the lens review of a review template.
  */
 export const upgradeReviewTemplateLensReview: API.OperationMethod<
-  UpgradeReviewTemplateLensReviewInput,
+  UpgradeReviewTemplateLensReviewInput & RegionInput,
   UpgradeReviewTemplateLensReviewResponse,
   UpgradeReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -790,7 +791,7 @@ export type CloneBackendError =
  * This operation clones an existing backend.
  */
 export const cloneBackend: API.OperationMethod<
-  CloneBackendRequest,
+  CloneBackendRequest & RegionInput,
   CloneBackendResponse,
   CloneBackendError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type CreateBackendError =
  * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
  */
 export const createBackend: API.OperationMethod<
-  CreateBackendRequest,
+  CreateBackendRequest & RegionInput,
   CreateBackendResponse,
   CreateBackendError,
   Credentials | HttpClient.HttpClient
@@ -850,7 +851,7 @@ export type CreateBackendAPIError =
  * Creates a new backend API resource.
  */
 export const createBackendAPI: API.OperationMethod<
-  CreateBackendAPIRequest,
+  CreateBackendAPIRequest & RegionInput,
   CreateBackendAPIResponse,
   CreateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type CreateBackendAuthError =
  * Creates a new backend authentication resource.
  */
 export const createBackendAuth: API.OperationMethod<
-  CreateBackendAuthRequest,
+  CreateBackendAuthRequest & RegionInput,
   CreateBackendAuthResponse,
   CreateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type CreateBackendConfigError =
  * Creates a config object for a backend.
  */
 export const createBackendConfig: API.OperationMethod<
-  CreateBackendConfigRequest,
+  CreateBackendConfigRequest & RegionInput,
   CreateBackendConfigResponse,
   CreateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type CreateBackendStorageError =
  * Creates a backend storage resource.
  */
 export const createBackendStorage: API.OperationMethod<
-  CreateBackendStorageRequest,
+  CreateBackendStorageRequest & RegionInput,
   CreateBackendStorageResponse,
   CreateBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type CreateTokenError =
  * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type DeleteBackendError =
  * Removes an existing environment from your Amplify project.
  */
 export const deleteBackend: API.OperationMethod<
-  DeleteBackendRequest,
+  DeleteBackendRequest & RegionInput,
   DeleteBackendResponse,
   DeleteBackendError,
   Credentials | HttpClient.HttpClient
@@ -1030,7 +1031,7 @@ export type DeleteBackendAPIError =
  * Deletes an existing backend API resource.
  */
 export const deleteBackendAPI: API.OperationMethod<
-  DeleteBackendAPIRequest,
+  DeleteBackendAPIRequest & RegionInput,
   DeleteBackendAPIResponse,
   DeleteBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1060,7 +1061,7 @@ export type DeleteBackendAuthError =
  * Deletes an existing backend authentication resource.
  */
 export const deleteBackendAuth: API.OperationMethod<
-  DeleteBackendAuthRequest,
+  DeleteBackendAuthRequest & RegionInput,
   DeleteBackendAuthResponse,
   DeleteBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1090,7 +1091,7 @@ export type DeleteBackendStorageError =
  * Removes the specified backend storage resource.
  */
 export const deleteBackendStorage: API.OperationMethod<
-  DeleteBackendStorageRequest,
+  DeleteBackendStorageRequest & RegionInput,
   DeleteBackendStorageResponse,
   DeleteBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1120,7 +1121,7 @@ export type DeleteTokenError =
  * Deletes the challenge token based on the given appId and sessionId.
  */
 export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
+  DeleteTokenRequest & RegionInput,
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
@@ -1150,7 +1151,7 @@ export type GenerateBackendAPIModelsError =
  * Generates a model schema for an existing backend API resource.
  */
 export const generateBackendAPIModels: API.OperationMethod<
-  GenerateBackendAPIModelsRequest,
+  GenerateBackendAPIModelsRequest & RegionInput,
   GenerateBackendAPIModelsResponse,
   GenerateBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1181,7 @@ export type GetBackendError =
  * Provides project-level details for your Amplify UI project.
  */
 export const getBackend: API.OperationMethod<
-  GetBackendRequest,
+  GetBackendRequest & RegionInput,
   GetBackendResponse,
   GetBackendError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type GetBackendAPIError =
  * Gets the details for a backend API.
  */
 export const getBackendAPI: API.OperationMethod<
-  GetBackendAPIRequest,
+  GetBackendAPIRequest & RegionInput,
   GetBackendAPIResponse,
   GetBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1240,7 +1241,7 @@ export type GetBackendAPIModelsError =
  * Gets a model introspection schema for an existing backend API resource.
  */
 export const getBackendAPIModels: API.OperationMethod<
-  GetBackendAPIModelsRequest,
+  GetBackendAPIModelsRequest & RegionInput,
   GetBackendAPIModelsResponse,
   GetBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1270,7 +1271,7 @@ export type GetBackendAuthError =
  * Gets a backend auth details.
  */
 export const getBackendAuth: API.OperationMethod<
-  GetBackendAuthRequest,
+  GetBackendAuthRequest & RegionInput,
   GetBackendAuthResponse,
   GetBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type GetBackendJobError =
  * Returns information about a specific job.
  */
 export const getBackendJob: API.OperationMethod<
-  GetBackendJobRequest,
+  GetBackendJobRequest & RegionInput,
   GetBackendJobResponse,
   GetBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1331,7 @@ export type GetBackendStorageError =
  * Gets details for a backend storage resource.
  */
 export const getBackendStorage: API.OperationMethod<
-  GetBackendStorageRequest,
+  GetBackendStorageRequest & RegionInput,
   GetBackendStorageResponse,
   GetBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1360,7 +1361,7 @@ export type GetTokenError =
  * Gets the challenge token based on the given appId and sessionId.
  */
 export const getToken: API.OperationMethod<
-  GetTokenRequest,
+  GetTokenRequest & RegionInput,
   GetTokenResponse,
   GetTokenError,
   Credentials | HttpClient.HttpClient
@@ -1390,7 +1391,7 @@ export type ImportBackendAuthError =
  * Imports an existing backend authentication resource.
  */
 export const importBackendAuth: API.OperationMethod<
-  ImportBackendAuthRequest,
+  ImportBackendAuthRequest & RegionInput,
   ImportBackendAuthResponse,
   ImportBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1420,7 +1421,7 @@ export type ImportBackendStorageError =
  * Imports an existing backend storage resource.
  */
 export const importBackendStorage: API.OperationMethod<
-  ImportBackendStorageRequest,
+  ImportBackendStorageRequest & RegionInput,
   ImportBackendStorageResponse,
   ImportBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1450,7 +1451,7 @@ export type ListBackendJobsError =
  * Lists the jobs for the backend of an Amplify app.
  */
 export const listBackendJobs: API.OperationMethod<
-  ListBackendJobsRequest,
+  ListBackendJobsRequest & RegionInput,
   ListBackendJobsResponse,
   ListBackendJobsError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type ListS3BucketsError =
  * The list of S3 buckets in your account.
  */
 export const listS3Buckets: API.OperationMethod<
-  ListS3BucketsRequest,
+  ListS3BucketsRequest & RegionInput,
   ListS3BucketsResponse,
   ListS3BucketsError,
   Credentials | HttpClient.HttpClient
@@ -1510,7 +1511,7 @@ export type RemoveAllBackendsError =
  * Removes all backend environments from your Amplify project.
  */
 export const removeAllBackends: API.OperationMethod<
-  RemoveAllBackendsRequest,
+  RemoveAllBackendsRequest & RegionInput,
   RemoveAllBackendsResponse,
   RemoveAllBackendsError,
   Credentials | HttpClient.HttpClient
@@ -1540,7 +1541,7 @@ export type RemoveBackendConfigError =
  * Removes the AWS resources required to access the Amplify Admin UI.
  */
 export const removeBackendConfig: API.OperationMethod<
-  RemoveBackendConfigRequest,
+  RemoveBackendConfigRequest & RegionInput,
   RemoveBackendConfigResponse,
   RemoveBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type UpdateBackendAPIError =
  * Updates an existing backend API resource.
  */
 export const updateBackendAPI: API.OperationMethod<
-  UpdateBackendAPIRequest,
+  UpdateBackendAPIRequest & RegionInput,
   UpdateBackendAPIResponse,
   UpdateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type UpdateBackendAuthError =
  * Updates an existing backend authentication resource.
  */
 export const updateBackendAuth: API.OperationMethod<
-  UpdateBackendAuthRequest,
+  UpdateBackendAuthRequest & RegionInput,
   UpdateBackendAuthResponse,
   UpdateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type UpdateBackendConfigError =
  * Updates the AWS resources required to access the Amplify Admin UI.
  */
 export const updateBackendConfig: API.OperationMethod<
-  UpdateBackendConfigRequest,
+  UpdateBackendConfigRequest & RegionInput,
   UpdateBackendConfigResponse,
   UpdateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type UpdateBackendJobError =
  * Updates a specific job.
  */
 export const updateBackendJob: API.OperationMethod<
-  UpdateBackendJobRequest,
+  UpdateBackendJobRequest & RegionInput,
   UpdateBackendJobResponse,
   UpdateBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type UpdateBackendStorageError =
  * Updates an existing backend storage resource.
  */
 export const updateBackendStorage: API.OperationMethod<
-  UpdateBackendStorageRequest,
+  UpdateBackendStorageRequest & RegionInput,
   UpdateBackendStorageResponse,
   UpdateBackendStorageError,
   Credentials | HttpClient.HttpClient

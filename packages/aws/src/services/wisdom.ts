@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -898,7 +899,7 @@ export type CreateAssistantError =
  * Creates an Amazon Connect Wisdom assistant.
  */
 export const createAssistant: API.OperationMethod<
-  CreateAssistantRequest,
+  CreateAssistantRequest & RegionInput,
   CreateAssistantResponse,
   CreateAssistantError,
   Credentials | HttpClient.HttpClient
@@ -931,7 +932,7 @@ export type CreateAssistantAssociationError =
  * association.
  */
 export const createAssistantAssociation: API.OperationMethod<
-  CreateAssistantAssociationRequest,
+  CreateAssistantAssociationRequest & RegionInput,
   CreateAssistantAssociationResponse,
   CreateAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +965,7 @@ export type CreateContentError =
  * upload an asset.
  */
 export const createContent: API.OperationMethod<
-  CreateContentRequest,
+  CreateContentRequest & RegionInput,
   CreateContentResponse,
   CreateContentError,
   Credentials | HttpClient.HttpClient
@@ -1012,7 +1013,7 @@ export type CreateKnowledgeBaseError =
  * - Call CreateKnowledgeBase.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1043,7 +1044,7 @@ export type CreateQuickResponseError =
  * Creates a Wisdom quick response.
  */
 export const createQuickResponse: API.OperationMethod<
-  CreateQuickResponseRequest,
+  CreateQuickResponseRequest & RegionInput,
   CreateQuickResponseResponse,
   CreateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1075,7 +1076,7 @@ export type CreateSessionError =
  * Wisdom is enabled.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type DeleteAssistantError =
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
-  DeleteAssistantRequest,
+  DeleteAssistantRequest & RegionInput,
   DeleteAssistantResponse,
   DeleteAssistantError,
   Credentials | HttpClient.HttpClient
@@ -1123,7 +1124,7 @@ export type DeleteAssistantAssociationError =
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
-  DeleteAssistantAssociationRequest,
+  DeleteAssistantAssociationRequest & RegionInput,
   DeleteAssistantAssociationResponse,
   DeleteAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type DeleteContentError =
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
-  DeleteContentRequest,
+  DeleteContentRequest & RegionInput,
   DeleteContentResponse,
   DeleteContentError,
   Credentials | HttpClient.HttpClient
@@ -1172,7 +1173,7 @@ export type DeleteImportJobError =
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
-  DeleteImportJobRequest,
+  DeleteImportJobRequest & RegionInput,
   DeleteImportJobResponse,
   DeleteImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1210,7 @@ export type DeleteKnowledgeBaseError =
  * Reference.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type DeleteQuickResponseError =
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
-  DeleteQuickResponseRequest,
+  DeleteQuickResponseRequest & RegionInput,
   DeleteQuickResponseResponse,
   DeleteQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1262,7 +1263,7 @@ export type GetAssistantError =
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
-  GetAssistantRequest,
+  GetAssistantRequest & RegionInput,
   GetAssistantResponse,
   GetAssistantError,
   Credentials | HttpClient.HttpClient
@@ -1286,7 +1287,7 @@ export type GetAssistantAssociationError =
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
-  GetAssistantAssociationRequest,
+  GetAssistantAssociationRequest & RegionInput,
   GetAssistantAssociationResponse,
   GetAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1310,7 +1311,7 @@ export type GetContentError =
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
-  GetContentRequest,
+  GetContentRequest & RegionInput,
   GetContentResponse,
   GetContentError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type GetContentSummaryError =
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
-  GetContentSummaryRequest,
+  GetContentSummaryRequest & RegionInput,
   GetContentSummaryResponse,
   GetContentSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1358,7 +1359,7 @@ export type GetImportJobError =
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1382,7 +1383,7 @@ export type GetKnowledgeBaseError =
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type GetQuickResponseError =
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
-  GetQuickResponseRequest,
+  GetQuickResponseRequest & RegionInput,
   GetQuickResponseResponse,
   GetQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -1433,7 +1434,7 @@ export type GetRecommendationsError =
  * recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -1457,7 +1458,7 @@ export type GetSessionError =
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -1481,7 +1482,7 @@ export type ListAssistantAssociationsError =
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.PaginatedOperationMethod<
-  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsRequest & RegionInput,
   ListAssistantAssociationsResponse,
   ListAssistantAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1508,7 +1509,7 @@ export type ListAssistantsError = AccessDeniedException | ValidationException | 
  * Lists information about assistants.
  */
 export const listAssistants: API.PaginatedOperationMethod<
-  ListAssistantsRequest,
+  ListAssistantsRequest & RegionInput,
   ListAssistantsResponse,
   ListAssistantsError,
   Credentials | HttpClient.HttpClient,
@@ -1539,7 +1540,7 @@ export type ListContentsError =
  * Lists the content.
  */
 export const listContents: API.PaginatedOperationMethod<
-  ListContentsRequest,
+  ListContentsRequest & RegionInput,
   ListContentsResponse,
   ListContentsError,
   Credentials | HttpClient.HttpClient,
@@ -1566,7 +1567,7 @@ export type ListImportJobsError = AccessDeniedException | ValidationException | 
  * Lists information about import jobs.
  */
 export const listImportJobs: API.PaginatedOperationMethod<
-  ListImportJobsRequest,
+  ListImportJobsRequest & RegionInput,
   ListImportJobsResponse,
   ListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1593,7 +1594,7 @@ export type ListKnowledgeBasesError = AccessDeniedException | ValidationExceptio
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -1624,7 +1625,7 @@ export type ListQuickResponsesError =
  * Lists information about quick response.
  */
 export const listQuickResponses: API.PaginatedOperationMethod<
-  ListQuickResponsesRequest,
+  ListQuickResponsesRequest & RegionInput,
   ListQuickResponsesResponse,
   ListQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -1651,7 +1652,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1677,7 +1678,7 @@ export type NotifyRecommendationsReceivedError =
  * behavior and avoiding duplicate recommendations.
  */
 export const notifyRecommendationsReceived: API.OperationMethod<
-  NotifyRecommendationsReceivedRequest,
+  NotifyRecommendationsReceivedRequest & RegionInput,
   NotifyRecommendationsReceivedResponse,
   NotifyRecommendationsReceivedError,
   Credentials | HttpClient.HttpClient
@@ -1703,7 +1704,7 @@ export type QueryAssistantError =
  * an assistant, use GetRecommendations.
  */
 export const queryAssistant: API.PaginatedOperationMethod<
-  QueryAssistantRequest,
+  QueryAssistantRequest & RegionInput,
   QueryAssistantResponse,
   QueryAssistantError,
   Credentials | HttpClient.HttpClient,
@@ -1739,7 +1740,7 @@ export type RemoveKnowledgeBaseTemplateUriError =
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
-  RemoveKnowledgeBaseTemplateUriRequest,
+  RemoveKnowledgeBaseTemplateUriRequest & RegionInput,
   RemoveKnowledgeBaseTemplateUriResponse,
   RemoveKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -1764,7 +1765,7 @@ export type SearchContentError =
  * resource by its name.
  */
 export const searchContent: API.PaginatedOperationMethod<
-  SearchContentRequest,
+  SearchContentRequest & RegionInput,
   SearchContentResponse,
   SearchContentError,
   Credentials | HttpClient.HttpClient,
@@ -1796,7 +1797,7 @@ export type SearchQuickResponsesError =
  * Searches existing Wisdom quick responses in a Wisdom knowledge base.
  */
 export const searchQuickResponses: API.PaginatedOperationMethod<
-  SearchQuickResponsesRequest,
+  SearchQuickResponsesRequest & RegionInput,
   SearchQuickResponsesResponse,
   SearchQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -1832,7 +1833,7 @@ export type SearchSessionsError =
  * Searches for sessions.
  */
 export const searchSessions: API.PaginatedOperationMethod<
-  SearchSessionsRequest,
+  SearchSessionsRequest & RegionInput,
   SearchSessionsResponse,
   SearchSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1866,7 +1867,7 @@ export type StartContentUploadError =
  * knowledge base of type CUSTOM.
  */
 export const startContentUpload: API.OperationMethod<
-  StartContentUploadRequest,
+  StartContentUploadRequest & RegionInput,
   StartContentUploadResponse,
   StartContentUploadError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1896,7 @@ export type StartImportJobError =
  * - For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
 export const startImportJob: API.OperationMethod<
-  StartImportJobRequest,
+  StartImportJobRequest & RegionInput,
   StartImportJobResponse,
   StartImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type TagResourceError = ResourceNotFoundException | TooManyTagsException 
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type UpdateContentError =
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
-  UpdateContentRequest,
+  UpdateContentRequest & RegionInput,
   UpdateContentResponse,
   UpdateContentError,
   Credentials | HttpClient.HttpClient
@@ -1999,7 +2000,7 @@ export type UpdateKnowledgeBaseTemplateUriError =
  * `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
-  UpdateKnowledgeBaseTemplateUriRequest,
+  UpdateKnowledgeBaseTemplateUriRequest & RegionInput,
   UpdateKnowledgeBaseTemplateUriResponse,
   UpdateKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -2025,7 +2026,7 @@ export type UpdateQuickResponseError =
  * Updates an existing Wisdom quick response.
  */
 export const updateQuickResponse: API.OperationMethod<
-  UpdateQuickResponseRequest,
+  UpdateQuickResponseRequest & RegionInput,
   UpdateQuickResponseResponse,
   UpdateQuickResponseError,
   Credentials | HttpClient.HttpClient

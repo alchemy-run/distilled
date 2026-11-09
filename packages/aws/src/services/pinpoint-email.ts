@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -736,7 +737,7 @@ export type CreateConfigurationSetError =
  * configuration set are applied to the email.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type CreateConfigurationSetEventDestinationError =
  * A single configuration set can include more than one event destination.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -811,7 +812,7 @@ export type CreateDedicatedIpPoolError =
  * sends it using only the IP addresses in the associated pool.
  */
 export const createDedicatedIpPool: API.OperationMethod<
-  CreateDedicatedIpPoolRequest,
+  CreateDedicatedIpPoolRequest & RegionInput,
   CreateDedicatedIpPoolResponse,
   CreateDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -853,7 +854,7 @@ export type CreateDeliverabilityTestReportError =
  * test.
  */
 export const createDeliverabilityTestReport: API.OperationMethod<
-  CreateDeliverabilityTestReportRequest,
+  CreateDeliverabilityTestReportRequest & RegionInput,
   CreateDeliverabilityTestReportResponse,
   CreateDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -901,7 +902,7 @@ export type CreateEmailIdentityError =
  * verification process.
  */
 export const createEmailIdentity: API.OperationMethod<
-  CreateEmailIdentityRequest,
+  CreateEmailIdentityRequest & RegionInput,
   CreateEmailIdentityResponse,
   CreateEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteConfigurationSetError =
  * the email.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -997,7 +998,7 @@ export type DeleteDedicatedIpPoolError =
  * Delete a dedicated IP pool.
  */
 export const deleteDedicatedIpPool: API.OperationMethod<
-  DeleteDedicatedIpPoolRequest,
+  DeleteDedicatedIpPoolRequest & RegionInput,
   DeleteDedicatedIpPoolResponse,
   DeleteDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -1028,7 +1029,7 @@ export type DeleteEmailIdentityError =
  * can be either an email address or a domain name.
  */
 export const deleteEmailIdentity: API.OperationMethod<
-  DeleteEmailIdentityRequest,
+  DeleteEmailIdentityRequest & RegionInput,
   DeleteEmailIdentityResponse,
   DeleteEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1054,7 +1055,7 @@ export type GetAccountError = BadRequestException | TooManyRequestsException | C
  * account in the current AWS Region.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type GetBlacklistReportsError =
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
 export const getBlacklistReports: API.OperationMethod<
-  GetBlacklistReportsRequest,
+  GetBlacklistReportsRequest & RegionInput,
   GetBlacklistReportsResponse,
   GetBlacklistReportsError,
   Credentials | HttpClient.HttpClient
@@ -1110,7 +1111,7 @@ export type GetConfigurationSetError =
  * the email.
  */
 export const getConfigurationSet: API.OperationMethod<
-  GetConfigurationSetRequest,
+  GetConfigurationSetRequest & RegionInput,
   GetConfigurationSetResponse,
   GetConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type GetConfigurationSetEventDestinationsError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -1167,7 +1168,7 @@ export type GetDedicatedIpError =
  * for the address.
  */
 export const getDedicatedIp: API.OperationMethod<
-  GetDedicatedIpRequest,
+  GetDedicatedIpRequest & RegionInput,
   GetDedicatedIpResponse,
   GetDedicatedIpError,
   Credentials | HttpClient.HttpClient
@@ -1192,7 +1193,7 @@ export type GetDedicatedIpsError =
  * account.
  */
 export const getDedicatedIps: API.PaginatedOperationMethod<
-  GetDedicatedIpsRequest,
+  GetDedicatedIpsRequest & RegionInput,
   GetDedicatedIpsResponse,
   GetDedicatedIpsError,
   Credentials | HttpClient.HttpClient,
@@ -1225,7 +1226,7 @@ export type GetDeliverabilityDashboardOptionsError =
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
 export const getDeliverabilityDashboardOptions: API.OperationMethod<
-  GetDeliverabilityDashboardOptionsRequest,
+  GetDeliverabilityDashboardOptionsRequest & RegionInput,
   GetDeliverabilityDashboardOptionsResponse,
   GetDeliverabilityDashboardOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1249,7 +1250,7 @@ export type GetDeliverabilityTestReportError =
  * Retrieve the results of a predictive inbox placement test.
  */
 export const getDeliverabilityTestReport: API.OperationMethod<
-  GetDeliverabilityTestReportRequest,
+  GetDeliverabilityTestReportRequest & RegionInput,
   GetDeliverabilityTestReportResponse,
   GetDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -1276,7 +1277,7 @@ export type GetDomainDeliverabilityCampaignError =
  * operation).
  */
 export const getDomainDeliverabilityCampaign: API.OperationMethod<
-  GetDomainDeliverabilityCampaignRequest,
+  GetDomainDeliverabilityCampaignRequest & RegionInput,
   GetDomainDeliverabilityCampaignResponse,
   GetDomainDeliverabilityCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type GetDomainStatisticsReportError =
  * email.
  */
 export const getDomainStatisticsReport: API.OperationMethod<
-  GetDomainStatisticsReportRequest,
+  GetDomainStatisticsReportRequest & RegionInput,
   GetDomainStatisticsReportResponse,
   GetDomainStatisticsReportError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type GetEmailIdentityError =
  * custom Mail-From settings.
  */
 export const getEmailIdentity: API.OperationMethod<
-  GetEmailIdentityRequest,
+  GetEmailIdentityRequest & RegionInput,
   GetEmailIdentityResponse,
   GetEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type ListConfigurationSetsError =
  * the email.
  */
 export const listConfigurationSets: API.PaginatedOperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1383,7 +1384,7 @@ export type ListDedicatedIpPoolsError =
  * AWS Region.
  */
 export const listDedicatedIpPools: API.PaginatedOperationMethod<
-  ListDedicatedIpPoolsRequest,
+  ListDedicatedIpPoolsRequest & RegionInput,
   ListDedicatedIpPoolsResponse,
   ListDedicatedIpPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -1411,7 +1412,7 @@ export type ListDeliverabilityTestReportsError =
  * operation to view the results.
  */
 export const listDeliverabilityTestReports: API.PaginatedOperationMethod<
-  ListDeliverabilityTestReportsRequest,
+  ListDeliverabilityTestReportsRequest & RegionInput,
   ListDeliverabilityTestReportsResponse,
   ListDeliverabilityTestReportsError,
   Credentials | HttpClient.HttpClient,
@@ -1440,7 +1441,7 @@ export type ListDomainDeliverabilityCampaignsError =
  * for the domain.
  */
 export const listDomainDeliverabilityCampaigns: API.PaginatedOperationMethod<
-  ListDomainDeliverabilityCampaignsRequest,
+  ListDomainDeliverabilityCampaignsRequest & RegionInput,
   ListDomainDeliverabilityCampaignsResponse,
   ListDomainDeliverabilityCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -1467,7 +1468,7 @@ export type ListEmailIdentitiesError =
  * identities that are verified as well as those that aren't.
  */
 export const listEmailIdentities: API.PaginatedOperationMethod<
-  ListEmailIdentitiesRequest,
+  ListEmailIdentitiesRequest & RegionInput,
   ListEmailIdentitiesResponse,
   ListEmailIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1498,7 +1499,7 @@ export type ListTagsForResourceError =
  * acts as a descriptor within a tag key.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type PutAccountDedicatedIpWarmupAttributesError =
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
 export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutAccountDedicatedIpWarmupAttributesRequest,
+  PutAccountDedicatedIpWarmupAttributesRequest & RegionInput,
   PutAccountDedicatedIpWarmupAttributesResponse,
   PutAccountDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type PutAccountSendingAttributesError =
  * Enable or disable the ability of your account to send email.
  */
 export const putAccountSendingAttributes: API.OperationMethod<
-  PutAccountSendingAttributesRequest,
+  PutAccountSendingAttributesRequest & RegionInput,
   PutAccountSendingAttributesResponse,
   PutAccountSendingAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1570,7 @@ export type PutConfigurationSetDeliveryOptionsError =
  * to create groups of dedicated IP addresses for sending specific types of email.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
-  PutConfigurationSetDeliveryOptionsRequest,
+  PutConfigurationSetDeliveryOptionsRequest & RegionInput,
   PutConfigurationSetDeliveryOptionsResponse,
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1594,7 +1595,7 @@ export type PutConfigurationSetReputationOptionsError =
  * particular configuration set in a specific AWS Region.
  */
 export const putConfigurationSetReputationOptions: API.OperationMethod<
-  PutConfigurationSetReputationOptionsRequest,
+  PutConfigurationSetReputationOptionsRequest & RegionInput,
   PutConfigurationSetReputationOptionsResponse,
   PutConfigurationSetReputationOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1619,7 +1620,7 @@ export type PutConfigurationSetSendingOptionsError =
  * in a specific AWS Region.
  */
 export const putConfigurationSetSendingOptions: API.OperationMethod<
-  PutConfigurationSetSendingOptionsRequest,
+  PutConfigurationSetSendingOptionsRequest & RegionInput,
   PutConfigurationSetSendingOptionsResponse,
   PutConfigurationSetSendingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type PutConfigurationSetTrackingOptionsError =
  * send using Amazon Pinpoint.
  */
 export const putConfigurationSetTrackingOptions: API.OperationMethod<
-  PutConfigurationSetTrackingOptionsRequest,
+  PutConfigurationSetTrackingOptionsRequest & RegionInput,
   PutConfigurationSetTrackingOptionsResponse,
   PutConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1674,7 +1675,7 @@ export type PutDedicatedIpInPoolError =
  * using the `CreateDedicatedIpPool` operation.
  */
 export const putDedicatedIpInPool: API.OperationMethod<
-  PutDedicatedIpInPoolRequest,
+  PutDedicatedIpInPoolRequest & RegionInput,
   PutDedicatedIpInPoolResponse,
   PutDedicatedIpInPoolError,
   Credentials | HttpClient.HttpClient
@@ -1698,7 +1699,7 @@ export type PutDedicatedIpWarmupAttributesError =
  *
  */
 export const putDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutDedicatedIpWarmupAttributesRequest,
+  PutDedicatedIpWarmupAttributesRequest & RegionInput,
   PutDedicatedIpWarmupAttributesResponse,
   PutDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1731,7 +1732,7 @@ export type PutDeliverabilityDashboardOptionError =
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
 export const putDeliverabilityDashboardOption: API.OperationMethod<
-  PutDeliverabilityDashboardOptionRequest,
+  PutDeliverabilityDashboardOptionRequest & RegionInput,
   PutDeliverabilityDashboardOptionResponse,
   PutDeliverabilityDashboardOptionError,
   Credentials | HttpClient.HttpClient
@@ -1761,7 +1762,7 @@ export type PutEmailIdentityDkimAttributesError =
  * Used to enable or disable DKIM authentication for an email identity.
  */
 export const putEmailIdentityDkimAttributes: API.OperationMethod<
-  PutEmailIdentityDkimAttributesRequest,
+  PutEmailIdentityDkimAttributesRequest & RegionInput,
   PutEmailIdentityDkimAttributesResponse,
   PutEmailIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1797,7 +1798,7 @@ export type PutEmailIdentityFeedbackAttributesError =
  * occur (even if this setting is disabled).
  */
 export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
-  PutEmailIdentityFeedbackAttributesRequest,
+  PutEmailIdentityFeedbackAttributesRequest & RegionInput,
   PutEmailIdentityFeedbackAttributesResponse,
   PutEmailIdentityFeedbackAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1822,7 +1823,7 @@ export type PutEmailIdentityMailFromAttributesError =
  * identity.
  */
 export const putEmailIdentityMailFromAttributes: API.OperationMethod<
-  PutEmailIdentityMailFromAttributesRequest,
+  PutEmailIdentityMailFromAttributesRequest & RegionInput,
   PutEmailIdentityMailFromAttributesResponse,
   PutEmailIdentityMailFromAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type SendEmailError =
  * valid MIME message.
  */
 export const sendEmail: API.OperationMethod<
-  SendEmailRequest,
+  SendEmailRequest & RegionInput,
   SendEmailResponse,
   SendEmailError,
   Credentials | HttpClient.HttpClient
@@ -1905,7 +1906,7 @@ export type TagResourceError =
  * a descriptor within a tag key.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1936,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient

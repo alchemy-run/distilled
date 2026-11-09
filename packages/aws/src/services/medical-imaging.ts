@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -675,7 +676,7 @@ export type CopyImageSetError =
  * Copy an image set.
  */
 export const copyImageSet: API.OperationMethod<
-  CopyImageSetRequest,
+  CopyImageSetRequest & RegionInput,
   CopyImageSetResponse,
   CopyImageSetError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type CreateDatastoreError =
  * Create a data store.
  */
 export const createDatastore: API.OperationMethod<
-  CreateDatastoreRequest,
+  CreateDatastoreRequest & RegionInput,
   CreateDatastoreResponse,
   CreateDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +750,7 @@ export type DeleteDatastoreError =
  * Before a data store can be deleted, you must first delete all image sets within it.
  */
 export const deleteDatastore: API.OperationMethod<
-  DeleteDatastoreRequest,
+  DeleteDatastoreRequest & RegionInput,
   DeleteDatastoreResponse,
   DeleteDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -783,7 +784,7 @@ export type DeleteImageSetError =
  * Delete an image set.
  */
 export const deleteImageSet: API.OperationMethod<
-  DeleteImageSetRequest,
+  DeleteImageSetRequest & RegionInput,
   DeleteImageSetResponse,
   DeleteImageSetError,
   Credentials | HttpClient.HttpClient
@@ -817,7 +818,7 @@ export type GetDatastoreError =
  * Get data store properties.
  */
 export const getDatastore: API.OperationMethod<
-  GetDatastoreRequest,
+  GetDatastoreRequest & RegionInput,
   GetDatastoreResponse,
   GetDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -852,7 +853,7 @@ export type GetDICOMImportJobError =
  * The `jobStatus` refers to the execution of the import job. Therefore, an import job can return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
  */
 export const getDICOMImportJob: API.OperationMethod<
-  GetDICOMImportJobRequest,
+  GetDICOMImportJobRequest & RegionInput,
   GetDICOMImportJobResponse,
   GetDICOMImportJobError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type GetImageFrameError =
  * Get an image frame (pixel data) for an image set.
  */
 export const getImageFrame: API.OperationMethod<
-  GetImageFrameRequest,
+  GetImageFrameRequest & RegionInput,
   GetImageFrameResponse,
   GetImageFrameError,
   Credentials | HttpClient.HttpClient
@@ -925,7 +926,7 @@ export type GetImageSetError =
  * Get image set properties.
  */
 export const getImageSet: API.OperationMethod<
-  GetImageSetRequest,
+  GetImageSetRequest & RegionInput,
   GetImageSetResponse,
   GetImageSetError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type GetImageSetMetadataError =
  * Get metadata attributes for an image set.
  */
 export const getImageSetMetadata: API.OperationMethod<
-  GetImageSetMetadataRequest,
+  GetImageSetMetadataRequest & RegionInput,
   GetImageSetMetadataResponse,
   GetImageSetMetadataError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +994,7 @@ export type ListDatastoresError =
  * List data stores.
  */
 export const listDatastores: API.PaginatedOperationMethod<
-  ListDatastoresRequest,
+  ListDatastoresRequest & RegionInput,
   ListDatastoresResponse,
   ListDatastoresError,
   Credentials | HttpClient.HttpClient,
@@ -1032,7 +1033,7 @@ export type ListDICOMImportJobsError =
  * List import jobs created for a specific data store.
  */
 export const listDICOMImportJobs: API.PaginatedOperationMethod<
-  ListDICOMImportJobsRequest,
+  ListDICOMImportJobsRequest & RegionInput,
   ListDICOMImportJobsResponse,
   ListDICOMImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1073,7 +1074,7 @@ export type ListImageSetVersionsError =
  * List image set versions.
  */
 export const listImageSetVersions: API.PaginatedOperationMethod<
-  ListImageSetVersionsRequest,
+  ListImageSetVersionsRequest & RegionInput,
   ListImageSetVersionsResponse,
   ListImageSetVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1114,7 +1115,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a medical imaging resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type SearchImageSetsError =
  * By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending order from newest to oldest.
  */
 export const searchImageSets: API.PaginatedOperationMethod<
-  SearchImageSetsRequest,
+  SearchImageSetsRequest & RegionInput,
   SearchImageSetsResponse,
   SearchImageSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1194,7 +1195,7 @@ export type StartDICOMImportJobError =
  * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The `importConfiguration` parameter specifies the import type. The data is found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
  */
 export const startDICOMImportJob: API.OperationMethod<
-  StartDICOMImportJobRequest,
+  StartDICOMImportJobRequest & RegionInput,
   StartDICOMImportJobResponse,
   StartDICOMImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1228,7 +1229,7 @@ export type TagResourceError =
  * Adds a user-specifed key and value tag to a medical imaging resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1260,7 +1261,7 @@ export type UntagResourceError =
  * Removes tags from a medical imaging resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1294,7 +1295,7 @@ export type UpdateImageSetMetadataError =
  * Update image set metadata attributes.
  */
 export const updateImageSetMetadata: API.OperationMethod<
-  UpdateImageSetMetadataRequest,
+  UpdateImageSetMetadataRequest & RegionInput,
   UpdateImageSetMetadataResponse,
   UpdateImageSetMetadataError,
   Credentials | HttpClient.HttpClient

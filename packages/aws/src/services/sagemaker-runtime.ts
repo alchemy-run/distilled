@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -276,7 +277,7 @@ export type InvokeEndpointError =
  * the authentication token that is supplied by the caller.
  */
 export const invokeEndpoint: API.OperationMethod<
-  InvokeEndpointInput,
+  InvokeEndpointInput & RegionInput,
   InvokeEndpointOutput,
   InvokeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -321,7 +322,7 @@ export type InvokeEndpointAsyncError =
  * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
  */
 export const invokeEndpointAsync: API.OperationMethod<
-  InvokeEndpointAsyncInput,
+  InvokeEndpointAsyncInput & RegionInput,
   InvokeEndpointAsyncOutput,
   InvokeEndpointAsyncError,
   Credentials | HttpClient.HttpClient
@@ -371,7 +372,7 @@ export type InvokeEndpointWithResponseStreamError =
  * *Amazon S3 API Reference*.
  */
 export const invokeEndpointWithResponseStream: API.OperationMethod<
-  InvokeEndpointWithResponseStreamInput,
+  InvokeEndpointWithResponseStreamInput & RegionInput,
   InvokeEndpointWithResponseStreamOutput,
   InvokeEndpointWithResponseStreamError,
   Credentials | HttpClient.HttpClient

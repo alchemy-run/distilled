@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1032,7 +1033,7 @@ export type BatchGetTracesError = InvalidRequestException | ThrottledException |
  * list of trace IDs.
  */
 export const batchGetTraces: API.PaginatedOperationMethod<
-  BatchGetTracesRequest,
+  BatchGetTracesRequest & RegionInput,
   BatchGetTracesResult,
   BatchGetTracesError,
   Credentials | HttpClient.HttpClient,
@@ -1058,7 +1059,7 @@ export type CancelTraceRetrievalError =
  * Cancels an ongoing trace retrieval job initiated by `StartTraceRetrieval` using the provided `RetrievalToken`. A successful cancellation will return an HTTP 200 response.
  */
 export const cancelTraceRetrieval: API.OperationMethod<
-  CancelTraceRetrievalRequest,
+  CancelTraceRetrievalRequest & RegionInput,
   CancelTraceRetrievalResult,
   CancelTraceRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1083,7 @@ export type CreateGroupError =
  * Creates a group resource with a name and a filter expression.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResult,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1113,7 +1114,7 @@ export type CreateSamplingRuleError =
  * of borrowing from the reservoir.
  */
 export const createSamplingRule: API.OperationMethod<
-  CreateSamplingRuleRequest,
+  CreateSamplingRuleRequest & RegionInput,
   CreateSamplingRuleResult,
   CreateSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type DeleteGroupError =
  * Deletes a group resource.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResult,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy from the target Amazon Web Services account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResult,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type DeleteSamplingRuleError =
  * Deletes a sampling rule.
  */
 export const deleteSamplingRule: API.OperationMethod<
-  DeleteSamplingRuleRequest,
+  DeleteSamplingRuleRequest & RegionInput,
   DeleteSamplingRuleResult,
   DeleteSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type GetEncryptionConfigError = InvalidRequestException | ThrottledExcept
  * Retrieves the current encryption configuration for X-Ray data.
  */
 export const getEncryptionConfig: API.OperationMethod<
-  GetEncryptionConfigRequest,
+  GetEncryptionConfigRequest & RegionInput,
   GetEncryptionConfigResult,
   GetEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type GetGroupError =
  * Retrieves group resource details.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResult,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type GetGroupsError = InvalidRequestException | ThrottledException | Comm
  * Retrieves all active group details.
  */
 export const getGroups: API.PaginatedOperationMethod<
-  GetGroupsRequest,
+  GetGroupsRequest & RegionInput,
   GetGroupsResult,
   GetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1278,7 +1279,7 @@ export type GetIndexingRulesError = InvalidRequestException | ThrottledException
  * Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see Transaction Search.
  */
 export const getIndexingRules: API.OperationMethod<
-  GetIndexingRulesRequest,
+  GetIndexingRulesRequest & RegionInput,
   GetIndexingRulesResult,
   GetIndexingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type GetInsightError = InvalidRequestException | ThrottledException | Com
  * and the start and end time of the insight.
  */
 export const getInsight: API.OperationMethod<
-  GetInsightRequest,
+  GetInsightRequest & RegionInput,
   GetInsightResult,
   GetInsightError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1323,7 @@ export type GetInsightEventsError = InvalidRequestException | ThrottledException
  * console.
  */
 export const getInsightEvents: API.PaginatedOperationMethod<
-  GetInsightEventsRequest,
+  GetInsightEventsRequest & RegionInput,
   GetInsightEventsResult,
   GetInsightEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1352,7 +1353,7 @@ export type GetInsightImpactGraphError =
  * structural information. For a complete service graph, use this API with the GetServiceGraph API.
  */
 export const getInsightImpactGraph: API.OperationMethod<
-  GetInsightImpactGraphRequest,
+  GetInsightImpactGraphRequest & RegionInput,
   GetInsightImpactGraphResult,
   GetInsightImpactGraphError,
   Credentials | HttpClient.HttpClient
@@ -1372,7 +1373,7 @@ export type GetInsightSummariesError = InvalidRequestException | ThrottledExcept
  * Retrieves the summaries of all insights in the specified group matching the provided filter values.
  */
 export const getInsightSummaries: API.PaginatedOperationMethod<
-  GetInsightSummariesRequest,
+  GetInsightSummariesRequest & RegionInput,
   GetInsightSummariesResult,
   GetInsightSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1410,7 +1411,7 @@ export type GetRetrievedTracesGraphError =
  * For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see GetTraceGraph.
  */
 export const getRetrievedTracesGraph: API.OperationMethod<
-  GetRetrievedTracesGraphRequest,
+  GetRetrievedTracesGraphRequest & RegionInput,
   GetRetrievedTracesGraphResult,
   GetRetrievedTracesGraphError,
   Credentials | HttpClient.HttpClient
@@ -1430,7 +1431,7 @@ export type GetSamplingRulesError = InvalidRequestException | ThrottledException
  * Retrieves all sampling rules.
  */
 export const getSamplingRules: API.PaginatedOperationMethod<
-  GetSamplingRulesRequest,
+  GetSamplingRulesRequest & RegionInput,
   GetSamplingRulesResult,
   GetSamplingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1459,7 +1460,7 @@ export type GetSamplingStatisticSummariesError =
  * Retrieves information about recent sampling results for all sampling rules.
  */
 export const getSamplingStatisticSummaries: API.PaginatedOperationMethod<
-  GetSamplingStatisticSummariesRequest,
+  GetSamplingStatisticSummariesRequest & RegionInput,
   GetSamplingStatisticSummariesResult,
   GetSamplingStatisticSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1485,7 +1486,7 @@ export type GetSamplingTargetsError = InvalidRequestException | ThrottledExcepti
  * Requests a sampling quota for rules that the service is using to sample requests.
  */
 export const getSamplingTargets: API.OperationMethod<
-  GetSamplingTargetsRequest,
+  GetSamplingTargetsRequest & RegionInput,
   GetSamplingTargetsResult,
   GetSamplingTargetsError,
   Credentials | HttpClient.HttpClient
@@ -1509,7 +1510,7 @@ export type GetServiceGraphError = InvalidRequestException | ThrottledException 
  * databases.
  */
 export const getServiceGraph: API.PaginatedOperationMethod<
-  GetServiceGraphRequest,
+  GetServiceGraphRequest & RegionInput,
   GetServiceGraphResult,
   GetServiceGraphError,
   Credentials | HttpClient.HttpClient,
@@ -1535,7 +1536,7 @@ export type GetTimeSeriesServiceStatisticsError =
  * range.
  */
 export const getTimeSeriesServiceStatistics: API.PaginatedOperationMethod<
-  GetTimeSeriesServiceStatisticsRequest,
+  GetTimeSeriesServiceStatisticsRequest & RegionInput,
   GetTimeSeriesServiceStatisticsResult,
   GetTimeSeriesServiceStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -1561,7 +1562,7 @@ export type GetTraceGraphError = InvalidRequestException | ThrottledException | 
  * Retrieves a service graph for one or more specific trace IDs.
  */
 export const getTraceGraph: API.PaginatedOperationMethod<
-  GetTraceGraphRequest,
+  GetTraceGraphRequest & RegionInput,
   GetTraceGraphResult,
   GetTraceGraphError,
   Credentials | HttpClient.HttpClient,
@@ -1586,7 +1587,7 @@ export type GetTraceSegmentDestinationError =
  * Retrieves the current destination of data sent to `PutTraceSegments` and *OpenTelemetry protocol (OTLP)* endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
  */
 export const getTraceSegmentDestination: API.OperationMethod<
-  GetTraceSegmentDestinationRequest,
+  GetTraceSegmentDestinationRequest & RegionInput,
   GetTraceSegmentDestinationResult,
   GetTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1623,7 +1624,7 @@ export type GetTraceSummariesError = InvalidRequestException | ThrottledExceptio
  * expressions in the *Amazon Web Services X-Ray Developer Guide*.
  */
 export const getTraceSummaries: API.PaginatedOperationMethod<
-  GetTraceSummariesRequest,
+  GetTraceSummariesRequest & RegionInput,
   GetTraceSummariesResult,
   GetTraceSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1649,7 +1650,7 @@ export type ListResourcePoliciesError = InvalidRequestException | ThrottledExcep
  * Returns the list of resource policies in the target Amazon Web Services account.
  */
 export const listResourcePolicies: API.PaginatedOperationMethod<
-  ListResourcePoliciesRequest,
+  ListResourcePoliciesRequest & RegionInput,
   ListResourcePoliciesResult,
   ListResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1687,7 +1688,7 @@ export type ListRetrievedTracesError =
  * For retrieving data from X-Ray directly as opposed to the Transaction Search generated log group, see BatchGetTraces.
  */
 export const listRetrievedTraces: API.OperationMethod<
-  ListRetrievedTracesRequest,
+  ListRetrievedTracesRequest & RegionInput,
   ListRetrievedTracesResult,
   ListRetrievedTracesError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1733,7 +1734,7 @@ export type PutEncryptionConfigError = InvalidRequestException | ThrottledExcept
  * Updates the encryption configuration for X-Ray data.
  */
 export const putEncryptionConfig: API.OperationMethod<
-  PutEncryptionConfigRequest,
+  PutEncryptionConfigRequest & RegionInput,
   PutEncryptionConfigResult,
   PutEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -1763,7 +1764,7 @@ export type PutResourcePolicyError =
  * unique within that account. The maximum size of each resource policy is 5KB.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1790,7 +1791,7 @@ export type PutTelemetryRecordsError = InvalidRequestException | ThrottledExcept
  * Used by the Amazon Web Services X-Ray daemon to upload telemetry.
  */
 export const putTelemetryRecords: API.OperationMethod<
-  PutTelemetryRecordsRequest,
+  PutTelemetryRecordsRequest & RegionInput,
   PutTelemetryRecordsResult,
   PutTelemetryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type PutTraceSegmentsError = InvalidRequestException | ThrottledException
  * the original request timestamp in Unix epoch time, this is not required or validated.
  */
 export const putTraceSegments: API.OperationMethod<
-  PutTraceSegmentsRequest,
+  PutTraceSegmentsRequest & RegionInput,
   PutTraceSegmentsResult,
   PutTraceSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -1891,7 +1892,7 @@ export type StartTraceRetrievalError =
  * For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
  */
 export const startTraceRetrieval: API.OperationMethod<
-  StartTraceRetrievalRequest,
+  StartTraceRetrievalRequest & RegionInput,
   StartTraceRetrievalResult,
   StartTraceRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1916,7 +1917,7 @@ export type TagResourceError =
  * Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1946,7 +1947,7 @@ export type UntagResourceError =
  * tags (those with an `aws:` prefix).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type UpdateGroupError =
  * Updates a group resource.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResult,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1996,7 +1997,7 @@ export type UpdateIndexingRuleError =
  * Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search.
  */
 export const updateIndexingRule: API.OperationMethod<
-  UpdateIndexingRuleRequest,
+  UpdateIndexingRuleRequest & RegionInput,
   UpdateIndexingRuleResult,
   UpdateIndexingRuleError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type UpdateSamplingRuleError =
  * Modifies a sampling rule's configuration.
  */
 export const updateSamplingRule: API.OperationMethod<
-  UpdateSamplingRuleRequest,
+  UpdateSamplingRuleRequest & RegionInput,
   UpdateSamplingRuleResult,
   UpdateSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -2043,7 +2044,7 @@ export type UpdateTraceSegmentDestinationError =
  * Modifies the destination of data sent to `PutTraceSegments`. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
  */
 export const updateTraceSegmentDestination: API.OperationMethod<
-  UpdateTraceSegmentDestinationRequest,
+  UpdateTraceSegmentDestinationRequest & RegionInput,
   UpdateTraceSegmentDestinationResult,
   UpdateTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient

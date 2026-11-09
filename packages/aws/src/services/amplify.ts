@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -873,7 +874,7 @@ export type CreateAppError =
  * Creates a new Amplify app.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResult,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -913,7 +914,7 @@ export type CreateBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const createBackendEnvironment: API.OperationMethod<
-  CreateBackendEnvironmentRequest,
+  CreateBackendEnvironmentRequest & RegionInput,
   CreateBackendEnvironmentResult,
   CreateBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -948,7 +949,7 @@ export type CreateBranchError =
  * Creates a new branch for an Amplify app.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchRequest,
+  CreateBranchRequest & RegionInput,
   CreateBranchResult,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type CreateDeploymentError =
  * fail.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResult,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1023,7 +1024,7 @@ export type CreateDomainAssociationError =
  * domain with the Amplify app
  */
 export const createDomainAssociation: API.OperationMethod<
-  CreateDomainAssociationRequest,
+  CreateDomainAssociationRequest & RegionInput,
   CreateDomainAssociationResult,
   CreateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type CreateWebhookError =
  * Creates a new webhook on an Amplify app.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookRequest,
+  CreateWebhookRequest & RegionInput,
   CreateWebhookResult,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type DeleteAppError =
  * Deletes an existing Amplify app specified by an app ID.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResult,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -1134,7 +1135,7 @@ export type DeleteBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const deleteBackendEnvironment: API.OperationMethod<
-  DeleteBackendEnvironmentRequest,
+  DeleteBackendEnvironmentRequest & RegionInput,
   DeleteBackendEnvironmentResult,
   DeleteBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1168,7 +1169,7 @@ export type DeleteBranchError =
  * Deletes a branch for an Amplify app.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchRequest,
+  DeleteBranchRequest & RegionInput,
   DeleteBranchResult,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -1202,7 +1203,7 @@ export type DeleteDomainAssociationError =
  * Deletes a domain association for an Amplify app.
  */
 export const deleteDomainAssociation: API.OperationMethod<
-  DeleteDomainAssociationRequest,
+  DeleteDomainAssociationRequest & RegionInput,
   DeleteDomainAssociationResult,
   DeleteDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type DeleteJobError =
  * Deletes a job for a branch of an Amplify app.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResult,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1270,7 +1271,7 @@ export type DeleteWebhookError =
  * Deletes a webhook.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookRequest,
+  DeleteWebhookRequest & RegionInput,
   DeleteWebhookResult,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1303,7 +1304,7 @@ export type GenerateAccessLogsError =
  * Returns the website access logs for a specific time range using a presigned URL.
  */
 export const generateAccessLogs: API.OperationMethod<
-  GenerateAccessLogsRequest,
+  GenerateAccessLogsRequest & RegionInput,
   GenerateAccessLogsResult,
   GenerateAccessLogsError,
   Credentials | HttpClient.HttpClient
@@ -1335,7 +1336,7 @@ export type GetAppError =
  * Returns an existing Amplify app specified by an app ID.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResult,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type GetArtifactUrlError =
  * Returns the artifact info that corresponds to an artifact id.
  */
 export const getArtifactUrl: API.OperationMethod<
-  GetArtifactUrlRequest,
+  GetArtifactUrlRequest & RegionInput,
   GetArtifactUrlResult,
   GetArtifactUrlError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type GetBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const getBackendEnvironment: API.OperationMethod<
-  GetBackendEnvironmentRequest,
+  GetBackendEnvironmentRequest & RegionInput,
   GetBackendEnvironmentResult,
   GetBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type GetBranchError =
  * Returns a branch for an Amplify app.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchRequest,
+  GetBranchRequest & RegionInput,
   GetBranchResult,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type GetDomainAssociationError =
  * Returns the domain information for an Amplify app.
  */
 export const getDomainAssociation: API.OperationMethod<
-  GetDomainAssociationRequest,
+  GetDomainAssociationRequest & RegionInput,
   GetDomainAssociationResult,
   GetDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1504,7 +1505,7 @@ export type GetJobError =
  * Returns a job for a branch of an Amplify app.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type GetWebhookError =
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
 export const getWebhook: API.OperationMethod<
-  GetWebhookRequest,
+  GetWebhookRequest & RegionInput,
   GetWebhookResult,
   GetWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type ListAppsError =
  * Returns a list of the existing Amplify apps.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResult,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -1610,7 +1611,7 @@ export type ListArtifactsError =
  * *Amplify Hosting User Guide*.
  */
 export const listArtifacts: API.OperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1648,7 @@ export type ListBackendEnvironmentsError =
  * backend infrastructure using Typescript code.
  */
 export const listBackendEnvironments: API.OperationMethod<
-  ListBackendEnvironmentsRequest,
+  ListBackendEnvironmentsRequest & RegionInput,
   ListBackendEnvironmentsResult,
   ListBackendEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type ListBranchesError =
  * Lists the branches of an Amplify app.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesRequest,
+  ListBranchesRequest & RegionInput,
   ListBranchesResult,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -1704,7 +1705,7 @@ export type ListDomainAssociationsError =
  * Returns the domain associations for an Amplify app.
  */
 export const listDomainAssociations: API.PaginatedOperationMethod<
-  ListDomainAssociationsRequest,
+  ListDomainAssociationsRequest & RegionInput,
   ListDomainAssociationsResult,
   ListDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1737,7 +1738,7 @@ export type ListJobsError =
  * Lists the jobs for a branch of an Amplify app.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1775,7 +1776,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type ListWebhooksError =
  * Returns a list of webhooks for an Amplify app.
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksRequest,
+  ListWebhooksRequest & RegionInput,
   ListWebhooksResult,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
@@ -1845,7 +1846,7 @@ export type StartDeploymentError =
  * fail.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResult,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1880,7 @@ export type StartJobError =
  * Starts a new job for a branch of an Amplify app.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResult,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -1913,7 +1914,7 @@ export type StopJobError =
  * Stops a job that is in progress for a branch of an Amplify app.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -1945,7 +1946,7 @@ export type TagResourceError =
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1976,7 @@ export type UntagResourceError =
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2007,7 @@ export type UpdateAppError =
  * Updates an existing Amplify app.
  */
 export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
+  UpdateAppRequest & RegionInput,
   UpdateAppResult,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2040,7 @@ export type UpdateBranchError =
  * Updates a branch for an Amplify app.
  */
 export const updateBranch: API.OperationMethod<
-  UpdateBranchRequest,
+  UpdateBranchRequest & RegionInput,
   UpdateBranchResult,
   UpdateBranchError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2074,7 @@ export type UpdateDomainAssociationError =
  * Creates a new domain association for an Amplify app.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2107,7 +2108,7 @@ export type UpdateWebhookError =
  * Updates a webhook.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookRequest,
+  UpdateWebhookRequest & RegionInput,
   UpdateWebhookResult,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient

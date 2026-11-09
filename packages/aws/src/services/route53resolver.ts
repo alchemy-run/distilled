@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1323,7 +1324,7 @@ export type AssociateFirewallRuleGroupError =
  * If the rule group contains any rule configured with the `PartnerThreatProtection` rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
  */
 export const associateFirewallRuleGroup: API.OperationMethod<
-  AssociateFirewallRuleGroupRequest,
+  AssociateFirewallRuleGroupRequest & RegionInput,
   AssociateFirewallRuleGroupResponse,
   AssociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type AssociateResolverEndpointIpAddressError =
  * DisassociateResolverEndpointIpAddress.
  */
 export const associateResolverEndpointIpAddress: API.OperationMethod<
-  AssociateResolverEndpointIpAddressRequest,
+  AssociateResolverEndpointIpAddressRequest & RegionInput,
   AssociateResolverEndpointIpAddressResponse,
   AssociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type AssociateResolverQueryLogConfigError =
  * DisassociateResolverQueryLogConfig.
  */
 export const associateResolverQueryLogConfig: API.OperationMethod<
-  AssociateResolverQueryLogConfigRequest,
+  AssociateResolverQueryLogConfigRequest & RegionInput,
   AssociateResolverQueryLogConfigResponse,
   AssociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1448,7 +1449,7 @@ export type AssociateResolverRuleError =
  * CreateResolverRule.
  */
 export const associateResolverRule: API.OperationMethod<
-  AssociateResolverRuleRequest,
+  AssociateResolverRuleRequest & RegionInput,
   AssociateResolverRuleResponse,
   AssociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type BatchCreateFirewallRuleError =
  * Creates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
-  BatchCreateFirewallRuleRequest,
+  BatchCreateFirewallRuleRequest & RegionInput,
   BatchCreateFirewallRuleResponse,
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type BatchDeleteFirewallRuleError =
  * Deletes multiple DNS Firewall rules from the specified rule group.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
-  BatchDeleteFirewallRuleRequest,
+  BatchDeleteFirewallRuleRequest & RegionInput,
   BatchDeleteFirewallRuleResponse,
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1548,7 @@ export type BatchUpdateFirewallRuleError =
  * Updates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
-  BatchUpdateFirewallRuleRequest,
+  BatchUpdateFirewallRuleRequest & RegionInput,
   BatchUpdateFirewallRuleResponse,
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1579,7 +1580,7 @@ export type CreateFirewallDomainListError =
  * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
  */
 export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListRequest,
+  CreateFirewallDomainListRequest & RegionInput,
   CreateFirewallDomainListResponse,
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type CreateFirewallRuleError =
  * For rules that require asynchronous provisioning (today, the `PartnerThreatProtection` rule type), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
  */
 export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleRequest,
+  CreateFirewallRuleRequest & RegionInput,
   CreateFirewallRuleResponse,
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1654,7 +1655,7 @@ export type CreateFirewallRuleGroupError =
  * by calling CreateFirewallRule.
  */
 export const createFirewallRuleGroup: API.OperationMethod<
-  CreateFirewallRuleGroupRequest,
+  CreateFirewallRuleGroupRequest & RegionInput,
   CreateFirewallRuleGroupResponse,
   CreateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type CreateOutpostResolverError =
  * is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it.
  */
 export const createOutpostResolver: API.OperationMethod<
-  CreateOutpostResolverRequest,
+  CreateOutpostResolverRequest & RegionInput,
   CreateOutpostResolverResponse,
   CreateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1732,7 +1733,7 @@ export type CreateResolverEndpointError =
  * to your network.
  */
 export const createResolverEndpoint: API.OperationMethod<
-  CreateResolverEndpointRequest,
+  CreateResolverEndpointRequest & RegionInput,
   CreateResolverEndpointResponse,
   CreateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1778,7 +1779,7 @@ export type CreateResolverQueryLogConfigError =
  * VPCs that are associated with the configuration.
  */
 export const createResolverQueryLogConfig: API.OperationMethod<
-  CreateResolverQueryLogConfigRequest,
+  CreateResolverQueryLogConfigRequest & RegionInput,
   CreateResolverQueryLogConfigResponse,
   CreateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1818,7 +1819,7 @@ export type CreateResolverRuleError =
  * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
  */
 export const createResolverRule: API.OperationMethod<
-  CreateResolverRuleRequest,
+  CreateResolverRuleRequest & RegionInput,
   CreateResolverRuleResponse,
   CreateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1854,7 +1855,7 @@ export type DeleteFirewallDomainListError =
  * Deletes the specified domain list.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListRequest,
+  DeleteFirewallDomainListRequest & RegionInput,
   DeleteFirewallDomainListResponse,
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1888,7 +1889,7 @@ export type DeleteFirewallRuleError =
  * `DeleteFirewallRule` is the only operation that succeeds against a rule whose `Status` is `CREATION_FAILED`.
  */
 export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleRequest,
+  DeleteFirewallRuleRequest & RegionInput,
   DeleteFirewallRuleResponse,
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type DeleteFirewallRuleGroupError =
  * Deletes the specified firewall rule group.
  */
 export const deleteFirewallRuleGroup: API.OperationMethod<
-  DeleteFirewallRuleGroupRequest,
+  DeleteFirewallRuleGroupRequest & RegionInput,
   DeleteFirewallRuleGroupResponse,
   DeleteFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1959,7 +1960,7 @@ export type DeleteOutpostResolverError =
  * second-generation Outposts, contact Amazon Web Services Support.
  */
 export const deleteOutpostResolver: API.OperationMethod<
-  DeleteOutpostResolverRequest,
+  DeleteOutpostResolverRequest & RegionInput,
   DeleteOutpostResolverResponse,
   DeleteOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1998,7 +1999,7 @@ export type DeleteResolverEndpointError =
  * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
  */
 export const deleteResolverEndpoint: API.OperationMethod<
-  DeleteResolverEndpointRequest,
+  DeleteResolverEndpointRequest & RegionInput,
   DeleteResolverEndpointResponse,
   DeleteResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DeleteResolverQueryLogConfigError =
  * disassociated from the configuration.
  */
 export const deleteResolverQueryLogConfig: API.OperationMethod<
-  DeleteResolverQueryLogConfigRequest,
+  DeleteResolverQueryLogConfigRequest & RegionInput,
   DeleteResolverQueryLogConfigResponse,
   DeleteResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2077,7 +2078,7 @@ export type DeleteResolverRuleError =
  * DisassociateResolverRule.
  */
 export const deleteResolverRule: API.OperationMethod<
-  DeleteResolverRuleRequest,
+  DeleteResolverRuleRequest & RegionInput,
   DeleteResolverRuleResponse,
   DeleteResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2112,7 @@ export type DisassociateFirewallRuleGroupError =
  * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
  */
 export const disassociateFirewallRuleGroup: API.OperationMethod<
-  DisassociateFirewallRuleGroupRequest,
+  DisassociateFirewallRuleGroupRequest & RegionInput,
   DisassociateFirewallRuleGroupResponse,
   DisassociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type DisassociateResolverEndpointIpAddressError =
  * AssociateResolverEndpointIpAddress.
  */
 export const disassociateResolverEndpointIpAddress: API.OperationMethod<
-  DisassociateResolverEndpointIpAddressRequest,
+  DisassociateResolverEndpointIpAddressRequest & RegionInput,
   DisassociateResolverEndpointIpAddressResponse,
   DisassociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2193,7 @@ export type DisassociateResolverQueryLogConfigError =
  * - You can stop sharing the configuration.
  */
 export const disassociateResolverQueryLogConfig: API.OperationMethod<
-  DisassociateResolverQueryLogConfigRequest,
+  DisassociateResolverQueryLogConfigRequest & RegionInput,
   DisassociateResolverQueryLogConfigResponse,
   DisassociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type DisassociateResolverRuleError =
  * domain name that you specified in the Resolver rule.
  */
 export const disassociateResolverRule: API.OperationMethod<
-  DisassociateResolverRuleRequest,
+  DisassociateResolverRuleRequest & RegionInput,
   DisassociateResolverRuleResponse,
   DisassociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2261,7 +2262,7 @@ export type GetFirewallConfigError =
  * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const getFirewallConfig: API.OperationMethod<
-  GetFirewallConfigRequest,
+  GetFirewallConfigRequest & RegionInput,
   GetFirewallConfigResponse,
   GetFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -2292,7 +2293,7 @@ export type GetFirewallDomainListError =
  * Retrieves the specified firewall domain list.
  */
 export const getFirewallDomainList: API.OperationMethod<
-  GetFirewallDomainListRequest,
+  GetFirewallDomainListRequest & RegionInput,
   GetFirewallDomainListResponse,
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type GetFirewallRuleGroupError =
  * Retrieves the specified firewall rule group.
  */
 export const getFirewallRuleGroup: API.OperationMethod<
-  GetFirewallRuleGroupRequest,
+  GetFirewallRuleGroupRequest & RegionInput,
   GetFirewallRuleGroupResponse,
   GetFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2352,7 +2353,7 @@ export type GetFirewallRuleGroupAssociationError =
  * Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
  */
 export const getFirewallRuleGroupAssociation: API.OperationMethod<
-  GetFirewallRuleGroupAssociationRequest,
+  GetFirewallRuleGroupAssociationRequest & RegionInput,
   GetFirewallRuleGroupAssociationResponse,
   GetFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2384,7 +2385,7 @@ export type GetFirewallRuleGroupPolicyError =
  * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
  */
 export const getFirewallRuleGroupPolicy: API.OperationMethod<
-  GetFirewallRuleGroupPolicyRequest,
+  GetFirewallRuleGroupPolicyRequest & RegionInput,
   GetFirewallRuleGroupPolicyResponse,
   GetFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2417,7 +2418,7 @@ export type GetOutpostResolverError =
  * type, name, and the current status of the Resolver.
  */
 export const getOutpostResolver: API.OperationMethod<
-  GetOutpostResolverRequest,
+  GetOutpostResolverRequest & RegionInput,
   GetOutpostResolverResponse,
   GetOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -2451,7 +2452,7 @@ export type GetResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const getResolverConfig: API.OperationMethod<
-  GetResolverConfigRequest,
+  GetResolverConfigRequest & RegionInput,
   GetResolverConfigResponse,
   GetResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -2485,7 +2486,7 @@ export type GetResolverDnssecConfigError =
  * Gets DNSSEC validation information for a specified resource.
  */
 export const getResolverDnssecConfig: API.OperationMethod<
-  GetResolverDnssecConfigRequest,
+  GetResolverDnssecConfigRequest & RegionInput,
   GetResolverDnssecConfigResponse,
   GetResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -2518,7 +2519,7 @@ export type GetResolverEndpointError =
  * current status of the endpoint.
  */
 export const getResolverEndpoint: API.OperationMethod<
-  GetResolverEndpointRequest,
+  GetResolverEndpointRequest & RegionInput,
   GetResolverEndpointResponse,
   GetResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2551,7 +2552,7 @@ export type GetResolverQueryLogConfigError =
  * is logging queries for and the location that logs are sent to.
  */
 export const getResolverQueryLogConfig: API.OperationMethod<
-  GetResolverQueryLogConfigRequest,
+  GetResolverQueryLogConfigRequest & RegionInput,
   GetResolverQueryLogConfigResponse,
   GetResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2586,7 +2587,7 @@ export type GetResolverQueryLogConfigAssociationError =
  * with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
  */
 export const getResolverQueryLogConfigAssociation: API.OperationMethod<
-  GetResolverQueryLogConfigAssociationRequest,
+  GetResolverQueryLogConfigAssociationRequest & RegionInput,
   GetResolverQueryLogConfigAssociationResponse,
   GetResolverQueryLogConfigAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type GetResolverQueryLogConfigPolicyError =
  * operations and resources that you want to allow another Amazon Web Services account to be able to use.
  */
 export const getResolverQueryLogConfigPolicy: API.OperationMethod<
-  GetResolverQueryLogConfigPolicyRequest,
+  GetResolverQueryLogConfigPolicyRequest & RegionInput,
   GetResolverQueryLogConfigPolicyResponse,
   GetResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type GetResolverRuleError =
  * outbound Resolver endpoint that the rule is associated with.
  */
 export const getResolverRule: API.OperationMethod<
-  GetResolverRuleRequest,
+  GetResolverRuleRequest & RegionInput,
   GetResolverRuleResponse,
   GetResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type GetResolverRuleAssociationError =
  * AssociateResolverRule.
  */
 export const getResolverRuleAssociation: API.OperationMethod<
-  GetResolverRuleAssociationRequest,
+  GetResolverRuleAssociationRequest & RegionInput,
   GetResolverRuleAssociationResponse,
   GetResolverRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2715,7 @@ export type GetResolverRulePolicyError =
  * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
  */
 export const getResolverRulePolicy: API.OperationMethod<
-  GetResolverRulePolicyRequest,
+  GetResolverRulePolicyRequest & RegionInput,
   GetResolverRulePolicyResponse,
   GetResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type ImportFirewallDomainsError =
  * - It must be from 1-255 characters in length.
  */
 export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsRequest,
+  ImportFirewallDomainsRequest & RegionInput,
   ImportFirewallDomainsResponse,
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2793,7 +2794,7 @@ export type ListFirewallConfigsError =
  * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
  */
 export const listFirewallConfigs: API.PaginatedOperationMethod<
-  ListFirewallConfigsRequest,
+  ListFirewallConfigsRequest & RegionInput,
   ListFirewallConfigsResponse,
   ListFirewallConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -2832,7 +2833,7 @@ export type ListFirewallDomainListsError =
  * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
  */
 export const listFirewallDomainLists: API.PaginatedOperationMethod<
-  ListFirewallDomainListsRequest,
+  ListFirewallDomainListsRequest & RegionInput,
   ListFirewallDomainListsResponse,
   ListFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2872,7 +2873,7 @@ export type ListFirewallDomainsError =
  * A single call might return only a partial list of the domains. For information, see `MaxResults`.
  */
 export const listFirewallDomains: API.PaginatedOperationMethod<
-  ListFirewallDomainsRequest,
+  ListFirewallDomainsRequest & RegionInput,
   ListFirewallDomainsResponse,
   ListFirewallDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2912,7 +2913,7 @@ export type ListFirewallRuleGroupAssociationsError =
  * A single call might return only a partial list of the associations. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupAssociationsRequest,
+  ListFirewallRuleGroupAssociationsRequest & RegionInput,
   ListFirewallRuleGroupAssociationsResponse,
   ListFirewallRuleGroupAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2951,7 +2952,7 @@ export type ListFirewallRuleGroupsError =
  * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroups: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupsRequest,
+  ListFirewallRuleGroupsRequest & RegionInput,
   ListFirewallRuleGroupsResponse,
   ListFirewallRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2993,7 +2994,7 @@ export type ListFirewallRulesError =
  * For rules that require asynchronous provisioning, the response includes `Status` (see FirewallRuleStatus) and, on failure, `StatusMessage` with the reason.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
-  ListFirewallRulesRequest,
+  ListFirewallRulesRequest & RegionInput,
   ListFirewallRulesResponse,
   ListFirewallRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3033,7 +3034,7 @@ export type ListFirewallRuleTypesError =
  * The supported `RuleType` filter values are `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned definition's variant requires an external subscription (currently only `PartnerThreatProtection`), the response also includes a SubscriptionInfo identifying the Amazon Web Services Marketplace product that backs it; absence of `SubscriptionInfo` means the variant is fully managed by Amazon Web Services and requires no separate subscription.
  */
 export const listFirewallRuleTypes: API.PaginatedOperationMethod<
-  ListFirewallRuleTypesRequest,
+  ListFirewallRuleTypesRequest & RegionInput,
   ListFirewallRuleTypesResponse,
   ListFirewallRuleTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3071,7 +3072,7 @@ export type ListOutpostResolversError =
  * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
  */
 export const listOutpostResolvers: API.PaginatedOperationMethod<
-  ListOutpostResolversRequest,
+  ListOutpostResolversRequest & RegionInput,
   ListOutpostResolversResponse,
   ListOutpostResolversError,
   Credentials | HttpClient.HttpClient,
@@ -3113,7 +3114,7 @@ export type ListResolverConfigsError =
  * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
  */
 export const listResolverConfigs: API.PaginatedOperationMethod<
-  ListResolverConfigsRequest,
+  ListResolverConfigsRequest & RegionInput,
   ListResolverConfigsResponse,
   ListResolverConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3155,7 +3156,7 @@ export type ListResolverDnssecConfigsError =
  * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
  */
 export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
-  ListResolverDnssecConfigsRequest,
+  ListResolverDnssecConfigsRequest & RegionInput,
   ListResolverDnssecConfigsResponse,
   ListResolverDnssecConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3195,7 +3196,7 @@ export type ListResolverEndpointIpAddressesError =
  * Gets the IP addresses for a specified Resolver endpoint.
  */
 export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
-  ListResolverEndpointIpAddressesRequest,
+  ListResolverEndpointIpAddressesRequest & RegionInput,
   ListResolverEndpointIpAddressesResponse,
   ListResolverEndpointIpAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -3234,7 +3235,7 @@ export type ListResolverEndpointsError =
  * Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
  */
 export const listResolverEndpoints: API.PaginatedOperationMethod<
-  ListResolverEndpointsRequest,
+  ListResolverEndpointsRequest & RegionInput,
   ListResolverEndpointsResponse,
   ListResolverEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3274,7 +3275,7 @@ export type ListResolverQueryLogConfigAssociationsError =
  * Lists information about associations between Amazon VPCs and query logging configurations.
  */
 export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigAssociationsRequest,
+  ListResolverQueryLogConfigAssociationsRequest & RegionInput,
   ListResolverQueryLogConfigAssociationsResponse,
   ListResolverQueryLogConfigAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3316,7 +3317,7 @@ export type ListResolverQueryLogConfigsError =
  * DNS query logs and specifies the VPCs that you want to log queries for.
  */
 export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigsRequest,
+  ListResolverQueryLogConfigsRequest & RegionInput,
   ListResolverQueryLogConfigsResponse,
   ListResolverQueryLogConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3356,7 +3357,7 @@ export type ListResolverRuleAssociationsError =
  * Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
  */
 export const listResolverRuleAssociations: API.PaginatedOperationMethod<
-  ListResolverRuleAssociationsRequest,
+  ListResolverRuleAssociationsRequest & RegionInput,
   ListResolverRuleAssociationsResponse,
   ListResolverRuleAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3395,7 +3396,7 @@ export type ListResolverRulesError =
  * Lists the Resolver rules that were created using the current Amazon Web Services account.
  */
 export const listResolverRules: API.PaginatedOperationMethod<
-  ListResolverRulesRequest,
+  ListResolverRulesRequest & RegionInput,
   ListResolverRulesResponse,
   ListResolverRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3435,7 +3436,7 @@ export type ListTagsForResourceError =
  * Lists the tags that you associated with the specified resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3477,7 +3478,7 @@ export type PutFirewallRuleGroupPolicyError =
  * (RAM).
  */
 export const putFirewallRuleGroupPolicy: API.OperationMethod<
-  PutFirewallRuleGroupPolicyRequest,
+  PutFirewallRuleGroupPolicyRequest & RegionInput,
   PutFirewallRuleGroupPolicyResponse,
   PutFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3511,7 +3512,7 @@ export type PutResolverQueryLogConfigPolicyError =
  * and the operations that you want the account to be able to perform on the configuration.
  */
 export const putResolverQueryLogConfigPolicy: API.OperationMethod<
-  PutResolverQueryLogConfigPolicyRequest,
+  PutResolverQueryLogConfigPolicyRequest & RegionInput,
   PutResolverQueryLogConfigPolicyResponse,
   PutResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3546,7 @@ export type PutResolverRulePolicyError =
  * and the operations that you want the account to be able to perform on the rule.
  */
 export const putResolverRulePolicy: API.OperationMethod<
-  PutResolverRulePolicyRequest,
+  PutResolverRulePolicyRequest & RegionInput,
   PutResolverRulePolicyResponse,
   PutResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3579,7 +3580,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3613,7 +3614,7 @@ export type UntagResourceError =
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3646,7 +3647,7 @@ export type UpdateFirewallConfigError =
  * VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const updateFirewallConfig: API.OperationMethod<
-  UpdateFirewallConfigRequest,
+  UpdateFirewallConfigRequest & RegionInput,
   UpdateFirewallConfigResponse,
   UpdateFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -3680,7 +3681,7 @@ export type UpdateFirewallDomainsError =
  * Updates the firewall domain list from an array of domain specifications.
  */
 export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsRequest,
+  UpdateFirewallDomainsRequest & RegionInput,
   UpdateFirewallDomainsResponse,
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3715,7 +3716,7 @@ export type UpdateFirewallRuleError =
  * Updates the specified firewall rule. The rule's `FirewallRuleType`, `FirewallDomainListId`, and top-level `DnsThreatProtection` match source cannot be changed after creation. Rules whose `Status` is `CREATING` or `CREATION_FAILED` cannot be updated; remove a failed rule with DeleteFirewallRule.
  */
 export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleRequest,
+  UpdateFirewallRuleRequest & RegionInput,
   UpdateFirewallRuleResponse,
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -3749,7 +3750,7 @@ export type UpdateFirewallRuleGroupAssociationError =
  * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
  */
 export const updateFirewallRuleGroupAssociation: API.OperationMethod<
-  UpdateFirewallRuleGroupAssociationRequest,
+  UpdateFirewallRuleGroupAssociationRequest & RegionInput,
   UpdateFirewallRuleGroupAssociationResponse,
   UpdateFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3787,7 +3788,7 @@ export type UpdateOutpostResolverError =
  * is managed automatically by Amazon Web Services and can't be updated directly.
  */
 export const updateOutpostResolver: API.OperationMethod<
-  UpdateOutpostResolverRequest,
+  UpdateOutpostResolverRequest & RegionInput,
   UpdateOutpostResolverResponse,
   UpdateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -3826,7 +3827,7 @@ export type UpdateResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const updateResolverConfig: API.OperationMethod<
-  UpdateResolverConfigRequest,
+  UpdateResolverConfigRequest & RegionInput,
   UpdateResolverConfigResponse,
   UpdateResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -3863,7 +3864,7 @@ export type UpdateResolverDnssecConfigError =
  * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
  */
 export const updateResolverDnssecConfig: API.OperationMethod<
-  UpdateResolverDnssecConfigRequest,
+  UpdateResolverDnssecConfigRequest & RegionInput,
   UpdateResolverDnssecConfigResponse,
   UpdateResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -3898,7 +3899,7 @@ export type UpdateResolverEndpointError =
  * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
  */
 export const updateResolverEndpoint: API.OperationMethod<
-  UpdateResolverEndpointRequest,
+  UpdateResolverEndpointRequest & RegionInput,
   UpdateResolverEndpointResponse,
   UpdateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3935,7 +3936,7 @@ export type UpdateResolverRuleError =
  * If you don't specify a parameter, it retains its current value.
  */
 export const updateResolverRule: API.OperationMethod<
-  UpdateResolverRuleRequest,
+  UpdateResolverRuleRequest & RegionInput,
   UpdateResolverRuleResponse,
   UpdateResolverRuleError,
   Credentials | HttpClient.HttpClient

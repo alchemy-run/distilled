@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -191,7 +192,7 @@ export type GetIceServerConfigError =
  * API.
  */
 export const getIceServerConfig: API.OperationMethod<
-  GetIceServerConfigRequest,
+  GetIceServerConfigRequest & RegionInput,
   GetIceServerConfigResponse,
   GetIceServerConfigError,
   Credentials | HttpClient.HttpClient
@@ -228,7 +229,7 @@ export type SendAlexaOfferToMasterError =
  * expires.
  */
 export const sendAlexaOfferToMaster: API.OperationMethod<
-  SendAlexaOfferToMasterRequest,
+  SendAlexaOfferToMasterRequest & RegionInput,
   SendAlexaOfferToMasterResponse,
   SendAlexaOfferToMasterError,
   Credentials | HttpClient.HttpClient

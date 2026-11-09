@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -600,7 +601,7 @@ export type BatchGetSecretValueError =
  * and access control in Secrets Manager.
  */
 export const batchGetSecretValue: API.PaginatedOperationMethod<
-  BatchGetSecretValueRequest,
+  BatchGetSecretValueRequest & RegionInput,
   BatchGetSecretValueResponse,
   BatchGetSecretValueError,
   Credentials | HttpClient.HttpClient,
@@ -657,7 +658,7 @@ export type CancelRotateSecretError =
  * and access control in Secrets Manager.
  */
 export const cancelRotateSecret: API.OperationMethod<
-  CancelRotateSecretRequest,
+  CancelRotateSecretRequest & RegionInput,
   CancelRotateSecretResponse,
   CancelRotateSecretError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type CreateSecretError =
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
 export const createSecret: API.OperationMethod<
-  CreateSecretRequest,
+  CreateSecretRequest & RegionInput,
   CreateSecretResponse,
   CreateSecretError,
   Credentials | HttpClient.HttpClient
@@ -799,7 +800,7 @@ export type DeleteResourcePolicyError =
  * and access control in Secrets Manager.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -870,7 +871,7 @@ export type DeleteSecretError =
  * and access control in Secrets Manager.
  */
 export const deleteSecret: API.OperationMethod<
-  DeleteSecretRequest,
+  DeleteSecretRequest & RegionInput,
   DeleteSecretResponse,
   DeleteSecretError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +913,7 @@ export type DescribeSecretError =
  * and access control in Secrets Manager.
  */
 export const describeSecret: API.OperationMethod<
-  DescribeSecretRequest,
+  DescribeSecretRequest & RegionInput,
   DescribeSecretResponse,
   DescribeSecretError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type GetRandomPasswordError =
  * and access control in Secrets Manager.
  */
 export const getRandomPassword: API.OperationMethod<
-  GetRandomPasswordRequest,
+  GetRandomPasswordRequest & RegionInput,
   GetRandomPasswordResponse,
   GetRandomPasswordError,
   Credentials | HttpClient.HttpClient
@@ -987,7 +988,7 @@ export type GetResourcePolicyError =
  * and access control in Secrets Manager.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1043,7 +1044,7 @@ export type GetSecretValueError =
  * and access control in Secrets Manager.
  */
 export const getSecretValue: API.OperationMethod<
-  GetSecretValueRequest,
+  GetSecretValueRequest & RegionInput,
   GetSecretValueResponse,
   GetSecretValueError,
   Credentials | HttpClient.HttpClient
@@ -1100,7 +1101,7 @@ export type ListSecretsError =
  * and access control in Secrets Manager.
  */
 export const listSecrets: API.PaginatedOperationMethod<
-  ListSecretsRequest,
+  ListSecretsRequest & RegionInput,
   ListSecretsResponse,
   ListSecretsError,
   Credentials | HttpClient.HttpClient,
@@ -1148,7 +1149,7 @@ export type ListSecretVersionIdsError =
  * and access control in Secrets Manager.
  */
 export const listSecretVersionIds: API.PaginatedOperationMethod<
-  ListSecretVersionIdsRequest,
+  ListSecretVersionIdsRequest & RegionInput,
   ListSecretVersionIdsResponse,
   ListSecretVersionIdsError,
   Credentials | HttpClient.HttpClient,
@@ -1201,7 +1202,7 @@ export type PutResourcePolicyError =
  * and access control in Secrets Manager.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1278,7 +1279,7 @@ export type PutSecretValueError =
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
 export const putSecretValue: API.OperationMethod<
-  PutSecretValueRequest,
+  PutSecretValueRequest & RegionInput,
   PutSecretValueResponse,
   PutSecretValueError,
   Credentials | HttpClient.HttpClient
@@ -1326,7 +1327,7 @@ export type RemoveRegionsFromReplicationError =
  * and access control in Secrets Manager.
  */
 export const removeRegionsFromReplication: API.OperationMethod<
-  RemoveRegionsFromReplicationRequest,
+  RemoveRegionsFromReplicationRequest & RegionInput,
   RemoveRegionsFromReplicationResponse,
   RemoveRegionsFromReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1374,7 @@ export type ReplicateSecretToRegionsError =
  * and access control in Secrets Manager.
  */
 export const replicateSecretToRegions: API.OperationMethod<
-  ReplicateSecretToRegionsRequest,
+  ReplicateSecretToRegionsRequest & RegionInput,
   ReplicateSecretToRegionsResponse,
   ReplicateSecretToRegionsError,
   Credentials | HttpClient.HttpClient
@@ -1416,7 +1417,7 @@ export type RestoreSecretError =
  * and access control in Secrets Manager.
  */
 export const restoreSecret: API.OperationMethod<
-  RestoreSecretRequest,
+  RestoreSecretRequest & RegionInput,
   RestoreSecretResponse,
   RestoreSecretError,
   Credentials | HttpClient.HttpClient
@@ -1475,7 +1476,7 @@ export type RotateSecretError =
  * information, see Permissions for rotation.
  */
 export const rotateSecret: API.OperationMethod<
-  RotateSecretRequest,
+  RotateSecretRequest & RegionInput,
   RotateSecretResponse,
   RotateSecretError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type StopReplicationToReplicaError =
  * and access control in Secrets Manager.
  */
 export const stopReplicationToReplica: API.OperationMethod<
-  StopReplicationToReplicaRequest,
+  StopReplicationToReplicaRequest & RegionInput,
   StopReplicationToReplicaResponse,
   StopReplicationToReplicaError,
   Credentials | HttpClient.HttpClient
@@ -1573,7 +1574,7 @@ export type TagResourceError =
  * and access control in Secrets Manager.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type UntagResourceError =
  * and access control in Secrets Manager.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1705,7 +1706,7 @@ export type UpdateSecretError =
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
 export const updateSecret: API.OperationMethod<
-  UpdateSecretRequest,
+  UpdateSecretRequest & RegionInput,
   UpdateSecretResponse,
   UpdateSecretError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type UpdateSecretVersionStageError =
  * and access control in Secrets Manager.
  */
 export const updateSecretVersionStage: API.OperationMethod<
-  UpdateSecretVersionStageRequest,
+  UpdateSecretVersionStageRequest & RegionInput,
   UpdateSecretVersionStageResponse,
   UpdateSecretVersionStageError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1830,7 @@ export type ValidateResourcePolicyError =
  * and access control in Secrets Manager.
  */
 export const validateResourcePolicy: API.OperationMethod<
-  ValidateResourcePolicyRequest,
+  ValidateResourcePolicyRequest & RegionInput,
   ValidateResourcePolicyResponse,
   ValidateResourcePolicyError,
   Credentials | HttpClient.HttpClient

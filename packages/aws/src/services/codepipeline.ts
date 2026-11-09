@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1551,7 +1552,7 @@ export type AcknowledgeJobError =
  * the job worker. Used for custom actions only.
  */
 export const acknowledgeJob: API.OperationMethod<
-  AcknowledgeJobInput,
+  AcknowledgeJobInput & RegionInput,
   AcknowledgeJobOutput,
   AcknowledgeJobError,
   Credentials | HttpClient.HttpClient
@@ -1577,7 +1578,7 @@ export type AcknowledgeThirdPartyJobError =
  * only.
  */
 export const acknowledgeThirdPartyJob: API.OperationMethod<
-  AcknowledgeThirdPartyJobInput,
+  AcknowledgeThirdPartyJobInput & RegionInput,
   AcknowledgeThirdPartyJobOutput,
   AcknowledgeThirdPartyJobError,
   Credentials | HttpClient.HttpClient
@@ -1609,7 +1610,7 @@ export type CreateCustomActionTypeError =
  * Amazon Web Services account. Only used for custom actions.
  */
 export const createCustomActionType: API.OperationMethod<
-  CreateCustomActionTypeInput,
+  CreateCustomActionTypeInput & RegionInput,
   CreateCustomActionTypeOutput,
   CreateCustomActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type CreatePipelineError =
  * `artifactStores`.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineInput,
+  CreatePipelineInput & RegionInput,
   CreatePipelineOutput,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1692,7 +1693,7 @@ export type DeleteCustomActionTypeError =
  * version field.
  */
 export const deleteCustomActionType: API.OperationMethod<
-  DeleteCustomActionTypeInput,
+  DeleteCustomActionTypeInput & RegionInput,
   DeleteCustomActionTypeResponse,
   DeleteCustomActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1715,7 +1716,7 @@ export type DeletePipelineError =
  * Deletes the specified pipeline.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineInput,
+  DeletePipelineInput & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1741,7 +1742,7 @@ export type DeleteWebhookError =
  * different URL.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookInput,
+  DeleteWebhookInput & RegionInput,
   DeleteWebhookOutput,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1766,7 +1767,7 @@ export type DeregisterWebhookWithThirdPartyError =
  * that target an action type of GitHub.
  */
 export const deregisterWebhookWithThirdParty: API.OperationMethod<
-  DeregisterWebhookWithThirdPartyInput,
+  DeregisterWebhookWithThirdPartyInput & RegionInput,
   DeregisterWebhookWithThirdPartyOutput,
   DeregisterWebhookWithThirdPartyError,
   Credentials | HttpClient.HttpClient
@@ -1791,7 +1792,7 @@ export type DisableStageTransitionError =
  * pipeline.
  */
 export const disableStageTransition: API.OperationMethod<
-  DisableStageTransitionInput,
+  DisableStageTransitionInput & RegionInput,
   DisableStageTransitionResponse,
   DisableStageTransitionError,
   Credentials | HttpClient.HttpClient
@@ -1815,7 +1816,7 @@ export type EnableStageTransitionError =
  * Enables artifacts in a pipeline to transition to a stage in a pipeline.
  */
 export const enableStageTransition: API.OperationMethod<
-  EnableStageTransitionInput,
+  EnableStageTransitionInput & RegionInput,
   EnableStageTransitionResponse,
   EnableStageTransitionError,
   Credentials | HttpClient.HttpClient
@@ -1837,7 +1838,7 @@ export type GetActionTypeError = ActionTypeNotFoundException | ValidationExcepti
  * with any supported integration model.
  */
 export const getActionType: API.OperationMethod<
-  GetActionTypeInput,
+  GetActionTypeInput & RegionInput,
   GetActionTypeOutput,
   GetActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type GetJobDetailsError = JobNotFoundException | ValidationException | Co
  * secret values defined for the action.
  */
 export const getJobDetails: API.OperationMethod<
-  GetJobDetailsInput,
+  GetJobDetailsInput & RegionInput,
   GetJobDetailsOutput,
   GetJobDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1888,7 +1889,7 @@ export type GetPipelineError =
  * used to update the pipeline structure with UpdatePipeline.
  */
 export const getPipeline: API.OperationMethod<
-  GetPipelineInput,
+  GetPipelineInput & RegionInput,
   GetPipelineOutput,
   GetPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1914,7 +1915,7 @@ export type GetPipelineExecutionError =
  * pipeline.
  */
 export const getPipelineExecution: API.OperationMethod<
-  GetPipelineExecutionInput,
+  GetPipelineExecutionInput & RegionInput,
   GetPipelineExecutionOutput,
   GetPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1939,7 +1940,7 @@ export type GetPipelineStateError = PipelineNotFoundException | ValidationExcept
  * current state.
  */
 export const getPipelineState: API.OperationMethod<
-  GetPipelineStateInput,
+  GetPipelineStateInput & RegionInput,
   GetPipelineStateOutput,
   GetPipelineStateError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type GetThirdPartyJobDetailsError =
  * secret values defined for the action.
  */
 export const getThirdPartyJobDetails: API.OperationMethod<
-  GetThirdPartyJobDetailsInput,
+  GetThirdPartyJobDetailsInput & RegionInput,
   GetThirdPartyJobDetailsOutput,
   GetThirdPartyJobDetailsError,
   Credentials | HttpClient.HttpClient
@@ -2000,7 +2001,7 @@ export type ListActionExecutionsError =
  * Lists the action executions that have occurred in a pipeline.
  */
 export const listActionExecutions: API.PaginatedOperationMethod<
-  ListActionExecutionsInput,
+  ListActionExecutionsInput & RegionInput,
   ListActionExecutionsOutput,
   ListActionExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2033,7 +2034,7 @@ export type ListActionTypesError = InvalidNextTokenException | ValidationExcepti
  * account.
  */
 export const listActionTypes: API.PaginatedOperationMethod<
-  ListActionTypesInput,
+  ListActionTypesInput & RegionInput,
   ListActionTypesOutput,
   ListActionTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2060,7 +2061,7 @@ export type ListDeployActionExecutionTargetsError =
  * Lists the targets for the deploy action.
  */
 export const listDeployActionExecutionTargets: API.PaginatedOperationMethod<
-  ListDeployActionExecutionTargetsInput,
+  ListDeployActionExecutionTargetsInput & RegionInput,
   ListDeployActionExecutionTargetsOutput,
   ListDeployActionExecutionTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -2100,7 +2101,7 @@ export type ListPipelineExecutionsError =
  * February 1, 2024.
  */
 export const listPipelineExecutions: API.PaginatedOperationMethod<
-  ListPipelineExecutionsInput,
+  ListPipelineExecutionsInput & RegionInput,
   ListPipelineExecutionsOutput,
   ListPipelineExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2127,7 +2128,7 @@ export type ListPipelinesError = InvalidNextTokenException | ValidationException
  * Gets a summary of all of the pipelines associated with your account.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesInput,
+  ListPipelinesInput & RegionInput,
   ListPipelinesOutput,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -2160,7 +2161,7 @@ export type ListRuleExecutionsError =
  * with rules.
  */
 export const listRuleExecutions: API.PaginatedOperationMethod<
-  ListRuleExecutionsInput,
+  ListRuleExecutionsInput & RegionInput,
   ListRuleExecutionsOutput,
   ListRuleExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2194,7 +2195,7 @@ export type ListRuleTypesError = InvalidNextTokenException | ValidationException
  * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
  */
 export const listRuleTypes: API.OperationMethod<
-  ListRuleTypesInput,
+  ListRuleTypesInput & RegionInput,
   ListRuleTypesOutput,
   ListRuleTypesError,
   Credentials | HttpClient.HttpClient
@@ -2220,7 +2221,7 @@ export type ListTagsForResourceError =
  * resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2256,7 +2257,7 @@ export type ListWebhooksError = InvalidNextTokenException | ValidationException 
  * If a secret token was provided, it will be redacted in the response.
  */
 export const listWebhooks: API.PaginatedOperationMethod<
-  ListWebhooksInput,
+  ListWebhooksInput & RegionInput,
   ListWebhooksOutput,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient,
@@ -2293,7 +2294,7 @@ export type OverrideStageConditionError =
  * stage conditions work?.
  */
 export const overrideStageCondition: API.OperationMethod<
-  OverrideStageConditionInput,
+  OverrideStageConditionInput & RegionInput,
   OverrideStageConditionResponse,
   OverrideStageConditionError,
   Credentials | HttpClient.HttpClient
@@ -2329,7 +2330,7 @@ export type PollForJobsError = ActionTypeNotFoundException | ValidationException
  * secret values defined for the action.
  */
 export const pollForJobs: API.OperationMethod<
-  PollForJobsInput,
+  PollForJobsInput & RegionInput,
   PollForJobsOutput,
   PollForJobsError,
   Credentials | HttpClient.HttpClient
@@ -2357,7 +2358,7 @@ export type PollForThirdPartyJobsError =
  * access to that S3 bucket for input or output artifacts.
  */
 export const pollForThirdPartyJobs: API.OperationMethod<
-  PollForThirdPartyJobsInput,
+  PollForThirdPartyJobsInput & RegionInput,
   PollForThirdPartyJobsOutput,
   PollForThirdPartyJobsError,
   Credentials | HttpClient.HttpClient
@@ -2384,7 +2385,7 @@ export type PutActionRevisionError =
  * source.
  */
 export const putActionRevision: API.OperationMethod<
-  PutActionRevisionInput,
+  PutActionRevisionInput & RegionInput,
   PutActionRevisionOutput,
   PutActionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2418,7 +2419,7 @@ export type PutApprovalResultError =
  * responses include Approved and Rejected.
  */
 export const putApprovalResult: API.OperationMethod<
-  PutApprovalResultInput,
+  PutApprovalResultInput & RegionInput,
   PutApprovalResultOutput,
   PutApprovalResultError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type PutJobFailureResultError =
  * for custom actions only.
  */
 export const putJobFailureResult: API.OperationMethod<
-  PutJobFailureResultInput,
+  PutJobFailureResultInput & RegionInput,
   PutJobFailureResultResponse,
   PutJobFailureResultError,
   Credentials | HttpClient.HttpClient
@@ -2476,7 +2477,7 @@ export type PutJobSuccessResultError =
  * for custom actions only.
  */
 export const putJobSuccessResult: API.OperationMethod<
-  PutJobSuccessResultInput,
+  PutJobSuccessResultInput & RegionInput,
   PutJobSuccessResultResponse,
   PutJobSuccessResultError,
   Credentials | HttpClient.HttpClient
@@ -2507,7 +2508,7 @@ export type PutThirdPartyJobFailureResultError =
  * worker. Used for partner actions only.
  */
 export const putThirdPartyJobFailureResult: API.OperationMethod<
-  PutThirdPartyJobFailureResultInput,
+  PutThirdPartyJobFailureResultInput & RegionInput,
   PutThirdPartyJobFailureResultResponse,
   PutThirdPartyJobFailureResultError,
   Credentials | HttpClient.HttpClient
@@ -2538,7 +2539,7 @@ export type PutThirdPartyJobSuccessResultError =
  * worker. Used for partner actions only.
  */
 export const putThirdPartyJobSuccessResult: API.OperationMethod<
-  PutThirdPartyJobSuccessResultInput,
+  PutThirdPartyJobSuccessResultInput & RegionInput,
   PutThirdPartyJobSuccessResultResponse,
   PutThirdPartyJobSuccessResultError,
   Credentials | HttpClient.HttpClient
@@ -2589,7 +2590,7 @@ export type PutWebhookError =
  * If a secret token was provided, it will be redacted in the response.
  */
 export const putWebhook: API.OperationMethod<
-  PutWebhookInput,
+  PutWebhookInput & RegionInput,
   PutWebhookOutput,
   PutWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2623,7 @@ export type RegisterWebhookWithThirdPartyError =
  * with events to be detected.
  */
 export const registerWebhookWithThirdParty: API.OperationMethod<
-  RegisterWebhookWithThirdPartyInput,
+  RegisterWebhookWithThirdPartyInput & RegionInput,
   RegisterWebhookWithThirdPartyOutput,
   RegisterWebhookWithThirdPartyError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2658,7 @@ export type RetryStageExecutionError =
  * succeeded.
  */
 export const retryStageExecution: API.OperationMethod<
-  RetryStageExecutionInput,
+  RetryStageExecutionInput & RegionInput,
   RetryStageExecutionOutput,
   RetryStageExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2693,7 +2694,7 @@ export type RollbackStageError =
  * Rolls back a stage execution.
  */
 export const rollbackStage: API.OperationMethod<
-  RollbackStageInput,
+  RollbackStageInput & RegionInput,
   RollbackStageOutput,
   RollbackStageError,
   Credentials | HttpClient.HttpClient
@@ -2727,7 +2728,7 @@ export type StartPipelineExecutionError =
  * to the source location specified as part of the pipeline.
  */
 export const startPipelineExecution: API.OperationMethod<
-  StartPipelineExecutionInput,
+  StartPipelineExecutionInput & RegionInput,
   StartPipelineExecutionOutput,
   StartPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2763,7 +2764,7 @@ export type StopPipelineExecutionError =
  * state.
  */
 export const stopPipelineExecution: API.OperationMethod<
-  StopPipelineExecutionInput,
+  StopPipelineExecutionInput & RegionInput,
   StopPipelineExecutionOutput,
   StopPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type TagResourceError =
  * to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type UntagResourceError =
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2863,7 +2864,7 @@ export type UpdateActionTypeError =
  * structure.
  */
 export const updateActionType: API.OperationMethod<
-  UpdateActionTypeInput,
+  UpdateActionTypeInput & RegionInput,
   UpdateActionTypeResponse,
   UpdateActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2894,7 @@ export type UpdatePipelineError =
  * pipeline by 1.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineInput,
+  UpdatePipelineInput & RegionInput,
   UpdatePipelineOutput,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient

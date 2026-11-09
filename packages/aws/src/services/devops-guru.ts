@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1231,7 +1232,7 @@ export type AddNotificationChannelError =
  * Amazon Web Services KMS-encrypted Amazon SNS topics.
  */
 export const addNotificationChannel: API.OperationMethod<
-  AddNotificationChannelRequest,
+  AddNotificationChannelRequest & RegionInput,
   AddNotificationChannelResponse,
   AddNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1266,7 +1267,7 @@ export type DeleteInsightError =
  * Deletes the insight along with the associated anomalies, events and recommendations.
  */
 export const deleteInsight: API.OperationMethod<
-  DeleteInsightRequest,
+  DeleteInsightRequest & RegionInput,
   DeleteInsightResponse,
   DeleteInsightError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type DescribeAccountHealthError =
  * health of operations in your Amazon Web Services account.
  */
 export const describeAccountHealth: API.OperationMethod<
-  DescribeAccountHealthRequest,
+  DescribeAccountHealthRequest & RegionInput,
   DescribeAccountHealthResponse,
   DescribeAccountHealthError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type DescribeAccountOverviewError =
  * closed reactive insights.
  */
 export const describeAccountOverview: API.OperationMethod<
-  DescribeAccountOverviewRequest,
+  DescribeAccountOverviewRequest & RegionInput,
   DescribeAccountOverviewResponse,
   DescribeAccountOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type DescribeAnomalyError =
  * Returns details about an anomaly that you specify using its ID.
  */
 export const describeAnomaly: API.OperationMethod<
-  DescribeAnomalyRequest,
+  DescribeAnomalyRequest & RegionInput,
   DescribeAnomalyResponse,
   DescribeAnomalyError,
   Credentials | HttpClient.HttpClient
@@ -1397,7 +1398,7 @@ export type DescribeEventSourcesConfigError =
  * DevOps Guru.
  */
 export const describeEventSourcesConfig: API.OperationMethod<
-  DescribeEventSourcesConfigRequest,
+  DescribeEventSourcesConfigRequest & RegionInput,
   DescribeEventSourcesConfigResponse,
   DescribeEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type DescribeFeedbackError =
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
 export const describeFeedback: API.OperationMethod<
-  DescribeFeedbackRequest,
+  DescribeFeedbackRequest & RegionInput,
   DescribeFeedbackResponse,
   DescribeFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type DescribeInsightError =
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
-  DescribeInsightRequest,
+  DescribeInsightRequest & RegionInput,
   DescribeInsightResponse,
   DescribeInsightError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1493,7 @@ export type DescribeOrganizationHealthError =
  * hour.
  */
 export const describeOrganizationHealth: API.OperationMethod<
-  DescribeOrganizationHealthRequest,
+  DescribeOrganizationHealthRequest & RegionInput,
   DescribeOrganizationHealthResponse,
   DescribeOrganizationHealthError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type DescribeOrganizationOverviewError =
  * The overview includes the total reactive and proactive insights.
  */
 export const describeOrganizationOverview: API.OperationMethod<
-  DescribeOrganizationOverviewRequest,
+  DescribeOrganizationOverviewRequest & RegionInput,
   DescribeOrganizationOverviewResponse,
   DescribeOrganizationOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1556,7 @@ export type DescribeOrganizationResourceCollectionHealthError =
  * field.
  */
 export const describeOrganizationResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeOrganizationResourceCollectionHealthRequest,
+  DescribeOrganizationResourceCollectionHealthRequest & RegionInput,
   DescribeOrganizationResourceCollectionHealthResponse,
   DescribeOrganizationResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1595,7 +1596,7 @@ export type DescribeResourceCollectionHealthError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeResourceCollectionHealthRequest,
+  DescribeResourceCollectionHealthRequest & RegionInput,
   DescribeResourceCollectionHealthResponse,
   DescribeResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1630,7 +1631,7 @@ export type DescribeServiceIntegrationError =
  * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
 export const describeServiceIntegration: API.OperationMethod<
-  DescribeServiceIntegrationRequest,
+  DescribeServiceIntegrationRequest & RegionInput,
   DescribeServiceIntegrationResponse,
   DescribeServiceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type GetCostEstimationError =
  * Amazon DevOps Guru pricing.
  */
 export const getCostEstimation: API.PaginatedOperationMethod<
-  GetCostEstimationRequest,
+  GetCostEstimationRequest & RegionInput,
   GetCostEstimationResponse,
   GetCostEstimationError,
   Credentials | HttpClient.HttpClient,
@@ -1703,7 +1704,7 @@ export type GetResourceCollectionError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const getResourceCollection: API.PaginatedOperationMethod<
-  GetResourceCollectionRequest,
+  GetResourceCollectionRequest & RegionInput,
   GetResourceCollectionResponse,
   GetResourceCollectionError,
   Credentials | HttpClient.HttpClient,
@@ -1738,7 +1739,7 @@ export type ListAnomaliesForInsightError =
  * ID.
  */
 export const listAnomaliesForInsight: API.PaginatedOperationMethod<
-  ListAnomaliesForInsightRequest,
+  ListAnomaliesForInsightRequest & RegionInput,
   ListAnomaliesForInsightResponse,
   ListAnomaliesForInsightError,
   Credentials | HttpClient.HttpClient,
@@ -1776,7 +1777,7 @@ export type ListAnomalousLogGroupsError =
  * Returns the list of log groups that contain log anomalies.
  */
 export const listAnomalousLogGroups: API.PaginatedOperationMethod<
-  ListAnomalousLogGroupsRequest,
+  ListAnomalousLogGroupsRequest & RegionInput,
   ListAnomalousLogGroupsResponse,
   ListAnomalousLogGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1815,7 +1816,7 @@ export type ListEventsError =
  * You can use filters to specify which events are returned.
  */
 export const listEvents: API.PaginatedOperationMethod<
-  ListEventsRequest,
+  ListEventsRequest & RegionInput,
   ListEventsResponse,
   ListEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1855,7 +1856,7 @@ export type ListInsightsError =
  * `ANY`).
  */
 export const listInsights: API.PaginatedOperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -1891,7 +1892,7 @@ export type ListMonitoredResourcesError =
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
 export const listMonitoredResources: API.PaginatedOperationMethod<
-  ListMonitoredResourcesRequest,
+  ListMonitoredResourcesRequest & RegionInput,
   ListMonitoredResourcesResponse,
   ListMonitoredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1930,7 +1931,7 @@ export type ListNotificationChannelsError =
  * supported notification channel is Amazon Simple Notification Service (Amazon SNS).
  */
 export const listNotificationChannels: API.PaginatedOperationMethod<
-  ListNotificationChannelsRequest,
+  ListNotificationChannelsRequest & RegionInput,
   ListNotificationChannelsResponse,
   ListNotificationChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1962,7 +1963,7 @@ export type ListOrganizationInsightsError =
  * Returns a list of insights associated with the account or OU Id.
  */
 export const listOrganizationInsights: API.PaginatedOperationMethod<
-  ListOrganizationInsightsRequest,
+  ListOrganizationInsightsRequest & RegionInput,
   ListOrganizationInsightsResponse,
   ListOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2000,7 +2001,7 @@ export type ListRecommendationsError =
  * a list of related metrics and a list of related events.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2039,7 +2040,7 @@ export type PutFeedbackError =
  * Collects customer feedback about the specified insight.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -2075,7 +2076,7 @@ export type RemoveNotificationChannelError =
  * operations.
  */
 export const removeNotificationChannel: API.OperationMethod<
-  RemoveNotificationChannelRequest,
+  RemoveNotificationChannelRequest & RegionInput,
   RemoveNotificationChannelResponse,
   RemoveNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -2114,7 +2115,7 @@ export type SearchInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchInsights: API.PaginatedOperationMethod<
-  SearchInsightsRequest,
+  SearchInsightsRequest & RegionInput,
   SearchInsightsResponse,
   SearchInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2158,7 +2159,7 @@ export type SearchOrganizationInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchOrganizationInsights: API.PaginatedOperationMethod<
-  SearchOrganizationInsightsRequest,
+  SearchOrganizationInsightsRequest & RegionInput,
   SearchOrganizationInsightsResponse,
   SearchOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2197,7 +2198,7 @@ export type StartCostEstimationError =
  * resources.
  */
 export const startCostEstimation: API.OperationMethod<
-  StartCostEstimationRequest,
+  StartCostEstimationRequest & RegionInput,
   StartCostEstimationResponse,
   StartCostEstimationError,
   Credentials | HttpClient.HttpClient
@@ -2231,7 +2232,7 @@ export type UpdateEventSourcesConfigError =
  * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
  */
 export const updateEventSourcesConfig: API.OperationMethod<
-  UpdateEventSourcesConfigRequest,
+  UpdateEventSourcesConfigRequest & RegionInput,
   UpdateEventSourcesConfigResponse,
   UpdateEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type UpdateResourceCollectionError =
  * you to use DevOps Guru.
  */
 export const updateResourceCollection: API.OperationMethod<
-  UpdateResourceCollectionRequest,
+  UpdateResourceCollectionRequest & RegionInput,
   UpdateResourceCollectionResponse,
   UpdateResourceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type UpdateServiceIntegrationError =
  * an OpsItem for each generated insight.
  */
 export const updateServiceIntegration: API.OperationMethod<
-  UpdateServiceIntegrationRequest,
+  UpdateServiceIntegrationRequest & RegionInput,
   UpdateServiceIntegrationResponse,
   UpdateServiceIntegrationError,
   Credentials | HttpClient.HttpClient

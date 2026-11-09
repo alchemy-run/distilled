@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -562,7 +563,7 @@ export type AddProfilePermissionError =
  * Adds cross-account permissions to a signing profile.
  */
 export const addProfilePermission: API.OperationMethod<
-  AddProfilePermissionRequest,
+  AddProfilePermissionRequest & RegionInput,
   AddProfilePermissionResponse,
   AddProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -597,7 +598,7 @@ export type CancelSigningProfileError =
  * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
 export const cancelSigningProfile: API.OperationMethod<
-  CancelSigningProfileRequest,
+  CancelSigningProfileRequest & RegionInput,
   CancelSigningProfileResponse,
   CancelSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -629,7 +630,7 @@ export type DescribeSigningJobError =
  * operation.
  */
 export const describeSigningJob: API.OperationMethod<
-  DescribeSigningJobRequest,
+  DescribeSigningJobRequest & RegionInput,
   DescribeSigningJobResponse,
   DescribeSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type GetRevocationStatusError =
  * and signing certificate.
  */
 export const getRevocationStatus: API.OperationMethod<
-  GetRevocationStatusRequest,
+  GetRevocationStatusRequest & RegionInput,
   GetRevocationStatusResponse,
   GetRevocationStatusError,
   Credentials | HttpClient.HttpClient
@@ -691,7 +692,7 @@ export type GetSigningPlatformError =
  * Returns information on a specific signing platform.
  */
 export const getSigningPlatform: API.OperationMethod<
-  GetSigningPlatformRequest,
+  GetSigningPlatformRequest & RegionInput,
   GetSigningPlatformResponse,
   GetSigningPlatformError,
   Credentials | HttpClient.HttpClient
@@ -721,7 +722,7 @@ export type GetSigningProfileError =
  * Returns information on a specific signing profile.
  */
 export const getSigningProfile: API.OperationMethod<
-  GetSigningProfileRequest,
+  GetSigningProfileRequest & RegionInput,
   GetSigningProfileResponse,
   GetSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -752,7 +753,7 @@ export type ListProfilePermissionsError =
  * Lists the cross-account permissions associated with a signing profile.
  */
 export const listProfilePermissions: API.OperationMethod<
-  ListProfilePermissionsRequest,
+  ListProfilePermissionsRequest & RegionInput,
   ListProfilePermissionsResponse,
   ListProfilePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -789,7 +790,7 @@ export type ListSigningJobsError =
  * parameter until all of your signing jobs have been returned.
  */
 export const listSigningJobs: API.PaginatedOperationMethod<
-  ListSigningJobsRequest,
+  ListSigningJobsRequest & RegionInput,
   ListSigningJobsResponse,
   ListSigningJobsError,
   Credentials | HttpClient.HttpClient,
@@ -831,7 +832,7 @@ export type ListSigningPlatformsError =
  * returned.
  */
 export const listSigningPlatforms: API.PaginatedOperationMethod<
-  ListSigningPlatformsRequest,
+  ListSigningPlatformsRequest & RegionInput,
   ListSigningPlatformsResponse,
   ListSigningPlatformsError,
   Credentials | HttpClient.HttpClient,
@@ -873,7 +874,7 @@ export type ListSigningProfilesError =
  * your signing jobs have been returned.
  */
 export const listSigningProfiles: API.PaginatedOperationMethod<
-  ListSigningProfilesRequest,
+  ListSigningProfilesRequest & RegionInput,
   ListSigningProfilesResponse,
   ListSigningProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a signing profile resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type PutSigningProfileError =
  * carry out a pre-defined signing job.
  */
 export const putSigningProfile: API.OperationMethod<
-  PutSigningProfileRequest,
+  PutSigningProfileRequest & RegionInput,
   PutSigningProfileResponse,
   PutSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type RemoveProfilePermissionError =
  * Removes cross-account permissions from a signing profile.
  */
 export const removeProfilePermission: API.OperationMethod<
-  RemoveProfilePermissionRequest,
+  RemoveProfilePermissionRequest & RegionInput,
   RemoveProfilePermissionResponse,
   RemoveProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type RevokeSignatureError =
  * longer valid.
  */
 export const revokeSignature: API.OperationMethod<
-  RevokeSignatureRequest,
+  RevokeSignatureRequest & RegionInput,
   RevokeSignatureResponse,
   RevokeSignatureError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type RevokeSigningProfileError =
  * for more information on scheduled deletion of a revoked signing profile.
  */
 export const revokeSigningProfile: API.OperationMethod<
-  RevokeSigningProfileRequest,
+  RevokeSigningProfileRequest & RegionInput,
   RevokeSigningProfileResponse,
   RevokeSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type SignPayloadError =
  * Signs a binary payload and returns a signature envelope.
  */
 export const signPayload: API.OperationMethod<
-  SignPayloadRequest,
+  SignPayloadRequest & RegionInput,
   SignPayloadResponse,
   SignPayloadError,
   Credentials | HttpClient.HttpClient
@@ -1127,7 +1128,7 @@ export type StartSigningJobError =
  * For a Java example that shows how to use this action, see StartSigningJob.
  */
 export const startSigningJob: API.OperationMethod<
-  StartSigningJobRequest,
+  StartSigningJobRequest & RegionInput,
   StartSigningJobResponse,
   StartSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -1162,7 +1163,7 @@ export type TagResourceError =
  * the tag, use a key-value pair.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1193,7 +1194,7 @@ export type UntagResourceError =
  * tag keys.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

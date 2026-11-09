@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -422,7 +423,7 @@ export type AssociateCreatedArtifactError =
  * or DMS endpoint, etc.
  */
 export const associateCreatedArtifact: API.OperationMethod<
-  AssociateCreatedArtifactRequest,
+  AssociateCreatedArtifactRequest & RegionInput,
   AssociateCreatedArtifactResult,
   AssociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -464,7 +465,7 @@ export type AssociateDiscoveredResourceError =
  * task.
  */
 export const associateDiscoveredResource: API.OperationMethod<
-  AssociateDiscoveredResourceRequest,
+  AssociateDiscoveredResourceRequest & RegionInput,
   AssociateDiscoveredResourceResult,
   AssociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -505,7 +506,7 @@ export type AssociateSourceResourceError =
  * be a source server, an application, or a migration wave.
  */
 export const associateSourceResource: API.OperationMethod<
-  AssociateSourceResourceRequest,
+  AssociateSourceResourceRequest & RegionInput,
   AssociateSourceResourceResult,
   AssociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -547,7 +548,7 @@ export type CreateProgressUpdateStreamError =
  * the AWS account.
  */
 export const createProgressUpdateStream: API.OperationMethod<
-  CreateProgressUpdateStreamRequest,
+  CreateProgressUpdateStreamRequest & RegionInput,
   CreateProgressUpdateStreamResult,
   CreateProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -608,7 +609,7 @@ export type DeleteProgressUpdateStreamError =
  * resources associated with the old stream).
  */
 export const deleteProgressUpdateStream: API.OperationMethod<
-  DeleteProgressUpdateStreamRequest,
+  DeleteProgressUpdateStreamRequest & RegionInput,
   DeleteProgressUpdateStreamResult,
   DeleteProgressUpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -647,7 +648,7 @@ export type DescribeApplicationStateError =
  * Gets the migration status of an application.
  */
 export const describeApplicationState: API.OperationMethod<
-  DescribeApplicationStateRequest,
+  DescribeApplicationStateRequest & RegionInput,
   DescribeApplicationStateResult,
   DescribeApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +685,7 @@ export type DescribeMigrationTaskError =
  * Retrieves a list of all attributes associated with a specific migration task.
  */
 export const describeMigrationTask: API.OperationMethod<
-  DescribeMigrationTaskRequest,
+  DescribeMigrationTaskRequest & RegionInput,
   DescribeMigrationTaskResult,
   DescribeMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -733,7 +734,7 @@ export type DisassociateCreatedArtifactError =
  * or RDS instance, etc.
  */
 export const disassociateCreatedArtifact: API.OperationMethod<
-  DisassociateCreatedArtifactRequest,
+  DisassociateCreatedArtifactRequest & RegionInput,
   DisassociateCreatedArtifactResult,
   DisassociateCreatedArtifactError,
   Credentials | HttpClient.HttpClient
@@ -774,7 +775,7 @@ export type DisassociateDiscoveredResourceError =
  * task.
  */
 export const disassociateDiscoveredResource: API.OperationMethod<
-  DisassociateDiscoveredResourceRequest,
+  DisassociateDiscoveredResourceRequest & RegionInput,
   DisassociateDiscoveredResourceResult,
   DisassociateDiscoveredResourceError,
   Credentials | HttpClient.HttpClient
@@ -813,7 +814,7 @@ export type DisassociateSourceResourceError =
  * Removes the association between a source resource and a migration task.
  */
 export const disassociateSourceResource: API.OperationMethod<
-  DisassociateSourceResourceRequest,
+  DisassociateSourceResourceRequest & RegionInput,
   DisassociateSourceResourceResult,
   DisassociateSourceResourceError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type ImportMigrationTaskError =
  * the migration tool must first register the migration task with Migration Hub.
  */
 export const importMigrationTask: API.OperationMethod<
-  ImportMigrationTaskRequest,
+  ImportMigrationTaskRequest & RegionInput,
   ImportMigrationTaskResult,
   ImportMigrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +896,7 @@ export type ListApplicationStatesError =
  * applications will be returned.
  */
 export const listApplicationStates: API.PaginatedOperationMethod<
-  ListApplicationStatesRequest,
+  ListApplicationStatesRequest & RegionInput,
   ListApplicationStatesResult,
   ListApplicationStatesError,
   Credentials | HttpClient.HttpClient,
@@ -946,7 +947,7 @@ export type ListCreatedArtifactsError =
  * - Lists created artifacts in a paginated interface.
  */
 export const listCreatedArtifacts: API.PaginatedOperationMethod<
-  ListCreatedArtifactsRequest,
+  ListCreatedArtifactsRequest & RegionInput,
   ListCreatedArtifactsResult,
   ListCreatedArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -989,7 +990,7 @@ export type ListDiscoveredResourcesError =
  * Lists discovered resources associated with the given `MigrationTask`.
  */
 export const listDiscoveredResources: API.PaginatedOperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResult,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1041,7 +1042,7 @@ export type ListMigrationTasksError =
  * - Lists migration tasks in a paginated interface.
  */
 export const listMigrationTasks: API.PaginatedOperationMethod<
-  ListMigrationTasksRequest,
+  ListMigrationTasksRequest & RegionInput,
   ListMigrationTasksResult,
   ListMigrationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1085,7 +1086,7 @@ export type ListMigrationTaskUpdatesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listMigrationTaskUpdates: API.PaginatedOperationMethod<
-  ListMigrationTaskUpdatesRequest,
+  ListMigrationTaskUpdatesRequest & RegionInput,
   ListMigrationTaskUpdatesResult,
   ListMigrationTaskUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -1126,7 +1127,7 @@ export type ListProgressUpdateStreamsError =
  * Lists progress update streams associated with the user account making this call.
  */
 export const listProgressUpdateStreams: API.PaginatedOperationMethod<
-  ListProgressUpdateStreamsRequest,
+  ListProgressUpdateStreamsRequest & RegionInput,
   ListProgressUpdateStreamsResult,
   ListProgressUpdateStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1168,7 +1169,7 @@ export type ListSourceResourcesError =
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
 export const listSourceResources: API.PaginatedOperationMethod<
-  ListSourceResourcesRequest,
+  ListSourceResourcesRequest & RegionInput,
   ListSourceResourcesResult,
   ListSourceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1216,7 +1217,7 @@ export type NotifyApplicationStateError =
  * COMPLETED.
  */
 export const notifyApplicationState: API.OperationMethod<
-  NotifyApplicationStateRequest,
+  NotifyApplicationStateRequest & RegionInput,
   NotifyApplicationStateResult,
   NotifyApplicationStateError,
   Credentials | HttpClient.HttpClient
@@ -1267,7 +1268,7 @@ export type NotifyMigrationTaskStateError =
  * namespace for each migration tool.
  */
 export const notifyMigrationTaskState: API.OperationMethod<
-  NotifyMigrationTaskStateRequest,
+  NotifyMigrationTaskStateRequest & RegionInput,
   NotifyMigrationTaskStateResult,
   NotifyMigrationTaskStateError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type PutResourceAttributesError =
  * details, call `ListDiscoveredResources`.
  */
 export const putResourceAttributes: API.OperationMethod<
-  PutResourceAttributesRequest,
+  PutResourceAttributesRequest & RegionInput,
   PutResourceAttributesResult,
   PutResourceAttributesError,
   Credentials | HttpClient.HttpClient

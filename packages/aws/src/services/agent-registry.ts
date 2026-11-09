@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -293,7 +294,7 @@ export type BatchGetDiscoverableRegistryRecordError =
  * Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the `errors` list rather than failing the entire request.
  */
 export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
-  BatchGetDiscoverableRegistryRecordRequest,
+  BatchGetDiscoverableRegistryRecordRequest & RegionInput,
   BatchGetDiscoverableRegistryRecordResponse,
   BatchGetDiscoverableRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -327,7 +328,7 @@ export type ListDiscoverableRegistryRecordsError =
  * Lists the discoverable registry records in a registry. You can optionally filter and paginate the results.
  */
 export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
-  ListDiscoverableRegistryRecordsRequest,
+  ListDiscoverableRegistryRecordsRequest & RegionInput,
   ListDiscoverableRegistryRecordsResponse,
   ListDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -368,7 +369,7 @@ export type SearchDiscoverableRegistryRecordsError =
  * Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
  */
 export const searchDiscoverableRegistryRecords: API.OperationMethod<
-  SearchDiscoverableRegistryRecordsRequest,
+  SearchDiscoverableRegistryRecordsRequest & RegionInput,
   SearchDiscoverableRegistryRecordsResponse,
   SearchDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient

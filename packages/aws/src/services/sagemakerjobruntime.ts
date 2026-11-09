@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -192,7 +193,7 @@ export type CompleteRolloutError =
  * eligible for reward submission via the UpdateReward operation.
  */
 export const completeRollout: API.OperationMethod<
-  CompleteRolloutRequest,
+  CompleteRolloutRequest & RegionInput,
   CompleteRolloutResponse,
   CompleteRolloutError,
   Credentials | HttpClient.HttpClient
@@ -229,7 +230,7 @@ export type SampleError =
  * Each turn (prompt and response) is captured for later use.
  */
 export const sample: API.OperationMethod<
-  SampleRequest,
+  SampleRequest & RegionInput,
   SampleResponse,
   SampleError,
   Credentials | HttpClient.HttpClient
@@ -265,7 +266,7 @@ export type SampleWithResponseStreamError =
  * for later use.
  */
 export const sampleWithResponseStream: API.OperationMethod<
-  SampleWithResponseStreamRequest,
+  SampleWithResponseStreamRequest & RegionInput,
   SampleWithResponseStreamResponse,
   SampleWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -302,7 +303,7 @@ export type UpdateRewardError =
  * operation after CompleteRollout to provide the computed reward scores.
  */
 export const updateReward: API.OperationMethod<
-  UpdateRewardRequest,
+  UpdateRewardRequest & RegionInput,
   UpdateRewardResponse,
   UpdateRewardError,
   Credentials | HttpClient.HttpClient

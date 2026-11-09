@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -941,7 +942,7 @@ export type CreateCentralizationRuleForOrganizationError =
  * Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const createCentralizationRuleForOrganization: API.OperationMethod<
-  CreateCentralizationRuleForOrganizationInput,
+  CreateCentralizationRuleForOrganizationInput & RegionInput,
   CreateCentralizationRuleForOrganizationOutput,
   CreateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type CreateDatasetIntegrationError =
  * If a dataset integration already exists for the account, this operation fails with a `ConflictException`.
  */
 export const createDatasetIntegration: API.OperationMethod<
-  CreateDatasetIntegrationInput,
+  CreateDatasetIntegrationInput & RegionInput,
   CreateDatasetIntegrationOutput,
   CreateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type CreateS3TableIntegrationError =
  * Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
  */
 export const createS3TableIntegration: API.OperationMethod<
-  CreateS3TableIntegrationInput,
+  CreateS3TableIntegrationInput & RegionInput,
   CreateS3TableIntegrationOutput,
   CreateS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1045,7 +1046,7 @@ export type CreateTelemetryPipelineError =
  * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
  */
 export const createTelemetryPipeline: API.OperationMethod<
-  CreateTelemetryPipelineInput,
+  CreateTelemetryPipelineInput & RegionInput,
   CreateTelemetryPipelineOutput,
   CreateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1079,7 +1080,7 @@ export type CreateTelemetryRuleError =
  * Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
  */
 export const createTelemetryRule: API.OperationMethod<
-  CreateTelemetryRuleInput,
+  CreateTelemetryRuleInput & RegionInput,
   CreateTelemetryRuleOutput,
   CreateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1113,7 +1114,7 @@ export type CreateTelemetryRuleForOrganizationError =
  * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const createTelemetryRuleForOrganization: API.OperationMethod<
-  CreateTelemetryRuleForOrganizationInput,
+  CreateTelemetryRuleForOrganizationInput & RegionInput,
   CreateTelemetryRuleForOrganizationOutput,
   CreateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type DeleteCentralizationRuleForOrganizationError =
  * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteCentralizationRuleForOrganization: API.OperationMethod<
-  DeleteCentralizationRuleForOrganizationInput,
+  DeleteCentralizationRuleForOrganizationInput & RegionInput,
   DeleteCentralizationRuleForOrganizationResponse,
   DeleteCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type DeleteDatasetIntegrationError =
  * Deletes a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same delete more than once, each call succeeds.
  */
 export const deleteDatasetIntegration: API.OperationMethod<
-  DeleteDatasetIntegrationInput,
+  DeleteDatasetIntegrationInput & RegionInput,
   DeleteDatasetIntegrationResponse,
   DeleteDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1211,7 +1212,7 @@ export type DeleteS3TableIntegrationError =
  * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
  */
 export const deleteS3TableIntegration: API.OperationMethod<
-  DeleteS3TableIntegrationInput,
+  DeleteS3TableIntegrationInput & RegionInput,
   DeleteS3TableIntegrationResponse,
   DeleteS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1246,7 @@ export type DeleteTelemetryPipelineError =
  * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
  */
 export const deleteTelemetryPipeline: API.OperationMethod<
-  DeleteTelemetryPipelineInput,
+  DeleteTelemetryPipelineInput & RegionInput,
   DeleteTelemetryPipelineOutput,
   DeleteTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1278,7 +1279,7 @@ export type DeleteTelemetryRuleError =
  * Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
  */
 export const deleteTelemetryRule: API.OperationMethod<
-  DeleteTelemetryRuleInput,
+  DeleteTelemetryRuleInput & RegionInput,
   DeleteTelemetryRuleResponse,
   DeleteTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1310,7 +1311,7 @@ export type DeleteTelemetryRuleForOrganizationError =
  * Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const deleteTelemetryRuleForOrganization: API.OperationMethod<
-  DeleteTelemetryRuleForOrganizationInput,
+  DeleteTelemetryRuleForOrganizationInput & RegionInput,
   DeleteTelemetryRuleForOrganizationResponse,
   DeleteTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1342,7 +1343,7 @@ export type GetCentralizationRuleForOrganizationError =
  * Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getCentralizationRuleForOrganization: API.OperationMethod<
-  GetCentralizationRuleForOrganizationInput,
+  GetCentralizationRuleForOrganizationInput & RegionInput,
   GetCentralizationRuleForOrganizationOutput,
   GetCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type GetDatasetIntegrationError =
  * Returns the dataset integration for the caller's account in the current region.
  */
 export const getDatasetIntegration: API.OperationMethod<
-  GetDatasetIntegrationInput,
+  GetDatasetIntegrationInput & RegionInput,
   GetDatasetIntegrationOutput,
   GetDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type GetS3TableIntegrationError =
  * Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
  */
 export const getS3TableIntegration: API.OperationMethod<
-  GetS3TableIntegrationInput,
+  GetS3TableIntegrationInput & RegionInput,
   GetS3TableIntegrationOutput,
   GetS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type GetTelemetryEnrichmentStatusError =
  * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
  */
 export const getTelemetryEnrichmentStatus: API.OperationMethod<
-  GetTelemetryEnrichmentStatusRequest,
+  GetTelemetryEnrichmentStatusRequest & RegionInput,
   GetTelemetryEnrichmentStatusOutput,
   GetTelemetryEnrichmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -1466,7 +1467,7 @@ export type GetTelemetryEvaluationStatusError =
  * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
  */
 export const getTelemetryEvaluationStatus: API.OperationMethod<
-  GetTelemetryEvaluationStatusRequest,
+  GetTelemetryEvaluationStatusRequest & RegionInput,
   GetTelemetryEvaluationStatusOutput,
   GetTelemetryEvaluationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1492,7 @@ export type GetTelemetryEvaluationStatusForOrganizationError =
  * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
  */
 export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
-  GetTelemetryEvaluationStatusForOrganizationRequest,
+  GetTelemetryEvaluationStatusForOrganizationRequest & RegionInput,
   GetTelemetryEvaluationStatusForOrganizationOutput,
   GetTelemetryEvaluationStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1522,7 +1523,7 @@ export type GetTelemetryPipelineError =
  * Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
  */
 export const getTelemetryPipeline: API.OperationMethod<
-  GetTelemetryPipelineInput,
+  GetTelemetryPipelineInput & RegionInput,
   GetTelemetryPipelineOutput,
   GetTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type GetTelemetryRuleError =
  * Retrieves the details of a specific telemetry rule in your account.
  */
 export const getTelemetryRule: API.OperationMethod<
-  GetTelemetryRuleInput,
+  GetTelemetryRuleInput & RegionInput,
   GetTelemetryRuleOutput,
   GetTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type GetTelemetryRuleForOrganizationError =
  * Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const getTelemetryRuleForOrganization: API.OperationMethod<
-  GetTelemetryRuleForOrganizationInput,
+  GetTelemetryRuleForOrganizationInput & RegionInput,
   GetTelemetryRuleForOrganizationOutput,
   GetTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type ListCentralizationRulesForOrganizationError =
  * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listCentralizationRulesForOrganization: API.PaginatedOperationMethod<
-  ListCentralizationRulesForOrganizationInput,
+  ListCentralizationRulesForOrganizationInput & RegionInput,
   ListCentralizationRulesForOrganizationOutput,
   ListCentralizationRulesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1654,7 +1655,7 @@ export type ListDatasetIntegrationsError =
  * Returns the dataset integrations in your account.
  */
 export const listDatasetIntegrations: API.PaginatedOperationMethod<
-  ListDatasetIntegrationsInput,
+  ListDatasetIntegrationsInput & RegionInput,
   ListDatasetIntegrationsOutput,
   ListDatasetIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1691,7 +1692,7 @@ export type ListResourceTelemetryError =
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
  */
 export const listResourceTelemetry: API.PaginatedOperationMethod<
-  ListResourceTelemetryInput,
+  ListResourceTelemetryInput & RegionInput,
   ListResourceTelemetryOutput,
   ListResourceTelemetryError,
   Credentials | HttpClient.HttpClient,
@@ -1728,7 +1729,7 @@ export type ListResourceTelemetryForOrganizationError =
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
  */
 export const listResourceTelemetryForOrganization: API.PaginatedOperationMethod<
-  ListResourceTelemetryForOrganizationInput,
+  ListResourceTelemetryForOrganizationInput & RegionInput,
   ListResourceTelemetryForOrganizationOutput,
   ListResourceTelemetryForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1765,7 +1766,7 @@ export type ListS3TableIntegrationsError =
  * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listS3TableIntegrations: API.PaginatedOperationMethod<
-  ListS3TableIntegrationsInput,
+  ListS3TableIntegrationsInput & RegionInput,
   ListS3TableIntegrationsOutput,
   ListS3TableIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1803,7 +1804,7 @@ export type ListTagsForResourceError =
  * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1834,7 +1835,7 @@ export type ListTelemetryPipelinesError =
  * Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the `NextToken` value from the response to retrieve the next set of results.
  */
 export const listTelemetryPipelines: API.PaginatedOperationMethod<
-  ListTelemetryPipelinesInput,
+  ListTelemetryPipelinesInput & RegionInput,
   ListTelemetryPipelinesOutput,
   ListTelemetryPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -1871,7 +1872,7 @@ export type ListTelemetryRulesError =
  * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
  */
 export const listTelemetryRules: API.PaginatedOperationMethod<
-  ListTelemetryRulesInput,
+  ListTelemetryRulesInput & RegionInput,
   ListTelemetryRulesOutput,
   ListTelemetryRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1908,7 +1909,7 @@ export type ListTelemetryRulesForOrganizationError =
  * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
-  ListTelemetryRulesForOrganizationInput,
+  ListTelemetryRulesForOrganizationInput & RegionInput,
   ListTelemetryRulesForOrganizationOutput,
   ListTelemetryRulesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -1945,7 +1946,7 @@ export type StartTelemetryEnrichmentError =
  * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
  */
 export const startTelemetryEnrichment: API.OperationMethod<
-  StartTelemetryEnrichmentRequest,
+  StartTelemetryEnrichmentRequest & RegionInput,
   StartTelemetryEnrichmentOutput,
   StartTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1976,7 @@ export type StartTelemetryEvaluationError =
  * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
  */
 export const startTelemetryEvaluation: API.OperationMethod<
-  StartTelemetryEvaluationInput,
+  StartTelemetryEvaluationInput & RegionInput,
   StartTelemetryEvaluationResponse,
   StartTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -2005,7 +2006,7 @@ export type StartTelemetryEvaluationForOrganizationError =
  * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
  */
 export const startTelemetryEvaluationForOrganization: API.OperationMethod<
-  StartTelemetryEvaluationForOrganizationInput,
+  StartTelemetryEvaluationForOrganizationInput & RegionInput,
   StartTelemetryEvaluationForOrganizationResponse,
   StartTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2035,7 +2036,7 @@ export type StopTelemetryEnrichmentError =
  * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
  */
 export const stopTelemetryEnrichment: API.OperationMethod<
-  StopTelemetryEnrichmentRequest,
+  StopTelemetryEnrichmentRequest & RegionInput,
   StopTelemetryEnrichmentOutput,
   StopTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -2065,7 +2066,7 @@ export type StopTelemetryEvaluationError =
  * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluation: API.OperationMethod<
-  StopTelemetryEvaluationRequest,
+  StopTelemetryEvaluationRequest & RegionInput,
   StopTelemetryEvaluationResponse,
   StopTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -2095,7 +2096,7 @@ export type StopTelemetryEvaluationForOrganizationError =
  * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
  */
 export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
-  StopTelemetryEvaluationForOrganizationRequest,
+  StopTelemetryEvaluationForOrganizationRequest & RegionInput,
   StopTelemetryEvaluationForOrganizationResponse,
   StopTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2128,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2159,7 +2160,7 @@ export type TestTelemetryPipelineError =
  * Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
  */
 export const testTelemetryPipeline: API.OperationMethod<
-  TestTelemetryPipelineInput,
+  TestTelemetryPipelineInput & RegionInput,
   TestTelemetryPipelineOutput,
   TestTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -2190,7 +2191,7 @@ export type UntagResourceError =
  * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2223,7 +2224,7 @@ export type UpdateCentralizationRuleForOrganizationError =
  * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const updateCentralizationRuleForOrganization: API.OperationMethod<
-  UpdateCentralizationRuleForOrganizationInput,
+  UpdateCentralizationRuleForOrganizationInput & RegionInput,
   UpdateCentralizationRuleForOrganizationOutput,
   UpdateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2257,7 @@ export type UpdateDatasetIntegrationError =
  * Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds.
  */
 export const updateDatasetIntegration: API.OperationMethod<
-  UpdateDatasetIntegrationInput,
+  UpdateDatasetIntegrationInput & RegionInput,
   UpdateDatasetIntegrationOutput,
   UpdateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2336,7 +2337,7 @@ export type UpdateTelemetryPipelineError =
  * **Updatable:** All Amazon Web Services Secrets Manager attributes, `region`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
  */
 export const updateTelemetryPipeline: API.OperationMethod<
-  UpdateTelemetryPipelineInput,
+  UpdateTelemetryPipelineInput & RegionInput,
   UpdateTelemetryPipelineOutput,
   UpdateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
@@ -2370,7 +2371,7 @@ export type UpdateTelemetryRuleError =
  * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
  */
 export const updateTelemetryRule: API.OperationMethod<
-  UpdateTelemetryRuleInput,
+  UpdateTelemetryRuleInput & RegionInput,
   UpdateTelemetryRuleOutput,
   UpdateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
@@ -2405,7 +2406,7 @@ export type UpdateTelemetryRuleForOrganizationError =
  * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
 export const updateTelemetryRuleForOrganization: API.OperationMethod<
-  UpdateTelemetryRuleForOrganizationInput,
+  UpdateTelemetryRuleForOrganizationInput & RegionInput,
   UpdateTelemetryRuleForOrganizationOutput,
   UpdateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2437,7 +2438,7 @@ export type ValidateTelemetryPipelineConfigurationError =
  * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
  */
 export const validateTelemetryPipelineConfiguration: API.OperationMethod<
-  ValidateTelemetryPipelineConfigurationInput,
+  ValidateTelemetryPipelineConfigurationInput & RegionInput,
   ValidateTelemetryPipelineConfigurationOutput,
   ValidateTelemetryPipelineConfigurationError,
   Credentials | HttpClient.HttpClient

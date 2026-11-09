@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2424,7 +2425,7 @@ export type BatchExecuteStatementError =
  * statement.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementInput,
+  BatchExecuteStatementInput & RegionInput,
   BatchExecuteStatementOutput,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type BatchGetItemError =
  * same key is specified multiple times.
  */
 export const batchGetItem: API.OperationMethod<
-  BatchGetItemInput,
+  BatchGetItemInput & RegionInput,
   BatchGetItemOutput,
   BatchGetItemError,
   Credentials | HttpClient.HttpClient
@@ -2637,7 +2638,7 @@ export type BatchWriteItemError =
  * bytes.
  */
 export const batchWriteItem: API.OperationMethod<
-  BatchWriteItemInput,
+  BatchWriteItemInput & RegionInput,
   BatchWriteItemOutput,
   BatchWriteItemError,
   Credentials | HttpClient.HttpClient
@@ -2710,7 +2711,7 @@ export type CreateBackupError =
  * - Provisioned read and write capacity
  */
 export const createBackup: API.OperationMethod<
-  CreateBackupInput,
+  CreateBackupInput & RegionInput,
   CreateBackupOutput,
   CreateBackupError,
   Credentials | HttpClient.HttpClient
@@ -2796,7 +2797,7 @@ export type CreateGlobalTableError =
  * your global table.
  */
 export const createGlobalTable: API.OperationMethod<
-  CreateGlobalTableInput,
+  CreateGlobalTableInput & RegionInput,
   CreateGlobalTableOutput,
   CreateGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2842,7 @@ export type CreateTableError =
  * You can use the `DescribeTable` action to check the table status.
  */
 export const createTable: API.OperationMethod<
-  CreateTableInput,
+  CreateTableInput & RegionInput,
   CreateTableOutput,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -2884,7 +2885,7 @@ export type DeleteBackupError =
  * second.
  */
 export const deleteBackup: API.OperationMethod<
-  DeleteBackupInput,
+  DeleteBackupInput & RegionInput,
   DeleteBackupOutput,
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
@@ -2934,7 +2935,7 @@ export type DeleteItemError =
  * deleted.
  */
 export const deleteItem: API.OperationMethod<
-  DeleteItemInput,
+  DeleteItemInput & RegionInput,
   DeleteItemOutput,
   DeleteItemError,
   Credentials | HttpClient.HttpClient
@@ -3002,7 +3003,7 @@ export type DeleteResourcePolicyError =
  * request again.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type DeleteTableError =
  * Use the `DescribeTable` action to check the status of the table.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableInput,
+  DeleteTableInput & RegionInput,
   DeleteTableOutput,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -3097,7 +3098,7 @@ export type DescribeBackupError =
  * second.
  */
 export const describeBackup: API.OperationMethod<
-  DescribeBackupInput,
+  DescribeBackupInput & RegionInput,
   DescribeBackupOutput,
   DescribeBackupError,
   Credentials | HttpClient.HttpClient
@@ -3135,7 +3136,7 @@ export type DescribeContinuousBackupsError =
  * second.
  */
 export const describeContinuousBackups: API.OperationMethod<
-  DescribeContinuousBackupsInput,
+  DescribeContinuousBackupsInput & RegionInput,
   DescribeContinuousBackupsOutput,
   DescribeContinuousBackupsError,
   Credentials | HttpClient.HttpClient
@@ -3168,7 +3169,7 @@ export type DescribeContributorInsightsError =
  * index.
  */
 export const describeContributorInsights: API.OperationMethod<
-  DescribeContributorInsightsInput,
+  DescribeContributorInsightsInput & RegionInput,
   DescribeContributorInsightsOutput,
   DescribeContributorInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3199,7 +3200,7 @@ export type DescribeEndpointsError = CommonErrors;
  * please see Internetwork traffic privacy.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -3223,7 +3224,7 @@ export type DescribeExportError =
  * Describes an existing table export.
  */
 export const describeExport: API.OperationMethod<
-  DescribeExportInput,
+  DescribeExportInput & RegionInput,
   DescribeExportOutput,
   DescribeExportError,
   Credentials | HttpClient.HttpClient
@@ -3251,7 +3252,7 @@ export type DescribeGlobalTableError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const describeGlobalTable: API.OperationMethod<
-  DescribeGlobalTableInput,
+  DescribeGlobalTableInput & RegionInput,
   DescribeGlobalTableOutput,
   DescribeGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3280,7 @@ export type DescribeGlobalTableSettingsError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const describeGlobalTableSettings: API.OperationMethod<
-  DescribeGlobalTableSettingsInput,
+  DescribeGlobalTableSettingsInput & RegionInput,
   DescribeGlobalTableSettingsOutput,
   DescribeGlobalTableSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3302,7 +3303,7 @@ export type DescribeImportError = ImportNotFoundException | CommonErrors;
  * Represents the properties of the import.
  */
 export const describeImport: API.OperationMethod<
-  DescribeImportInput,
+  DescribeImportInput & RegionInput,
   DescribeImportOutput,
   DescribeImportError,
   Credentials | HttpClient.HttpClient
@@ -3326,7 +3327,7 @@ export type DescribeKinesisStreamingDestinationError =
  * Returns information about the status of Kinesis streaming.
  */
 export const describeKinesisStreamingDestination: API.OperationMethod<
-  DescribeKinesisStreamingDestinationInput,
+  DescribeKinesisStreamingDestinationInput & RegionInput,
   DescribeKinesisStreamingDestinationOutput,
   DescribeKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3417,7 +3418,7 @@ export type DescribeLimitsError = InternalServerError | InvalidEndpointException
  * The `DescribeLimits` Request element has no content.
  */
 export const describeLimits: API.OperationMethod<
-  DescribeLimitsInput,
+  DescribeLimitsInput & RegionInput,
   DescribeLimitsOutput,
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3449,7 +3450,7 @@ export type DescribeTableError =
  * then try the `DescribeTable` request again.
  */
 export const describeTable: API.OperationMethod<
-  DescribeTableInput,
+  DescribeTableInput & RegionInput,
   DescribeTableOutput,
   DescribeTableError,
   Credentials | HttpClient.HttpClient
@@ -3481,7 +3482,7 @@ export type DescribeTableReplicaAutoScalingError =
  * Describes auto scaling settings across replicas of the global table at once.
  */
 export const describeTableReplicaAutoScaling: API.OperationMethod<
-  DescribeTableReplicaAutoScalingInput,
+  DescribeTableReplicaAutoScalingInput & RegionInput,
   DescribeTableReplicaAutoScalingOutput,
   DescribeTableReplicaAutoScalingError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3515,7 @@ export type DescribeTimeToLiveError =
  * Gives a description of the Time to Live (TTL) status on the specified table.
  */
 export const describeTimeToLive: API.OperationMethod<
-  DescribeTimeToLiveInput,
+  DescribeTimeToLiveInput & RegionInput,
   DescribeTimeToLiveOutput,
   DescribeTimeToLiveError,
   Credentials | HttpClient.HttpClient
@@ -3550,7 +3551,7 @@ export type DisableKinesisStreamingDestinationError =
  * is done without deleting either of the resources.
  */
 export const disableKinesisStreamingDestination: API.OperationMethod<
-  KinesisStreamingDestinationInput,
+  KinesisStreamingDestinationInput & RegionInput,
   KinesisStreamingDestinationOutput,
   DisableKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3594,7 +3595,7 @@ export type EnableKinesisStreamingDestinationError =
  * is ACTIVE.
  */
 export const enableKinesisStreamingDestination: API.OperationMethod<
-  KinesisStreamingDestinationInput,
+  KinesisStreamingDestinationInput & RegionInput,
   KinesisStreamingDestinationOutput,
   EnableKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3653,7 +3654,7 @@ export type ExecuteStatementError =
  * and include `NextToken`.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementInput,
+  ExecuteStatementInput & RegionInput,
   ExecuteStatementOutput,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -3708,7 +3709,7 @@ export type ExecuteTransactionError =
  * manner to `ConditionCheck` in the TransactWriteItems API.
  */
 export const executeTransaction: API.OperationMethod<
-  ExecuteTransactionInput,
+  ExecuteTransactionInput & RegionInput,
   ExecuteTransactionOutput,
   ExecuteTransactionError,
   Credentials | HttpClient.HttpClient
@@ -3752,7 +3753,7 @@ export type ExportTableToPointInTimeError =
  * window.
  */
 export const exportTableToPointInTime: API.OperationMethod<
-  ExportTableToPointInTimeInput,
+  ExportTableToPointInTimeInput & RegionInput,
   ExportTableToPointInTimeOutput,
   ExportTableToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -3796,7 +3797,7 @@ export type GetItemError =
  * eventually consistent read, it always returns the last updated value.
  */
 export const getItem: API.OperationMethod<
-  GetItemInput,
+  GetItemInput & RegionInput,
   GetItemOutput,
   GetItemError,
   Credentials | HttpClient.HttpClient
@@ -3875,7 +3876,7 @@ export type GetResourcePolicyError =
  * request will always be applied to all requests for that table.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3904,7 +3905,7 @@ export type ImportTableError =
  * Imports table data from an S3 bucket.
  */
 export const importTable: API.OperationMethod<
-  ImportTableInput,
+  ImportTableInput & RegionInput,
   ImportTableOutput,
   ImportTableError,
   Credentials | HttpClient.HttpClient
@@ -3937,7 +3938,7 @@ export type ListBackupsError = InternalServerError | InvalidEndpointException | 
  * list API.
  */
 export const listBackups: API.OperationMethod<
-  ListBackupsInput,
+  ListBackupsInput & RegionInput,
   ListBackupsOutput,
   ListBackupsError,
   Credentials | HttpClient.HttpClient
@@ -3971,7 +3972,7 @@ export type ListContributorInsightsError =
  * indexes.
  */
 export const listContributorInsights: API.PaginatedOperationMethod<
-  ListContributorInsightsInput,
+  ListContributorInsightsInput & RegionInput,
   ListContributorInsightsOutput,
   ListContributorInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -4006,7 +4007,7 @@ export type ListExportsError = InternalServerError | LimitExceededException | Co
  * Lists completed exports within the past 90 days, in reverse alphanumeric order of `ExportArn`.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsInput,
+  ListExportsInput & RegionInput,
   ListExportsOutput,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4036,7 +4037,7 @@ export type ListGlobalTablesError = InternalServerError | InvalidEndpointExcepti
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const listGlobalTables: API.OperationMethod<
-  ListGlobalTablesInput,
+  ListGlobalTablesInput & RegionInput,
   ListGlobalTablesOutput,
   ListGlobalTablesError,
   Credentials | HttpClient.HttpClient
@@ -4060,7 +4061,7 @@ export type ListImportsError = LimitExceededException | CommonErrors;
  * Lists completed imports within the past 90 days.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsInput,
+  ListImportsInput & RegionInput,
   ListImportsOutput,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -4084,7 +4085,7 @@ export type ListTablesError = InternalServerError | InvalidEndpointException | C
  * 100 table names.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesInput,
+  ListTablesInput & RegionInput,
   ListTablesOutput,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -4126,7 +4127,7 @@ export type ListTagsOfResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const listTagsOfResource: API.OperationMethod<
-  ListTagsOfResourceInput,
+  ListTagsOfResourceInput & RegionInput,
   ListTagsOfResourceOutput,
   ListTagsOfResourceError,
   Credentials | HttpClient.HttpClient
@@ -4184,7 +4185,7 @@ export type PutItemError =
  * Items in the *Amazon DynamoDB Developer Guide*.
  */
 export const putItem: API.OperationMethod<
-  PutItemInput,
+  PutItemInput & RegionInput,
   PutItemOutput,
   PutItemError,
   Credentials | HttpClient.HttpClient
@@ -4253,7 +4254,7 @@ export type PutResourcePolicyError =
  * few seconds, and then try the `GetResourcePolicy` request again.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4338,7 +4339,7 @@ export type QueryError =
  * index.
  */
 export const query: API.PaginatedOperationMethod<
-  QueryInput,
+  QueryInput & RegionInput,
   QueryOutput,
   QueryError,
   Credentials | HttpClient.HttpClient,
@@ -4419,7 +4420,7 @@ export type RestoreTableFromBackupError =
  * - Time to Live (TTL) settings
  */
 export const restoreTableFromBackup: API.OperationMethod<
-  RestoreTableFromBackupInput,
+  RestoreTableFromBackupInput & RegionInput,
   RestoreTableFromBackupOutput,
   RestoreTableFromBackupError,
   Credentials | HttpClient.HttpClient
@@ -4496,7 +4497,7 @@ export type RestoreTableToPointInTimeError =
  * - Point in time recovery settings
  */
 export const restoreTableToPointInTime: API.OperationMethod<
-  RestoreTableToPointInTimeInput,
+  RestoreTableToPointInTimeInput & RegionInput,
   RestoreTableToPointInTimeOutput,
   RestoreTableToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -4577,7 +4578,7 @@ export type ScanError =
  * the table when the scan operation was requested.
  */
 export const scan: API.PaginatedOperationMethod<
-  ScanInput,
+  ScanInput & RegionInput,
   ScanOutput,
   ScanError,
   Credentials | HttpClient.HttpClient,
@@ -4653,7 +4654,7 @@ export type SearchVectorsError =
  * highest scores. Higher scores indicate higher similarity.
  */
 export const searchVectors: API.OperationMethod<
-  SearchVectorsInput,
+  SearchVectorsInput & RegionInput,
   SearchVectorsOutput,
   SearchVectorsError,
   Credentials | HttpClient.HttpClient
@@ -4717,7 +4718,7 @@ export type TagResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4771,7 +4772,7 @@ export type TransactGetItemsError =
  * - The aggregate size of the items in the transaction exceeded 4 MB.
  */
 export const transactGetItems: API.OperationMethod<
-  TransactGetItemsInput,
+  TransactGetItemsInput & RegionInput,
   TransactGetItemsOutput,
   TransactGetItemsError,
   Credentials | HttpClient.HttpClient
@@ -4870,7 +4871,7 @@ export type TransactWriteItemsError =
  * - There is a user error, such as an invalid data format.
  */
 export const transactWriteItems: API.OperationMethod<
-  TransactWriteItemsInput,
+  TransactWriteItemsInput & RegionInput,
   TransactWriteItemsOutput,
   TransactWriteItemsError,
   Credentials | HttpClient.HttpClient
@@ -4929,7 +4930,7 @@ export type UntagResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4972,7 +4973,7 @@ export type UpdateContinuousBackupsError =
  * `RecoveryPeriodInDays` to any value between 1 and 35 days.
  */
 export const updateContinuousBackups: API.OperationMethod<
-  UpdateContinuousBackupsInput,
+  UpdateContinuousBackupsInput & RegionInput,
   UpdateContinuousBackupsOutput,
   UpdateContinuousBackupsError,
   Credentials | HttpClient.HttpClient
@@ -5015,7 +5016,7 @@ export type UpdateContributorInsightsError =
  * for this table.
  */
 export const updateContributorInsights: API.OperationMethod<
-  UpdateContributorInsightsInput,
+  UpdateContributorInsightsInput & RegionInput,
   UpdateContributorInsightsOutput,
   UpdateContributorInsightsError,
   Credentials | HttpClient.HttpClient
@@ -5077,7 +5078,7 @@ export type UpdateGlobalTableError =
  * capacity units.
  */
 export const updateGlobalTable: API.OperationMethod<
-  UpdateGlobalTableInput,
+  UpdateGlobalTableInput & RegionInput,
   UpdateGlobalTableOutput,
   UpdateGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -5116,7 +5117,7 @@ export type UpdateGlobalTableSettingsError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const updateGlobalTableSettings: API.OperationMethod<
-  UpdateGlobalTableSettingsInput,
+  UpdateGlobalTableSettingsInput & RegionInput,
   UpdateGlobalTableSettingsOutput,
   UpdateGlobalTableSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5165,7 +5166,7 @@ export type UpdateItemError =
  * operation using the `ReturnValues` parameter.
  */
 export const updateItem: API.OperationMethod<
-  UpdateItemInput,
+  UpdateItemInput & RegionInput,
   UpdateItemOutput,
   UpdateItemError,
   Credentials | HttpClient.HttpClient
@@ -5214,7 +5215,7 @@ export type UpdateKinesisStreamingDestinationError =
  * The command to update the Kinesis stream destination.
  */
 export const updateKinesisStreamingDestination: API.OperationMethod<
-  UpdateKinesisStreamingDestinationInput,
+  UpdateKinesisStreamingDestinationInput & RegionInput,
   UpdateKinesisStreamingDestinationOutput,
   UpdateKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5272,7 +5273,7 @@ export type UpdateTableError =
  * operation is complete.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableInput,
+  UpdateTableInput & RegionInput,
   UpdateTableOutput,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -5312,7 +5313,7 @@ export type UpdateTableReplicaAutoScalingError =
  * Updates auto scaling settings on your global tables at once.
  */
 export const updateTableReplicaAutoScaling: API.OperationMethod<
-  UpdateTableReplicaAutoScalingInput,
+  UpdateTableReplicaAutoScalingInput & RegionInput,
   UpdateTableReplicaAutoScalingOutput,
   UpdateTableReplicaAutoScalingError,
   Credentials | HttpClient.HttpClient
@@ -5378,7 +5379,7 @@ export type UpdateTimeToLiveError =
  * Amazon DynamoDB Developer Guide.
  */
 export const updateTimeToLive: API.OperationMethod<
-  UpdateTimeToLiveInput,
+  UpdateTimeToLiveInput & RegionInput,
   UpdateTimeToLiveOutput,
   UpdateTimeToLiveError,
   Credentials | HttpClient.HttpClient

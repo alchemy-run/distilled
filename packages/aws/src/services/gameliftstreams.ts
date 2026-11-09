@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -813,7 +814,7 @@ export type AddStreamGroupLocationsError =
  * This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
  */
 export const addStreamGroupLocations: API.OperationMethod<
-  AddStreamGroupLocationsInput,
+  AddStreamGroupLocationsInput & RegionInput,
   AddStreamGroupLocationsOutput,
   AddStreamGroupLocationsError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type AssociateApplicationsError =
  * If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in `ApplicationIdentifiers` as the default.
  */
 export const associateApplications: API.OperationMethod<
-  AssociateApplicationsInput,
+  AssociateApplicationsInput & RegionInput,
   AssociateApplicationsOutput,
   AssociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -891,7 +892,7 @@ export type CreateApplicationError =
  * If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to `INITIALIZED`. When an application reaches `READY` status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationInput,
+  CreateApplicationInput & RegionInput,
   CreateApplicationOutput,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type CreateStreamGroupError =
  * Stream groups should be recreated every 3-4 weeks to pick up important service updates and fixes. Stream groups that are older than 180 days can no longer be updated with new application associations. Stream groups expire when they are 365 days old, at which point they can no longer stream sessions. The exact expiration date is indicated by the date value in the `ExpiresAt` field.
  */
 export const createStreamGroup: API.OperationMethod<
-  CreateStreamGroupInput,
+  CreateStreamGroupInput & RegionInput,
   CreateStreamGroupOutput,
   CreateStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -983,7 +984,7 @@ export type CreateStreamSessionAdminShellError =
  * The returned credentials grant full access to the live runtime environment of the Amazon GameLift Streams stream session. The operator who connects to the terminal session has the same level of access that your Amazon GameLift Streams applications have, including potentially user input, screen images, and application data files. Grant permissions to call this operation only to trusted IAM identities that require live runtime environment access.
  */
 export const createStreamSessionAdminShell: API.OperationMethod<
-  CreateStreamSessionAdminShellInput,
+  CreateStreamSessionAdminShellInput & RegionInput,
   CreateStreamSessionAdminShellOutput,
   CreateStreamSessionAdminShellError,
   Credentials | HttpClient.HttpClient
@@ -1043,7 +1044,7 @@ export type CreateStreamSessionConnectionError =
  * To begin re-connecting to an existing stream session, specify the stream group ID and stream session ID that you want to reconnect to, and the signal request to use with the stream.
  */
 export const createStreamSessionConnection: API.OperationMethod<
-  CreateStreamSessionConnectionInput,
+  CreateStreamSessionConnectionInput & RegionInput,
   CreateStreamSessionConnectionOutput,
   CreateStreamSessionConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1082,7 +1083,7 @@ export type CreateStreamUrlError =
  * To make the request idempotent, provide a `ClientToken`.
  */
 export const createStreamUrl: API.OperationMethod<
-  CreateStreamUrlInput,
+  CreateStreamUrlInput & RegionInput,
   CreateStreamUrlOutput,
   CreateStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1129,7 +1130,7 @@ export type DeleteApplicationError =
  * If any active stream groups exist for this application, this request returns a `ValidationException`.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationInput,
+  DeleteApplicationInput & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type DeleteStreamGroupError =
  * Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is `DELETING`. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
  */
 export const deleteStreamGroup: API.OperationMethod<
-  DeleteStreamGroupInput,
+  DeleteStreamGroupInput & RegionInput,
   DeleteStreamGroupResponse,
   DeleteStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -1198,7 +1199,7 @@ export type DisassociateApplicationsError =
  * If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call UpdateStreamGroup and specify a new `DefaultApplicationIdentifier`.
  */
 export const disassociateApplications: API.OperationMethod<
-  DisassociateApplicationsInput,
+  DisassociateApplicationsInput & RegionInput,
   DisassociateApplicationsOutput,
   DisassociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1245,7 @@ export type ExportStreamSessionFilesError =
  * To delete the files, delete the object in the S3 bucket.
  */
 export const exportStreamSessionFiles: API.OperationMethod<
-  ExportStreamSessionFilesInput,
+  ExportStreamSessionFilesInput & RegionInput,
   ExportStreamSessionFilesOutput,
   ExportStreamSessionFilesError,
   Credentials | HttpClient.HttpClient
@@ -1276,7 +1277,7 @@ export type GetApplicationError =
  * Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationInput,
+  GetApplicationInput & RegionInput,
   GetApplicationOutput,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type GetStreamGroupError =
  * Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
  */
 export const getStreamGroup: API.OperationMethod<
-  GetStreamGroupInput,
+  GetStreamGroupInput & RegionInput,
   GetStreamGroupOutput,
   GetStreamGroupError,
   Credentials | HttpClient.HttpClient
@@ -1340,7 +1341,7 @@ export type GetStreamSessionError =
  * Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
  */
 export const getStreamSession: API.OperationMethod<
-  GetStreamSessionInput,
+  GetStreamSessionInput & RegionInput,
   GetStreamSessionOutput,
   GetStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type GetStreamUrlError =
  * If you delete the stream group or application that backs the stream URL, this operation updates the status of the stream URL to `REVOKED`.
  */
 export const getStreamUrl: API.OperationMethod<
-  GetStreamUrlInput,
+  GetStreamUrlInput & RegionInput,
   GetStreamUrlOutput,
   GetStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type ListApplicationsError =
  * Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsInput,
+  ListApplicationsInput & RegionInput,
   ListApplicationsOutput,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1445,7 +1446,7 @@ export type ListApplicationShaderCachesError =
  * Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses.
  */
 export const listApplicationShaderCaches: API.OperationMethod<
-  ListApplicationShaderCachesInput,
+  ListApplicationShaderCachesInput & RegionInput,
   ListApplicationShaderCachesOutput,
   ListApplicationShaderCachesError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type ListStreamGroupsError =
  * Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
  */
 export const listStreamGroups: API.PaginatedOperationMethod<
-  ListStreamGroupsInput,
+  ListStreamGroupsInput & RegionInput,
   ListStreamGroupsOutput,
   ListStreamGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1518,7 +1519,7 @@ export type ListStreamSessionsError =
  * This operation returns the requested stream sessions in no particular order.
  */
 export const listStreamSessions: API.PaginatedOperationMethod<
-  ListStreamSessionsInput,
+  ListStreamSessionsInput & RegionInput,
   ListStreamSessionsOutput,
   ListStreamSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1560,7 +1561,7 @@ export type ListStreamSessionsByAccountError =
  * We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession.
  */
 export const listStreamSessionsByAccount: API.PaginatedOperationMethod<
-  ListStreamSessionsByAccountInput,
+  ListStreamSessionsByAccountInput & RegionInput,
   ListStreamSessionsByAccountOutput,
   ListStreamSessionsByAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1597,7 +1598,7 @@ export type ListStreamUrlsError =
  * Retrieves a list of the stream URLs in the current Amazon Web Services Region for your Amazon Web Services account. You can filter the results by status or by stream group. Use the pagination parameters to retrieve results as a set of sequential pages. If you delete the stream group or application that backs a stream URL, this operation updates that stream URL's status to `REVOKED`.
  */
 export const listStreamUrls: API.PaginatedOperationMethod<
-  ListStreamUrlsInput,
+  ListStreamUrlsInput & RegionInput,
   ListStreamUrlsOutput,
   ListStreamUrlsError,
   Credentials | HttpClient.HttpClient,
@@ -1640,7 +1641,7 @@ export type ListTagsForResourceError =
  * Amazon Web Services Tagging Strategies
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1673,7 +1674,7 @@ export type RemoveStreamGroupLocationsError =
  * You cannot remove the Amazon Web Services Region location where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero to avoid incurring costs for allocated compute resources in that location.
  */
 export const removeStreamGroupLocations: API.OperationMethod<
-  RemoveStreamGroupLocationsInput,
+  RemoveStreamGroupLocationsInput & RegionInput,
   RemoveStreamGroupLocationsResponse,
   RemoveStreamGroupLocationsError,
   Credentials | HttpClient.HttpClient
@@ -1707,7 +1708,7 @@ export type RevokeStreamUrlError =
  * Revoking a stream URL is permanent. The status of the stream URL changes to `REVOKED`.
  */
 export const revokeStreamUrl: API.OperationMethod<
-  RevokeStreamUrlInput,
+  RevokeStreamUrlInput & RegionInput,
   RevokeStreamUrlResponse,
   RevokeStreamUrlError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type StartStreamSessionError =
  * To reconnect to a stream session after a client disconnects or loses connection, use CreateStreamSessionConnection.
  */
 export const startStreamSession: API.OperationMethod<
-  StartStreamSessionInput,
+  StartStreamSessionInput & RegionInput,
   StartStreamSessionOutput,
   StartStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1837,7 @@ export type TagResourceError =
  * Amazon Web Services Tagging Strategies
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1867,7 +1868,7 @@ export type TerminateStreamSessionError =
  * Permanently terminates an active stream session. When called, the stream session status changes to `TERMINATING`. You can terminate a stream session in any status except `ACTIVATING`. If the stream session is in `ACTIVATING` status, an exception is thrown.
  */
 export const terminateStreamSession: API.OperationMethod<
-  TerminateStreamSessionInput,
+  TerminateStreamSessionInput & RegionInput,
   TerminateStreamSessionResponse,
   TerminateStreamSessionError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type UntagResourceError =
  * Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1931,7 +1932,7 @@ export type UpdateApplicationError =
  * To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationInput,
+  UpdateApplicationInput & RegionInput,
   UpdateApplicationOutput,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type UpdateStreamGroupError =
  * To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group. Expired stream groups cannot be updated.
  */
 export const updateStreamGroup: API.OperationMethod<
-  UpdateStreamGroupInput,
+  UpdateStreamGroupInput & RegionInput,
   UpdateStreamGroupOutput,
   UpdateStreamGroupError,
   Credentials | HttpClient.HttpClient

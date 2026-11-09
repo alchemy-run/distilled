@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -8530,7 +8531,7 @@ export type AcceptInputDeviceTransferError =
  * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
  */
 export const acceptInputDeviceTransfer: API.OperationMethod<
-  AcceptInputDeviceTransferRequest,
+  AcceptInputDeviceTransferRequest & RegionInput,
   AcceptInputDeviceTransferResponse,
   AcceptInputDeviceTransferError,
   Credentials | HttpClient.HttpClient
@@ -8569,7 +8570,7 @@ export type BatchDeleteError =
  * Starts delete of resources.
  */
 export const batchDelete: API.OperationMethod<
-  BatchDeleteRequest,
+  BatchDeleteRequest & RegionInput,
   BatchDeleteResponse,
   BatchDeleteError,
   Credentials | HttpClient.HttpClient
@@ -8607,7 +8608,7 @@ export type BatchStartError =
  * Starts existing resources
  */
 export const batchStart: API.OperationMethod<
-  BatchStartRequest,
+  BatchStartRequest & RegionInput,
   BatchStartResponse,
   BatchStartError,
   Credentials | HttpClient.HttpClient
@@ -8645,7 +8646,7 @@ export type BatchStopError =
  * Stops running resources
  */
 export const batchStop: API.OperationMethod<
-  BatchStopRequest,
+  BatchStopRequest & RegionInput,
   BatchStopResponse,
   BatchStopError,
   Credentials | HttpClient.HttpClient
@@ -8683,7 +8684,7 @@ export type BatchUpdateScheduleError =
  * Update a channel schedule
  */
 export const batchUpdateSchedule: API.OperationMethod<
-  BatchUpdateScheduleRequest,
+  BatchUpdateScheduleRequest & RegionInput,
   BatchUpdateScheduleResponse,
   BatchUpdateScheduleError,
   Credentials | HttpClient.HttpClient
@@ -8722,7 +8723,7 @@ export type CancelInputDeviceTransferError =
  * Cancel an input device transfer that you have requested.
  */
 export const cancelInputDeviceTransfer: API.OperationMethod<
-  CancelInputDeviceTransferRequest,
+  CancelInputDeviceTransferRequest & RegionInput,
   CancelInputDeviceTransferResponse,
   CancelInputDeviceTransferError,
   Credentials | HttpClient.HttpClient
@@ -8761,7 +8762,7 @@ export type ClaimDeviceError =
  * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
  */
 export const claimDevice: API.OperationMethod<
-  ClaimDeviceRequest,
+  ClaimDeviceRequest & RegionInput,
   ClaimDeviceResponse,
   ClaimDeviceError,
   Credentials | HttpClient.HttpClient
@@ -8800,7 +8801,7 @@ export type CreateChannelError =
  * Creates a new channel
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -8838,7 +8839,7 @@ export type CreateChannelPlacementGroupError =
  * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
  */
 export const createChannelPlacementGroup: API.OperationMethod<
-  CreateChannelPlacementGroupRequest,
+  CreateChannelPlacementGroupRequest & RegionInput,
   CreateChannelPlacementGroupResponse,
   CreateChannelPlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -8873,7 +8874,7 @@ export type CreateCloudWatchAlarmTemplateError =
  * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
  */
 export const createCloudWatchAlarmTemplate: API.OperationMethod<
-  CreateCloudWatchAlarmTemplateRequest,
+  CreateCloudWatchAlarmTemplateRequest & RegionInput,
   CreateCloudWatchAlarmTemplateResponse,
   CreateCloudWatchAlarmTemplateError,
   Credentials | HttpClient.HttpClient
@@ -8907,7 +8908,7 @@ export type CreateCloudWatchAlarmTemplateGroupError =
  * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
  */
 export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  CreateCloudWatchAlarmTemplateGroupRequest,
+  CreateCloudWatchAlarmTemplateGroupRequest & RegionInput,
   CreateCloudWatchAlarmTemplateGroupResponse,
   CreateCloudWatchAlarmTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -8942,7 +8943,7 @@ export type CreateClusterError =
  * Create a new Cluster.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -8977,7 +8978,7 @@ export type CreateEventBridgeRuleTemplateError =
  * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
  */
 export const createEventBridgeRuleTemplate: API.OperationMethod<
-  CreateEventBridgeRuleTemplateRequest,
+  CreateEventBridgeRuleTemplateRequest & RegionInput,
   CreateEventBridgeRuleTemplateResponse,
   CreateEventBridgeRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9011,7 +9012,7 @@ export type CreateEventBridgeRuleTemplateGroupError =
  * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
  */
 export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
-  CreateEventBridgeRuleTemplateGroupRequest,
+  CreateEventBridgeRuleTemplateGroupRequest & RegionInput,
   CreateEventBridgeRuleTemplateGroupResponse,
   CreateEventBridgeRuleTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -9045,7 +9046,7 @@ export type CreateInputError =
  * Create an input
  */
 export const createInput: API.OperationMethod<
-  CreateInputRequest,
+  CreateInputRequest & RegionInput,
   CreateInputResponse,
   CreateInputError,
   Credentials | HttpClient.HttpClient
@@ -9079,7 +9080,7 @@ export type CreateInputSecurityGroupError =
  * Creates a Input Security Group
  */
 export const createInputSecurityGroup: API.OperationMethod<
-  CreateInputSecurityGroupRequest,
+  CreateInputSecurityGroupRequest & RegionInput,
   CreateInputSecurityGroupResponse,
   CreateInputSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -9115,7 +9116,7 @@ export type CreateMultiplexError =
  * Create a new multiplex.
  */
 export const createMultiplex: API.OperationMethod<
-  CreateMultiplexRequest,
+  CreateMultiplexRequest & RegionInput,
   CreateMultiplexResponse,
   CreateMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -9153,7 +9154,7 @@ export type CreateMultiplexProgramError =
  * Create a new program in the multiplex.
  */
 export const createMultiplexProgram: API.OperationMethod<
-  CreateMultiplexProgramRequest,
+  CreateMultiplexProgramRequest & RegionInput,
   CreateMultiplexProgramResponse,
   CreateMultiplexProgramError,
   Credentials | HttpClient.HttpClient
@@ -9190,7 +9191,7 @@ export type CreateNetworkError =
  * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkRequest,
+  CreateNetworkRequest & RegionInput,
   CreateNetworkResponse,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -9226,7 +9227,7 @@ export type CreateNodeError =
  * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
  */
 export const createNode: API.OperationMethod<
-  CreateNodeRequest,
+  CreateNodeRequest & RegionInput,
   CreateNodeResponse,
   CreateNodeError,
   Credentials | HttpClient.HttpClient
@@ -9262,7 +9263,7 @@ export type CreateNodeRegistrationScriptError =
  * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
  */
 export const createNodeRegistrationScript: API.OperationMethod<
-  CreateNodeRegistrationScriptRequest,
+  CreateNodeRegistrationScriptRequest & RegionInput,
   CreateNodeRegistrationScriptResponse,
   CreateNodeRegistrationScriptError,
   Credentials | HttpClient.HttpClient
@@ -9297,7 +9298,7 @@ export type CreatePartnerInputError =
  * Create a partner input
  */
 export const createPartnerInput: API.OperationMethod<
-  CreatePartnerInputRequest,
+  CreatePartnerInputRequest & RegionInput,
   CreatePartnerInputResponse,
   CreatePartnerInputError,
   Credentials | HttpClient.HttpClient
@@ -9332,7 +9333,7 @@ export type CreateSdiSourceError =
  * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
  */
 export const createSdiSource: API.OperationMethod<
-  CreateSdiSourceRequest,
+  CreateSdiSourceRequest & RegionInput,
   CreateSdiSourceResponse,
   CreateSdiSourceError,
   Credentials | HttpClient.HttpClient
@@ -9367,7 +9368,7 @@ export type CreateSignalMapError =
  * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
  */
 export const createSignalMap: API.OperationMethod<
-  CreateSignalMapRequest,
+  CreateSignalMapRequest & RegionInput,
   CreateSignalMapResponse,
   CreateSignalMapError,
   Credentials | HttpClient.HttpClient
@@ -9399,7 +9400,7 @@ export type CreateTagsError =
  * Create tags for a resource
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -9433,7 +9434,7 @@ export type DeleteChannelError =
  * Starts deletion of channel. The associated outputs are also deleted.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -9471,7 +9472,7 @@ export type DeleteChannelPlacementGroupError =
  * Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
  */
 export const deleteChannelPlacementGroup: API.OperationMethod<
-  DeleteChannelPlacementGroupRequest,
+  DeleteChannelPlacementGroupRequest & RegionInput,
   DeleteChannelPlacementGroupResponse,
   DeleteChannelPlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -9507,7 +9508,7 @@ export type DeleteCloudWatchAlarmTemplateError =
  * Deletes a cloudwatch alarm template.
  */
 export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
-  DeleteCloudWatchAlarmTemplateRequest,
+  DeleteCloudWatchAlarmTemplateRequest & RegionInput,
   DeleteCloudWatchAlarmTemplateResponse,
   DeleteCloudWatchAlarmTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9541,7 +9542,7 @@ export type DeleteCloudWatchAlarmTemplateGroupError =
  * Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
  */
 export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  DeleteCloudWatchAlarmTemplateGroupRequest,
+  DeleteCloudWatchAlarmTemplateGroupRequest & RegionInput,
   DeleteCloudWatchAlarmTemplateGroupResponse,
   DeleteCloudWatchAlarmTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -9577,7 +9578,7 @@ export type DeleteClusterError =
  * Delete a Cluster. The Cluster must be idle.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -9613,7 +9614,7 @@ export type DeleteEventBridgeRuleTemplateError =
  * Deletes an eventbridge rule template.
  */
 export const deleteEventBridgeRuleTemplate: API.OperationMethod<
-  DeleteEventBridgeRuleTemplateRequest,
+  DeleteEventBridgeRuleTemplateRequest & RegionInput,
   DeleteEventBridgeRuleTemplateResponse,
   DeleteEventBridgeRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9647,7 +9648,7 @@ export type DeleteEventBridgeRuleTemplateGroupError =
  * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
  */
 export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
-  DeleteEventBridgeRuleTemplateGroupRequest,
+  DeleteEventBridgeRuleTemplateGroupRequest & RegionInput,
   DeleteEventBridgeRuleTemplateGroupResponse,
   DeleteEventBridgeRuleTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -9683,7 +9684,7 @@ export type DeleteInputError =
  * Deletes the input end point
  */
 export const deleteInput: API.OperationMethod<
-  DeleteInputRequest,
+  DeleteInputRequest & RegionInput,
   DeleteInputResponse,
   DeleteInputError,
   Credentials | HttpClient.HttpClient
@@ -9720,7 +9721,7 @@ export type DeleteInputSecurityGroupError =
  * Deletes an Input Security Group
  */
 export const deleteInputSecurityGroup: API.OperationMethod<
-  DeleteInputSecurityGroupRequest,
+  DeleteInputSecurityGroupRequest & RegionInput,
   DeleteInputSecurityGroupResponse,
   DeleteInputSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -9757,7 +9758,7 @@ export type DeleteMultiplexError =
  * Delete a multiplex. The multiplex must be idle.
  */
 export const deleteMultiplex: API.OperationMethod<
-  DeleteMultiplexRequest,
+  DeleteMultiplexRequest & RegionInput,
   DeleteMultiplexResponse,
   DeleteMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -9795,7 +9796,7 @@ export type DeleteMultiplexProgramError =
  * Delete a program from a multiplex.
  */
 export const deleteMultiplexProgram: API.OperationMethod<
-  DeleteMultiplexProgramRequest,
+  DeleteMultiplexProgramRequest & RegionInput,
   DeleteMultiplexProgramResponse,
   DeleteMultiplexProgramError,
   Credentials | HttpClient.HttpClient
@@ -9833,7 +9834,7 @@ export type DeleteNetworkError =
  * Delete a Network. The Network must have no resources associated with it.
  */
 export const deleteNetwork: API.OperationMethod<
-  DeleteNetworkRequest,
+  DeleteNetworkRequest & RegionInput,
   DeleteNetworkResponse,
   DeleteNetworkError,
   Credentials | HttpClient.HttpClient
@@ -9871,7 +9872,7 @@ export type DeleteNodeError =
  * Delete a Node. The Node must be IDLE.
  */
 export const deleteNode: API.OperationMethod<
-  DeleteNodeRequest,
+  DeleteNodeRequest & RegionInput,
   DeleteNodeResponse,
   DeleteNodeError,
   Credentials | HttpClient.HttpClient
@@ -9909,7 +9910,7 @@ export type DeleteReservationError =
  * Delete an expired reservation.
  */
 export const deleteReservation: API.OperationMethod<
-  DeleteReservationRequest,
+  DeleteReservationRequest & RegionInput,
   DeleteReservationResponse,
   DeleteReservationError,
   Credentials | HttpClient.HttpClient
@@ -9946,7 +9947,7 @@ export type DeleteScheduleError =
  * Delete all schedule actions on a channel.
  */
 export const deleteSchedule: API.OperationMethod<
-  DeleteScheduleRequest,
+  DeleteScheduleRequest & RegionInput,
   DeleteScheduleResponse,
   DeleteScheduleError,
   Credentials | HttpClient.HttpClient
@@ -9983,7 +9984,7 @@ export type DeleteSdiSourceError =
  * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
  */
 export const deleteSdiSource: API.OperationMethod<
-  DeleteSdiSourceRequest,
+  DeleteSdiSourceRequest & RegionInput,
   DeleteSdiSourceResponse,
   DeleteSdiSourceError,
   Credentials | HttpClient.HttpClient
@@ -10019,7 +10020,7 @@ export type DeleteSignalMapError =
  * Deletes the specified signal map.
  */
 export const deleteSignalMap: API.OperationMethod<
-  DeleteSignalMapRequest,
+  DeleteSignalMapRequest & RegionInput,
   DeleteSignalMapResponse,
   DeleteSignalMapError,
   Credentials | HttpClient.HttpClient
@@ -10051,7 +10052,7 @@ export type DeleteTagsError =
  * Removes tags for a resource
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -10083,7 +10084,7 @@ export type DescribeAccountConfigurationError =
  * Describe account configuration
  */
 export const describeAccountConfiguration: API.OperationMethod<
-  DescribeAccountConfigurationRequest,
+  DescribeAccountConfigurationRequest & RegionInput,
   DescribeAccountConfigurationResponse,
   DescribeAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10118,7 +10119,7 @@ export type DescribeChannelError =
  * Gets details about a channel
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -10154,7 +10155,7 @@ export type DescribeChannelPlacementGroupError =
  * Get details about a ChannelPlacementGroup.
  */
 export const describeChannelPlacementGroup: API.OperationMethod<
-  DescribeChannelPlacementGroupRequest,
+  DescribeChannelPlacementGroupRequest & RegionInput,
   DescribeChannelPlacementGroupResponse,
   DescribeChannelPlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -10190,7 +10191,7 @@ export type DescribeClusterError =
  * Get details about a Cluster.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -10226,7 +10227,7 @@ export type DescribeInputError =
  * Produces details about an input
  */
 export const describeInput: API.OperationMethod<
-  DescribeInputRequest,
+  DescribeInputRequest & RegionInput,
   DescribeInputResponse,
   DescribeInputError,
   Credentials | HttpClient.HttpClient
@@ -10262,7 +10263,7 @@ export type DescribeInputDeviceError =
  * Gets the details for the input device
  */
 export const describeInputDevice: API.OperationMethod<
-  DescribeInputDeviceRequest,
+  DescribeInputDeviceRequest & RegionInput,
   DescribeInputDeviceResponse,
   DescribeInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -10298,7 +10299,7 @@ export type DescribeInputDeviceThumbnailError =
  * Get the latest thumbnail data for the input device.
  */
 export const describeInputDeviceThumbnail: API.OperationMethod<
-  DescribeInputDeviceThumbnailRequest,
+  DescribeInputDeviceThumbnailRequest & RegionInput,
   DescribeInputDeviceThumbnailResponse,
   DescribeInputDeviceThumbnailError,
   Credentials | HttpClient.HttpClient
@@ -10334,7 +10335,7 @@ export type DescribeInputSecurityGroupError =
  * Produces a summary of an Input Security Group
  */
 export const describeInputSecurityGroup: API.OperationMethod<
-  DescribeInputSecurityGroupRequest,
+  DescribeInputSecurityGroupRequest & RegionInput,
   DescribeInputSecurityGroupResponse,
   DescribeInputSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -10370,7 +10371,7 @@ export type DescribeMultiplexError =
  * Gets details about a multiplex.
  */
 export const describeMultiplex: API.OperationMethod<
-  DescribeMultiplexRequest,
+  DescribeMultiplexRequest & RegionInput,
   DescribeMultiplexResponse,
   DescribeMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -10406,7 +10407,7 @@ export type DescribeMultiplexProgramError =
  * Get the details for a program in a multiplex.
  */
 export const describeMultiplexProgram: API.OperationMethod<
-  DescribeMultiplexProgramRequest,
+  DescribeMultiplexProgramRequest & RegionInput,
   DescribeMultiplexProgramResponse,
   DescribeMultiplexProgramError,
   Credentials | HttpClient.HttpClient
@@ -10442,7 +10443,7 @@ export type DescribeNetworkError =
  * Get details about a Network.
  */
 export const describeNetwork: API.OperationMethod<
-  DescribeNetworkRequest,
+  DescribeNetworkRequest & RegionInput,
   DescribeNetworkResponse,
   DescribeNetworkError,
   Credentials | HttpClient.HttpClient
@@ -10478,7 +10479,7 @@ export type DescribeNodeError =
  * Get details about a Node in the specified Cluster.
  */
 export const describeNode: API.OperationMethod<
-  DescribeNodeRequest,
+  DescribeNodeRequest & RegionInput,
   DescribeNodeResponse,
   DescribeNodeError,
   Credentials | HttpClient.HttpClient
@@ -10514,7 +10515,7 @@ export type DescribeOfferingError =
  * Get details for an offering.
  */
 export const describeOffering: API.OperationMethod<
-  DescribeOfferingRequest,
+  DescribeOfferingRequest & RegionInput,
   DescribeOfferingResponse,
   DescribeOfferingError,
   Credentials | HttpClient.HttpClient
@@ -10550,7 +10551,7 @@ export type DescribeReservationError =
  * Get details for a reservation.
  */
 export const describeReservation: API.OperationMethod<
-  DescribeReservationRequest,
+  DescribeReservationRequest & RegionInput,
   DescribeReservationResponse,
   DescribeReservationError,
   Credentials | HttpClient.HttpClient
@@ -10586,7 +10587,7 @@ export type DescribeScheduleError =
  * Get a channel schedule
  */
 export const describeSchedule: API.PaginatedOperationMethod<
-  DescribeScheduleRequest,
+  DescribeScheduleRequest & RegionInput,
   DescribeScheduleResponse,
   DescribeScheduleError,
   Credentials | HttpClient.HttpClient,
@@ -10629,7 +10630,7 @@ export type DescribeSdiSourceError =
  * Gets details about a SdiSource.
  */
 export const describeSdiSource: API.OperationMethod<
-  DescribeSdiSourceRequest,
+  DescribeSdiSourceRequest & RegionInput,
   DescribeSdiSourceResponse,
   DescribeSdiSourceError,
   Credentials | HttpClient.HttpClient
@@ -10666,7 +10667,7 @@ export type DescribeThumbnailsError =
  * Describe the latest thumbnails data.
  */
 export const describeThumbnails: API.OperationMethod<
-  DescribeThumbnailsRequest,
+  DescribeThumbnailsRequest & RegionInput,
   DescribeThumbnailsResponse,
   DescribeThumbnailsError,
   Credentials | HttpClient.HttpClient
@@ -10701,7 +10702,7 @@ export type GetCloudWatchAlarmTemplateError =
  * Retrieves the specified cloudwatch alarm template.
  */
 export const getCloudWatchAlarmTemplate: API.OperationMethod<
-  GetCloudWatchAlarmTemplateRequest,
+  GetCloudWatchAlarmTemplateRequest & RegionInput,
   GetCloudWatchAlarmTemplateResponse,
   GetCloudWatchAlarmTemplateError,
   Credentials | HttpClient.HttpClient
@@ -10733,7 +10734,7 @@ export type GetCloudWatchAlarmTemplateGroupError =
  * Retrieves the specified cloudwatch alarm template group.
  */
 export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  GetCloudWatchAlarmTemplateGroupRequest,
+  GetCloudWatchAlarmTemplateGroupRequest & RegionInput,
   GetCloudWatchAlarmTemplateGroupResponse,
   GetCloudWatchAlarmTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -10765,7 +10766,7 @@ export type GetEventBridgeRuleTemplateError =
  * Retrieves the specified eventbridge rule template.
  */
 export const getEventBridgeRuleTemplate: API.OperationMethod<
-  GetEventBridgeRuleTemplateRequest,
+  GetEventBridgeRuleTemplateRequest & RegionInput,
   GetEventBridgeRuleTemplateResponse,
   GetEventBridgeRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -10797,7 +10798,7 @@ export type GetEventBridgeRuleTemplateGroupError =
  * Retrieves the specified eventbridge rule template group.
  */
 export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
-  GetEventBridgeRuleTemplateGroupRequest,
+  GetEventBridgeRuleTemplateGroupRequest & RegionInput,
   GetEventBridgeRuleTemplateGroupResponse,
   GetEventBridgeRuleTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -10829,7 +10830,7 @@ export type GetSignalMapError =
  * Retrieves the specified signal map.
  */
 export const getSignalMap: API.OperationMethod<
-  GetSignalMapRequest,
+  GetSignalMapRequest & RegionInput,
   GetSignalMapResponse,
   GetSignalMapError,
   Credentials | HttpClient.HttpClient
@@ -10863,7 +10864,7 @@ export type ListAlertsError =
  * List the alerts for a channel with optional filtering based on alert state.
  */
 export const listAlerts: API.PaginatedOperationMethod<
-  ListAlertsRequest,
+  ListAlertsRequest & RegionInput,
   ListAlertsResponse,
   ListAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -10905,7 +10906,7 @@ export type ListChannelPlacementGroupsError =
  * Retrieve the list of ChannelPlacementGroups in the specified Cluster.
  */
 export const listChannelPlacementGroups: API.PaginatedOperationMethod<
-  ListChannelPlacementGroupsRequest,
+  ListChannelPlacementGroupsRequest & RegionInput,
   ListChannelPlacementGroupsResponse,
   ListChannelPlacementGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -10946,7 +10947,7 @@ export type ListChannelsError =
  * Produces list of channels that have been created
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -10986,7 +10987,7 @@ export type ListCloudWatchAlarmTemplateGroupsError =
  * Lists cloudwatch alarm template groups.
  */
 export const listCloudWatchAlarmTemplateGroups: API.PaginatedOperationMethod<
-  ListCloudWatchAlarmTemplateGroupsRequest,
+  ListCloudWatchAlarmTemplateGroupsRequest & RegionInput,
   ListCloudWatchAlarmTemplateGroupsResponse,
   ListCloudWatchAlarmTemplateGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -11025,7 +11026,7 @@ export type ListCloudWatchAlarmTemplatesError =
  * Lists cloudwatch alarm templates.
  */
 export const listCloudWatchAlarmTemplates: API.PaginatedOperationMethod<
-  ListCloudWatchAlarmTemplatesRequest,
+  ListCloudWatchAlarmTemplatesRequest & RegionInput,
   ListCloudWatchAlarmTemplatesResponse,
   ListCloudWatchAlarmTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -11066,7 +11067,7 @@ export type ListClusterAlertsError =
  * List the alerts for a cluster with optional filtering based on alert state.
  */
 export const listClusterAlerts: API.PaginatedOperationMethod<
-  ListClusterAlertsRequest,
+  ListClusterAlertsRequest & RegionInput,
   ListClusterAlertsResponse,
   ListClusterAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -11108,7 +11109,7 @@ export type ListClustersError =
  * Retrieve the list of Clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -11148,7 +11149,7 @@ export type ListEventBridgeRuleTemplateGroupsError =
  * Lists eventbridge rule template groups.
  */
 export const listEventBridgeRuleTemplateGroups: API.PaginatedOperationMethod<
-  ListEventBridgeRuleTemplateGroupsRequest,
+  ListEventBridgeRuleTemplateGroupsRequest & RegionInput,
   ListEventBridgeRuleTemplateGroupsResponse,
   ListEventBridgeRuleTemplateGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -11187,7 +11188,7 @@ export type ListEventBridgeRuleTemplatesError =
  * Lists eventbridge rule templates.
  */
 export const listEventBridgeRuleTemplates: API.PaginatedOperationMethod<
-  ListEventBridgeRuleTemplatesRequest,
+  ListEventBridgeRuleTemplatesRequest & RegionInput,
   ListEventBridgeRuleTemplatesResponse,
   ListEventBridgeRuleTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -11227,7 +11228,7 @@ export type ListInputDevicesError =
  * List input devices
  */
 export const listInputDevices: API.PaginatedOperationMethod<
-  ListInputDevicesRequest,
+  ListInputDevicesRequest & RegionInput,
   ListInputDevicesResponse,
   ListInputDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -11269,7 +11270,7 @@ export type ListInputDeviceTransfersError =
  * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
  */
 export const listInputDeviceTransfers: API.PaginatedOperationMethod<
-  ListInputDeviceTransfersRequest,
+  ListInputDeviceTransfersRequest & RegionInput,
   ListInputDeviceTransfersResponse,
   ListInputDeviceTransfersError,
   Credentials | HttpClient.HttpClient,
@@ -11311,7 +11312,7 @@ export type ListInputsError =
  * Produces list of inputs that have been created
  */
 export const listInputs: API.PaginatedOperationMethod<
-  ListInputsRequest,
+  ListInputsRequest & RegionInput,
   ListInputsResponse,
   ListInputsError,
   Credentials | HttpClient.HttpClient,
@@ -11352,7 +11353,7 @@ export type ListInputSecurityGroupsError =
  * Produces a list of Input Security Groups for an account
  */
 export const listInputSecurityGroups: API.PaginatedOperationMethod<
-  ListInputSecurityGroupsRequest,
+  ListInputSecurityGroupsRequest & RegionInput,
   ListInputSecurityGroupsResponse,
   ListInputSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -11394,7 +11395,7 @@ export type ListMultiplexAlertsError =
  * List the alerts for a multiplex with optional filtering based on alert state.
  */
 export const listMultiplexAlerts: API.PaginatedOperationMethod<
-  ListMultiplexAlertsRequest,
+  ListMultiplexAlertsRequest & RegionInput,
   ListMultiplexAlertsResponse,
   ListMultiplexAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -11436,7 +11437,7 @@ export type ListMultiplexesError =
  * Retrieve a list of the existing multiplexes.
  */
 export const listMultiplexes: API.PaginatedOperationMethod<
-  ListMultiplexesRequest,
+  ListMultiplexesRequest & RegionInput,
   ListMultiplexesResponse,
   ListMultiplexesError,
   Credentials | HttpClient.HttpClient,
@@ -11478,7 +11479,7 @@ export type ListMultiplexProgramsError =
  * List the programs that currently exist for a specific multiplex.
  */
 export const listMultiplexPrograms: API.PaginatedOperationMethod<
-  ListMultiplexProgramsRequest,
+  ListMultiplexProgramsRequest & RegionInput,
   ListMultiplexProgramsResponse,
   ListMultiplexProgramsError,
   Credentials | HttpClient.HttpClient,
@@ -11520,7 +11521,7 @@ export type ListNetworksError =
  * Retrieve the list of Networks.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksRequest,
+  ListNetworksRequest & RegionInput,
   ListNetworksResponse,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -11561,7 +11562,7 @@ export type ListNodesError =
  * Retrieve the list of Nodes.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesRequest,
+  ListNodesRequest & RegionInput,
   ListNodesResponse,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -11602,7 +11603,7 @@ export type ListOfferingsError =
  * List offerings available for purchase.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResponse,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -11643,7 +11644,7 @@ export type ListReservationsError =
  * List purchased reservations.
  */
 export const listReservations: API.PaginatedOperationMethod<
-  ListReservationsRequest,
+  ListReservationsRequest & RegionInput,
   ListReservationsResponse,
   ListReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -11684,7 +11685,7 @@ export type ListSdiSourcesError =
  * List all the SdiSources in the AWS account.
  */
 export const listSdiSources: API.PaginatedOperationMethod<
-  ListSdiSourcesRequest,
+  ListSdiSourcesRequest & RegionInput,
   ListSdiSourcesResponse,
   ListSdiSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -11724,7 +11725,7 @@ export type ListSignalMapsError =
  * Lists signal maps.
  */
 export const listSignalMaps: API.PaginatedOperationMethod<
-  ListSignalMapsRequest,
+  ListSignalMapsRequest & RegionInput,
   ListSignalMapsResponse,
   ListSignalMapsError,
   Credentials | HttpClient.HttpClient,
@@ -11762,7 +11763,7 @@ export type ListTagsForResourceError =
  * Produces list of tags that have been created for a resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -11796,7 +11797,7 @@ export type ListVersionsError =
  * Retrieves an array of all the encoder engine versions that are available in this AWS account.
  */
 export const listVersions: API.OperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient
@@ -11834,7 +11835,7 @@ export type PurchaseOfferingError =
  * Purchase an offering and create a reservation.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResponse,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
@@ -11872,7 +11873,7 @@ export type RebootInputDeviceError =
  * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device's connection status will change to connected.
  */
 export const rebootInputDevice: API.OperationMethod<
-  RebootInputDeviceRequest,
+  RebootInputDeviceRequest & RegionInput,
   RebootInputDeviceResponse,
   RebootInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -11911,7 +11912,7 @@ export type RejectInputDeviceTransferError =
  * Reject the transfer of the specified input device to your AWS account.
  */
 export const rejectInputDeviceTransfer: API.OperationMethod<
-  RejectInputDeviceTransferRequest,
+  RejectInputDeviceTransferRequest & RegionInput,
   RejectInputDeviceTransferResponse,
   RejectInputDeviceTransferError,
   Credentials | HttpClient.HttpClient
@@ -11950,7 +11951,7 @@ export type RestartChannelPipelinesError =
  * Restart pipelines in one channel that is currently running.
  */
 export const restartChannelPipelines: API.OperationMethod<
-  RestartChannelPipelinesRequest,
+  RestartChannelPipelinesRequest & RegionInput,
   RestartChannelPipelinesResponse,
   RestartChannelPipelinesError,
   Credentials | HttpClient.HttpClient
@@ -11988,7 +11989,7 @@ export type StartChannelError =
  * Starts an existing channel
  */
 export const startChannel: API.OperationMethod<
-  StartChannelRequest,
+  StartChannelRequest & RegionInput,
   StartChannelResponse,
   StartChannelError,
   Credentials | HttpClient.HttpClient
@@ -12024,7 +12025,7 @@ export type StartDeleteMonitorDeploymentError =
  * Initiates a deployment to delete the monitor of the specified signal map.
  */
 export const startDeleteMonitorDeployment: API.OperationMethod<
-  StartDeleteMonitorDeploymentRequest,
+  StartDeleteMonitorDeploymentRequest & RegionInput,
   StartDeleteMonitorDeploymentResponse,
   StartDeleteMonitorDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -12060,7 +12061,7 @@ export type StartInputDeviceError =
  * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
  */
 export const startInputDevice: API.OperationMethod<
-  StartInputDeviceRequest,
+  StartInputDeviceRequest & RegionInput,
   StartInputDeviceResponse,
   StartInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -12098,7 +12099,7 @@ export type StartInputDeviceMaintenanceWindowError =
  * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
  */
 export const startInputDeviceMaintenanceWindow: API.OperationMethod<
-  StartInputDeviceMaintenanceWindowRequest,
+  StartInputDeviceMaintenanceWindowRequest & RegionInput,
   StartInputDeviceMaintenanceWindowResponse,
   StartInputDeviceMaintenanceWindowError,
   Credentials | HttpClient.HttpClient
@@ -12134,7 +12135,7 @@ export type StartMonitorDeploymentError =
  * Initiates a deployment to deploy the latest monitor of the specified signal map.
  */
 export const startMonitorDeployment: API.OperationMethod<
-  StartMonitorDeploymentRequest,
+  StartMonitorDeploymentRequest & RegionInput,
   StartMonitorDeploymentResponse,
   StartMonitorDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -12170,7 +12171,7 @@ export type StartMultiplexError =
  * Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
  */
 export const startMultiplex: API.OperationMethod<
-  StartMultiplexRequest,
+  StartMultiplexRequest & RegionInput,
   StartMultiplexResponse,
   StartMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -12206,7 +12207,7 @@ export type StartUpdateSignalMapError =
  * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
  */
 export const startUpdateSignalMap: API.OperationMethod<
-  StartUpdateSignalMapRequest,
+  StartUpdateSignalMapRequest & RegionInput,
   StartUpdateSignalMapResponse,
   StartUpdateSignalMapError,
   Credentials | HttpClient.HttpClient
@@ -12242,7 +12243,7 @@ export type StopChannelError =
  * Stops a running channel
  */
 export const stopChannel: API.OperationMethod<
-  StopChannelRequest,
+  StopChannelRequest & RegionInput,
   StopChannelResponse,
   StopChannelError,
   Credentials | HttpClient.HttpClient
@@ -12280,7 +12281,7 @@ export type StopInputDeviceError =
  * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
  */
 export const stopInputDevice: API.OperationMethod<
-  StopInputDeviceRequest,
+  StopInputDeviceRequest & RegionInput,
   StopInputDeviceResponse,
   StopInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -12318,7 +12319,7 @@ export type StopMultiplexError =
  * Stops a running multiplex. If the multiplex isn't running, this action has no effect.
  */
 export const stopMultiplex: API.OperationMethod<
-  StopMultiplexRequest,
+  StopMultiplexRequest & RegionInput,
   StopMultiplexResponse,
   StopMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -12357,7 +12358,7 @@ export type TransferInputDeviceError =
  * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
  */
 export const transferInputDevice: API.OperationMethod<
-  TransferInputDeviceRequest,
+  TransferInputDeviceRequest & RegionInput,
   TransferInputDeviceResponse,
   TransferInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -12395,7 +12396,7 @@ export type UpdateAccountConfigurationError =
  * Update account configuration
  */
 export const updateAccountConfiguration: API.OperationMethod<
-  UpdateAccountConfigurationRequest,
+  UpdateAccountConfigurationRequest & RegionInput,
   UpdateAccountConfigurationResponse,
   UpdateAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12431,7 +12432,7 @@ export type UpdateChannelError =
  * Updates a channel.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -12469,7 +12470,7 @@ export type UpdateChannelClassError =
  * Changes the class of the channel.
  */
 export const updateChannelClass: API.OperationMethod<
-  UpdateChannelClassRequest,
+  UpdateChannelClassRequest & RegionInput,
   UpdateChannelClassResponse,
   UpdateChannelClassError,
   Credentials | HttpClient.HttpClient
@@ -12508,7 +12509,7 @@ export type UpdateChannelPlacementGroupError =
  * Change the settings for a ChannelPlacementGroup.
  */
 export const updateChannelPlacementGroup: API.OperationMethod<
-  UpdateChannelPlacementGroupRequest,
+  UpdateChannelPlacementGroupRequest & RegionInput,
   UpdateChannelPlacementGroupResponse,
   UpdateChannelPlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -12544,7 +12545,7 @@ export type UpdateCloudWatchAlarmTemplateError =
  * Updates the specified cloudwatch alarm template.
  */
 export const updateCloudWatchAlarmTemplate: API.OperationMethod<
-  UpdateCloudWatchAlarmTemplateRequest,
+  UpdateCloudWatchAlarmTemplateRequest & RegionInput,
   UpdateCloudWatchAlarmTemplateResponse,
   UpdateCloudWatchAlarmTemplateError,
   Credentials | HttpClient.HttpClient
@@ -12578,7 +12579,7 @@ export type UpdateCloudWatchAlarmTemplateGroupError =
  * Updates the specified cloudwatch alarm template group.
  */
 export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
-  UpdateCloudWatchAlarmTemplateGroupRequest,
+  UpdateCloudWatchAlarmTemplateGroupRequest & RegionInput,
   UpdateCloudWatchAlarmTemplateGroupResponse,
   UpdateCloudWatchAlarmTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -12613,7 +12614,7 @@ export type UpdateClusterError =
  * Change the settings for a Cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -12648,7 +12649,7 @@ export type UpdateEventBridgeRuleTemplateError =
  * Updates the specified eventbridge rule template.
  */
 export const updateEventBridgeRuleTemplate: API.OperationMethod<
-  UpdateEventBridgeRuleTemplateRequest,
+  UpdateEventBridgeRuleTemplateRequest & RegionInput,
   UpdateEventBridgeRuleTemplateResponse,
   UpdateEventBridgeRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -12682,7 +12683,7 @@ export type UpdateEventBridgeRuleTemplateGroupError =
  * Updates the specified eventbridge rule template group.
  */
 export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
-  UpdateEventBridgeRuleTemplateGroupRequest,
+  UpdateEventBridgeRuleTemplateGroupRequest & RegionInput,
   UpdateEventBridgeRuleTemplateGroupResponse,
   UpdateEventBridgeRuleTemplateGroupError,
   Credentials | HttpClient.HttpClient
@@ -12717,7 +12718,7 @@ export type UpdateInputError =
  * Updates an input.
  */
 export const updateInput: API.OperationMethod<
-  UpdateInputRequest,
+  UpdateInputRequest & RegionInput,
   UpdateInputResponse,
   UpdateInputError,
   Credentials | HttpClient.HttpClient
@@ -12754,7 +12755,7 @@ export type UpdateInputDeviceError =
  * Updates the parameters for the input device.
  */
 export const updateInputDevice: API.OperationMethod<
-  UpdateInputDeviceRequest,
+  UpdateInputDeviceRequest & RegionInput,
   UpdateInputDeviceResponse,
   UpdateInputDeviceError,
   Credentials | HttpClient.HttpClient
@@ -12791,7 +12792,7 @@ export type UpdateInputSecurityGroupError =
  * Update an Input Security Group's Whilelists.
  */
 export const updateInputSecurityGroup: API.OperationMethod<
-  UpdateInputSecurityGroupRequest,
+  UpdateInputSecurityGroupRequest & RegionInput,
   UpdateInputSecurityGroupResponse,
   UpdateInputSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -12828,7 +12829,7 @@ export type UpdateMultiplexError =
  * Updates a multiplex.
  */
 export const updateMultiplex: API.OperationMethod<
-  UpdateMultiplexRequest,
+  UpdateMultiplexRequest & RegionInput,
   UpdateMultiplexResponse,
   UpdateMultiplexError,
   Credentials | HttpClient.HttpClient
@@ -12866,7 +12867,7 @@ export type UpdateMultiplexProgramError =
  * Update a program in a multiplex.
  */
 export const updateMultiplexProgram: API.OperationMethod<
-  UpdateMultiplexProgramRequest,
+  UpdateMultiplexProgramRequest & RegionInput,
   UpdateMultiplexProgramResponse,
   UpdateMultiplexProgramError,
   Credentials | HttpClient.HttpClient
@@ -12903,7 +12904,7 @@ export type UpdateNetworkError =
  * Change the settings for a Network.
  */
 export const updateNetwork: API.OperationMethod<
-  UpdateNetworkRequest,
+  UpdateNetworkRequest & RegionInput,
   UpdateNetworkResponse,
   UpdateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -12939,7 +12940,7 @@ export type UpdateNodeError =
  * Change the settings for a Node.
  */
 export const updateNode: API.OperationMethod<
-  UpdateNodeRequest,
+  UpdateNodeRequest & RegionInput,
   UpdateNodeResponse,
   UpdateNodeError,
   Credentials | HttpClient.HttpClient
@@ -12976,7 +12977,7 @@ export type UpdateNodeStateError =
  * Update the state of a node.
  */
 export const updateNodeState: API.OperationMethod<
-  UpdateNodeStateRequest,
+  UpdateNodeStateRequest & RegionInput,
   UpdateNodeStateResponse,
   UpdateNodeStateError,
   Credentials | HttpClient.HttpClient
@@ -13014,7 +13015,7 @@ export type UpdateReservationError =
  * Update reservation.
  */
 export const updateReservation: API.OperationMethod<
-  UpdateReservationRequest,
+  UpdateReservationRequest & RegionInput,
   UpdateReservationResponse,
   UpdateReservationError,
   Credentials | HttpClient.HttpClient
@@ -13051,7 +13052,7 @@ export type UpdateSdiSourceError =
  * Change some of the settings in an SdiSource.
  */
 export const updateSdiSource: API.OperationMethod<
-  UpdateSdiSourceRequest,
+  UpdateSdiSourceRequest & RegionInput,
   UpdateSdiSourceResponse,
   UpdateSdiSourceError,
   Credentials | HttpClient.HttpClient

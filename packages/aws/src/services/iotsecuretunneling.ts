@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -253,7 +254,7 @@ export type CloseTunnelError = ResourceNotFoundException | CommonErrors;
  * Requires permission to access the CloseTunnel action.
  */
 export const closeTunnel: API.OperationMethod<
-  CloseTunnelRequest,
+  CloseTunnelRequest & RegionInput,
   CloseTunnelResponse,
   CloseTunnelError,
   Credentials | HttpClient.HttpClient
@@ -275,7 +276,7 @@ export type DescribeTunnelError = ResourceNotFoundException | CommonErrors;
  * Requires permission to access the DescribeTunnel action.
  */
 export const describeTunnel: API.OperationMethod<
-  DescribeTunnelRequest,
+  DescribeTunnelRequest & RegionInput,
   DescribeTunnelResponse,
   DescribeTunnelError,
   Credentials | HttpClient.HttpClient
@@ -295,7 +296,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -318,7 +319,7 @@ export type ListTunnelsError = CommonErrors;
  * Requires permission to access the ListTunnels action.
  */
 export const listTunnels: API.PaginatedOperationMethod<
-  ListTunnelsRequest,
+  ListTunnelsRequest & RegionInput,
   ListTunnelsResponse,
   ListTunnelsError,
   Credentials | HttpClient.HttpClient,
@@ -347,7 +348,7 @@ export type OpenTunnelError = LimitExceededException | CommonErrors;
  * Requires permission to access the OpenTunnel action.
  */
 export const openTunnel: API.OperationMethod<
-  OpenTunnelRequest,
+  OpenTunnelRequest & RegionInput,
   OpenTunnelResponse,
   OpenTunnelError,
   Credentials | HttpClient.HttpClient
@@ -375,7 +376,7 @@ export type RotateTunnelAccessTokenError = ResourceNotFoundException | CommonErr
  * remaining 8 hours.
  */
 export const rotateTunnelAccessToken: API.OperationMethod<
-  RotateTunnelAccessTokenRequest,
+  RotateTunnelAccessTokenRequest & RegionInput,
   RotateTunnelAccessTokenResponse,
   RotateTunnelAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -395,7 +396,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * A resource tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

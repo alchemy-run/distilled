@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -711,7 +712,7 @@ export type AssociateConfigurationItemsToApplicationError =
  * Associates one or more configuration items with an application.
  */
 export const associateConfigurationItemsToApplication: API.OperationMethod<
-  AssociateConfigurationItemsToApplicationRequest,
+  AssociateConfigurationItemsToApplicationRequest & RegionInput,
   AssociateConfigurationItemsToApplicationResponse,
   AssociateConfigurationItemsToApplicationError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type BatchDeleteAgentsError =
  * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
  */
 export const batchDeleteAgents: API.OperationMethod<
-  BatchDeleteAgentsRequest,
+  BatchDeleteAgentsRequest & RegionInput,
   BatchDeleteAgentsResponse,
   BatchDeleteAgentsError,
   Credentials | HttpClient.HttpClient
@@ -782,7 +783,7 @@ export type BatchDeleteImportDataError =
  * from the deleted records will also be deleted.
  */
 export const batchDeleteImportData: API.OperationMethod<
-  BatchDeleteImportDataRequest,
+  BatchDeleteImportDataRequest & RegionInput,
   BatchDeleteImportDataResponse,
   BatchDeleteImportDataError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type CreateApplicationError =
  * Creates an application with the given name and description.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -850,7 +851,7 @@ export type CreateTagsError =
  * Do not store sensitive information (like personal data) in tags.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type DeleteApplicationsError =
  * items.
  */
 export const deleteApplications: API.OperationMethod<
-  DeleteApplicationsRequest,
+  DeleteApplicationsRequest & RegionInput,
   DeleteApplicationsResponse,
   DeleteApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -918,7 +919,7 @@ export type DeleteTagsError =
  * accepts a list of multiple configuration items.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type DescribeAgentsError =
  * without passing any parameters.
  */
 export const describeAgents: API.PaginatedOperationMethod<
-  DescribeAgentsRequest,
+  DescribeAgentsRequest & RegionInput,
   DescribeAgentsResponse,
   DescribeAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -991,7 +992,7 @@ export type DescribeBatchDeleteConfigurationTaskError =
  * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
  */
 export const describeBatchDeleteConfigurationTask: API.OperationMethod<
-  DescribeBatchDeleteConfigurationTaskRequest,
+  DescribeBatchDeleteConfigurationTaskRequest & RegionInput,
   DescribeBatchDeleteConfigurationTaskResponse,
   DescribeBatchDeleteConfigurationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1040,7 +1041,7 @@ export type DescribeConfigurationsError =
  * Discovery Service User Guide.
  */
 export const describeConfigurations: API.OperationMethod<
-  DescribeConfigurationsRequest,
+  DescribeConfigurationsRequest & RegionInput,
   DescribeConfigurationsResponse,
   DescribeConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type DescribeContinuousExportsError =
  * any parameters.
  */
 export const describeContinuousExports: API.PaginatedOperationMethod<
-  DescribeContinuousExportsRequest,
+  DescribeContinuousExportsRequest & RegionInput,
   DescribeContinuousExportsResponse,
   DescribeContinuousExportsError,
   Credentials | HttpClient.HttpClient,
@@ -1118,7 +1119,7 @@ export type DescribeExportConfigurationsError =
  * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
  */
 export const describeExportConfigurations: API.PaginatedOperationMethod<
-  DescribeExportConfigurationsRequest,
+  DescribeExportConfigurationsRequest & RegionInput,
   DescribeExportConfigurationsResponse,
   DescribeExportConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type DescribeExportTasksError =
  * export tasks.
  */
 export const describeExportTasks: API.PaginatedOperationMethod<
-  DescribeExportTasksRequest,
+  DescribeExportTasksRequest & RegionInput,
   DescribeExportTasksResponse,
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1199,7 +1200,7 @@ export type DescribeImportTasksError =
  * IDs, the Amazon S3 Object URL for the import file, and more.
  */
 export const describeImportTasks: API.PaginatedOperationMethod<
-  DescribeImportTasksRequest,
+  DescribeImportTasksRequest & RegionInput,
   DescribeImportTasksResponse,
   DescribeImportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1251,7 +1252,7 @@ export type DescribeTagsError =
  * listed if you call `DescribeTags` as is without passing any parameters.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1291,7 +1292,7 @@ export type DisassociateConfigurationItemsFromApplicationError =
  * Disassociates one or more configuration items from an application.
  */
 export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
-  DisassociateConfigurationItemsFromApplicationRequest,
+  DisassociateConfigurationItemsFromApplicationRequest & RegionInput,
   DisassociateConfigurationItemsFromApplicationResponse,
   DisassociateConfigurationItemsFromApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type ExportConfigurationsError =
  * two configuration exports in six hours.
  */
 export const exportConfigurations: API.OperationMethod<
-  ExportConfigurationsRequest,
+  ExportConfigurationsRequest & RegionInput,
   ExportConfigurationsResponse,
   ExportConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type GetDiscoverySummaryError =
  * prompt as shown in the example.
  */
 export const getDiscoverySummary: API.OperationMethod<
-  GetDiscoverySummaryRequest,
+  GetDiscoverySummaryRequest & RegionInput,
   GetDiscoverySummaryResponse,
   GetDiscoverySummaryError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1410,7 @@ export type ListConfigurationsError =
  * search results.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1450,7 +1451,7 @@ export type ListServerNeighborsError =
  * server.
  */
 export const listServerNeighbors: API.OperationMethod<
-  ListServerNeighborsRequest,
+  ListServerNeighborsRequest & RegionInput,
   ListServerNeighborsResponse,
   ListServerNeighborsError,
   Credentials | HttpClient.HttpClient
@@ -1485,7 +1486,7 @@ export type StartBatchDeleteConfigurationTaskError =
  * task to remove the configurationItems. Returns a unique deletion task identifier.
  */
 export const startBatchDeleteConfigurationTask: API.OperationMethod<
-  StartBatchDeleteConfigurationTaskRequest,
+  StartBatchDeleteConfigurationTaskRequest & RegionInput,
   StartBatchDeleteConfigurationTaskResponse,
   StartBatchDeleteConfigurationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1522,7 +1523,7 @@ export type StartContinuousExportError =
  * Start the continuous flow of agent's discovered data into Amazon Athena.
  */
 export const startContinuousExport: API.OperationMethod<
-  StartContinuousExportRequest,
+  StartContinuousExportRequest & RegionInput,
   StartContinuousExportResponse,
   StartContinuousExportError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type StartDataCollectionByAgentIdsError =
  * Instructs the specified agents to start collecting data.
  */
 export const startDataCollectionByAgentIds: API.OperationMethod<
-  StartDataCollectionByAgentIdsRequest,
+  StartDataCollectionByAgentIdsRequest & RegionInput,
   StartDataCollectionByAgentIdsResponse,
   StartDataCollectionByAgentIdsError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1614,7 @@ export type StartExportTaskError =
  * criteria of the recommendation.
  */
 export const startExportTask: API.OperationMethod<
-  StartExportTaskRequest,
+  StartExportTaskRequest & RegionInput,
   StartExportTaskResponse,
   StartExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1674,7 +1675,7 @@ export type StartImportTaskError =
  * Guide.
  */
 export const startImportTask: API.OperationMethod<
-  StartImportTaskRequest,
+  StartImportTaskRequest & RegionInput,
   StartImportTaskResponse,
   StartImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type StopContinuousExportError =
  * Stop the continuous flow of agent's discovered data into Amazon Athena.
  */
 export const stopContinuousExport: API.OperationMethod<
-  StopContinuousExportRequest,
+  StopContinuousExportRequest & RegionInput,
   StopContinuousExportResponse,
   StopContinuousExportError,
   Credentials | HttpClient.HttpClient
@@ -1745,7 +1746,7 @@ export type StopDataCollectionByAgentIdsError =
  * Instructs the specified agents to stop collecting data.
  */
 export const stopDataCollectionByAgentIds: API.OperationMethod<
-  StopDataCollectionByAgentIdsRequest,
+  StopDataCollectionByAgentIdsRequest & RegionInput,
   StopDataCollectionByAgentIdsResponse,
   StopDataCollectionByAgentIdsError,
   Credentials | HttpClient.HttpClient
@@ -1777,7 +1778,7 @@ export type UpdateApplicationError =
  * Updates metadata about an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient

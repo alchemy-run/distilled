@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2851,7 +2852,7 @@ export type AssociateAccessGrantsIdentityCenterError = CommonErrors;
  * You must also have the following permissions: `sso:CreateApplication`, `sso:PutApplicationGrant`, and `sso:PutApplicationAuthenticationMethod`.
  */
 export const associateAccessGrantsIdentityCenter: API.OperationMethod<
-  AssociateAccessGrantsIdentityCenterRequest,
+  AssociateAccessGrantsIdentityCenterRequest & RegionInput,
   AssociateAccessGrantsIdentityCenterResponse,
   AssociateAccessGrantsIdentityCenterError,
   Creds | HttpClient.HttpClient
@@ -2884,7 +2885,7 @@ export type CreateAccessGrantError = CommonErrors;
  * For directory groups - `identitystore:DescribeGroup`
  */
 export const createAccessGrant: API.OperationMethod<
-  CreateAccessGrantRequest,
+  CreateAccessGrantRequest & RegionInput,
   CreateAccessGrantResult,
   CreateAccessGrantError,
   Creds | HttpClient.HttpClient
@@ -2913,7 +2914,7 @@ export type CreateAccessGrantsInstanceError = CommonErrors;
  * To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the `sso:DescribeInstance`, `sso:CreateApplication`, `sso:PutApplicationGrant`, and `sso:PutApplicationAuthenticationMethod` permissions.
  */
 export const createAccessGrantsInstance: API.OperationMethod<
-  CreateAccessGrantsInstanceRequest,
+  CreateAccessGrantsInstanceRequest & RegionInput,
   CreateAccessGrantsInstanceResult,
   CreateAccessGrantsInstanceError,
   Creds | HttpClient.HttpClient
@@ -2950,7 +2951,7 @@ export type CreateAccessGrantsLocationError = CommonErrors;
  * You must also have the following permission for the specified IAM role: `iam:PassRole`
  */
 export const createAccessGrantsLocation: API.OperationMethod<
-  CreateAccessGrantsLocationRequest,
+  CreateAccessGrantsLocationRequest & RegionInput,
   CreateAccessGrantsLocationResult,
   CreateAccessGrantsLocationError,
   Creds | HttpClient.HttpClient
@@ -2996,7 +2997,7 @@ export type CreateAccessPointError = AccessPointAlreadyOwnedByYou | InvalidReque
  * - ListAccessPointsForDirectoryBuckets
  */
 export const createAccessPoint: API.OperationMethod<
-  CreateAccessPointRequest,
+  CreateAccessPointRequest & RegionInput,
   CreateAccessPointResult,
   CreateAccessPointError,
   Creds | HttpClient.HttpClient
@@ -3034,7 +3035,7 @@ export type CreateAccessPointForObjectLambdaError =
  * - ListAccessPointsForObjectLambda
  */
 export const createAccessPointForObjectLambda: API.OperationMethod<
-  CreateAccessPointForObjectLambdaRequest,
+  CreateAccessPointForObjectLambdaRequest & RegionInput,
   CreateAccessPointForObjectLambdaResult,
   CreateAccessPointForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -3096,7 +3097,7 @@ export type CreateBucketError = BucketAlreadyExists | BucketAlreadyOwnedByYou | 
  * - PutAccessPointPolicy
  */
 export const createBucket: API.OperationMethod<
-  CreateBucketRequest,
+  CreateBucketRequest & RegionInput,
   CreateBucketResult,
   CreateBucketError,
   Creds | HttpClient.HttpClient
@@ -3143,7 +3144,7 @@ export type CreateJobError =
  * - JobOperation
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResult,
   CreateJobError,
   Creds | HttpClient.HttpClient
@@ -3192,7 +3193,7 @@ export type CreateMultiRegionAccessPointError = InvalidRequest | CommonErrors;
  * - ListMultiRegionAccessPoints
  */
 export const createMultiRegionAccessPoint: API.OperationMethod<
-  CreateMultiRegionAccessPointRequest,
+  CreateMultiRegionAccessPointRequest & RegionInput,
   CreateMultiRegionAccessPointResult,
   CreateMultiRegionAccessPointError,
   Creds | HttpClient.HttpClient
@@ -3227,7 +3228,7 @@ export type CreateStorageLensGroupError = CommonErrors;
  * Lens error codes.
  */
 export const createStorageLensGroup: API.OperationMethod<
-  CreateStorageLensGroupRequest,
+  CreateStorageLensGroupRequest & RegionInput,
   CreateStorageLensGroupResponse,
   CreateStorageLensGroupError,
   Creds | HttpClient.HttpClient
@@ -3252,7 +3253,7 @@ export type DeleteAccessGrantError = CommonErrors;
  * You must have the `s3:DeleteAccessGrant` permission to use this operation.
  */
 export const deleteAccessGrant: API.OperationMethod<
-  DeleteAccessGrantRequest,
+  DeleteAccessGrantRequest & RegionInput,
   DeleteAccessGrantResponse,
   DeleteAccessGrantError,
   Creds | HttpClient.HttpClient
@@ -3277,7 +3278,7 @@ export type DeleteAccessGrantsInstanceError = CommonErrors;
  * You must have the `s3:DeleteAccessGrantsInstance` permission to use this operation.
  */
 export const deleteAccessGrantsInstance: API.OperationMethod<
-  DeleteAccessGrantsInstanceRequest,
+  DeleteAccessGrantsInstanceRequest & RegionInput,
   DeleteAccessGrantsInstanceResponse,
   DeleteAccessGrantsInstanceError,
   Creds | HttpClient.HttpClient
@@ -3302,7 +3303,7 @@ export type DeleteAccessGrantsInstanceResourcePolicyError = CommonErrors;
  * You must have the `s3:DeleteAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
 export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
-  DeleteAccessGrantsInstanceResourcePolicyRequest,
+  DeleteAccessGrantsInstanceResourcePolicyRequest & RegionInput,
   DeleteAccessGrantsInstanceResourcePolicyResponse,
   DeleteAccessGrantsInstanceResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -3327,7 +3328,7 @@ export type DeleteAccessGrantsLocationError = CommonErrors;
  * You must have the `s3:DeleteAccessGrantsLocation` permission to use this operation.
  */
 export const deleteAccessGrantsLocation: API.OperationMethod<
-  DeleteAccessGrantsLocationRequest,
+  DeleteAccessGrantsLocationRequest & RegionInput,
   DeleteAccessGrantsLocationResponse,
   DeleteAccessGrantsLocationError,
   Creds | HttpClient.HttpClient
@@ -3358,7 +3359,7 @@ export type DeleteAccessPointError = NoSuchAccessPoint | CommonErrors;
  * - ListAccessPoints
  */
 export const deleteAccessPoint: API.OperationMethod<
-  DeleteAccessPointRequest,
+  DeleteAccessPointRequest & RegionInput,
   DeleteAccessPointResponse,
   DeleteAccessPointError,
   Creds | HttpClient.HttpClient
@@ -3390,7 +3391,7 @@ export type DeleteAccessPointForObjectLambdaError = NoSuchAccessPoint | CommonEr
  * - ListAccessPointsForObjectLambda
  */
 export const deleteAccessPointForObjectLambda: API.OperationMethod<
-  DeleteAccessPointForObjectLambdaRequest,
+  DeleteAccessPointForObjectLambdaRequest & RegionInput,
   DeleteAccessPointForObjectLambdaResponse,
   DeleteAccessPointForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -3422,7 +3423,7 @@ export type DeleteAccessPointPolicyError =
  * - GetAccessPointPolicy
  */
 export const deleteAccessPointPolicy: API.OperationMethod<
-  DeleteAccessPointPolicyRequest,
+  DeleteAccessPointPolicyRequest & RegionInput,
   DeleteAccessPointPolicyResponse,
   DeleteAccessPointPolicyError,
   Creds | HttpClient.HttpClient
@@ -3455,7 +3456,7 @@ export type DeleteAccessPointPolicyForObjectLambdaError =
  * - PutAccessPointPolicyForObjectLambda
  */
 export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
-  DeleteAccessPointPolicyForObjectLambdaRequest,
+  DeleteAccessPointPolicyForObjectLambdaRequest & RegionInput,
   DeleteAccessPointPolicyForObjectLambdaResponse,
   DeleteAccessPointPolicyForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -3483,7 +3484,7 @@ export type DeleteAccessPointScopeError = CommonErrors;
  * For information about REST API errors, see REST error responses.
  */
 export const deleteAccessPointScope: API.OperationMethod<
-  DeleteAccessPointScopeRequest,
+  DeleteAccessPointScopeRequest & RegionInput,
   DeleteAccessPointScopeResponse,
   DeleteAccessPointScopeError,
   Creds | HttpClient.HttpClient
@@ -3518,7 +3519,7 @@ export type DeleteBucketError = CommonErrors;
  * - DeleteObject
  */
 export const deleteBucket: API.OperationMethod<
-  DeleteBucketRequest,
+  DeleteBucketRequest & RegionInput,
   DeleteBucketResponse,
   DeleteBucketError,
   Creds | HttpClient.HttpClient
@@ -3562,7 +3563,7 @@ export type DeleteBucketLifecycleConfigurationError = CommonErrors;
  * - GetBucketLifecycleConfiguration
  */
 export const deleteBucketLifecycleConfiguration: API.OperationMethod<
-  DeleteBucketLifecycleConfigurationRequest,
+  DeleteBucketLifecycleConfigurationRequest & RegionInput,
   DeleteBucketLifecycleConfigurationResponse,
   DeleteBucketLifecycleConfigurationError,
   Creds | HttpClient.HttpClient
@@ -3612,7 +3613,7 @@ export type DeleteBucketPolicyError = CommonErrors;
  * - PutBucketPolicy
  */
 export const deleteBucketPolicy: API.OperationMethod<
-  DeleteBucketPolicyRequest,
+  DeleteBucketPolicyRequest & RegionInput,
   DeleteBucketPolicyResponse,
   DeleteBucketPolicyError,
   Creds | HttpClient.HttpClient
@@ -3661,7 +3662,7 @@ export type DeleteBucketReplicationError = CommonErrors;
  * - GetBucketReplication
  */
 export const deleteBucketReplication: API.OperationMethod<
-  DeleteBucketReplicationRequest,
+  DeleteBucketReplicationRequest & RegionInput,
   DeleteBucketReplicationResponse,
   DeleteBucketReplicationError,
   Creds | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type DeleteBucketTaggingError = CommonErrors;
  * - PutBucketTagging
  */
 export const deleteBucketTagging: API.OperationMethod<
-  DeleteBucketTaggingRequest,
+  DeleteBucketTaggingRequest & RegionInput,
   DeleteBucketTaggingResponse,
   DeleteBucketTaggingError,
   Creds | HttpClient.HttpClient
@@ -3739,7 +3740,7 @@ export type DeleteJobTaggingError =
  * - PutJobTagging
  */
 export const deleteJobTagging: API.OperationMethod<
-  DeleteJobTaggingRequest,
+  DeleteJobTaggingRequest & RegionInput,
   DeleteJobTaggingResult,
   DeleteJobTaggingError,
   Creds | HttpClient.HttpClient
@@ -3785,7 +3786,7 @@ export type DeleteMultiRegionAccessPointError =
  * - ListMultiRegionAccessPoints
  */
 export const deleteMultiRegionAccessPoint: API.OperationMethod<
-  DeleteMultiRegionAccessPointRequest,
+  DeleteMultiRegionAccessPointRequest & RegionInput,
   DeleteMultiRegionAccessPointResult,
   DeleteMultiRegionAccessPointError,
   Creds | HttpClient.HttpClient
@@ -3820,7 +3821,7 @@ export type DeletePublicAccessBlockError = CommonErrors;
  * - PutPublicAccessBlock
  */
 export const deletePublicAccessBlock: API.OperationMethod<
-  DeletePublicAccessBlockRequest,
+  DeletePublicAccessBlockRequest & RegionInput,
   DeletePublicAccessBlockResponse,
   DeletePublicAccessBlockError,
   Creds | HttpClient.HttpClient
@@ -3850,7 +3851,7 @@ export type DeleteStorageLensConfigurationError = NoSuchConfiguration | CommonEr
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
 export const deleteStorageLensConfiguration: API.OperationMethod<
-  DeleteStorageLensConfigurationRequest,
+  DeleteStorageLensConfigurationRequest & RegionInput,
   DeleteStorageLensConfigurationResponse,
   DeleteStorageLensConfigurationError,
   Creds | HttpClient.HttpClient
@@ -3881,7 +3882,7 @@ export type DeleteStorageLensConfigurationTaggingError = NoSuchConfiguration | C
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
 export const deleteStorageLensConfigurationTagging: API.OperationMethod<
-  DeleteStorageLensConfigurationTaggingRequest,
+  DeleteStorageLensConfigurationTaggingRequest & RegionInput,
   DeleteStorageLensConfigurationTaggingResult,
   DeleteStorageLensConfigurationTaggingError,
   Creds | HttpClient.HttpClient
@@ -3909,7 +3910,7 @@ export type DeleteStorageLensGroupError = CommonErrors;
  * Lens error codes.
  */
 export const deleteStorageLensGroup: API.OperationMethod<
-  DeleteStorageLensGroupRequest,
+  DeleteStorageLensGroupRequest & RegionInput,
   DeleteStorageLensGroupResponse,
   DeleteStorageLensGroupError,
   Creds | HttpClient.HttpClient
@@ -3950,7 +3951,7 @@ export type DescribeJobError =
  * - UpdateJobStatus
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResult,
   DescribeJobError,
   Creds | HttpClient.HttpClient
@@ -3989,7 +3990,7 @@ export type DescribeMultiRegionAccessPointOperationError = InvalidRequest | Comm
  * - ListMultiRegionAccessPoints
  */
 export const describeMultiRegionAccessPointOperation: API.OperationMethod<
-  DescribeMultiRegionAccessPointOperationRequest,
+  DescribeMultiRegionAccessPointOperationRequest & RegionInput,
   DescribeMultiRegionAccessPointOperationResult,
   DescribeMultiRegionAccessPointOperationError,
   Creds | HttpClient.HttpClient
@@ -4018,7 +4019,7 @@ export type DissociateAccessGrantsIdentityCenterError = CommonErrors;
  * You must have the `sso:DeleteApplication` permission to use this operation.
  */
 export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
-  DissociateAccessGrantsIdentityCenterRequest,
+  DissociateAccessGrantsIdentityCenterRequest & RegionInput,
   DissociateAccessGrantsIdentityCenterResponse,
   DissociateAccessGrantsIdentityCenterError,
   Creds | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type GetAccessGrantError = CommonErrors;
  * You must have the `s3:GetAccessGrant` permission to use this operation.
  */
 export const getAccessGrant: API.OperationMethod<
-  GetAccessGrantRequest,
+  GetAccessGrantRequest & RegionInput,
   GetAccessGrantResult,
   GetAccessGrantError,
   Creds | HttpClient.HttpClient
@@ -4070,7 +4071,7 @@ export type GetAccessGrantsInstanceError = CommonErrors;
  * `GetAccessGrantsInstance` is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
  */
 export const getAccessGrantsInstance: API.OperationMethod<
-  GetAccessGrantsInstanceRequest,
+  GetAccessGrantsInstanceRequest & RegionInput,
   GetAccessGrantsInstanceResult,
   GetAccessGrantsInstanceError,
   Creds | HttpClient.HttpClient
@@ -4099,7 +4100,7 @@ export type GetAccessGrantsInstanceForPrefixError = CommonErrors;
  * The prefix owner account must grant you the following permissions to their S3 Access Grants instance: `s3:GetAccessGrantsInstanceForPrefix`.
  */
 export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
-  GetAccessGrantsInstanceForPrefixRequest,
+  GetAccessGrantsInstanceForPrefixRequest & RegionInput,
   GetAccessGrantsInstanceForPrefixResult,
   GetAccessGrantsInstanceForPrefixError,
   Creds | HttpClient.HttpClient
@@ -4124,7 +4125,7 @@ export type GetAccessGrantsInstanceResourcePolicyError = CommonErrors;
  * You must have the `s3:GetAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
 export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
-  GetAccessGrantsInstanceResourcePolicyRequest,
+  GetAccessGrantsInstanceResourcePolicyRequest & RegionInput,
   GetAccessGrantsInstanceResourcePolicyResult,
   GetAccessGrantsInstanceResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -4149,7 +4150,7 @@ export type GetAccessGrantsLocationError = CommonErrors;
  * You must have the `s3:GetAccessGrantsLocation` permission to use this operation.
  */
 export const getAccessGrantsLocation: API.OperationMethod<
-  GetAccessGrantsLocationRequest,
+  GetAccessGrantsLocationRequest & RegionInput,
   GetAccessGrantsLocationResult,
   GetAccessGrantsLocationError,
   Creds | HttpClient.HttpClient
@@ -4180,7 +4181,7 @@ export type GetAccessPointError = NoSuchAccessPoint | CommonErrors;
  * - ListAccessPoints
  */
 export const getAccessPoint: API.OperationMethod<
-  GetAccessPointRequest,
+  GetAccessPointRequest & RegionInput,
   GetAccessPointResult,
   GetAccessPointError,
   Creds | HttpClient.HttpClient
@@ -4208,7 +4209,7 @@ export type GetAccessPointConfigurationForObjectLambdaError = NoSuchAccessPoint 
  * - PutAccessPointConfigurationForObjectLambda
  */
 export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
-  GetAccessPointConfigurationForObjectLambdaRequest,
+  GetAccessPointConfigurationForObjectLambdaRequest & RegionInput,
   GetAccessPointConfigurationForObjectLambdaResult,
   GetAccessPointConfigurationForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -4239,7 +4240,7 @@ export type GetAccessPointForObjectLambdaError = NoSuchAccessPoint | CommonError
  * - ListAccessPointsForObjectLambda
  */
 export const getAccessPointForObjectLambda: API.OperationMethod<
-  GetAccessPointForObjectLambdaRequest,
+  GetAccessPointForObjectLambdaRequest & RegionInput,
   GetAccessPointForObjectLambdaResult,
   GetAccessPointForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type GetAccessPointPolicyError = NoSuchAccessPoint | NoSuchAccessPointPol
  * - DeleteAccessPointPolicy
  */
 export const getAccessPointPolicy: API.OperationMethod<
-  GetAccessPointPolicyRequest,
+  GetAccessPointPolicyRequest & RegionInput,
   GetAccessPointPolicyResult,
   GetAccessPointPolicyError,
   Creds | HttpClient.HttpClient
@@ -4299,7 +4300,7 @@ export type GetAccessPointPolicyForObjectLambdaError =
  * - PutAccessPointPolicyForObjectLambda
  */
 export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
-  GetAccessPointPolicyForObjectLambdaRequest,
+  GetAccessPointPolicyForObjectLambdaRequest & RegionInput,
   GetAccessPointPolicyForObjectLambdaResult,
   GetAccessPointPolicyForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -4327,7 +4328,7 @@ export type GetAccessPointPolicyStatusError =
  * access points in the *Amazon S3 User Guide*.
  */
 export const getAccessPointPolicyStatus: API.OperationMethod<
-  GetAccessPointPolicyStatusRequest,
+  GetAccessPointPolicyStatusRequest & RegionInput,
   GetAccessPointPolicyStatusResult,
   GetAccessPointPolicyStatusError,
   Creds | HttpClient.HttpClient
@@ -4350,7 +4351,7 @@ export type GetAccessPointPolicyStatusForObjectLambdaError = CommonErrors;
  * Returns the status of the resource policy associated with an Object Lambda Access Point.
  */
 export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
-  GetAccessPointPolicyStatusForObjectLambdaRequest,
+  GetAccessPointPolicyStatusForObjectLambdaRequest & RegionInput,
   GetAccessPointPolicyStatusForObjectLambdaResult,
   GetAccessPointPolicyStatusForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -4376,7 +4377,7 @@ export type GetAccessPointScopeError = CommonErrors;
  * For information about REST API errors, see REST error responses.
  */
 export const getAccessPointScope: API.OperationMethod<
-  GetAccessPointScopeRequest,
+  GetAccessPointScopeRequest & RegionInput,
   GetAccessPointScopeResult,
   GetAccessPointScopeError,
   Creds | HttpClient.HttpClient
@@ -4417,7 +4418,7 @@ export type GetBucketError = CommonErrors;
  * - DeleteBucket
  */
 export const getBucket: API.OperationMethod<
-  GetBucketRequest,
+  GetBucketRequest & RegionInput,
   GetBucketResult,
   GetBucketError,
   Creds | HttpClient.HttpClient
@@ -4469,7 +4470,7 @@ export type GetBucketLifecycleConfigurationError = CommonErrors;
  * - DeleteBucketLifecycleConfiguration
  */
 export const getBucketLifecycleConfiguration: API.OperationMethod<
-  GetBucketLifecycleConfigurationRequest,
+  GetBucketLifecycleConfigurationRequest & RegionInput,
   GetBucketLifecycleConfigurationResult,
   GetBucketLifecycleConfigurationError,
   Creds | HttpClient.HttpClient
@@ -4522,7 +4523,7 @@ export type GetBucketPolicyError = CommonErrors;
  * - DeleteBucketPolicy
  */
 export const getBucketPolicy: API.OperationMethod<
-  GetBucketPolicyRequest,
+  GetBucketPolicyRequest & RegionInput,
   GetBucketPolicyResult,
   GetBucketPolicyError,
   Creds | HttpClient.HttpClient
@@ -4579,7 +4580,7 @@ export type GetBucketReplicationError = CommonErrors;
  * - DeleteBucketReplication
  */
 export const getBucketReplication: API.OperationMethod<
-  GetBucketReplicationRequest,
+  GetBucketReplicationRequest & RegionInput,
   GetBucketReplicationResult,
   GetBucketReplicationError,
   Creds | HttpClient.HttpClient
@@ -4623,7 +4624,7 @@ export type GetBucketTaggingError = CommonErrors;
  * - DeleteBucketTagging
  */
 export const getBucketTagging: API.OperationMethod<
-  GetBucketTaggingRequest,
+  GetBucketTaggingRequest & RegionInput,
   GetBucketTaggingResult,
   GetBucketTaggingError,
   Creds | HttpClient.HttpClient
@@ -4673,7 +4674,7 @@ export type GetBucketVersioningError = CommonErrors;
  * - GetBucketLifecycleConfiguration
  */
 export const getBucketVersioning: API.OperationMethod<
-  GetBucketVersioningRequest,
+  GetBucketVersioningRequest & RegionInput,
   GetBucketVersioningResult,
   GetBucketVersioningError,
   Creds | HttpClient.HttpClient
@@ -4702,7 +4703,7 @@ export type GetDataAccessError = CommonErrors;
  * The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: `sts:AssumeRole`, for directory users or groups `sts:SetContext`, and for IAM users or roles `sts:SetSourceIdentity`.
  */
 export const getDataAccess: API.OperationMethod<
-  GetDataAccessRequest,
+  GetDataAccessRequest & RegionInput,
   GetDataAccessResult,
   GetDataAccessError,
   Creds | HttpClient.HttpClient
@@ -4743,7 +4744,7 @@ export type GetJobTaggingError =
  * - DeleteJobTagging
  */
 export const getJobTagging: API.OperationMethod<
-  GetJobTaggingRequest,
+  GetJobTaggingRequest & RegionInput,
   GetJobTaggingResult,
   GetJobTaggingError,
   Creds | HttpClient.HttpClient
@@ -4780,7 +4781,7 @@ export type GetMultiRegionAccessPointError = NoSuchMultiRegionAccessPoint | Comm
  * - ListMultiRegionAccessPoints
  */
 export const getMultiRegionAccessPoint: API.OperationMethod<
-  GetMultiRegionAccessPointRequest,
+  GetMultiRegionAccessPointRequest & RegionInput,
   GetMultiRegionAccessPointResult,
   GetMultiRegionAccessPointError,
   Creds | HttpClient.HttpClient
@@ -4814,7 +4815,7 @@ export type GetMultiRegionAccessPointPolicyError = NoSuchMultiRegionAccessPoint 
  * - PutMultiRegionAccessPointPolicy
  */
 export const getMultiRegionAccessPointPolicy: API.OperationMethod<
-  GetMultiRegionAccessPointPolicyRequest,
+  GetMultiRegionAccessPointPolicyRequest & RegionInput,
   GetMultiRegionAccessPointPolicyResult,
   GetMultiRegionAccessPointPolicyError,
   Creds | HttpClient.HttpClient
@@ -4849,7 +4850,7 @@ export type GetMultiRegionAccessPointPolicyStatusError = CommonErrors;
  * - PutMultiRegionAccessPointPolicy
  */
 export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
-  GetMultiRegionAccessPointPolicyStatusRequest,
+  GetMultiRegionAccessPointPolicyStatusRequest & RegionInput,
   GetMultiRegionAccessPointPolicyStatusResult,
   GetMultiRegionAccessPointPolicyStatusError,
   Creds | HttpClient.HttpClient
@@ -4886,7 +4887,7 @@ export type GetMultiRegionAccessPointRoutesError = CommonErrors;
  * - `eu-west-1`
  */
 export const getMultiRegionAccessPointRoutes: API.OperationMethod<
-  GetMultiRegionAccessPointRoutesRequest,
+  GetMultiRegionAccessPointRoutesRequest & RegionInput,
   GetMultiRegionAccessPointRoutesResult,
   GetMultiRegionAccessPointRoutesError,
   Creds | HttpClient.HttpClient
@@ -4918,7 +4919,7 @@ export type GetPublicAccessBlockError = NoSuchPublicAccessBlockConfiguration | C
  * - PutPublicAccessBlock
  */
 export const getPublicAccessBlock: API.OperationMethod<
-  GetPublicAccessBlockRequest,
+  GetPublicAccessBlockRequest & RegionInput,
   GetPublicAccessBlockOutput,
   GetPublicAccessBlockError,
   Creds | HttpClient.HttpClient
@@ -4947,7 +4948,7 @@ export type GetStorageLensConfigurationError = NoSuchConfiguration | CommonError
  * *Amazon S3 User Guide*.
  */
 export const getStorageLensConfiguration: API.OperationMethod<
-  GetStorageLensConfigurationRequest,
+  GetStorageLensConfigurationRequest & RegionInput,
   GetStorageLensConfigurationResult,
   GetStorageLensConfigurationError,
   Creds | HttpClient.HttpClient
@@ -4978,7 +4979,7 @@ export type GetStorageLensConfigurationTaggingError = NoSuchConfiguration | Comm
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
 export const getStorageLensConfigurationTagging: API.OperationMethod<
-  GetStorageLensConfigurationTaggingRequest,
+  GetStorageLensConfigurationTaggingRequest & RegionInput,
   GetStorageLensConfigurationTaggingResult,
   GetStorageLensConfigurationTaggingError,
   Creds | HttpClient.HttpClient
@@ -5006,7 +5007,7 @@ export type GetStorageLensGroupError = CommonErrors;
  * Lens error codes.
  */
 export const getStorageLensGroup: API.OperationMethod<
-  GetStorageLensGroupRequest,
+  GetStorageLensGroupRequest & RegionInput,
   GetStorageLensGroupResult,
   GetStorageLensGroupError,
   Creds | HttpClient.HttpClient
@@ -5031,7 +5032,7 @@ export type ListAccessGrantsError = CommonErrors;
  * You must have the `s3:ListAccessGrants` permission to use this operation.
  */
 export const listAccessGrants: API.PaginatedOperationMethod<
-  ListAccessGrantsRequest,
+  ListAccessGrantsRequest & RegionInput,
   ListAccessGrantsResult,
   ListAccessGrantsError,
   Creds | HttpClient.HttpClient,
@@ -5062,7 +5063,7 @@ export type ListAccessGrantsInstancesError = CommonErrors;
  * You must have the `s3:ListAccessGrantsInstances` permission to use this operation.
  */
 export const listAccessGrantsInstances: API.PaginatedOperationMethod<
-  ListAccessGrantsInstancesRequest,
+  ListAccessGrantsInstancesRequest & RegionInput,
   ListAccessGrantsInstancesResult,
   ListAccessGrantsInstancesError,
   Creds | HttpClient.HttpClient,
@@ -5093,7 +5094,7 @@ export type ListAccessGrantsLocationsError = CommonErrors;
  * You must have the `s3:ListAccessGrantsLocations` permission to use this operation.
  */
 export const listAccessGrantsLocations: API.PaginatedOperationMethod<
-  ListAccessGrantsLocationsRequest,
+  ListAccessGrantsLocationsRequest & RegionInput,
   ListAccessGrantsLocationsResult,
   ListAccessGrantsLocationsError,
   Creds | HttpClient.HttpClient,
@@ -5138,7 +5139,7 @@ export type ListAccessPointsError = CommonErrors;
  * - GetAccessPoint
  */
 export const listAccessPoints: API.PaginatedOperationMethod<
-  ListAccessPointsRequest,
+  ListAccessPointsRequest & RegionInput,
   ListAccessPointsResult,
   ListAccessPointsError,
   Creds | HttpClient.HttpClient,
@@ -5172,7 +5173,7 @@ export type ListAccessPointsForDirectoryBucketsError = CommonErrors;
  * For information about REST API errors, see REST error responses.
  */
 export const listAccessPointsForDirectoryBuckets: API.PaginatedOperationMethod<
-  ListAccessPointsForDirectoryBucketsRequest,
+  ListAccessPointsForDirectoryBucketsRequest & RegionInput,
   ListAccessPointsForDirectoryBucketsResult,
   ListAccessPointsForDirectoryBucketsError,
   Creds | HttpClient.HttpClient,
@@ -5212,7 +5213,7 @@ export type ListAccessPointsForObjectLambdaError = CommonErrors;
  * - GetAccessPointForObjectLambda
  */
 export const listAccessPointsForObjectLambda: API.PaginatedOperationMethod<
-  ListAccessPointsForObjectLambdaRequest,
+  ListAccessPointsForObjectLambdaRequest & RegionInput,
   ListAccessPointsForObjectLambdaResult,
   ListAccessPointsForObjectLambdaError,
   Creds | HttpClient.HttpClient,
@@ -5244,7 +5245,7 @@ export type ListCallerAccessGrantsError = CommonErrors;
  * You must have the `s3:ListCallerAccessGrants` permission to use this operation.
  */
 export const listCallerAccessGrants: API.PaginatedOperationMethod<
-  ListCallerAccessGrantsRequest,
+  ListCallerAccessGrantsRequest & RegionInput,
   ListCallerAccessGrantsResult,
   ListCallerAccessGrantsError,
   Creds | HttpClient.HttpClient,
@@ -5293,7 +5294,7 @@ export type ListJobsError =
  * - UpdateJobStatus
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Creds | HttpClient.HttpClient,
@@ -5338,7 +5339,7 @@ export type ListMultiRegionAccessPointsError = CommonErrors;
  * - GetMultiRegionAccessPoint
  */
 export const listMultiRegionAccessPoints: API.PaginatedOperationMethod<
-  ListMultiRegionAccessPointsRequest,
+  ListMultiRegionAccessPointsRequest & RegionInput,
   ListMultiRegionAccessPointsResult,
   ListMultiRegionAccessPointsError,
   Creds | HttpClient.HttpClient,
@@ -5372,7 +5373,7 @@ export type ListRegionalBucketsError = CommonErrors;
  * endpoint hostname prefix and `x-amz-outpost-id` in your request, see the Examples section.
  */
 export const listRegionalBuckets: API.PaginatedOperationMethod<
-  ListRegionalBucketsRequest,
+  ListRegionalBucketsRequest & RegionInput,
   ListRegionalBucketsResult,
   ListRegionalBucketsError,
   Creds | HttpClient.HttpClient,
@@ -5409,7 +5410,7 @@ export type ListStorageLensConfigurationsError = CommonErrors;
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
 export const listStorageLensConfigurations: API.PaginatedOperationMethod<
-  ListStorageLensConfigurationsRequest,
+  ListStorageLensConfigurationsRequest & RegionInput,
   ListStorageLensConfigurationsResult,
   ListStorageLensConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -5439,7 +5440,7 @@ export type ListStorageLensGroupsError = CommonErrors;
  * Lens error codes.
  */
 export const listStorageLensGroups: API.PaginatedOperationMethod<
-  ListStorageLensGroupsRequest,
+  ListStorageLensGroupsRequest & RegionInput,
   ListStorageLensGroupsResult,
   ListStorageLensGroupsError,
   Creds | HttpClient.HttpClient,
@@ -5490,7 +5491,7 @@ export type ListTagsForResourceError = NoSuchAccessPoint | CommonErrors;
  * For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -5515,7 +5516,7 @@ export type PutAccessGrantsInstanceResourcePolicyError = CommonErrors;
  * You must have the `s3:PutAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
 export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
-  PutAccessGrantsInstanceResourcePolicyRequest,
+  PutAccessGrantsInstanceResourcePolicyRequest & RegionInput,
   PutAccessGrantsInstanceResourcePolicyResult,
   PutAccessGrantsInstanceResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -5546,7 +5547,7 @@ export type PutAccessPointConfigurationForObjectLambdaError =
  * - GetAccessPointConfigurationForObjectLambda
  */
 export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
-  PutAccessPointConfigurationForObjectLambdaRequest,
+  PutAccessPointConfigurationForObjectLambdaRequest & RegionInput,
   PutAccessPointConfigurationForObjectLambdaResponse,
   PutAccessPointConfigurationForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -5581,7 +5582,7 @@ export type PutAccessPointPolicyError = NoSuchAccessPoint | MalformedPolicy | Co
  * - DeleteAccessPointPolicy
  */
 export const putAccessPointPolicy: API.OperationMethod<
-  PutAccessPointPolicyRequest,
+  PutAccessPointPolicyRequest & RegionInput,
   PutAccessPointPolicyResponse,
   PutAccessPointPolicyError,
   Creds | HttpClient.HttpClient
@@ -5614,7 +5615,7 @@ export type PutAccessPointPolicyForObjectLambdaError =
  * - GetAccessPointPolicyForObjectLambda
  */
 export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
-  PutAccessPointPolicyForObjectLambdaRequest,
+  PutAccessPointPolicyForObjectLambdaRequest & RegionInput,
   PutAccessPointPolicyForObjectLambdaResponse,
   PutAccessPointPolicyForObjectLambdaError,
   Creds | HttpClient.HttpClient
@@ -5642,7 +5643,7 @@ export type PutAccessPointScopeError = CommonErrors;
  * For information about REST API errors, see REST error responses.
  */
 export const putAccessPointScope: API.OperationMethod<
-  PutAccessPointScopeRequest,
+  PutAccessPointScopeRequest & RegionInput,
   PutAccessPointScopeResponse,
   PutAccessPointScopeError,
   Creds | HttpClient.HttpClient
@@ -5677,7 +5678,7 @@ export type PutBucketLifecycleConfigurationError = CommonErrors;
  * - DeleteBucketLifecycleConfiguration
  */
 export const putBucketLifecycleConfiguration: API.OperationMethod<
-  PutBucketLifecycleConfigurationRequest,
+  PutBucketLifecycleConfigurationRequest & RegionInput,
   PutBucketLifecycleConfigurationResponse,
   PutBucketLifecycleConfigurationError,
   Creds | HttpClient.HttpClient
@@ -5728,7 +5729,7 @@ export type PutBucketPolicyError = CommonErrors;
  * - DeleteBucketPolicy
  */
 export const putBucketPolicy: API.OperationMethod<
-  PutBucketPolicyRequest,
+  PutBucketPolicyRequest & RegionInput,
   PutBucketPolicyResponse,
   PutBucketPolicyError,
   Creds | HttpClient.HttpClient
@@ -5821,7 +5822,7 @@ export type PutBucketReplicationError = CommonErrors;
  * - DeleteBucketReplication
  */
 export const putBucketReplication: API.OperationMethod<
-  PutBucketReplicationRequest,
+  PutBucketReplicationRequest & RegionInput,
   PutBucketReplicationResponse,
   PutBucketReplicationError,
   Creds | HttpClient.HttpClient
@@ -5896,7 +5897,7 @@ export type PutBucketTaggingError = CommonErrors;
  * - DeleteBucketTagging
  */
 export const putBucketTagging: API.OperationMethod<
-  PutBucketTaggingRequest,
+  PutBucketTaggingRequest & RegionInput,
   PutBucketTaggingResponse,
   PutBucketTaggingError,
   Creds | HttpClient.HttpClient
@@ -5966,7 +5967,7 @@ export type PutBucketVersioningError = CommonErrors;
  * - GetBucketLifecycleConfiguration
  */
 export const putBucketVersioning: API.OperationMethod<
-  PutBucketVersioningRequest,
+  PutBucketVersioningRequest & RegionInput,
   PutBucketVersioningResponse,
   PutBucketVersioningError,
   Creds | HttpClient.HttpClient
@@ -6035,7 +6036,7 @@ export type PutJobTaggingError =
  * - DeleteJobTagging
  */
 export const putJobTagging: API.OperationMethod<
-  PutJobTaggingRequest,
+  PutJobTaggingRequest & RegionInput,
   PutJobTaggingResult,
   PutJobTaggingError,
   Creds | HttpClient.HttpClient
@@ -6079,7 +6080,7 @@ export type PutMultiRegionAccessPointPolicyError =
  * - GetMultiRegionAccessPointPolicyStatus
  */
 export const putMultiRegionAccessPointPolicy: API.OperationMethod<
-  PutMultiRegionAccessPointPolicyRequest,
+  PutMultiRegionAccessPointPolicyRequest & RegionInput,
   PutMultiRegionAccessPointPolicyResult,
   PutMultiRegionAccessPointPolicyError,
   Creds | HttpClient.HttpClient
@@ -6115,7 +6116,7 @@ export type PutPublicAccessBlockError = CommonErrors;
  * - DeletePublicAccessBlock
  */
 export const putPublicAccessBlock: API.OperationMethod<
-  PutPublicAccessBlockRequest,
+  PutPublicAccessBlockRequest & RegionInput,
   PutPublicAccessBlockResponse,
   PutPublicAccessBlockError,
   Creds | HttpClient.HttpClient
@@ -6146,7 +6147,7 @@ export type PutStorageLensConfigurationError =
  * *Amazon S3 User Guide*.
  */
 export const putStorageLensConfiguration: API.OperationMethod<
-  PutStorageLensConfigurationRequest,
+  PutStorageLensConfigurationRequest & RegionInput,
   PutStorageLensConfigurationResponse,
   PutStorageLensConfigurationError,
   Creds | HttpClient.HttpClient
@@ -6176,7 +6177,7 @@ export type PutStorageLensConfigurationTaggingError = NoSuchConfiguration | Comm
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
 export const putStorageLensConfigurationTagging: API.OperationMethod<
-  PutStorageLensConfigurationTaggingRequest,
+  PutStorageLensConfigurationTaggingRequest & RegionInput,
   PutStorageLensConfigurationTaggingResult,
   PutStorageLensConfigurationTaggingError,
   Creds | HttpClient.HttpClient
@@ -6225,7 +6226,7 @@ export type SubmitMultiRegionAccessPointRoutesError = CommonErrors;
  * - `eu-west-1`
  */
 export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
-  SubmitMultiRegionAccessPointRoutesRequest,
+  SubmitMultiRegionAccessPointRoutesRequest & RegionInput,
   SubmitMultiRegionAccessPointRoutesResult,
   SubmitMultiRegionAccessPointRoutesError,
   Creds | HttpClient.HttpClient
@@ -6274,7 +6275,7 @@ export type TagResourceError = NoSuchAccessPoint | CommonErrors;
  * For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -6324,7 +6325,7 @@ export type UntagResourceError = NoSuchAccessPoint | CommonErrors;
  * Tagging error codes.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -6353,7 +6354,7 @@ export type UpdateAccessGrantsLocationError = CommonErrors;
  * You must also have the following permission: `iam:PassRole`
  */
 export const updateAccessGrantsLocation: API.OperationMethod<
-  UpdateAccessGrantsLocationRequest,
+  UpdateAccessGrantsLocationRequest & RegionInput,
   UpdateAccessGrantsLocationResult,
   UpdateAccessGrantsLocationError,
   Creds | HttpClient.HttpClient
@@ -6397,7 +6398,7 @@ export type UpdateJobPriorityError =
  * - UpdateJobStatus
  */
 export const updateJobPriority: API.OperationMethod<
-  UpdateJobPriorityRequest,
+  UpdateJobPriorityRequest & RegionInput,
   UpdateJobPriorityResult,
   UpdateJobPriorityError,
   Creds | HttpClient.HttpClient
@@ -6450,7 +6451,7 @@ export type UpdateJobStatusError =
  * - UpdateJobStatus
  */
 export const updateJobStatus: API.OperationMethod<
-  UpdateJobStatusRequest,
+  UpdateJobStatusRequest & RegionInput,
   UpdateJobStatusResult,
   UpdateJobStatusError,
   Creds | HttpClient.HttpClient
@@ -6486,7 +6487,7 @@ export type UpdateStorageLensGroupError = CommonErrors;
  * Lens error codes.
  */
 export const updateStorageLensGroup: API.OperationMethod<
-  UpdateStorageLensGroupRequest,
+  UpdateStorageLensGroupRequest & RegionInput,
   UpdateStorageLensGroupResponse,
   UpdateStorageLensGroupError,
   Creds | HttpClient.HttpClient

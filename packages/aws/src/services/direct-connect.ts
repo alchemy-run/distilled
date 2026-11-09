@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1280,7 +1281,7 @@ export type AcceptDirectConnectGatewayAssociationProposalError =
  * Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
  */
 export const acceptDirectConnectGatewayAssociationProposal: API.OperationMethod<
-  AcceptDirectConnectGatewayAssociationProposalRequest,
+  AcceptDirectConnectGatewayAssociationProposalRequest & RegionInput,
   AcceptDirectConnectGatewayAssociationProposalResult,
   AcceptDirectConnectGatewayAssociationProposalError,
   Credentials | HttpClient.HttpClient
@@ -1317,7 +1318,7 @@ export type AllocateConnectionOnInterconnectError =
  * Intended for use by Direct Connect Partners only.
  */
 export const allocateConnectionOnInterconnect: API.OperationMethod<
-  AllocateConnectionOnInterconnectRequest,
+  AllocateConnectionOnInterconnectRequest & RegionInput,
   Connection,
   AllocateConnectionOnInterconnectError,
   Credentials | HttpClient.HttpClient
@@ -1347,7 +1348,7 @@ export type AllocateHostedConnectionError =
  * Intended for use by Direct Connect Partners only.
  */
 export const allocateHostedConnection: API.OperationMethod<
-  AllocateHostedConnectionRequest,
+  AllocateHostedConnectionRequest & RegionInput,
   Connection,
   AllocateHostedConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1381,7 +1382,7 @@ export type AllocatePrivateVirtualInterfaceError =
  * Until then, the virtual interface is in the `Confirming` state and is not available to handle traffic.
  */
 export const allocatePrivateVirtualInterface: API.OperationMethod<
-  AllocatePrivateVirtualInterfaceRequest,
+  AllocatePrivateVirtualInterfaceRequest & RegionInput,
   VirtualInterface,
   AllocatePrivateVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type AllocatePublicVirtualInterfaceError =
  * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
  */
 export const allocatePublicVirtualInterface: API.OperationMethod<
-  AllocatePublicVirtualInterfaceRequest,
+  AllocatePublicVirtualInterfaceRequest & RegionInput,
   VirtualInterface,
   AllocatePublicVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1457,7 +1458,7 @@ export type AllocateTransitVirtualInterfaceError =
  * After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the `requested` state and is not available to handle traffic.
  */
 export const allocateTransitVirtualInterface: API.OperationMethod<
-  AllocateTransitVirtualInterfaceRequest,
+  AllocateTransitVirtualInterfaceRequest & RegionInput,
   AllocateTransitVirtualInterfaceResult,
   AllocateTransitVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1489,7 +1490,7 @@ export type AssociateConnectionsToResiliencyGroupError =
  * changes are made.
  */
 export const associateConnectionsToResiliencyGroup: API.OperationMethod<
-  AssociateConnectionsToResiliencyGroupRequest,
+  AssociateConnectionsToResiliencyGroupRequest & RegionInput,
   AssociateConnectionsToResiliencyGroupResult,
   AssociateConnectionsToResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -1528,7 +1529,7 @@ export type AssociateConnectionWithLagError =
  * connections remain associated with the original LAG.
  */
 export const associateConnectionWithLag: API.OperationMethod<
-  AssociateConnectionWithLagRequest,
+  AssociateConnectionWithLagRequest & RegionInput,
   Connection,
   AssociateConnectionWithLagError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type AssociateHostedConnectionError =
  * Intended for use by Direct Connect Partners only.
  */
 export const associateHostedConnection: API.OperationMethod<
-  AssociateHostedConnectionRequest,
+  AssociateHostedConnectionRequest & RegionInput,
   Connection,
   AssociateHostedConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1585,7 @@ export type AssociateMacSecKeyError =
  * For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the *Direct Connect User Guide*.
  */
 export const associateMacSecKey: API.OperationMethod<
-  AssociateMacSecKeyRequest,
+  AssociateMacSecKeyRequest & RegionInput,
   AssociateMacSecKeyResponse,
   AssociateMacSecKeyError,
   Credentials | HttpClient.HttpClient
@@ -1618,7 +1619,7 @@ export type AssociateVirtualInterfaceError =
  * or LAG for the association.
  */
 export const associateVirtualInterface: API.OperationMethod<
-  AssociateVirtualInterfaceRequest,
+  AssociateVirtualInterfaceRequest & RegionInput,
   VirtualInterface,
   AssociateVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1644,7 +1645,7 @@ export type ConfirmConnectionError =
  * remains in this state until the owner confirms creation of the hosted connection.
  */
 export const confirmConnection: API.OperationMethod<
-  ConfirmConnectionRequest,
+  ConfirmConnectionRequest & RegionInput,
   ConfirmConnectionResponse,
   ConfirmConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1667,7 +1668,7 @@ export type ConfirmCustomerAgreementError =
  * The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
  */
 export const confirmCustomerAgreement: API.OperationMethod<
-  ConfirmCustomerAgreementRequest,
+  ConfirmCustomerAgreementRequest & RegionInput,
   ConfirmCustomerAgreementResponse,
   ConfirmCustomerAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type ConfirmPrivateVirtualInterfaceError =
  * made available to handle traffic.
  */
 export const confirmPrivateVirtualInterface: API.OperationMethod<
-  ConfirmPrivateVirtualInterfaceRequest,
+  ConfirmPrivateVirtualInterfaceRequest & RegionInput,
   ConfirmPrivateVirtualInterfaceResponse,
   ConfirmPrivateVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1720,7 +1721,7 @@ export type ConfirmPublicVirtualInterfaceError =
  * created and made available to handle traffic.
  */
 export const confirmPublicVirtualInterface: API.OperationMethod<
-  ConfirmPublicVirtualInterfaceRequest,
+  ConfirmPublicVirtualInterfaceRequest & RegionInput,
   ConfirmPublicVirtualInterfaceResponse,
   ConfirmPublicVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1745,7 +1746,7 @@ export type ConfirmTransitVirtualInterfaceError =
  * After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
  */
 export const confirmTransitVirtualInterface: API.OperationMethod<
-  ConfirmTransitVirtualInterfaceRequest,
+  ConfirmTransitVirtualInterfaceRequest & RegionInput,
   ConfirmTransitVirtualInterfaceResponse,
   ConfirmTransitVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -1786,7 +1787,7 @@ export type CreateBGPPeerError =
  * For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
  */
 export const createBGPPeer: API.OperationMethod<
-  CreateBGPPeerRequest,
+  CreateBGPPeerRequest & RegionInput,
   CreateBGPPeerResponse,
   CreateBGPPeerError,
   Credentials | HttpClient.HttpClient
@@ -1821,7 +1822,7 @@ export type CreateConnectionError =
  * the request fails and no connection is created.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   Connection,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1854,7 +1855,7 @@ export type CreateDirectConnectGatewayError =
  * are located, and pass traffic between them.
  */
 export const createDirectConnectGateway: API.OperationMethod<
-  CreateDirectConnectGatewayRequest,
+  CreateDirectConnectGatewayRequest & RegionInput,
   CreateDirectConnectGatewayResult,
   CreateDirectConnectGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1878,7 +1879,7 @@ export type CreateDirectConnectGatewayAssociationError =
  * private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
  */
 export const createDirectConnectGatewayAssociation: API.OperationMethod<
-  CreateDirectConnectGatewayAssociationRequest,
+  CreateDirectConnectGatewayAssociationRequest & RegionInput,
   CreateDirectConnectGatewayAssociationResult,
   CreateDirectConnectGatewayAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1904,7 @@ export type CreateDirectConnectGatewayAssociationProposalError =
  * You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
  */
 export const createDirectConnectGatewayAssociationProposal: API.OperationMethod<
-  CreateDirectConnectGatewayAssociationProposalRequest,
+  CreateDirectConnectGatewayAssociationProposalRequest & RegionInput,
   CreateDirectConnectGatewayAssociationProposalResult,
   CreateDirectConnectGatewayAssociationProposalError,
   Credentials | HttpClient.HttpClient
@@ -1953,7 +1954,7 @@ export type CreateInterconnectError =
  * Intended for use by Direct Connect Partners only.
  */
 export const createInterconnect: API.OperationMethod<
-  CreateInterconnectRequest,
+  CreateInterconnectRequest & RegionInput,
   Interconnect,
   CreateInterconnectError,
   Credentials | HttpClient.HttpClient
@@ -2005,7 +2006,7 @@ export type CreateLagError =
  * interfaces cannot be directly configured.
  */
 export const createLag: API.OperationMethod<
-  CreateLagRequest,
+  CreateLagRequest & RegionInput,
   Lag,
   CreateLagError,
   Credentials | HttpClient.HttpClient
@@ -2047,7 +2048,7 @@ export type CreatePrivateVirtualInterfaceError =
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
 export const createPrivateVirtualInterface: API.OperationMethod<
-  CreatePrivateVirtualInterfaceRequest,
+  CreatePrivateVirtualInterfaceRequest & RegionInput,
   VirtualInterface,
   CreatePrivateVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2084,7 @@ export type CreatePublicVirtualInterfaceError =
  * and `amazon` address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
  */
 export const createPublicVirtualInterface: API.OperationMethod<
-  CreatePublicVirtualInterfaceRequest,
+  CreatePublicVirtualInterfaceRequest & RegionInput,
   VirtualInterface,
   CreatePublicVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type CreateResiliencyGroupError =
  * and manage them as a single unit to meet a target resiliency model.
  */
 export const createResiliencyGroup: API.OperationMethod<
-  CreateResiliencyGroupRequest,
+  CreateResiliencyGroupRequest & RegionInput,
   CreateResiliencyGroupResult,
   CreateResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -2157,7 +2158,7 @@ export type CreateTransitVirtualInterfaceError =
  * frames, call DescribeVirtualInterfaces.
  */
 export const createTransitVirtualInterface: API.OperationMethod<
-  CreateTransitVirtualInterfaceRequest,
+  CreateTransitVirtualInterfaceRequest & RegionInput,
   CreateTransitVirtualInterfaceResult,
   CreateTransitVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2189,7 @@ export type DeleteBGPPeerError =
  * You cannot delete the last BGP peer from a virtual interface.
  */
 export const deleteBGPPeer: API.OperationMethod<
-  DeleteBGPPeerRequest,
+  DeleteBGPPeerRequest & RegionInput,
   DeleteBGPPeerResponse,
   DeleteBGPPeerError,
   Credentials | HttpClient.HttpClient
@@ -2215,7 +2216,7 @@ export type DeleteConnectionError =
  * you must cancel your service with them separately.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   Connection,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2240,7 +2241,7 @@ export type DeleteDirectConnectGatewayError =
  * with the Direct Connect gateway.
  */
 export const deleteDirectConnectGateway: API.OperationMethod<
-  DeleteDirectConnectGatewayRequest,
+  DeleteDirectConnectGatewayRequest & RegionInput,
   DeleteDirectConnectGatewayResult,
   DeleteDirectConnectGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2265,7 +2266,7 @@ export type DeleteDirectConnectGatewayAssociationError =
  * We recommend that you specify the `associationID` to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the `virtualGatewayId` and `directConnectGatewayId` to delete an association.
  */
 export const deleteDirectConnectGatewayAssociation: API.OperationMethod<
-  DeleteDirectConnectGatewayAssociationRequest,
+  DeleteDirectConnectGatewayAssociationRequest & RegionInput,
   DeleteDirectConnectGatewayAssociationResult,
   DeleteDirectConnectGatewayAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2288,7 +2289,7 @@ export type DeleteDirectConnectGatewayAssociationProposalError =
  * Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
  */
 export const deleteDirectConnectGatewayAssociationProposal: API.OperationMethod<
-  DeleteDirectConnectGatewayAssociationProposalRequest,
+  DeleteDirectConnectGatewayAssociationProposalRequest & RegionInput,
   DeleteDirectConnectGatewayAssociationProposalResult,
   DeleteDirectConnectGatewayAssociationProposalError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type DeleteInterconnectError =
  * by Direct Connect Partners only.
  */
 export const deleteInterconnect: API.OperationMethod<
-  DeleteInterconnectRequest,
+  DeleteInterconnectRequest & RegionInput,
   DeleteInterconnectResponse,
   DeleteInterconnectError,
   Credentials | HttpClient.HttpClient
@@ -2346,7 +2347,7 @@ export type DeleteLagError =
  * virtual interfaces or hosted connections.
  */
 export const deleteLag: API.OperationMethod<
-  DeleteLagRequest,
+  DeleteLagRequest & RegionInput,
   Lag,
   DeleteLagError,
   Credentials | HttpClient.HttpClient
@@ -2372,7 +2373,7 @@ export type DeleteResiliencyGroupError =
  * current state without a subsequent GetResiliencyGroup call.
  */
 export const deleteResiliencyGroup: API.OperationMethod<
-  DeleteResiliencyGroupRequest,
+  DeleteResiliencyGroupRequest & RegionInput,
   DeleteResiliencyGroupResult,
   DeleteResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -2395,7 +2396,7 @@ export type DeleteVirtualInterfaceError =
  * Deletes a virtual interface.
  */
 export const deleteVirtualInterface: API.OperationMethod<
-  DeleteVirtualInterfaceRequest,
+  DeleteVirtualInterfaceRequest & RegionInput,
   DeleteVirtualInterfaceResponse,
   DeleteVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type DescribeConnectionLoaError =
  * at Direct Connect Locations in the *Direct Connect User Guide*.
  */
 export const describeConnectionLoa: API.OperationMethod<
-  DescribeConnectionLoaRequest,
+  DescribeConnectionLoaRequest & RegionInput,
   DescribeConnectionLoaResponse,
   DescribeConnectionLoaError,
   Credentials | HttpClient.HttpClient
@@ -2448,7 +2449,7 @@ export type DescribeConnectionsError =
  * Displays the specified connection or all connections in this Region.
  */
 export const describeConnections: API.OperationMethod<
-  DescribeConnectionsRequest,
+  DescribeConnectionsRequest & RegionInput,
   Connections,
   DescribeConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -2475,7 +2476,7 @@ export type DescribeConnectionsOnInterconnectError =
  * Intended for use by Direct Connect Partners only.
  */
 export const describeConnectionsOnInterconnect: API.OperationMethod<
-  DescribeConnectionsOnInterconnectRequest,
+  DescribeConnectionsOnInterconnectRequest & RegionInput,
   Connections,
   DescribeConnectionsOnInterconnectError,
   Credentials | HttpClient.HttpClient
@@ -2498,7 +2499,7 @@ export type DescribeCustomerMetadataError =
  * Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
  */
 export const describeCustomerMetadata: API.OperationMethod<
-  DescribeCustomerMetadataRequest,
+  DescribeCustomerMetadataRequest & RegionInput,
   DescribeCustomerMetadataResponse,
   DescribeCustomerMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2521,7 +2522,7 @@ export type DescribeDirectConnectGatewayAssociationProposalsError =
  * Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
  */
 export const describeDirectConnectGatewayAssociationProposals: API.OperationMethod<
-  DescribeDirectConnectGatewayAssociationProposalsRequest,
+  DescribeDirectConnectGatewayAssociationProposalsRequest & RegionInput,
   DescribeDirectConnectGatewayAssociationProposalsResult,
   DescribeDirectConnectGatewayAssociationProposalsError,
   Credentials | HttpClient.HttpClient
@@ -2580,7 +2581,7 @@ export type DescribeDirectConnectGatewayAssociationsError =
  * The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
  */
 export const describeDirectConnectGatewayAssociations: API.OperationMethod<
-  DescribeDirectConnectGatewayAssociationsRequest,
+  DescribeDirectConnectGatewayAssociationsRequest & RegionInput,
   DescribeDirectConnectGatewayAssociationsResult,
   DescribeDirectConnectGatewayAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2607,7 +2608,7 @@ export type DescribeDirectConnectGatewayAttachmentsError =
  * the response contains the attachment between the Direct Connect gateway and the virtual interface.
  */
 export const describeDirectConnectGatewayAttachments: API.OperationMethod<
-  DescribeDirectConnectGatewayAttachmentsRequest,
+  DescribeDirectConnectGatewayAttachmentsRequest & RegionInput,
   DescribeDirectConnectGatewayAttachmentsResult,
   DescribeDirectConnectGatewayAttachmentsError,
   Credentials | HttpClient.HttpClient
@@ -2630,7 +2631,7 @@ export type DescribeDirectConnectGatewaysError =
  * Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
  */
 export const describeDirectConnectGateways: API.OperationMethod<
-  DescribeDirectConnectGatewaysRequest,
+  DescribeDirectConnectGatewaysRequest & RegionInput,
   DescribeDirectConnectGatewaysResult,
   DescribeDirectConnectGatewaysError,
   Credentials | HttpClient.HttpClient
@@ -2656,7 +2657,7 @@ export type DescribeHostedConnectionsError =
  * Intended for use by Direct Connect Partners only.
  */
 export const describeHostedConnections: API.OperationMethod<
-  DescribeHostedConnectionsRequest,
+  DescribeHostedConnectionsRequest & RegionInput,
   Connections,
   DescribeHostedConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -2685,7 +2686,7 @@ export type DescribeInterconnectLoaError =
  * in the *Direct Connect User Guide*.
  */
 export const describeInterconnectLoa: API.OperationMethod<
-  DescribeInterconnectLoaRequest,
+  DescribeInterconnectLoaRequest & RegionInput,
   DescribeInterconnectLoaResponse,
   DescribeInterconnectLoaError,
   Credentials | HttpClient.HttpClient
@@ -2708,7 +2709,7 @@ export type DescribeInterconnectsError =
  * Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
  */
 export const describeInterconnects: API.OperationMethod<
-  DescribeInterconnectsRequest,
+  DescribeInterconnectsRequest & RegionInput,
   Interconnects,
   DescribeInterconnectsError,
   Credentials | HttpClient.HttpClient
@@ -2731,7 +2732,7 @@ export type DescribeLagsError =
  * Describes all your link aggregation groups (LAG) or the specified LAG.
  */
 export const describeLags: API.OperationMethod<
-  DescribeLagsRequest,
+  DescribeLagsRequest & RegionInput,
   Lags,
   DescribeLagsError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type DescribeLoaError =
  * in the *Direct Connect User Guide*.
  */
 export const describeLoa: API.OperationMethod<
-  DescribeLoaRequest,
+  DescribeLoaRequest & RegionInput,
   Loa,
   DescribeLoaError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2783,7 @@ export type DescribeLocationsError =
  * CreateConnection or CreateInterconnect.
  */
 export const describeLocations: API.OperationMethod<
-  DescribeLocationsRequest,
+  DescribeLocationsRequest & RegionInput,
   Locations,
   DescribeLocationsError,
   Credentials | HttpClient.HttpClient
@@ -2805,7 +2806,7 @@ export type DescribeRouterConfigurationError =
  * Details about the router.
  */
 export const describeRouterConfiguration: API.OperationMethod<
-  DescribeRouterConfigurationRequest,
+  DescribeRouterConfigurationRequest & RegionInput,
   DescribeRouterConfigurationResponse,
   DescribeRouterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2828,7 +2829,7 @@ export type DescribeTagsError =
  * Describes the tags associated with the specified Direct Connect resources.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -2855,7 +2856,7 @@ export type DescribeVirtualGatewaysError =
  * You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
  */
 export const describeVirtualGateways: API.OperationMethod<
-  DescribeVirtualGatewaysRequest,
+  DescribeVirtualGatewaysRequest & RegionInput,
   VirtualGateways,
   DescribeVirtualGatewaysError,
   Credentials | HttpClient.HttpClient
@@ -2887,7 +2888,7 @@ export type DescribeVirtualInterfacesError =
  * - If you're using `asnLong`, the response returns a value of `0` (zero) for the `asn` attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
  */
 export const describeVirtualInterfaces: API.OperationMethod<
-  DescribeVirtualInterfacesRequest,
+  DescribeVirtualInterfacesRequest & RegionInput,
   VirtualInterfaces,
   DescribeVirtualInterfacesError,
   Credentials | HttpClient.HttpClient
@@ -2920,7 +2921,7 @@ export type DisassociateConnectionFromLagError =
  * an empty LAG with no physical connections.
  */
 export const disassociateConnectionFromLag: API.OperationMethod<
-  DisassociateConnectionFromLagRequest,
+  DisassociateConnectionFromLagRequest & RegionInput,
   Connection,
   DisassociateConnectionFromLagError,
   Credentials | HttpClient.HttpClient
@@ -2945,7 +2946,7 @@ export type DisassociateConnectionsFromResiliencyGroupError =
  * and no changes are made.
  */
 export const disassociateConnectionsFromResiliencyGroup: API.OperationMethod<
-  DisassociateConnectionsFromResiliencyGroupRequest,
+  DisassociateConnectionsFromResiliencyGroupRequest & RegionInput,
   DisassociateConnectionsFromResiliencyGroupResult,
   DisassociateConnectionsFromResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +2969,7 @@ export type DisassociateMacSecKeyError =
  * Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
  */
 export const disassociateMacSecKey: API.OperationMethod<
-  DisassociateMacSecKeyRequest,
+  DisassociateMacSecKeyRequest & RegionInput,
   DisassociateMacSecKeyResponse,
   DisassociateMacSecKeyError,
   Credentials | HttpClient.HttpClient
@@ -2991,7 +2992,7 @@ export type GetResiliencyGroupError =
  * Gets information about the specified resiliency group.
  */
 export const getResiliencyGroup: API.OperationMethod<
-  GetResiliencyGroupRequest,
+  GetResiliencyGroupRequest & RegionInput,
   GetResiliencyGroupResult,
   GetResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -3014,7 +3015,7 @@ export type ListResiliencyGroupAssociationsError =
  * Lists the connection associations for the specified resiliency group.
  */
 export const listResiliencyGroupAssociations: API.OperationMethod<
-  ListResiliencyGroupAssociationsRequest,
+  ListResiliencyGroupAssociationsRequest & RegionInput,
   ListResiliencyGroupAssociationsResult,
   ListResiliencyGroupAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3038,7 +3039,7 @@ export type ListResiliencyGroupsError =
  * Amazon Web Services Region.
  */
 export const listResiliencyGroups: API.OperationMethod<
-  ListResiliencyGroupsRequest,
+  ListResiliencyGroupsRequest & RegionInput,
   ListResiliencyGroupsResult,
   ListResiliencyGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3067,7 +3068,7 @@ export type ListVirtualInterfaceRoutesError =
  * - `advertised`: routes advertised to the customer network over the virtual interface.
  */
 export const listVirtualInterfaceRoutes: API.OperationMethod<
-  ListVirtualInterfaceRoutesRequest,
+  ListVirtualInterfaceRoutesRequest & RegionInput,
   ListVirtualInterfaceRoutesResponse,
   ListVirtualInterfaceRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type ListVirtualInterfaceTestHistoryError =
  * Lists the virtual interface failover test history.
  */
 export const listVirtualInterfaceTestHistory: API.OperationMethod<
-  ListVirtualInterfaceTestHistoryRequest,
+  ListVirtualInterfaceTestHistoryRequest & RegionInput,
   ListVirtualInterfaceTestHistoryResponse,
   ListVirtualInterfaceTestHistoryError,
   Credentials | HttpClient.HttpClient
@@ -3119,7 +3120,7 @@ export type StartBgpFailoverTestError =
  * If you need to stop the test before the test interval completes, use StopBgpFailoverTest.
  */
 export const startBgpFailoverTest: API.OperationMethod<
-  StartBgpFailoverTestRequest,
+  StartBgpFailoverTestRequest & RegionInput,
   StartBgpFailoverTestResponse,
   StartBgpFailoverTestError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type StopBgpFailoverTestError =
  * Stops the virtual interface failover test.
  */
 export const stopBgpFailoverTest: API.OperationMethod<
-  StopBgpFailoverTestRequest,
+  StopBgpFailoverTestRequest & RegionInput,
   StopBgpFailoverTestResponse,
   StopBgpFailoverTestError,
   Credentials | HttpClient.HttpClient
@@ -3169,7 +3170,7 @@ export type TagResourceError =
  * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3197,7 +3198,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Direct Connect resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3226,7 +3227,7 @@ export type UpdateConnectionError =
  * - The connection's MAC Security (MACsec) encryption mode.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   Connection,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3250,7 +3251,7 @@ export type UpdateConnectionsBillingModeError =
  * mode for up to 200 connections in a single request.
  */
 export const updateConnectionsBillingMode: API.OperationMethod<
-  UpdateConnectionsBillingModeRequest,
+  UpdateConnectionsBillingModeRequest & RegionInput,
   UpdateConnectionsBillingModeResponse,
   UpdateConnectionsBillingModeError,
   Credentials | HttpClient.HttpClient
@@ -3273,7 +3274,7 @@ export type UpdateDirectConnectGatewayError =
  * Updates the name of a current Direct Connect gateway.
  */
 export const updateDirectConnectGateway: API.OperationMethod<
-  UpdateDirectConnectGatewayRequest,
+  UpdateDirectConnectGatewayRequest & RegionInput,
   UpdateDirectConnectGatewayResponse,
   UpdateDirectConnectGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3298,7 +3299,7 @@ export type UpdateDirectConnectGatewayAssociationError =
  * Add or remove prefixes from the association.
  */
 export const updateDirectConnectGatewayAssociation: API.OperationMethod<
-  UpdateDirectConnectGatewayAssociationRequest,
+  UpdateDirectConnectGatewayAssociationRequest & RegionInput,
   UpdateDirectConnectGatewayAssociationResult,
   UpdateDirectConnectGatewayAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3338,7 +3339,7 @@ export type UpdateLagError =
  * non-operational.
  */
 export const updateLag: API.OperationMethod<
-  UpdateLagRequest,
+  UpdateLagRequest & RegionInput,
   Lag,
   UpdateLagError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type UpdateResiliencyGroupError =
  * Updates the name of the specified resiliency group.
  */
 export const updateResiliencyGroup: API.OperationMethod<
-  UpdateResiliencyGroupRequest,
+  UpdateResiliencyGroupRequest & RegionInput,
   UpdateResiliencyGroupResult,
   UpdateResiliencyGroupError,
   Credentials | HttpClient.HttpClient
@@ -3391,7 +3392,7 @@ export type UpdateVirtualInterfaceAttributesError =
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
 export const updateVirtualInterfaceAttributes: API.OperationMethod<
-  UpdateVirtualInterfaceAttributesRequest,
+  UpdateVirtualInterfaceAttributesRequest & RegionInput,
   VirtualInterface,
   UpdateVirtualInterfaceAttributesError,
   Credentials | HttpClient.HttpClient

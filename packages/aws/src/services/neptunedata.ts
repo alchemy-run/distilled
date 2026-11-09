@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1130,7 +1131,7 @@ export type CancelGremlinQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelGremlinQuery: API.OperationMethod<
-  CancelGremlinQueryInput,
+  CancelGremlinQueryInput & RegionInput,
   CancelGremlinQueryOutput,
   CancelGremlinQueryError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1182,7 @@ export type CancelLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
  */
 export const cancelLoaderJob: API.OperationMethod<
-  CancelLoaderJobInput,
+  CancelLoaderJobInput & RegionInput,
   CancelLoaderJobOutput,
   CancelLoaderJobError,
   Credentials | HttpClient.HttpClient
@@ -1229,7 +1230,7 @@ export type CancelMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
  */
 export const cancelMLDataProcessingJob: API.OperationMethod<
-  CancelMLDataProcessingJobInput,
+  CancelMLDataProcessingJobInput & RegionInput,
   CancelMLDataProcessingJobOutput,
   CancelMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1276,7 @@ export type CancelMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
  */
 export const cancelMLModelTrainingJob: API.OperationMethod<
-  CancelMLModelTrainingJobInput,
+  CancelMLModelTrainingJobInput & RegionInput,
   CancelMLModelTrainingJobOutput,
   CancelMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type CancelMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
  */
 export const cancelMLModelTransformJob: API.OperationMethod<
-  CancelMLModelTransformJobInput,
+  CancelMLModelTransformJobInput & RegionInput,
   CancelMLModelTransformJobOutput,
   CancelMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type CancelOpenCypherQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelOpenCypherQuery: API.OperationMethod<
-  CancelOpenCypherQueryInput,
+  CancelOpenCypherQueryInput & RegionInput,
   CancelOpenCypherQueryOutput,
   CancelOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type CreateMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
  */
 export const createMLEndpoint: API.OperationMethod<
-  CreateMLEndpointInput,
+  CreateMLEndpointInput & RegionInput,
   CreateMLEndpointOutput,
   CreateMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type DeleteMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
  */
 export const deleteMLEndpoint: API.OperationMethod<
-  DeleteMLEndpointInput,
+  DeleteMLEndpointInput & RegionInput,
   DeleteMLEndpointOutput,
   DeleteMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type DeletePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deletePropertygraphStatistics: API.OperationMethod<
-  DeletePropertygraphStatisticsRequest,
+  DeletePropertygraphStatisticsRequest & RegionInput,
   DeletePropertygraphStatisticsOutput,
   DeletePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type DeleteSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deleteSparqlStatistics: API.OperationMethod<
-  DeleteSparqlStatisticsRequest,
+  DeleteSparqlStatisticsRequest & RegionInput,
   DeleteSparqlStatisticsOutput,
   DeleteSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type ExecuteFastResetError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
  */
 export const executeFastReset: API.OperationMethod<
-  ExecuteFastResetInput,
+  ExecuteFastResetInput & RegionInput,
   ExecuteFastResetOutput,
   ExecuteFastResetError,
   Credentials | HttpClient.HttpClient
@@ -1686,7 +1687,7 @@ export type ExecuteGremlinExplainQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinExplainQuery: API.OperationMethod<
-  ExecuteGremlinExplainQueryInput,
+  ExecuteGremlinExplainQueryInput & RegionInput,
   ExecuteGremlinExplainQueryOutput,
   ExecuteGremlinExplainQueryError,
   Credentials | HttpClient.HttpClient
@@ -1752,7 +1753,7 @@ export type ExecuteGremlinProfileQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinProfileQuery: API.OperationMethod<
-  ExecuteGremlinProfileQueryInput,
+  ExecuteGremlinProfileQueryInput & RegionInput,
   ExecuteGremlinProfileQueryOutput,
   ExecuteGremlinProfileQueryError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type ExecuteGremlinQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinQuery: API.OperationMethod<
-  ExecuteGremlinQueryInput,
+  ExecuteGremlinQueryInput & RegionInput,
   ExecuteGremlinQueryOutput,
   ExecuteGremlinQueryError,
   Credentials | HttpClient.HttpClient
@@ -1891,7 +1892,7 @@ export type ExecuteOpenCypherExplainQueryError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherExplainQuery: API.OperationMethod<
-  ExecuteOpenCypherExplainQueryInput,
+  ExecuteOpenCypherExplainQueryInput & RegionInput,
   ExecuteOpenCypherExplainQueryOutput,
   ExecuteOpenCypherExplainQueryError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type ExecuteOpenCypherQueryError =
  * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherQuery: API.OperationMethod<
-  ExecuteOpenCypherQueryInput,
+  ExecuteOpenCypherQueryInput & RegionInput,
   ExecuteOpenCypherQueryOutput,
   ExecuteOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
@@ -2022,7 +2023,7 @@ export type GetEngineStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
  */
 export const getEngineStatus: API.OperationMethod<
-  GetEngineStatusRequest,
+  GetEngineStatusRequest & RegionInput,
   GetEngineStatusOutput,
   GetEngineStatusError,
   Credentials | HttpClient.HttpClient
@@ -2072,7 +2073,7 @@ export type GetGremlinQueryStatusError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getGremlinQueryStatus: API.OperationMethod<
-  GetGremlinQueryStatusInput,
+  GetGremlinQueryStatusInput & RegionInput,
   GetGremlinQueryStatusOutput,
   GetGremlinQueryStatusError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2128,7 @@ export type GetLoaderJobStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
  */
 export const getLoaderJobStatus: API.OperationMethod<
-  GetLoaderJobStatusInput,
+  GetLoaderJobStatusInput & RegionInput,
   GetLoaderJobStatusOutput,
   GetLoaderJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -2175,7 +2176,7 @@ export type GetMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
  */
 export const getMLDataProcessingJob: API.OperationMethod<
-  GetMLDataProcessingJobInput,
+  GetMLDataProcessingJobInput & RegionInput,
   GetMLDataProcessingJobOutput,
   GetMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -2221,7 +2222,7 @@ export type GetMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
  */
 export const getMLEndpoint: API.OperationMethod<
-  GetMLEndpointInput,
+  GetMLEndpointInput & RegionInput,
   GetMLEndpointOutput,
   GetMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type GetMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
  */
 export const getMLModelTrainingJob: API.OperationMethod<
-  GetMLModelTrainingJobInput,
+  GetMLModelTrainingJobInput & RegionInput,
   GetMLModelTrainingJobOutput,
   GetMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -2313,7 +2314,7 @@ export type GetMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
  */
 export const getMLModelTransformJob: API.OperationMethod<
-  GetMLModelTransformJobInput,
+  GetMLModelTransformJobInput & RegionInput,
   GetMLModelTransformJobOutput,
   GetMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -2367,7 +2368,7 @@ export type GetOpenCypherQueryStatusError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getOpenCypherQueryStatus: API.OperationMethod<
-  GetOpenCypherQueryStatusInput,
+  GetOpenCypherQueryStatusInput & RegionInput,
   GetOpenCypherQueryStatusOutput,
   GetOpenCypherQueryStatusError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type GetPropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
  */
 export const getPropertygraphStatistics: API.OperationMethod<
-  GetPropertygraphStatisticsRequest,
+  GetPropertygraphStatisticsRequest & RegionInput,
   GetPropertygraphStatisticsOutput,
   GetPropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2486,7 +2487,7 @@ export type GetPropertygraphStreamError =
  * See Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getPropertygraphStream: API.OperationMethod<
-  GetPropertygraphStreamInput,
+  GetPropertygraphStreamInput & RegionInput,
   GetPropertygraphStreamOutput,
   GetPropertygraphStreamError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type GetPropertygraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getPropertygraphSummary: API.OperationMethod<
-  GetPropertygraphSummaryInput,
+  GetPropertygraphSummaryInput & RegionInput,
   GetPropertygraphSummaryOutput,
   GetPropertygraphSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type GetRDFGraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getRDFGraphSummary: API.OperationMethod<
-  GetRDFGraphSummaryInput,
+  GetRDFGraphSummaryInput & RegionInput,
   GetRDFGraphSummaryOutput,
   GetRDFGraphSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2633,7 +2634,7 @@ export type GetSparqlStatisticsError =
  * Gets RDF statistics (SPARQL).
  */
 export const getSparqlStatistics: API.OperationMethod<
-  GetSparqlStatisticsRequest,
+  GetSparqlStatisticsRequest & RegionInput,
   GetSparqlStatisticsOutput,
   GetSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2690,7 +2691,7 @@ export type GetSparqlStreamError =
  * Note that the neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getSparqlStream: API.OperationMethod<
-  GetSparqlStreamInput,
+  GetSparqlStreamInput & RegionInput,
   GetSparqlStreamOutput,
   GetSparqlStreamError,
   Credentials | HttpClient.HttpClient
@@ -2744,7 +2745,7 @@ export type ListGremlinQueriesError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listGremlinQueries: API.OperationMethod<
-  ListGremlinQueriesInput,
+  ListGremlinQueriesInput & RegionInput,
   ListGremlinQueriesOutput,
   ListGremlinQueriesError,
   Credentials | HttpClient.HttpClient
@@ -2796,7 +2797,7 @@ export type ListLoaderJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
  */
 export const listLoaderJobs: API.OperationMethod<
-  ListLoaderJobsInput,
+  ListLoaderJobsInput & RegionInput,
   ListLoaderJobsOutput,
   ListLoaderJobsError,
   Credentials | HttpClient.HttpClient
@@ -2843,7 +2844,7 @@ export type ListMLDataProcessingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
  */
 export const listMLDataProcessingJobs: API.OperationMethod<
-  ListMLDataProcessingJobsInput,
+  ListMLDataProcessingJobsInput & RegionInput,
   ListMLDataProcessingJobsOutput,
   ListMLDataProcessingJobsError,
   Credentials | HttpClient.HttpClient
@@ -2889,7 +2890,7 @@ export type ListMLEndpointsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
  */
 export const listMLEndpoints: API.OperationMethod<
-  ListMLEndpointsInput,
+  ListMLEndpointsInput & RegionInput,
   ListMLEndpointsOutput,
   ListMLEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2935,7 +2936,7 @@ export type ListMLModelTrainingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
  */
 export const listMLModelTrainingJobs: API.OperationMethod<
-  ListMLModelTrainingJobsInput,
+  ListMLModelTrainingJobsInput & RegionInput,
   ListMLModelTrainingJobsOutput,
   ListMLModelTrainingJobsError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type ListMLModelTransformJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
  */
 export const listMLModelTransformJobs: API.OperationMethod<
-  ListMLModelTransformJobsInput,
+  ListMLModelTransformJobsInput & RegionInput,
   ListMLModelTransformJobsOutput,
   ListMLModelTransformJobsError,
   Credentials | HttpClient.HttpClient
@@ -3035,7 +3036,7 @@ export type ListOpenCypherQueriesError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listOpenCypherQueries: API.OperationMethod<
-  ListOpenCypherQueriesInput,
+  ListOpenCypherQueriesInput & RegionInput,
   ListOpenCypherQueriesOutput,
   ListOpenCypherQueriesError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type ManagePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const managePropertygraphStatistics: API.OperationMethod<
-  ManagePropertygraphStatisticsInput,
+  ManagePropertygraphStatisticsInput & RegionInput,
   ManagePropertygraphStatisticsOutput,
   ManagePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3139,7 +3140,7 @@ export type ManageSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const manageSparqlStatistics: API.OperationMethod<
-  ManageSparqlStatisticsInput,
+  ManageSparqlStatisticsInput & RegionInput,
   ManageSparqlStatisticsOutput,
   ManageSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3190,7 +3191,7 @@ export type StartLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
  */
 export const startLoaderJob: API.OperationMethod<
-  StartLoaderJobInput,
+  StartLoaderJobInput & RegionInput,
   StartLoaderJobOutput,
   StartLoaderJobError,
   Credentials | HttpClient.HttpClient
@@ -3239,7 +3240,7 @@ export type StartMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
  */
 export const startMLDataProcessingJob: API.OperationMethod<
-  StartMLDataProcessingJobInput,
+  StartMLDataProcessingJobInput & RegionInput,
   StartMLDataProcessingJobOutput,
   StartMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -3285,7 +3286,7 @@ export type StartMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
  */
 export const startMLModelTrainingJob: API.OperationMethod<
-  StartMLModelTrainingJobInput,
+  StartMLModelTrainingJobInput & RegionInput,
   StartMLModelTrainingJobOutput,
   StartMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type StartMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
  */
 export const startMLModelTransformJob: API.OperationMethod<
-  StartMLModelTransformJobInput,
+  StartMLModelTransformJobInput & RegionInput,
   StartMLModelTransformJobOutput,
   StartMLModelTransformJobError,
   Credentials | HttpClient.HttpClient

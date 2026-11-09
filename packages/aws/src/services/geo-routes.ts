@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2466,7 +2467,7 @@ export type CalculateIsolinesError =
  * For more information, see Calculate isolines in the *Amazon Location Service Developer Guide*.
  */
 export const calculateIsolines: API.OperationMethod<
-  CalculateIsolinesRequest,
+  CalculateIsolinesRequest & RegionInput,
   CalculateIsolinesResponse,
   CalculateIsolinesError,
   Credentials | HttpClient.HttpClient
@@ -2498,7 +2499,7 @@ export type CalculateRouteMatrixError =
  * For more information, see Calculate route matrix in the *Amazon Location Service Developer Guide*.
  */
 export const calculateRouteMatrix: API.OperationMethod<
-  CalculateRouteMatrixRequest,
+  CalculateRouteMatrixRequest & RegionInput,
   CalculateRouteMatrixResponse,
   CalculateRouteMatrixError,
   Credentials | HttpClient.HttpClient
@@ -2530,7 +2531,7 @@ export type CalculateRoutesError =
  * For more information, see Calculate routes in the *Amazon Location Service Developer Guide*.
  */
 export const calculateRoutes: API.OperationMethod<
-  CalculateRoutesRequest,
+  CalculateRoutesRequest & RegionInput,
   CalculateRoutesResponse,
   CalculateRoutesError,
   Credentials | HttpClient.HttpClient
@@ -2562,7 +2563,7 @@ export type OptimizeWaypointsError =
  * For more information, see Optimize waypoints in the *Amazon Location Service Developer Guide*.
  */
 export const optimizeWaypoints: API.OperationMethod<
-  OptimizeWaypointsRequest,
+  OptimizeWaypointsRequest & RegionInput,
   OptimizeWaypointsResponse,
   OptimizeWaypointsError,
   Credentials | HttpClient.HttpClient
@@ -2594,7 +2595,7 @@ export type SnapToRoadsError =
  * For more information, see Snap to Roads in the *Amazon Location Service Developer Guide*.
  */
 export const snapToRoads: API.OperationMethod<
-  SnapToRoadsRequest,
+  SnapToRoadsRequest & RegionInput,
   SnapToRoadsResponse,
   SnapToRoadsError,
   Credentials | HttpClient.HttpClient

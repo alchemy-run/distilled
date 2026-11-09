@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -250,7 +251,7 @@ export type CreateEndpointError =
  * - ListEndpoints
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResult,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -293,7 +294,7 @@ export type DeleteEndpointError =
  * - ListEndpoints
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type ListEndpointsError =
  * - DeleteEndpoint
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResult,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -372,7 +373,7 @@ export type ListOutpostsWithS3Error =
  * from Resource Access Manager (RAM).
  */
 export const listOutpostsWithS3: API.PaginatedOperationMethod<
-  ListOutpostsWithS3Request,
+  ListOutpostsWithS3Request & RegionInput,
   ListOutpostsWithS3Result,
   ListOutpostsWithS3Error,
   Credentials | HttpClient.HttpClient,
@@ -416,7 +417,7 @@ export type ListSharedEndpointsError =
  * - DeleteEndpoint
  */
 export const listSharedEndpoints: API.PaginatedOperationMethod<
-  ListSharedEndpointsRequest,
+  ListSharedEndpointsRequest & RegionInput,
   ListSharedEndpointsResult,
   ListSharedEndpointsError,
   Credentials | HttpClient.HttpClient,

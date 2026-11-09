@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2082,7 +2083,7 @@ export type DeleteRecommendationPreferencesError =
  * Guide.
  */
 export const deleteRecommendationPreferences: API.OperationMethod<
-  DeleteRecommendationPreferencesRequest,
+  DeleteRecommendationPreferencesRequest & RegionInput,
   DeleteRecommendationPreferencesResponse,
   DeleteRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2124,7 +2125,7 @@ export type DescribeRecommendationExportJobsError =
  * to view your export jobs.
  */
 export const describeRecommendationExportJobs: API.PaginatedOperationMethod<
-  DescribeRecommendationExportJobsRequest,
+  DescribeRecommendationExportJobsRequest & RegionInput,
   DescribeRecommendationExportJobsResponse,
   DescribeRecommendationExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2176,7 +2177,7 @@ export type ExportAutoScalingGroupRecommendationsError =
  * You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
  */
 export const exportAutoScalingGroupRecommendations: API.OperationMethod<
-  ExportAutoScalingGroupRecommendationsRequest,
+  ExportAutoScalingGroupRecommendationsRequest & RegionInput,
   ExportAutoScalingGroupRecommendationsResponse,
   ExportAutoScalingGroupRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2221,7 +2222,7 @@ export type ExportEBSVolumeRecommendationsError =
  * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
  */
 export const exportEBSVolumeRecommendations: API.OperationMethod<
-  ExportEBSVolumeRecommendationsRequest,
+  ExportEBSVolumeRecommendationsRequest & RegionInput,
   ExportEBSVolumeRecommendationsResponse,
   ExportEBSVolumeRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type ExportEC2InstanceRecommendationsError =
  * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
  */
 export const exportEC2InstanceRecommendations: API.OperationMethod<
-  ExportEC2InstanceRecommendationsRequest,
+  ExportEC2InstanceRecommendationsRequest & RegionInput,
   ExportEC2InstanceRecommendationsResponse,
   ExportEC2InstanceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type ExportECSServiceRecommendationsError =
  * You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
  */
 export const exportECSServiceRecommendations: API.OperationMethod<
-  ExportECSServiceRecommendationsRequest,
+  ExportECSServiceRecommendationsRequest & RegionInput,
   ExportECSServiceRecommendationsResponse,
   ExportECSServiceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2356,7 +2357,7 @@ export type ExportIdleRecommendationsError =
  * You can have only one idle resource export job in progress per Amazon Web Services Region.
  */
 export const exportIdleRecommendations: API.OperationMethod<
-  ExportIdleRecommendationsRequest,
+  ExportIdleRecommendationsRequest & RegionInput,
   ExportIdleRecommendationsResponse,
   ExportIdleRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2401,7 +2402,7 @@ export type ExportLambdaFunctionRecommendationsError =
  * You can have only one Lambda function export job in progress per Amazon Web Services Region.
  */
 export const exportLambdaFunctionRecommendations: API.OperationMethod<
-  ExportLambdaFunctionRecommendationsRequest,
+  ExportLambdaFunctionRecommendationsRequest & RegionInput,
   ExportLambdaFunctionRecommendationsResponse,
   ExportLambdaFunctionRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2447,7 @@ export type ExportLicenseRecommendationsError =
  * You can have only one license export job in progress per Amazon Web Services Region.
  */
 export const exportLicenseRecommendations: API.OperationMethod<
-  ExportLicenseRecommendationsRequest,
+  ExportLicenseRecommendationsRequest & RegionInput,
   ExportLicenseRecommendationsResponse,
   ExportLicenseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2492,7 @@ export type ExportRDSDatabaseRecommendationsError =
  * You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
  */
 export const exportRDSDatabaseRecommendations: API.OperationMethod<
-  ExportRDSDatabaseRecommendationsRequest,
+  ExportRDSDatabaseRecommendationsRequest & RegionInput,
   ExportRDSDatabaseRecommendationsResponse,
   ExportRDSDatabaseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type GetAutoScalingGroupRecommendationsError =
  * Guide.
  */
 export const getAutoScalingGroupRecommendations: API.OperationMethod<
-  GetAutoScalingGroupRecommendationsRequest,
+  GetAutoScalingGroupRecommendationsRequest & RegionInput,
   GetAutoScalingGroupRecommendationsResponse,
   GetAutoScalingGroupRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2577,7 +2578,7 @@ export type GetEBSVolumeRecommendationsError =
  * Guide.
  */
 export const getEBSVolumeRecommendations: API.OperationMethod<
-  GetEBSVolumeRecommendationsRequest,
+  GetEBSVolumeRecommendationsRequest & RegionInput,
   GetEBSVolumeRecommendationsResponse,
   GetEBSVolumeRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type GetEC2InstanceRecommendationsError =
  * Guide.
  */
 export const getEC2InstanceRecommendations: API.OperationMethod<
-  GetEC2InstanceRecommendationsRequest,
+  GetEC2InstanceRecommendationsRequest & RegionInput,
   GetEC2InstanceRecommendationsResponse,
   GetEC2InstanceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2664,7 +2665,7 @@ export type GetEC2RecommendationProjectedMetricsError =
  * CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
  */
 export const getEC2RecommendationProjectedMetrics: API.OperationMethod<
-  GetEC2RecommendationProjectedMetricsRequest,
+  GetEC2RecommendationProjectedMetricsRequest & RegionInput,
   GetEC2RecommendationProjectedMetricsResponse,
   GetEC2RecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2702,7 +2703,7 @@ export type GetECSServiceRecommendationProjectedMetricsError =
  * Returns the projected metrics of Amazon ECS service recommendations.
  */
 export const getECSServiceRecommendationProjectedMetrics: API.OperationMethod<
-  GetECSServiceRecommendationProjectedMetricsRequest,
+  GetECSServiceRecommendationProjectedMetricsRequest & RegionInput,
   GetECSServiceRecommendationProjectedMetricsResponse,
   GetECSServiceRecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2750,7 +2751,7 @@ export type GetECSServiceRecommendationsError =
  * Guide.
  */
 export const getECSServiceRecommendations: API.OperationMethod<
-  GetECSServiceRecommendationsRequest,
+  GetECSServiceRecommendationsRequest & RegionInput,
   GetECSServiceRecommendationsResponse,
   GetECSServiceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2794,7 +2795,7 @@ export type GetEffectiveRecommendationPreferencesError =
  * recommendation preferences that are in effect, or `Active`.
  */
 export const getEffectiveRecommendationPreferences: API.OperationMethod<
-  GetEffectiveRecommendationPreferencesRequest,
+  GetEffectiveRecommendationPreferencesRequest & RegionInput,
   GetEffectiveRecommendationPreferencesResponse,
   GetEffectiveRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type GetEnrollmentStatusError =
  * about the enrollment status of member accounts of an organization.
  */
 export const getEnrollmentStatus: API.OperationMethod<
-  GetEnrollmentStatusRequest,
+  GetEnrollmentStatusRequest & RegionInput,
   GetEnrollmentStatusResponse,
   GetEnrollmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2872,7 +2873,7 @@ export type GetEnrollmentStatusesForOrganizationError =
  * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
  */
 export const getEnrollmentStatusesForOrganization: API.PaginatedOperationMethod<
-  GetEnrollmentStatusesForOrganizationRequest,
+  GetEnrollmentStatusesForOrganizationRequest & RegionInput,
   GetEnrollmentStatusesForOrganizationResponse,
   GetEnrollmentStatusesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -2918,7 +2919,7 @@ export type GetIdleRecommendationsError =
  * *Compute Optimizer User Guide*
  */
 export const getIdleRecommendations: API.OperationMethod<
-  GetIdleRecommendationsRequest,
+  GetIdleRecommendationsRequest & RegionInput,
   GetIdleRecommendationsResponse,
   GetIdleRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2961,7 +2962,7 @@ export type GetLambdaFunctionRecommendationsError =
  * Guide.
  */
 export const getLambdaFunctionRecommendations: API.PaginatedOperationMethod<
-  GetLambdaFunctionRecommendationsRequest,
+  GetLambdaFunctionRecommendationsRequest & RegionInput,
   GetLambdaFunctionRecommendationsResponse,
   GetLambdaFunctionRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -3011,7 +3012,7 @@ export type GetLicenseRecommendationsError =
  * Guide.
  */
 export const getLicenseRecommendations: API.OperationMethod<
-  GetLicenseRecommendationsRequest,
+  GetLicenseRecommendationsRequest & RegionInput,
   GetLicenseRecommendationsResponse,
   GetLicenseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -3049,7 +3050,7 @@ export type GetRDSDatabaseRecommendationProjectedMetricsError =
  * Returns the projected metrics of Aurora and RDS database recommendations.
  */
 export const getRDSDatabaseRecommendationProjectedMetrics: API.OperationMethod<
-  GetRDSDatabaseRecommendationProjectedMetricsRequest,
+  GetRDSDatabaseRecommendationProjectedMetricsRequest & RegionInput,
   GetRDSDatabaseRecommendationProjectedMetricsResponse,
   GetRDSDatabaseRecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -3097,7 +3098,7 @@ export type GetRDSDatabaseRecommendationsError =
  * Guide.
  */
 export const getRDSDatabaseRecommendations: API.OperationMethod<
-  GetRDSDatabaseRecommendationsRequest,
+  GetRDSDatabaseRecommendationsRequest & RegionInput,
   GetRDSDatabaseRecommendationsResponse,
   GetRDSDatabaseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -3144,7 +3145,7 @@ export type GetRecommendationPreferencesError =
  * Guide.
  */
 export const getRecommendationPreferences: API.PaginatedOperationMethod<
-  GetRecommendationPreferencesRequest,
+  GetRecommendationPreferencesRequest & RegionInput,
   GetRecommendationPreferencesResponse,
   GetRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3212,7 +3213,7 @@ export type GetRecommendationSummariesError =
  * `Overprovisioned`, `Optimized`, or `NotOptimized`.
  */
 export const getRecommendationSummaries: API.PaginatedOperationMethod<
-  GetRecommendationSummariesRequest,
+  GetRecommendationSummariesRequest & RegionInput,
   GetRecommendationSummariesResponse,
   GetRecommendationSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3261,7 +3262,7 @@ export type PutRecommendationPreferencesError =
  * Guide.
  */
 export const putRecommendationPreferences: API.OperationMethod<
-  PutRecommendationPreferencesRequest,
+  PutRecommendationPreferencesRequest & RegionInput,
   PutRecommendationPreferencesResponse,
   PutRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -3307,7 +3308,7 @@ export type UpdateEnrollmentStatusError =
  * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
  */
 export const updateEnrollmentStatus: API.OperationMethod<
-  UpdateEnrollmentStatusRequest,
+  UpdateEnrollmentStatusRequest & RegionInput,
   UpdateEnrollmentStatusResponse,
   UpdateEnrollmentStatusError,
   Credentials | HttpClient.HttpClient

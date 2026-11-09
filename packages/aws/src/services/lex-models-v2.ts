@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3660,7 +3661,7 @@ export type BatchCreateCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchCreateCustomVocabularyItem: API.OperationMethod<
-  BatchCreateCustomVocabularyItemRequest,
+  BatchCreateCustomVocabularyItemRequest & RegionInput,
   BatchCreateCustomVocabularyItemResponse,
   BatchCreateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3693,7 +3694,7 @@ export type BatchDeleteCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchDeleteCustomVocabularyItem: API.OperationMethod<
-  BatchDeleteCustomVocabularyItemRequest,
+  BatchDeleteCustomVocabularyItemRequest & RegionInput,
   BatchDeleteCustomVocabularyItemResponse,
   BatchDeleteCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3726,7 +3727,7 @@ export type BatchUpdateCustomVocabularyItemError =
  * vocabulary.
  */
 export const batchUpdateCustomVocabularyItem: API.OperationMethod<
-  BatchUpdateCustomVocabularyItemRequest,
+  BatchUpdateCustomVocabularyItemRequest & RegionInput,
   BatchUpdateCustomVocabularyItemResponse,
   BatchUpdateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3761,7 +3762,7 @@ export type BuildBotLocaleError =
  * is used to choose a specific build of the bot.
  */
 export const buildBotLocale: API.OperationMethod<
-  BuildBotLocaleRequest,
+  BuildBotLocaleRequest & RegionInput,
   BuildBotLocaleResponse,
   BuildBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3795,7 +3796,7 @@ export type CreateBotError =
  * Creates an Amazon Lex conversational bot.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -3834,7 +3835,7 @@ export type CreateBotAliasError =
  * applications use to call the Amazon Lex bot.
  */
 export const createBotAlias: API.OperationMethod<
-  CreateBotAliasRequest,
+  CreateBotAliasRequest & RegionInput,
   CreateBotAliasResponse,
   CreateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -3871,7 +3872,7 @@ export type CreateBotLocaleError =
  * you can add intents and slot types to the bot.
  */
 export const createBotLocale: API.OperationMethod<
-  CreateBotLocaleRequest,
+  CreateBotLocaleRequest & RegionInput,
   CreateBotLocaleResponse,
   CreateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3905,7 +3906,7 @@ export type CreateBotReplicaError =
  * Action to create a replication of the source bot in the secondary region.
  */
 export const createBotReplica: API.OperationMethod<
-  CreateBotReplicaRequest,
+  CreateBotReplicaRequest & RegionInput,
   CreateBotReplicaResponse,
   CreateBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -3943,7 +3944,7 @@ export type CreateBotVersionError =
  * is deleted, that bot version number will not be reused.
  */
 export const createBotVersion: API.OperationMethod<
-  CreateBotVersionRequest,
+  CreateBotVersionRequest & RegionInput,
   CreateBotVersionResponse,
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -3987,7 +3988,7 @@ export type CreateExportError =
  * exporting bots
  */
 export const createExport: API.OperationMethod<
-  CreateExportRequest,
+  CreateExportRequest & RegionInput,
   CreateExportResponse,
   CreateExportError,
   Credentials | HttpClient.HttpClient
@@ -4052,7 +4053,7 @@ export type CreateIntentError =
  * For example, "Do you want a drink with your pizza?"
  */
 export const createIntent: API.OperationMethod<
-  CreateIntentRequest,
+  CreateIntentRequest & RegionInput,
   CreateIntentResponse,
   CreateIntentError,
   Credentials | HttpClient.HttpClient
@@ -4087,7 +4088,7 @@ export type CreateResourcePolicyError =
  * statements.
  */
 export const createResourcePolicy: API.OperationMethod<
-  CreateResourcePolicyRequest,
+  CreateResourcePolicyRequest & RegionInput,
   CreateResourcePolicyResponse,
   CreateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4130,7 +4131,7 @@ export type CreateResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const createResourcePolicyStatement: API.OperationMethod<
-  CreateResourcePolicyStatementRequest,
+  CreateResourcePolicyStatementRequest & RegionInput,
   CreateResourcePolicyStatementResponse,
   CreateResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4169,7 +4170,7 @@ export type CreateSlotError =
  * user.
  */
 export const createSlot: API.OperationMethod<
-  CreateSlotRequest,
+  CreateSlotRequest & RegionInput,
   CreateSlotResponse,
   CreateSlotError,
   Credentials | HttpClient.HttpClient
@@ -4207,7 +4208,7 @@ export type CreateSlotTypeError =
  * assume.
  */
 export const createSlotType: API.OperationMethod<
-  CreateSlotTypeRequest,
+  CreateSlotTypeRequest & RegionInput,
   CreateSlotTypeResponse,
   CreateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4241,7 +4242,7 @@ export type CreateTestSetDiscrepancyReportError =
  * Create a report that describes the differences between the bot and the test set.
  */
 export const createTestSetDiscrepancyReport: API.OperationMethod<
-  CreateTestSetDiscrepancyReportRequest,
+  CreateTestSetDiscrepancyReportRequest & RegionInput,
   CreateTestSetDiscrepancyReportResponse,
   CreateTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -4275,7 +4276,7 @@ export type CreateUploadUrlError =
  * archive when importing a bot or a bot locale.
  */
 export const createUploadUrl: API.OperationMethod<
-  CreateUploadUrlRequest,
+  CreateUploadUrlRequest & RegionInput,
   CreateUploadUrlResponse,
   CreateUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -4319,7 +4320,7 @@ export type DeleteBotError =
  * parameter to `true`.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -4353,7 +4354,7 @@ export type DeleteBotAliasError =
  * Deletes the specified bot alias.
  */
 export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
+  DeleteBotAliasRequest & RegionInput,
   DeleteBotAliasResponse,
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4387,7 +4388,7 @@ export type DeleteBotAnalyzerRecommendationError =
  * After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a `ResourceNotFoundException`.
  */
 export const deleteBotAnalyzerRecommendation: API.OperationMethod<
-  DeleteBotAnalyzerRecommendationRequest,
+  DeleteBotAnalyzerRecommendationRequest & RegionInput,
   DeleteBotAnalyzerRecommendationResponse,
   DeleteBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4422,7 +4423,7 @@ export type DeleteBotLocaleError =
  * for the locale are also deleted.
  */
 export const deleteBotLocale: API.OperationMethod<
-  DeleteBotLocaleRequest,
+  DeleteBotLocaleRequest & RegionInput,
   DeleteBotLocaleResponse,
   DeleteBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -4456,7 +4457,7 @@ export type DeleteBotReplicaError =
  * The action to delete the replicated bot in the secondary region.
  */
 export const deleteBotReplica: API.OperationMethod<
-  DeleteBotReplicaRequest,
+  DeleteBotReplicaRequest & RegionInput,
   DeleteBotReplicaResponse,
   DeleteBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -4491,7 +4492,7 @@ export type DeleteBotVersionError =
  * use the DeleteBot operation.
  */
 export const deleteBotVersion: API.OperationMethod<
-  DeleteBotVersionRequest,
+  DeleteBotVersionRequest & RegionInput,
   DeleteBotVersionResponse,
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -4526,7 +4527,7 @@ export type DeleteCustomVocabularyError =
  * in the specified bot.
  */
 export const deleteCustomVocabulary: API.OperationMethod<
-  DeleteCustomVocabularyRequest,
+  DeleteCustomVocabularyRequest & RegionInput,
   DeleteCustomVocabularyResponse,
   DeleteCustomVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -4560,7 +4561,7 @@ export type DeleteExportError =
  * bucket.
  */
 export const deleteExport: API.OperationMethod<
-  DeleteExportRequest,
+  DeleteExportRequest & RegionInput,
   DeleteExportResponse,
   DeleteExportError,
   Credentials | HttpClient.HttpClient
@@ -4593,7 +4594,7 @@ export type DeleteImportError =
  * bucket.
  */
 export const deleteImport: API.OperationMethod<
-  DeleteImportRequest,
+  DeleteImportRequest & RegionInput,
   DeleteImportResponse,
   DeleteImportError,
   Credentials | HttpClient.HttpClient
@@ -4629,7 +4630,7 @@ export type DeleteIntentError =
  * intent.
  */
 export const deleteIntent: API.OperationMethod<
-  DeleteIntentRequest,
+  DeleteIntentRequest & RegionInput,
   DeleteIntentResponse,
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
@@ -4662,7 +4663,7 @@ export type DeleteResourcePolicyError =
  * doesn't have a policy attached, Amazon Lex returns an exception.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4699,7 +4700,7 @@ export type DeleteResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const deleteResourcePolicyStatement: API.OperationMethod<
-  DeleteResourcePolicyStatementRequest,
+  DeleteResourcePolicyStatementRequest & RegionInput,
   DeleteResourcePolicyStatementResponse,
   DeleteResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4731,7 +4732,7 @@ export type DeleteSlotError =
  * Deletes the specified slot from an intent.
  */
 export const deleteSlot: API.OperationMethod<
-  DeleteSlotRequest,
+  DeleteSlotRequest & RegionInput,
   DeleteSlotResponse,
   DeleteSlotError,
   Credentials | HttpClient.HttpClient
@@ -4770,7 +4771,7 @@ export type DeleteSlotTypeError =
  * `true`.
  */
 export const deleteSlotType: API.OperationMethod<
-  DeleteSlotTypeRequest,
+  DeleteSlotTypeRequest & RegionInput,
   DeleteSlotTypeResponse,
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4804,7 +4805,7 @@ export type DeleteTestSetError =
  * The action to delete the selected test set.
  */
 export const deleteTestSet: API.OperationMethod<
-  DeleteTestSetRequest,
+  DeleteTestSetRequest & RegionInput,
   DeleteTestSetResponse,
   DeleteTestSetError,
   Credentials | HttpClient.HttpClient
@@ -4848,7 +4849,7 @@ export type DeleteUtterancesError =
  * days.
  */
 export const deleteUtterances: API.OperationMethod<
-  DeleteUtterancesRequest,
+  DeleteUtterancesRequest & RegionInput,
   DeleteUtterancesResponse,
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
@@ -4874,7 +4875,7 @@ export type DescribeBotError =
  * Provides metadata information about a bot.
  */
 export const describeBot: API.OperationMethod<
-  DescribeBotRequest,
+  DescribeBotRequest & RegionInput,
   DescribeBotResponse,
   DescribeBotError,
   Credentials | HttpClient.HttpClient
@@ -4906,7 +4907,7 @@ export type DescribeBotAliasError =
  * Get information about a specific bot alias.
  */
 export const describeBotAlias: API.OperationMethod<
-  DescribeBotAliasRequest,
+  DescribeBotAliasRequest & RegionInput,
   DescribeBotAliasResponse,
   DescribeBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4939,7 +4940,7 @@ export type DescribeBotAnalyzerRecommendationError =
  * Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
  */
 export const describeBotAnalyzerRecommendation: API.PaginatedOperationMethod<
-  DescribeBotAnalyzerRecommendationRequest,
+  DescribeBotAnalyzerRecommendationRequest & RegionInput,
   DescribeBotAnalyzerRecommendationResponse,
   DescribeBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient,
@@ -4977,7 +4978,7 @@ export type DescribeBotLocaleError =
  * Describes the settings that a bot has for a specific locale.
  */
 export const describeBotLocale: API.OperationMethod<
-  DescribeBotLocaleRequest,
+  DescribeBotLocaleRequest & RegionInput,
   DescribeBotLocaleResponse,
   DescribeBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -5012,7 +5013,7 @@ export type DescribeBotRecommendationError =
  * recommendation.
  */
 export const describeBotRecommendation: API.OperationMethod<
-  DescribeBotRecommendationRequest,
+  DescribeBotRecommendationRequest & RegionInput,
   DescribeBotRecommendationResponse,
   DescribeBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -5043,7 +5044,7 @@ export type DescribeBotReplicaError =
  * Monitors the bot replication status through the UI console.
  */
 export const describeBotReplica: API.OperationMethod<
-  DescribeBotReplicaRequest,
+  DescribeBotReplicaRequest & RegionInput,
   DescribeBotReplicaResponse,
   DescribeBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -5077,7 +5078,7 @@ export type DescribeBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const describeBotResourceGeneration: API.OperationMethod<
-  DescribeBotResourceGenerationRequest,
+  DescribeBotResourceGenerationRequest & RegionInput,
   DescribeBotResourceGenerationResponse,
   DescribeBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -5108,7 +5109,7 @@ export type DescribeBotVersionError =
  * Provides metadata about a version of a bot.
  */
 export const describeBotVersion: API.OperationMethod<
-  DescribeBotVersionRequest,
+  DescribeBotVersionRequest & RegionInput,
   DescribeBotVersionResponse,
   DescribeBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -5140,7 +5141,7 @@ export type DescribeCustomVocabularyMetadataError =
  * Provides metadata information about a custom vocabulary.
  */
 export const describeCustomVocabularyMetadata: API.OperationMethod<
-  DescribeCustomVocabularyMetadataRequest,
+  DescribeCustomVocabularyMetadataRequest & RegionInput,
   DescribeCustomVocabularyMetadataResponse,
   DescribeCustomVocabularyMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5171,7 +5172,7 @@ export type DescribeExportError =
  * Gets information about a specific export.
  */
 export const describeExport: API.OperationMethod<
-  DescribeExportRequest,
+  DescribeExportRequest & RegionInput,
   DescribeExportResponse,
   DescribeExportError,
   Credentials | HttpClient.HttpClient
@@ -5201,7 +5202,7 @@ export type DescribeImportError =
  * Gets information about a specific import.
  */
 export const describeImport: API.OperationMethod<
-  DescribeImportRequest,
+  DescribeImportRequest & RegionInput,
   DescribeImportResponse,
   DescribeImportError,
   Credentials | HttpClient.HttpClient
@@ -5232,7 +5233,7 @@ export type DescribeIntentError =
  * Returns metadata about an intent.
  */
 export const describeIntent: API.OperationMethod<
-  DescribeIntentRequest,
+  DescribeIntentRequest & RegionInput,
   DescribeIntentResponse,
   DescribeIntentError,
   Credentials | HttpClient.HttpClient
@@ -5263,7 +5264,7 @@ export type DescribeResourcePolicyError =
  * alias.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5289,7 +5290,7 @@ export type DescribeSlotError =
  * Gets metadata information about a slot.
  */
 export const describeSlot: API.OperationMethod<
-  DescribeSlotRequest,
+  DescribeSlotRequest & RegionInput,
   DescribeSlotResponse,
   DescribeSlotError,
   Credentials | HttpClient.HttpClient
@@ -5321,7 +5322,7 @@ export type DescribeSlotTypeError =
  * Gets metadata information about a slot type.
  */
 export const describeSlotType: API.OperationMethod<
-  DescribeSlotTypeRequest,
+  DescribeSlotTypeRequest & RegionInput,
   DescribeSlotTypeResponse,
   DescribeSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -5353,7 +5354,7 @@ export type DescribeTestExecutionError =
  * Gets metadata information about the test execution.
  */
 export const describeTestExecution: API.OperationMethod<
-  DescribeTestExecutionRequest,
+  DescribeTestExecutionRequest & RegionInput,
   DescribeTestExecutionResponse,
   DescribeTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5385,7 +5386,7 @@ export type DescribeTestSetError =
  * Gets metadata information about the test set.
  */
 export const describeTestSet: API.OperationMethod<
-  DescribeTestSetRequest,
+  DescribeTestSetRequest & RegionInput,
   DescribeTestSetResponse,
   DescribeTestSetError,
   Credentials | HttpClient.HttpClient
@@ -5417,7 +5418,7 @@ export type DescribeTestSetDiscrepancyReportError =
  * Gets metadata information about the test set discrepancy report.
  */
 export const describeTestSetDiscrepancyReport: API.OperationMethod<
-  DescribeTestSetDiscrepancyReportRequest,
+  DescribeTestSetDiscrepancyReportRequest & RegionInput,
   DescribeTestSetDiscrepancyReportResponse,
   DescribeTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -5449,7 +5450,7 @@ export type DescribeTestSetGenerationError =
  * Gets metadata information about the test set generation.
  */
 export const describeTestSetGeneration: API.OperationMethod<
-  DescribeTestSetGenerationRequest,
+  DescribeTestSetGenerationRequest & RegionInput,
   DescribeTestSetGenerationResponse,
   DescribeTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -5483,7 +5484,7 @@ export type GenerateBotElementError =
  * Generates sample utterances for an intent.
  */
 export const generateBotElement: API.OperationMethod<
-  GenerateBotElementRequest,
+  GenerateBotElementRequest & RegionInput,
   GenerateBotElementResponse,
   GenerateBotElementError,
   Credentials | HttpClient.HttpClient
@@ -5517,7 +5518,7 @@ export type GetTestExecutionArtifactsUrlError =
  * The pre-signed Amazon S3 URL to download the test execution result artifacts.
  */
 export const getTestExecutionArtifactsUrl: API.OperationMethod<
-  GetTestExecutionArtifactsUrlRequest,
+  GetTestExecutionArtifactsUrlRequest & RegionInput,
   GetTestExecutionArtifactsUrlResponse,
   GetTestExecutionArtifactsUrlError,
   Credentials | HttpClient.HttpClient
@@ -5571,7 +5572,7 @@ export type ListAggregatedUtterancesError =
  * - You opted out of participating in improving Amazon Lex.
  */
 export const listAggregatedUtterances: API.PaginatedOperationMethod<
-  ListAggregatedUtterancesRequest,
+  ListAggregatedUtterancesRequest & RegionInput,
   ListAggregatedUtterancesResponse,
   ListAggregatedUtterancesError,
   Credentials | HttpClient.HttpClient,
@@ -5608,7 +5609,7 @@ export type ListBotAliasesError =
  * Gets a list of aliases for the specified bot.
  */
 export const listBotAliases: API.PaginatedOperationMethod<
-  ListBotAliasesRequest,
+  ListBotAliasesRequest & RegionInput,
   ListBotAliasesResponse,
   ListBotAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -5645,7 +5646,7 @@ export type ListBotAliasReplicasError =
  * The action to list the replicated bots created from the source bot alias.
  */
 export const listBotAliasReplicas: API.PaginatedOperationMethod<
-  ListBotAliasReplicasRequest,
+  ListBotAliasReplicasRequest & RegionInput,
   ListBotAliasReplicasResponse,
   ListBotAliasReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5683,7 +5684,7 @@ export type ListBotAnalyzerHistoryError =
  * The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
  */
 export const listBotAnalyzerHistory: API.PaginatedOperationMethod<
-  ListBotAnalyzerHistoryRequest,
+  ListBotAnalyzerHistoryRequest & RegionInput,
   ListBotAnalyzerHistoryResponse,
   ListBotAnalyzerHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -5720,7 +5721,7 @@ export type ListBotLocalesError =
  * Gets a list of locales for the specified bot.
  */
 export const listBotLocales: API.PaginatedOperationMethod<
-  ListBotLocalesRequest,
+  ListBotLocalesRequest & RegionInput,
   ListBotLocalesResponse,
   ListBotLocalesError,
   Credentials | HttpClient.HttpClient,
@@ -5757,7 +5758,7 @@ export type ListBotRecommendationsError =
  * criteria.
  */
 export const listBotRecommendations: API.PaginatedOperationMethod<
-  ListBotRecommendationsRequest,
+  ListBotRecommendationsRequest & RegionInput,
   ListBotRecommendationsResponse,
   ListBotRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -5793,7 +5794,7 @@ export type ListBotReplicasError =
  * The action to list the replicated bots.
  */
 export const listBotReplicas: API.OperationMethod<
-  ListBotReplicasRequest,
+  ListBotReplicasRequest & RegionInput,
   ListBotReplicasResponse,
   ListBotReplicasError,
   Credentials | HttpClient.HttpClient
@@ -5823,7 +5824,7 @@ export type ListBotResourceGenerationsError =
  * Lists the generation requests made for a bot locale.
  */
 export const listBotResourceGenerations: API.PaginatedOperationMethod<
-  ListBotResourceGenerationsRequest,
+  ListBotResourceGenerationsRequest & RegionInput,
   ListBotResourceGenerationsResponse,
   ListBotResourceGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -5859,7 +5860,7 @@ export type ListBotsError =
  * Gets a list of available bots.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -5895,7 +5896,7 @@ export type ListBotVersionReplicasError =
  * Contains information about all the versions replication statuses applicable for Global Resiliency.
  */
 export const listBotVersionReplicas: API.PaginatedOperationMethod<
-  ListBotVersionReplicasRequest,
+  ListBotVersionReplicasRequest & RegionInput,
   ListBotVersionReplicasResponse,
   ListBotVersionReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5940,7 +5941,7 @@ export type ListBotVersionsError =
  * one version, the `DRAFT` version.
  */
 export const listBotVersions: API.PaginatedOperationMethod<
-  ListBotVersionsRequest,
+  ListBotVersionsRequest & RegionInput,
   ListBotVersionsResponse,
   ListBotVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5982,7 +5983,7 @@ export type ListBuiltInIntentsError =
  * more information, see CreateIntent.
  */
 export const listBuiltInIntents: API.PaginatedOperationMethod<
-  ListBuiltInIntentsRequest,
+  ListBuiltInIntentsRequest & RegionInput,
   ListBuiltInIntentsResponse,
   ListBuiltInIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6019,7 +6020,7 @@ export type ListBuiltInSlotTypesError =
  * criteria.
  */
 export const listBuiltInSlotTypes: API.PaginatedOperationMethod<
-  ListBuiltInSlotTypesRequest,
+  ListBuiltInSlotTypesRequest & RegionInput,
   ListBuiltInSlotTypesResponse,
   ListBuiltInSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -6057,7 +6058,7 @@ export type ListCustomVocabularyItemsError =
  * custom vocabulary.
  */
 export const listCustomVocabularyItems: API.PaginatedOperationMethod<
-  ListCustomVocabularyItemsRequest,
+  ListCustomVocabularyItemsRequest & RegionInput,
   ListCustomVocabularyItemsResponse,
   ListCustomVocabularyItemsError,
   Credentials | HttpClient.HttpClient,
@@ -6094,7 +6095,7 @@ export type ListExportsError =
  * Exports are kept in the list for 7 days.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -6125,7 +6126,7 @@ export type ListImportsError =
  * Imports are kept in the list for 7 days.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -6169,7 +6170,7 @@ export type ListIntentMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can specify only one `order` in a given request.
  */
 export const listIntentMetrics: API.PaginatedOperationMethod<
-  ListIntentMetricsRequest,
+  ListIntentMetricsRequest & RegionInput,
   ListIntentMetricsResponse,
   ListIntentMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6213,7 +6214,7 @@ export type ListIntentPathsError =
  * Use the optional `filters` field to filter the results.
  */
 export const listIntentPaths: API.OperationMethod<
-  ListIntentPathsRequest,
+  ListIntentPathsRequest & RegionInput,
   ListIntentPathsResponse,
   ListIntentPathsError,
   Credentials | HttpClient.HttpClient
@@ -6245,7 +6246,7 @@ export type ListIntentsError =
  * Get a list of intents that meet the specified criteria.
  */
 export const listIntents: API.PaginatedOperationMethod<
-  ListIntentsRequest,
+  ListIntentsRequest & RegionInput,
   ListIntentsResponse,
   ListIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6295,7 +6296,7 @@ export type ListIntentStageMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can only specify one `order` in a given request.
  */
 export const listIntentStageMetrics: API.PaginatedOperationMethod<
-  ListIntentStageMetricsRequest,
+  ListIntentStageMetricsRequest & RegionInput,
   ListIntentStageMetricsResponse,
   ListIntentStageMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6335,7 +6336,7 @@ export type ListRecommendedIntentsError =
  * response are ordered by relevance.
  */
 export const listRecommendedIntents: API.PaginatedOperationMethod<
-  ListRecommendedIntentsRequest,
+  ListRecommendedIntentsRequest & RegionInput,
   ListRecommendedIntentsResponse,
   ListRecommendedIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6377,7 +6378,7 @@ export type ListSessionAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listSessionAnalyticsData: API.PaginatedOperationMethod<
-  ListSessionAnalyticsDataRequest,
+  ListSessionAnalyticsDataRequest & RegionInput,
   ListSessionAnalyticsDataResponse,
   ListSessionAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6427,7 +6428,7 @@ export type ListSessionMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listSessionMetrics: API.PaginatedOperationMethod<
-  ListSessionMetricsRequest,
+  ListSessionMetricsRequest & RegionInput,
   ListSessionMetricsResponse,
   ListSessionMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6464,7 +6465,7 @@ export type ListSlotsError =
  * Gets a list of slots that match the specified criteria.
  */
 export const listSlots: API.PaginatedOperationMethod<
-  ListSlotsRequest,
+  ListSlotsRequest & RegionInput,
   ListSlotsResponse,
   ListSlotsError,
   Credentials | HttpClient.HttpClient,
@@ -6501,7 +6502,7 @@ export type ListSlotTypesError =
  * Gets a list of slot types that match the specified criteria.
  */
 export const listSlotTypes: API.PaginatedOperationMethod<
-  ListSlotTypesRequest,
+  ListSlotTypesRequest & RegionInput,
   ListSlotTypesResponse,
   ListSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -6539,7 +6540,7 @@ export type ListTagsForResourceError =
  * aliases, and bot channels can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6570,7 +6571,7 @@ export type ListTestExecutionResultItemsError =
  * Gets a list of test execution result items.
  */
 export const listTestExecutionResultItems: API.PaginatedOperationMethod<
-  ListTestExecutionResultItemsRequest,
+  ListTestExecutionResultItemsRequest & RegionInput,
   ListTestExecutionResultItemsResponse,
   ListTestExecutionResultItemsError,
   Credentials | HttpClient.HttpClient,
@@ -6607,7 +6608,7 @@ export type ListTestExecutionsError =
  * The list of test set executions.
  */
 export const listTestExecutions: API.PaginatedOperationMethod<
-  ListTestExecutionsRequest,
+  ListTestExecutionsRequest & RegionInput,
   ListTestExecutionsResponse,
   ListTestExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -6644,7 +6645,7 @@ export type ListTestSetRecordsError =
  * The list of test set records.
  */
 export const listTestSetRecords: API.PaginatedOperationMethod<
-  ListTestSetRecordsRequest,
+  ListTestSetRecordsRequest & RegionInput,
   ListTestSetRecordsResponse,
   ListTestSetRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -6681,7 +6682,7 @@ export type ListTestSetsError =
  * The list of the test sets
  */
 export const listTestSets: API.PaginatedOperationMethod<
-  ListTestSetsRequest,
+  ListTestSetsRequest & RegionInput,
   ListTestSetsResponse,
   ListTestSetsError,
   Credentials | HttpClient.HttpClient,
@@ -6731,7 +6732,7 @@ export type ListUtteranceAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listUtteranceAnalyticsData: API.PaginatedOperationMethod<
-  ListUtteranceAnalyticsDataRequest,
+  ListUtteranceAnalyticsDataRequest & RegionInput,
   ListUtteranceAnalyticsDataResponse,
   ListUtteranceAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6786,7 +6787,7 @@ export type ListUtteranceMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listUtteranceMetrics: API.PaginatedOperationMethod<
-  ListUtteranceMetricsRequest,
+  ListUtteranceMetricsRequest & RegionInput,
   ListUtteranceMetricsResponse,
   ListUtteranceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6825,7 +6826,7 @@ export type SearchAssociatedTranscriptsError =
  * criteria.
  */
 export const searchAssociatedTranscripts: API.OperationMethod<
-  SearchAssociatedTranscriptsRequest,
+  SearchAssociatedTranscriptsRequest & RegionInput,
   SearchAssociatedTranscriptsResponse,
   SearchAssociatedTranscriptsError,
   Credentials | HttpClient.HttpClient
@@ -6859,7 +6860,7 @@ export type StartBotAnalyzerError =
  * The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
  */
 export const startBotAnalyzer: API.OperationMethod<
-  StartBotAnalyzerRequest,
+  StartBotAnalyzerRequest & RegionInput,
   StartBotAnalyzerResponse,
   StartBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -6894,7 +6895,7 @@ export type StartBotRecommendationError =
  * recommendation process.
  */
 export const startBotRecommendation: API.OperationMethod<
-  StartBotRecommendationRequest,
+  StartBotRecommendationRequest & RegionInput,
   StartBotRecommendationResponse,
   StartBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -6933,7 +6934,7 @@ export type StartBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const startBotResourceGeneration: API.OperationMethod<
-  StartBotResourceGenerationRequest,
+  StartBotResourceGenerationRequest & RegionInput,
   StartBotResourceGenerationResponse,
   StartBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -6968,7 +6969,7 @@ export type StartImportError =
  * archive that you uploaded to an S3 bucket.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -7002,7 +7003,7 @@ export type StartTestExecutionError =
  * The action to start test set execution.
  */
 export const startTestExecution: API.OperationMethod<
-  StartTestExecutionRequest,
+  StartTestExecutionRequest & RegionInput,
   StartTestExecutionResponse,
   StartTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -7036,7 +7037,7 @@ export type StartTestSetGenerationError =
  * The action to start the generation of test set.
  */
 export const startTestSetGeneration: API.OperationMethod<
-  StartTestSetGenerationRequest,
+  StartTestSetGenerationRequest & RegionInput,
   StartTestSetGenerationResponse,
   StartTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -7068,7 +7069,7 @@ export type StopBotAnalyzerError =
  * Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
  */
 export const stopBotAnalyzer: API.OperationMethod<
-  StopBotAnalyzerRequest,
+  StopBotAnalyzerRequest & RegionInput,
   StopBotAnalyzerResponse,
   StopBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -7101,7 +7102,7 @@ export type StopBotRecommendationError =
  * Stop an already running Bot Recommendation request.
  */
 export const stopBotRecommendation: API.OperationMethod<
-  StopBotRecommendationRequest,
+  StopBotRecommendationRequest & RegionInput,
   StopBotRecommendationResponse,
   StopBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -7136,7 +7137,7 @@ export type TagResourceError =
  * value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7166,7 +7167,7 @@ export type UntagResourceError =
  * Removes tags from a bot, bot alias, or bot channel.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7198,7 +7199,7 @@ export type UpdateBotError =
  * Updates the configuration of an existing bot.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -7232,7 +7233,7 @@ export type UpdateBotAliasError =
  * Updates the configuration of an existing bot alias.
  */
 export const updateBotAlias: API.OperationMethod<
-  UpdateBotAliasRequest,
+  UpdateBotAliasRequest & RegionInput,
   UpdateBotAliasResponse,
   UpdateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -7266,7 +7267,7 @@ export type UpdateBotLocaleError =
  * Updates the settings that a bot has for a specific locale.
  */
 export const updateBotLocale: API.OperationMethod<
-  UpdateBotLocaleRequest,
+  UpdateBotLocaleRequest & RegionInput,
   UpdateBotLocaleResponse,
   UpdateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -7301,7 +7302,7 @@ export type UpdateBotRecommendationError =
  * Updates an existing bot recommendation request.
  */
 export const updateBotRecommendation: API.OperationMethod<
-  UpdateBotRecommendationRequest,
+  UpdateBotRecommendationRequest & RegionInput,
   UpdateBotRecommendationResponse,
   UpdateBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -7341,7 +7342,7 @@ export type UpdateExportError =
  * DescribeExport operation.
  */
 export const updateExport: API.OperationMethod<
-  UpdateExportRequest,
+  UpdateExportRequest & RegionInput,
   UpdateExportResponse,
   UpdateExportError,
   Credentials | HttpClient.HttpClient
@@ -7375,7 +7376,7 @@ export type UpdateIntentError =
  * Updates the settings for an intent.
  */
 export const updateIntent: API.OperationMethod<
-  UpdateIntentRequest,
+  UpdateIntentRequest & RegionInput,
   UpdateIntentResponse,
   UpdateIntentError,
   Credentials | HttpClient.HttpClient
@@ -7411,7 +7412,7 @@ export type UpdateResourcePolicyError =
  * exception.
  */
 export const updateResourcePolicy: API.OperationMethod<
-  UpdateResourcePolicyRequest,
+  UpdateResourcePolicyRequest & RegionInput,
   UpdateResourcePolicyResponse,
   UpdateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7445,7 +7446,7 @@ export type UpdateSlotError =
  * Updates the settings for a slot.
  */
 export const updateSlot: API.OperationMethod<
-  UpdateSlotRequest,
+  UpdateSlotRequest & RegionInput,
   UpdateSlotResponse,
   UpdateSlotError,
   Credentials | HttpClient.HttpClient
@@ -7479,7 +7480,7 @@ export type UpdateSlotTypeError =
  * Updates the configuration of an existing slot type.
  */
 export const updateSlotType: API.OperationMethod<
-  UpdateSlotTypeRequest,
+  UpdateSlotTypeRequest & RegionInput,
   UpdateSlotTypeResponse,
   UpdateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -7513,7 +7514,7 @@ export type UpdateTestSetError =
  * The action to update the test set.
  */
 export const updateTestSet: API.OperationMethod<
-  UpdateTestSetRequest,
+  UpdateTestSetRequest & RegionInput,
   UpdateTestSetResponse,
   UpdateTestSetError,
   Credentials | HttpClient.HttpClient

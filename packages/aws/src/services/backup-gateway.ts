@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -432,7 +433,7 @@ export type AssociateGatewayToServerError = ConflictException | CommonErrors;
  * Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
  */
 export const associateGatewayToServer: API.OperationMethod<
-  AssociateGatewayToServerInput,
+  AssociateGatewayToServerInput & RegionInput,
   AssociateGatewayToServerOutput,
   AssociateGatewayToServerError,
   Credentials | HttpClient.HttpClient
@@ -452,7 +453,7 @@ export type CreateGatewayError = CommonErrors;
  * Creates a backup gateway. After you create a gateway, you can associate it with a server using the `AssociateGatewayToServer` operation.
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayInput,
+  CreateGatewayInput & RegionInput,
   CreateGatewayOutput,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -472,7 +473,7 @@ export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
  * Deletes a backup gateway.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -496,7 +497,7 @@ export type DeleteHypervisorError =
  * Deletes a hypervisor.
  */
 export const deleteHypervisor: API.OperationMethod<
-  DeleteHypervisorInput,
+  DeleteHypervisorInput & RegionInput,
   DeleteHypervisorOutput,
   DeleteHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -519,7 +520,7 @@ export type DisassociateGatewayFromServerError =
  * Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
  */
 export const disassociateGatewayFromServer: API.OperationMethod<
-  DisassociateGatewayFromServerInput,
+  DisassociateGatewayFromServerInput & RegionInput,
   DisassociateGatewayFromServerOutput,
   DisassociateGatewayFromServerError,
   Credentials | HttpClient.HttpClient
@@ -539,7 +540,7 @@ export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
  */
 export const getBandwidthRateLimitSchedule: API.OperationMethod<
-  GetBandwidthRateLimitScheduleInput,
+  GetBandwidthRateLimitScheduleInput & RegionInput,
   GetBandwidthRateLimitScheduleOutput,
   GetBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -559,7 +560,7 @@ export type GetGatewayError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the gateway.
  */
 export const getGateway: API.OperationMethod<
-  GetGatewayInput,
+  GetGatewayInput & RegionInput,
   GetGatewayOutput,
   GetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -579,7 +580,7 @@ export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
  * This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
  */
 export const getHypervisor: API.OperationMethod<
-  GetHypervisorInput,
+  GetHypervisorInput & RegionInput,
   GetHypervisorOutput,
   GetHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -599,7 +600,7 @@ export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | Com
  * This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const getHypervisorPropertyMappings: API.OperationMethod<
-  GetHypervisorPropertyMappingsInput,
+  GetHypervisorPropertyMappingsInput & RegionInput,
   GetHypervisorPropertyMappingsOutput,
   GetHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -619,7 +620,7 @@ export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
  */
 export const getVirtualMachine: API.OperationMethod<
-  GetVirtualMachineInput,
+  GetVirtualMachineInput & RegionInput,
   GetVirtualMachineOutput,
   GetVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type ImportHypervisorConfigurationError =
  * Connect to a hypervisor by importing its configuration.
  */
 export const importHypervisorConfiguration: API.OperationMethod<
-  ImportHypervisorConfigurationInput,
+  ImportHypervisorConfigurationInput & RegionInput,
   ImportHypervisorConfigurationOutput,
   ImportHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type ListGatewaysError = CommonErrors;
  * Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -689,7 +690,7 @@ export type ListHypervisorsError = CommonErrors;
  * Lists your hypervisors.
  */
 export const listHypervisors: API.PaginatedOperationMethod<
-  ListHypervisorsInput,
+  ListHypervisorsInput & RegionInput,
   ListHypervisorsOutput,
   ListHypervisorsError,
   Credentials | HttpClient.HttpClient,
@@ -716,7 +717,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type ListVirtualMachinesError = CommonErrors;
  * Lists your virtual machines.
  */
 export const listVirtualMachines: API.PaginatedOperationMethod<
-  ListVirtualMachinesInput,
+  ListVirtualMachinesInput & RegionInput,
   ListVirtualMachinesOutput,
   ListVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -763,7 +764,7 @@ export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
  */
 export const putBandwidthRateLimitSchedule: API.OperationMethod<
-  PutBandwidthRateLimitScheduleInput,
+  PutBandwidthRateLimitScheduleInput & RegionInput,
   PutBandwidthRateLimitScheduleOutput,
   PutBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type PutHypervisorPropertyMappingsError =
  * This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const putHypervisorPropertyMappings: API.OperationMethod<
-  PutHypervisorPropertyMappingsInput,
+  PutHypervisorPropertyMappingsInput & RegionInput,
   PutHypervisorPropertyMappingsOutput,
   PutHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -810,7 +811,7 @@ export type PutMaintenanceStartTimeError =
  * Set the maintenance start time for a gateway.
  */
 export const putMaintenanceStartTime: API.OperationMethod<
-  PutMaintenanceStartTimeInput,
+  PutMaintenanceStartTimeInput & RegionInput,
   PutMaintenanceStartTimeOutput,
   PutMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -833,7 +834,7 @@ export type StartVirtualMachinesMetadataSyncError =
  * This action sends a request to sync metadata across the specified virtual machines.
  */
 export const startVirtualMachinesMetadataSync: API.OperationMethod<
-  StartVirtualMachinesMetadataSyncInput,
+  StartVirtualMachinesMetadataSyncInput & RegionInput,
   StartVirtualMachinesMetadataSyncOutput,
   StartVirtualMachinesMetadataSyncError,
   Credentials | HttpClient.HttpClient
@@ -853,7 +854,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * Tag the resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -876,7 +877,7 @@ export type TestHypervisorConfigurationError =
  * Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
  */
 export const testHypervisorConfiguration: API.OperationMethod<
-  TestHypervisorConfigurationInput,
+  TestHypervisorConfigurationInput & RegionInput,
   TestHypervisorConfigurationOutput,
   TestHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -919,7 +920,7 @@ export type UpdateGatewayInformationError =
  * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -941,7 +942,7 @@ export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonEr
  * When you make this request, you get a `200 OK` success response immediately. However, it might take some time for the update to complete.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -965,7 +966,7 @@ export type UpdateHypervisorError =
  * Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
  */
 export const updateHypervisor: API.OperationMethod<
-  UpdateHypervisorInput,
+  UpdateHypervisorInput & RegionInput,
   UpdateHypervisorOutput,
   UpdateHypervisorError,
   Credentials | HttpClient.HttpClient

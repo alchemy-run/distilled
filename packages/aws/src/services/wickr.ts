@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -927,7 +928,7 @@ export type BatchCreateUserError =
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
 export const batchCreateUser: API.OperationMethod<
-  BatchCreateUserRequest,
+  BatchCreateUserRequest & RegionInput,
   BatchCreateUserResponse,
   BatchCreateUserError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +964,7 @@ export type BatchDeleteUserError =
  * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
  */
 export const batchDeleteUser: API.OperationMethod<
-  BatchDeleteUserRequest,
+  BatchDeleteUserRequest & RegionInput,
   BatchDeleteUserResponse,
   BatchDeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1000,7 @@ export type BatchLookupUserUnameError =
  * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
  */
 export const batchLookupUserUname: API.OperationMethod<
-  BatchLookupUserUnameRequest,
+  BatchLookupUserUnameRequest & RegionInput,
   BatchLookupUserUnameResponse,
   BatchLookupUserUnameError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type BatchReinviteUserError =
  * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
  */
 export const batchReinviteUser: API.OperationMethod<
-  BatchReinviteUserRequest,
+  BatchReinviteUserRequest & RegionInput,
   BatchReinviteUserResponse,
   BatchReinviteUserError,
   Credentials | HttpClient.HttpClient
@@ -1071,7 +1072,7 @@ export type BatchResetDevicesForUserError =
  * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
  */
 export const batchResetDevicesForUser: API.OperationMethod<
-  BatchResetDevicesForUserRequest,
+  BatchResetDevicesForUserRequest & RegionInput,
   BatchResetDevicesForUserResponse,
   BatchResetDevicesForUserError,
   Credentials | HttpClient.HttpClient
@@ -1107,7 +1108,7 @@ export type BatchToggleUserSuspendStatusError =
  * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
  */
 export const batchToggleUserSuspendStatus: API.OperationMethod<
-  BatchToggleUserSuspendStatusRequest,
+  BatchToggleUserSuspendStatusRequest & RegionInput,
   BatchToggleUserSuspendStatusResponse,
   BatchToggleUserSuspendStatusError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type CreateBotError =
  * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -1179,7 +1180,7 @@ export type CreateDataRetentionBotError =
  * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
  */
 export const createDataRetentionBot: API.OperationMethod<
-  CreateDataRetentionBotRequest,
+  CreateDataRetentionBotRequest & RegionInput,
   CreateDataRetentionBotResponse,
   CreateDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type CreateDataRetentionBotChallengeError =
  * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
  */
 export const createDataRetentionBotChallenge: API.OperationMethod<
-  CreateDataRetentionBotChallengeRequest,
+  CreateDataRetentionBotChallengeRequest & RegionInput,
   CreateDataRetentionBotChallengeResponse,
   CreateDataRetentionBotChallengeError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type CreateNetworkError =
  * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkRequest,
+  CreateNetworkRequest & RegionInput,
   CreateNetworkResponse,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1287,7 +1288,7 @@ export type CreateSecurityGroupError =
  * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
  */
 export const createSecurityGroup: API.OperationMethod<
-  CreateSecurityGroupRequest,
+  CreateSecurityGroupRequest & RegionInput,
   CreateSecurityGroupResponse,
   CreateSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1323,7 +1324,7 @@ export type DeleteBotError =
  * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type DeleteDataRetentionBotError =
  * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
  */
 export const deleteDataRetentionBot: API.OperationMethod<
-  DeleteDataRetentionBotRequest,
+  DeleteDataRetentionBotRequest & RegionInput,
   DeleteDataRetentionBotResponse,
   DeleteDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type DeleteNetworkError =
  * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
  */
 export const deleteNetwork: API.OperationMethod<
-  DeleteNetworkRequest,
+  DeleteNetworkRequest & RegionInput,
   DeleteNetworkResponse,
   DeleteNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type DeleteSecurityGroupError =
  * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
  */
 export const deleteSecurityGroup: API.OperationMethod<
-  DeleteSecurityGroupRequest,
+  DeleteSecurityGroupRequest & RegionInput,
   DeleteSecurityGroupResponse,
   DeleteSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type GetBotError =
  * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetBotsCountError =
  * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
  */
 export const getBotsCount: API.OperationMethod<
-  GetBotsCountRequest,
+  GetBotsCountRequest & RegionInput,
   GetBotsCountResponse,
   GetBotsCountError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type GetDataRetentionBotError =
  * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
  */
 export const getDataRetentionBot: API.OperationMethod<
-  GetDataRetentionBotRequest,
+  GetDataRetentionBotRequest & RegionInput,
   GetDataRetentionBotResponse,
   GetDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1575,7 +1576,7 @@ export type GetGuestUserHistoryCountError =
  * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
  */
 export const getGuestUserHistoryCount: API.OperationMethod<
-  GetGuestUserHistoryCountRequest,
+  GetGuestUserHistoryCountRequest & RegionInput,
   GetGuestUserHistoryCountResponse,
   GetGuestUserHistoryCountError,
   Credentials | HttpClient.HttpClient
@@ -1611,7 +1612,7 @@ export type GetNetworkError =
  * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkRequest,
+  GetNetworkRequest & RegionInput,
   GetNetworkResponse,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1648,7 @@ export type GetNetworkSettingsError =
  * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
  */
 export const getNetworkSettings: API.OperationMethod<
-  GetNetworkSettingsRequest,
+  GetNetworkSettingsRequest & RegionInput,
   GetNetworkSettingsResponse,
   GetNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1683,7 +1684,7 @@ export type GetOidcInfoError =
  * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
  */
 export const getOidcInfo: API.OperationMethod<
-  GetOidcInfoRequest,
+  GetOidcInfoRequest & RegionInput,
   GetOidcInfoResponse,
   GetOidcInfoError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type GetOpentdfConfigError =
  * Retrieves the OpenTDF integration configuration for a Wickr network.
  */
 export const getOpentdfConfig: API.OperationMethod<
-  GetOpentdfConfigRequest,
+  GetOpentdfConfigRequest & RegionInput,
   GetOpentdfConfigResponse,
   GetOpentdfConfigError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type GetSecurityGroupError =
  * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
  */
 export const getSecurityGroup: API.OperationMethod<
-  GetSecurityGroupRequest,
+  GetSecurityGroupRequest & RegionInput,
   GetSecurityGroupResponse,
   GetSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1791,7 +1792,7 @@ export type GetUserError =
  * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetUsersCountError =
  * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
  */
 export const getUsersCount: API.OperationMethod<
-  GetUsersCountRequest,
+  GetUsersCountRequest & RegionInput,
   GetUsersCountResponse,
   GetUsersCountError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type ListBlockedGuestUsersError =
  * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
  */
 export const listBlockedGuestUsers: API.PaginatedOperationMethod<
-  ListBlockedGuestUsersRequest,
+  ListBlockedGuestUsersRequest & RegionInput,
   ListBlockedGuestUsersResponse,
   ListBlockedGuestUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1906,7 +1907,7 @@ export type ListBotsError =
  * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1949,7 +1950,7 @@ export type ListDevicesForUserError =
  * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
  */
 export const listDevicesForUser: API.PaginatedOperationMethod<
-  ListDevicesForUserRequest,
+  ListDevicesForUserRequest & RegionInput,
   ListDevicesForUserResponse,
   ListDevicesForUserError,
   Credentials | HttpClient.HttpClient,
@@ -1992,7 +1993,7 @@ export type ListGuestUsersError =
  * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
  */
 export const listGuestUsers: API.PaginatedOperationMethod<
-  ListGuestUsersRequest,
+  ListGuestUsersRequest & RegionInput,
   ListGuestUsersResponse,
   ListGuestUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2034,7 +2035,7 @@ export type ListNetworksError =
  * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksRequest,
+  ListNetworksRequest & RegionInput,
   ListNetworksResponse,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -2076,7 +2077,7 @@ export type ListSecurityGroupsError =
  * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
  */
 export const listSecurityGroups: API.PaginatedOperationMethod<
-  ListSecurityGroupsRequest,
+  ListSecurityGroupsRequest & RegionInput,
   ListSecurityGroupsResponse,
   ListSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2119,7 +2120,7 @@ export type ListSecurityGroupUsersError =
  * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
  */
 export const listSecurityGroupUsers: API.PaginatedOperationMethod<
-  ListSecurityGroupUsersRequest,
+  ListSecurityGroupUsersRequest & RegionInput,
   ListSecurityGroupUsersResponse,
   ListSecurityGroupUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2162,7 +2163,7 @@ export type ListUsersError =
  * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2205,7 +2206,7 @@ export type RegisterOidcConfigError =
  * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
  */
 export const registerOidcConfig: API.OperationMethod<
-  RegisterOidcConfigRequest,
+  RegisterOidcConfigRequest & RegionInput,
   RegisterOidcConfigResponse,
   RegisterOidcConfigError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type RegisterOidcConfigTestError =
  * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
  */
 export const registerOidcConfigTest: API.OperationMethod<
-  RegisterOidcConfigTestRequest,
+  RegisterOidcConfigTestRequest & RegionInput,
   RegisterOidcConfigTestResponse,
   RegisterOidcConfigTestError,
   Credentials | HttpClient.HttpClient
@@ -2277,7 +2278,7 @@ export type RegisterOpentdfConfigError =
  * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
  */
 export const registerOpentdfConfig: API.OperationMethod<
-  RegisterOpentdfConfigRequest,
+  RegisterOpentdfConfigRequest & RegionInput,
   RegisterOpentdfConfigResponse,
   RegisterOpentdfConfigError,
   Credentials | HttpClient.HttpClient
@@ -2313,7 +2314,7 @@ export type UpdateBotError =
  * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -2349,7 +2350,7 @@ export type UpdateDataRetentionError =
  * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
  */
 export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionRequest,
+  UpdateDataRetentionRequest & RegionInput,
   UpdateDataRetentionResponse,
   UpdateDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type UpdateGuestUserError =
  * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
  */
 export const updateGuestUser: API.OperationMethod<
-  UpdateGuestUserRequest,
+  UpdateGuestUserRequest & RegionInput,
   UpdateGuestUserResponse,
   UpdateGuestUserError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type UpdateNetworkError =
  * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
  */
 export const updateNetwork: API.OperationMethod<
-  UpdateNetworkRequest,
+  UpdateNetworkRequest & RegionInput,
   UpdateNetworkResponse,
   UpdateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2457,7 +2458,7 @@ export type UpdateNetworkSettingsError =
  * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
  */
 export const updateNetworkSettings: API.OperationMethod<
-  UpdateNetworkSettingsRequest,
+  UpdateNetworkSettingsRequest & RegionInput,
   UpdateNetworkSettingsResponse,
   UpdateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2493,7 +2494,7 @@ export type UpdateSecurityGroupError =
  * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
  */
 export const updateSecurityGroup: API.OperationMethod<
-  UpdateSecurityGroupRequest,
+  UpdateSecurityGroupRequest & RegionInput,
   UpdateSecurityGroupResponse,
   UpdateSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -2531,7 +2532,7 @@ export type UpdateUserError =
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

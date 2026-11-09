@@ -11,6 +11,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1947,7 +1948,7 @@ export type ApplyGuardrailError =
  * For troubleshooting some of the common errors you might encounter when using the `ApplyGuardrail` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const applyGuardrail: API.OperationMethod<
-  ApplyGuardrailRequest,
+  ApplyGuardrailRequest & RegionInput,
   ApplyGuardrailResponse,
   ApplyGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2002,7 @@ export type ConverseError =
  * For troubleshooting some of the common errors you might encounter when using the `Converse` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converse: API.OperationMethod<
-  ConverseRequest,
+  ConverseRequest & RegionInput,
   ConverseResponse,
   ConverseError,
   Credentials | HttpClient.HttpClient
@@ -2092,7 +2093,7 @@ export type ConverseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `ConverseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converseStream: API.OperationMethod<
-  ConverseStreamRequest,
+  ConverseStreamRequest & RegionInput,
   ConverseStreamResponse,
   ConverseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2189,7 @@ export type CountTokensError =
  * - Converse - Sends conversation-based inference requests to foundation models
  */
 export const countTokens: API.OperationMethod<
-  CountTokensRequest,
+  CountTokensRequest & RegionInput,
   CountTokensResponse,
   CountTokensError,
   Credentials | HttpClient.HttpClient
@@ -2220,7 +2221,7 @@ export type GetAsyncInvokeError =
  * Retrieve information about an asynchronous invocation.
  */
 export const getAsyncInvoke: API.OperationMethod<
-  GetAsyncInvokeRequest,
+  GetAsyncInvokeRequest & RegionInput,
   GetAsyncInvokeResponse,
   GetAsyncInvokeError,
   Credentials | HttpClient.HttpClient
@@ -2251,7 +2252,7 @@ export type InvokeGuardrailChecksError =
  * Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.
  */
 export const invokeGuardrailChecks: API.OperationMethod<
-  InvokeGuardrailChecksRequest,
+  InvokeGuardrailChecksRequest & RegionInput,
   InvokeGuardrailChecksResponse,
   InvokeGuardrailChecksError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2297,7 @@ export type InvokeModelError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModel` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModel: API.OperationMethod<
-  InvokeModelRequest,
+  InvokeModelRequest & RegionInput,
   InvokeModelResponse,
   InvokeModelError,
   Credentials | HttpClient.HttpClient
@@ -2341,7 +2342,7 @@ export type InvokeModelWithBidirectionalStreamError =
  * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
  */
 export const invokeModelWithBidirectionalStream: API.OperationMethod<
-  InvokeModelWithBidirectionalStreamRequest,
+  InvokeModelWithBidirectionalStreamRequest & RegionInput,
   InvokeModelWithBidirectionalStreamResponse,
   InvokeModelWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient
@@ -2397,7 +2398,7 @@ export type InvokeModelWithResponseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModelWithResponseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModelWithResponseStream: API.OperationMethod<
-  InvokeModelWithResponseStreamRequest,
+  InvokeModelWithResponseStreamRequest & RegionInput,
   InvokeModelWithResponseStreamResponse,
   InvokeModelWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type ListAsyncInvokesError =
  * Lists asynchronous invocations.
  */
 export const listAsyncInvokes: API.PaginatedOperationMethod<
-  ListAsyncInvokesRequest,
+  ListAsyncInvokesRequest & RegionInput,
   ListAsyncInvokesResponse,
   ListAsyncInvokesError,
   Credentials | HttpClient.HttpClient,
@@ -2479,7 +2480,7 @@ export type StartAsyncInvokeError =
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  */
 export const startAsyncInvoke: API.OperationMethod<
-  StartAsyncInvokeRequest,
+  StartAsyncInvokeRequest & RegionInput,
   StartAsyncInvokeResponse,
   StartAsyncInvokeError,
   Credentials | HttpClient.HttpClient

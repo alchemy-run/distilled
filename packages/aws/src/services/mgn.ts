@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2014,7 +2015,7 @@ export type ArchiveApplicationError =
  * Archive application.
  */
 export const archiveApplication: API.OperationMethod<
-  ArchiveApplicationRequest,
+  ArchiveApplicationRequest & RegionInput,
   Application,
   ArchiveApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2044,7 +2045,7 @@ export type ArchiveWaveError =
  * Archive wave.
  */
 export const archiveWave: API.OperationMethod<
-  ArchiveWaveRequest,
+  ArchiveWaveRequest & RegionInput,
   Wave,
   ArchiveWaveError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type AssociateApplicationsError =
  * Associate applications to wave.
  */
 export const associateApplications: API.OperationMethod<
-  AssociateApplicationsRequest,
+  AssociateApplicationsRequest & RegionInput,
   AssociateApplicationsResponse,
   AssociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -2104,7 +2105,7 @@ export type AssociateSourceServersError =
  * Associate source servers to application.
  */
 export const associateSourceServers: API.OperationMethod<
-  AssociateSourceServersRequest,
+  AssociateSourceServersRequest & RegionInput,
   AssociateSourceServersResponse,
   AssociateSourceServersError,
   Credentials | HttpClient.HttpClient
@@ -2134,7 +2135,7 @@ export type ChangeServerLifeCycleStateError =
  * Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
  */
 export const changeServerLifeCycleState: API.OperationMethod<
-  ChangeServerLifeCycleStateRequest,
+  ChangeServerLifeCycleStateRequest & RegionInput,
   SourceServer,
   ChangeServerLifeCycleStateError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type CreateApplicationError =
  * Create application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   Application,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2186,7 +2187,7 @@ export type CreateConnectorError =
  * Create Connector.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   Connector,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2210,7 +2211,7 @@ export type CreateLaunchConfigurationTemplateError =
  * Creates a new Launch Configuration Template.
  */
 export const createLaunchConfigurationTemplate: API.OperationMethod<
-  CreateLaunchConfigurationTemplateRequest,
+  CreateLaunchConfigurationTemplateRequest & RegionInput,
   LaunchConfigurationTemplate,
   CreateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type CreateNetworkMigrationDefinitionError =
  * Creates a new network migration definition that specifies the source and target network configuration for a migration.
  */
 export const createNetworkMigrationDefinition: API.OperationMethod<
-  CreateNetworkMigrationDefinitionRequest,
+  CreateNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   CreateNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2257,7 +2258,7 @@ export type CreateReplicationConfigurationTemplateError =
  * Creates a new ReplicationConfigurationTemplate.
  */
 export const createReplicationConfigurationTemplate: API.OperationMethod<
-  CreateReplicationConfigurationTemplateRequest,
+  CreateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   CreateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2281,7 +2282,7 @@ export type CreateWaveError =
  * Create wave.
  */
 export const createWave: API.OperationMethod<
-  CreateWaveRequest,
+  CreateWaveRequest & RegionInput,
   Wave,
   CreateWaveError,
   Credentials | HttpClient.HttpClient
@@ -2305,7 +2306,7 @@ export type DeleteApplicationError =
  * Delete application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2329,7 +2330,7 @@ export type DeleteConnectorError =
  * Delete Connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2353,7 +2354,7 @@ export type DeleteJobError =
  * Deletes a single Job by ID.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -2377,7 +2378,7 @@ export type DeleteLaunchConfigurationTemplateError =
  * Deletes a single Launch Configuration Template by ID.
  */
 export const deleteLaunchConfigurationTemplate: API.OperationMethod<
-  DeleteLaunchConfigurationTemplateRequest,
+  DeleteLaunchConfigurationTemplateRequest & RegionInput,
   DeleteLaunchConfigurationTemplateResponse,
   DeleteLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2401,7 +2402,7 @@ export type DeleteNetworkMigrationDefinitionError =
  * Deletes a network migration definition. This operation removes the migration definition and all associated metadata.
  */
 export const deleteNetworkMigrationDefinition: API.OperationMethod<
-  DeleteNetworkMigrationDefinitionRequest,
+  DeleteNetworkMigrationDefinitionRequest & RegionInput,
   DeleteNetworkMigrationDefinitionResponse,
   DeleteNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type DeleteReplicationConfigurationTemplateError =
  * Deletes a single Replication Configuration Template by ID
  */
 export const deleteReplicationConfigurationTemplate: API.OperationMethod<
-  DeleteReplicationConfigurationTemplateRequest,
+  DeleteReplicationConfigurationTemplateRequest & RegionInput,
   DeleteReplicationConfigurationTemplateResponse,
   DeleteReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2450,7 @@ export type DeleteSourceServerError =
  * Deletes a single source server by ID.
  */
 export const deleteSourceServer: API.OperationMethod<
-  DeleteSourceServerRequest,
+  DeleteSourceServerRequest & RegionInput,
   DeleteSourceServerResponse,
   DeleteSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -2473,7 +2474,7 @@ export type DeleteVcenterClientError =
  * Deletes a given vCenter client by ID.
  */
 export const deleteVcenterClient: API.OperationMethod<
-  DeleteVcenterClientRequest,
+  DeleteVcenterClientRequest & RegionInput,
   DeleteVcenterClientResponse,
   DeleteVcenterClientError,
   Credentials | HttpClient.HttpClient
@@ -2497,7 +2498,7 @@ export type DeleteWaveError =
  * Delete wave.
  */
 export const deleteWave: API.OperationMethod<
-  DeleteWaveRequest,
+  DeleteWaveRequest & RegionInput,
   DeleteWaveResponse,
   DeleteWaveError,
   Credentials | HttpClient.HttpClient
@@ -2520,7 +2521,7 @@ export type DescribeJobLogItemsError =
  * Retrieves detailed job log items with paging.
  */
 export const describeJobLogItems: API.PaginatedOperationMethod<
-  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsRequest & RegionInput,
   DescribeJobLogItemsResponse,
   DescribeJobLogItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2547,7 +2548,7 @@ export type DescribeJobsError = UninitializedAccountException | ValidationExcept
  * Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
 export const describeJobs: API.PaginatedOperationMethod<
-  DescribeJobsRequest,
+  DescribeJobsRequest & RegionInput,
   DescribeJobsResponse,
   DescribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2578,7 +2579,7 @@ export type DescribeLaunchConfigurationTemplatesError =
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
 export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesRequest & RegionInput,
   DescribeLaunchConfigurationTemplatesResponse,
   DescribeLaunchConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2609,7 +2610,7 @@ export type DescribeReplicationConfigurationTemplatesError =
  * Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.
  */
 export const describeReplicationConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesRequest & RegionInput,
   DescribeReplicationConfigurationTemplatesResponse,
   DescribeReplicationConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2639,7 +2640,7 @@ export type DescribeSourceServersError =
  * Retrieves all SourceServers or multiple SourceServers by ID.
  */
 export const describeSourceServers: API.PaginatedOperationMethod<
-  DescribeSourceServersRequest,
+  DescribeSourceServersRequest & RegionInput,
   DescribeSourceServersResponse,
   DescribeSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2670,7 +2671,7 @@ export type DescribeVcenterClientsError =
  * Returns a list of the installed vCenter clients.
  */
 export const describeVcenterClients: API.PaginatedOperationMethod<
-  DescribeVcenterClientsRequest,
+  DescribeVcenterClientsRequest & RegionInput,
   DescribeVcenterClientsResponse,
   DescribeVcenterClientsError,
   Credentials | HttpClient.HttpClient,
@@ -2701,7 +2702,7 @@ export type DisassociateApplicationsError =
  * Disassociate applications from wave.
  */
 export const disassociateApplications: API.OperationMethod<
-  DisassociateApplicationsRequest,
+  DisassociateApplicationsRequest & RegionInput,
   DisassociateApplicationsResponse,
   DisassociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2726,7 @@ export type DisassociateSourceServersError =
  * Disassociate source servers from application.
  */
 export const disassociateSourceServers: API.OperationMethod<
-  DisassociateSourceServersRequest,
+  DisassociateSourceServersRequest & RegionInput,
   DisassociateSourceServersResponse,
   DisassociateSourceServersError,
   Credentials | HttpClient.HttpClient
@@ -2749,7 +2750,7 @@ export type DisconnectFromServiceError =
  * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectFromService: API.OperationMethod<
-  DisconnectFromServiceRequest,
+  DisconnectFromServiceRequest & RegionInput,
   SourceServer,
   DisconnectFromServiceError,
   Credentials | HttpClient.HttpClient
@@ -2774,7 +2775,7 @@ export type FinalizeCutoverError =
  * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const finalizeCutover: API.OperationMethod<
-  FinalizeCutoverRequest,
+  FinalizeCutoverRequest & RegionInput,
   SourceServer,
   FinalizeCutoverError,
   Credentials | HttpClient.HttpClient
@@ -2802,7 +2803,7 @@ export type GetLaunchConfigurationError =
  * Lists all LaunchConfigurations available, filtered by Source Server IDs.
  */
 export const getLaunchConfiguration: API.OperationMethod<
-  GetLaunchConfigurationRequest,
+  GetLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   GetLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2825,7 +2826,7 @@ export type GetNetworkMigrationDefinitionError =
  * Retrieves the details of a network migration definition including source and target configurations.
  */
 export const getNetworkMigrationDefinition: API.OperationMethod<
-  GetNetworkMigrationDefinitionRequest,
+  GetNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   GetNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2849,7 +2850,7 @@ export type GetNetworkMigrationMapperSegmentConstructError =
  * Retrieves detailed information about a specific construct within a mapper segment, including its properties and configuration data.
  */
 export const getNetworkMigrationMapperSegmentConstruct: API.OperationMethod<
-  GetNetworkMigrationMapperSegmentConstructRequest,
+  GetNetworkMigrationMapperSegmentConstructRequest & RegionInput,
   GetNetworkMigrationMapperSegmentConstructResponse,
   GetNetworkMigrationMapperSegmentConstructError,
   Credentials | HttpClient.HttpClient
@@ -2872,7 +2873,7 @@ export type GetReplicationConfigurationError =
  * Lists all ReplicationConfigurations, filtered by Source Server ID.
  */
 export const getReplicationConfiguration: API.OperationMethod<
-  GetReplicationConfigurationRequest,
+  GetReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   GetReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type InitializeServiceError = AccessDeniedException | ValidationException
  * Initialize Application Migration Service.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceRequest,
+  InitializeServiceRequest & RegionInput,
   InitializeServiceResponse,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -2912,7 +2913,7 @@ export type ListApplicationsError = UninitializedAccountException | CommonErrors
  * Retrieves all applications or multiple applications by ID.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -2942,7 +2943,7 @@ export type ListConnectorsError =
  * List Connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2972,7 +2973,7 @@ export type ListExportErrorsError =
  * List export errors.
  */
 export const listExportErrors: API.PaginatedOperationMethod<
-  ListExportErrorsRequest,
+  ListExportErrorsRequest & RegionInput,
   ListExportErrorsResponse,
   ListExportErrorsError,
   Credentials | HttpClient.HttpClient,
@@ -2999,7 +3000,7 @@ export type ListExportsError = UninitializedAccountException | CommonErrors;
  * List exports.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -3029,7 +3030,7 @@ export type ListImportErrorsError =
  * List import errors.
  */
 export const listImportErrors: API.PaginatedOperationMethod<
-  ListImportErrorsRequest,
+  ListImportErrorsRequest & RegionInput,
   ListImportErrorsResponse,
   ListImportErrorsError,
   Credentials | HttpClient.HttpClient,
@@ -3056,7 +3057,7 @@ export type ListImportFileEnrichmentsError = ValidationException | CommonErrors;
  * Lists import file enrichment jobs with optional filtering by job IDs.
  */
 export const listImportFileEnrichments: API.PaginatedOperationMethod<
-  ListImportFileEnrichmentsRequest,
+  ListImportFileEnrichmentsRequest & RegionInput,
   ListImportFileEnrichmentsResponse,
   ListImportFileEnrichmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3083,7 +3084,7 @@ export type ListImportsError = UninitializedAccountException | ValidationExcepti
  * List imports.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -3113,7 +3114,7 @@ export type ListManagedAccountsError =
  * List Managed Accounts.
  */
 export const listManagedAccounts: API.PaginatedOperationMethod<
-  ListManagedAccountsRequest,
+  ListManagedAccountsRequest & RegionInput,
   ListManagedAccountsResponse,
   ListManagedAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3145,7 +3146,7 @@ export type ListNetworkMigrationAnalysesError =
  * Lists network migration analysis jobs for a specified execution. Returns information about analysis job status and results.
  */
 export const listNetworkMigrationAnalyses: API.PaginatedOperationMethod<
-  ListNetworkMigrationAnalysesRequest,
+  ListNetworkMigrationAnalysesRequest & RegionInput,
   ListNetworkMigrationAnalysesResponse,
   ListNetworkMigrationAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -3182,7 +3183,7 @@ export type ListNetworkMigrationAnalysisResultsError =
  * Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources.
  */
 export const listNetworkMigrationAnalysisResults: API.PaginatedOperationMethod<
-  ListNetworkMigrationAnalysisResultsRequest,
+  ListNetworkMigrationAnalysisResultsRequest & RegionInput,
   ListNetworkMigrationAnalysisResultsResponse,
   ListNetworkMigrationAnalysisResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3219,7 +3220,7 @@ export type ListNetworkMigrationCodeGenerationsError =
  * Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates.
  */
 export const listNetworkMigrationCodeGenerations: API.PaginatedOperationMethod<
-  ListNetworkMigrationCodeGenerationsRequest,
+  ListNetworkMigrationCodeGenerationsRequest & RegionInput,
   ListNetworkMigrationCodeGenerationsResponse,
   ListNetworkMigrationCodeGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -3256,7 +3257,7 @@ export type ListNetworkMigrationCodeGenerationSegmentsError =
  * Lists code generation segments, which represent individual infrastructure components generated as code templates.
  */
 export const listNetworkMigrationCodeGenerationSegments: API.PaginatedOperationMethod<
-  ListNetworkMigrationCodeGenerationSegmentsRequest,
+  ListNetworkMigrationCodeGenerationSegmentsRequest & RegionInput,
   ListNetworkMigrationCodeGenerationSegmentsResponse,
   ListNetworkMigrationCodeGenerationSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3292,7 +3293,7 @@ export type ListNetworkMigrationDefinitionsError = AccessDeniedException | Commo
  * Lists all network migration definitions in the account, with optional filtering.
  */
 export const listNetworkMigrationDefinitions: API.PaginatedOperationMethod<
-  ListNetworkMigrationDefinitionsRequest,
+  ListNetworkMigrationDefinitionsRequest & RegionInput,
   ListNetworkMigrationDefinitionsResponse,
   ListNetworkMigrationDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -3324,7 +3325,7 @@ export type ListNetworkMigrationDeployedStacksError =
  * Lists CloudFormation stacks that have been deployed as part of the network migration.
  */
 export const listNetworkMigrationDeployedStacks: API.PaginatedOperationMethod<
-  ListNetworkMigrationDeployedStacksRequest,
+  ListNetworkMigrationDeployedStacksRequest & RegionInput,
   ListNetworkMigrationDeployedStacksResponse,
   ListNetworkMigrationDeployedStacksError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3362,7 @@ export type ListNetworkMigrationDeploymentsError =
  * Lists network migration deployment jobs and their current status.
  */
 export const listNetworkMigrationDeployments: API.PaginatedOperationMethod<
-  ListNetworkMigrationDeploymentsRequest,
+  ListNetworkMigrationDeploymentsRequest & RegionInput,
   ListNetworkMigrationDeployerJobResponse,
   ListNetworkMigrationDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,7 +3397,7 @@ export type ListNetworkMigrationExecutionsError =
  * Lists network migration execution instances for a given definition, showing the status and progress of each execution.
  */
 export const listNetworkMigrationExecutions: API.PaginatedOperationMethod<
-  ListNetworkMigrationExecutionsRequest,
+  ListNetworkMigrationExecutionsRequest & RegionInput,
   ListNetworkMigrationExecutionsResponse,
   ListNetworkMigrationExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3428,7 +3429,7 @@ export type ListNetworkMigrationMapperSegmentConstructsError =
  * Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups.
  */
 export const listNetworkMigrationMapperSegmentConstructs: API.PaginatedOperationMethod<
-  ListNetworkMigrationMapperSegmentConstructsRequest,
+  ListNetworkMigrationMapperSegmentConstructsRequest & RegionInput,
   ListNetworkMigrationMapperSegmentConstructsResponse,
   ListNetworkMigrationMapperSegmentConstructsError,
   Credentials | HttpClient.HttpClient,
@@ -3469,7 +3470,7 @@ export type ListNetworkMigrationMapperSegmentsError =
  * Lists mapper segments, which represent logical groupings of network resources to be migrated together.
  */
 export const listNetworkMigrationMapperSegments: API.PaginatedOperationMethod<
-  ListNetworkMigrationMapperSegmentsRequest,
+  ListNetworkMigrationMapperSegmentsRequest & RegionInput,
   ListNetworkMigrationMapperSegmentsResponse,
   ListNetworkMigrationMapperSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3506,7 +3507,7 @@ export type ListNetworkMigrationMappingsError =
  * Lists network migration mapping jobs, which analyze and create relationships between source and target network resources.
  */
 export const listNetworkMigrationMappings: API.PaginatedOperationMethod<
-  ListNetworkMigrationMappingsRequest,
+  ListNetworkMigrationMappingsRequest & RegionInput,
   ListNetworkMigrationMappingsResponse,
   ListNetworkMigrationMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -3543,7 +3544,7 @@ export type ListNetworkMigrationMappingUpdatesError =
  * Lists mapping update jobs, which apply customer modifications to the generated network mappings.
  */
 export const listNetworkMigrationMappingUpdates: API.PaginatedOperationMethod<
-  ListNetworkMigrationMappingUpdatesRequest,
+  ListNetworkMigrationMappingUpdatesRequest & RegionInput,
   ListNetworkMigrationMappingUpdatesResponse,
   ListNetworkMigrationMappingUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -3578,7 +3579,7 @@ export type ListSourceServerActionsError =
  * List source server post migration custom actions.
  */
 export const listSourceServerActions: API.PaginatedOperationMethod<
-  ListSourceServerActionsRequest,
+  ListSourceServerActionsRequest & RegionInput,
   ListSourceServerActionsResponse,
   ListSourceServerActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3611,7 +3612,7 @@ export type ListTagsForResourceError =
  * List all tags for your Application Migration Service resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3640,7 +3641,7 @@ export type ListTemplateActionsError =
  * List template post migration custom actions.
  */
 export const listTemplateActions: API.PaginatedOperationMethod<
-  ListTemplateActionsRequest,
+  ListTemplateActionsRequest & RegionInput,
   ListTemplateActionsResponse,
   ListTemplateActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3667,7 +3668,7 @@ export type ListWavesError = UninitializedAccountException | CommonErrors;
  * Retrieves all waves or multiple waves by ID.
  */
 export const listWaves: API.PaginatedOperationMethod<
-  ListWavesRequest,
+  ListWavesRequest & RegionInput,
   ListWavesResponse,
   ListWavesError,
   Credentials | HttpClient.HttpClient,
@@ -3698,7 +3699,7 @@ export type MarkAsArchivedError =
  * Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.
  */
 export const markAsArchived: API.OperationMethod<
-  MarkAsArchivedRequest,
+  MarkAsArchivedRequest & RegionInput,
   SourceServer,
   MarkAsArchivedError,
   Credentials | HttpClient.HttpClient
@@ -3724,7 +3725,7 @@ export type PauseReplicationError =
  * Pause Replication.
  */
 export const pauseReplication: API.OperationMethod<
-  PauseReplicationRequest,
+  PauseReplicationRequest & RegionInput,
   SourceServer,
   PauseReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3756,7 @@ export type PutSourceServerActionError =
  * Put source server post migration custom action.
  */
 export const putSourceServerAction: API.OperationMethod<
-  PutSourceServerActionRequest,
+  PutSourceServerActionRequest & RegionInput,
   SourceServerActionDocument,
   PutSourceServerActionError,
   Credentials | HttpClient.HttpClient
@@ -3785,7 +3786,7 @@ export type PutTemplateActionError =
  * Put template post migration custom action.
  */
 export const putTemplateAction: API.OperationMethod<
-  PutTemplateActionRequest,
+  PutTemplateActionRequest & RegionInput,
   TemplateActionDocument,
   PutTemplateActionError,
   Credentials | HttpClient.HttpClient
@@ -3814,7 +3815,7 @@ export type RemoveSourceServerActionError =
  * Remove source server post migration custom action.
  */
 export const removeSourceServerAction: API.OperationMethod<
-  RemoveSourceServerActionRequest,
+  RemoveSourceServerActionRequest & RegionInput,
   RemoveSourceServerActionResponse,
   RemoveSourceServerActionError,
   Credentials | HttpClient.HttpClient
@@ -3838,7 +3839,7 @@ export type RemoveTemplateActionError =
  * Remove template post migration custom action.
  */
 export const removeTemplateAction: API.OperationMethod<
-  RemoveTemplateActionRequest,
+  RemoveTemplateActionRequest & RegionInput,
   RemoveTemplateActionResponse,
   RemoveTemplateActionError,
   Credentials | HttpClient.HttpClient
@@ -3864,7 +3865,7 @@ export type ResumeReplicationError =
  * Resume Replication.
  */
 export const resumeReplication: API.OperationMethod<
-  ResumeReplicationRequest,
+  ResumeReplicationRequest & RegionInput,
   SourceServer,
   ResumeReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3894,7 +3895,7 @@ export type RetryDataReplicationError =
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
  */
 export const retryDataReplication: API.OperationMethod<
-  RetryDataReplicationRequest,
+  RetryDataReplicationRequest & RegionInput,
   SourceServer,
   RetryDataReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3918,7 +3919,7 @@ export type StartCutoverError =
  * Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
  */
 export const startCutover: API.OperationMethod<
-  StartCutoverRequest,
+  StartCutoverRequest & RegionInput,
   StartCutoverResponse,
   StartCutoverError,
   Credentials | HttpClient.HttpClient
@@ -3942,7 +3943,7 @@ export type StartExportError =
  * Start export.
  */
 export const startExport: API.OperationMethod<
-  StartExportRequest,
+  StartExportRequest & RegionInput,
   StartExportResponse,
   StartExportError,
   Credentials | HttpClient.HttpClient
@@ -3968,7 +3969,7 @@ export type StartImportError =
  * Start import.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -4000,7 +4001,7 @@ export type StartImportFileEnrichmentError =
  * Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies.
  */
 export const startImportFileEnrichment: API.OperationMethod<
-  StartImportFileEnrichmentRequest,
+  StartImportFileEnrichmentRequest & RegionInput,
   StartImportFileEnrichmentResponse,
   StartImportFileEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -4033,7 +4034,7 @@ export type StartNetworkMigrationAnalysisError =
  * Starts a network migration analysis job to evaluate connectivity and compatibility of the migration mappings.
  */
 export const startNetworkMigrationAnalysis: API.OperationMethod<
-  StartNetworkMigrationAnalysisRequest,
+  StartNetworkMigrationAnalysisRequest & RegionInput,
   StartNetworkMigrationAnalysisResponse,
   StartNetworkMigrationAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -4067,7 +4068,7 @@ export type StartNetworkMigrationCodeGenerationError =
  * Starts a code generation job to convert network migration mappings into infrastructure-as-code templates.
  */
 export const startNetworkMigrationCodeGeneration: API.OperationMethod<
-  StartNetworkMigrationCodeGenerationRequest,
+  StartNetworkMigrationCodeGenerationRequest & RegionInput,
   StartNetworkMigrationCodeGenerationResponse,
   StartNetworkMigrationCodeGenerationError,
   Credentials | HttpClient.HttpClient
@@ -4101,7 +4102,7 @@ export type StartNetworkMigrationDeploymentError =
  * Starts a deployment job to create the target network infrastructure based on the generated code templates.
  */
 export const startNetworkMigrationDeployment: API.OperationMethod<
-  StartNetworkMigrationDeploymentRequest,
+  StartNetworkMigrationDeploymentRequest & RegionInput,
   StartNetworkMigrationDeployerJobResponse,
   StartNetworkMigrationDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4135,7 +4136,7 @@ export type StartNetworkMigrationMappingError =
  * Starts the network migration mapping process for a given network migration execution.
  */
 export const startNetworkMigrationMapping: API.OperationMethod<
-  StartNetworkMigrationMappingRequest,
+  StartNetworkMigrationMappingRequest & RegionInput,
   StartNetworkMigrationMappingResponse,
   StartNetworkMigrationMappingError,
   Credentials | HttpClient.HttpClient
@@ -4169,7 +4170,7 @@ export type StartNetworkMigrationMappingUpdateError =
  * Starts a job to apply customer modifications to network migration mappings, such as changing properties.
  */
 export const startNetworkMigrationMappingUpdate: API.OperationMethod<
-  StartNetworkMigrationMappingUpdateRequest,
+  StartNetworkMigrationMappingUpdateRequest & RegionInput,
   StartNetworkMigrationMappingUpdateResponse,
   StartNetworkMigrationMappingUpdateError,
   Credentials | HttpClient.HttpClient
@@ -4202,7 +4203,7 @@ export type StartReplicationError =
  * Start replication for source server irrespective of its replication type.
  */
 export const startReplication: API.OperationMethod<
-  StartReplicationRequest,
+  StartReplicationRequest & RegionInput,
   SourceServer,
   StartReplicationError,
   Credentials | HttpClient.HttpClient
@@ -4232,7 +4233,7 @@ export type StartTestError =
  * Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
  */
 export const startTest: API.OperationMethod<
-  StartTestRequest,
+  StartTestRequest & RegionInput,
   StartTestResponse,
   StartTestError,
   Credentials | HttpClient.HttpClient
@@ -4258,7 +4259,7 @@ export type StopReplicationError =
  * Stop Replication.
  */
 export const stopReplication: API.OperationMethod<
-  StopReplicationRequest,
+  StopReplicationRequest & RegionInput,
   SourceServer,
   StopReplicationError,
   Credentials | HttpClient.HttpClient
@@ -4290,7 +4291,7 @@ export type TagResourceError =
  * Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4320,7 +4321,7 @@ export type TerminateTargetInstancesError =
  * Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
  */
 export const terminateTargetInstances: API.OperationMethod<
-  TerminateTargetInstancesRequest,
+  TerminateTargetInstancesRequest & RegionInput,
   TerminateTargetInstancesResponse,
   TerminateTargetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -4344,7 +4345,7 @@ export type UnarchiveApplicationError =
  * Unarchive application.
  */
 export const unarchiveApplication: API.OperationMethod<
-  UnarchiveApplicationRequest,
+  UnarchiveApplicationRequest & RegionInput,
   Application,
   UnarchiveApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4368,7 +4369,7 @@ export type UnarchiveWaveError =
  * Unarchive wave.
  */
 export const unarchiveWave: API.OperationMethod<
-  UnarchiveWaveRequest,
+  UnarchiveWaveRequest & RegionInput,
   Wave,
   UnarchiveWaveError,
   Credentials | HttpClient.HttpClient
@@ -4394,7 +4395,7 @@ export type UntagResourceError =
  * Deletes the specified set of tags from the specified set of Application Migration Service resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4424,7 +4425,7 @@ export type UpdateApplicationError =
  * Update application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   Application,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4448,7 +4449,7 @@ export type UpdateConnectorError =
  * Update Connector.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   Connector,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4475,7 +4476,7 @@ export type UpdateLaunchConfigurationError =
  * bootMode valid values are `LEGACY_BIOS | UEFI | USE_SOURCE`
  */
 export const updateLaunchConfiguration: API.OperationMethod<
-  UpdateLaunchConfigurationRequest,
+  UpdateLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   UpdateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4505,7 +4506,7 @@ export type UpdateLaunchConfigurationTemplateError =
  * Updates an existing Launch Configuration Template by ID.
  */
 export const updateLaunchConfigurationTemplate: API.OperationMethod<
-  UpdateLaunchConfigurationTemplateRequest,
+  UpdateLaunchConfigurationTemplateRequest & RegionInput,
   LaunchConfigurationTemplate,
   UpdateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4534,7 +4535,7 @@ export type UpdateNetworkMigrationDefinitionError =
  * Updates an existing network migration definition with new source or target configurations.
  */
 export const updateNetworkMigrationDefinition: API.OperationMethod<
-  UpdateNetworkMigrationDefinitionRequest,
+  UpdateNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   UpdateNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4558,7 +4559,7 @@ export type UpdateNetworkMigrationMapperSegmentError =
  * Updates a mapper segment's configuration, such as changing its scope tags.
  */
 export const updateNetworkMigrationMapperSegment: API.OperationMethod<
-  UpdateNetworkMigrationMapperSegmentRequest,
+  UpdateNetworkMigrationMapperSegmentRequest & RegionInput,
   NetworkMigrationMapperSegment,
   UpdateNetworkMigrationMapperSegmentError,
   Credentials | HttpClient.HttpClient
@@ -4584,7 +4585,7 @@ export type UpdateReplicationConfigurationError =
  * Allows you to update multiple ReplicationConfigurations by Source Server ID.
  */
 export const updateReplicationConfiguration: API.OperationMethod<
-  UpdateReplicationConfigurationRequest,
+  UpdateReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   UpdateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4615,7 +4616,7 @@ export type UpdateReplicationConfigurationTemplateError =
  * Updates a ReplicationConfigurationTemplate by ID.
  */
 export const updateReplicationConfigurationTemplate: API.OperationMethod<
-  UpdateReplicationConfigurationTemplateRequest,
+  UpdateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   UpdateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4644,7 +4645,7 @@ export type UpdateSourceServerError =
  * Update Source Server.
  */
 export const updateSourceServer: API.OperationMethod<
-  UpdateSourceServerRequest,
+  UpdateSourceServerRequest & RegionInput,
   SourceServer,
   UpdateSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -4671,7 +4672,7 @@ export type UpdateSourceServerReplicationTypeError =
  * SNAPSHOT_SHIPPING should be used for agentless replication.
  */
 export const updateSourceServerReplicationType: API.OperationMethod<
-  UpdateSourceServerReplicationTypeRequest,
+  UpdateSourceServerReplicationTypeRequest & RegionInput,
   SourceServer,
   UpdateSourceServerReplicationTypeError,
   Credentials | HttpClient.HttpClient
@@ -4700,7 +4701,7 @@ export type UpdateWaveError =
  * Update wave.
  */
 export const updateWave: API.OperationMethod<
-  UpdateWaveRequest,
+  UpdateWaveRequest & RegionInput,
   Wave,
   UpdateWaveError,
   Credentials | HttpClient.HttpClient

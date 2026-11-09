@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -5127,7 +5128,7 @@ export type AcceptCertificateTransferError =
  * Requires permission to access the AcceptCertificateTransfer action.
  */
 export const acceptCertificateTransfer: API.OperationMethod<
-  AcceptCertificateTransferRequest,
+  AcceptCertificateTransferRequest & RegionInput,
   AcceptCertificateTransferResponse,
   AcceptCertificateTransferError,
   Credentials | HttpClient.HttpClient
@@ -5162,7 +5163,7 @@ export type AddThingToBillingGroupError =
  * Requires permission to access the AddThingToBillingGroup action.
  */
 export const addThingToBillingGroup: API.OperationMethod<
-  AddThingToBillingGroupRequest,
+  AddThingToBillingGroupRequest & RegionInput,
   AddThingToBillingGroupResponse,
   AddThingToBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -5194,7 +5195,7 @@ export type AddThingToThingGroupError =
  * Requires permission to access the AddThingToThingGroup action.
  */
 export const addThingToThingGroup: API.OperationMethod<
-  AddThingToThingGroupRequest,
+  AddThingToThingGroupRequest & RegionInput,
   AddThingToThingGroupResponse,
   AddThingToThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -5228,7 +5229,7 @@ export type AssociateSbomWithPackageVersionError =
  * Requires permission to access the AssociateSbomWithPackageVersion action.
  */
 export const associateSbomWithPackageVersion: API.OperationMethod<
-  AssociateSbomWithPackageVersionRequest,
+  AssociateSbomWithPackageVersionRequest & RegionInput,
   AssociateSbomWithPackageVersionResponse,
   AssociateSbomWithPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -5271,7 +5272,7 @@ export type AssociateTargetsWithJobError =
  * Requires permission to access the AssociateTargetsWithJob action.
  */
 export const associateTargetsWithJob: API.OperationMethod<
-  AssociateTargetsWithJobRequest,
+  AssociateTargetsWithJobRequest & RegionInput,
   AssociateTargetsWithJobResponse,
   AssociateTargetsWithJobError,
   Credentials | HttpClient.HttpClient
@@ -5308,7 +5309,7 @@ export type AttachPolicyError =
  * Requires permission to access the AttachPolicy action.
  */
 export const attachPolicy: API.OperationMethod<
-  AttachPolicyRequest,
+  AttachPolicyRequest & RegionInput,
   AttachPolicyResponse,
   AttachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5350,7 +5351,7 @@ export type AttachPrincipalPolicyError =
  * Requires permission to access the AttachPrincipalPolicy action.
  */
 export const attachPrincipalPolicy: API.OperationMethod<
-  AttachPrincipalPolicyRequest,
+  AttachPrincipalPolicyRequest & RegionInput,
   AttachPrincipalPolicyResponse,
   AttachPrincipalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5390,7 +5391,7 @@ export type AttachSecurityProfileError =
  * Requires permission to access the AttachSecurityProfile action.
  */
 export const attachSecurityProfile: API.OperationMethod<
-  AttachSecurityProfileRequest,
+  AttachSecurityProfileRequest & RegionInput,
   AttachSecurityProfileResponse,
   AttachSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -5427,7 +5428,7 @@ export type AttachThingPrincipalError =
  * Requires permission to access the AttachThingPrincipal action.
  */
 export const attachThingPrincipal: API.OperationMethod<
-  AttachThingPrincipalRequest,
+  AttachThingPrincipalRequest & RegionInput,
   AttachThingPrincipalResponse,
   AttachThingPrincipalError,
   Credentials | HttpClient.HttpClient
@@ -5463,7 +5464,7 @@ export type CancelAuditMitigationActionsTaskError =
  * Requires permission to access the CancelAuditMitigationActionsTask action.
  */
 export const cancelAuditMitigationActionsTask: API.OperationMethod<
-  CancelAuditMitigationActionsTaskRequest,
+  CancelAuditMitigationActionsTaskRequest & RegionInput,
   CancelAuditMitigationActionsTaskResponse,
   CancelAuditMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -5495,7 +5496,7 @@ export type CancelAuditTaskError =
  * Requires permission to access the CancelAuditTask action.
  */
 export const cancelAuditTask: API.OperationMethod<
-  CancelAuditTaskRequest,
+  CancelAuditTaskRequest & RegionInput,
   CancelAuditTaskResponse,
   CancelAuditTaskError,
   Credentials | HttpClient.HttpClient
@@ -5538,7 +5539,7 @@ export type CancelCertificateTransferError =
  * Requires permission to access the CancelCertificateTransfer action.
  */
 export const cancelCertificateTransfer: API.OperationMethod<
-  CancelCertificateTransferRequest,
+  CancelCertificateTransferRequest & RegionInput,
   CancelCertificateTransferResponse,
   CancelCertificateTransferError,
   Credentials | HttpClient.HttpClient
@@ -5575,7 +5576,7 @@ export type CancelDetectMitigationActionsTaskError =
  * Requires permission to access the CancelDetectMitigationActionsTask action.
  */
 export const cancelDetectMitigationActionsTask: API.OperationMethod<
-  CancelDetectMitigationActionsTaskRequest,
+  CancelDetectMitigationActionsTaskRequest & RegionInput,
   CancelDetectMitigationActionsTaskResponse,
   CancelDetectMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -5608,7 +5609,7 @@ export type CancelJobError =
  * Requires permission to access the CancelJob action.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -5643,7 +5644,7 @@ export type CancelJobExecutionError =
  * Requires permission to access the CancelJobExecution action.
  */
 export const cancelJobExecution: API.OperationMethod<
-  CancelJobExecutionRequest,
+  CancelJobExecutionRequest & RegionInput,
   CancelJobExecutionResponse,
   CancelJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5679,7 +5680,7 @@ export type ClearDefaultAuthorizerError =
  * Requires permission to access the ClearDefaultAuthorizer action.
  */
 export const clearDefaultAuthorizer: API.OperationMethod<
-  ClearDefaultAuthorizerRequest,
+  ClearDefaultAuthorizerRequest & RegionInput,
   ClearDefaultAuthorizerResponse,
   ClearDefaultAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5718,7 @@ export type ConfirmTopicRuleDestinationError =
  * Requires permission to access the ConfirmTopicRuleDestination action.
  */
 export const confirmTopicRuleDestination: API.OperationMethod<
-  ConfirmTopicRuleDestinationRequest,
+  ConfirmTopicRuleDestinationRequest & RegionInput,
   ConfirmTopicRuleDestinationResponse,
   ConfirmTopicRuleDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5751,7 +5752,7 @@ export type CreateAuditSuppressionError =
  * Requires permission to access the CreateAuditSuppression action.
  */
 export const createAuditSuppression: API.OperationMethod<
-  CreateAuditSuppressionRequest,
+  CreateAuditSuppressionRequest & RegionInput,
   CreateAuditSuppressionResponse,
   CreateAuditSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -5787,7 +5788,7 @@ export type CreateAuthorizerError =
  * Requires permission to access the CreateAuthorizer action.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   CreateAuthorizerResponse,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -5824,7 +5825,7 @@ export type CreateBillingGroupError =
  * Requires permission to access the CreateBillingGroup action.
  */
 export const createBillingGroup: API.OperationMethod<
-  CreateBillingGroupRequest,
+  CreateBillingGroupRequest & RegionInput,
   CreateBillingGroupResponse,
   CreateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -5898,7 +5899,7 @@ export type CreateCertificateFromCsrError =
  * --certificate-signing-request file://@path"
  */
 export const createCertificateFromCsr: API.OperationMethod<
-  CreateCertificateFromCsrRequest,
+  CreateCertificateFromCsrRequest & RegionInput,
   CreateCertificateFromCsrResponse,
   CreateCertificateFromCsrError,
   Credentials | HttpClient.HttpClient
@@ -5944,7 +5945,7 @@ export type CreateCertificateProviderError =
  * this behavior to change after a certificate provider is created.
  */
 export const createCertificateProvider: API.OperationMethod<
-  CreateCertificateProviderRequest,
+  CreateCertificateProviderRequest & RegionInput,
   CreateCertificateProviderResponse,
   CreateCertificateProviderError,
   Credentials | HttpClient.HttpClient
@@ -5979,7 +5980,7 @@ export type CreateCommandError =
  * before they are sent to the devices.
  */
 export const createCommand: API.OperationMethod<
-  CreateCommandRequest,
+  CreateCommandRequest & RegionInput,
   CreateCommandResponse,
   CreateCommandError,
   Credentials | HttpClient.HttpClient
@@ -6018,7 +6019,7 @@ export type CreateCustomMetricError =
  * Requires permission to access the CreateCustomMetric action.
  */
 export const createCustomMetric: API.OperationMethod<
-  CreateCustomMetricRequest,
+  CreateCustomMetricRequest & RegionInput,
   CreateCustomMetricResponse,
   CreateCustomMetricError,
   Credentials | HttpClient.HttpClient
@@ -6055,7 +6056,7 @@ export type CreateDimensionError =
  * Requires permission to access the CreateDimension action.
  */
 export const createDimension: API.OperationMethod<
-  CreateDimensionRequest,
+  CreateDimensionRequest & RegionInput,
   CreateDimensionResponse,
   CreateDimensionError,
   Credentials | HttpClient.HttpClient
@@ -6092,7 +6093,7 @@ export type CreateDomainConfigurationError =
  * Requires permission to access the CreateDomainConfiguration action.
  */
 export const createDomainConfiguration: API.OperationMethod<
-  CreateDomainConfigurationRequest,
+  CreateDomainConfigurationRequest & RegionInput,
   CreateDomainConfigurationResponse,
   CreateDomainConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6131,7 +6132,7 @@ export type CreateDynamicThingGroupError =
  * Requires permission to access the CreateDynamicThingGroup action.
  */
 export const createDynamicThingGroup: API.OperationMethod<
-  CreateDynamicThingGroupRequest,
+  CreateDynamicThingGroupRequest & RegionInput,
   CreateDynamicThingGroupResponse,
   CreateDynamicThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -6173,7 +6174,7 @@ export type CreateFleetMetricError =
  * Requires permission to access the CreateFleetMetric action.
  */
 export const createFleetMetric: API.OperationMethod<
-  CreateFleetMetricRequest,
+  CreateFleetMetricRequest & RegionInput,
   CreateFleetMetricResponse,
   CreateFleetMetricError,
   Credentials | HttpClient.HttpClient
@@ -6214,7 +6215,7 @@ export type CreateJobError =
  * Requires permission to access the CreateJob action.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -6250,7 +6251,7 @@ export type CreateJobTemplateError =
  * Requires permission to access the CreateJobTemplate action.
  */
 export const createJobTemplate: API.OperationMethod<
-  CreateJobTemplateRequest,
+  CreateJobTemplateRequest & RegionInput,
   CreateJobTemplateResponse,
   CreateJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6290,7 +6291,7 @@ export type CreateKeysAndCertificateError =
  * Requires permission to access the CreateKeysAndCertificate action.
  */
 export const createKeysAndCertificate: API.OperationMethod<
-  CreateKeysAndCertificateRequest,
+  CreateKeysAndCertificateRequest & RegionInput,
   CreateKeysAndCertificateResponse,
   CreateKeysAndCertificateError,
   Credentials | HttpClient.HttpClient
@@ -6325,7 +6326,7 @@ export type CreateMitigationActionError =
  * Requires permission to access the CreateMitigationAction action.
  */
 export const createMitigationAction: API.OperationMethod<
-  CreateMitigationActionRequest,
+  CreateMitigationActionRequest & RegionInput,
   CreateMitigationActionResponse,
   CreateMitigationActionError,
   Credentials | HttpClient.HttpClient
@@ -6362,7 +6363,7 @@ export type CreateOTAUpdateError =
  * Requires permission to access the CreateOTAUpdate action.
  */
 export const createOTAUpdate: API.OperationMethod<
-  CreateOTAUpdateRequest,
+  CreateOTAUpdateRequest & RegionInput,
   CreateOTAUpdateResponse,
   CreateOTAUpdateError,
   Credentials | HttpClient.HttpClient
@@ -6399,7 +6400,7 @@ export type CreatePackageError =
  * Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -6433,7 +6434,7 @@ export type CreatePackageVersionError =
  * Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
  */
 export const createPackageVersion: API.OperationMethod<
-  CreatePackageVersionRequest,
+  CreatePackageVersionRequest & RegionInput,
   CreatePackageVersionResponse,
   CreatePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -6473,7 +6474,7 @@ export type CreatePolicyError =
  * Requires permission to access the CreatePolicy action.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6519,7 +6520,7 @@ export type CreatePolicyVersionError =
  * Requires permission to access the CreatePolicyVersion action.
  */
 export const createPolicyVersion: API.OperationMethod<
-  CreatePolicyVersionRequest,
+  CreatePolicyVersionRequest & RegionInput,
   CreatePolicyVersionResponse,
   CreatePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -6557,7 +6558,7 @@ export type CreateProvisioningClaimError =
  * Requires permission to access the CreateProvisioningClaim action.
  */
 export const createProvisioningClaim: API.OperationMethod<
-  CreateProvisioningClaimRequest,
+  CreateProvisioningClaimRequest & RegionInput,
   CreateProvisioningClaimResponse,
   CreateProvisioningClaimError,
   Credentials | HttpClient.HttpClient
@@ -6593,7 +6594,7 @@ export type CreateProvisioningTemplateError =
  * Requires permission to access the CreateProvisioningTemplate action.
  */
 export const createProvisioningTemplate: API.OperationMethod<
-  CreateProvisioningTemplateRequest,
+  CreateProvisioningTemplateRequest & RegionInput,
   CreateProvisioningTemplateResponse,
   CreateProvisioningTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6630,7 +6631,7 @@ export type CreateProvisioningTemplateVersionError =
  * Requires permission to access the CreateProvisioningTemplateVersion action.
  */
 export const createProvisioningTemplateVersion: API.OperationMethod<
-  CreateProvisioningTemplateVersionRequest,
+  CreateProvisioningTemplateVersionRequest & RegionInput,
   CreateProvisioningTemplateVersionResponse,
   CreateProvisioningTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -6675,7 +6676,7 @@ export type CreateRoleAliasError =
  * Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
  */
 export const createRoleAlias: API.OperationMethod<
-  CreateRoleAliasRequest,
+  CreateRoleAliasRequest & RegionInput,
   CreateRoleAliasResponse,
   CreateRoleAliasError,
   Credentials | HttpClient.HttpClient
@@ -6712,7 +6713,7 @@ export type CreateScheduledAuditError =
  * Requires permission to access the CreateScheduledAudit action.
  */
 export const createScheduledAudit: API.OperationMethod<
-  CreateScheduledAuditRequest,
+  CreateScheduledAuditRequest & RegionInput,
   CreateScheduledAuditResponse,
   CreateScheduledAuditError,
   Credentials | HttpClient.HttpClient
@@ -6747,7 +6748,7 @@ export type CreateSecurityProfileError =
  * Requires permission to access the CreateSecurityProfile action.
  */
 export const createSecurityProfile: API.OperationMethod<
-  CreateSecurityProfileRequest,
+  CreateSecurityProfileRequest & RegionInput,
   CreateSecurityProfileResponse,
   CreateSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -6785,7 +6786,7 @@ export type CreateStreamError =
  * Requires permission to access the CreateStream action.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamRequest,
+  CreateStreamRequest & RegionInput,
   CreateStreamResponse,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -6830,7 +6831,7 @@ export type CreateThingError =
  * Requires permission to access the CreateThing action.
  */
 export const createThing: API.OperationMethod<
-  CreateThingRequest,
+  CreateThingRequest & RegionInput,
   CreateThingResponse,
   CreateThingError,
   Credentials | HttpClient.HttpClient
@@ -6871,7 +6872,7 @@ export type CreateThingGroupError =
  * Requires permission to access the CreateThingGroup action.
  */
 export const createThingGroup: API.OperationMethod<
-  CreateThingGroupRequest,
+  CreateThingGroupRequest & RegionInput,
   CreateThingGroupResponse,
   CreateThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -6907,7 +6908,7 @@ export type CreateThingTypeError =
  * Requires permission to access the CreateThingType action.
  */
 export const createThingType: API.OperationMethod<
-  CreateThingTypeRequest,
+  CreateThingTypeRequest & RegionInput,
   CreateThingTypeResponse,
   CreateThingTypeError,
   Credentials | HttpClient.HttpClient
@@ -6945,7 +6946,7 @@ export type CreateTopicRuleError =
  * Requires permission to access the CreateTopicRule action.
  */
 export const createTopicRule: API.OperationMethod<
-  CreateTopicRuleRequest,
+  CreateTopicRuleRequest & RegionInput,
   CreateTopicRuleResponse,
   CreateTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -6982,7 +6983,7 @@ export type CreateTopicRuleDestinationError =
  * Requires permission to access the CreateTopicRuleDestination action.
  */
 export const createTopicRuleDestination: API.OperationMethod<
-  CreateTopicRuleDestinationRequest,
+  CreateTopicRuleDestinationRequest & RegionInput,
   CreateTopicRuleDestinationResponse,
   CreateTopicRuleDestinationError,
   Credentials | HttpClient.HttpClient
@@ -7018,7 +7019,7 @@ export type DeleteAccountAuditConfigurationError =
  * Requires permission to access the DeleteAccountAuditConfiguration action.
  */
 export const deleteAccountAuditConfiguration: API.OperationMethod<
-  DeleteAccountAuditConfigurationRequest,
+  DeleteAccountAuditConfigurationRequest & RegionInput,
   DeleteAccountAuditConfigurationResponse,
   DeleteAccountAuditConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7049,7 +7050,7 @@ export type DeleteAuditSuppressionError =
  * Requires permission to access the DeleteAuditSuppression action.
  */
 export const deleteAuditSuppression: API.OperationMethod<
-  DeleteAuditSuppressionRequest,
+  DeleteAuditSuppressionRequest & RegionInput,
   DeleteAuditSuppressionResponse,
   DeleteAuditSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -7079,7 +7080,7 @@ export type DeleteAuthorizerError =
  * Requires permission to access the DeleteAuthorizer action.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -7114,7 +7115,7 @@ export type DeleteBillingGroupError =
  * Requires permission to access the DeleteBillingGroup action.
  */
 export const deleteBillingGroup: API.OperationMethod<
-  DeleteBillingGroupRequest,
+  DeleteBillingGroupRequest & RegionInput,
   DeleteBillingGroupResponse,
   DeleteBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -7149,7 +7150,7 @@ export type DeleteCACertificateError =
  * Requires permission to access the DeleteCACertificate action.
  */
 export const deleteCACertificate: API.OperationMethod<
-  DeleteCACertificateRequest,
+  DeleteCACertificateRequest & RegionInput,
   DeleteCACertificateResponse,
   DeleteCACertificateError,
   Credentials | HttpClient.HttpClient
@@ -7192,7 +7193,7 @@ export type DeleteCertificateError =
  * Requires permission to access the DeleteCertificate action.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResponse,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -7235,7 +7236,7 @@ export type DeleteCertificateProviderError =
  * certificates signed by IoT from a certificate signing request (CSR).
  */
 export const deleteCertificateProvider: API.OperationMethod<
-  DeleteCertificateProviderRequest,
+  DeleteCertificateProviderRequest & RegionInput,
   DeleteCertificateProviderResponse,
   DeleteCertificateProviderError,
   Credentials | HttpClient.HttpClient
@@ -7268,7 +7269,7 @@ export type DeleteCommandError =
  * Delete a command resource.
  */
 export const deleteCommand: API.OperationMethod<
-  DeleteCommandRequest,
+  DeleteCommandRequest & RegionInput,
   DeleteCommandResponse,
   DeleteCommandError,
   Credentials | HttpClient.HttpClient
@@ -7296,7 +7297,7 @@ export type DeleteCommandExecutionError =
  * your account.
  */
 export const deleteCommandExecution: API.OperationMethod<
-  DeleteCommandExecutionRequest,
+  DeleteCommandExecutionRequest & RegionInput,
   DeleteCommandExecutionResponse,
   DeleteCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -7331,7 +7332,7 @@ export type DeleteCustomMetricError =
  * API with `metricName` set to your custom metric name.
  */
 export const deleteCustomMetric: API.OperationMethod<
-  DeleteCustomMetricRequest,
+  DeleteCustomMetricRequest & RegionInput,
   DeleteCustomMetricResponse,
   DeleteCustomMetricError,
   Credentials | HttpClient.HttpClient
@@ -7359,7 +7360,7 @@ export type DeleteDimensionError =
  * Requires permission to access the DeleteDimension action.
  */
 export const deleteDimension: API.OperationMethod<
-  DeleteDimensionRequest,
+  DeleteDimensionRequest & RegionInput,
   DeleteDimensionResponse,
   DeleteDimensionError,
   Credentials | HttpClient.HttpClient
@@ -7388,7 +7389,7 @@ export type DeleteDomainConfigurationError =
  * Requires permission to access the DeleteDomainConfiguration action.
  */
 export const deleteDomainConfiguration: API.OperationMethod<
-  DeleteDomainConfigurationRequest,
+  DeleteDomainConfigurationRequest & RegionInput,
   DeleteDomainConfigurationResponse,
   DeleteDomainConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7422,7 +7423,7 @@ export type DeleteDynamicThingGroupError =
  * Requires permission to access the DeleteDynamicThingGroup action.
  */
 export const deleteDynamicThingGroup: API.OperationMethod<
-  DeleteDynamicThingGroupRequest,
+  DeleteDynamicThingGroupRequest & RegionInput,
   DeleteDynamicThingGroupResponse,
   DeleteDynamicThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -7457,7 +7458,7 @@ export type DeleteFleetMetricError =
  * Requires permission to access the DeleteFleetMetric action.
  */
 export const deleteFleetMetric: API.OperationMethod<
-  DeleteFleetMetricRequest,
+  DeleteFleetMetricRequest & RegionInput,
   DeleteFleetMetricResponse,
   DeleteFleetMetricError,
   Credentials | HttpClient.HttpClient
@@ -7501,7 +7502,7 @@ export type DeleteJobError =
  * Requires permission to access the DeleteJob action.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -7536,7 +7537,7 @@ export type DeleteJobExecutionError =
  * Requires permission to access the DeleteJobExecution action.
  */
 export const deleteJobExecution: API.OperationMethod<
-  DeleteJobExecutionRequest,
+  DeleteJobExecutionRequest & RegionInput,
   DeleteJobExecutionResponse,
   DeleteJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -7567,7 +7568,7 @@ export type DeleteJobTemplateError =
  * Deletes the specified job template.
  */
 export const deleteJobTemplate: API.OperationMethod<
-  DeleteJobTemplateRequest,
+  DeleteJobTemplateRequest & RegionInput,
   DeleteJobTemplateResponse,
   DeleteJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7598,7 +7599,7 @@ export type DeleteMitigationActionError =
  * Requires permission to access the DeleteMitigationAction action.
  */
 export const deleteMitigationAction: API.OperationMethod<
-  DeleteMitigationActionRequest,
+  DeleteMitigationActionRequest & RegionInput,
   DeleteMitigationActionResponse,
   DeleteMitigationActionError,
   Credentials | HttpClient.HttpClient
@@ -7628,7 +7629,7 @@ export type DeleteOTAUpdateError =
  * Requires permission to access the DeleteOTAUpdate action.
  */
 export const deleteOTAUpdate: API.OperationMethod<
-  DeleteOTAUpdateRequest,
+  DeleteOTAUpdateRequest & RegionInput,
   DeleteOTAUpdateResponse,
   DeleteOTAUpdateError,
   Credentials | HttpClient.HttpClient
@@ -7664,7 +7665,7 @@ export type DeletePackageError =
  * Requires permission to access the DeletePackageVersion action.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -7690,7 +7691,7 @@ export type DeletePackageVersionError =
  * **Note:** If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
  */
 export const deletePackageVersion: API.OperationMethod<
-  DeletePackageVersionRequest,
+  DeletePackageVersionRequest & RegionInput,
   DeletePackageVersionResponse,
   DeletePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -7733,7 +7734,7 @@ export type DeletePolicyError =
  * Requires permission to access the DeletePolicy action.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7773,7 +7774,7 @@ export type DeletePolicyVersionError =
  * Requires permission to access the DeletePolicyVersion action.
  */
 export const deletePolicyVersion: API.OperationMethod<
-  DeletePolicyVersionRequest,
+  DeletePolicyVersionRequest & RegionInput,
   DeletePolicyVersionResponse,
   DeletePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -7811,7 +7812,7 @@ export type DeleteProvisioningTemplateError =
  * Requires permission to access the DeleteProvisioningTemplate action.
  */
 export const deleteProvisioningTemplate: API.OperationMethod<
-  DeleteProvisioningTemplateRequest,
+  DeleteProvisioningTemplateRequest & RegionInput,
   DeleteProvisioningTemplateResponse,
   DeleteProvisioningTemplateError,
   Credentials | HttpClient.HttpClient
@@ -7849,7 +7850,7 @@ export type DeleteProvisioningTemplateVersionError =
  * Requires permission to access the DeleteProvisioningTemplateVersion action.
  */
 export const deleteProvisioningTemplateVersion: API.OperationMethod<
-  DeleteProvisioningTemplateVersionRequest,
+  DeleteProvisioningTemplateVersionRequest & RegionInput,
   DeleteProvisioningTemplateVersionResponse,
   DeleteProvisioningTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -7885,7 +7886,7 @@ export type DeleteRegistrationCodeError =
  * Requires permission to access the DeleteRegistrationCode action.
  */
 export const deleteRegistrationCode: API.OperationMethod<
-  DeleteRegistrationCodeRequest,
+  DeleteRegistrationCodeRequest & RegionInput,
   DeleteRegistrationCodeResponse,
   DeleteRegistrationCodeError,
   Credentials | HttpClient.HttpClient
@@ -7921,7 +7922,7 @@ export type DeleteRoleAliasError =
  * Requires permission to access the DeleteRoleAlias action.
  */
 export const deleteRoleAlias: API.OperationMethod<
-  DeleteRoleAliasRequest,
+  DeleteRoleAliasRequest & RegionInput,
   DeleteRoleAliasResponse,
   DeleteRoleAliasError,
   Credentials | HttpClient.HttpClient
@@ -7956,7 +7957,7 @@ export type DeleteScheduledAuditError =
  * Requires permission to access the DeleteScheduledAudit action.
  */
 export const deleteScheduledAudit: API.OperationMethod<
-  DeleteScheduledAuditRequest,
+  DeleteScheduledAuditRequest & RegionInput,
   DeleteScheduledAuditResponse,
   DeleteScheduledAuditError,
   Credentials | HttpClient.HttpClient
@@ -7990,7 +7991,7 @@ export type DeleteSecurityProfileError =
  * Requires permission to access the DeleteSecurityProfile action.
  */
 export const deleteSecurityProfile: API.OperationMethod<
-  DeleteSecurityProfileRequest,
+  DeleteSecurityProfileRequest & RegionInput,
   DeleteSecurityProfileResponse,
   DeleteSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -8025,7 +8026,7 @@ export type DeleteStreamError =
  * Requires permission to access the DeleteStream action.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamRequest,
+  DeleteStreamRequest & RegionInput,
   DeleteStreamResponse,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -8064,7 +8065,7 @@ export type DeleteThingError =
  * Requires permission to access the DeleteThing action.
  */
 export const deleteThing: API.OperationMethod<
-  DeleteThingRequest,
+  DeleteThingRequest & RegionInput,
   DeleteThingResponse,
   DeleteThingError,
   Credentials | HttpClient.HttpClient
@@ -8099,7 +8100,7 @@ export type DeleteThingGroupError =
  * Requires permission to access the DeleteThingGroup action.
  */
 export const deleteThingGroup: API.OperationMethod<
-  DeleteThingGroupRequest,
+  DeleteThingGroupRequest & RegionInput,
   DeleteThingGroupResponse,
   DeleteThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -8135,7 +8136,7 @@ export type DeleteThingTypeError =
  * Requires permission to access the DeleteThingType action.
  */
 export const deleteThingType: API.OperationMethod<
-  DeleteThingTypeRequest,
+  DeleteThingTypeRequest & RegionInput,
   DeleteThingTypeResponse,
   DeleteThingTypeError,
   Credentials | HttpClient.HttpClient
@@ -8171,7 +8172,7 @@ export type DeleteTopicRuleError =
  * Requires permission to access the DeleteTopicRule action.
  */
 export const deleteTopicRule: API.OperationMethod<
-  DeleteTopicRuleRequest,
+  DeleteTopicRuleRequest & RegionInput,
   DeleteTopicRuleResponse,
   DeleteTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -8206,7 +8207,7 @@ export type DeleteTopicRuleDestinationError =
  * Requires permission to access the DeleteTopicRuleDestination action.
  */
 export const deleteTopicRuleDestination: API.OperationMethod<
-  DeleteTopicRuleDestinationRequest,
+  DeleteTopicRuleDestinationRequest & RegionInput,
   DeleteTopicRuleDestinationResponse,
   DeleteTopicRuleDestinationError,
   Credentials | HttpClient.HttpClient
@@ -8238,7 +8239,7 @@ export type DeleteV2LoggingLevelError =
  * Requires permission to access the DeleteV2LoggingLevel action.
  */
 export const deleteV2LoggingLevel: API.OperationMethod<
-  DeleteV2LoggingLevelRequest,
+  DeleteV2LoggingLevelRequest & RegionInput,
   DeleteV2LoggingLevelResponse,
   DeleteV2LoggingLevelError,
   Credentials | HttpClient.HttpClient
@@ -8268,7 +8269,7 @@ export type DeprecateThingTypeError =
  * Requires permission to access the DeprecateThingType action.
  */
 export const deprecateThingType: API.OperationMethod<
-  DeprecateThingTypeRequest,
+  DeprecateThingTypeRequest & RegionInput,
   DeprecateThingTypeResponse,
   DeprecateThingTypeError,
   Credentials | HttpClient.HttpClient
@@ -8302,7 +8303,7 @@ export type DescribeAccountAuditConfigurationError =
  * Requires permission to access the DescribeAccountAuditConfiguration action.
  */
 export const describeAccountAuditConfiguration: API.OperationMethod<
-  DescribeAccountAuditConfigurationRequest,
+  DescribeAccountAuditConfigurationRequest & RegionInput,
   DescribeAccountAuditConfigurationResponse,
   DescribeAccountAuditConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8333,7 +8334,7 @@ export type DescribeAuditFindingError =
  * Requires permission to access the DescribeAuditFinding action.
  */
 export const describeAuditFinding: API.OperationMethod<
-  DescribeAuditFindingRequest,
+  DescribeAuditFindingRequest & RegionInput,
   DescribeAuditFindingResponse,
   DescribeAuditFindingError,
   Credentials | HttpClient.HttpClient
@@ -8363,7 +8364,7 @@ export type DescribeAuditMitigationActionsTaskError =
  * Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
  */
 export const describeAuditMitigationActionsTask: API.OperationMethod<
-  DescribeAuditMitigationActionsTaskRequest,
+  DescribeAuditMitigationActionsTaskRequest & RegionInput,
   DescribeAuditMitigationActionsTaskResponse,
   DescribeAuditMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -8393,7 +8394,7 @@ export type DescribeAuditSuppressionError =
  * Gets information about a Device Defender audit suppression.
  */
 export const describeAuditSuppression: API.OperationMethod<
-  DescribeAuditSuppressionRequest,
+  DescribeAuditSuppressionRequest & RegionInput,
   DescribeAuditSuppressionResponse,
   DescribeAuditSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -8425,7 +8426,7 @@ export type DescribeAuditTaskError =
  * Requires permission to access the DescribeAuditTask action.
  */
 export const describeAuditTask: API.OperationMethod<
-  DescribeAuditTaskRequest,
+  DescribeAuditTaskRequest & RegionInput,
   DescribeAuditTaskResponse,
   DescribeAuditTaskError,
   Credentials | HttpClient.HttpClient
@@ -8459,7 +8460,7 @@ export type DescribeAuthorizerError =
  * Requires permission to access the DescribeAuthorizer action.
  */
 export const describeAuthorizer: API.OperationMethod<
-  DescribeAuthorizerRequest,
+  DescribeAuthorizerRequest & RegionInput,
   DescribeAuthorizerResponse,
   DescribeAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -8493,7 +8494,7 @@ export type DescribeBillingGroupError =
  * Requires permission to access the DescribeBillingGroup action.
  */
 export const describeBillingGroup: API.OperationMethod<
-  DescribeBillingGroupRequest,
+  DescribeBillingGroupRequest & RegionInput,
   DescribeBillingGroupResponse,
   DescribeBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -8527,7 +8528,7 @@ export type DescribeCACertificateError =
  * Requires permission to access the DescribeCACertificate action.
  */
 export const describeCACertificate: API.OperationMethod<
-  DescribeCACertificateRequest,
+  DescribeCACertificateRequest & RegionInput,
   DescribeCACertificateResponse,
   DescribeCACertificateError,
   Credentials | HttpClient.HttpClient
@@ -8563,7 +8564,7 @@ export type DescribeCertificateError =
  * Requires permission to access the DescribeCertificate action.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResponse,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -8599,7 +8600,7 @@ export type DescribeCertificateProviderError =
  * Requires permission to access the DescribeCertificateProvider action.
  */
 export const describeCertificateProvider: API.OperationMethod<
-  DescribeCertificateProviderRequest,
+  DescribeCertificateProviderRequest & RegionInput,
   DescribeCertificateProviderResponse,
   DescribeCertificateProviderError,
   Credentials | HttpClient.HttpClient
@@ -8635,7 +8636,7 @@ export type DescribeCustomMetricError =
  * Requires permission to access the DescribeCustomMetric action.
  */
 export const describeCustomMetric: API.OperationMethod<
-  DescribeCustomMetricRequest,
+  DescribeCustomMetricRequest & RegionInput,
   DescribeCustomMetricResponse,
   DescribeCustomMetricError,
   Credentials | HttpClient.HttpClient
@@ -8669,7 +8670,7 @@ export type DescribeDefaultAuthorizerError =
  * Requires permission to access the DescribeDefaultAuthorizer action.
  */
 export const describeDefaultAuthorizer: API.OperationMethod<
-  DescribeDefaultAuthorizerRequest,
+  DescribeDefaultAuthorizerRequest & RegionInput,
   DescribeDefaultAuthorizerResponse,
   DescribeDefaultAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -8705,7 +8706,7 @@ export type DescribeDetectMitigationActionsTaskError =
  * Requires permission to access the DescribeDetectMitigationActionsTask action.
  */
 export const describeDetectMitigationActionsTask: API.OperationMethod<
-  DescribeDetectMitigationActionsTaskRequest,
+  DescribeDetectMitigationActionsTaskRequest & RegionInput,
   DescribeDetectMitigationActionsTaskResponse,
   DescribeDetectMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -8739,7 +8740,7 @@ export type DescribeDimensionError =
  * Requires permission to access the DescribeDimension action.
  */
 export const describeDimension: API.OperationMethod<
-  DescribeDimensionRequest,
+  DescribeDimensionRequest & RegionInput,
   DescribeDimensionResponse,
   DescribeDimensionError,
   Credentials | HttpClient.HttpClient
@@ -8773,7 +8774,7 @@ export type DescribeDomainConfigurationError =
  * Requires permission to access the DescribeDomainConfiguration action.
  */
 export const describeDomainConfiguration: API.OperationMethod<
-  DescribeDomainConfigurationRequest,
+  DescribeDomainConfigurationRequest & RegionInput,
   DescribeDomainConfigurationResponse,
   DescribeDomainConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8808,7 +8809,7 @@ export type DescribeEncryptionConfigurationError =
  * the *Amazon Web Services IoT Core Developer Guide*.
  */
 export const describeEncryptionConfiguration: API.OperationMethod<
-  DescribeEncryptionConfigurationRequest,
+  DescribeEncryptionConfigurationRequest & RegionInput,
   DescribeEncryptionConfigurationResponse,
   DescribeEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8844,7 +8845,7 @@ export type DescribeEndpointError =
  * Requires permission to access the DescribeEndpoint action.
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointRequest,
+  DescribeEndpointRequest & RegionInput,
   DescribeEndpointResponse,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -8874,7 +8875,7 @@ export type DescribeEventConfigurationsError =
  * Requires permission to access the DescribeEventConfigurations action.
  */
 export const describeEventConfigurations: API.OperationMethod<
-  DescribeEventConfigurationsRequest,
+  DescribeEventConfigurationsRequest & RegionInput,
   DescribeEventConfigurationsResponse,
   DescribeEventConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -8903,7 +8904,7 @@ export type DescribeFleetMetricError =
  * Requires permission to access the DescribeFleetMetric action.
  */
 export const describeFleetMetric: API.OperationMethod<
-  DescribeFleetMetricRequest,
+  DescribeFleetMetricRequest & RegionInput,
   DescribeFleetMetricResponse,
   DescribeFleetMetricError,
   Credentials | HttpClient.HttpClient
@@ -8939,7 +8940,7 @@ export type DescribeIndexError =
  * Requires permission to access the DescribeIndex action.
  */
 export const describeIndex: API.OperationMethod<
-  DescribeIndexRequest,
+  DescribeIndexRequest & RegionInput,
   DescribeIndexResponse,
   DescribeIndexError,
   Credentials | HttpClient.HttpClient
@@ -8973,7 +8974,7 @@ export type DescribeJobError =
  * Requires permission to access the DescribeJob action.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResponse,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -9005,7 +9006,7 @@ export type DescribeJobExecutionError =
  * Requires permission to access the DescribeJobExecution action.
  */
 export const describeJobExecution: API.OperationMethod<
-  DescribeJobExecutionRequest,
+  DescribeJobExecutionRequest & RegionInput,
   DescribeJobExecutionResponse,
   DescribeJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -9035,7 +9036,7 @@ export type DescribeJobTemplateError =
  * Returns information about a job template.
  */
 export const describeJobTemplate: API.OperationMethod<
-  DescribeJobTemplateRequest,
+  DescribeJobTemplateRequest & RegionInput,
   DescribeJobTemplateResponse,
   DescribeJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9065,7 +9066,7 @@ export type DescribeManagedJobTemplateError =
  * View details of a managed job template.
  */
 export const describeManagedJobTemplate: API.OperationMethod<
-  DescribeManagedJobTemplateRequest,
+  DescribeManagedJobTemplateRequest & RegionInput,
   DescribeManagedJobTemplateResponse,
   DescribeManagedJobTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9097,7 +9098,7 @@ export type DescribeMitigationActionError =
  * Requires permission to access the DescribeMitigationAction action.
  */
 export const describeMitigationAction: API.OperationMethod<
-  DescribeMitigationActionRequest,
+  DescribeMitigationActionRequest & RegionInput,
   DescribeMitigationActionResponse,
   DescribeMitigationActionError,
   Credentials | HttpClient.HttpClient
@@ -9130,7 +9131,7 @@ export type DescribeProvisioningTemplateError =
  * Requires permission to access the DescribeProvisioningTemplate action.
  */
 export const describeProvisioningTemplate: API.OperationMethod<
-  DescribeProvisioningTemplateRequest,
+  DescribeProvisioningTemplateRequest & RegionInput,
   DescribeProvisioningTemplateResponse,
   DescribeProvisioningTemplateError,
   Credentials | HttpClient.HttpClient
@@ -9164,7 +9165,7 @@ export type DescribeProvisioningTemplateVersionError =
  * Requires permission to access the DescribeProvisioningTemplateVersion action.
  */
 export const describeProvisioningTemplateVersion: API.OperationMethod<
-  DescribeProvisioningTemplateVersionRequest,
+  DescribeProvisioningTemplateVersionRequest & RegionInput,
   DescribeProvisioningTemplateVersionResponse,
   DescribeProvisioningTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -9199,7 +9200,7 @@ export type DescribeRoleAliasError =
  * Requires permission to access the DescribeRoleAlias action.
  */
 export const describeRoleAlias: API.OperationMethod<
-  DescribeRoleAliasRequest,
+  DescribeRoleAliasRequest & RegionInput,
   DescribeRoleAliasResponse,
   DescribeRoleAliasError,
   Credentials | HttpClient.HttpClient
@@ -9233,7 +9234,7 @@ export type DescribeScheduledAuditError =
  * Requires permission to access the DescribeScheduledAudit action.
  */
 export const describeScheduledAudit: API.OperationMethod<
-  DescribeScheduledAuditRequest,
+  DescribeScheduledAuditRequest & RegionInput,
   DescribeScheduledAuditResponse,
   DescribeScheduledAuditError,
   Credentials | HttpClient.HttpClient
@@ -9267,7 +9268,7 @@ export type DescribeSecurityProfileError =
  * Requires permission to access the DescribeSecurityProfile action.
  */
 export const describeSecurityProfile: API.OperationMethod<
-  DescribeSecurityProfileRequest,
+  DescribeSecurityProfileRequest & RegionInput,
   DescribeSecurityProfileResponse,
   DescribeSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -9301,7 +9302,7 @@ export type DescribeStreamError =
  * Requires permission to access the DescribeStream action.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamRequest,
+  DescribeStreamRequest & RegionInput,
   DescribeStreamResponse,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -9337,7 +9338,7 @@ export type DescribeThingError =
  * Requires permission to access the DescribeThing action.
  */
 export const describeThing: API.OperationMethod<
-  DescribeThingRequest,
+  DescribeThingRequest & RegionInput,
   DescribeThingResponse,
   DescribeThingError,
   Credentials | HttpClient.HttpClient
@@ -9371,7 +9372,7 @@ export type DescribeThingGroupError =
  * Requires permission to access the DescribeThingGroup action.
  */
 export const describeThingGroup: API.OperationMethod<
-  DescribeThingGroupRequest,
+  DescribeThingGroupRequest & RegionInput,
   DescribeThingGroupResponse,
   DescribeThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -9404,7 +9405,7 @@ export type DescribeThingRegistrationTaskError =
  * Requires permission to access the DescribeThingRegistrationTask action.
  */
 export const describeThingRegistrationTask: API.OperationMethod<
-  DescribeThingRegistrationTaskRequest,
+  DescribeThingRegistrationTaskRequest & RegionInput,
   DescribeThingRegistrationTaskResponse,
   DescribeThingRegistrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -9439,7 +9440,7 @@ export type DescribeThingTypeError =
  * Requires permission to access the DescribeThingType action.
  */
 export const describeThingType: API.OperationMethod<
-  DescribeThingTypeRequest,
+  DescribeThingTypeRequest & RegionInput,
   DescribeThingTypeResponse,
   DescribeThingTypeError,
   Credentials | HttpClient.HttpClient
@@ -9478,7 +9479,7 @@ export type DetachPolicyError =
  * Requires permission to access the DetachPolicy action.
  */
 export const detachPolicy: API.OperationMethod<
-  DetachPolicyRequest,
+  DetachPolicyRequest & RegionInput,
   DetachPolicyResponse,
   DetachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9517,7 +9518,7 @@ export type DetachPrincipalPolicyError =
  * Requires permission to access the DetachPrincipalPolicy action.
  */
 export const detachPrincipalPolicy: API.OperationMethod<
-  DetachPrincipalPolicyRequest,
+  DetachPrincipalPolicyRequest & RegionInput,
   DetachPrincipalPolicyResponse,
   DetachPrincipalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9553,7 +9554,7 @@ export type DetachSecurityProfileError =
  * Requires permission to access the DetachSecurityProfile action.
  */
 export const detachSecurityProfile: API.OperationMethod<
-  DetachSecurityProfileRequest,
+  DetachSecurityProfileRequest & RegionInput,
   DetachSecurityProfileResponse,
   DetachSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -9592,7 +9593,7 @@ export type DetachThingPrincipalError =
  * Requires permission to access the DetachThingPrincipal action.
  */
 export const detachThingPrincipal: API.OperationMethod<
-  DetachThingPrincipalRequest,
+  DetachThingPrincipalRequest & RegionInput,
   DetachThingPrincipalResponse,
   DetachThingPrincipalError,
   Credentials | HttpClient.HttpClient
@@ -9627,7 +9628,7 @@ export type DisableTopicRuleError =
  * Requires permission to access the DisableTopicRule action.
  */
 export const disableTopicRule: API.OperationMethod<
-  DisableTopicRuleRequest,
+  DisableTopicRuleRequest & RegionInput,
   DisableTopicRuleResponse,
   DisableTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -9661,7 +9662,7 @@ export type DisassociateSbomFromPackageVersionError =
  * Requires permission to access the DisassociateSbomWithPackageVersion action.
  */
 export const disassociateSbomFromPackageVersion: API.OperationMethod<
-  DisassociateSbomFromPackageVersionRequest,
+  DisassociateSbomFromPackageVersionRequest & RegionInput,
   DisassociateSbomFromPackageVersionResponse,
   DisassociateSbomFromPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -9695,7 +9696,7 @@ export type EnableTopicRuleError =
  * Requires permission to access the EnableTopicRule action.
  */
 export const enableTopicRule: API.OperationMethod<
-  EnableTopicRuleRequest,
+  EnableTopicRuleRequest & RegionInput,
   EnableTopicRuleResponse,
   EnableTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -9730,7 +9731,7 @@ export type GetBehaviorModelTrainingSummariesError =
  * Requires permission to access the GetBehaviorModelTrainingSummaries action.
  */
 export const getBehaviorModelTrainingSummaries: API.PaginatedOperationMethod<
-  GetBehaviorModelTrainingSummariesRequest,
+  GetBehaviorModelTrainingSummariesRequest & RegionInput,
   GetBehaviorModelTrainingSummariesResponse,
   GetBehaviorModelTrainingSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -9774,7 +9775,7 @@ export type GetBucketsAggregationError =
  * Requires permission to access the GetBucketsAggregation action.
  */
 export const getBucketsAggregation: API.OperationMethod<
-  GetBucketsAggregationRequest,
+  GetBucketsAggregationRequest & RegionInput,
   GetBucketsAggregationResponse,
   GetBucketsAggregationError,
   Credentials | HttpClient.HttpClient
@@ -9816,7 +9817,7 @@ export type GetCardinalityError =
  * Requires permission to access the GetCardinality action.
  */
 export const getCardinality: API.OperationMethod<
-  GetCardinalityRequest,
+  GetCardinalityRequest & RegionInput,
   GetCardinalityResponse,
   GetCardinalityError,
   Credentials | HttpClient.HttpClient
@@ -9851,7 +9852,7 @@ export type GetCommandError =
  * Gets information about the specified command.
  */
 export const getCommand: API.OperationMethod<
-  GetCommandRequest,
+  GetCommandRequest & RegionInput,
   GetCommandResponse,
   GetCommandError,
   Credentials | HttpClient.HttpClient
@@ -9881,7 +9882,7 @@ export type GetCommandExecutionError =
  * Gets information about the specific command execution on a single device.
  */
 export const getCommandExecution: API.OperationMethod<
-  GetCommandExecutionRequest,
+  GetCommandExecutionRequest & RegionInput,
   GetCommandExecutionResponse,
   GetCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -9917,7 +9918,7 @@ export type GetEffectivePoliciesError =
  * Requires permission to access the GetEffectivePolicies action.
  */
 export const getEffectivePolicies: API.OperationMethod<
-  GetEffectivePoliciesRequest,
+  GetEffectivePoliciesRequest & RegionInput,
   GetEffectivePoliciesResponse,
   GetEffectivePoliciesError,
   Credentials | HttpClient.HttpClient
@@ -9953,7 +9954,7 @@ export type GetIndexingConfigurationError =
  * Requires permission to access the GetIndexingConfiguration action.
  */
 export const getIndexingConfiguration: API.OperationMethod<
-  GetIndexingConfigurationRequest,
+  GetIndexingConfigurationRequest & RegionInput,
   GetIndexingConfigurationResponse,
   GetIndexingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9986,7 +9987,7 @@ export type GetJobDocumentError =
  * Requires permission to access the GetJobDocument action.
  */
 export const getJobDocument: API.OperationMethod<
-  GetJobDocumentRequest,
+  GetJobDocumentRequest & RegionInput,
   GetJobDocumentResponse,
   GetJobDocumentError,
   Credentials | HttpClient.HttpClient
@@ -10020,7 +10021,7 @@ export type GetLoggingOptionsError =
  * Requires permission to access the GetLoggingOptions action.
  */
 export const getLoggingOptions: API.OperationMethod<
-  GetLoggingOptionsRequest,
+  GetLoggingOptionsRequest & RegionInput,
   GetLoggingOptionsResponse,
   GetLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -10049,7 +10050,7 @@ export type GetOTAUpdateError =
  * Requires permission to access the GetOTAUpdate action.
  */
 export const getOTAUpdate: API.OperationMethod<
-  GetOTAUpdateRequest,
+  GetOTAUpdateRequest & RegionInput,
   GetOTAUpdateResponse,
   GetOTAUpdateError,
   Credentials | HttpClient.HttpClient
@@ -10083,7 +10084,7 @@ export type GetPackageError =
  * Requires permission to access the GetPackage action.
  */
 export const getPackage: API.OperationMethod<
-  GetPackageRequest,
+  GetPackageRequest & RegionInput,
   GetPackageResponse,
   GetPackageError,
   Credentials | HttpClient.HttpClient
@@ -10113,7 +10114,7 @@ export type GetPackageConfigurationError =
  * Requires permission to access the GetPackageConfiguration action.
  */
 export const getPackageConfiguration: API.OperationMethod<
-  GetPackageConfigurationRequest,
+  GetPackageConfigurationRequest & RegionInput,
   GetPackageConfigurationResponse,
   GetPackageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10140,7 +10141,7 @@ export type GetPackageVersionError =
  * Requires permission to access the GetPackageVersion action.
  */
 export const getPackageVersion: API.OperationMethod<
-  GetPackageVersionRequest,
+  GetPackageVersionRequest & RegionInput,
   GetPackageVersionResponse,
   GetPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -10185,7 +10186,7 @@ export type GetPercentilesError =
  * Requires permission to access the GetPercentiles action.
  */
 export const getPercentiles: API.OperationMethod<
-  GetPercentilesRequest,
+  GetPercentilesRequest & RegionInput,
   GetPercentilesResponse,
   GetPercentilesError,
   Credentials | HttpClient.HttpClient
@@ -10225,7 +10226,7 @@ export type GetPolicyError =
  * Requires permission to access the GetPolicy action.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -10261,7 +10262,7 @@ export type GetPolicyVersionError =
  * Requires permission to access the GetPolicyVersion action.
  */
 export const getPolicyVersion: API.OperationMethod<
-  GetPolicyVersionRequest,
+  GetPolicyVersionRequest & RegionInput,
   GetPolicyVersionResponse,
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -10300,7 +10301,7 @@ export type GetRegistrationCodeError =
  * Requires permission to access the GetRegistrationCode action.
  */
 export const getRegistrationCode: API.OperationMethod<
-  GetRegistrationCodeRequest,
+  GetRegistrationCodeRequest & RegionInput,
   GetRegistrationCodeResponse,
   GetRegistrationCodeError,
   Credentials | HttpClient.HttpClient
@@ -10340,7 +10341,7 @@ export type GetStatisticsError =
  * Requires permission to access the GetStatistics action.
  */
 export const getStatistics: API.OperationMethod<
-  GetStatisticsRequest,
+  GetStatisticsRequest & RegionInput,
   GetStatisticsResponse,
   GetStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -10378,7 +10379,7 @@ export type GetThingConnectivityDataError =
  * Retrieves the live connectivity status per device. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's `thingConnectivityIndexingMode` was enabled, the response will have the `connected` field set to `false` with no additional session details.
  */
 export const getThingConnectivityData: API.OperationMethod<
-  GetThingConnectivityDataRequest,
+  GetThingConnectivityDataRequest & RegionInput,
   GetThingConnectivityDataResponse,
   GetThingConnectivityDataError,
   Credentials | HttpClient.HttpClient
@@ -10414,7 +10415,7 @@ export type GetTopicRuleError =
  * Requires permission to access the GetTopicRule action.
  */
 export const getTopicRule: API.OperationMethod<
-  GetTopicRuleRequest,
+  GetTopicRuleRequest & RegionInput,
   GetTopicRuleResponse,
   GetTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -10447,7 +10448,7 @@ export type GetTopicRuleDestinationError =
  * Requires permission to access the GetTopicRuleDestination action.
  */
 export const getTopicRuleDestination: API.OperationMethod<
-  GetTopicRuleDestinationRequest,
+  GetTopicRuleDestinationRequest & RegionInput,
   GetTopicRuleDestinationResponse,
   GetTopicRuleDestinationError,
   Credentials | HttpClient.HttpClient
@@ -10478,7 +10479,7 @@ export type GetV2LoggingOptionsError =
  * Requires permission to access the GetV2LoggingOptions action.
  */
 export const getV2LoggingOptions: API.OperationMethod<
-  GetV2LoggingOptionsRequest,
+  GetV2LoggingOptionsRequest & RegionInput,
   GetV2LoggingOptionsResponse,
   GetV2LoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -10507,7 +10508,7 @@ export type ListActiveViolationsError =
  * Requires permission to access the ListActiveViolations action.
  */
 export const listActiveViolations: API.PaginatedOperationMethod<
-  ListActiveViolationsRequest,
+  ListActiveViolationsRequest & RegionInput,
   ListActiveViolationsResponse,
   ListActiveViolationsError,
   Credentials | HttpClient.HttpClient,
@@ -10549,7 +10550,7 @@ export type ListAttachedPoliciesError =
  * Requires permission to access the ListAttachedPolicies action.
  */
 export const listAttachedPolicies: API.PaginatedOperationMethod<
-  ListAttachedPoliciesRequest,
+  ListAttachedPoliciesRequest & RegionInput,
   ListAttachedPoliciesResponse,
   ListAttachedPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -10591,7 +10592,7 @@ export type ListAuditFindingsError =
  * Requires permission to access the ListAuditFindings action.
  */
 export const listAuditFindings: API.PaginatedOperationMethod<
-  ListAuditFindingsRequest,
+  ListAuditFindingsRequest & RegionInput,
   ListAuditFindingsResponse,
   ListAuditFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -10625,7 +10626,7 @@ export type ListAuditMitigationActionsExecutionsError =
  * Requires permission to access the ListAuditMitigationActionsExecutions action.
  */
 export const listAuditMitigationActionsExecutions: API.PaginatedOperationMethod<
-  ListAuditMitigationActionsExecutionsRequest,
+  ListAuditMitigationActionsExecutionsRequest & RegionInput,
   ListAuditMitigationActionsExecutionsResponse,
   ListAuditMitigationActionsExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -10658,7 +10659,7 @@ export type ListAuditMitigationActionsTasksError =
  * Requires permission to access the ListAuditMitigationActionsTasks action.
  */
 export const listAuditMitigationActionsTasks: API.PaginatedOperationMethod<
-  ListAuditMitigationActionsTasksRequest,
+  ListAuditMitigationActionsTasksRequest & RegionInput,
   ListAuditMitigationActionsTasksResponse,
   ListAuditMitigationActionsTasksError,
   Credentials | HttpClient.HttpClient,
@@ -10691,7 +10692,7 @@ export type ListAuditSuppressionsError =
  * Requires permission to access the ListAuditSuppressions action.
  */
 export const listAuditSuppressions: API.PaginatedOperationMethod<
-  ListAuditSuppressionsRequest,
+  ListAuditSuppressionsRequest & RegionInput,
   ListAuditSuppressionsResponse,
   ListAuditSuppressionsError,
   Credentials | HttpClient.HttpClient,
@@ -10725,7 +10726,7 @@ export type ListAuditTasksError =
  * Requires permission to access the ListAuditTasks action.
  */
 export const listAuditTasks: API.PaginatedOperationMethod<
-  ListAuditTasksRequest,
+  ListAuditTasksRequest & RegionInput,
   ListAuditTasksResponse,
   ListAuditTasksError,
   Credentials | HttpClient.HttpClient,
@@ -10760,7 +10761,7 @@ export type ListAuthorizersError =
  * Requires permission to access the ListAuthorizers action.
  */
 export const listAuthorizers: API.PaginatedOperationMethod<
-  ListAuthorizersRequest,
+  ListAuthorizersRequest & RegionInput,
   ListAuthorizersResponse,
   ListAuthorizersError,
   Credentials | HttpClient.HttpClient,
@@ -10800,7 +10801,7 @@ export type ListBillingGroupsError =
  * Requires permission to access the ListBillingGroups action.
  */
 export const listBillingGroups: API.PaginatedOperationMethod<
-  ListBillingGroupsRequest,
+  ListBillingGroupsRequest & RegionInput,
   ListBillingGroupsResponse,
   ListBillingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -10843,7 +10844,7 @@ export type ListCACertificatesError =
  * Requires permission to access the ListCACertificates action.
  */
 export const listCACertificates: API.PaginatedOperationMethod<
-  ListCACertificatesRequest,
+  ListCACertificatesRequest & RegionInput,
   ListCACertificatesResponse,
   ListCACertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -10884,7 +10885,7 @@ export type ListCertificateProvidersError =
  * Requires permission to access the ListCertificateProviders action.
  */
 export const listCertificateProviders: API.OperationMethod<
-  ListCertificateProvidersRequest,
+  ListCertificateProvidersRequest & RegionInput,
   ListCertificateProvidersResponse,
   ListCertificateProvidersError,
   Credentials | HttpClient.HttpClient
@@ -10921,7 +10922,7 @@ export type ListCertificatesError =
  * Requires permission to access the ListCertificates action.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResponse,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -10962,7 +10963,7 @@ export type ListCertificatesByCAError =
  * Requires permission to access the ListCertificatesByCA action.
  */
 export const listCertificatesByCA: API.PaginatedOperationMethod<
-  ListCertificatesByCARequest,
+  ListCertificatesByCARequest & RegionInput,
   ListCertificatesByCAResponse,
   ListCertificatesByCAError,
   Credentials | HttpClient.HttpClient,
@@ -11015,7 +11016,7 @@ export type ListCommandExecutionsError =
  * command executions in your account (CLI).
  */
 export const listCommandExecutions: API.PaginatedOperationMethod<
-  ListCommandExecutionsRequest,
+  ListCommandExecutionsRequest & RegionInput,
   ListCommandExecutionsResponse,
   ListCommandExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -11051,7 +11052,7 @@ export type ListCommandsError =
  * List all commands in your account.
  */
 export const listCommands: API.PaginatedOperationMethod<
-  ListCommandsRequest,
+  ListCommandsRequest & RegionInput,
   ListCommandsResponse,
   ListCommandsError,
   Credentials | HttpClient.HttpClient,
@@ -11086,7 +11087,7 @@ export type ListCustomMetricsError =
  * Requires permission to access the ListCustomMetrics action.
  */
 export const listCustomMetrics: API.PaginatedOperationMethod<
-  ListCustomMetricsRequest,
+  ListCustomMetricsRequest & RegionInput,
   ListCustomMetricsResponse,
   ListCustomMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -11121,7 +11122,7 @@ export type ListDetectMitigationActionsExecutionsError =
  * Requires permission to access the ListDetectMitigationActionsExecutions action.
  */
 export const listDetectMitigationActionsExecutions: API.PaginatedOperationMethod<
-  ListDetectMitigationActionsExecutionsRequest,
+  ListDetectMitigationActionsExecutionsRequest & RegionInput,
   ListDetectMitigationActionsExecutionsResponse,
   ListDetectMitigationActionsExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -11156,7 +11157,7 @@ export type ListDetectMitigationActionsTasksError =
  * Requires permission to access the ListDetectMitigationActionsTasks action.
  */
 export const listDetectMitigationActionsTasks: API.PaginatedOperationMethod<
-  ListDetectMitigationActionsTasksRequest,
+  ListDetectMitigationActionsTasksRequest & RegionInput,
   ListDetectMitigationActionsTasksResponse,
   ListDetectMitigationActionsTasksError,
   Credentials | HttpClient.HttpClient,
@@ -11191,7 +11192,7 @@ export type ListDimensionsError =
  * Requires permission to access the ListDimensions action.
  */
 export const listDimensions: API.PaginatedOperationMethod<
-  ListDimensionsRequest,
+  ListDimensionsRequest & RegionInput,
   ListDimensionsResponse,
   ListDimensionsError,
   Credentials | HttpClient.HttpClient,
@@ -11227,7 +11228,7 @@ export type ListDomainConfigurationsError =
  * Requires permission to access the ListDomainConfigurations action.
  */
 export const listDomainConfigurations: API.PaginatedOperationMethod<
-  ListDomainConfigurationsRequest,
+  ListDomainConfigurationsRequest & RegionInput,
   ListDomainConfigurationsResponse,
   ListDomainConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -11268,7 +11269,7 @@ export type ListFleetMetricsError =
  * Requires permission to access the ListFleetMetrics action.
  */
 export const listFleetMetrics: API.PaginatedOperationMethod<
-  ListFleetMetricsRequest,
+  ListFleetMetricsRequest & RegionInput,
   ListFleetMetricsResponse,
   ListFleetMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -11309,7 +11310,7 @@ export type ListIndicesError =
  * Requires permission to access the ListIndices action.
  */
 export const listIndices: API.PaginatedOperationMethod<
-  ListIndicesRequest,
+  ListIndicesRequest & RegionInput,
   ListIndicesResponse,
   ListIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -11349,7 +11350,7 @@ export type ListJobExecutionsForJobError =
  * Requires permission to access the ListJobExecutionsForJob action.
  */
 export const listJobExecutionsForJob: API.PaginatedOperationMethod<
-  ListJobExecutionsForJobRequest,
+  ListJobExecutionsForJobRequest & RegionInput,
   ListJobExecutionsForJobResponse,
   ListJobExecutionsForJobError,
   Credentials | HttpClient.HttpClient,
@@ -11388,7 +11389,7 @@ export type ListJobExecutionsForThingError =
  * Requires permission to access the ListJobExecutionsForThing action.
  */
 export const listJobExecutionsForThing: API.PaginatedOperationMethod<
-  ListJobExecutionsForThingRequest,
+  ListJobExecutionsForThingRequest & RegionInput,
   ListJobExecutionsForThingResponse,
   ListJobExecutionsForThingError,
   Credentials | HttpClient.HttpClient,
@@ -11427,7 +11428,7 @@ export type ListJobsError =
  * Requires permission to access the ListJobs action.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -11465,7 +11466,7 @@ export type ListJobTemplatesError =
  * Requires permission to access the ListJobTemplates action.
  */
 export const listJobTemplates: API.PaginatedOperationMethod<
-  ListJobTemplatesRequest,
+  ListJobTemplatesRequest & RegionInput,
   ListJobTemplatesResponse,
   ListJobTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -11497,7 +11498,7 @@ export type ListManagedJobTemplatesError =
  * Returns a list of managed job templates.
  */
 export const listManagedJobTemplates: API.PaginatedOperationMethod<
-  ListManagedJobTemplatesRequest,
+  ListManagedJobTemplatesRequest & RegionInput,
   ListManagedJobTemplatesResponse,
   ListManagedJobTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -11535,7 +11536,7 @@ export type ListMetricValuesError =
  * by the given thing during the specified time period.
  */
 export const listMetricValues: API.PaginatedOperationMethod<
-  ListMetricValuesRequest,
+  ListMetricValuesRequest & RegionInput,
   ListMetricValuesResponse,
   ListMetricValuesError,
   Credentials | HttpClient.HttpClient,
@@ -11573,7 +11574,7 @@ export type ListMitigationActionsError =
  * Requires permission to access the ListMitigationActions action.
  */
 export const listMitigationActions: API.PaginatedOperationMethod<
-  ListMitigationActionsRequest,
+  ListMitigationActionsRequest & RegionInput,
   ListMitigationActionsResponse,
   ListMitigationActionsError,
   Credentials | HttpClient.HttpClient,
@@ -11608,7 +11609,7 @@ export type ListOTAUpdatesError =
  * Requires permission to access the ListOTAUpdates action.
  */
 export const listOTAUpdates: API.PaginatedOperationMethod<
-  ListOTAUpdatesRequest,
+  ListOTAUpdatesRequest & RegionInput,
   ListOTAUpdatesResponse,
   ListOTAUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -11649,7 +11650,7 @@ export type ListOutgoingCertificatesError =
  * Requires permission to access the ListOutgoingCertificates action.
  */
 export const listOutgoingCertificates: API.PaginatedOperationMethod<
-  ListOutgoingCertificatesRequest,
+  ListOutgoingCertificatesRequest & RegionInput,
   ListOutgoingCertificatesResponse,
   ListOutgoingCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -11688,7 +11689,7 @@ export type ListPackagesError =
  * Requires permission to access the ListPackages action.
  */
 export const listPackages: API.PaginatedOperationMethod<
-  ListPackagesRequest,
+  ListPackagesRequest & RegionInput,
   ListPackagesResponse,
   ListPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -11721,7 +11722,7 @@ export type ListPackageVersionsError =
  * Requires permission to access the ListPackageVersions action.
  */
 export const listPackageVersions: API.PaginatedOperationMethod<
-  ListPackageVersionsRequest,
+  ListPackageVersionsRequest & RegionInput,
   ListPackageVersionsResponse,
   ListPackageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -11756,7 +11757,7 @@ export type ListPoliciesError =
  * Requires permission to access the ListPolicies action.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -11801,7 +11802,7 @@ export type ListPolicyPrincipalsError =
  * Requires permission to access the ListPolicyPrincipals action.
  */
 export const listPolicyPrincipals: API.PaginatedOperationMethod<
-  ListPolicyPrincipalsRequest,
+  ListPolicyPrincipalsRequest & RegionInput,
   ListPolicyPrincipalsResponse,
   ListPolicyPrincipalsError,
   Credentials | HttpClient.HttpClient,
@@ -11845,7 +11846,7 @@ export type ListPolicyVersionsError =
  * Requires permission to access the ListPolicyVersions action.
  */
 export const listPolicyVersions: API.OperationMethod<
-  ListPolicyVersionsRequest,
+  ListPolicyVersionsRequest & RegionInput,
   ListPolicyVersionsResponse,
   ListPolicyVersionsError,
   Credentials | HttpClient.HttpClient
@@ -11885,7 +11886,7 @@ export type ListPrincipalPoliciesError =
  * Requires permission to access the ListPrincipalPolicies action.
  */
 export const listPrincipalPolicies: API.PaginatedOperationMethod<
-  ListPrincipalPoliciesRequest,
+  ListPrincipalPoliciesRequest & RegionInput,
   ListPrincipalPoliciesResponse,
   ListPrincipalPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -11930,7 +11931,7 @@ export type ListPrincipalThingsError =
  * Requires permission to access the ListPrincipalThings action.
  */
 export const listPrincipalThings: API.PaginatedOperationMethod<
-  ListPrincipalThingsRequest,
+  ListPrincipalThingsRequest & RegionInput,
   ListPrincipalThingsResponse,
   ListPrincipalThingsError,
   Credentials | HttpClient.HttpClient,
@@ -11974,7 +11975,7 @@ export type ListPrincipalThingsV2Error =
  * Requires permission to access the ListPrincipalThings action.
  */
 export const listPrincipalThingsV2: API.PaginatedOperationMethod<
-  ListPrincipalThingsV2Request,
+  ListPrincipalThingsV2Request & RegionInput,
   ListPrincipalThingsV2Response,
   ListPrincipalThingsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -12015,7 +12016,7 @@ export type ListProvisioningTemplatesError =
  * Requires permission to access the ListProvisioningTemplates action.
  */
 export const listProvisioningTemplates: API.PaginatedOperationMethod<
-  ListProvisioningTemplatesRequest,
+  ListProvisioningTemplatesRequest & RegionInput,
   ListProvisioningTemplatesResponse,
   ListProvisioningTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -12055,7 +12056,7 @@ export type ListProvisioningTemplateVersionsError =
  * Requires permission to access the ListProvisioningTemplateVersions action.
  */
 export const listProvisioningTemplateVersions: API.PaginatedOperationMethod<
-  ListProvisioningTemplateVersionsRequest,
+  ListProvisioningTemplateVersionsRequest & RegionInput,
   ListProvisioningTemplateVersionsResponse,
   ListProvisioningTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -12117,7 +12118,7 @@ export type ListRelatedResourcesForAuditFindingError =
  * active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
  */
 export const listRelatedResourcesForAuditFinding: API.PaginatedOperationMethod<
-  ListRelatedResourcesForAuditFindingRequest,
+  ListRelatedResourcesForAuditFindingRequest & RegionInput,
   ListRelatedResourcesForAuditFindingResponse,
   ListRelatedResourcesForAuditFindingError,
   Credentials | HttpClient.HttpClient,
@@ -12157,7 +12158,7 @@ export type ListRoleAliasesError =
  * Requires permission to access the ListRoleAliases action.
  */
 export const listRoleAliases: API.PaginatedOperationMethod<
-  ListRoleAliasesRequest,
+  ListRoleAliasesRequest & RegionInput,
   ListRoleAliasesResponse,
   ListRoleAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -12197,7 +12198,7 @@ export type ListSbomValidationResultsError =
  * Requires permission to access the ListSbomValidationResults action.
  */
 export const listSbomValidationResults: API.PaginatedOperationMethod<
-  ListSbomValidationResultsRequest,
+  ListSbomValidationResultsRequest & RegionInput,
   ListSbomValidationResultsResponse,
   ListSbomValidationResultsError,
   Credentials | HttpClient.HttpClient,
@@ -12235,7 +12236,7 @@ export type ListScheduledAuditsError =
  * Requires permission to access the ListScheduledAudits action.
  */
 export const listScheduledAudits: API.PaginatedOperationMethod<
-  ListScheduledAuditsRequest,
+  ListScheduledAuditsRequest & RegionInput,
   ListScheduledAuditsResponse,
   ListScheduledAuditsError,
   Credentials | HttpClient.HttpClient,
@@ -12275,7 +12276,7 @@ export type ListSecurityProfilesError =
  * `dimensionName` and `metricName` cannot be used in the same request.
  */
 export const listSecurityProfiles: API.PaginatedOperationMethod<
-  ListSecurityProfilesRequest,
+  ListSecurityProfilesRequest & RegionInput,
   ListSecurityProfilesResponse,
   ListSecurityProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -12316,7 +12317,7 @@ export type ListSecurityProfilesForTargetError =
  * Requires permission to access the ListSecurityProfilesForTarget action.
  */
 export const listSecurityProfilesForTarget: API.PaginatedOperationMethod<
-  ListSecurityProfilesForTargetRequest,
+  ListSecurityProfilesForTargetRequest & RegionInput,
   ListSecurityProfilesForTargetResponse,
   ListSecurityProfilesForTargetError,
   Credentials | HttpClient.HttpClient,
@@ -12356,7 +12357,7 @@ export type ListStreamsError =
  * Requires permission to access the ListStreams action.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsRequest,
+  ListStreamsRequest & RegionInput,
   ListStreamsResponse,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -12396,7 +12397,7 @@ export type ListTagsForResourceError =
  * Requires permission to access the ListTagsForResource action.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -12433,7 +12434,7 @@ export type ListTargetsForPolicyError =
  * Requires permission to access the ListTargetsForPolicy action.
  */
 export const listTargetsForPolicy: API.PaginatedOperationMethod<
-  ListTargetsForPolicyRequest,
+  ListTargetsForPolicyRequest & RegionInput,
   ListTargetsForPolicyResponse,
   ListTargetsForPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -12477,7 +12478,7 @@ export type ListTargetsForSecurityProfileError =
  * Requires permission to access the ListTargetsForSecurityProfile action.
  */
 export const listTargetsForSecurityProfile: API.PaginatedOperationMethod<
-  ListTargetsForSecurityProfileRequest,
+  ListTargetsForSecurityProfileRequest & RegionInput,
   ListTargetsForSecurityProfileResponse,
   ListTargetsForSecurityProfileError,
   Credentials | HttpClient.HttpClient,
@@ -12516,7 +12517,7 @@ export type ListThingGroupsError =
  * Requires permission to access the ListThingGroups action.
  */
 export const listThingGroups: API.PaginatedOperationMethod<
-  ListThingGroupsRequest,
+  ListThingGroupsRequest & RegionInput,
   ListThingGroupsResponse,
   ListThingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -12555,7 +12556,7 @@ export type ListThingGroupsForThingError =
  * Requires permission to access the ListThingGroupsForThing action.
  */
 export const listThingGroupsForThing: API.PaginatedOperationMethod<
-  ListThingGroupsForThingRequest,
+  ListThingGroupsForThingRequest & RegionInput,
   ListThingGroupsForThingResponse,
   ListThingGroupsForThingError,
   Credentials | HttpClient.HttpClient,
@@ -12598,7 +12599,7 @@ export type ListThingPrincipalsError =
  * Requires permission to access the ListThingPrincipals action.
  */
 export const listThingPrincipals: API.PaginatedOperationMethod<
-  ListThingPrincipalsRequest,
+  ListThingPrincipalsRequest & RegionInput,
   ListThingPrincipalsResponse,
   ListThingPrincipalsError,
   Credentials | HttpClient.HttpClient,
@@ -12642,7 +12643,7 @@ export type ListThingPrincipalsV2Error =
  * Requires permission to access the ListThingPrincipals action.
  */
 export const listThingPrincipalsV2: API.PaginatedOperationMethod<
-  ListThingPrincipalsV2Request,
+  ListThingPrincipalsV2Request & RegionInput,
   ListThingPrincipalsV2Response,
   ListThingPrincipalsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -12681,7 +12682,7 @@ export type ListThingRegistrationTaskReportsError =
  * Information about the thing registration tasks.
  */
 export const listThingRegistrationTaskReports: API.PaginatedOperationMethod<
-  ListThingRegistrationTaskReportsRequest,
+  ListThingRegistrationTaskReportsRequest & RegionInput,
   ListThingRegistrationTaskReportsResponse,
   ListThingRegistrationTaskReportsError,
   Credentials | HttpClient.HttpClient,
@@ -12720,7 +12721,7 @@ export type ListThingRegistrationTasksError =
  * Requires permission to access the ListThingRegistrationTasks action.
  */
 export const listThingRegistrationTasks: API.PaginatedOperationMethod<
-  ListThingRegistrationTasksRequest,
+  ListThingRegistrationTasksRequest & RegionInput,
   ListThingRegistrationTasksResponse,
   ListThingRegistrationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -12766,7 +12767,7 @@ export type ListThingsError =
  * You will not be charged for calling this API if an `Access denied` error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
  */
 export const listThings: API.PaginatedOperationMethod<
-  ListThingsRequest,
+  ListThingsRequest & RegionInput,
   ListThingsResponse,
   ListThingsError,
   Credentials | HttpClient.HttpClient,
@@ -12806,7 +12807,7 @@ export type ListThingsInBillingGroupError =
  * Requires permission to access the ListThingsInBillingGroup action.
  */
 export const listThingsInBillingGroup: API.PaginatedOperationMethod<
-  ListThingsInBillingGroupRequest,
+  ListThingsInBillingGroupRequest & RegionInput,
   ListThingsInBillingGroupResponse,
   ListThingsInBillingGroupError,
   Credentials | HttpClient.HttpClient,
@@ -12845,7 +12846,7 @@ export type ListThingsInThingGroupError =
  * Requires permission to access the ListThingsInThingGroup action.
  */
 export const listThingsInThingGroup: API.PaginatedOperationMethod<
-  ListThingsInThingGroupRequest,
+  ListThingsInThingGroupRequest & RegionInput,
   ListThingsInThingGroupResponse,
   ListThingsInThingGroupError,
   Credentials | HttpClient.HttpClient,
@@ -12885,7 +12886,7 @@ export type ListThingTypesError =
  * Requires permission to access the ListThingTypes action.
  */
 export const listThingTypes: API.PaginatedOperationMethod<
-  ListThingTypesRequest,
+  ListThingTypesRequest & RegionInput,
   ListThingTypesResponse,
   ListThingTypesError,
   Credentials | HttpClient.HttpClient,
@@ -12925,7 +12926,7 @@ export type ListTopicRuleDestinationsError =
  * Requires permission to access the ListTopicRuleDestinations action.
  */
 export const listTopicRuleDestinations: API.PaginatedOperationMethod<
-  ListTopicRuleDestinationsRequest,
+  ListTopicRuleDestinationsRequest & RegionInput,
   ListTopicRuleDestinationsResponse,
   ListTopicRuleDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -12964,7 +12965,7 @@ export type ListTopicRulesError =
  * Requires permission to access the ListTopicRules action.
  */
 export const listTopicRules: API.PaginatedOperationMethod<
-  ListTopicRulesRequest,
+  ListTopicRulesRequest & RegionInput,
   ListTopicRulesResponse,
   ListTopicRulesError,
   Credentials | HttpClient.HttpClient,
@@ -13003,7 +13004,7 @@ export type ListV2LoggingLevelsError =
  * Requires permission to access the ListV2LoggingLevels action.
  */
 export const listV2LoggingLevels: API.PaginatedOperationMethod<
-  ListV2LoggingLevelsRequest,
+  ListV2LoggingLevelsRequest & RegionInput,
   ListV2LoggingLevelsResponse,
   ListV2LoggingLevelsError,
   Credentials | HttpClient.HttpClient,
@@ -13045,7 +13046,7 @@ export type ListViolationEventsError =
  * Requires permission to access the ListViolationEvents action.
  */
 export const listViolationEvents: API.PaginatedOperationMethod<
-  ListViolationEventsRequest,
+  ListViolationEventsRequest & RegionInput,
   ListViolationEventsResponse,
   ListViolationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -13078,7 +13079,7 @@ export type PutVerificationStateOnViolationError =
  * Set a verification state and provide a description of that verification state on a violation (detect alarm).
  */
 export const putVerificationStateOnViolation: API.OperationMethod<
-  PutVerificationStateOnViolationRequest,
+  PutVerificationStateOnViolationRequest & RegionInput,
   PutVerificationStateOnViolationResponse,
   PutVerificationStateOnViolationError,
   Credentials | HttpClient.HttpClient
@@ -13113,7 +13114,7 @@ export type RegisterCACertificateError =
  * Requires permission to access the RegisterCACertificate action.
  */
 export const registerCACertificate: API.OperationMethod<
-  RegisterCACertificateRequest,
+  RegisterCACertificateRequest & RegionInput,
   RegisterCACertificateResponse,
   RegisterCACertificateError,
   Credentials | HttpClient.HttpClient
@@ -13158,7 +13159,7 @@ export type RegisterCertificateError =
  * Requires permission to access the RegisterCertificate action.
  */
 export const registerCertificate: API.OperationMethod<
-  RegisterCertificateRequest,
+  RegisterCertificateRequest & RegionInput,
   RegisterCertificateResponse,
   RegisterCertificateError,
   Credentials | HttpClient.HttpClient
@@ -13199,7 +13200,7 @@ export type RegisterCertificateWithoutCAError =
  * Certificate signing algorithms supported by IoT.
  */
 export const registerCertificateWithoutCA: API.OperationMethod<
-  RegisterCertificateWithoutCARequest,
+  RegisterCertificateWithoutCARequest & RegionInput,
   RegisterCertificateWithoutCAResponse,
   RegisterCertificateWithoutCAError,
   Credentials | HttpClient.HttpClient
@@ -13241,7 +13242,7 @@ export type RegisterThingError =
  * Requires permission to access the RegisterThing action.
  */
 export const registerThing: API.OperationMethod<
-  RegisterThingRequest,
+  RegisterThingRequest & RegionInput,
   RegisterThingResponse,
   RegisterThingError,
   Credentials | HttpClient.HttpClient
@@ -13287,7 +13288,7 @@ export type RejectCertificateTransferError =
  * Requires permission to access the RejectCertificateTransfer action.
  */
 export const rejectCertificateTransfer: API.OperationMethod<
-  RejectCertificateTransferRequest,
+  RejectCertificateTransferRequest & RegionInput,
   RejectCertificateTransferResponse,
   RejectCertificateTransferError,
   Credentials | HttpClient.HttpClient
@@ -13324,7 +13325,7 @@ export type RemoveThingFromBillingGroupError =
  * This call is asynchronous. It might take several seconds for the detachment to propagate.
  */
 export const removeThingFromBillingGroup: API.OperationMethod<
-  RemoveThingFromBillingGroupRequest,
+  RemoveThingFromBillingGroupRequest & RegionInput,
   RemoveThingFromBillingGroupResponse,
   RemoveThingFromBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -13361,7 +13362,7 @@ export type RemoveThingFromThingGroupError =
  * Requires permission to access the RemoveThingFromThingGroup action.
  */
 export const removeThingFromThingGroup: API.OperationMethod<
-  RemoveThingFromThingGroupRequest,
+  RemoveThingFromThingGroupRequest & RegionInput,
   RemoveThingFromThingGroupResponse,
   RemoveThingFromThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -13397,7 +13398,7 @@ export type ReplaceTopicRuleError =
  * Requires permission to access the ReplaceTopicRule action.
  */
 export const replaceTopicRule: API.OperationMethod<
-  ReplaceTopicRuleRequest,
+  ReplaceTopicRuleRequest & RegionInput,
   ReplaceTopicRuleResponse,
   ReplaceTopicRuleError,
   Credentials | HttpClient.HttpClient
@@ -13437,7 +13438,7 @@ export type SearchIndexError =
  * Requires permission to access the SearchIndex action.
  */
 export const searchIndex: API.OperationMethod<
-  SearchIndexRequest,
+  SearchIndexRequest & RegionInput,
   SearchIndexResponse,
   SearchIndexError,
   Credentials | HttpClient.HttpClient
@@ -13477,7 +13478,7 @@ export type SetDefaultAuthorizerError =
  * Requires permission to access the SetDefaultAuthorizer action.
  */
 export const setDefaultAuthorizer: API.OperationMethod<
-  SetDefaultAuthorizerRequest,
+  SetDefaultAuthorizerRequest & RegionInput,
   SetDefaultAuthorizerResponse,
   SetDefaultAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -13517,7 +13518,7 @@ export type SetDefaultPolicyVersionError =
  * Requires permission to access the SetDefaultPolicyVersion action.
  */
 export const setDefaultPolicyVersion: API.OperationMethod<
-  SetDefaultPolicyVersionRequest,
+  SetDefaultPolicyVersionRequest & RegionInput,
   SetDefaultPolicyVersionResponse,
   SetDefaultPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -13553,7 +13554,7 @@ export type SetLoggingOptionsError =
  * Requires permission to access the SetLoggingOptions action.
  */
 export const setLoggingOptions: API.OperationMethod<
-  SetLoggingOptionsRequest,
+  SetLoggingOptionsRequest & RegionInput,
   SetLoggingOptionsResponse,
   SetLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -13581,7 +13582,7 @@ export type SetV2LoggingLevelError =
  * Requires permission to access the SetV2LoggingLevel action.
  */
 export const setV2LoggingLevel: API.OperationMethod<
-  SetV2LoggingLevelRequest,
+  SetV2LoggingLevelRequest & RegionInput,
   SetV2LoggingLevelResponse,
   SetV2LoggingLevelError,
   Credentials | HttpClient.HttpClient
@@ -13613,7 +13614,7 @@ export type SetV2LoggingOptionsError =
  * Requires permission to access the SetV2LoggingOptions action.
  */
 export const setV2LoggingOptions: API.OperationMethod<
-  SetV2LoggingOptionsRequest,
+  SetV2LoggingOptionsRequest & RegionInput,
   SetV2LoggingOptionsResponse,
   SetV2LoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -13641,7 +13642,7 @@ export type StartAuditMitigationActionsTaskError =
  * Requires permission to access the StartAuditMitigationActionsTask action.
  */
 export const startAuditMitigationActionsTask: API.OperationMethod<
-  StartAuditMitigationActionsTaskRequest,
+  StartAuditMitigationActionsTaskRequest & RegionInput,
   StartAuditMitigationActionsTaskResponse,
   StartAuditMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -13677,7 +13678,7 @@ export type StartDetectMitigationActionsTaskError =
  * Requires permission to access the StartDetectMitigationActionsTask action.
  */
 export const startDetectMitigationActionsTask: API.OperationMethod<
-  StartDetectMitigationActionsTaskRequest,
+  StartDetectMitigationActionsTaskRequest & RegionInput,
   StartDetectMitigationActionsTaskResponse,
   StartDetectMitigationActionsTaskError,
   Credentials | HttpClient.HttpClient
@@ -13710,7 +13711,7 @@ export type StartOnDemandAuditTaskError =
  * Requires permission to access the StartOnDemandAuditTask action.
  */
 export const startOnDemandAuditTask: API.OperationMethod<
-  StartOnDemandAuditTaskRequest,
+  StartOnDemandAuditTaskRequest & RegionInput,
   StartOnDemandAuditTaskResponse,
   StartOnDemandAuditTaskError,
   Credentials | HttpClient.HttpClient
@@ -13742,7 +13743,7 @@ export type StartThingRegistrationTaskError =
  * Requires permission to access the StartThingRegistrationTask action.
  */
 export const startThingRegistrationTask: API.OperationMethod<
-  StartThingRegistrationTaskRequest,
+  StartThingRegistrationTaskRequest & RegionInput,
   StartThingRegistrationTaskResponse,
   StartThingRegistrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -13775,7 +13776,7 @@ export type StopThingRegistrationTaskError =
  * Requires permission to access the StopThingRegistrationTask action.
  */
 export const stopThingRegistrationTask: API.OperationMethod<
-  StopThingRegistrationTaskRequest,
+  StopThingRegistrationTaskRequest & RegionInput,
   StopThingRegistrationTaskResponse,
   StopThingRegistrationTaskError,
   Credentials | HttpClient.HttpClient
@@ -13810,7 +13811,7 @@ export type TagResourceError =
  * Requires permission to access the TagResource action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -13848,7 +13849,7 @@ export type TestAuthorizationError =
  * Requires permission to access the TestAuthorization action.
  */
 export const testAuthorization: API.OperationMethod<
-  TestAuthorizationRequest,
+  TestAuthorizationRequest & RegionInput,
   TestAuthorizationResponse,
   TestAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -13888,7 +13889,7 @@ export type TestInvokeAuthorizerError =
  * Requires permission to access the TestInvokeAuthorizer action.
  */
 export const testInvokeAuthorizer: API.OperationMethod<
-  TestInvokeAuthorizerRequest,
+  TestInvokeAuthorizerRequest & RegionInput,
   TestInvokeAuthorizerResponse,
   TestInvokeAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -13951,7 +13952,7 @@ export type TransferCertificateError =
  * - If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
  */
 export const transferCertificate: API.OperationMethod<
-  TransferCertificateRequest,
+  TransferCertificateRequest & RegionInput,
   TransferCertificateResponse,
   TransferCertificateError,
   Credentials | HttpClient.HttpClient
@@ -13987,7 +13988,7 @@ export type UntagResourceError =
  * Requires permission to access the UntagResource action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -14020,7 +14021,7 @@ export type UpdateAccountAuditConfigurationError =
  * Requires permission to access the UpdateAccountAuditConfiguration action.
  */
 export const updateAccountAuditConfiguration: API.OperationMethod<
-  UpdateAccountAuditConfigurationRequest,
+  UpdateAccountAuditConfigurationRequest & RegionInput,
   UpdateAccountAuditConfigurationResponse,
   UpdateAccountAuditConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -14045,7 +14046,7 @@ export type UpdateAuditSuppressionError =
  * Updates a Device Defender audit suppression.
  */
 export const updateAuditSuppression: API.OperationMethod<
-  UpdateAuditSuppressionRequest,
+  UpdateAuditSuppressionRequest & RegionInput,
   UpdateAuditSuppressionResponse,
   UpdateAuditSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -14080,7 +14081,7 @@ export type UpdateAuthorizerError =
  * Requires permission to access the UpdateAuthorizer action.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   UpdateAuthorizerResponse,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -14116,7 +14117,7 @@ export type UpdateBillingGroupError =
  * Requires permission to access the UpdateBillingGroup action.
  */
 export const updateBillingGroup: API.OperationMethod<
-  UpdateBillingGroupRequest,
+  UpdateBillingGroupRequest & RegionInput,
   UpdateBillingGroupResponse,
   UpdateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -14151,7 +14152,7 @@ export type UpdateCACertificateError =
  * Requires permission to access the UpdateCACertificate action.
  */
 export const updateCACertificate: API.OperationMethod<
-  UpdateCACertificateRequest,
+  UpdateCACertificateRequest & RegionInput,
   UpdateCACertificateResponse,
   UpdateCACertificateError,
   Credentials | HttpClient.HttpClient
@@ -14196,7 +14197,7 @@ export type UpdateCertificateError =
  * use a certificate that is not in the ACTIVE state to reconnect.
  */
 export const updateCertificate: API.OperationMethod<
-  UpdateCertificateRequest,
+  UpdateCertificateRequest & RegionInput,
   UpdateCertificateResponse,
   UpdateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -14233,7 +14234,7 @@ export type UpdateCertificateProviderError =
  * Requires permission to access the UpdateCertificateProvider action.
  */
 export const updateCertificateProvider: API.OperationMethod<
-  UpdateCertificateProviderRequest,
+  UpdateCertificateProviderRequest & RegionInput,
   UpdateCertificateProviderResponse,
   UpdateCertificateProviderError,
   Credentials | HttpClient.HttpClient
@@ -14266,7 +14267,7 @@ export type UpdateCommandError =
  * Update information about a command or mark a command for deprecation.
  */
 export const updateCommand: API.OperationMethod<
-  UpdateCommandRequest,
+  UpdateCommandRequest & RegionInput,
   UpdateCommandResponse,
   UpdateCommandError,
   Credentials | HttpClient.HttpClient
@@ -14302,7 +14303,7 @@ export type UpdateCustomMetricError =
  * Requires permission to access the UpdateCustomMetric action.
  */
 export const updateCustomMetric: API.OperationMethod<
-  UpdateCustomMetricRequest,
+  UpdateCustomMetricRequest & RegionInput,
   UpdateCustomMetricResponse,
   UpdateCustomMetricError,
   Credentials | HttpClient.HttpClient
@@ -14341,7 +14342,7 @@ export type UpdateDimensionError =
  * Requires permission to access the UpdateDimension action.
  */
 export const updateDimension: API.OperationMethod<
-  UpdateDimensionRequest,
+  UpdateDimensionRequest & RegionInput,
   UpdateDimensionResponse,
   UpdateDimensionError,
   Credentials | HttpClient.HttpClient
@@ -14377,7 +14378,7 @@ export type UpdateDomainConfigurationError =
  * Requires permission to access the UpdateDomainConfiguration action.
  */
 export const updateDomainConfiguration: API.OperationMethod<
-  UpdateDomainConfigurationRequest,
+  UpdateDomainConfigurationRequest & RegionInput,
   UpdateDomainConfigurationResponse,
   UpdateDomainConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -14414,7 +14415,7 @@ export type UpdateDynamicThingGroupError =
  * Requires permission to access the UpdateDynamicThingGroup action.
  */
 export const updateDynamicThingGroup: API.OperationMethod<
-  UpdateDynamicThingGroupRequest,
+  UpdateDynamicThingGroupRequest & RegionInput,
   UpdateDynamicThingGroupResponse,
   UpdateDynamicThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -14451,7 +14452,7 @@ export type UpdateEncryptionConfigurationError =
  * Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption at rest in the *Amazon Web Services IoT Core Developer Guide*.
  */
 export const updateEncryptionConfiguration: API.OperationMethod<
-  UpdateEncryptionConfigurationRequest,
+  UpdateEncryptionConfigurationRequest & RegionInput,
   UpdateEncryptionConfigurationResponse,
   UpdateEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -14483,7 +14484,7 @@ export type UpdateEventConfigurationsError =
  * Requires permission to access the UpdateEventConfigurations action.
  */
 export const updateEventConfigurations: API.OperationMethod<
-  UpdateEventConfigurationsRequest,
+  UpdateEventConfigurationsRequest & RegionInput,
   UpdateEventConfigurationsResponse,
   UpdateEventConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -14516,7 +14517,7 @@ export type UpdateFleetMetricError =
  * Requires permission to access the UpdateFleetMetric action.
  */
 export const updateFleetMetric: API.OperationMethod<
-  UpdateFleetMetricRequest,
+  UpdateFleetMetricRequest & RegionInput,
   UpdateFleetMetricResponse,
   UpdateFleetMetricError,
   Credentials | HttpClient.HttpClient
@@ -14555,7 +14556,7 @@ export type UpdateIndexingConfigurationError =
  * Requires permission to access the UpdateIndexingConfiguration action.
  */
 export const updateIndexingConfiguration: API.OperationMethod<
-  UpdateIndexingConfigurationRequest,
+  UpdateIndexingConfigurationRequest & RegionInput,
   UpdateIndexingConfigurationResponse,
   UpdateIndexingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -14588,7 +14589,7 @@ export type UpdateJobError =
  * Requires permission to access the UpdateJob action.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -14620,7 +14621,7 @@ export type UpdateMitigationActionError =
  * Requires permission to access the UpdateMitigationAction action.
  */
 export const updateMitigationAction: API.OperationMethod<
-  UpdateMitigationActionRequest,
+  UpdateMitigationActionRequest & RegionInput,
   UpdateMitigationActionResponse,
   UpdateMitigationActionError,
   Credentials | HttpClient.HttpClient
@@ -14653,7 +14654,7 @@ export type UpdatePackageError =
  * Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -14686,7 +14687,7 @@ export type UpdatePackageConfigurationError =
  * Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
  */
 export const updatePackageConfiguration: API.OperationMethod<
-  UpdatePackageConfigurationRequest,
+  UpdatePackageConfigurationRequest & RegionInput,
   UpdatePackageConfigurationResponse,
   UpdatePackageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -14714,7 +14715,7 @@ export type UpdatePackageVersionError =
  * Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
  */
 export const updatePackageVersion: API.OperationMethod<
-  UpdatePackageVersionRequest,
+  UpdatePackageVersionRequest & RegionInput,
   UpdatePackageVersionResponse,
   UpdatePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -14748,7 +14749,7 @@ export type UpdateProvisioningTemplateError =
  * Requires permission to access the UpdateProvisioningTemplate action.
  */
 export const updateProvisioningTemplate: API.OperationMethod<
-  UpdateProvisioningTemplateRequest,
+  UpdateProvisioningTemplateRequest & RegionInput,
   UpdateProvisioningTemplateResponse,
   UpdateProvisioningTemplateError,
   Credentials | HttpClient.HttpClient
@@ -14790,7 +14791,7 @@ export type UpdateRoleAliasError =
  * Identity and Access Management User Guide.
  */
 export const updateRoleAlias: API.OperationMethod<
-  UpdateRoleAliasRequest,
+  UpdateRoleAliasRequest & RegionInput,
   UpdateRoleAliasResponse,
   UpdateRoleAliasError,
   Credentials | HttpClient.HttpClient
@@ -14825,7 +14826,7 @@ export type UpdateScheduledAuditError =
  * Requires permission to access the UpdateScheduledAudit action.
  */
 export const updateScheduledAudit: API.OperationMethod<
-  UpdateScheduledAuditRequest,
+  UpdateScheduledAuditRequest & RegionInput,
   UpdateScheduledAuditResponse,
   UpdateScheduledAuditError,
   Credentials | HttpClient.HttpClient
@@ -14860,7 +14861,7 @@ export type UpdateSecurityProfileError =
  * Requires permission to access the UpdateSecurityProfile action.
  */
 export const updateSecurityProfile: API.OperationMethod<
-  UpdateSecurityProfileRequest,
+  UpdateSecurityProfileRequest & RegionInput,
   UpdateSecurityProfileResponse,
   UpdateSecurityProfileError,
   Credentials | HttpClient.HttpClient
@@ -14896,7 +14897,7 @@ export type UpdateStreamError =
  * Requires permission to access the UpdateStream action.
  */
 export const updateStream: API.OperationMethod<
-  UpdateStreamRequest,
+  UpdateStreamRequest & RegionInput,
   UpdateStreamResponse,
   UpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -14934,7 +14935,7 @@ export type UpdateThingError =
  * Requires permission to access the UpdateThing action.
  */
 export const updateThing: API.OperationMethod<
-  UpdateThingRequest,
+  UpdateThingRequest & RegionInput,
   UpdateThingResponse,
   UpdateThingError,
   Credentials | HttpClient.HttpClient
@@ -14970,7 +14971,7 @@ export type UpdateThingGroupError =
  * Requires permission to access the UpdateThingGroup action.
  */
 export const updateThingGroup: API.OperationMethod<
-  UpdateThingGroupRequest,
+  UpdateThingGroupRequest & RegionInput,
   UpdateThingGroupResponse,
   UpdateThingGroupError,
   Credentials | HttpClient.HttpClient
@@ -15003,7 +15004,7 @@ export type UpdateThingGroupsForThingError =
  * Requires permission to access the UpdateThingGroupsForThing action.
  */
 export const updateThingGroupsForThing: API.OperationMethod<
-  UpdateThingGroupsForThingRequest,
+  UpdateThingGroupsForThingRequest & RegionInput,
   UpdateThingGroupsForThingResponse,
   UpdateThingGroupsForThingError,
   Credentials | HttpClient.HttpClient
@@ -15035,7 +15036,7 @@ export type UpdateThingTypeError =
  * Updates a thing type.
  */
 export const updateThingType: API.OperationMethod<
-  UpdateThingTypeRequest,
+  UpdateThingTypeRequest & RegionInput,
   UpdateThingTypeResponse,
   UpdateThingTypeError,
   Credentials | HttpClient.HttpClient
@@ -15071,7 +15072,7 @@ export type UpdateTopicRuleDestinationError =
  * Requires permission to access the UpdateTopicRuleDestination action.
  */
 export const updateTopicRuleDestination: API.OperationMethod<
-  UpdateTopicRuleDestinationRequest,
+  UpdateTopicRuleDestinationRequest & RegionInput,
   UpdateTopicRuleDestinationResponse,
   UpdateTopicRuleDestinationError,
   Credentials | HttpClient.HttpClient
@@ -15105,7 +15106,7 @@ export type ValidateSecurityProfileBehaviorsError =
  * Requires permission to access the ValidateSecurityProfileBehaviors action.
  */
 export const validateSecurityProfileBehaviors: API.OperationMethod<
-  ValidateSecurityProfileBehaviorsRequest,
+  ValidateSecurityProfileBehaviorsRequest & RegionInput,
   ValidateSecurityProfileBehaviorsResponse,
   ValidateSecurityProfileBehaviorsError,
   Credentials | HttpClient.HttpClient

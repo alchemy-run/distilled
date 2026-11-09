@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -501,7 +502,7 @@ export type CreateApplicationError =
  * Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -533,7 +534,7 @@ export type CreateApplicationVersionError =
  * Creates an application version.
  */
 export const createApplicationVersion: API.OperationMethod<
-  CreateApplicationVersionRequest,
+  CreateApplicationVersionRequest & RegionInput,
   CreateApplicationVersionResponse,
   CreateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -564,7 +565,7 @@ export type CreateCloudFormationChangeSetError =
  * Creates an AWS CloudFormation change set for the given application.
  */
 export const createCloudFormationChangeSet: API.OperationMethod<
-  CreateCloudFormationChangeSetRequest,
+  CreateCloudFormationChangeSetRequest & RegionInput,
   CreateCloudFormationChangeSetResponse,
   CreateCloudFormationChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -595,7 +596,7 @@ export type CreateCloudFormationTemplateError =
  * Creates an AWS CloudFormation template.
  */
 export const createCloudFormationTemplate: API.OperationMethod<
-  CreateCloudFormationTemplateRequest,
+  CreateCloudFormationTemplateRequest & RegionInput,
   CreateCloudFormationTemplateResponse,
   CreateCloudFormationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -628,7 +629,7 @@ export type DeleteApplicationError =
  * Deletes the specified application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -661,7 +662,7 @@ export type GetApplicationError =
  * Gets the specified application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -693,7 +694,7 @@ export type GetApplicationPolicyError =
  * Retrieves the policy for the application.
  */
 export const getApplicationPolicy: API.OperationMethod<
-  GetApplicationPolicyRequest,
+  GetApplicationPolicyRequest & RegionInput,
   GetApplicationPolicyResponse,
   GetApplicationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type GetCloudFormationTemplateError =
  * Gets the specified AWS CloudFormation template.
  */
 export const getCloudFormationTemplate: API.OperationMethod<
-  GetCloudFormationTemplateRequest,
+  GetCloudFormationTemplateRequest & RegionInput,
   GetCloudFormationTemplateResponse,
   GetCloudFormationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -757,7 +758,7 @@ export type ListApplicationDependenciesError =
  * Retrieves the list of applications nested in the containing application.
  */
 export const listApplicationDependencies: API.PaginatedOperationMethod<
-  ListApplicationDependenciesRequest,
+  ListApplicationDependenciesRequest & RegionInput,
   ListApplicationDependenciesResponse,
   ListApplicationDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -790,7 +791,7 @@ export type ListApplicationsError =
  * Lists applications owned by the requester.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -823,7 +824,7 @@ export type ListApplicationVersionsError =
  * Lists versions for the specified application.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -860,7 +861,7 @@ export type PutApplicationPolicyError =
  * .
  */
 export const putApplicationPolicy: API.OperationMethod<
-  PutApplicationPolicyRequest,
+  PutApplicationPolicyRequest & RegionInput,
   PutApplicationPolicyResponse,
   PutApplicationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +895,7 @@ export type UnshareApplicationError =
  * This operation can be called only from the organization's master account.
  */
 export const unshareApplication: API.OperationMethod<
-  UnshareApplicationRequest,
+  UnshareApplicationRequest & RegionInput,
   UnshareApplicationResponse,
   UnshareApplicationError,
   Credentials | HttpClient.HttpClient
@@ -927,7 +928,7 @@ export type UpdateApplicationError =
  * Updates the specified application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient

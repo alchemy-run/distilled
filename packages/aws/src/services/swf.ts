@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1385,7 +1386,7 @@ export type CountClosedWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countClosedWorkflowExecutions: API.OperationMethod<
-  CountClosedWorkflowExecutionsInput,
+  CountClosedWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionCount,
   CountClosedWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type CountOpenWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countOpenWorkflowExecutions: API.OperationMethod<
-  CountOpenWorkflowExecutionsInput,
+  CountOpenWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionCount,
   CountOpenWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1488,7 @@ export type CountPendingActivityTasksError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countPendingActivityTasks: API.OperationMethod<
-  CountPendingActivityTasksInput,
+  CountPendingActivityTasksInput & RegionInput,
   PendingTaskCount,
   CountPendingActivityTasksError,
   Credentials | HttpClient.HttpClient
@@ -1533,7 +1534,7 @@ export type CountPendingDecisionTasksError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countPendingDecisionTasks: API.OperationMethod<
-  CountPendingDecisionTasksInput,
+  CountPendingDecisionTasksInput & RegionInput,
   PendingTaskCount,
   CountPendingDecisionTasksError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type DeleteActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deleteActivityType: API.OperationMethod<
-  DeleteActivityTypeInput,
+  DeleteActivityTypeInput & RegionInput,
   DeleteActivityTypeResponse,
   DeleteActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1640,7 +1641,7 @@ export type DeleteWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deleteWorkflowType: API.OperationMethod<
-  DeleteWorkflowTypeInput,
+  DeleteWorkflowTypeInput & RegionInput,
   DeleteWorkflowTypeResponse,
   DeleteWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -1692,7 +1693,7 @@ export type DeprecateActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateActivityType: API.OperationMethod<
-  DeprecateActivityTypeInput,
+  DeprecateActivityTypeInput & RegionInput,
   DeprecateActivityTypeResponse,
   DeprecateActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1742,7 +1743,7 @@ export type DeprecateDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateDomain: API.OperationMethod<
-  DeprecateDomainInput,
+  DeprecateDomainInput & RegionInput,
   DeprecateDomainResponse,
   DeprecateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1798,7 +1799,7 @@ export type DeprecateWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateWorkflowType: API.OperationMethod<
-  DeprecateWorkflowTypeInput,
+  DeprecateWorkflowTypeInput & RegionInput,
   DeprecateWorkflowTypeResponse,
   DeprecateWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1850,7 @@ export type DescribeActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeActivityType: API.OperationMethod<
-  DescribeActivityTypeInput,
+  DescribeActivityTypeInput & RegionInput,
   ActivityTypeDetail,
   DescribeActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1889,7 +1890,7 @@ export type DescribeDomainError = OperationNotPermittedFault | UnknownResourceFa
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainInput,
+  DescribeDomainInput & RegionInput,
   DomainDetail,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1936,7 @@ export type DescribeWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeWorkflowExecution: API.OperationMethod<
-  DescribeWorkflowExecutionInput,
+  DescribeWorkflowExecutionInput & RegionInput,
   WorkflowExecutionDetail,
   DescribeWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1986,7 +1987,7 @@ export type DescribeWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeWorkflowType: API.OperationMethod<
-  DescribeWorkflowTypeInput,
+  DescribeWorkflowTypeInput & RegionInput,
   WorkflowTypeDetail,
   DescribeWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -2033,7 +2034,7 @@ export type GetWorkflowExecutionHistoryError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const getWorkflowExecutionHistory: API.PaginatedOperationMethod<
-  GetWorkflowExecutionHistoryInput,
+  GetWorkflowExecutionHistoryInput & RegionInput,
   History,
   GetWorkflowExecutionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2086,7 +2087,7 @@ export type ListActivityTypesError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listActivityTypes: API.PaginatedOperationMethod<
-  ListActivityTypesInput,
+  ListActivityTypesInput & RegionInput,
   ActivityTypeInfos,
   ListActivityTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2150,7 +2151,7 @@ export type ListClosedWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listClosedWorkflowExecutions: API.PaginatedOperationMethod<
-  ListClosedWorkflowExecutionsInput,
+  ListClosedWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionInfos,
   ListClosedWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2203,7 +2204,7 @@ export type ListDomainsError = OperationNotPermittedFault | CommonErrors;
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsInput,
+  ListDomainsInput & RegionInput,
   DomainInfos,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2267,7 +2268,7 @@ export type ListOpenWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listOpenWorkflowExecutions: API.PaginatedOperationMethod<
-  ListOpenWorkflowExecutionsInput,
+  ListOpenWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionInfos,
   ListOpenWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2298,7 +2299,7 @@ export type ListTagsForResourceError =
  * List tags for a given domain.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2341,7 +2342,7 @@ export type ListWorkflowTypesError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listWorkflowTypes: API.PaginatedOperationMethod<
-  ListWorkflowTypesInput,
+  ListWorkflowTypesInput & RegionInput,
   WorkflowTypeInfos,
   ListWorkflowTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2402,7 +2403,7 @@ export type PollForActivityTaskError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const pollForActivityTask: API.OperationMethod<
-  PollForActivityTaskInput,
+  PollForActivityTaskInput & RegionInput,
   ActivityTask,
   PollForActivityTaskError,
   Credentials | HttpClient.HttpClient
@@ -2468,7 +2469,7 @@ export type PollForDecisionTaskError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const pollForDecisionTask: API.PaginatedOperationMethod<
-  PollForDecisionTaskInput,
+  PollForDecisionTaskInput & RegionInput,
   DecisionTask,
   PollForDecisionTaskError,
   Credentials | HttpClient.HttpClient,
@@ -2540,7 +2541,7 @@ export type RecordActivityTaskHeartbeatError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const recordActivityTaskHeartbeat: API.OperationMethod<
-  RecordActivityTaskHeartbeatInput,
+  RecordActivityTaskHeartbeatInput & RegionInput,
   ActivityTaskStatus,
   RecordActivityTaskHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -2598,7 +2599,7 @@ export type RegisterActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerActivityType: API.OperationMethod<
-  RegisterActivityTypeInput,
+  RegisterActivityTypeInput & RegionInput,
   RegisterActivityTypeResponse,
   RegisterActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -2647,7 +2648,7 @@ export type RegisterDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerDomain: API.OperationMethod<
-  RegisterDomainInput,
+  RegisterDomainInput & RegionInput,
   RegisterDomainResponse,
   RegisterDomainError,
   Credentials | HttpClient.HttpClient
@@ -2712,7 +2713,7 @@ export type RegisterWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerWorkflowType: API.OperationMethod<
-  RegisterWorkflowTypeInput,
+  RegisterWorkflowTypeInput & RegionInput,
   RegisterWorkflowTypeResponse,
   RegisterWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -2770,7 +2771,7 @@ export type RequestCancelWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const requestCancelWorkflowExecution: API.OperationMethod<
-  RequestCancelWorkflowExecutionInput,
+  RequestCancelWorkflowExecutionInput & RegionInput,
   RequestCancelWorkflowExecutionResponse,
   RequestCancelWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2827,7 +2828,7 @@ export type RespondActivityTaskCanceledError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskCanceled: API.OperationMethod<
-  RespondActivityTaskCanceledInput,
+  RespondActivityTaskCanceledInput & RegionInput,
   RespondActivityTaskCanceledResponse,
   RespondActivityTaskCanceledError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2883,7 @@ export type RespondActivityTaskCompletedError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskCompleted: API.OperationMethod<
-  RespondActivityTaskCompletedInput,
+  RespondActivityTaskCompletedInput & RegionInput,
   RespondActivityTaskCompletedResponse,
   RespondActivityTaskCompletedError,
   Credentials | HttpClient.HttpClient
@@ -2932,7 +2933,7 @@ export type RespondActivityTaskFailedError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskFailed: API.OperationMethod<
-  RespondActivityTaskFailedInput,
+  RespondActivityTaskFailedInput & RegionInput,
   RespondActivityTaskFailedResponse,
   RespondActivityTaskFailedError,
   Credentials | HttpClient.HttpClient
@@ -2972,7 +2973,7 @@ export type RespondDecisionTaskCompletedError =
  * *Amazon SWF Developer Guide*.
  */
 export const respondDecisionTaskCompleted: API.OperationMethod<
-  RespondDecisionTaskCompletedInput,
+  RespondDecisionTaskCompletedInput & RegionInput,
   RespondDecisionTaskCompletedResponse,
   RespondDecisionTaskCompletedError,
   Credentials | HttpClient.HttpClient
@@ -3024,7 +3025,7 @@ export type SignalWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const signalWorkflowExecution: API.OperationMethod<
-  SignalWorkflowExecutionInput,
+  SignalWorkflowExecutionInput & RegionInput,
   SignalWorkflowExecutionResponse,
   SignalWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3093,7 +3094,7 @@ export type StartWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const startWorkflowExecution: API.OperationMethod<
-  StartWorkflowExecutionInput,
+  StartWorkflowExecutionInput & RegionInput,
   Run,
   StartWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3127,7 +3128,7 @@ export type TagResourceError =
  * Amazon SWF supports a maximum of 50 tags per resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3182,7 +3183,7 @@ export type TerminateWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const terminateWorkflowExecution: API.OperationMethod<
-  TerminateWorkflowExecutionInput,
+  TerminateWorkflowExecutionInput & RegionInput,
   TerminateWorkflowExecutionResponse,
   TerminateWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3236,7 +3237,7 @@ export type UndeprecateActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateActivityType: API.OperationMethod<
-  UndeprecateActivityTypeInput,
+  UndeprecateActivityTypeInput & RegionInput,
   UndeprecateActivityTypeResponse,
   UndeprecateActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -3283,7 +3284,7 @@ export type UndeprecateDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateDomain: API.OperationMethod<
-  UndeprecateDomainInput,
+  UndeprecateDomainInput & RegionInput,
   UndeprecateDomainResponse,
   UndeprecateDomainError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3338,7 @@ export type UndeprecateWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateWorkflowType: API.OperationMethod<
-  UndeprecateWorkflowTypeInput,
+  UndeprecateWorkflowTypeInput & RegionInput,
   UndeprecateWorkflowTypeResponse,
   UndeprecateWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type UntagResourceError =
  * Remove a tag from a Amazon SWF domain.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

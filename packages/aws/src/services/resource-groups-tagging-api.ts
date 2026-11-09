@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -288,7 +289,7 @@ export type DescribeReportCreationError =
  * management account and from the us-east-1 Region.
  */
 export const describeReportCreation: API.OperationMethod<
-  DescribeReportCreationInput,
+  DescribeReportCreationInput & RegionInput,
   DescribeReportCreationOutput,
   DescribeReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type GetComplianceSummaryError =
  * there are no more results waiting to be returned.
  */
 export const getComplianceSummary: API.PaginatedOperationMethod<
-  GetComplianceSummaryInput,
+  GetComplianceSummaryInput & RegionInput,
   GetComplianceSummaryOutput,
   GetComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -393,7 +394,7 @@ export type GetResourcesError =
  * query that uses `tag:none`. For more information, see Search query syntax reference for Resource Explorer.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesInput,
+  GetResourcesInput & RegionInput,
   GetResourcesOutput,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -438,7 +439,7 @@ export type GetTagKeysError =
  * there are no more results waiting to be returned.
  */
 export const getTagKeys: API.PaginatedOperationMethod<
-  GetTagKeysInput,
+  GetTagKeysInput & RegionInput,
   GetTagKeysOutput,
   GetTagKeysError,
   Credentials | HttpClient.HttpClient,
@@ -482,7 +483,7 @@ export type GetTagValuesError =
  * there are no more results waiting to be returned.
  */
 export const getTagValues: API.PaginatedOperationMethod<
-  GetTagValuesInput,
+  GetTagValuesInput & RegionInput,
   GetTagValuesOutput,
   GetTagValuesError,
   Credentials | HttpClient.HttpClient,
@@ -518,7 +519,7 @@ export type ListRequiredTagsError =
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
 export const listRequiredTags: API.PaginatedOperationMethod<
-  ListRequiredTagsInput,
+  ListRequiredTagsInput & RegionInput,
   ListRequiredTagsOutput,
   ListRequiredTagsError,
   Credentials | HttpClient.HttpClient,
@@ -576,7 +577,7 @@ export type StartReportCreationError =
  * Editor user guide.
  */
 export const startReportCreation: API.OperationMethod<
-  StartReportCreationInput,
+  StartReportCreationInput & RegionInput,
   StartReportCreationOutput,
   StartReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -655,7 +656,7 @@ export type TagResourcesError =
  * information.
  */
 export const tagResources: API.OperationMethod<
-  TagResourcesInput,
+  TagResourcesInput & RegionInput,
   TagResourcesOutput,
   TagResourcesError,
   Credentials | HttpClient.HttpClient
@@ -708,7 +709,7 @@ export type UntagResourcesError =
  * information.
  */
 export const untagResources: API.OperationMethod<
-  UntagResourcesInput,
+  UntagResourcesInput & RegionInput,
   UntagResourcesOutput,
   UntagResourcesError,
   Credentials | HttpClient.HttpClient

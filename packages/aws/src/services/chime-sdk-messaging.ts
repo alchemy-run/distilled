@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -967,7 +968,7 @@ export type AssociateChannelFlowError =
  * that makes the API call as the value in the header.
  */
 export const associateChannelFlow: API.OperationMethod<
-  AssociateChannelFlowRequest,
+  AssociateChannelFlowRequest & RegionInput,
   AssociateChannelFlowResponse,
   AssociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type BatchCreateChannelMembershipError =
  * Adds a specified number of users and bots to a channel.
  */
 export const batchCreateChannelMembership: API.OperationMethod<
-  BatchCreateChannelMembershipRequest,
+  BatchCreateChannelMembershipRequest & RegionInput,
   BatchCreateChannelMembershipResponse,
   BatchCreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1050,7 +1051,7 @@ export type ChannelFlowCallbackError =
  * - Make no changes to the message
  */
 export const channelFlowCallback: API.OperationMethod<
-  ChannelFlowCallbackRequest,
+  ChannelFlowCallbackRequest & RegionInput,
   ChannelFlowCallbackResponse,
   ChannelFlowCallbackError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type CreateChannelError =
  * the header.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type CreateChannelBanError =
  * the header.
  */
 export const createChannelBan: API.OperationMethod<
-  CreateChannelBanRequest,
+  CreateChannelBanRequest & RegionInput,
   CreateChannelBanResponse,
   CreateChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1194,7 +1195,7 @@ export type CreateChannelFlowError =
  * Message types in the *Amazon Chime developer guide*.
  */
 export const createChannelFlow: API.OperationMethod<
-  CreateChannelFlowRequest,
+  CreateChannelFlowRequest & RegionInput,
   CreateChannelFlowResponse,
   CreateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1255,7 +1256,7 @@ export type CreateChannelMembershipError =
  * as the value in the header.
  */
 export const createChannelMembership: API.OperationMethod<
-  CreateChannelMembershipRequest,
+  CreateChannelMembershipRequest & RegionInput,
   CreateChannelMembershipResponse,
   CreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type CreateChannelModeratorError =
  * the header.
  */
 export const createChannelModerator: API.OperationMethod<
-  CreateChannelModeratorRequest,
+  CreateChannelModeratorRequest & RegionInput,
   CreateChannelModeratorResponse,
   CreateChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1351,7 @@ export type DeleteChannelError =
  * the header.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1389,7 +1390,7 @@ export type DeleteChannelBanError =
  * the header.
  */
 export const deleteChannelBan: API.OperationMethod<
-  DeleteChannelBanRequest,
+  DeleteChannelBanRequest & RegionInput,
   DeleteChannelBanResponse,
   DeleteChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1427,7 +1428,7 @@ export type DeleteChannelFlowError =
  * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
  */
 export const deleteChannelFlow: API.OperationMethod<
-  DeleteChannelFlowRequest,
+  DeleteChannelFlowRequest & RegionInput,
   DeleteChannelFlowResponse,
   DeleteChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type DeleteChannelMembershipError =
  * the header.
  */
 export const deleteChannelMembership: API.OperationMethod<
-  DeleteChannelMembershipRequest,
+  DeleteChannelMembershipRequest & RegionInput,
   DeleteChannelMembershipResponse,
   DeleteChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type DeleteChannelMessageError =
  * the header.
  */
 export const deleteChannelMessage: API.OperationMethod<
-  DeleteChannelMessageRequest,
+  DeleteChannelMessageRequest & RegionInput,
   DeleteChannelMessageResponse,
   DeleteChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type DeleteChannelModeratorError =
  * the header.
  */
 export const deleteChannelModerator: API.OperationMethod<
-  DeleteChannelModeratorRequest,
+  DeleteChannelModeratorRequest & RegionInput,
   DeleteChannelModeratorResponse,
   DeleteChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1581,7 +1582,7 @@ export type DeleteMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const deleteMessagingStreamingConfigurations: API.OperationMethod<
-  DeleteMessagingStreamingConfigurationsRequest,
+  DeleteMessagingStreamingConfigurationsRequest & RegionInput,
   DeleteMessagingStreamingConfigurationsResponse,
   DeleteMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type DescribeChannelError =
  * the header.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1659,7 +1660,7 @@ export type DescribeChannelBanError =
  * the header.
  */
 export const describeChannelBan: API.OperationMethod<
-  DescribeChannelBanRequest,
+  DescribeChannelBanRequest & RegionInput,
   DescribeChannelBanResponse,
   DescribeChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type DescribeChannelFlowError =
  * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
  */
 export const describeChannelFlow: API.OperationMethod<
-  DescribeChannelFlowRequest,
+  DescribeChannelFlowRequest & RegionInput,
   DescribeChannelFlowResponse,
   DescribeChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1734,7 @@ export type DescribeChannelMembershipError =
  * the header.
  */
 export const describeChannelMembership: API.OperationMethod<
-  DescribeChannelMembershipRequest,
+  DescribeChannelMembershipRequest & RegionInput,
   DescribeChannelMembershipResponse,
   DescribeChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1774,7 @@ export type DescribeChannelMembershipForAppInstanceUserError =
  * the header.
  */
 export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
-  DescribeChannelMembershipForAppInstanceUserRequest,
+  DescribeChannelMembershipForAppInstanceUserRequest & RegionInput,
   DescribeChannelMembershipForAppInstanceUserResponse,
   DescribeChannelMembershipForAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type DescribeChannelModeratedByAppInstanceUserError =
  * the header.
  */
 export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
-  DescribeChannelModeratedByAppInstanceUserRequest,
+  DescribeChannelModeratedByAppInstanceUserRequest & RegionInput,
   DescribeChannelModeratedByAppInstanceUserResponse,
   DescribeChannelModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1855,7 +1856,7 @@ export type DescribeChannelModeratorError =
  * the header.
  */
 export const describeChannelModerator: API.OperationMethod<
-  DescribeChannelModeratorRequest,
+  DescribeChannelModeratorRequest & RegionInput,
   DescribeChannelModeratorResponse,
   DescribeChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type DisassociateChannelFlowError =
  * the header.
  */
 export const disassociateChannelFlow: API.OperationMethod<
-  DisassociateChannelFlowRequest,
+  DisassociateChannelFlowRequest & RegionInput,
   DisassociateChannelFlowResponse,
   DisassociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type GetChannelMembershipPreferencesError =
  * the header.
  */
 export const getChannelMembershipPreferences: API.OperationMethod<
-  GetChannelMembershipPreferencesRequest,
+  GetChannelMembershipPreferencesRequest & RegionInput,
   GetChannelMembershipPreferencesResponse,
   GetChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1982,7 +1983,7 @@ export type GetChannelMessageError =
  * the header.
  */
 export const getChannelMessage: API.OperationMethod<
-  GetChannelMessageRequest,
+  GetChannelMessageRequest & RegionInput,
   GetChannelMessageResponse,
   GetChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2044,7 +2045,7 @@ export type GetChannelMessageStatusError =
  * the header.
  */
 export const getChannelMessageStatus: API.OperationMethod<
-  GetChannelMessageStatusRequest,
+  GetChannelMessageStatusRequest & RegionInput,
   GetChannelMessageStatusResponse,
   GetChannelMessageStatusError,
   Credentials | HttpClient.HttpClient
@@ -2077,7 +2078,7 @@ export type GetMessagingSessionEndpointError =
  * The details of the endpoint for the messaging session.
  */
 export const getMessagingSessionEndpoint: API.OperationMethod<
-  GetMessagingSessionEndpointRequest,
+  GetMessagingSessionEndpointRequest & RegionInput,
   GetMessagingSessionEndpointResponse,
   GetMessagingSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2112,7 +2113,7 @@ export type GetMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const getMessagingStreamingConfigurations: API.OperationMethod<
-  GetMessagingStreamingConfigurationsRequest,
+  GetMessagingStreamingConfigurationsRequest & RegionInput,
   GetMessagingStreamingConfigurationsResponse,
   GetMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2151,7 +2152,7 @@ export type ListChannelBansError =
  * the header.
  */
 export const listChannelBans: API.PaginatedOperationMethod<
-  ListChannelBansRequest,
+  ListChannelBansRequest & RegionInput,
   ListChannelBansResponse,
   ListChannelBansError,
   Credentials | HttpClient.HttpClient,
@@ -2191,7 +2192,7 @@ export type ListChannelFlowsError =
  * Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
  */
 export const listChannelFlows: API.PaginatedOperationMethod<
-  ListChannelFlowsRequest,
+  ListChannelFlowsRequest & RegionInput,
   ListChannelFlowsResponse,
   ListChannelFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -2238,7 +2239,7 @@ export type ListChannelMembershipsError =
  * ListChannelMembershipsForAppInstanceUser API.
  */
 export const listChannelMemberships: API.PaginatedOperationMethod<
-  ListChannelMembershipsRequest,
+  ListChannelMembershipsRequest & RegionInput,
   ListChannelMembershipsResponse,
   ListChannelMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2283,7 +2284,7 @@ export type ListChannelMembershipsForAppInstanceUserError =
  * the header.
  */
 export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelMembershipsForAppInstanceUserRequest,
+  ListChannelMembershipsForAppInstanceUserRequest & RegionInput,
   ListChannelMembershipsForAppInstanceUserResponse,
   ListChannelMembershipsForAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2333,7 +2334,7 @@ export type ListChannelMessagesError =
  * the header.
  */
 export const listChannelMessages: API.PaginatedOperationMethod<
-  ListChannelMessagesRequest,
+  ListChannelMessagesRequest & RegionInput,
   ListChannelMessagesResponse,
   ListChannelMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -2377,7 +2378,7 @@ export type ListChannelModeratorsError =
  * the header.
  */
 export const listChannelModerators: API.PaginatedOperationMethod<
-  ListChannelModeratorsRequest,
+  ListChannelModeratorsRequest & RegionInput,
   ListChannelModeratorsResponse,
   ListChannelModeratorsError,
   Credentials | HttpClient.HttpClient,
@@ -2430,7 +2431,7 @@ export type ListChannelsError =
  * the header.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2470,7 +2471,7 @@ export type ListChannelsAssociatedWithChannelFlowError =
  * Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
  */
 export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod<
-  ListChannelsAssociatedWithChannelFlowRequest,
+  ListChannelsAssociatedWithChannelFlowRequest & RegionInput,
   ListChannelsAssociatedWithChannelFlowResponse,
   ListChannelsAssociatedWithChannelFlowError,
   Credentials | HttpClient.HttpClient,
@@ -2514,7 +2515,7 @@ export type ListChannelsModeratedByAppInstanceUserError =
  * the header.
  */
 export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelsModeratedByAppInstanceUserRequest,
+  ListChannelsModeratedByAppInstanceUserRequest & RegionInput,
   ListChannelsModeratedByAppInstanceUserResponse,
   ListChannelsModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2554,7 +2555,7 @@ export type ListSubChannelsError =
  * Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
  */
 export const listSubChannels: API.PaginatedOperationMethod<
-  ListSubChannelsRequest,
+  ListSubChannelsRequest & RegionInput,
   ListSubChannelsResponse,
   ListSubChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2594,7 +2595,7 @@ export type ListTagsForResourceError =
  * Lists the tags applied to an Amazon Chime SDK messaging resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2639,7 +2640,7 @@ export type PutChannelExpirationSettingsError =
  * the header.
  */
 export const putChannelExpirationSettings: API.OperationMethod<
-  PutChannelExpirationSettingsRequest,
+  PutChannelExpirationSettingsRequest & RegionInput,
   PutChannelExpirationSettingsResponse,
   PutChannelExpirationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type PutChannelMembershipPreferencesError =
  * header.
  */
 export const putChannelMembershipPreferences: API.OperationMethod<
-  PutChannelMembershipPreferencesRequest,
+  PutChannelMembershipPreferencesRequest & RegionInput,
   PutChannelMembershipPreferencesResponse,
   PutChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type PutMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const putMessagingStreamingConfigurations: API.OperationMethod<
-  PutMessagingStreamingConfigurationsRequest,
+  PutMessagingStreamingConfigurationsRequest & RegionInput,
   PutMessagingStreamingConfigurationsResponse,
   PutMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2763,7 +2764,7 @@ export type RedactChannelMessageError =
  * the header.
  */
 export const redactChannelMessage: API.OperationMethod<
-  RedactChannelMessageRequest,
+  RedactChannelMessageRequest & RegionInput,
   RedactChannelMessageResponse,
   RedactChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type SearchChannelsError =
  * This operation isn't supported for `AppInstanceUsers` with a large number of memberships.
  */
 export const searchChannels: API.PaginatedOperationMethod<
-  SearchChannelsRequest,
+  SearchChannelsRequest & RegionInput,
   SearchChannelsResponse,
   SearchChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2856,7 +2857,7 @@ export type SendChannelMessageError =
  * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
 export const sendChannelMessage: API.OperationMethod<
-  SendChannelMessageRequest,
+  SendChannelMessageRequest & RegionInput,
   SendChannelMessageResponse,
   SendChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type TagResourceError =
  * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2927,7 +2928,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +2969,7 @@ export type UpdateChannelError =
  * the header.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -3004,7 +3005,7 @@ export type UpdateChannelFlowError =
  * Updates channel flow attributes. This is a developer API.
  */
 export const updateChannelFlow: API.OperationMethod<
-  UpdateChannelFlowRequest,
+  UpdateChannelFlowRequest & RegionInput,
   UpdateChannelFlowResponse,
   UpdateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -3044,7 +3045,7 @@ export type UpdateChannelMessageError =
  * the header.
  */
 export const updateChannelMessage: API.OperationMethod<
-  UpdateChannelMessageRequest,
+  UpdateChannelMessageRequest & RegionInput,
   UpdateChannelMessageResponse,
   UpdateChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -3084,7 +3085,7 @@ export type UpdateChannelReadMarkerError =
  * the header.
  */
 export const updateChannelReadMarker: API.OperationMethod<
-  UpdateChannelReadMarkerRequest,
+  UpdateChannelReadMarkerRequest & RegionInput,
   UpdateChannelReadMarkerResponse,
   UpdateChannelReadMarkerError,
   Credentials | HttpClient.HttpClient

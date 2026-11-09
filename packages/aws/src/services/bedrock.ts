@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3790,7 +3791,7 @@ export type BatchDeleteAdvancedPromptOptimizationJobError =
  * Deletes one or more advanced prompt optimization jobs.
  */
 export const batchDeleteAdvancedPromptOptimizationJob: API.OperationMethod<
-  BatchDeleteAdvancedPromptOptimizationJobRequest,
+  BatchDeleteAdvancedPromptOptimizationJobRequest & RegionInput,
   BatchDeleteAdvancedPromptOptimizationJobResponse,
   BatchDeleteAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -3822,7 +3823,7 @@ export type BatchDeleteEvaluationJobError =
  * Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs be deleted in a single request.
  */
 export const batchDeleteEvaluationJob: API.OperationMethod<
-  BatchDeleteEvaluationJobRequest,
+  BatchDeleteEvaluationJobRequest & RegionInput,
   BatchDeleteEvaluationJobResponse,
   BatchDeleteEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -3855,7 +3856,7 @@ export type CancelAutomatedReasoningPolicyBuildWorkflowError =
  * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
  */
 export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  CancelAutomatedReasoningPolicyBuildWorkflowRequest,
+  CancelAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   CancelAutomatedReasoningPolicyBuildWorkflowResponse,
   CancelAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3894,7 +3895,7 @@ export type CreateAdvancedPromptOptimizationJobError =
  * Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria.
  */
 export const createAdvancedPromptOptimizationJob: API.OperationMethod<
-  CreateAdvancedPromptOptimizationJobRequest,
+  CreateAdvancedPromptOptimizationJobRequest & RegionInput,
   CreateAdvancedPromptOptimizationJobResponse,
   CreateAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type CreateAutomatedReasoningPolicyError =
  * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
  */
 export const createAutomatedReasoningPolicy: API.OperationMethod<
-  CreateAutomatedReasoningPolicyRequest,
+  CreateAutomatedReasoningPolicyRequest & RegionInput,
   CreateAutomatedReasoningPolicyResponse,
   CreateAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3971,7 +3972,7 @@ export type CreateAutomatedReasoningPolicyTestCaseError =
  * Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
  */
 export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  CreateAutomatedReasoningPolicyTestCaseRequest,
+  CreateAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   CreateAutomatedReasoningPolicyTestCaseResponse,
   CreateAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -4008,7 +4009,7 @@ export type CreateAutomatedReasoningPolicyVersionError =
  * Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
  */
 export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
-  CreateAutomatedReasoningPolicyVersionRequest,
+  CreateAutomatedReasoningPolicyVersionRequest & RegionInput,
   CreateAutomatedReasoningPolicyVersionResponse,
   CreateAutomatedReasoningPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4070,7 +4071,7 @@ export type CreateCustomModelError =
  * - DeleteCustomModel
  */
 export const createCustomModel: API.OperationMethod<
-  CreateCustomModelRequest,
+  CreateCustomModelRequest & RegionInput,
   CreateCustomModelResponse,
   CreateCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -4117,7 +4118,7 @@ export type CreateCustomModelDeploymentError =
  * - DeleteCustomModelDeployment
  */
 export const createCustomModelDeployment: API.OperationMethod<
-  CreateCustomModelDeploymentRequest,
+  CreateCustomModelDeploymentRequest & RegionInput,
   CreateCustomModelDeploymentResponse,
   CreateCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4153,7 +4154,7 @@ export type CreateEvaluationJobError =
  * Creates an evaluation job.
  */
 export const createEvaluationJob: API.OperationMethod<
-  CreateEvaluationJobRequest,
+  CreateEvaluationJobRequest & RegionInput,
   CreateEvaluationJobResponse,
   CreateEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -4188,7 +4189,7 @@ export type CreateFoundationModelAgreementError =
  * Request a model access agreement for the specified model.
  */
 export const createFoundationModelAgreement: API.OperationMethod<
-  CreateFoundationModelAgreementRequest,
+  CreateFoundationModelAgreementRequest & RegionInput,
   CreateFoundationModelAgreementResponse,
   CreateFoundationModelAgreementError,
   Credentials | HttpClient.HttpClient
@@ -4238,7 +4239,7 @@ export type CreateGuardrailError =
  * For more information, see Amazon Bedrock Guardrails in the *Amazon Bedrock User Guide*.
  */
 export const createGuardrail: API.OperationMethod<
-  CreateGuardrailRequest,
+  CreateGuardrailRequest & RegionInput,
   CreateGuardrailResponse,
   CreateGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4275,7 +4276,7 @@ export type CreateGuardrailVersionError =
  * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
  */
 export const createGuardrailVersion: API.OperationMethod<
-  CreateGuardrailVersionRequest,
+  CreateGuardrailVersionRequest & RegionInput,
   CreateGuardrailVersionResponse,
   CreateGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -4312,7 +4313,7 @@ export type CreateInferenceProfileError =
  * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const createInferenceProfile: API.OperationMethod<
-  CreateInferenceProfileRequest,
+  CreateInferenceProfileRequest & RegionInput,
   CreateInferenceProfileResponse,
   CreateInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4349,7 +4350,7 @@ export type CreateMarketplaceModelEndpointError =
  * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
  */
 export const createMarketplaceModelEndpoint: API.OperationMethod<
-  CreateMarketplaceModelEndpointRequest,
+  CreateMarketplaceModelEndpointRequest & RegionInput,
   CreateMarketplaceModelEndpointResponse,
   CreateMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4382,7 +4383,7 @@ export type CreateModelCopyJobError =
  * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const createModelCopyJob: API.OperationMethod<
-  CreateModelCopyJobRequest,
+  CreateModelCopyJobRequest & RegionInput,
   CreateModelCopyJobResponse,
   CreateModelCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -4424,7 +4425,7 @@ export type CreateModelCustomizationJobError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const createModelCustomizationJob: API.OperationMethod<
-  CreateModelCustomizationJobRequest,
+  CreateModelCustomizationJobRequest & RegionInput,
   CreateModelCustomizationJobResponse,
   CreateModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -4462,7 +4463,7 @@ export type CreateModelImportJobError =
  * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
  */
 export const createModelImportJob: API.OperationMethod<
-  CreateModelImportJobRequest,
+  CreateModelImportJobRequest & RegionInput,
   CreateModelImportJobResponse,
   CreateModelImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4501,7 +4502,7 @@ export type CreateModelInvocationJobError =
  * The response returns a `jobArn` that you can use to stop or get details about the job.
  */
 export const createModelInvocationJob: API.OperationMethod<
-  CreateModelInvocationJobRequest,
+  CreateModelInvocationJobRequest & RegionInput,
   CreateModelInvocationJobResponse,
   CreateModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -4538,7 +4539,7 @@ export type CreatePromptRouterError =
  * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
  */
 export const createPromptRouter: API.OperationMethod<
-  CreatePromptRouterRequest,
+  CreatePromptRouterRequest & RegionInput,
   CreatePromptRouterResponse,
   CreatePromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -4575,7 +4576,7 @@ export type CreateProvisionedModelThroughputError =
  * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const createProvisionedModelThroughput: API.OperationMethod<
-  CreateProvisionedModelThroughputRequest,
+  CreateProvisionedModelThroughputRequest & RegionInput,
   CreateProvisionedModelThroughputResponse,
   CreateProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4612,7 @@ export type DeleteAutomatedReasoningPolicyError =
  * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
  */
 export const deleteAutomatedReasoningPolicy: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyRequest,
+  DeleteAutomatedReasoningPolicyRequest & RegionInput,
   DeleteAutomatedReasoningPolicyResponse,
   DeleteAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4647,7 +4648,7 @@ export type DeleteAutomatedReasoningPolicyBuildWorkflowError =
  * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
  */
 export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
+  DeleteAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
   DeleteAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -4687,7 +4688,7 @@ export type DeleteAutomatedReasoningPolicyTestCaseError =
  * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
  */
 export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyTestCaseRequest,
+  DeleteAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   DeleteAutomatedReasoningPolicyTestCaseResponse,
   DeleteAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -4722,7 +4723,7 @@ export type DeleteCustomModelError =
  * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const deleteCustomModel: API.OperationMethod<
-  DeleteCustomModelRequest,
+  DeleteCustomModelRequest & RegionInput,
   DeleteCustomModelResponse,
   DeleteCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -4764,7 +4765,7 @@ export type DeleteCustomModelDeploymentError =
  * - ListCustomModelDeployments
  */
 export const deleteCustomModelDeployment: API.OperationMethod<
-  DeleteCustomModelDeploymentRequest,
+  DeleteCustomModelDeploymentRequest & RegionInput,
   DeleteCustomModelDeploymentResponse,
   DeleteCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4797,7 +4798,7 @@ export type DeleteEnforcedGuardrailConfigurationError =
  * Deletes the account-level enforced guardrail configuration.
  */
 export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
-  DeleteEnforcedGuardrailConfigurationRequest,
+  DeleteEnforcedGuardrailConfigurationRequest & RegionInput,
   DeleteEnforcedGuardrailConfigurationResponse,
   DeleteEnforcedGuardrailConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4830,7 +4831,7 @@ export type DeleteFoundationModelAgreementError =
  * Delete the model access agreement for the specified model.
  */
 export const deleteFoundationModelAgreement: API.OperationMethod<
-  DeleteFoundationModelAgreementRequest,
+  DeleteFoundationModelAgreementRequest & RegionInput,
   DeleteFoundationModelAgreementResponse,
   DeleteFoundationModelAgreementError,
   Credentials | HttpClient.HttpClient
@@ -4869,7 +4870,7 @@ export type DeleteGuardrailError =
  * - To delete a version of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field and the version in the `guardrailVersion` field.
  */
 export const deleteGuardrail: API.OperationMethod<
-  DeleteGuardrailRequest,
+  DeleteGuardrailRequest & RegionInput,
   DeleteGuardrailResponse,
   DeleteGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4904,7 +4905,7 @@ export type DeleteImportedModelError =
  * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const deleteImportedModel: API.OperationMethod<
-  DeleteImportedModelRequest,
+  DeleteImportedModelRequest & RegionInput,
   DeleteImportedModelResponse,
   DeleteImportedModelError,
   Credentials | HttpClient.HttpClient
@@ -4938,7 +4939,7 @@ export type DeleteInferenceProfileError =
  * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const deleteInferenceProfile: API.OperationMethod<
-  DeleteInferenceProfileRequest,
+  DeleteInferenceProfileRequest & RegionInput,
   DeleteInferenceProfileResponse,
   DeleteInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4971,7 +4972,7 @@ export type DeleteMarketplaceModelEndpointError =
  * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const deleteMarketplaceModelEndpoint: API.OperationMethod<
-  DeleteMarketplaceModelEndpointRequest,
+  DeleteMarketplaceModelEndpointRequest & RegionInput,
   DeleteMarketplaceModelEndpointResponse,
   DeleteMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5001,7 +5002,7 @@ export type DeleteModelInvocationLoggingConfigurationError =
  * Delete the invocation logging.
  */
 export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
-  DeleteModelInvocationLoggingConfigurationRequest,
+  DeleteModelInvocationLoggingConfigurationRequest & RegionInput,
   DeleteModelInvocationLoggingConfigurationResponse,
   DeleteModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5027,7 +5028,7 @@ export type DeletePromptRouterError =
  * Deletes a specified prompt router. This action cannot be undone.
  */
 export const deletePromptRouter: API.OperationMethod<
-  DeletePromptRouterRequest,
+  DeletePromptRouterRequest & RegionInput,
   DeletePromptRouterResponse,
   DeletePromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5061,7 @@ export type DeleteProvisionedModelThroughputError =
  * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const deleteProvisionedModelThroughput: API.OperationMethod<
-  DeleteProvisionedModelThroughputRequest,
+  DeleteProvisionedModelThroughputRequest & RegionInput,
   DeleteProvisionedModelThroughputResponse,
   DeleteProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -5093,7 +5094,7 @@ export type DeleteResourcePolicyError =
  * Deletes a previously created Bedrock resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5126,7 +5127,7 @@ export type DeregisterMarketplaceModelEndpointError =
  * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
  */
 export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
-  DeregisterMarketplaceModelEndpointRequest,
+  DeregisterMarketplaceModelEndpointRequest & RegionInput,
   DeregisterMarketplaceModelEndpointResponse,
   DeregisterMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5159,7 +5160,7 @@ export type ExportAutomatedReasoningPolicyVersionError =
  * Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
  */
 export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
-  ExportAutomatedReasoningPolicyVersionRequest,
+  ExportAutomatedReasoningPolicyVersionRequest & RegionInput,
   ExportAutomatedReasoningPolicyVersionResponse,
   ExportAutomatedReasoningPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -5190,7 +5191,7 @@ export type GetAccountDataRetentionError =
  * Returns the account-wide data retention mode for Amazon Bedrock.
  */
 export const getAccountDataRetention: API.OperationMethod<
-  GetAccountDataRetentionRequest,
+  GetAccountDataRetentionRequest & RegionInput,
   GetAccountDataRetentionResponse,
   GetAccountDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -5221,7 +5222,7 @@ export type GetAdvancedPromptOptimizationJobError =
  * Gets information about an advanced prompt optimization job.
  */
 export const getAdvancedPromptOptimizationJob: API.OperationMethod<
-  GetAdvancedPromptOptimizationJobRequest,
+  GetAdvancedPromptOptimizationJobRequest & RegionInput,
   GetAdvancedPromptOptimizationJobResponse,
   GetAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -5253,7 +5254,7 @@ export type GetAutomatedReasoningPolicyError =
  * Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
  */
 export const getAutomatedReasoningPolicy: API.OperationMethod<
-  GetAutomatedReasoningPolicyRequest,
+  GetAutomatedReasoningPolicyRequest & RegionInput,
   GetAutomatedReasoningPolicyResponse,
   GetAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5285,7 +5286,7 @@ export type GetAutomatedReasoningPolicyAnnotationsError =
  * Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
  */
 export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
-  GetAutomatedReasoningPolicyAnnotationsRequest,
+  GetAutomatedReasoningPolicyAnnotationsRequest & RegionInput,
   GetAutomatedReasoningPolicyAnnotationsResponse,
   GetAutomatedReasoningPolicyAnnotationsError,
   Credentials | HttpClient.HttpClient
@@ -5317,7 +5318,7 @@ export type GetAutomatedReasoningPolicyBuildWorkflowError =
  * Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
  */
 export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  GetAutomatedReasoningPolicyBuildWorkflowRequest,
+  GetAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   GetAutomatedReasoningPolicyBuildWorkflowResponse,
   GetAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -5349,7 +5350,7 @@ export type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError =
  * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
  */
 export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.OperationMethod<
-  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest & RegionInput,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError,
   Credentials | HttpClient.HttpClient
@@ -5389,7 +5390,7 @@ export type GetAutomatedReasoningPolicyNextScenarioError =
  * Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
  */
 export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
-  GetAutomatedReasoningPolicyNextScenarioRequest,
+  GetAutomatedReasoningPolicyNextScenarioRequest & RegionInput,
   GetAutomatedReasoningPolicyNextScenarioResponse,
   GetAutomatedReasoningPolicyNextScenarioError,
   Credentials | HttpClient.HttpClient
@@ -5421,7 +5422,7 @@ export type GetAutomatedReasoningPolicyTestCaseError =
  * Retrieves details about a specific Automated Reasoning policy test.
  */
 export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  GetAutomatedReasoningPolicyTestCaseRequest,
+  GetAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   GetAutomatedReasoningPolicyTestCaseResponse,
   GetAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -5453,7 +5454,7 @@ export type GetAutomatedReasoningPolicyTestResultError =
  * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
  */
 export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
-  GetAutomatedReasoningPolicyTestResultRequest,
+  GetAutomatedReasoningPolicyTestResultRequest & RegionInput,
   GetAutomatedReasoningPolicyTestResultResponse,
   GetAutomatedReasoningPolicyTestResultError,
   Credentials | HttpClient.HttpClient
@@ -5485,7 +5486,7 @@ export type GetCustomModelError =
  * Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getCustomModel: API.OperationMethod<
-  GetCustomModelRequest,
+  GetCustomModelRequest & RegionInput,
   GetCustomModelResponse,
   GetCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -5525,7 +5526,7 @@ export type GetCustomModelDeploymentError =
  * - DeleteCustomModelDeployment
  */
 export const getCustomModelDeployment: API.OperationMethod<
-  GetCustomModelDeploymentRequest,
+  GetCustomModelDeploymentRequest & RegionInput,
   GetCustomModelDeploymentResponse,
   GetCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -5557,7 +5558,7 @@ export type GetEvaluationJobError =
  * Gets information about an evaluation job, such as the status of the job.
  */
 export const getEvaluationJob: API.OperationMethod<
-  GetEvaluationJobRequest,
+  GetEvaluationJobRequest & RegionInput,
   GetEvaluationJobResponse,
   GetEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -5589,7 +5590,7 @@ export type GetFoundationModelError =
  * Get details about a Amazon Bedrock foundation model.
  */
 export const getFoundationModel: API.OperationMethod<
-  GetFoundationModelRequest,
+  GetFoundationModelRequest & RegionInput,
   GetFoundationModelResponse,
   GetFoundationModelError,
   Credentials | HttpClient.HttpClient
@@ -5621,7 +5622,7 @@ export type GetFoundationModelAvailabilityError =
  * Get information about the Foundation model availability.
  */
 export const getFoundationModelAvailability: API.OperationMethod<
-  GetFoundationModelAvailabilityRequest,
+  GetFoundationModelAvailabilityRequest & RegionInput,
   GetFoundationModelAvailabilityResponse,
   GetFoundationModelAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -5653,7 +5654,7 @@ export type GetGuardrailError =
  * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
  */
 export const getGuardrail: API.OperationMethod<
-  GetGuardrailRequest,
+  GetGuardrailRequest & RegionInput,
   GetGuardrailResponse,
   GetGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -5685,7 +5686,7 @@ export type GetImportedModelError =
  * Gets properties associated with a customized model you imported.
  */
 export const getImportedModel: API.OperationMethod<
-  GetImportedModelRequest,
+  GetImportedModelRequest & RegionInput,
   GetImportedModelResponse,
   GetImportedModelError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5718,7 @@ export type GetInferenceProfileError =
  * Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const getInferenceProfile: API.OperationMethod<
-  GetInferenceProfileRequest,
+  GetInferenceProfileRequest & RegionInput,
   GetInferenceProfileResponse,
   GetInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5749,7 +5750,7 @@ export type GetMarketplaceModelEndpointError =
  * Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const getMarketplaceModelEndpoint: API.OperationMethod<
-  GetMarketplaceModelEndpointRequest,
+  GetMarketplaceModelEndpointRequest & RegionInput,
   GetMarketplaceModelEndpointResponse,
   GetMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5781,7 +5782,7 @@ export type GetModelCopyJobError =
  * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const getModelCopyJob: API.OperationMethod<
-  GetModelCopyJobRequest,
+  GetModelCopyJobRequest & RegionInput,
   GetModelCopyJobResponse,
   GetModelCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -5813,7 +5814,7 @@ export type GetModelCustomizationJobError =
  * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getModelCustomizationJob: API.OperationMethod<
-  GetModelCustomizationJobRequest,
+  GetModelCustomizationJobRequest & RegionInput,
   GetModelCustomizationJobResponse,
   GetModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -5845,7 +5846,7 @@ export type GetModelImportJobError =
  * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const getModelImportJob: API.OperationMethod<
-  GetModelImportJobRequest,
+  GetModelImportJobRequest & RegionInput,
   GetModelImportJobResponse,
   GetModelImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5877,7 +5878,7 @@ export type GetModelInvocationJobError =
  * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
  */
 export const getModelInvocationJob: API.OperationMethod<
-  GetModelInvocationJobRequest,
+  GetModelInvocationJobRequest & RegionInput,
   GetModelInvocationJobResponse,
   GetModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -5907,7 +5908,7 @@ export type GetModelInvocationLoggingConfigurationError =
  * Get the current configuration values for model invocation logging.
  */
 export const getModelInvocationLoggingConfiguration: API.OperationMethod<
-  GetModelInvocationLoggingConfigurationRequest,
+  GetModelInvocationLoggingConfigurationRequest & RegionInput,
   GetModelInvocationLoggingConfigurationResponse,
   GetModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5933,7 +5934,7 @@ export type GetPromptRouterError =
  * Retrieves details about a prompt router.
  */
 export const getPromptRouter: API.OperationMethod<
-  GetPromptRouterRequest,
+  GetPromptRouterRequest & RegionInput,
   GetPromptRouterResponse,
   GetPromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -5965,7 +5966,7 @@ export type GetProvisionedModelThroughputError =
  * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const getProvisionedModelThroughput: API.OperationMethod<
-  GetProvisionedModelThroughputRequest,
+  GetProvisionedModelThroughputRequest & RegionInput,
   GetProvisionedModelThroughputResponse,
   GetProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -5997,7 +5998,7 @@ export type GetResourcePolicyError =
  * Gets the resource policy document for a Bedrock resource
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6028,7 +6029,7 @@ export type GetUseCaseForModelAccessError =
  * Get usecase for model access.
  */
 export const getUseCaseForModelAccess: API.OperationMethod<
-  GetUseCaseForModelAccessRequest,
+  GetUseCaseForModelAccessRequest & RegionInput,
   GetUseCaseForModelAccessResponse,
   GetUseCaseForModelAccessError,
   Credentials | HttpClient.HttpClient
@@ -6058,7 +6059,7 @@ export type ListAdvancedPromptOptimizationJobsError =
  * Lists the advanced prompt optimization jobs in your account.
  */
 export const listAdvancedPromptOptimizationJobs: API.PaginatedOperationMethod<
-  ListAdvancedPromptOptimizationJobsRequest,
+  ListAdvancedPromptOptimizationJobsRequest & RegionInput,
   ListAdvancedPromptOptimizationJobsResponse,
   ListAdvancedPromptOptimizationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6096,7 +6097,7 @@ export type ListAutomatedReasoningPoliciesError =
  * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
  */
 export const listAutomatedReasoningPolicies: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPoliciesRequest,
+  ListAutomatedReasoningPoliciesRequest & RegionInput,
   ListAutomatedReasoningPoliciesResponse,
   ListAutomatedReasoningPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6135,7 +6136,7 @@ export type ListAutomatedReasoningPolicyBuildWorkflowsError =
  * Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
  */
 export const listAutomatedReasoningPolicyBuildWorkflows: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyBuildWorkflowsRequest,
+  ListAutomatedReasoningPolicyBuildWorkflowsRequest & RegionInput,
   ListAutomatedReasoningPolicyBuildWorkflowsResponse,
   ListAutomatedReasoningPolicyBuildWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -6178,7 +6179,7 @@ export type ListAutomatedReasoningPolicyTestCasesError =
  * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listAutomatedReasoningPolicyTestCases: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyTestCasesRequest,
+  ListAutomatedReasoningPolicyTestCasesRequest & RegionInput,
   ListAutomatedReasoningPolicyTestCasesResponse,
   ListAutomatedReasoningPolicyTestCasesError,
   Credentials | HttpClient.HttpClient,
@@ -6218,7 +6219,7 @@ export type ListAutomatedReasoningPolicyTestResultsError =
  * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
  */
 export const listAutomatedReasoningPolicyTestResults: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyTestResultsRequest,
+  ListAutomatedReasoningPolicyTestResultsRequest & RegionInput,
   ListAutomatedReasoningPolicyTestResultsResponse,
   ListAutomatedReasoningPolicyTestResultsError,
   Credentials | HttpClient.HttpClient,
@@ -6267,7 +6268,7 @@ export type ListCustomModelDeploymentsError =
  * - DeleteCustomModelDeployment
  */
 export const listCustomModelDeployments: API.PaginatedOperationMethod<
-  ListCustomModelDeploymentsRequest,
+  ListCustomModelDeploymentsRequest & RegionInput,
   ListCustomModelDeploymentsResponse,
   ListCustomModelDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -6306,7 +6307,7 @@ export type ListCustomModelsError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const listCustomModels: API.PaginatedOperationMethod<
-  ListCustomModelsRequest,
+  ListCustomModelsRequest & RegionInput,
   ListCustomModelsResponse,
   ListCustomModelsError,
   Credentials | HttpClient.HttpClient,
@@ -6344,7 +6345,7 @@ export type ListEnforcedGuardrailsConfigurationError =
  * Lists the account-level enforced guardrail configurations.
  */
 export const listEnforcedGuardrailsConfiguration: API.PaginatedOperationMethod<
-  ListEnforcedGuardrailsConfigurationRequest,
+  ListEnforcedGuardrailsConfigurationRequest & RegionInput,
   ListEnforcedGuardrailsConfigurationResponse,
   ListEnforcedGuardrailsConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -6381,7 +6382,7 @@ export type ListEvaluationJobsError =
  * Lists all existing evaluation jobs.
  */
 export const listEvaluationJobs: API.PaginatedOperationMethod<
-  ListEvaluationJobsRequest,
+  ListEvaluationJobsRequest & RegionInput,
   ListEvaluationJobsResponse,
   ListEvaluationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6419,7 +6420,7 @@ export type ListFoundationModelAgreementOffersError =
  * Get the offers associated with the specified model.
  */
 export const listFoundationModelAgreementOffers: API.OperationMethod<
-  ListFoundationModelAgreementOffersRequest,
+  ListFoundationModelAgreementOffersRequest & RegionInput,
   ListFoundationModelAgreementOffersResponse,
   ListFoundationModelAgreementOffersError,
   Credentials | HttpClient.HttpClient
@@ -6450,7 +6451,7 @@ export type ListFoundationModelsError =
  * Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
  */
 export const listFoundationModels: API.OperationMethod<
-  ListFoundationModelsRequest,
+  ListFoundationModelsRequest & RegionInput,
   ListFoundationModelsResponse,
   ListFoundationModelsError,
   Credentials | HttpClient.HttpClient
@@ -6483,7 +6484,7 @@ export type ListGuardrailsError =
  * You can set the maximum number of results to return in a response in the `maxResults` field. If there are more results than the number you set, the response returns a `nextToken` that you can send in another `ListGuardrails` request to see the next batch of results.
  */
 export const listGuardrails: API.PaginatedOperationMethod<
-  ListGuardrailsRequest,
+  ListGuardrailsRequest & RegionInput,
   ListGuardrailsResponse,
   ListGuardrailsError,
   Credentials | HttpClient.HttpClient,
@@ -6521,7 +6522,7 @@ export type ListImportedModelsError =
  * Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listImportedModels: API.PaginatedOperationMethod<
-  ListImportedModelsRequest,
+  ListImportedModelsRequest & RegionInput,
   ListImportedModelsResponse,
   ListImportedModelsError,
   Credentials | HttpClient.HttpClient,
@@ -6558,7 +6559,7 @@ export type ListInferenceProfilesError =
  * Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const listInferenceProfiles: API.PaginatedOperationMethod<
-  ListInferenceProfilesRequest,
+  ListInferenceProfilesRequest & RegionInput,
   ListInferenceProfilesResponse,
   ListInferenceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6596,7 +6597,7 @@ export type ListMarketplaceModelEndpointsError =
  * Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
  */
 export const listMarketplaceModelEndpoints: API.PaginatedOperationMethod<
-  ListMarketplaceModelEndpointsRequest,
+  ListMarketplaceModelEndpointsRequest & RegionInput,
   ListMarketplaceModelEndpointsResponse,
   ListMarketplaceModelEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -6635,7 +6636,7 @@ export type ListModelCopyJobsError =
  * Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const listModelCopyJobs: API.PaginatedOperationMethod<
-  ListModelCopyJobsRequest,
+  ListModelCopyJobsRequest & RegionInput,
   ListModelCopyJobsResponse,
   ListModelCopyJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6675,7 +6676,7 @@ export type ListModelCustomizationJobsError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const listModelCustomizationJobs: API.PaginatedOperationMethod<
-  ListModelCustomizationJobsRequest,
+  ListModelCustomizationJobsRequest & RegionInput,
   ListModelCustomizationJobsResponse,
   ListModelCustomizationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6712,7 +6713,7 @@ export type ListModelImportJobsError =
  * Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listModelImportJobs: API.PaginatedOperationMethod<
-  ListModelImportJobsRequest,
+  ListModelImportJobsRequest & RegionInput,
   ListModelImportJobsResponse,
   ListModelImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6749,7 +6750,7 @@ export type ListModelInvocationJobsError =
  * Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
  */
 export const listModelInvocationJobs: API.PaginatedOperationMethod<
-  ListModelInvocationJobsRequest,
+  ListModelInvocationJobsRequest & RegionInput,
   ListModelInvocationJobsResponse,
   ListModelInvocationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6786,7 +6787,7 @@ export type ListPromptRoutersError =
  * Retrieves a list of prompt routers.
  */
 export const listPromptRouters: API.PaginatedOperationMethod<
-  ListPromptRoutersRequest,
+  ListPromptRoutersRequest & RegionInput,
   ListPromptRoutersResponse,
   ListPromptRoutersError,
   Credentials | HttpClient.HttpClient,
@@ -6823,7 +6824,7 @@ export type ListProvisionedModelThroughputsError =
  * Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const listProvisionedModelThroughputs: API.PaginatedOperationMethod<
-  ListProvisionedModelThroughputsRequest,
+  ListProvisionedModelThroughputsRequest & RegionInput,
   ListProvisionedModelThroughputsResponse,
   ListProvisionedModelThroughputsError,
   Credentials | HttpClient.HttpClient,
@@ -6863,7 +6864,7 @@ export type ListTagsForResourceError =
  * For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6894,7 +6895,7 @@ export type PutAccountDataRetentionError =
  * Sets the account-wide data retention mode for Amazon Bedrock.
  */
 export const putAccountDataRetention: API.OperationMethod<
-  PutAccountDataRetentionRequest,
+  PutAccountDataRetentionRequest & RegionInput,
   PutAccountDataRetentionResponse,
   PutAccountDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -6926,7 +6927,7 @@ export type PutEnforcedGuardrailConfigurationError =
  * Sets the account-level enforced guardrail configuration.
  */
 export const putEnforcedGuardrailConfiguration: API.OperationMethod<
-  PutEnforcedGuardrailConfigurationRequest,
+  PutEnforcedGuardrailConfigurationRequest & RegionInput,
   PutEnforcedGuardrailConfigurationResponse,
   PutEnforcedGuardrailConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6958,7 +6959,7 @@ export type PutModelInvocationLoggingConfigurationError =
  * Set the configuration values for model invocation logging.
  */
 export const putModelInvocationLoggingConfiguration: API.OperationMethod<
-  PutModelInvocationLoggingConfigurationRequest,
+  PutModelInvocationLoggingConfigurationRequest & RegionInput,
   PutModelInvocationLoggingConfigurationResponse,
   PutModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6989,7 +6990,7 @@ export type PutResourcePolicyError =
  * Adds a resource policy for a Bedrock resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7020,7 +7021,7 @@ export type PutUseCaseForModelAccessError =
  * Put usecase for model access.
  */
 export const putUseCaseForModelAccess: API.OperationMethod<
-  PutUseCaseForModelAccessRequest,
+  PutUseCaseForModelAccessRequest & RegionInput,
   PutUseCaseForModelAccessResponse,
   PutUseCaseForModelAccessError,
   Credentials | HttpClient.HttpClient
@@ -7052,7 +7053,7 @@ export type RegisterMarketplaceModelEndpointError =
  * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
  */
 export const registerMarketplaceModelEndpoint: API.OperationMethod<
-  RegisterMarketplaceModelEndpointRequest,
+  RegisterMarketplaceModelEndpointRequest & RegionInput,
   RegisterMarketplaceModelEndpointResponse,
   RegisterMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7088,7 +7089,7 @@ export type StartAutomatedReasoningPolicyBuildWorkflowError =
  * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
  */
 export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyBuildWorkflowRequest,
+  StartAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   StartAutomatedReasoningPolicyBuildWorkflowResponse,
   StartAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -7124,7 +7125,7 @@ export type StartAutomatedReasoningPolicyTestWorkflowError =
  * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
  */
 export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyTestWorkflowRequest,
+  StartAutomatedReasoningPolicyTestWorkflowRequest & RegionInput,
   StartAutomatedReasoningPolicyTestWorkflowResponse,
   StartAutomatedReasoningPolicyTestWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -7158,7 +7159,7 @@ export type StopAdvancedPromptOptimizationJobError =
  * Stops an advanced prompt optimization job that is in progress.
  */
 export const stopAdvancedPromptOptimizationJob: API.OperationMethod<
-  StopAdvancedPromptOptimizationJobRequest,
+  StopAdvancedPromptOptimizationJobRequest & RegionInput,
   StopAdvancedPromptOptimizationJobResponse,
   StopAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -7192,7 +7193,7 @@ export type StopEvaluationJobError =
  * Stops an evaluation job that is current being created or running.
  */
 export const stopEvaluationJob: API.OperationMethod<
-  StopEvaluationJobRequest,
+  StopEvaluationJobRequest & RegionInput,
   StopEvaluationJobResponse,
   StopEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -7226,7 +7227,7 @@ export type StopModelCustomizationJobError =
  * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const stopModelCustomizationJob: API.OperationMethod<
-  StopModelCustomizationJobRequest,
+  StopModelCustomizationJobRequest & RegionInput,
   StopModelCustomizationJobResponse,
   StopModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -7260,7 +7261,7 @@ export type StopModelInvocationJobError =
  * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
  */
 export const stopModelInvocationJob: API.OperationMethod<
-  StopModelInvocationJobRequest,
+  StopModelInvocationJobRequest & RegionInput,
   StopModelInvocationJobResponse,
   StopModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -7294,7 +7295,7 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7327,7 +7328,7 @@ export type UntagResourceError =
  * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7361,7 +7362,7 @@ export type UpdateAutomatedReasoningPolicyError =
  * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
  */
 export const updateAutomatedReasoningPolicy: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyRequest,
+  UpdateAutomatedReasoningPolicyRequest & RegionInput,
   UpdateAutomatedReasoningPolicyResponse,
   UpdateAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7396,7 +7397,7 @@ export type UpdateAutomatedReasoningPolicyAnnotationsError =
  * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
  */
 export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyAnnotationsRequest,
+  UpdateAutomatedReasoningPolicyAnnotationsRequest & RegionInput,
   UpdateAutomatedReasoningPolicyAnnotationsResponse,
   UpdateAutomatedReasoningPolicyAnnotationsError,
   Credentials | HttpClient.HttpClient
@@ -7431,7 +7432,7 @@ export type UpdateAutomatedReasoningPolicyTestCaseError =
  * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
  */
 export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyTestCaseRequest,
+  UpdateAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   UpdateAutomatedReasoningPolicyTestCaseResponse,
   UpdateAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -7465,7 +7466,7 @@ export type UpdateCustomModelDeploymentError =
  * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
  */
 export const updateCustomModelDeployment: API.OperationMethod<
-  UpdateCustomModelDeploymentRequest,
+  UpdateCustomModelDeploymentRequest & RegionInput,
   UpdateCustomModelDeploymentResponse,
   UpdateCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -7519,7 +7520,7 @@ export type UpdateGuardrailError =
  * - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
  */
 export const updateGuardrail: API.OperationMethod<
-  UpdateGuardrailRequest,
+  UpdateGuardrailRequest & RegionInput,
   UpdateGuardrailResponse,
   UpdateGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -7555,7 +7556,7 @@ export type UpdateMarketplaceModelEndpointError =
  * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const updateMarketplaceModelEndpoint: API.OperationMethod<
-  UpdateMarketplaceModelEndpointRequest,
+  UpdateMarketplaceModelEndpointRequest & RegionInput,
   UpdateMarketplaceModelEndpointResponse,
   UpdateMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7589,7 +7590,7 @@ export type UpdateProvisionedModelThroughputError =
  * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const updateProvisionedModelThroughput: API.OperationMethod<
-  UpdateProvisionedModelThroughputRequest,
+  UpdateProvisionedModelThroughputRequest & RegionInput,
   UpdateProvisionedModelThroughputResponse,
   UpdateProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient

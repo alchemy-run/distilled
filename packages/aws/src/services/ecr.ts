@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1689,7 +1690,7 @@ export type BatchCheckLayerAvailabilityError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const batchCheckLayerAvailability: API.OperationMethod<
-  BatchCheckLayerAvailabilityRequest,
+  BatchCheckLayerAvailabilityRequest & RegionInput,
   BatchCheckLayerAvailabilityResponse,
   BatchCheckLayerAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -1720,7 +1721,7 @@ export type BatchDeleteImageError =
  * digest in your request.
  */
 export const batchDeleteImage: API.OperationMethod<
-  BatchDeleteImageRequest,
+  BatchDeleteImageRequest & RegionInput,
   BatchDeleteImageResponse,
   BatchDeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -1750,7 +1751,7 @@ export type BatchGetImageError =
  * manifest.
  */
 export const batchGetImage: API.OperationMethod<
-  BatchGetImageRequest,
+  BatchGetImageRequest & RegionInput,
   BatchGetImageResponse,
   BatchGetImageError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1782,7 @@ export type BatchGetRepositoryScanningConfigurationError =
  * Gets the scanning configuration for one or more repositories.
  */
 export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
-  BatchGetRepositoryScanningConfigurationRequest,
+  BatchGetRepositoryScanningConfigurationRequest & RegionInput,
   BatchGetRepositoryScanningConfigurationResponse,
   BatchGetRepositoryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type CompleteLayerUploadError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const completeLayerUpload: API.OperationMethod<
-  CompleteLayerUploadRequest,
+  CompleteLayerUploadRequest & RegionInput,
   CompleteLayerUploadResponse,
   CompleteLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -1867,7 +1868,7 @@ export type CreatePullThroughCacheRuleError =
  * rules in the *Amazon Elastic Container Registry User Guide*.
  */
 export const createPullThroughCacheRule: API.OperationMethod<
-  CreatePullThroughCacheRuleRequest,
+  CreatePullThroughCacheRuleRequest & RegionInput,
   CreatePullThroughCacheRuleResponse,
   CreatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type CreateRepositoryError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResponse,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type CreateRepositoryCreationTemplateError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const createRepositoryCreationTemplate: API.OperationMethod<
-  CreateRepositoryCreationTemplateRequest,
+  CreateRepositoryCreationTemplateRequest & RegionInput,
   CreateRepositoryCreationTemplateResponse,
   CreateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1976,7 +1977,7 @@ export type DeleteLifecyclePolicyError =
  * Deletes the lifecycle policy associated with the specified repository.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2008,7 @@ export type DeletePullThroughCacheRuleError =
  * Deletes a pull through cache rule.
  */
 export const deletePullThroughCacheRule: API.OperationMethod<
-  DeletePullThroughCacheRuleRequest,
+  DeletePullThroughCacheRuleRequest & RegionInput,
   DeletePullThroughCacheRuleResponse,
   DeletePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -2037,7 +2038,7 @@ export type DeleteRegistryPolicyError =
  * Deletes the registry permissions policy.
  */
 export const deleteRegistryPolicy: API.OperationMethod<
-  DeleteRegistryPolicyRequest,
+  DeleteRegistryPolicyRequest & RegionInput,
   DeleteRegistryPolicyResponse,
   DeleteRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2070,7 +2071,7 @@ export type DeleteRepositoryError =
  * and have Amazon ECR delete all of its contents on your behalf.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResponse,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2101,7 +2102,7 @@ export type DeleteRepositoryCreationTemplateError =
  * Deletes a repository creation template.
  */
 export const deleteRepositoryCreationTemplate: API.OperationMethod<
-  DeleteRepositoryCreationTemplateRequest,
+  DeleteRepositoryCreationTemplateRequest & RegionInput,
   DeleteRepositoryCreationTemplateResponse,
   DeleteRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2131,7 +2132,7 @@ export type DeleteRepositoryPolicyError =
  * Deletes the repository policy associated with the specified repository.
  */
 export const deleteRepositoryPolicy: API.OperationMethod<
-  DeleteRepositoryPolicyRequest,
+  DeleteRepositoryPolicyRequest & RegionInput,
   DeleteRepositoryPolicyResponse,
   DeleteRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type DeleteSigningConfigurationError =
  * Deleting the signing configuration does not affect existing image signatures.
  */
 export const deleteSigningConfiguration: API.OperationMethod<
-  DeleteSigningConfigurationRequest,
+  DeleteSigningConfigurationRequest & RegionInput,
   DeleteSigningConfigurationResponse,
   DeleteSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2193,7 @@ export type DeregisterPullTimeUpdateExclusionError =
  * Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
  */
 export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
-  DeregisterPullTimeUpdateExclusionRequest,
+  DeregisterPullTimeUpdateExclusionRequest & RegionInput,
   DeregisterPullTimeUpdateExclusionResponse,
   DeregisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type DescribeImageReplicationStatusError =
  * Returns the replication status for a specified image.
  */
 export const describeImageReplicationStatus: API.OperationMethod<
-  DescribeImageReplicationStatusRequest,
+  DescribeImageReplicationStatusRequest & RegionInput,
   DescribeImageReplicationStatusResponse,
   DescribeImageReplicationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type DescribeImagesError =
  * images for software vulnerabilities in Amazon ECR.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResponse,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -2305,7 +2306,7 @@ export type DescribeImageScanFindingsError =
  * Returns the scan findings for the specified image.
  */
 export const describeImageScanFindings: API.PaginatedOperationMethod<
-  DescribeImageScanFindingsRequest,
+  DescribeImageScanFindingsRequest & RegionInput,
   DescribeImageScanFindingsResponse,
   DescribeImageScanFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -2349,7 +2350,7 @@ export type DescribeImageSigningStatusError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const describeImageSigningStatus: API.OperationMethod<
-  DescribeImageSigningStatusRequest,
+  DescribeImageSigningStatusRequest & RegionInput,
   DescribeImageSigningStatusResponse,
   DescribeImageSigningStatusError,
   Credentials | HttpClient.HttpClient
@@ -2380,7 +2381,7 @@ export type DescribePullThroughCacheRulesError =
  * Returns the pull through cache rules for a registry.
  */
 export const describePullThroughCacheRules: API.PaginatedOperationMethod<
-  DescribePullThroughCacheRulesRequest,
+  DescribePullThroughCacheRulesRequest & RegionInput,
   DescribePullThroughCacheRulesResponse,
   DescribePullThroughCacheRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2418,7 +2419,7 @@ export type DescribeRegistryError =
  * action.
  */
 export const describeRegistry: API.OperationMethod<
-  DescribeRegistryRequest,
+  DescribeRegistryRequest & RegionInput,
   DescribeRegistryResponse,
   DescribeRegistryError,
   Credentials | HttpClient.HttpClient
@@ -2442,7 +2443,7 @@ export type DescribeRepositoriesError =
  * Describes image repositories in a registry.
  */
 export const describeRepositories: API.PaginatedOperationMethod<
-  DescribeRepositoriesRequest,
+  DescribeRepositoriesRequest & RegionInput,
   DescribeRepositoriesResponse,
   DescribeRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2475,7 +2476,7 @@ export type DescribeRepositoryCreationTemplatesError =
  * specific repository creation template.
  */
 export const describeRepositoryCreationTemplates: API.PaginatedOperationMethod<
-  DescribeRepositoryCreationTemplatesRequest,
+  DescribeRepositoryCreationTemplatesRequest & RegionInput,
   DescribeRepositoryCreationTemplatesResponse,
   DescribeRepositoryCreationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2506,7 +2507,7 @@ export type GetAccountSettingError =
  * Retrieves the account setting value for the specified setting name.
  */
 export const getAccountSetting: API.OperationMethod<
-  GetAccountSettingRequest,
+  GetAccountSettingRequest & RegionInput,
   GetAccountSettingResponse,
   GetAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type GetAuthorizationTokenError = InvalidParameterException | ServerExcep
  * authentication in the *Amazon Elastic Container Registry User Guide*.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResponse,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -2568,7 +2569,7 @@ export type GetDownloadUrlForLayerError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const getDownloadUrlForLayer: API.OperationMethod<
-  GetDownloadUrlForLayerRequest,
+  GetDownloadUrlForLayerRequest & RegionInput,
   GetDownloadUrlForLayerResponse,
   GetDownloadUrlForLayerError,
   Credentials | HttpClient.HttpClient
@@ -2601,7 +2602,7 @@ export type GetLifecyclePolicyError =
  * Retrieves the lifecycle policy for the specified repository.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2634,7 +2635,7 @@ export type GetLifecyclePolicyPreviewError =
  * repository.
  */
 export const getLifecyclePolicyPreview: API.PaginatedOperationMethod<
-  GetLifecyclePolicyPreviewRequest,
+  GetLifecyclePolicyPreviewRequest & RegionInput,
   GetLifecyclePolicyPreviewResponse,
   GetLifecyclePolicyPreviewError,
   Credentials | HttpClient.HttpClient,
@@ -2672,7 +2673,7 @@ export type GetRegistryPolicyError =
  * Retrieves the permissions policy for a registry.
  */
 export const getRegistryPolicy: API.OperationMethod<
-  GetRegistryPolicyRequest,
+  GetRegistryPolicyRequest & RegionInput,
   GetRegistryPolicyResponse,
   GetRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2701,7 +2702,7 @@ export type GetRegistryScanningConfigurationError =
  * Retrieves the scanning configuration for a registry.
  */
 export const getRegistryScanningConfiguration: API.OperationMethod<
-  GetRegistryScanningConfigurationRequest,
+  GetRegistryScanningConfigurationRequest & RegionInput,
   GetRegistryScanningConfigurationResponse,
   GetRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2727,7 @@ export type GetRepositoryPolicyError =
  * Retrieves the repository policy for the specified repository.
  */
 export const getRepositoryPolicy: API.OperationMethod<
-  GetRepositoryPolicyRequest,
+  GetRepositoryPolicyRequest & RegionInput,
   GetRepositoryPolicyResponse,
   GetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2760,7 +2761,7 @@ export type GetSigningConfigurationError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const getSigningConfiguration: API.OperationMethod<
-  GetSigningConfigurationRequest,
+  GetSigningConfigurationRequest & RegionInput,
   GetSigningConfigurationResponse,
   GetSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type InitiateLayerUploadError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const initiateLayerUpload: API.OperationMethod<
-  InitiateLayerUploadRequest,
+  InitiateLayerUploadRequest & RegionInput,
   InitiateLayerUploadResponse,
   InitiateLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -2825,7 +2826,7 @@ export type ListImageReferrersError =
  * The IAM principal invoking this operation must have the `ecr:BatchGetImage` permission.
  */
 export const listImageReferrers: API.OperationMethod<
-  ListImageReferrersRequest,
+  ListImageReferrersRequest & RegionInput,
   ListImageReferrersResponse,
   ListImageReferrersError,
   Credentials | HttpClient.HttpClient
@@ -2862,7 +2863,7 @@ export type ListImagesError =
  * repository.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -2894,7 +2895,7 @@ export type ListPullTimeUpdateExclusionsError =
  * Lists the IAM principals that are excluded from having their image pull times recorded.
  */
 export const listPullTimeUpdateExclusions: API.OperationMethod<
-  ListPullTimeUpdateExclusionsRequest,
+  ListPullTimeUpdateExclusionsRequest & RegionInput,
   ListPullTimeUpdateExclusionsResponse,
   ListPullTimeUpdateExclusionsError,
   Credentials | HttpClient.HttpClient
@@ -2918,7 +2919,7 @@ export type ListTagsForResourceError =
  * List the tags for an Amazon ECR resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2944,7 @@ export type PutAccountSettingError =
  * Allows you to change the basic scan type version or registry policy scope.
  */
 export const putAccountSetting: API.OperationMethod<
-  PutAccountSettingRequest,
+  PutAccountSettingRequest & RegionInput,
   PutAccountSettingResponse,
   PutAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type PutImageError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const putImage: API.OperationMethod<
-  PutImageRequest,
+  PutImageRequest & RegionInput,
   PutImageResponse,
   PutImageError,
   Credentials | HttpClient.HttpClient
@@ -3021,7 +3022,7 @@ export type PutImageScanningConfigurationError =
  * Updates the image scanning configuration for the specified repository.
  */
 export const putImageScanningConfiguration: API.OperationMethod<
-  PutImageScanningConfigurationRequest,
+  PutImageScanningConfigurationRequest & RegionInput,
   PutImageScanningConfigurationResponse,
   PutImageScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3052,7 +3053,7 @@ export type PutImageTagMutabilityError =
  * mutability in the *Amazon Elastic Container Registry User Guide*.
  */
 export const putImageTagMutability: API.OperationMethod<
-  PutImageTagMutabilityRequest,
+  PutImageTagMutabilityRequest & RegionInput,
   PutImageTagMutabilityResponse,
   PutImageTagMutabilityError,
   Credentials | HttpClient.HttpClient
@@ -3079,7 +3080,7 @@ export type PutLifecyclePolicyError =
  * template.
  */
 export const putLifecyclePolicy: API.OperationMethod<
-  PutLifecyclePolicyRequest,
+  PutLifecyclePolicyRequest & RegionInput,
   PutLifecyclePolicyResponse,
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type PutRegistryPolicyError =
  * when configuring cross-account replication. For more information, see Registry permissions in the *Amazon Elastic Container Registry User Guide*.
  */
 export const putRegistryPolicy: API.OperationMethod<
-  PutRegistryPolicyRequest,
+  PutRegistryPolicyRequest & RegionInput,
   PutRegistryPolicyResponse,
   PutRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type PutRegistryScanningConfigurationError =
  * Creates or updates the scanning configuration for your private registry.
  */
 export const putRegistryScanningConfiguration: API.OperationMethod<
-  PutRegistryScanningConfigurationRequest,
+  PutRegistryScanningConfigurationRequest & RegionInput,
   PutRegistryScanningConfigurationResponse,
   PutRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type PutReplicationConfigurationError =
  * registry permissions policy. For more information, see PutRegistryPolicy.
  */
 export const putReplicationConfiguration: API.OperationMethod<
-  PutReplicationConfigurationRequest,
+  PutReplicationConfigurationRequest & RegionInput,
   PutReplicationConfigurationResponse,
   PutReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3206,7 +3207,7 @@ export type PutSigningConfigurationError =
  * configuration.
  */
 export const putSigningConfiguration: API.OperationMethod<
-  PutSigningConfigurationRequest,
+  PutSigningConfigurationRequest & RegionInput,
   PutSigningConfigurationResponse,
   PutSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3232,7 +3233,7 @@ export type RegisterPullTimeUpdateExclusionError =
  * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
  */
 export const registerPullTimeUpdateExclusion: API.OperationMethod<
-  RegisterPullTimeUpdateExclusionRequest,
+  RegisterPullTimeUpdateExclusionRequest & RegionInput,
   RegisterPullTimeUpdateExclusionResponse,
   RegisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
@@ -3264,7 +3265,7 @@ export type SetRepositoryPolicyError =
  * policies in the *Amazon Elastic Container Registry User Guide*.
  */
 export const setRepositoryPolicy: API.OperationMethod<
-  SetRepositoryPolicyRequest,
+  SetRepositoryPolicyRequest & RegionInput,
   SetRepositoryPolicyResponse,
   SetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3298,7 +3299,7 @@ export type StartImageScanError =
  * initiated by the StartImageScan API. For more information, see Basic scanning in the *Amazon Elastic Container Registry User Guide*.
  */
 export const startImageScan: API.OperationMethod<
-  StartImageScanRequest,
+  StartImageScanRequest & RegionInput,
   StartImageScanResponse,
   StartImageScanError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type StartLifecyclePolicyPreviewError =
  * to see the results before associating the lifecycle policy with the repository.
  */
 export const startLifecyclePolicyPreview: API.OperationMethod<
-  StartLifecyclePolicyPreviewRequest,
+  StartLifecyclePolicyPreviewRequest & RegionInput,
   StartLifecyclePolicyPreviewResponse,
   StartLifecyclePolicyPreviewError,
   Credentials | HttpClient.HttpClient
@@ -3369,7 +3370,7 @@ export type TagResourceError =
  * are not changed if they are not specified in the request parameters.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3401,7 +3402,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3434,7 +3435,7 @@ export type UpdateImageStorageClassError =
  * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
  */
 export const updateImageStorageClass: API.OperationMethod<
-  UpdateImageStorageClassRequest,
+  UpdateImageStorageClassRequest & RegionInput,
   UpdateImageStorageClassResponse,
   UpdateImageStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -3469,7 +3470,7 @@ export type UpdatePullThroughCacheRuleError =
  * Updates an existing pull through cache rule.
  */
 export const updatePullThroughCacheRule: API.OperationMethod<
-  UpdatePullThroughCacheRuleRequest,
+  UpdatePullThroughCacheRuleRequest & RegionInput,
   UpdatePullThroughCacheRuleResponse,
   UpdatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -3502,7 +3503,7 @@ export type UpdateRepositoryCreationTemplateError =
  * Updates an existing repository creation template.
  */
 export const updateRepositoryCreationTemplate: API.OperationMethod<
-  UpdateRepositoryCreationTemplateRequest,
+  UpdateRepositoryCreationTemplateRequest & RegionInput,
   UpdateRepositoryCreationTemplateResponse,
   UpdateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3542,7 +3543,7 @@ export type UploadLayerPartError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const uploadLayerPart: API.OperationMethod<
-  UploadLayerPartRequest,
+  UploadLayerPartRequest & RegionInput,
   UploadLayerPartResponse,
   UploadLayerPartError,
   Credentials | HttpClient.HttpClient
@@ -3578,7 +3579,7 @@ export type ValidatePullThroughCacheRuleError =
  * successful.
  */
 export const validatePullThroughCacheRule: API.OperationMethod<
-  ValidatePullThroughCacheRuleRequest,
+  ValidatePullThroughCacheRuleRequest & RegionInput,
   ValidatePullThroughCacheRuleResponse,
   ValidatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient

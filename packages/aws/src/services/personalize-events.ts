@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -209,7 +210,7 @@ export type PutActionInteractionsError =
  * For more information about actions in an Actions dataset, see Actions dataset.
  */
 export const putActionInteractions: API.OperationMethod<
-  PutActionInteractionsRequest,
+  PutActionInteractionsRequest & RegionInput,
   PutActionInteractionsResponse,
   PutActionInteractionsError,
   Credentials | HttpClient.HttpClient
@@ -234,7 +235,7 @@ export type PutActionsError =
  * Importing actions individually.
  */
 export const putActions: API.OperationMethod<
-  PutActionsRequest,
+  PutActionsRequest & RegionInput,
   PutActionsResponse,
   PutActionsError,
   Credentials | HttpClient.HttpClient
@@ -255,7 +256,7 @@ export type PutEventsError = InvalidInputException | CommonErrors;
  * Recording item interaction events.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -280,7 +281,7 @@ export type PutItemsError =
  * Importing items individually.
  */
 export const putItems: API.OperationMethod<
-  PutItemsRequest,
+  PutItemsRequest & RegionInput,
   PutItemsResponse,
   PutItemsError,
   Credentials | HttpClient.HttpClient
@@ -305,7 +306,7 @@ export type PutUsersError =
  * Importing users individually.
  */
 export const putUsers: API.OperationMethod<
-  PutUsersRequest,
+  PutUsersRequest & RegionInput,
   PutUsersResponse,
   PutUsersError,
   Credentials | HttpClient.HttpClient

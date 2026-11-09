@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1155,7 +1156,7 @@ export type AssociateHostedZoneError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const associateHostedZone: API.OperationMethod<
-  AssociateHostedZoneInput,
+  AssociateHostedZoneInput & RegionInput,
   AssociateHostedZoneOutput,
   AssociateHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type BatchCreateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
-  BatchCreateFirewallRuleInput,
+  BatchCreateFirewallRuleInput & RegionInput,
   BatchCreateFirewallRuleOutput,
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1222,7 +1223,7 @@ export type BatchDeleteFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
-  BatchDeleteFirewallRuleInput,
+  BatchDeleteFirewallRuleInput & RegionInput,
   BatchDeleteFirewallRuleOutput,
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type BatchUpdateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
-  BatchUpdateFirewallRuleInput,
+  BatchUpdateFirewallRuleInput & RegionInput,
   BatchUpdateFirewallRuleOutput,
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1290,7 @@ export type CreateAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createAccessSource: API.OperationMethod<
-  CreateAccessSourceInput,
+  CreateAccessSourceInput & RegionInput,
   CreateAccessSourceOutput,
   CreateAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type CreateAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createAccessToken: API.OperationMethod<
-  CreateAccessTokenInput,
+  CreateAccessTokenInput & RegionInput,
   CreateAccessTokenOutput,
   CreateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1365,7 +1366,7 @@ export type CreateDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createDNSView: API.OperationMethod<
-  CreateDNSViewInput,
+  CreateDNSViewInput & RegionInput,
   CreateDNSViewOutput,
   CreateDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type CreateFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListInput,
+  CreateFirewallDomainListInput & RegionInput,
   CreateFirewallDomainListOutput,
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type CreateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleInput,
+  CreateFirewallRuleInput & RegionInput,
   CreateFirewallRuleOutput,
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1478,7 +1479,7 @@ export type CreateGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createGlobalResolver: API.OperationMethod<
-  CreateGlobalResolverInput,
+  CreateGlobalResolverInput & RegionInput,
   CreateGlobalResolverOutput,
   CreateGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1515,7 @@ export type DeleteAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteAccessSource: API.OperationMethod<
-  DeleteAccessSourceInput,
+  DeleteAccessSourceInput & RegionInput,
   DeleteAccessSourceOutput,
   DeleteAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type DeleteAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteAccessToken: API.OperationMethod<
-  DeleteAccessTokenInput,
+  DeleteAccessTokenInput & RegionInput,
   DeleteAccessTokenOutput,
   DeleteAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type DeleteDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteDNSView: API.OperationMethod<
-  DeleteDNSViewInput,
+  DeleteDNSViewInput & RegionInput,
   DeleteDNSViewOutput,
   DeleteDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type DeleteFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListInput,
+  DeleteFirewallDomainListInput & RegionInput,
   DeleteFirewallDomainListOutput,
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type DeleteFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleInput,
+  DeleteFirewallRuleInput & RegionInput,
   DeleteFirewallRuleOutput,
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type DeleteGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteGlobalResolver: API.OperationMethod<
-  DeleteGlobalResolverInput,
+  DeleteGlobalResolverInput & RegionInput,
   DeleteGlobalResolverOutput,
   DeleteGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -1731,7 +1732,7 @@ export type DisableDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const disableDNSView: API.OperationMethod<
-  DisableDNSViewInput,
+  DisableDNSViewInput & RegionInput,
   DisableDNSViewOutput,
   DisableDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1768,7 +1769,7 @@ export type DisassociateHostedZoneError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const disassociateHostedZone: API.OperationMethod<
-  DisassociateHostedZoneInput,
+  DisassociateHostedZoneInput & RegionInput,
   DisassociateHostedZoneOutput,
   DisassociateHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -1805,7 +1806,7 @@ export type EnableDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const enableDNSView: API.OperationMethod<
-  EnableDNSViewInput,
+  EnableDNSViewInput & RegionInput,
   EnableDNSViewOutput,
   EnableDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1842,7 @@ export type GetAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getAccessSource: API.OperationMethod<
-  GetAccessSourceInput,
+  GetAccessSourceInput & RegionInput,
   GetAccessSourceOutput,
   GetAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1875,7 +1876,7 @@ export type GetAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenInput,
+  GetAccessTokenInput & RegionInput,
   GetAccessTokenOutput,
   GetAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type GetDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getDNSView: API.OperationMethod<
-  GetDNSViewInput,
+  GetDNSViewInput & RegionInput,
   GetDNSViewOutput,
   GetDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type GetFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getFirewallDomainList: API.OperationMethod<
-  GetFirewallDomainListInput,
+  GetFirewallDomainListInput & RegionInput,
   GetFirewallDomainListOutput,
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type GetFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getFirewallRule: API.OperationMethod<
-  GetFirewallRuleInput,
+  GetFirewallRuleInput & RegionInput,
   GetFirewallRuleOutput,
   GetFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -2011,7 +2012,7 @@ export type GetGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getGlobalResolver: API.OperationMethod<
-  GetGlobalResolverInput,
+  GetGlobalResolverInput & RegionInput,
   GetGlobalResolverOutput,
   GetGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -2045,7 +2046,7 @@ export type GetHostedZoneAssociationError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getHostedZoneAssociation: API.OperationMethod<
-  GetHostedZoneAssociationInput,
+  GetHostedZoneAssociationInput & RegionInput,
   GetHostedZoneAssociationOutput,
   GetHostedZoneAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2079,7 +2080,7 @@ export type GetManagedFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getManagedFirewallDomainList: API.OperationMethod<
-  GetManagedFirewallDomainListInput,
+  GetManagedFirewallDomainListInput & RegionInput,
   GetManagedFirewallDomainListOutput,
   GetManagedFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -2115,7 +2116,7 @@ export type ImportFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsInput,
+  ImportFirewallDomainsInput & RegionInput,
   ImportFirewallDomainsOutput,
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2151,7 @@ export type ListAccessSourcesError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listAccessSources: API.PaginatedOperationMethod<
-  ListAccessSourcesInput,
+  ListAccessSourcesInput & RegionInput,
   ListAccessSourcesOutput,
   ListAccessSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2190,7 +2191,7 @@ export type ListAccessTokensError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listAccessTokens: API.PaginatedOperationMethod<
-  ListAccessTokensInput,
+  ListAccessTokensInput & RegionInput,
   ListAccessTokensOutput,
   ListAccessTokensError,
   Credentials | HttpClient.HttpClient,
@@ -2231,7 +2232,7 @@ export type ListDNSViewsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listDNSViews: API.PaginatedOperationMethod<
-  ListDNSViewsInput,
+  ListDNSViewsInput & RegionInput,
   ListDNSViewsOutput,
   ListDNSViewsError,
   Credentials | HttpClient.HttpClient,
@@ -2272,7 +2273,7 @@ export type ListFirewallDomainListsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallDomainLists: API.PaginatedOperationMethod<
-  ListFirewallDomainListsInput,
+  ListFirewallDomainListsInput & RegionInput,
   ListFirewallDomainListsOutput,
   ListFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2313,7 +2314,7 @@ export type ListFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallDomains: API.PaginatedOperationMethod<
-  ListFirewallDomainsInput,
+  ListFirewallDomainsInput & RegionInput,
   ListFirewallDomainsOutput,
   ListFirewallDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2354,7 +2355,7 @@ export type ListFirewallRulesError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
-  ListFirewallRulesInput,
+  ListFirewallRulesInput & RegionInput,
   ListFirewallRulesOutput,
   ListFirewallRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2394,7 +2395,7 @@ export type ListGlobalResolversError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listGlobalResolvers: API.PaginatedOperationMethod<
-  ListGlobalResolversInput,
+  ListGlobalResolversInput & RegionInput,
   ListGlobalResolversOutput,
   ListGlobalResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2434,7 +2435,7 @@ export type ListHostedZoneAssociationsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listHostedZoneAssociations: API.PaginatedOperationMethod<
-  ListHostedZoneAssociationsInput,
+  ListHostedZoneAssociationsInput & RegionInput,
   ListHostedZoneAssociationsOutput,
   ListHostedZoneAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2474,7 +2475,7 @@ export type ListManagedFirewallDomainListsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listManagedFirewallDomainLists: API.PaginatedOperationMethod<
-  ListManagedFirewallDomainListsInput,
+  ListManagedFirewallDomainListsInput & RegionInput,
   ListManagedFirewallDomainListsOutput,
   ListManagedFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2513,7 +2514,7 @@ export type ListSharedDNSViewsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listSharedDNSViews: API.PaginatedOperationMethod<
-  ListSharedDNSViewsInput,
+  ListSharedDNSViewsInput & RegionInput,
   ListSharedDNSViewsOutput,
   ListSharedDNSViewsError,
   Credentials | HttpClient.HttpClient,
@@ -2547,7 +2548,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2573,7 +2574,7 @@ export type TagResourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2626,7 @@ export type UpdateAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateAccessSource: API.OperationMethod<
-  UpdateAccessSourceInput,
+  UpdateAccessSourceInput & RegionInput,
   UpdateAccessSourceOutput,
   UpdateAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -2663,7 +2664,7 @@ export type UpdateAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateAccessToken: API.OperationMethod<
-  UpdateAccessTokenInput,
+  UpdateAccessTokenInput & RegionInput,
   UpdateAccessTokenOutput,
   UpdateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -2701,7 +2702,7 @@ export type UpdateDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateDNSView: API.OperationMethod<
-  UpdateDNSViewInput,
+  UpdateDNSViewInput & RegionInput,
   UpdateDNSViewOutput,
   UpdateDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -2739,7 +2740,7 @@ export type UpdateFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsInput,
+  UpdateFirewallDomainsInput & RegionInput,
   UpdateFirewallDomainsOutput,
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2777,7 +2778,7 @@ export type UpdateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleInput,
+  UpdateFirewallRuleInput & RegionInput,
   UpdateFirewallRuleOutput,
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -2815,7 +2816,7 @@ export type UpdateGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateGlobalResolver: API.OperationMethod<
-  UpdateGlobalResolverInput,
+  UpdateGlobalResolverInput & RegionInput,
   UpdateGlobalResolverOutput,
   UpdateGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -2853,7 +2854,7 @@ export type UpdateHostedZoneAssociationError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateHostedZoneAssociation: API.OperationMethod<
-  UpdateHostedZoneAssociationInput,
+  UpdateHostedZoneAssociationInput & RegionInput,
   UpdateHostedZoneAssociationOutput,
   UpdateHostedZoneAssociationError,
   Credentials | HttpClient.HttpClient

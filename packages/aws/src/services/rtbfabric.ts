@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -839,7 +840,7 @@ export type AcceptLinkError =
  * When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection.
  */
 export const acceptLink: API.OperationMethod<
-  AcceptLinkRequest,
+  AcceptLinkRequest & RegionInput,
   AcceptLinkResponse,
   AcceptLinkError,
   Credentials | HttpClient.HttpClient
@@ -874,7 +875,7 @@ export type AssociateCertificateError =
  * Associates an ACM certificate with a responder gateway.
  */
 export const associateCertificate: API.OperationMethod<
-  AssociateCertificateRequest,
+  AssociateCertificateRequest & RegionInput,
   AssociateCertificateResponse,
   AssociateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type CreateInboundExternalLinkError =
  * Creates an inbound external link.
  */
 export const createInboundExternalLink: API.OperationMethod<
-  CreateInboundExternalLinkRequest,
+  CreateInboundExternalLinkRequest & RegionInput,
   CreateInboundExternalLinkResponse,
   CreateInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -948,7 +949,7 @@ export type CreateLinkError =
  * Establishes a connection that allows gateways to communicate and exchange bid requests and responses.
  */
 export const createLink: API.OperationMethod<
-  CreateLinkRequest,
+  CreateLinkRequest & RegionInput,
   CreateLinkResponse,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
@@ -986,7 +987,7 @@ export type CreateLinkRoutingRuleError =
  * Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply.
  */
 export const createLinkRoutingRule: API.OperationMethod<
-  CreateLinkRoutingRuleRequest,
+  CreateLinkRoutingRuleRequest & RegionInput,
   CreateLinkRoutingRuleResponse,
   CreateLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type CreateOutboundExternalLinkError =
  * Creates an outbound external link.
  */
 export const createOutboundExternalLink: API.OperationMethod<
-  CreateOutboundExternalLinkRequest,
+  CreateOutboundExternalLinkRequest & RegionInput,
   CreateOutboundExternalLinkResponse,
   CreateOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -1057,7 +1058,7 @@ export type CreateRequesterGatewayError =
  * Creates a requester gateway.
  */
 export const createRequesterGateway: API.OperationMethod<
-  CreateRequesterGatewayRequest,
+  CreateRequesterGatewayRequest & RegionInput,
   CreateRequesterGatewayResponse,
   CreateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1093,7 +1094,7 @@ export type CreateResponderGatewayError =
  * A domain name or managed endpoint is required.
  */
 export const createResponderGateway: API.OperationMethod<
-  CreateResponderGatewayRequest,
+  CreateResponderGatewayRequest & RegionInput,
   CreateResponderGatewayResponse,
   CreateResponderGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1127,7 +1128,7 @@ export type DeleteInboundExternalLinkError =
  * Deletes an inbound external link.
  */
 export const deleteInboundExternalLink: API.OperationMethod<
-  DeleteInboundExternalLinkRequest,
+  DeleteInboundExternalLinkRequest & RegionInput,
   DeleteInboundExternalLinkResponse,
   DeleteInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type DeleteLinkError =
  * Permanently removes the connection between gateways. This action cannot be undone.
  */
 export const deleteLink: API.OperationMethod<
-  DeleteLinkRequest,
+  DeleteLinkRequest & RegionInput,
   DeleteLinkResponse,
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
@@ -1197,7 +1198,7 @@ export type DeleteLinkRoutingRuleError =
  * Deletes a routing rule from a link.
  */
 export const deleteLinkRoutingRule: API.OperationMethod<
-  DeleteLinkRoutingRuleRequest,
+  DeleteLinkRoutingRuleRequest & RegionInput,
   DeleteLinkRoutingRuleResponse,
   DeleteLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1232,7 @@ export type DeleteOutboundExternalLinkError =
  * Deletes an outbound external link.
  */
 export const deleteOutboundExternalLink: API.OperationMethod<
-  DeleteOutboundExternalLinkRequest,
+  DeleteOutboundExternalLinkRequest & RegionInput,
   DeleteOutboundExternalLinkResponse,
   DeleteOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type DeleteRequesterGatewayError =
  * Deletes a requester gateway.
  */
 export const deleteRequesterGateway: API.OperationMethod<
-  DeleteRequesterGatewayRequest,
+  DeleteRequesterGatewayRequest & RegionInput,
   DeleteRequesterGatewayResponse,
   DeleteRequesterGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1299,7 +1300,7 @@ export type DeleteResponderGatewayError =
  * Deletes a responder gateway.
  */
 export const deleteResponderGateway: API.OperationMethod<
-  DeleteResponderGatewayRequest,
+  DeleteResponderGatewayRequest & RegionInput,
   DeleteResponderGatewayResponse,
   DeleteResponderGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1335,7 @@ export type DisassociateCertificateError =
  * Removes a certificate association from a responder gateway.
  */
 export const disassociateCertificate: API.OperationMethod<
-  DisassociateCertificateRequest,
+  DisassociateCertificateRequest & RegionInput,
   DisassociateCertificateResponse,
   DisassociateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type GetCertificateAssociationError =
  * Retrieves the details of a certificate association with a responder gateway.
  */
 export const getCertificateAssociation: API.OperationMethod<
-  GetCertificateAssociationRequest,
+  GetCertificateAssociationRequest & RegionInput,
   GetCertificateAssociationResponse,
   GetCertificateAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1400,7 +1401,7 @@ export type GetInboundExternalLinkError =
  * Retrieves information about an inbound external link.
  */
 export const getInboundExternalLink: API.OperationMethod<
-  GetInboundExternalLinkRequest,
+  GetInboundExternalLinkRequest & RegionInput,
   GetInboundExternalLinkResponse,
   GetInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type GetLinkError =
  * Returns detailed information about the link configuration, status, and associated gateways.
  */
 export const getLink: API.OperationMethod<
-  GetLinkRequest,
+  GetLinkRequest & RegionInput,
   GetLinkResponse,
   GetLinkError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1469,7 @@ export type GetLinkRoutingRuleError =
  * Retrieves the details of a routing rule for a link.
  */
 export const getLinkRoutingRule: API.OperationMethod<
-  GetLinkRoutingRuleRequest,
+  GetLinkRoutingRuleRequest & RegionInput,
   GetLinkRoutingRuleResponse,
   GetLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1500,7 +1501,7 @@ export type GetOutboundExternalLinkError =
  * Retrieves information about an outbound external link.
  */
 export const getOutboundExternalLink: API.OperationMethod<
-  GetOutboundExternalLinkRequest,
+  GetOutboundExternalLinkRequest & RegionInput,
   GetOutboundExternalLinkResponse,
   GetOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
@@ -1532,7 +1533,7 @@ export type GetRequesterGatewayError =
  * Retrieves information about a requester gateway.
  */
 export const getRequesterGateway: API.OperationMethod<
-  GetRequesterGatewayRequest,
+  GetRequesterGatewayRequest & RegionInput,
   GetRequesterGatewayResponse,
   GetRequesterGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1565,7 @@ export type GetResponderGatewayError =
  * Retrieves information about a responder gateway.
  */
 export const getResponderGateway: API.OperationMethod<
-  GetResponderGatewayRequest,
+  GetResponderGatewayRequest & RegionInput,
   GetResponderGatewayResponse,
   GetResponderGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1596,7 +1597,7 @@ export type ListCertificateAssociationsError =
  * Lists the certificate associations for a responder gateway.
  */
 export const listCertificateAssociations: API.PaginatedOperationMethod<
-  ListCertificateAssociationsRequest,
+  ListCertificateAssociationsRequest & RegionInput,
   ListCertificateAssociationsResponse,
   ListCertificateAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1635,7 +1636,7 @@ export type ListLinkRoutingRulesError =
  * Lists the routing rules for a link.
  */
 export const listLinkRoutingRules: API.PaginatedOperationMethod<
-  ListLinkRoutingRulesRequest,
+  ListLinkRoutingRulesRequest & RegionInput,
   ListLinkRoutingRulesResponse,
   ListLinkRoutingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1676,7 +1677,7 @@ export type ListLinksError =
  * Returns a list of all links for the specified gateways, including their status and configuration details.
  */
 export const listLinks: API.PaginatedOperationMethod<
-  ListLinksRequest,
+  ListLinksRequest & RegionInput,
   ListLinksResponse,
   ListLinksError,
   Credentials | HttpClient.HttpClient,
@@ -1712,7 +1713,7 @@ export type ListRequesterGatewaysError =
  * Lists requester gateways.
  */
 export const listRequesterGateways: API.PaginatedOperationMethod<
-  ListRequesterGatewaysRequest,
+  ListRequesterGatewaysRequest & RegionInput,
   ListRequesterGatewaysResponse,
   ListRequesterGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -1742,7 +1743,7 @@ export type ListResponderGatewaysError =
  * Lists reponder gateways.
  */
 export const listResponderGateways: API.PaginatedOperationMethod<
-  ListResponderGatewaysRequest,
+  ListResponderGatewaysRequest & RegionInput,
   ListResponderGatewaysResponse,
   ListResponderGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -1775,7 +1776,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1810,7 +1811,7 @@ export type RejectLinkError =
  * When a requester gateway requests to link with a responder gateway, the responder can use this operation to decline the link request.
  */
 export const rejectLink: API.OperationMethod<
-  RejectLinkRequest,
+  RejectLinkRequest & RegionInput,
   RejectLinkResponse,
   RejectLinkError,
   Credentials | HttpClient.HttpClient
@@ -1843,7 +1844,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1875,7 +1876,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1911,7 @@ export type UpdateLinkError =
  * Allows you to modify settings and parameters for an existing link.
  */
 export const updateLink: API.OperationMethod<
-  UpdateLinkRequest,
+  UpdateLinkRequest & RegionInput,
   UpdateLinkResponse,
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
@@ -1945,7 +1946,7 @@ export type UpdateLinkModuleFlowError =
  * Updates a link module flow.
  */
 export const updateLinkModuleFlow: API.OperationMethod<
-  UpdateLinkModuleFlowRequest,
+  UpdateLinkModuleFlowRequest & RegionInput,
   UpdateLinkModuleFlowResponse,
   UpdateLinkModuleFlowError,
   Credentials | HttpClient.HttpClient
@@ -1980,7 +1981,7 @@ export type UpdateLinkRoutingRuleError =
  * Updates a routing rule for a link.
  */
 export const updateLinkRoutingRule: API.OperationMethod<
-  UpdateLinkRoutingRuleRequest,
+  UpdateLinkRoutingRuleRequest & RegionInput,
   UpdateLinkRoutingRuleResponse,
   UpdateLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -2014,7 +2015,7 @@ export type UpdateRequesterGatewayError =
  * Updates a requester gateway.
  */
 export const updateRequesterGateway: API.OperationMethod<
-  UpdateRequesterGatewayRequest,
+  UpdateRequesterGatewayRequest & RegionInput,
   UpdateRequesterGatewayResponse,
   UpdateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2050,7 +2051,7 @@ export type UpdateResponderGatewayError =
  * You cannot change the `domainName`, `port`, and `protocol` values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one.
  */
 export const updateResponderGateway: API.OperationMethod<
-  UpdateResponderGatewayRequest,
+  UpdateResponderGatewayRequest & RegionInput,
   UpdateResponderGatewayResponse,
   UpdateResponderGatewayError,
   Credentials | HttpClient.HttpClient

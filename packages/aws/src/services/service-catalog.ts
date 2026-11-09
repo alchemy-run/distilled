@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1714,7 +1715,7 @@ export type AcceptPortfolioShareError =
  * Accepts an offer to share the specified portfolio.
  */
 export const acceptPortfolioShare: API.OperationMethod<
-  AcceptPortfolioShareInput,
+  AcceptPortfolioShareInput & RegionInput,
   AcceptPortfolioShareOutput,
   AcceptPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -1739,7 +1740,7 @@ export type AssociateBudgetWithResourceError =
  * Associates the specified budget with the specified resource.
  */
 export const associateBudgetWithResource: API.OperationMethod<
-  AssociateBudgetWithResourceInput,
+  AssociateBudgetWithResourceInput & RegionInput,
   AssociateBudgetWithResourceOutput,
   AssociateBudgetWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1784,7 +1785,7 @@ export type AssociatePrincipalWithPortfolioError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const associatePrincipalWithPortfolio: API.OperationMethod<
-  AssociatePrincipalWithPortfolioInput,
+  AssociatePrincipalWithPortfolioInput & RegionInput,
   AssociatePrincipalWithPortfolioOutput,
   AssociatePrincipalWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1810,7 +1811,7 @@ export type AssociateProductWithPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const associateProductWithPortfolio: API.OperationMethod<
-  AssociateProductWithPortfolioInput,
+  AssociateProductWithPortfolioInput & RegionInput,
   AssociateProductWithPortfolioOutput,
   AssociateProductWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1835,7 +1836,7 @@ export type AssociateServiceActionWithProvisioningArtifactError =
  * Associates a self-service action with a provisioning artifact.
  */
 export const associateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  AssociateServiceActionWithProvisioningArtifactInput,
+  AssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   AssociateServiceActionWithProvisioningArtifactOutput,
   AssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1871,7 +1872,7 @@ export type AssociateTagOptionWithResourceError =
  * Associate the specified TagOption with the specified portfolio or product.
  */
 export const associateTagOptionWithResource: API.OperationMethod<
-  AssociateTagOptionWithResourceInput,
+  AssociateTagOptionWithResourceInput & RegionInput,
   AssociateTagOptionWithResourceOutput,
   AssociateTagOptionWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type BatchAssociateServiceActionWithProvisioningArtifactError =
  * Associates multiple self-service actions with provisioning artifacts.
  */
 export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  BatchAssociateServiceActionWithProvisioningArtifactInput,
+  BatchAssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
   BatchAssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type BatchDisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
 export const batchDisassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  BatchDisassociateServiceActionFromProvisioningArtifactInput,
+  BatchDisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   BatchDisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type CopyProductError =
  * operation, use DescribeCopyProductStatus.
  */
 export const copyProduct: API.OperationMethod<
-  CopyProductInput,
+  CopyProductInput & RegionInput,
   CopyProductOutput,
   CopyProductError,
   Credentials | HttpClient.HttpClient
@@ -1996,7 +1997,7 @@ export type CreateConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createConstraint: API.OperationMethod<
-  CreateConstraintInput,
+  CreateConstraintInput & RegionInput,
   CreateConstraintOutput,
   CreateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2028,7 @@ export type CreatePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createPortfolio: API.OperationMethod<
-  CreatePortfolioInput,
+  CreatePortfolioInput & RegionInput,
   CreatePortfolioOutput,
   CreatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2074,7 @@ export type CreatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const createPortfolioShare: API.OperationMethod<
-  CreatePortfolioShareInput,
+  CreatePortfolioShareInput & RegionInput,
   CreatePortfolioShareOutput,
   CreatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2110,7 +2111,7 @@ export type CreateProductError =
  * information data section.
  */
 export const createProduct: API.OperationMethod<
-  CreateProductInput,
+  CreateProductInput & RegionInput,
   CreateProductOutput,
   CreateProductError,
   Credentials | HttpClient.HttpClient
@@ -2144,7 +2145,7 @@ export type CreateProvisionedProductPlanError =
  * To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
  */
 export const createProvisionedProductPlan: API.OperationMethod<
-  CreateProvisionedProductPlanInput,
+  CreateProvisionedProductPlanInput & RegionInput,
   CreateProvisionedProductPlanOutput,
   CreateProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2174,7 +2175,7 @@ export type CreateProvisioningArtifactError =
  * `ImportFromPhysicalId` template source in the information data section.
  */
 export const createProvisioningArtifact: API.OperationMethod<
-  CreateProvisioningArtifactInput,
+  CreateProvisioningArtifactInput & RegionInput,
   CreateProvisioningArtifactOutput,
   CreateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2197,7 +2198,7 @@ export type CreateServiceActionError =
  * Creates a self-service action.
  */
 export const createServiceAction: API.OperationMethod<
-  CreateServiceActionInput,
+  CreateServiceActionInput & RegionInput,
   CreateServiceActionOutput,
   CreateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2221,7 +2222,7 @@ export type CreateTagOptionError =
  * Creates a TagOption.
  */
 export const createTagOption: API.OperationMethod<
-  CreateTagOptionInput,
+  CreateTagOptionInput & RegionInput,
   CreateTagOptionOutput,
   CreateTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2246,7 +2247,7 @@ export type DeleteConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteConstraint: API.OperationMethod<
-  DeleteConstraintInput,
+  DeleteConstraintInput & RegionInput,
   DeleteConstraintOutput,
   DeleteConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2276,7 +2277,7 @@ export type DeletePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deletePortfolio: API.OperationMethod<
-  DeletePortfolioInput,
+  DeletePortfolioInput & RegionInput,
   DeletePortfolioOutput,
   DeletePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2310,7 +2311,7 @@ export type DeletePortfolioShareError =
  * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
  */
 export const deletePortfolioShare: API.OperationMethod<
-  DeletePortfolioShareInput,
+  DeletePortfolioShareInput & RegionInput,
   DeletePortfolioShareOutput,
   DeletePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2345,7 @@ export type DeleteProductError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteProduct: API.OperationMethod<
-  DeleteProductInput,
+  DeleteProductInput & RegionInput,
   DeleteProductOutput,
   DeleteProductError,
   Credentials | HttpClient.HttpClient
@@ -2372,7 +2373,7 @@ export type DeleteProvisionedProductPlanError =
  * Deletes the specified plan.
  */
 export const deleteProvisionedProductPlan: API.OperationMethod<
-  DeleteProvisionedProductPlanInput,
+  DeleteProvisionedProductPlanInput & RegionInput,
   DeleteProvisionedProductPlanOutput,
   DeleteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2400,7 +2401,7 @@ export type DeleteProvisioningArtifactError =
  * least one provisioning artifact.
  */
 export const deleteProvisioningArtifact: API.OperationMethod<
-  DeleteProvisioningArtifactInput,
+  DeleteProvisioningArtifactInput & RegionInput,
   DeleteProvisioningArtifactOutput,
   DeleteProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2424,7 +2425,7 @@ export type DeleteServiceActionError =
  * Deletes a self-service action.
  */
 export const deleteServiceAction: API.OperationMethod<
-  DeleteServiceActionInput,
+  DeleteServiceActionInput & RegionInput,
   DeleteServiceActionOutput,
   DeleteServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type DeleteTagOptionError =
  * You cannot delete a TagOption if it is associated with a product or portfolio.
  */
 export const deleteTagOption: API.OperationMethod<
-  DeleteTagOptionInput,
+  DeleteTagOptionInput & RegionInput,
   DeleteTagOptionOutput,
   DeleteTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
  * Gets information about the specified constraint.
  */
 export const describeConstraint: API.OperationMethod<
-  DescribeConstraintInput,
+  DescribeConstraintInput & RegionInput,
   DescribeConstraintOutput,
   DescribeConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type DescribeCopyProductStatusError = ResourceNotFoundException | CommonE
  * Gets the status of the specified copy product operation.
  */
 export const describeCopyProductStatus: API.OperationMethod<
-  DescribeCopyProductStatusInput,
+  DescribeCopyProductStatusInput & RegionInput,
   DescribeCopyProductStatusOutput,
   DescribeCopyProductStatusError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
  * A delegated admin is authorized to invoke this command.
  */
 export const describePortfolio: API.OperationMethod<
-  DescribePortfolioInput,
+  DescribePortfolioInput & RegionInput,
   DescribePortfolioOutput,
   DescribePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2541,7 +2542,7 @@ export type DescribePortfolioSharesError =
  * The `PortfolioId` and `Type` parameters are both required.
  */
 export const describePortfolioShares: API.PaginatedOperationMethod<
-  DescribePortfolioSharesInput,
+  DescribePortfolioSharesInput & RegionInput,
   DescribePortfolioSharesOutput,
   DescribePortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -2572,7 +2573,7 @@ export type DescribePortfolioShareStatusError =
  * by the management account in the organization or by a delegated admin.
  */
 export const describePortfolioShareStatus: API.OperationMethod<
-  DescribePortfolioShareStatusInput,
+  DescribePortfolioShareStatusInput & RegionInput,
   DescribePortfolioShareStatusOutput,
   DescribePortfolioShareStatusError,
   Credentials | HttpClient.HttpClient
@@ -2601,7 +2602,7 @@ export type DescribeProductError =
  * DescribeProductAsAdmin should be used instead.
  */
 export const describeProduct: API.OperationMethod<
-  DescribeProductInput,
+  DescribeProductInput & RegionInput,
   DescribeProductOutput,
   DescribeProductError,
   Credentials | HttpClient.HttpClient
@@ -2624,7 +2625,7 @@ export type DescribeProductAsAdminError =
  * Gets information about the specified product. This operation is run with administrator access.
  */
 export const describeProductAsAdmin: API.OperationMethod<
-  DescribeProductAsAdminInput,
+  DescribeProductAsAdminInput & RegionInput,
   DescribeProductAsAdminOutput,
   DescribeProductAsAdminError,
   Credentials | HttpClient.HttpClient
@@ -2647,7 +2648,7 @@ export type DescribeProductViewError =
  * Gets information about the specified product.
  */
 export const describeProductView: API.OperationMethod<
-  DescribeProductViewInput,
+  DescribeProductViewInput & RegionInput,
   DescribeProductViewOutput,
   DescribeProductViewError,
   Credentials | HttpClient.HttpClient
@@ -2670,7 +2671,7 @@ export type DescribeProvisionedProductError =
  * Gets information about the specified provisioned product.
  */
 export const describeProvisionedProduct: API.OperationMethod<
-  DescribeProvisionedProductInput,
+  DescribeProvisionedProductInput & RegionInput,
   DescribeProvisionedProductOutput,
   DescribeProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -2693,7 +2694,7 @@ export type DescribeProvisionedProductPlanError =
  * Gets information about the resource changes for the specified plan.
  */
 export const describeProvisionedProductPlan: API.OperationMethod<
-  DescribeProvisionedProductPlanInput,
+  DescribeProvisionedProductPlanInput & RegionInput,
   DescribeProvisionedProductPlanOutput,
   DescribeProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2716,7 +2717,7 @@ export type DescribeProvisioningArtifactError =
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
 export const describeProvisioningArtifact: API.OperationMethod<
-  DescribeProvisioningArtifactInput,
+  DescribeProvisioningArtifactInput & RegionInput,
   DescribeProvisioningArtifactOutput,
   DescribeProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type DescribeProvisioningParametersError =
  * Tag the provisioned product with the value `sc-tagoption-conflict-portfolioId-productId`.
  */
 export const describeProvisioningParameters: API.OperationMethod<
-  DescribeProvisioningParametersInput,
+  DescribeProvisioningParametersInput & RegionInput,
   DescribeProvisioningParametersOutput,
   DescribeProvisioningParametersError,
   Credentials | HttpClient.HttpClient
@@ -2774,7 +2775,7 @@ export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
  * use ListRecordHistory to see the product's history from when he was the owner.
  */
 export const describeRecord: API.OperationMethod<
-  DescribeRecordInput,
+  DescribeRecordInput & RegionInput,
   DescribeRecordOutput,
   DescribeRecordError,
   Credentials | HttpClient.HttpClient
@@ -2794,7 +2795,7 @@ export type DescribeServiceActionError = ResourceNotFoundException | CommonError
  * Describes a self-service action.
  */
 export const describeServiceAction: API.OperationMethod<
-  DescribeServiceActionInput,
+  DescribeServiceActionInput & RegionInput,
   DescribeServiceActionOutput,
   DescribeServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2817,7 +2818,7 @@ export type DescribeServiceActionExecutionParametersError =
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
 export const describeServiceActionExecutionParameters: API.OperationMethod<
-  DescribeServiceActionExecutionParametersInput,
+  DescribeServiceActionExecutionParametersInput & RegionInput,
   DescribeServiceActionExecutionParametersOutput,
   DescribeServiceActionExecutionParametersError,
   Credentials | HttpClient.HttpClient
@@ -2840,7 +2841,7 @@ export type DescribeTagOptionError =
  * Gets information about the specified TagOption.
  */
 export const describeTagOption: API.OperationMethod<
-  DescribeTagOptionInput,
+  DescribeTagOptionInput & RegionInput,
   DescribeTagOptionOutput,
   DescribeTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2877,7 +2878,7 @@ export type DisableAWSOrganizationsAccessError =
  * disabling Service Catalog access will retain access to the previously shared portfolio.
  */
 export const disableAWSOrganizationsAccess: API.OperationMethod<
-  DisableAWSOrganizationsAccessInput,
+  DisableAWSOrganizationsAccessInput & RegionInput,
   DisableAWSOrganizationsAccessOutput,
   DisableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2897,7 +2898,7 @@ export type DisassociateBudgetFromResourceError = ResourceNotFoundException | Co
  * Disassociates the specified budget from the specified resource.
  */
 export const disassociateBudgetFromResource: API.OperationMethod<
-  DisassociateBudgetFromResourceInput,
+  DisassociateBudgetFromResourceInput & RegionInput,
   DisassociateBudgetFromResourceOutput,
   DisassociateBudgetFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2939,7 +2940,7 @@ export type DisassociatePrincipalFromPortfolioError =
  * whose access you are removing.
  */
 export const disassociatePrincipalFromPortfolio: API.OperationMethod<
-  DisassociatePrincipalFromPortfolioInput,
+  DisassociatePrincipalFromPortfolioInput & RegionInput,
   DisassociatePrincipalFromPortfolioOutput,
   DisassociatePrincipalFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2965,7 +2966,7 @@ export type DisassociateProductFromPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const disassociateProductFromPortfolio: API.OperationMethod<
-  DisassociateProductFromPortfolioInput,
+  DisassociateProductFromPortfolioInput & RegionInput,
   DisassociateProductFromPortfolioOutput,
   DisassociateProductFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2988,7 +2989,7 @@ export type DisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
 export const disassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  DisassociateServiceActionFromProvisioningArtifactInput,
+  DisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   DisassociateServiceActionFromProvisioningArtifactOutput,
   DisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3019,7 +3020,7 @@ export type DisassociateTagOptionFromResourceError =
  * Disassociates the specified TagOption from the specified resource.
  */
 export const disassociateTagOptionFromResource: API.OperationMethod<
-  DisassociateTagOptionFromResourceInput,
+  DisassociateTagOptionFromResourceInput & RegionInput,
   DisassociateTagOptionFromResourceOutput,
   DisassociateTagOptionFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3056,7 +3057,7 @@ export type EnableAWSOrganizationsAccessError =
  * authorized to do so. Amazon Web Services is working to resolve this issue.
  */
 export const enableAWSOrganizationsAccess: API.OperationMethod<
-  EnableAWSOrganizationsAccessInput,
+  EnableAWSOrganizationsAccessInput & RegionInput,
   EnableAWSOrganizationsAccessOutput,
   EnableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3080,7 +3081,7 @@ export type ExecuteProvisionedProductPlanError =
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
 export const executeProvisionedProductPlan: API.OperationMethod<
-  ExecuteProvisionedProductPlanInput,
+  ExecuteProvisionedProductPlanInput & RegionInput,
   ExecuteProvisionedProductPlanOutput,
   ExecuteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -3105,7 +3106,7 @@ export type ExecuteProvisionedProductServiceActionError =
  * Executes a self-service action against a provisioned product.
  */
 export const executeProvisionedProductServiceAction: API.OperationMethod<
-  ExecuteProvisionedProductServiceActionInput,
+  ExecuteProvisionedProductServiceActionInput & RegionInput,
   ExecuteProvisionedProductServiceActionOutput,
   ExecuteProvisionedProductServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -3134,7 +3135,7 @@ export type GetAWSOrganizationsAccessStatusError =
  * called by the management account in the organization or by a delegated admin.
  */
 export const getAWSOrganizationsAccessStatus: API.OperationMethod<
-  GetAWSOrganizationsAccessStatusInput,
+  GetAWSOrganizationsAccessStatusInput & RegionInput,
   GetAWSOrganizationsAccessStatusOutput,
   GetAWSOrganizationsAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -3157,7 +3158,7 @@ export type GetProvisionedProductOutputsError =
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
 export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
-  GetProvisionedProductOutputsInput,
+  GetProvisionedProductOutputsInput & RegionInput,
   GetProvisionedProductOutputsOutput,
   GetProvisionedProductOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3213,7 +3214,7 @@ export type ImportAsProvisionedProductError =
  * `IMPORT_COMPLETE` status before you import another.
  */
 export const importAsProvisionedProduct: API.OperationMethod<
-  ImportAsProvisionedProductInput,
+  ImportAsProvisionedProductInput & RegionInput,
   ImportAsProvisionedProductOutput,
   ImportAsProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3243,7 +3244,7 @@ export type ListAcceptedPortfolioSharesError =
  * organizational shares were accepted by this account.
  */
 export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
-  ListAcceptedPortfolioSharesInput,
+  ListAcceptedPortfolioSharesInput & RegionInput,
   ListAcceptedPortfolioSharesOutput,
   ListAcceptedPortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3272,7 +3273,7 @@ export type ListBudgetsForResourceError =
  * Lists all the budgets associated to the specified resource.
  */
 export const listBudgetsForResource: API.PaginatedOperationMethod<
-  ListBudgetsForResourceInput,
+  ListBudgetsForResourceInput & RegionInput,
   ListBudgetsForResourceOutput,
   ListBudgetsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3301,7 +3302,7 @@ export type ListConstraintsForPortfolioError =
  * Lists the constraints for the specified portfolio and product.
  */
 export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
-  ListConstraintsForPortfolioInput,
+  ListConstraintsForPortfolioInput & RegionInput,
   ListConstraintsForPortfolioOutput,
   ListConstraintsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3350,7 +3351,7 @@ export type ListLaunchPathsError =
  * in the *Service Catalog User Guide*.
  */
 export const listLaunchPaths: API.PaginatedOperationMethod<
-  ListLaunchPathsInput,
+  ListLaunchPathsInput & RegionInput,
   ListLaunchPathsOutput,
   ListLaunchPathsError,
   Credentials | HttpClient.HttpClient,
@@ -3384,7 +3385,7 @@ export type ListOrganizationPortfolioAccessError =
  * If a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
-  ListOrganizationPortfolioAccessInput,
+  ListOrganizationPortfolioAccessInput & RegionInput,
   ListOrganizationPortfolioAccessOutput,
   ListOrganizationPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3415,7 +3416,7 @@ export type ListPortfolioAccessError =
  * A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listPortfolioAccess: API.PaginatedOperationMethod<
-  ListPortfolioAccessInput,
+  ListPortfolioAccessInput & RegionInput,
   ListPortfolioAccessOutput,
   ListPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3441,7 +3442,7 @@ export type ListPortfoliosError = InvalidParametersException | CommonErrors;
  * Lists all portfolios in the catalog.
  */
 export const listPortfolios: API.PaginatedOperationMethod<
-  ListPortfoliosInput,
+  ListPortfoliosInput & RegionInput,
   ListPortfoliosOutput,
   ListPortfoliosError,
   Credentials | HttpClient.HttpClient,
@@ -3470,7 +3471,7 @@ export type ListPortfoliosForProductError =
  * Lists all portfolios that the specified product is associated with.
  */
 export const listPortfoliosForProduct: API.PaginatedOperationMethod<
-  ListPortfoliosForProductInput,
+  ListPortfoliosForProductInput & RegionInput,
   ListPortfoliosForProductOutput,
   ListPortfoliosForProductError,
   Credentials | HttpClient.HttpClient,
@@ -3499,7 +3500,7 @@ export type ListPrincipalsForPortfolioError =
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
 export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
-  ListPrincipalsForPortfolioInput,
+  ListPrincipalsForPortfolioInput & RegionInput,
   ListPrincipalsForPortfolioOutput,
   ListPrincipalsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3528,7 +3529,7 @@ export type ListProvisionedProductPlansError =
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
 export const listProvisionedProductPlans: API.OperationMethod<
-  ListProvisionedProductPlansInput,
+  ListProvisionedProductPlansInput & RegionInput,
   ListProvisionedProductPlansOutput,
   ListProvisionedProductPlansError,
   Credentials | HttpClient.HttpClient
@@ -3551,7 +3552,7 @@ export type ListProvisioningArtifactsError =
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
 export const listProvisioningArtifacts: API.OperationMethod<
-  ListProvisioningArtifactsInput,
+  ListProvisioningArtifactsInput & RegionInput,
   ListProvisioningArtifactsOutput,
   ListProvisioningArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -3574,7 +3575,7 @@ export type ListProvisioningArtifactsForServiceActionError =
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
 export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMethod<
-  ListProvisioningArtifactsForServiceActionInput,
+  ListProvisioningArtifactsForServiceActionInput & RegionInput,
   ListProvisioningArtifactsForServiceActionOutput,
   ListProvisioningArtifactsForServiceActionError,
   Credentials | HttpClient.HttpClient,
@@ -3600,7 +3601,7 @@ export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
  * Lists the specified requests or all performed requests.
  */
 export const listRecordHistory: API.OperationMethod<
-  ListRecordHistoryInput,
+  ListRecordHistoryInput & RegionInput,
   ListRecordHistoryOutput,
   ListRecordHistoryError,
   Credentials | HttpClient.HttpClient
@@ -3624,7 +3625,7 @@ export type ListResourcesForTagOptionError =
  * Lists the resources associated with the specified TagOption.
  */
 export const listResourcesForTagOption: API.PaginatedOperationMethod<
-  ListResourcesForTagOptionInput,
+  ListResourcesForTagOptionInput & RegionInput,
   ListResourcesForTagOptionOutput,
   ListResourcesForTagOptionError,
   Credentials | HttpClient.HttpClient,
@@ -3646,7 +3647,7 @@ export type ListServiceActionsError = InvalidParametersException | CommonErrors;
  * Lists all self-service actions.
  */
 export const listServiceActions: API.PaginatedOperationMethod<
-  ListServiceActionsInput,
+  ListServiceActionsInput & RegionInput,
   ListServiceActionsOutput,
   ListServiceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3675,7 +3676,7 @@ export type ListServiceActionsForProvisioningArtifactError =
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
 export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMethod<
-  ListServiceActionsForProvisioningArtifactInput,
+  ListServiceActionsForProvisioningArtifactInput & RegionInput,
   ListServiceActionsForProvisioningArtifactOutput,
   ListServiceActionsForProvisioningArtifactError,
   Credentials | HttpClient.HttpClient,
@@ -3704,7 +3705,7 @@ export type ListStackInstancesForProvisionedProductError =
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
 export const listStackInstancesForProvisionedProduct: API.OperationMethod<
-  ListStackInstancesForProvisionedProductInput,
+  ListStackInstancesForProvisionedProductInput & RegionInput,
   ListStackInstancesForProvisionedProductOutput,
   ListStackInstancesForProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3727,7 +3728,7 @@ export type ListTagOptionsError =
  * Lists the specified TagOptions or all TagOptions.
  */
 export const listTagOptions: API.PaginatedOperationMethod<
-  ListTagOptionsInput,
+  ListTagOptionsInput & RegionInput,
   ListTagOptionsOutput,
   ListTagOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3753,7 +3754,7 @@ export type NotifyProvisionProductEngineWorkflowResultError =
  * of the provisioning engine execution.
  */
 export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
-  NotifyProvisionProductEngineWorkflowResultInput,
+  NotifyProvisionProductEngineWorkflowResultInput & RegionInput,
   NotifyProvisionProductEngineWorkflowResultOutput,
   NotifyProvisionProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3777,7 +3778,7 @@ export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
  * of the terminate engine execution.
  */
 export const notifyTerminateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+  NotifyTerminateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   NotifyTerminateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3809,7 +3810,7 @@ export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
  * of the update engine execution.
  */
 export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+  NotifyUpdateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   NotifyUpdateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3870,7 +3871,7 @@ export type ProvisionProductError =
  * in the *Service Catalog User Guide*.
  */
 export const provisionProduct: API.OperationMethod<
-  ProvisionProductInput,
+  ProvisionProductInput & RegionInput,
   ProvisionProductOutput,
   ProvisionProductError,
   Credentials | HttpClient.HttpClient
@@ -3890,7 +3891,7 @@ export type RejectPortfolioShareError = ResourceNotFoundException | CommonErrors
  * Rejects an offer to share the specified portfolio.
  */
 export const rejectPortfolioShare: API.OperationMethod<
-  RejectPortfolioShareInput,
+  RejectPortfolioShareInput & RegionInput,
   RejectPortfolioShareOutput,
   RejectPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -3912,7 +3913,7 @@ export type ScanProvisionedProductsError = InvalidParametersException | CommonEr
  * To use additional filtering, see SearchProvisionedProducts.
  */
 export const scanProvisionedProducts: API.OperationMethod<
-  ScanProvisionedProductsInput,
+  ScanProvisionedProductsInput & RegionInput,
   ScanProvisionedProductsOutput,
   ScanProvisionedProductsError,
   Credentials | HttpClient.HttpClient
@@ -3932,7 +3933,7 @@ export type SearchProductsError = InvalidParametersException | CommonErrors;
  * Gets information about the products to which the caller has access.
  */
 export const searchProducts: API.PaginatedOperationMethod<
-  SearchProductsInput,
+  SearchProductsInput & RegionInput,
   SearchProductsOutput,
   SearchProductsError,
   Credentials | HttpClient.HttpClient,
@@ -3961,7 +3962,7 @@ export type SearchProductsAsAdminError =
  * Gets information about the products for the specified portfolio or all products.
  */
 export const searchProductsAsAdmin: API.PaginatedOperationMethod<
-  SearchProductsAsAdminInput,
+  SearchProductsAsAdminInput & RegionInput,
   SearchProductsAsAdminOutput,
   SearchProductsAsAdminError,
   Credentials | HttpClient.HttpClient,
@@ -3987,7 +3988,7 @@ export type SearchProvisionedProductsError = InvalidParametersException | Common
  * Gets information about the provisioned products that meet the specified criteria.
  */
 export const searchProvisionedProducts: API.PaginatedOperationMethod<
-  SearchProvisionedProductsInput,
+  SearchProvisionedProductsInput & RegionInput,
   SearchProvisionedProductsOutput,
   SearchProvisionedProductsError,
   Credentials | HttpClient.HttpClient,
@@ -4017,7 +4018,7 @@ export type TerminateProvisionedProductError = ResourceNotFoundException | Commo
  * You can check the status of this request using DescribeRecord.
  */
 export const terminateProvisionedProduct: API.OperationMethod<
-  TerminateProvisionedProductInput,
+  TerminateProvisionedProductInput & RegionInput,
   TerminateProvisionedProductOutput,
   TerminateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -4040,7 +4041,7 @@ export type UpdateConstraintError =
  * Updates the specified constraint.
  */
 export const updateConstraint: API.OperationMethod<
-  UpdateConstraintInput,
+  UpdateConstraintInput & RegionInput,
   UpdateConstraintOutput,
   UpdateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -4067,7 +4068,7 @@ export type UpdatePortfolioError =
  * You cannot update a product that was shared with you.
  */
 export const updatePortfolio: API.OperationMethod<
-  UpdatePortfolioInput,
+  UpdatePortfolioInput & RegionInput,
   UpdatePortfolioOutput,
   UpdatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -4115,7 +4116,7 @@ export type UpdatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const updatePortfolioShare: API.OperationMethod<
-  UpdatePortfolioShareInput,
+  UpdatePortfolioShareInput & RegionInput,
   UpdatePortfolioShareOutput,
   UpdatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -4144,7 +4145,7 @@ export type UpdateProductError =
  * Updates the specified product.
  */
 export const updateProduct: API.OperationMethod<
-  UpdateProductInput,
+  UpdateProductInput & RegionInput,
   UpdateProductOutput,
   UpdateProductError,
   Credentials | HttpClient.HttpClient
@@ -4173,7 +4174,7 @@ export type UpdateProvisionedProductError =
  * You can check the status of this request using DescribeRecord.
  */
 export const updateProvisionedProduct: API.OperationMethod<
-  UpdateProvisionedProductInput,
+  UpdateProvisionedProductInput & RegionInput,
   UpdateProvisionedProductOutput,
   UpdateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -4197,7 +4198,7 @@ export type UpdateProvisionedProductPropertiesError =
  * Requests updates to the properties of the specified provisioned product.
  */
 export const updateProvisionedProductProperties: API.OperationMethod<
-  UpdateProvisionedProductPropertiesInput,
+  UpdateProvisionedProductPropertiesInput & RegionInput,
   UpdateProvisionedProductPropertiesOutput,
   UpdateProvisionedProductPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4222,7 +4223,7 @@ export type UpdateProvisioningArtifactError =
  * You cannot update a provisioning artifact for a product that was shared with you.
  */
 export const updateProvisioningArtifact: API.OperationMethod<
-  UpdateProvisioningArtifactInput,
+  UpdateProvisioningArtifactInput & RegionInput,
   UpdateProvisioningArtifactOutput,
   UpdateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -4245,7 +4246,7 @@ export type UpdateServiceActionError =
  * Updates a self-service action.
  */
 export const updateServiceAction: API.OperationMethod<
-  UpdateServiceActionInput,
+  UpdateServiceActionInput & RegionInput,
   UpdateServiceActionOutput,
   UpdateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -4270,7 +4271,7 @@ export type UpdateTagOptionError =
  * Updates the specified TagOption.
  */
 export const updateTagOption: API.OperationMethod<
-  UpdateTagOptionInput,
+  UpdateTagOptionInput & RegionInput,
   UpdateTagOptionOutput,
   UpdateTagOptionError,
   Credentials | HttpClient.HttpClient

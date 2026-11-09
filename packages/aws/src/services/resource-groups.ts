@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -558,7 +559,7 @@ export type CancelTagSyncTaskError =
  * - `resource-groups:DeleteGroup`
  */
 export const cancelTagSyncTask: API.OperationMethod<
-  CancelTagSyncTaskInput,
+  CancelTagSyncTaskInput & RegionInput,
   CancelTagSyncTaskResponse,
   CancelTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type CreateGroupError =
  * - `resource-groups:CreateGroup`
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupInput,
+  CreateGroupInput & RegionInput,
   CreateGroupOutput,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -643,7 +644,7 @@ export type DeleteGroupError =
  * - `resource-groups:DeleteGroup`
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupInput,
+  DeleteGroupInput & RegionInput,
   DeleteGroupOutput,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -676,7 +677,7 @@ export type GetAccountSettingsError =
  * Retrieves the current status of optional features in Resource Groups.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsOutput,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -715,7 +716,7 @@ export type GetGroupError =
  * - `resource-groups:GetGroup`
  */
 export const getGroup: API.OperationMethod<
-  GetGroupInput,
+  GetGroupInput & RegionInput,
   GetGroupOutput,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -756,7 +757,7 @@ export type GetGroupConfigurationError =
  * - `resource-groups:GetGroupConfiguration`
  */
 export const getGroupConfiguration: API.OperationMethod<
-  GetGroupConfigurationInput,
+  GetGroupConfigurationInput & RegionInput,
   GetGroupConfigurationOutput,
   GetGroupConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type GetGroupQueryError =
  * - `resource-groups:GetGroupQuery`
  */
 export const getGroupQuery: API.OperationMethod<
-  GetGroupQueryInput,
+  GetGroupQueryInput & RegionInput,
   GetGroupQueryOutput,
   GetGroupQueryError,
   Credentials | HttpClient.HttpClient
@@ -839,7 +840,7 @@ export type GetTagsError =
  * - `resource-groups:GetTags`
  */
 export const getTags: API.OperationMethod<
-  GetTagsInput,
+  GetTagsInput & RegionInput,
   GetTagsOutput,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -880,7 +881,7 @@ export type GetTagSyncTaskError =
  * - `resource-groups:GetTagSyncTask` on the application group
  */
 export const getTagSyncTask: API.OperationMethod<
-  GetTagSyncTaskInput,
+  GetTagSyncTaskInput & RegionInput,
   GetTagSyncTaskOutput,
   GetTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type GroupResourcesError =
  * - `resource-groups:GroupResources`
  */
 export const groupResources: API.OperationMethod<
-  GroupResourcesInput,
+  GroupResourcesInput & RegionInput,
   GroupResourcesOutput,
   GroupResourcesError,
   Credentials | HttpClient.HttpClient
@@ -967,7 +968,7 @@ export type ListGroupingStatusesError =
  * each resource in the specified application group.
  */
 export const listGroupingStatuses: API.PaginatedOperationMethod<
-  ListGroupingStatusesInput,
+  ListGroupingStatusesInput & RegionInput,
   ListGroupingStatusesOutput,
   ListGroupingStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -1022,7 +1023,7 @@ export type ListGroupResourcesError =
  * - `tag:GetResources`
  */
 export const listGroupResources: API.PaginatedOperationMethod<
-  ListGroupResourcesInput,
+  ListGroupResourcesInput & RegionInput,
   ListGroupResourcesOutput,
   ListGroupResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1069,7 +1070,7 @@ export type ListGroupsError =
  * - `resource-groups:ListGroups`
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsInput,
+  ListGroupsInput & RegionInput,
   ListGroupsOutput,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1116,7 +1117,7 @@ export type ListTagSyncTasksError =
  * or * if using no filters
  */
 export const listTagSyncTasks: API.PaginatedOperationMethod<
-  ListTagSyncTasksInput,
+  ListTagSyncTasksInput & RegionInput,
   ListTagSyncTasksOutput,
   ListTagSyncTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1165,7 +1166,7 @@ export type PutGroupConfigurationError =
  * - `resource-groups:PutGroupConfiguration`
  */
 export const putGroupConfiguration: API.OperationMethod<
-  PutGroupConfigurationInput,
+  PutGroupConfigurationInput & RegionInput,
   PutGroupConfigurationOutput,
   PutGroupConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1213,7 +1214,7 @@ export type SearchResourcesError =
  * - `tag:GetResources`
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesInput,
+  SearchResourcesInput & RegionInput,
   SearchResourcesOutput,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1271,7 +1272,7 @@ export type StartTagSyncTaskError =
  * - `iam:PassRole` on the role provided in the request
  */
 export const startTagSyncTask: API.OperationMethod<
-  StartTagSyncTaskInput,
+  StartTagSyncTaskInput & RegionInput,
   StartTagSyncTaskOutput,
   StartTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1319,7 @@ export type TagError =
  * - `resource-groups:Tag`
  */
 export const tag: API.OperationMethod<
-  TagInput,
+  TagInput & RegionInput,
   TagOutput,
   TagError,
   Credentials | HttpClient.HttpClient
@@ -1361,7 +1362,7 @@ export type UngroupResourcesError =
  * - `resource-groups:UngroupResources`
  */
 export const ungroupResources: API.OperationMethod<
-  UngroupResourcesInput,
+  UngroupResourcesInput & RegionInput,
   UngroupResourcesOutput,
   UngroupResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1401,7 +1402,7 @@ export type UntagError =
  * - `resource-groups:Untag`
  */
 export const untag: API.OperationMethod<
-  UntagInput,
+  UntagInput & RegionInput,
   UntagOutput,
   UntagError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1440,7 @@ export type UpdateAccountSettingsError =
  * to change to `ACTIVE`.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1479,7 +1480,7 @@ export type UpdateGroupError =
  * - `resource-groups:UpdateGroup`
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupInput,
+  UpdateGroupInput & RegionInput,
   UpdateGroupOutput,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1521,7 @@ export type UpdateGroupQueryError =
  * - `resource-groups:UpdateGroupQuery`
  */
 export const updateGroupQuery: API.OperationMethod<
-  UpdateGroupQueryInput,
+  UpdateGroupQueryInput & RegionInput,
   UpdateGroupQueryOutput,
   UpdateGroupQueryError,
   Credentials | HttpClient.HttpClient

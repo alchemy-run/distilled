@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1929,7 +1930,7 @@ export type AcceptNetworkFirewallTransitGatewayAttachmentError =
  * It can take several minutes for the attachment acceptance to complete and the firewall to become available.
  */
 export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  AcceptNetworkFirewallTransitGatewayAttachmentRequest,
+  AcceptNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   AcceptNetworkFirewallTransitGatewayAttachmentResponse,
   AcceptNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1968,7 +1969,7 @@ export type AssociateAvailabilityZonesError =
  * After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
  */
 export const associateAvailabilityZones: API.OperationMethod<
-  AssociateAvailabilityZonesRequest,
+  AssociateAvailabilityZonesRequest & RegionInput,
   AssociateAvailabilityZonesResponse,
   AssociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
@@ -2008,7 +2009,7 @@ export type AssociateFirewallPolicyError =
  * firewalls.
  */
 export const associateFirewallPolicy: API.OperationMethod<
-  AssociateFirewallPolicyRequest,
+  AssociateFirewallPolicyRequest & RegionInput,
   AssociateFirewallPolicyResponse,
   AssociateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2049,7 +2050,7 @@ export type AssociateSubnetsError =
  * zone through the firewall endpoint.
  */
 export const associateSubnets: API.OperationMethod<
-  AssociateSubnetsRequest,
+  AssociateSubnetsRequest & RegionInput,
   AssociateSubnetsResponse,
   AssociateSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -2084,7 +2085,7 @@ export type AttachRuleGroupsToProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
-  AttachRuleGroupsToProxyConfigurationRequest,
+  AttachRuleGroupsToProxyConfigurationRequest & RegionInput,
   AttachRuleGroupsToProxyConfigurationResponse,
   AttachRuleGroupsToProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type CreateContainerAssociationError =
  * Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
  */
 export const createContainerAssociation: API.OperationMethod<
-  CreateContainerAssociationRequest,
+  CreateContainerAssociationRequest & RegionInput,
   CreateContainerAssociationResponse,
   CreateContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2162,7 +2163,7 @@ export type CreateFirewallError =
  * To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
  */
 export const createFirewall: API.OperationMethod<
-  CreateFirewallRequest,
+  CreateFirewallRequest & RegionInput,
   CreateFirewallResponse,
   CreateFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2199,7 +2200,7 @@ export type CreateFirewallPolicyError =
  * multiple firewalls.
  */
 export const createFirewallPolicy: API.OperationMethod<
-  CreateFirewallPolicyRequest,
+  CreateFirewallPolicyRequest & RegionInput,
   CreateFirewallPolicyResponse,
   CreateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2238,7 +2239,7 @@ export type CreateProxyError =
  * To retrieve information about proxies, use ListProxies and DescribeProxy.
  */
 export const createProxy: API.OperationMethod<
-  CreateProxyRequest,
+  CreateProxyRequest & RegionInput,
   CreateProxyResponse,
   CreateProxyError,
   Credentials | HttpClient.HttpClient
@@ -2277,7 +2278,7 @@ export type CreateProxyConfigurationError =
  * To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
  */
 export const createProxyConfiguration: API.OperationMethod<
-  CreateProxyConfigurationRequest,
+  CreateProxyConfigurationRequest & RegionInput,
   CreateProxyConfigurationResponse,
   CreateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type CreateProxyRuleGroupError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRuleGroup: API.OperationMethod<
-  CreateProxyRuleGroupRequest,
+  CreateProxyRuleGroupRequest & RegionInput,
   CreateProxyRuleGroupResponse,
   CreateProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2349,7 +2350,7 @@ export type CreateProxyRulesError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRules: API.OperationMethod<
-  CreateProxyRulesRequest,
+  CreateProxyRulesRequest & RegionInput,
   CreateProxyRulesResponse,
   CreateProxyRulesError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type CreateRuleGroupError =
  * `RuleGroup` or `Rules`.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type CreateTLSInspectionConfigurationError =
  * inspection configurations in the *Network Firewall Developer Guide*.
  */
 export const createTLSInspectionConfiguration: API.OperationMethod<
-  CreateTLSInspectionConfigurationRequest,
+  CreateTLSInspectionConfigurationRequest & RegionInput,
   CreateTLSInspectionConfigurationResponse,
   CreateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type CreateVpcEndpointAssociationError =
  * Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the `Firewall` itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
  */
 export const createVpcEndpointAssociation: API.OperationMethod<
-  CreateVpcEndpointAssociationRequest,
+  CreateVpcEndpointAssociationRequest & RegionInput,
   CreateVpcEndpointAssociationResponse,
   CreateVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type DeleteContainerAssociationError =
  * container association while a rule group references it.
  */
 export const deleteContainerAssociation: API.OperationMethod<
-  DeleteContainerAssociationRequest,
+  DeleteContainerAssociationRequest & RegionInput,
   DeleteContainerAssociationResponse,
   DeleteContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type DeleteFirewallError =
  * then delete the firewall by calling DeleteFirewall.
  */
 export const deleteFirewall: API.OperationMethod<
-  DeleteFirewallRequest,
+  DeleteFirewallRequest & RegionInput,
   DeleteFirewallResponse,
   DeleteFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2569,7 +2570,7 @@ export type DeleteFirewallPolicyError =
  * Deletes the specified FirewallPolicy.
  */
 export const deleteFirewallPolicy: API.OperationMethod<
-  DeleteFirewallPolicyRequest,
+  DeleteFirewallPolicyRequest & RegionInput,
   DeleteFirewallPolicyResponse,
   DeleteFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2605,7 +2606,7 @@ export type DeleteNetworkFirewallTransitGatewayAttachmentError =
  * After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
  */
 export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  DeleteNetworkFirewallTransitGatewayAttachmentRequest,
+  DeleteNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   DeleteNetworkFirewallTransitGatewayAttachmentResponse,
   DeleteNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2647,7 @@ export type DeleteProxyError =
  * Detaches a Proxy configuration from a NAT Gateway.
  */
 export const deleteProxy: API.OperationMethod<
-  DeleteProxyRequest,
+  DeleteProxyRequest & RegionInput,
   DeleteProxyResponse,
   DeleteProxyError,
   Credentials | HttpClient.HttpClient
@@ -2677,7 +2678,7 @@ export type DeleteProxyConfigurationError =
  * Deletes the specified ProxyConfiguration.
  */
 export const deleteProxyConfiguration: API.OperationMethod<
-  DeleteProxyConfigurationRequest,
+  DeleteProxyConfigurationRequest & RegionInput,
   DeleteProxyConfigurationResponse,
   DeleteProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2707,7 +2708,7 @@ export type DeleteProxyRuleGroupError =
  * Deletes the specified ProxyRuleGroup.
  */
 export const deleteProxyRuleGroup: API.OperationMethod<
-  DeleteProxyRuleGroupRequest,
+  DeleteProxyRuleGroupRequest & RegionInput,
   DeleteProxyRuleGroupResponse,
   DeleteProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2737,7 +2738,7 @@ export type DeleteProxyRulesError =
  * Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
  */
 export const deleteProxyRules: API.OperationMethod<
-  DeleteProxyRulesRequest,
+  DeleteProxyRulesRequest & RegionInput,
   DeleteProxyRulesResponse,
   DeleteProxyRulesError,
   Credentials | HttpClient.HttpClient
@@ -2768,7 +2769,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy that you created in a PutResourcePolicy request.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type DeleteRuleGroupError =
  * Deletes the specified RuleGroup.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2834,7 +2835,7 @@ export type DeleteTLSInspectionConfigurationError =
  * Deletes the specified TLSInspectionConfiguration.
  */
 export const deleteTLSInspectionConfiguration: API.OperationMethod<
-  DeleteTLSInspectionConfigurationRequest,
+  DeleteTLSInspectionConfigurationRequest & RegionInput,
   DeleteTLSInspectionConfigurationResponse,
   DeleteTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2873,7 +2874,7 @@ export type DeleteVpcEndpointAssociationError =
  * you can remove the endpoint association safely.
  */
 export const deleteVpcEndpointAssociation: API.OperationMethod<
-  DeleteVpcEndpointAssociationRequest,
+  DeleteVpcEndpointAssociationRequest & RegionInput,
   DeleteVpcEndpointAssociationResponse,
   DeleteVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2904,7 +2905,7 @@ export type DescribeContainerAssociationError =
  * Retrieves the configuration and status of a container association.
  */
 export const describeContainerAssociation: API.OperationMethod<
-  DescribeContainerAssociationRequest,
+  DescribeContainerAssociationRequest & RegionInput,
   DescribeContainerAssociationResponse,
   DescribeContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2934,7 +2935,7 @@ export type DescribeFirewallError =
  * Returns the data objects for the specified firewall.
  */
 export const describeFirewall: API.OperationMethod<
-  DescribeFirewallRequest,
+  DescribeFirewallRequest & RegionInput,
   DescribeFirewallResponse,
   DescribeFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2965,7 +2966,7 @@ export type DescribeFirewallMetadataError =
  * currently in use.
  */
 export const describeFirewallMetadata: API.OperationMethod<
-  DescribeFirewallMetadataRequest,
+  DescribeFirewallMetadataRequest & RegionInput,
   DescribeFirewallMetadataResponse,
   DescribeFirewallMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2995,7 +2996,7 @@ export type DescribeFirewallPolicyError =
  * Returns the data objects for the specified firewall policy.
  */
 export const describeFirewallPolicy: API.OperationMethod<
-  DescribeFirewallPolicyRequest,
+  DescribeFirewallPolicyRequest & RegionInput,
   DescribeFirewallPolicyResponse,
   DescribeFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3026,7 @@ export type DescribeFlowOperationError =
  * Returns key information about a specific flow operation.
  */
 export const describeFlowOperation: API.OperationMethod<
-  DescribeFlowOperationRequest,
+  DescribeFlowOperationRequest & RegionInput,
   DescribeFlowOperationResponse,
   DescribeFlowOperationError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type DescribeLoggingConfigurationError =
  * Returns the logging configuration for the specified firewall.
  */
 export const describeLoggingConfiguration: API.OperationMethod<
-  DescribeLoggingConfigurationRequest,
+  DescribeLoggingConfigurationRequest & RegionInput,
   DescribeLoggingConfigurationResponse,
   DescribeLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3085,7 +3086,7 @@ export type DescribeProxyError =
  * Returns the data objects for the specified proxy.
  */
 export const describeProxy: API.OperationMethod<
-  DescribeProxyRequest,
+  DescribeProxyRequest & RegionInput,
   DescribeProxyResponse,
   DescribeProxyError,
   Credentials | HttpClient.HttpClient
@@ -3115,7 +3116,7 @@ export type DescribeProxyConfigurationError =
  * Returns the data objects for the specified proxy configuration.
  */
 export const describeProxyConfiguration: API.OperationMethod<
-  DescribeProxyConfigurationRequest,
+  DescribeProxyConfigurationRequest & RegionInput,
   DescribeProxyConfigurationResponse,
   DescribeProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3145,7 +3146,7 @@ export type DescribeProxyRuleError =
  * Returns the data objects for the specified proxy configuration for the specified proxy rule group.
  */
 export const describeProxyRule: API.OperationMethod<
-  DescribeProxyRuleRequest,
+  DescribeProxyRuleRequest & RegionInput,
   DescribeProxyRuleResponse,
   DescribeProxyRuleError,
   Credentials | HttpClient.HttpClient
@@ -3175,7 +3176,7 @@ export type DescribeProxyRuleGroupError =
  * Returns the data objects for the specified proxy rule group.
  */
 export const describeProxyRuleGroup: API.OperationMethod<
-  DescribeProxyRuleGroupRequest,
+  DescribeProxyRuleGroupRequest & RegionInput,
   DescribeProxyRuleGroupResponse,
   DescribeProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3205,7 +3206,7 @@ export type DescribeResourcePolicyError =
  * Retrieves a resource policy that you created in a PutResourcePolicy request.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3235,7 +3236,7 @@ export type DescribeRuleGroupError =
  * Returns the data objects for the specified rule group.
  */
 export const describeRuleGroup: API.OperationMethod<
-  DescribeRuleGroupRequest,
+  DescribeRuleGroupRequest & RegionInput,
   DescribeRuleGroupResponse,
   DescribeRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3268,7 @@ export type DescribeRuleGroupMetadataError =
  * You can retrieve all objects for a rule group by calling DescribeRuleGroup.
  */
 export const describeRuleGroupMetadata: API.OperationMethod<
-  DescribeRuleGroupMetadataRequest,
+  DescribeRuleGroupMetadataRequest & RegionInput,
   DescribeRuleGroupMetadataResponse,
   DescribeRuleGroupMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3301,7 +3302,7 @@ export type DescribeRuleGroupSummaryError =
  * To modify how threat information appears in summaries, use the `SummaryConfiguration` parameter in UpdateRuleGroup.
  */
 export const describeRuleGroupSummary: API.OperationMethod<
-  DescribeRuleGroupSummaryRequest,
+  DescribeRuleGroupSummaryRequest & RegionInput,
   DescribeRuleGroupSummaryResponse,
   DescribeRuleGroupSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type DescribeTLSInspectionConfigurationError =
  * Returns the data objects for the specified TLS inspection configuration.
  */
 export const describeTLSInspectionConfiguration: API.OperationMethod<
-  DescribeTLSInspectionConfigurationRequest,
+  DescribeTLSInspectionConfigurationRequest & RegionInput,
   DescribeTLSInspectionConfigurationResponse,
   DescribeTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type DescribeVpcEndpointAssociationError =
  * Returns the data object for the specified VPC endpoint association.
  */
 export const describeVpcEndpointAssociation: API.OperationMethod<
-  DescribeVpcEndpointAssociationRequest,
+  DescribeVpcEndpointAssociationRequest & RegionInput,
   DescribeVpcEndpointAssociationResponse,
   DescribeVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type DetachRuleGroupsFromProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
-  DetachRuleGroupsFromProxyConfigurationRequest,
+  DetachRuleGroupsFromProxyConfigurationRequest & RegionInput,
   DetachRuleGroupsFromProxyConfigurationResponse,
   DetachRuleGroupsFromProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3429,7 +3430,7 @@ export type DisassociateAvailabilityZonesError =
  * To verify the status of your Availability Zone changes, use DescribeFirewall.
  */
 export const disassociateAvailabilityZones: API.OperationMethod<
-  DisassociateAvailabilityZonesRequest,
+  DisassociateAvailabilityZonesRequest & RegionInput,
   DisassociateAvailabilityZonesResponse,
   DisassociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3466,7 @@ export type DisassociateSubnetsError =
  * were providing.
  */
 export const disassociateSubnets: API.OperationMethod<
-  DisassociateSubnetsRequest,
+  DisassociateSubnetsRequest & RegionInput,
   DisassociateSubnetsResponse,
   DisassociateSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type GetAnalysisReportResultsError =
  * For more information, see AnalysisTypeReportResult.
  */
 export const getAnalysisReportResults: API.PaginatedOperationMethod<
-  GetAnalysisReportResultsRequest,
+  GetAnalysisReportResultsRequest & RegionInput,
   GetAnalysisReportResultsResponse,
   GetAnalysisReportResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3536,7 +3537,7 @@ export type ListAnalysisReportsError =
  * Returns a list of all traffic analysis reports generated within the last 30 days.
  */
 export const listAnalysisReports: API.PaginatedOperationMethod<
-  ListAnalysisReportsRequest,
+  ListAnalysisReportsRequest & RegionInput,
   ListAnalysisReportsResponse,
   ListAnalysisReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3573,7 +3574,7 @@ export type ListContainerAssociationsError =
  * parameter in subsequent requests to retrieve additional results.
  */
 export const listContainerAssociations: API.PaginatedOperationMethod<
-  ListContainerAssociationsRequest,
+  ListContainerAssociationsRequest & RegionInput,
   ListContainerAssociationsResponse,
   ListContainerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3606,7 +3607,7 @@ export type ListFirewallPoliciesError =
  * return the full list.
  */
 export const listFirewallPolicies: API.PaginatedOperationMethod<
-  ListFirewallPoliciesRequest,
+  ListFirewallPoliciesRequest & RegionInput,
   ListFirewallPoliciesResponse,
   ListFirewallPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3641,7 +3642,7 @@ export type ListFirewallsError =
  * might not return the full list.
  */
 export const listFirewalls: API.PaginatedOperationMethod<
-  ListFirewallsRequest,
+  ListFirewallsRequest & RegionInput,
   ListFirewallsResponse,
   ListFirewallsError,
   Credentials | HttpClient.HttpClient,
@@ -3678,7 +3679,7 @@ export type ListFlowOperationResultsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperationResults: API.PaginatedOperationMethod<
-  ListFlowOperationResultsRequest,
+  ListFlowOperationResultsRequest & RegionInput,
   ListFlowOperationResultsResponse,
   ListFlowOperationResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3721,7 +3722,7 @@ export type ListFlowOperationsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperations: API.PaginatedOperationMethod<
-  ListFlowOperationsRequest,
+  ListFlowOperationsRequest & RegionInput,
   ListFlowOperationsResponse,
   ListFlowOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -3759,7 +3760,7 @@ export type ListProxiesError =
  * return the full list.
  */
 export const listProxies: API.PaginatedOperationMethod<
-  ListProxiesRequest,
+  ListProxiesRequest & RegionInput,
   ListProxiesResponse,
   ListProxiesError,
   Credentials | HttpClient.HttpClient,
@@ -3793,7 +3794,7 @@ export type ListProxyConfigurationsError =
  * return the full list.
  */
 export const listProxyConfigurations: API.PaginatedOperationMethod<
-  ListProxyConfigurationsRequest,
+  ListProxyConfigurationsRequest & RegionInput,
   ListProxyConfigurationsResponse,
   ListProxyConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3832,7 +3833,7 @@ export type ListProxyRuleGroupsError =
  * return the full list.
  */
 export const listProxyRuleGroups: API.PaginatedOperationMethod<
-  ListProxyRuleGroupsRequest,
+  ListProxyRuleGroupsRequest & RegionInput,
   ListProxyRuleGroupsResponse,
   ListProxyRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3870,7 +3871,7 @@ export type ListRuleGroupsError =
  * full list.
  */
 export const listRuleGroups: API.PaginatedOperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3909,7 +3910,7 @@ export type ListTagsForResourceError =
  * policies, and rule groups.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3945,7 +3946,7 @@ export type ListTLSInspectionConfigurationsError =
  * Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
  */
 export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
-  ListTLSInspectionConfigurationsRequest,
+  ListTLSInspectionConfigurationsRequest & RegionInput,
   ListTLSInspectionConfigurationsResponse,
   ListTLSInspectionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3980,7 +3981,7 @@ export type ListVpcEndpointAssociationsError =
  * might not return the full list.
  */
 export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListVpcEndpointAssociationsRequest,
+  ListVpcEndpointAssociationsRequest & RegionInput,
   ListVpcEndpointAssociationsResponse,
   ListVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4026,7 +4027,7 @@ export type PutResourcePolicyError =
  * For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4063,7 +4064,7 @@ export type RejectNetworkFirewallTransitGatewayAttachmentError =
  * Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
  */
 export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  RejectNetworkFirewallTransitGatewayAttachmentRequest,
+  RejectNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   RejectNetworkFirewallTransitGatewayAttachmentResponse,
   RejectNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4103,7 +4104,7 @@ export type StartAnalysisReportError =
  * For information on the contents of a traffic analysis report, see AnalysisReport.
  */
 export const startAnalysisReport: API.OperationMethod<
-  StartAnalysisReportRequest,
+  StartAnalysisReportRequest & RegionInput,
   StartAnalysisReportResponse,
   StartAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4142,7 @@ export type StartFlowCaptureError =
  * Instead, we recommend you define more specific criteria with `FlowFilters`, like narrow IP ranges, ports, or protocols.
  */
 export const startFlowCapture: API.OperationMethod<
-  StartFlowCaptureRequest,
+  StartFlowCaptureRequest & RegionInput,
   StartFlowCaptureResponse,
   StartFlowCaptureError,
   Credentials | HttpClient.HttpClient
@@ -4177,7 +4178,7 @@ export type StartFlowFlushError =
  * before you perform a flush operation.
  */
 export const startFlowFlush: API.OperationMethod<
-  StartFlowFlushRequest,
+  StartFlowFlushRequest & RegionInput,
   StartFlowFlushResponse,
   StartFlowFlushError,
   Credentials | HttpClient.HttpClient
@@ -4213,7 +4214,7 @@ export type TagResourceError =
  * policies, and rule groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4250,7 +4251,7 @@ export type UntagResourceError =
  * firewalls, firewall policies, and rule groups.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4284,7 +4285,7 @@ export type UpdateAvailabilityZoneChangeProtectionError =
  * When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
  */
 export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
-  UpdateAvailabilityZoneChangeProtectionRequest,
+  UpdateAvailabilityZoneChangeProtectionRequest & RegionInput,
   UpdateAvailabilityZoneChangeProtectionResponse,
   UpdateAvailabilityZoneChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4318,7 +4319,7 @@ export type UpdateContainerAssociationError =
  * type after creation. Provide an update token to enable optimistic concurrency control.
  */
 export const updateContainerAssociation: API.OperationMethod<
-  UpdateContainerAssociationRequest,
+  UpdateContainerAssociationRequest & RegionInput,
   UpdateContainerAssociationResponse,
   UpdateContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4350,7 +4351,7 @@ export type UpdateFirewallAnalysisSettingsError =
  * Enables specific types of firewall analysis on a specific firewall you define.
  */
 export const updateFirewallAnalysisSettings: API.OperationMethod<
-  UpdateFirewallAnalysisSettingsRequest,
+  UpdateFirewallAnalysisSettingsRequest & RegionInput,
   UpdateFirewallAnalysisSettingsResponse,
   UpdateFirewallAnalysisSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4386,7 +4387,7 @@ export type UpdateFirewallDeleteProtectionError =
  * that's in use.
  */
 export const updateFirewallDeleteProtection: API.OperationMethod<
-  UpdateFirewallDeleteProtectionRequest,
+  UpdateFirewallDeleteProtectionRequest & RegionInput,
   UpdateFirewallDeleteProtectionResponse,
   UpdateFirewallDeleteProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4420,7 +4421,7 @@ export type UpdateFirewallDescriptionError =
  * identify the firewall when you're working with it.
  */
 export const updateFirewallDescription: API.OperationMethod<
-  UpdateFirewallDescriptionRequest,
+  UpdateFirewallDescriptionRequest & RegionInput,
   UpdateFirewallDescriptionResponse,
   UpdateFirewallDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4454,7 @@ export type UpdateFirewallEncryptionConfigurationError =
  * A complex type that contains settings for encryption of your firewall resources.
  */
 export const updateFirewallEncryptionConfiguration: API.OperationMethod<
-  UpdateFirewallEncryptionConfigurationRequest,
+  UpdateFirewallEncryptionConfigurationRequest & RegionInput,
   UpdateFirewallEncryptionConfigurationResponse,
   UpdateFirewallEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4486,7 +4487,7 @@ export type UpdateFirewallPolicyError =
  * Updates the properties of the specified firewall policy.
  */
 export const updateFirewallPolicy: API.OperationMethod<
-  UpdateFirewallPolicyRequest,
+  UpdateFirewallPolicyRequest & RegionInput,
   UpdateFirewallPolicyResponse,
   UpdateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4521,7 +4522,7 @@ export type UpdateFirewallPolicyChangeProtectionError =
  * from changes. This setting helps protect against accidentally changing a firewall that's in use.
  */
 export const updateFirewallPolicyChangeProtection: API.OperationMethod<
-  UpdateFirewallPolicyChangeProtectionRequest,
+  UpdateFirewallPolicyChangeProtectionRequest & RegionInput,
   UpdateFirewallPolicyChangeProtectionResponse,
   UpdateFirewallPolicyChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4578,7 +4579,7 @@ export type UpdateLoggingConfigurationError =
  * to this update operation.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4612,7 @@ export type UpdateProxyError =
  * Updates the properties of the specified proxy.
  */
 export const updateProxy: API.OperationMethod<
-  UpdateProxyRequest,
+  UpdateProxyRequest & RegionInput,
   UpdateProxyResponse,
   UpdateProxyError,
   Credentials | HttpClient.HttpClient
@@ -4642,7 +4643,7 @@ export type UpdateProxyConfigurationError =
  * Updates the properties of the specified proxy configuration.
  */
 export const updateProxyConfiguration: API.OperationMethod<
-  UpdateProxyConfigurationRequest,
+  UpdateProxyConfigurationRequest & RegionInput,
   UpdateProxyConfigurationResponse,
   UpdateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4672,7 +4673,7 @@ export type UpdateProxyRuleError =
  * Updates the properties of the specified proxy rule.
  */
 export const updateProxyRule: API.OperationMethod<
-  UpdateProxyRuleRequest,
+  UpdateProxyRuleRequest & RegionInput,
   UpdateProxyRuleResponse,
   UpdateProxyRuleError,
   Credentials | HttpClient.HttpClient
@@ -4702,7 +4703,7 @@ export type UpdateProxyRuleGroupPrioritiesError =
  * Updates proxy rule group priorities within a proxy configuration.
  */
 export const updateProxyRuleGroupPriorities: API.OperationMethod<
-  UpdateProxyRuleGroupPrioritiesRequest,
+  UpdateProxyRuleGroupPrioritiesRequest & RegionInput,
   UpdateProxyRuleGroupPrioritiesResponse,
   UpdateProxyRuleGroupPrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -4732,7 +4733,7 @@ export type UpdateProxyRulePrioritiesError =
  * Updates proxy rule priorities within a proxy rule group.
  */
 export const updateProxyRulePriorities: API.OperationMethod<
-  UpdateProxyRulePrioritiesRequest,
+  UpdateProxyRulePrioritiesRequest & RegionInput,
   UpdateProxyRulePrioritiesResponse,
   UpdateProxyRulePrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -4765,7 +4766,7 @@ export type UpdateProxySettingsError =
  * Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with `NoSourcePreservation` set to `TRUE`. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
  */
 export const updateProxySettings: API.OperationMethod<
-  UpdateProxySettingsRequest,
+  UpdateProxySettingsRequest & RegionInput,
   UpdateProxySettingsResponse,
   UpdateProxySettingsError,
   Credentials | HttpClient.HttpClient
@@ -4805,7 +4806,7 @@ export type UpdateRuleGroupError =
  * the updated object to this call.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4838,7 +4839,7 @@ export type UpdateSubnetChangeProtectionError =
  *
  */
 export const updateSubnetChangeProtection: API.OperationMethod<
-  UpdateSubnetChangeProtectionRequest,
+  UpdateSubnetChangeProtectionRequest & RegionInput,
   UpdateSubnetChangeProtectionResponse,
   UpdateSubnetChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4877,7 +4878,7 @@ export type UpdateTLSInspectionConfigurationError =
  * the updated object to this call.
  */
 export const updateTLSInspectionConfiguration: API.OperationMethod<
-  UpdateTLSInspectionConfigurationRequest,
+  UpdateTLSInspectionConfigurationRequest & RegionInput,
   UpdateTLSInspectionConfigurationResponse,
   UpdateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient

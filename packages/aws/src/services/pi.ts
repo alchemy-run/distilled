@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -430,7 +431,7 @@ export type CreatePerformanceAnalysisReportError =
  * DB instance.
  */
 export const createPerformanceAnalysisReport: API.OperationMethod<
-  CreatePerformanceAnalysisReportRequest,
+  CreatePerformanceAnalysisReportRequest & RegionInput,
   CreatePerformanceAnalysisReportResponse,
   CreatePerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +455,7 @@ export type DeletePerformanceAnalysisReportError =
  * Deletes a performance analysis report.
  */
 export const deletePerformanceAnalysisReport: API.OperationMethod<
-  DeletePerformanceAnalysisReportRequest,
+  DeletePerformanceAnalysisReportRequest & RegionInput,
   DeletePerformanceAnalysisReportResponse,
   DeletePerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type DescribeDimensionKeysError =
  * only the first 500 bytes are returned.
  */
 export const describeDimensionKeys: API.PaginatedOperationMethod<
-  DescribeDimensionKeysRequest,
+  DescribeDimensionKeysRequest & RegionInput,
   DescribeDimensionKeysResponse,
   DescribeDimensionKeysError,
   Credentials | HttpClient.HttpClient,
@@ -514,7 +515,7 @@ export type GetDimensionKeyDetailsError =
  * SQL statement text, lock snapshots, and execution plans.
  */
 export const getDimensionKeyDetails: API.OperationMethod<
-  GetDimensionKeyDetailsRequest,
+  GetDimensionKeyDetailsRequest & RegionInput,
   GetDimensionKeyDetailsResponse,
   GetDimensionKeyDetailsError,
   Credentials | HttpClient.HttpClient
@@ -541,7 +542,7 @@ export type GetPerformanceAnalysisReportError =
  * `description` and `recommendation` fields.
  */
 export const getPerformanceAnalysisReport: API.OperationMethod<
-  GetPerformanceAnalysisReportRequest,
+  GetPerformanceAnalysisReportRequest & RegionInput,
   GetPerformanceAnalysisReportResponse,
   GetPerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -566,7 +567,7 @@ export type GetResourceMetadataError =
  * that a feature is turned on or off on a specific DB instance.
  */
 export const getResourceMetadata: API.OperationMethod<
-  GetResourceMetadataRequest,
+  GetResourceMetadataRequest & RegionInput,
   GetResourceMetadataResponse,
   GetResourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -595,7 +596,7 @@ export type GetResourceMetricsError =
  * only the first 500 bytes are returned.
  */
 export const getResourceMetrics: API.PaginatedOperationMethod<
-  GetResourceMetricsRequest,
+  GetResourceMetricsRequest & RegionInput,
   GetResourceMetricsResponse,
   GetResourceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -625,7 +626,7 @@ export type ListAvailableResourceDimensionsError =
  * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
  */
 export const listAvailableResourceDimensions: API.PaginatedOperationMethod<
-  ListAvailableResourceDimensionsRequest,
+  ListAvailableResourceDimensionsRequest & RegionInput,
   ListAvailableResourceDimensionsResponse,
   ListAvailableResourceDimensionsError,
   Credentials | HttpClient.HttpClient,
@@ -655,7 +656,7 @@ export type ListAvailableResourceMetricsError =
  * Retrieve metrics of the specified types that can be queried for a specified DB instance.
  */
 export const listAvailableResourceMetrics: API.PaginatedOperationMethod<
-  ListAvailableResourceMetricsRequest,
+  ListAvailableResourceMetricsRequest & RegionInput,
   ListAvailableResourceMetricsResponse,
   ListAvailableResourceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -685,7 +686,7 @@ export type ListPerformanceAnalysisReportRecommendationsError =
  * Retrieves recommendations for a performance analysis report.
  */
 export const listPerformanceAnalysisReportRecommendations: API.PaginatedOperationMethod<
-  ListPerformanceAnalysisReportRecommendationsRequest,
+  ListPerformanceAnalysisReportRecommendationsRequest & RegionInput,
   ListPerformanceAnalysisReportRecommendationsResponse,
   ListPerformanceAnalysisReportRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -716,7 +717,7 @@ export type ListPerformanceAnalysisReportsError =
  * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
  */
 export const listPerformanceAnalysisReports: API.PaginatedOperationMethod<
-  ListPerformanceAnalysisReportsRequest,
+  ListPerformanceAnalysisReportsRequest & RegionInput,
   ListPerformanceAnalysisReportsResponse,
   ListPerformanceAnalysisReportsError,
   Credentials | HttpClient.HttpClient,
@@ -746,7 +747,7 @@ export type ListTagsForResourceError =
  * Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -770,7 +771,7 @@ export type TagResourceError =
  * Adds metadata tags to the Amazon RDS Performance Insights resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -794,7 +795,7 @@ export type UntagResourceError =
  * Deletes the metadata tags from the Amazon RDS Performance Insights resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

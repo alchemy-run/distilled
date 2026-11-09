@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -248,7 +249,7 @@ export type DeleteReportDefinitionError =
  * deleted.
  */
 export const deleteReportDefinition: API.OperationMethod<
-  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionRequest & RegionInput,
   DeleteReportDefinitionResponse,
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -268,7 +269,7 @@ export type DescribeReportDefinitionsError = InternalErrorException | CommonErro
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
 export const describeReportDefinitions: API.PaginatedOperationMethod<
-  DescribeReportDefinitionsRequest,
+  DescribeReportDefinitionsRequest & RegionInput,
   DescribeReportDefinitionsResponse,
   DescribeReportDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -298,7 +299,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified report definition.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -322,7 +323,7 @@ export type ModifyReportDefinitionError =
  * Allows you to programmatically update your report preferences.
  */
 export const modifyReportDefinition: API.OperationMethod<
-  ModifyReportDefinitionRequest,
+  ModifyReportDefinitionRequest & RegionInput,
   ModifyReportDefinitionResponse,
   ModifyReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -349,7 +350,7 @@ export type PutReportDefinitionError =
  * Creates a new report using the description that you provide.
  */
 export const putReportDefinition: API.OperationMethod<
-  PutReportDefinitionRequest,
+  PutReportDefinitionRequest & RegionInput,
   PutReportDefinitionResponse,
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -380,7 +381,7 @@ export type TagResourceError =
  * Associates a set of tags with a report definition.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -404,7 +405,7 @@ export type UntagResourceError =
  * Disassociates a set of tags from a report definition.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -600,7 +601,7 @@ export type CreateOAuth2TokenError =
  * (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
  */
 export const createOAuth2Token: API.OperationMethod<
-  CreateOAuth2TokenRequest,
+  CreateOAuth2TokenRequest & RegionInput,
   CreateOAuth2TokenResponse,
   CreateOAuth2TokenError,
   Credentials | HttpClient.HttpClient
@@ -631,7 +632,7 @@ export type CreateOAuth2TokenWithIAMError =
  * scoped to a resource that can be used to access AWS services from applications
  */
 export const createOAuth2TokenWithIAM: API.OperationMethod<
-  CreateOAuth2TokenWithIAMRequest,
+  CreateOAuth2TokenWithIAMRequest & RegionInput,
   CreateOAuth2TokenWithIAMResponse,
   CreateOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type DeleteConsoleAuthorizationConfigurationError =
  * Delete console authorization configuration with automatic scope detection
  */
 export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
-  DeleteConsoleAuthorizationConfigurationInput,
+  DeleteConsoleAuthorizationConfigurationInput & RegionInput,
   DeleteConsoleAuthorizationConfigurationOutput,
   DeleteConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -694,7 +695,7 @@ export type DeleteResourcePermissionStatementError =
  * Remove a permission statement from the account's SignIn resource-based policy
  */
 export const deleteResourcePermissionStatement: API.OperationMethod<
-  DeleteResourcePermissionStatementInput,
+  DeleteResourcePermissionStatementInput & RegionInput,
   DeleteResourcePermissionStatementOutput,
   DeleteResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
@@ -726,7 +727,7 @@ export type GetConsoleAuthorizationConfigurationError =
  * Get console authorization configuration with automatic scope detection
  */
 export const getConsoleAuthorizationConfiguration: API.OperationMethod<
-  GetConsoleAuthorizationConfigurationInput,
+  GetConsoleAuthorizationConfigurationInput & RegionInput,
   GetConsoleAuthorizationConfigurationOutput,
   GetConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -757,7 +758,7 @@ export type GetResourcePolicyError =
  * Retrieve the account's consolidated SignIn resource-based policy
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +798,7 @@ export type IntrospectOAuth2TokenWithIAMError =
  * omitted.
  */
 export const introspectOAuth2TokenWithIAM: API.OperationMethod<
-  IntrospectOAuth2TokenWithIAMRequest,
+  IntrospectOAuth2TokenWithIAMRequest & RegionInput,
   IntrospectOAuth2TokenWithIAMResponse,
   IntrospectOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -828,7 +829,7 @@ export type ListResourcePermissionStatementsError =
  * Retrieve all permission statements in the account's SignIn resource-based policy
  */
 export const listResourcePermissionStatements: API.PaginatedOperationMethod<
-  ListResourcePermissionStatementsInput,
+  ListResourcePermissionStatementsInput & RegionInput,
   ListResourcePermissionStatementsOutput,
   ListResourcePermissionStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -868,7 +869,7 @@ export type PutConsoleAuthorizationConfigurationError =
  * Enable console authorization configuration with automatic scope detection
  */
 export const putConsoleAuthorizationConfiguration: API.OperationMethod<
-  PutConsoleAuthorizationConfigurationInput,
+  PutConsoleAuthorizationConfigurationInput & RegionInput,
   PutConsoleAuthorizationConfigurationOutput,
   PutConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type PutResourcePermissionStatementError =
  * Create a permission statement in the account's SignIn resource-based policy
  */
 export const putResourcePermissionStatement: API.OperationMethod<
-  PutResourcePermissionStatementInput,
+  PutResourcePermissionStatementInput & RegionInput,
   PutResourcePermissionStatementOutput,
   PutResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +941,7 @@ export type RevokeOAuth2TokenWithIAMError =
  * still returns 200 OK with an empty body. Only the refresh_token type is accepted.
  */
 export const revokeOAuth2TokenWithIAM: API.OperationMethod<
-  RevokeOAuth2TokenWithIAMRequest,
+  RevokeOAuth2TokenWithIAMRequest & RegionInput,
   RevokeOAuth2TokenWithIAMResponse,
   RevokeOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient

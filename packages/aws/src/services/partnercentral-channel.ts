@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -681,7 +682,7 @@ export type AcceptChannelHandshakeError =
  * Accepts a pending channel handshake request from another AWS account.
  */
 export const acceptChannelHandshake: API.OperationMethod<
-  AcceptChannelHandshakeRequest,
+  AcceptChannelHandshakeRequest & RegionInput,
   AcceptChannelHandshakeResponse,
   AcceptChannelHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type CancelChannelHandshakeError =
  * Cancels a pending channel handshake request.
  */
 export const cancelChannelHandshake: API.OperationMethod<
-  CancelChannelHandshakeRequest,
+  CancelChannelHandshakeRequest & RegionInput,
   CancelChannelHandshakeResponse,
   CancelChannelHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type CreateChannelHandshakeError =
  * Creates a new channel handshake request to establish a partnership with another AWS account.
  */
 export const createChannelHandshake: API.OperationMethod<
-  CreateChannelHandshakeRequest,
+  CreateChannelHandshakeRequest & RegionInput,
   CreateChannelHandshakeResponse,
   CreateChannelHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -783,7 +784,7 @@ export type CreateProgramManagementAccountError =
  * Creates a new program management account for managing partner relationships.
  */
 export const createProgramManagementAccount: API.OperationMethod<
-  CreateProgramManagementAccountRequest,
+  CreateProgramManagementAccountRequest & RegionInput,
   CreateProgramManagementAccountResponse,
   CreateProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
@@ -819,7 +820,7 @@ export type CreateRelationshipError =
  * Creates a new partner relationship between accounts.
  */
 export const createRelationship: API.OperationMethod<
-  CreateRelationshipRequest,
+  CreateRelationshipRequest & RegionInput,
   CreateRelationshipResponse,
   CreateRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +855,7 @@ export type DeleteProgramManagementAccountError =
  * Deletes a program management account.
  */
 export const deleteProgramManagementAccount: API.OperationMethod<
-  DeleteProgramManagementAccountRequest,
+  DeleteProgramManagementAccountRequest & RegionInput,
   DeleteProgramManagementAccountResponse,
   DeleteProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type DeleteRelationshipError =
  * Deletes a partner relationship.
  */
 export const deleteRelationship: API.OperationMethod<
-  DeleteRelationshipRequest,
+  DeleteRelationshipRequest & RegionInput,
   DeleteRelationshipResponse,
   DeleteRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type GetRelationshipError =
  * Retrieves details of a specific partner relationship.
  */
 export const getRelationship: API.OperationMethod<
-  GetRelationshipRequest,
+  GetRelationshipRequest & RegionInput,
   GetRelationshipResponse,
   GetRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type ListChannelHandshakesError =
  * Lists channel handshakes based on specified criteria.
  */
 export const listChannelHandshakes: API.PaginatedOperationMethod<
-  ListChannelHandshakesRequest,
+  ListChannelHandshakesRequest & RegionInput,
   ListChannelHandshakesResponse,
   ListChannelHandshakesError,
   Credentials | HttpClient.HttpClient,
@@ -992,7 +993,7 @@ export type ListProgramManagementAccountsError =
  * Lists program management accounts based on specified criteria.
  */
 export const listProgramManagementAccounts: API.PaginatedOperationMethod<
-  ListProgramManagementAccountsRequest,
+  ListProgramManagementAccountsRequest & RegionInput,
   ListProgramManagementAccountsResponse,
   ListProgramManagementAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1031,7 +1032,7 @@ export type ListRelationshipsError =
  * Lists partner relationships based on specified criteria.
  */
 export const listRelationships: API.PaginatedOperationMethod<
-  ListRelationshipsRequest,
+  ListRelationshipsRequest & RegionInput,
   ListRelationshipsResponse,
   ListRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -1070,7 +1071,7 @@ export type ListTagsForResourceError =
  * Lists tags associated with a specific resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1102,7 +1103,7 @@ export type RejectChannelHandshakeError =
  * Rejects a pending channel handshake request.
  */
 export const rejectChannelHandshake: API.OperationMethod<
-  RejectChannelHandshakeRequest,
+  RejectChannelHandshakeRequest & RegionInput,
   RejectChannelHandshakeResponse,
   RejectChannelHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1136,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type UntagResourceError =
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1203,7 +1204,7 @@ export type UpdateProgramManagementAccountError =
  * Updates the properties of a program management account.
  */
 export const updateProgramManagementAccount: API.OperationMethod<
-  UpdateProgramManagementAccountRequest,
+  UpdateProgramManagementAccountRequest & RegionInput,
   UpdateProgramManagementAccountResponse,
   UpdateProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
@@ -1237,7 +1238,7 @@ export type UpdateRelationshipError =
  * Updates the properties of a partner relationship.
  */
 export const updateRelationship: API.OperationMethod<
-  UpdateRelationshipRequest,
+  UpdateRelationshipRequest & RegionInput,
   UpdateRelationshipResponse,
   UpdateRelationshipError,
   Credentials | HttpClient.HttpClient

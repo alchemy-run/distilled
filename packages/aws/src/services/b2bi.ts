@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1156,7 +1157,7 @@ export type CreateCapabilityError =
  * Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
 export const createCapability: API.OperationMethod<
-  CreateCapabilityRequest,
+  CreateCapabilityRequest & RegionInput,
   CreateCapabilityResponse,
   CreateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -1192,7 +1193,7 @@ export type CreatePartnershipError =
  * Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const createPartnership: API.OperationMethod<
-  CreatePartnershipRequest,
+  CreatePartnershipRequest & RegionInput,
   CreatePartnershipResponse,
   CreatePartnershipError,
   Credentials | HttpClient.HttpClient
@@ -1228,7 +1229,7 @@ export type CreateProfileError =
  * Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -1267,7 +1268,7 @@ export type CreateStarterMappingTemplateError =
  * Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
  */
 export const createStarterMappingTemplate: API.OperationMethod<
-  CreateStarterMappingTemplateRequest,
+  CreateStarterMappingTemplateRequest & RegionInput,
   CreateStarterMappingTemplateResponse,
   CreateStarterMappingTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1312,7 +1313,7 @@ export type CreateTransformerError =
  * - Use either the `inputConversion` or `outputConversion` in place of `ediType`
  */
 export const createTransformer: API.OperationMethod<
-  CreateTransformerRequest,
+  CreateTransformerRequest & RegionInput,
   CreateTransformerResponse,
   CreateTransformerError,
   Credentials | HttpClient.HttpClient
@@ -1347,7 +1348,7 @@ export type DeleteCapabilityError =
  * Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
 export const deleteCapability: API.OperationMethod<
-  DeleteCapabilityRequest,
+  DeleteCapabilityRequest & RegionInput,
   DeleteCapabilityResponse,
   DeleteCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -1381,7 +1382,7 @@ export type DeletePartnershipError =
  * Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const deletePartnership: API.OperationMethod<
-  DeletePartnershipRequest,
+  DeletePartnershipRequest & RegionInput,
   DeletePartnershipResponse,
   DeletePartnershipError,
   Credentials | HttpClient.HttpClient
@@ -1415,7 +1416,7 @@ export type DeleteProfileError =
  * Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -1449,7 +1450,7 @@ export type DeleteTransformerError =
  * Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
 export const deleteTransformer: API.OperationMethod<
-  DeleteTransformerRequest,
+  DeleteTransformerRequest & RegionInput,
   DeleteTransformerResponse,
   DeleteTransformerError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1492,7 @@ export type GenerateMappingError =
  * - Use the output from the `TestMapping` operation as either input or output for your GenerateMapping call, along with your sample file.
  */
 export const generateMapping: API.OperationMethod<
-  GenerateMappingRequest,
+  GenerateMappingRequest & RegionInput,
   GenerateMappingResponse,
   GenerateMappingError,
   Credentials | HttpClient.HttpClient
@@ -1522,7 +1523,7 @@ export type GetCapabilityError =
  * Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
 export const getCapability: API.OperationMethod<
-  GetCapabilityRequest,
+  GetCapabilityRequest & RegionInput,
   GetCapabilityResponse,
   GetCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type GetPartnershipError =
  * Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const getPartnership: API.OperationMethod<
-  GetPartnershipRequest,
+  GetPartnershipRequest & RegionInput,
   GetPartnershipResponse,
   GetPartnershipError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type GetProfileError =
  * Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -1618,7 +1619,7 @@ export type GetTransformerError =
  * Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
 export const getTransformer: API.OperationMethod<
-  GetTransformerRequest,
+  GetTransformerRequest & RegionInput,
   GetTransformerResponse,
   GetTransformerError,
   Credentials | HttpClient.HttpClient
@@ -1652,7 +1653,7 @@ export type GetTransformerJobError =
  * If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId` for a job that was started more than 30 days previously, you receive a 404 response.
  */
 export const getTransformerJob: API.OperationMethod<
-  GetTransformerJobRequest,
+  GetTransformerJobRequest & RegionInput,
   GetTransformerJobResponse,
   GetTransformerJobError,
   Credentials | HttpClient.HttpClient
@@ -1683,7 +1684,7 @@ export type ListCapabilitiesError =
  * Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
 export const listCapabilities: API.PaginatedOperationMethod<
-  ListCapabilitiesRequest,
+  ListCapabilitiesRequest & RegionInput,
   ListCapabilitiesResponse,
   ListCapabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1721,7 +1722,7 @@ export type ListPartnershipsError =
  * Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const listPartnerships: API.PaginatedOperationMethod<
-  ListPartnershipsRequest,
+  ListPartnershipsRequest & RegionInput,
   ListPartnershipsResponse,
   ListPartnershipsError,
   Credentials | HttpClient.HttpClient,
@@ -1759,7 +1760,7 @@ export type ListProfilesError =
  * Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1820,7 +1821,7 @@ export type ListTransformersError =
  * Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
 export const listTransformers: API.PaginatedOperationMethod<
-  ListTransformersRequest,
+  ListTransformersRequest & RegionInput,
   ListTransformersResponse,
   ListTransformersError,
   Credentials | HttpClient.HttpClient,
@@ -1863,7 +1864,7 @@ export type StartTransformerJobError =
  * The system stores transformer jobs for 30 days. During that period, you can run GetTransformerJob and supply its `transformerId` and `transformerJobId` to return details of the job.
  */
 export const startTransformerJob: API.OperationMethod<
-  StartTransformerJobRequest,
+  StartTransformerJobRequest & RegionInput,
   StartTransformerJobResponse,
   StartTransformerJobError,
   Credentials | HttpClient.HttpClient
@@ -1897,7 +1898,7 @@ export type TagResourceError =
  * There is no response returned from this call.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1928,7 +1929,7 @@ export type TestConversionError =
  * This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
  */
 export const testConversion: API.OperationMethod<
-  TestConversionRequest,
+  TestConversionRequest & RegionInput,
   TestConversionResponse,
   TestConversionError,
   Credentials | HttpClient.HttpClient
@@ -1960,7 +1961,7 @@ export type TestMappingError =
  * Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the `inputFileContent` parameter.
  */
 export const testMapping: API.OperationMethod<
-  TestMappingRequest,
+  TestMappingRequest & RegionInput,
   TestMappingResponse,
   TestMappingError,
   Credentials | HttpClient.HttpClient
@@ -1992,7 +1993,7 @@ export type TestParsingError =
  * Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
  */
 export const testParsing: API.OperationMethod<
-  TestParsingRequest,
+  TestParsingRequest & RegionInput,
   TestParsingResponse,
   TestParsingError,
   Credentials | HttpClient.HttpClient
@@ -2022,7 +2023,7 @@ export type UntagResourceError =
  * Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2050,7 +2051,7 @@ export type UpdateCapabilityError =
  * Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
 export const updateCapability: API.OperationMethod<
-  UpdateCapabilityRequest,
+  UpdateCapabilityRequest & RegionInput,
   UpdateCapabilityResponse,
   UpdateCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -2086,7 +2087,7 @@ export type UpdatePartnershipError =
  * Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const updatePartnership: API.OperationMethod<
-  UpdatePartnershipRequest,
+  UpdatePartnershipRequest & RegionInput,
   UpdatePartnershipResponse,
   UpdatePartnershipError,
   Credentials | HttpClient.HttpClient
@@ -2122,7 +2123,7 @@ export type UpdateProfileError =
  * Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   UpdateProfileResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -2158,7 +2159,7 @@ export type UpdateTransformerError =
  * Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
 export const updateTransformer: API.OperationMethod<
-  UpdateTransformerRequest,
+  UpdateTransformerRequest & RegionInput,
   UpdateTransformerResponse,
   UpdateTransformerError,
   Credentials | HttpClient.HttpClient

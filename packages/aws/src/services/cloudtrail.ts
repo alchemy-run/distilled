@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2030,7 +2031,7 @@ export type AddTagsError =
  * was created (also known as its home Region).
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -2085,7 +2086,7 @@ export type CancelQueryError =
  * the operation is not yet finished.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryRequest,
+  CancelQueryRequest & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -2133,7 +2134,7 @@ export type CreateChannelError =
  * from the partner or source that you specify.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2194,7 @@ export type CreateDashboardError =
  * For more information about dashboards, see CloudTrail Lake dashboards in the *CloudTrail User Guide*.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2245,7 +2246,7 @@ export type CreateEventDataStoreError =
  * Creates a new event data store.
  */
 export const createEventDataStore: API.OperationMethod<
-  CreateEventDataStoreRequest,
+  CreateEventDataStoreRequest & RegionInput,
   CreateEventDataStoreResponse,
   CreateEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -2320,7 +2321,7 @@ export type CreateTrailError =
  * Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
  */
 export const createTrail: API.OperationMethod<
-  CreateTrailRequest,
+  CreateTrailRequest & RegionInput,
   CreateTrailResponse,
   CreateTrailError,
   Credentials | HttpClient.HttpClient
@@ -2381,7 +2382,7 @@ export type DeleteChannelError =
  * Deletes a channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type DeleteDashboardError =
  * Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2460,7 +2461,7 @@ export type DeleteEventDataStoreError =
  * event data store in the `PENDING_DELETION` state does not incur costs.
  */
 export const deleteEventDataStore: API.OperationMethod<
-  DeleteEventDataStoreRequest,
+  DeleteEventDataStoreRequest & RegionInput,
   DeleteEventDataStoreResponse,
   DeleteEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -2503,7 +2504,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2555,7 +2556,7 @@ export type DeleteTrailError =
  * For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
  */
 export const deleteTrail: API.OperationMethod<
-  DeleteTrailRequest,
+  DeleteTrailRequest & RegionInput,
   DeleteTrailResponse,
   DeleteTrailError,
   Credentials | HttpClient.HttpClient
@@ -2600,7 +2601,7 @@ export type DeregisterOrganizationDelegatedAdminError =
  * an organization.
  */
 export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
-  DeregisterOrganizationDelegatedAdminRequest,
+  DeregisterOrganizationDelegatedAdminRequest & RegionInput,
   DeregisterOrganizationDelegatedAdminResponse,
   DeregisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
@@ -2650,7 +2651,7 @@ export type DescribeQueryError =
  * of a dashboard query for the specified `RefreshId`.
  */
 export const describeQuery: API.OperationMethod<
-  DescribeQueryRequest,
+  DescribeQueryRequest & RegionInput,
   DescribeQueryResponse,
   DescribeQueryError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type DescribeTrailsError =
  * account.
  */
 export const describeTrails: API.OperationMethod<
-  DescribeTrailsRequest,
+  DescribeTrailsRequest & RegionInput,
   DescribeTrailsResponse,
   DescribeTrailsError,
   Credentials | HttpClient.HttpClient
@@ -2733,7 +2734,7 @@ export type DisableFederationError =
  * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
  */
 export const disableFederation: API.OperationMethod<
-  DisableFederationRequest,
+  DisableFederationRequest & RegionInput,
   DisableFederationResponse,
   DisableFederationError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type EnableFederationError =
  * For more information about Lake query federation, see Federate an event data store.
  */
 export const enableFederation: API.OperationMethod<
-  EnableFederationRequest,
+  EnableFederationRequest & RegionInput,
   EnableFederationResponse,
   EnableFederationError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2860,7 @@ export type GenerateQueryError =
  * LLM response.
  */
 export const generateQuery: API.OperationMethod<
-  GenerateQueryRequest,
+  GenerateQueryRequest & RegionInput,
   GenerateQueryResponse,
   GenerateQueryError,
   Credentials | HttpClient.HttpClient
@@ -2895,7 +2896,7 @@ export type GetChannelError =
  * Returns information about a specific channel.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelRequest,
+  GetChannelRequest & RegionInput,
   GetChannelResponse,
   GetChannelError,
   Credentials | HttpClient.HttpClient
@@ -2925,7 +2926,7 @@ export type GetDashboardError =
  * Returns the specified dashboard.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardRequest,
+  GetDashboardRequest & RegionInput,
   GetDashboardResponse,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2958,7 +2959,7 @@ export type GetEventConfigurationError =
  * Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
  */
 export const getEventConfiguration: API.OperationMethod<
-  GetEventConfigurationRequest,
+  GetEventConfigurationRequest & RegionInput,
   GetEventConfigurationResponse,
   GetEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3001,7 +3002,7 @@ export type GetEventDataStoreError =
  * portion of the ARN.
  */
 export const getEventDataStore: API.OperationMethod<
-  GetEventDataStoreRequest,
+  GetEventDataStoreRequest & RegionInput,
   GetEventDataStoreResponse,
   GetEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -3056,7 +3057,7 @@ export type GetEventSelectorsError =
  * - Logging network activity events
  */
 export const getEventSelectors: API.OperationMethod<
-  GetEventSelectorsRequest,
+  GetEventSelectorsRequest & RegionInput,
   GetEventSelectorsResponse,
   GetEventSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type GetImportError =
  * Returns information about a specific import.
  */
 export const getImport: API.OperationMethod<
-  GetImportRequest,
+  GetImportRequest & RegionInput,
   GetImportResponse,
   GetImportError,
   Credentials | HttpClient.HttpClient
@@ -3135,7 +3136,7 @@ export type GetInsightSelectorsError =
  * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
  */
 export const getInsightSelectors: API.OperationMethod<
-  GetInsightSelectorsRequest,
+  GetInsightSelectorsRequest & RegionInput,
   GetInsightSelectorsResponse,
   GetInsightSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -3181,7 +3182,7 @@ export type GetQueryResultsError =
  * returned by the `StartQuery` operation.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsRequest,
+  GetQueryResultsRequest & RegionInput,
   GetQueryResultsResponse,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3222,7 +3223,7 @@ export type GetResourcePolicyError =
  * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3255,7 +3256,7 @@ export type GetTrailError =
  * Returns settings information for a specified trail.
  */
 export const getTrail: API.OperationMethod<
-  GetTrailRequest,
+  GetTrailRequest & RegionInput,
   GetTrailResponse,
   GetTrailError,
   Credentials | HttpClient.HttpClient
@@ -3291,7 +3292,7 @@ export type GetTrailStatusError =
  * Region.
  */
 export const getTrailStatus: API.OperationMethod<
-  GetTrailStatusRequest,
+  GetTrailStatusRequest & RegionInput,
   GetTrailStatusResponse,
   GetTrailStatusError,
   Credentials | HttpClient.HttpClient
@@ -3323,7 +3324,7 @@ export type ListChannelsError =
  * Lists the channels in the current account, and their source names.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -3355,7 +3356,7 @@ export type ListDashboardsError = UnsupportedOperationException | CommonErrors;
  * Returns information about all dashboards in the account, in the current Region.
  */
 export const listDashboards: API.OperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient
@@ -3384,7 +3385,7 @@ export type ListEventDataStoresError =
  * Region.
  */
 export const listEventDataStores: API.PaginatedOperationMethod<
-  ListEventDataStoresRequest,
+  ListEventDataStoresRequest & RegionInput,
   ListEventDataStoresResponse,
   ListEventDataStoresError,
   Credentials | HttpClient.HttpClient,
@@ -3423,7 +3424,7 @@ export type ListImportFailuresError =
  * Returns a list of failures for the specified import.
  */
 export const listImportFailures: API.PaginatedOperationMethod<
-  ListImportFailuresRequest,
+  ListImportFailuresRequest & RegionInput,
   ListImportFailuresResponse,
   ListImportFailuresError,
   Credentials | HttpClient.HttpClient,
@@ -3464,7 +3465,7 @@ export type ListImportsError =
  * `ImportStatus` or `Destination`.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -3521,7 +3522,7 @@ export type ListInsightsDataError =
  * organization trails.
  */
 export const listInsightsData: API.PaginatedOperationMethod<
-  ListInsightsDataRequest,
+  ListInsightsDataRequest & RegionInput,
   ListInsightsDataResponse,
   ListInsightsDataError,
   Credentials | HttpClient.HttpClient,
@@ -3581,7 +3582,7 @@ export type ListInsightsMetricDataError =
  * organization trails.
  */
 export const listInsightsMetricData: API.PaginatedOperationMethod<
-  ListInsightsMetricDataRequest,
+  ListInsightsMetricDataRequest & RegionInput,
   ListInsightsMetricDataResponse,
   ListInsightsMetricDataError,
   Credentials | HttpClient.HttpClient,
@@ -3624,7 +3625,7 @@ export type ListPublicKeysError =
  * key.
  */
 export const listPublicKeys: API.PaginatedOperationMethod<
-  ListPublicKeysRequest,
+  ListPublicKeysRequest & RegionInput,
   ListPublicKeysResponse,
   ListPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3675,7 +3676,7 @@ export type ListQueriesError =
  * `CANCELLED`.
  */
 export const listQueries: API.PaginatedOperationMethod<
-  ListQueriesRequest,
+  ListQueriesRequest & RegionInput,
   ListQueriesResponse,
   ListQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -3726,7 +3727,7 @@ export type ListTagsError =
  * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -3768,7 +3769,7 @@ export type ListTrailsError =
  * Lists trails that are in the current account.
  */
 export const listTrails: API.PaginatedOperationMethod<
-  ListTrailsRequest,
+  ListTrailsRequest & RegionInput,
   ListTrailsResponse,
   ListTrailsError,
   Credentials | HttpClient.HttpClient,
@@ -3835,7 +3836,7 @@ export type LookupEventsError =
  * this limit is exceeded, a throttling error occurs.
  */
 export const lookupEvents: API.PaginatedOperationMethod<
-  LookupEventsRequest,
+  LookupEventsRequest & RegionInput,
   LookupEventsResponse,
   LookupEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3890,7 +3891,7 @@ export type PutEventConfigurationError =
  * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
  */
 export const putEventConfiguration: API.OperationMethod<
-  PutEventConfigurationRequest,
+  PutEventConfigurationRequest & RegionInput,
   PutEventConfigurationResponse,
   PutEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3998,7 +3999,7 @@ export type PutEventSelectorsError =
  * Guide.
  */
 export const putEventSelectors: API.OperationMethod<
-  PutEventSelectorsRequest,
+  PutEventSelectorsRequest & RegionInput,
   PutEventSelectorsResponse,
   PutEventSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -4075,7 +4076,7 @@ export type PutInsightSelectorsError =
  * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
  */
 export const putInsightSelectors: API.OperationMethod<
-  PutInsightSelectorsRequest,
+  PutInsightSelectorsRequest & RegionInput,
   PutInsightSelectorsResponse,
   PutInsightSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -4123,7 +4124,7 @@ export type PutResourcePolicyError =
  * in the *CloudTrail User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4166,7 +4167,7 @@ export type RegisterOrganizationDelegatedAdminError =
  * Registers an organization's member account as the CloudTrail delegated administrator.
  */
 export const registerOrganizationDelegatedAdmin: API.OperationMethod<
-  RegisterOrganizationDelegatedAdminRequest,
+  RegisterOrganizationDelegatedAdminRequest & RegionInput,
   RegisterOrganizationDelegatedAdminResponse,
   RegisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
@@ -4217,7 +4218,7 @@ export type RemoveTagsError =
  * Removes the specified tags from a trail, event data store, dashboard, or channel.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -4272,7 +4273,7 @@ export type RestoreEventDataStoreError =
  * minutes, depending on the size of the event data store.
  */
 export const restoreEventDataStore: API.OperationMethod<
-  RestoreEventDataStoreRequest,
+  RestoreEventDataStoreRequest & RegionInput,
   RestoreEventDataStoreResponse,
   RestoreEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4314,7 @@ export type SearchSampleQueriesError =
  * To search for sample queries, provide a natural language `SearchPhrase` in English.
  */
 export const searchSampleQueries: API.OperationMethod<
-  SearchSampleQueriesRequest,
+  SearchSampleQueriesRequest & RegionInput,
   SearchSampleQueriesResponse,
   SearchSampleQueriesError,
   Credentials | HttpClient.HttpClient
@@ -4348,7 +4349,7 @@ export type StartDashboardRefreshError =
  * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
  */
 export const startDashboardRefresh: API.OperationMethod<
-  StartDashboardRefreshRequest,
+  StartDashboardRefreshRequest & RegionInput,
   StartDashboardRefreshResponse,
   StartDashboardRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4389,7 +4390,7 @@ export type StartEventDataStoreIngestionError =
  * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
  */
 export const startEventDataStoreIngestion: API.OperationMethod<
-  StartEventDataStoreIngestionRequest,
+  StartEventDataStoreIngestionRequest & RegionInput,
   StartEventDataStoreIngestionResponse,
   StartEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4454,7 @@ export type StartImportError =
  * account for the organization.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -4501,7 +4502,7 @@ export type StartLoggingError =
  * (replicated trails in other Regions) of a trail that is enabled in all Regions.
  */
 export const startLogging: API.OperationMethod<
-  StartLoggingRequest,
+  StartLoggingRequest & RegionInput,
   StartLoggingResponse,
   StartLoggingError,
   Credentials | HttpClient.HttpClient
@@ -4556,7 +4557,7 @@ export type StartQueryError =
  * the `QueryAlias` and `QueryParameters` parameters are used only for the queries that populate the CloudTrail Lake dashboards.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryRequest,
+  StartQueryRequest & RegionInput,
   StartQueryResponse,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -4606,7 +4607,7 @@ export type StopEventDataStoreIngestionError =
  * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
  */
 export const stopEventDataStoreIngestion: API.OperationMethod<
-  StopEventDataStoreIngestionRequest,
+  StopEventDataStoreIngestionRequest & RegionInput,
   StopEventDataStoreIngestionResponse,
   StopEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
@@ -4645,7 +4646,7 @@ export type StopImportError =
  * Stops a specified import.
  */
 export const stopImport: API.OperationMethod<
-  StopImportRequest,
+  StopImportRequest & RegionInput,
   StopImportResponse,
   StopImportError,
   Credentials | HttpClient.HttpClient
@@ -4688,7 +4689,7 @@ export type StopLoggingError =
  * trail enabled in all Regions.
  */
 export const stopLogging: API.OperationMethod<
-  StopLoggingRequest,
+  StopLoggingRequest & RegionInput,
   StopLoggingResponse,
   StopLoggingError,
   Credentials | HttpClient.HttpClient
@@ -4733,7 +4734,7 @@ export type UpdateChannelError =
  * Updates a channel specified by a required channel ARN or UUID.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -4782,7 +4783,7 @@ export type UpdateDashboardError =
  * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -4847,7 +4848,7 @@ export type UpdateEventDataStoreError =
  * `AdvancedEventSelectors` includes events of that type in your event data store.
  */
 export const updateEventDataStore: API.OperationMethod<
-  UpdateEventDataStoreRequest,
+  UpdateEventDataStoreRequest & RegionInput,
   UpdateEventDataStoreResponse,
   UpdateEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -4929,7 +4930,7 @@ export type UpdateTrailError =
  * trail was created; otherwise, an `InvalidHomeRegionException` is thrown.
  */
 export const updateTrail: API.OperationMethod<
-  UpdateTrailRequest,
+  UpdateTrailRequest & RegionInput,
   UpdateTrailResponse,
   UpdateTrailError,
   Credentials | HttpClient.HttpClient

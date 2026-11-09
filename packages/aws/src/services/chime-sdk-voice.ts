@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1400,7 +1401,7 @@ export type AssociatePhoneNumbersWithVoiceConnectorError =
  * Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
  */
 export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
-  AssociatePhoneNumbersWithVoiceConnectorRequest,
+  AssociatePhoneNumbersWithVoiceConnectorRequest & RegionInput,
   AssociatePhoneNumbersWithVoiceConnectorResponse,
   AssociatePhoneNumbersWithVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type AssociatePhoneNumbersWithVoiceConnectorGroupError =
  * Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
  */
 export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
-  AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
+  AssociatePhoneNumbersWithVoiceConnectorGroupRequest & RegionInput,
   AssociatePhoneNumbersWithVoiceConnectorGroupResponse,
   AssociatePhoneNumbersWithVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -1479,7 +1480,7 @@ export type BatchDeletePhoneNumberError =
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
 export const batchDeletePhoneNumber: API.OperationMethod<
-  BatchDeletePhoneNumberRequest,
+  BatchDeletePhoneNumberRequest & RegionInput,
   BatchDeletePhoneNumberResponse,
   BatchDeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1518,7 +1519,7 @@ export type BatchUpdatePhoneNumberError =
  * You cannot have a duplicate `phoneNumberId` in a request.
  */
 export const batchUpdatePhoneNumber: API.OperationMethod<
-  BatchUpdatePhoneNumberRequest,
+  BatchUpdatePhoneNumberRequest & RegionInput,
   BatchUpdatePhoneNumberResponse,
   BatchUpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1555,7 +1556,7 @@ export type CreatePhoneNumberOrderError =
  * Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
  */
 export const createPhoneNumberOrder: API.OperationMethod<
-  CreatePhoneNumberOrderRequest,
+  CreatePhoneNumberOrderRequest & RegionInput,
   CreatePhoneNumberOrderResponse,
   CreatePhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type CreateProxySessionError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const createProxySession: API.OperationMethod<
-  CreateProxySessionRequest,
+  CreateProxySessionRequest & RegionInput,
   CreateProxySessionResponse,
   CreateProxySessionError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1635,7 @@ export type CreateSipMediaApplicationError =
  * and rules in the *Amazon Chime SDK Administrator Guide*.
  */
 export const createSipMediaApplication: API.OperationMethod<
-  CreateSipMediaApplicationRequest,
+  CreateSipMediaApplicationRequest & RegionInput,
   CreateSipMediaApplicationResponse,
   CreateSipMediaApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1675,7 +1676,7 @@ export type CreateSipMediaApplicationCallError =
  * `sipMediaApplicationId`.
  */
 export const createSipMediaApplicationCall: API.OperationMethod<
-  CreateSipMediaApplicationCallRequest,
+  CreateSipMediaApplicationCallRequest & RegionInput,
   CreateSipMediaApplicationCallResponse,
   CreateSipMediaApplicationCallError,
   Credentials | HttpClient.HttpClient
@@ -1715,7 +1716,7 @@ export type CreateSipRuleError =
  * and rules in the *Amazon Chime SDK Administrator Guide*.
  */
 export const createSipRule: API.OperationMethod<
-  CreateSipRuleRequest,
+  CreateSipRuleRequest & RegionInput,
   CreateSipRuleResponse,
   CreateSipRuleError,
   Credentials | HttpClient.HttpClient
@@ -1757,7 +1758,7 @@ export type CreateVoiceConnectorError =
  * Administrator Guide.
  */
 export const createVoiceConnector: API.OperationMethod<
-  CreateVoiceConnectorRequest,
+  CreateVoiceConnectorRequest & RegionInput,
   CreateVoiceConnectorResponse,
   CreateVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1803,7 @@ export type CreateVoiceConnectorGroupError =
  * This creates a fault tolerant mechanism for fallback in case of availability events.
  */
 export const createVoiceConnectorGroup: API.OperationMethod<
-  CreateVoiceConnectorGroupRequest,
+  CreateVoiceConnectorGroupRequest & RegionInput,
   CreateVoiceConnectorGroupResponse,
   CreateVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -1850,7 +1851,7 @@ export type CreateVoiceProfileError =
  * in the *Amazon Chime SDK Developer Guide*.
  */
 export const createVoiceProfile: API.OperationMethod<
-  CreateVoiceProfileRequest,
+  CreateVoiceProfileRequest & RegionInput,
   CreateVoiceProfileResponse,
   CreateVoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type CreateVoiceProfileDomainError =
  * in the *Amazon Chime SDK Developer Guide*.
  */
 export const createVoiceProfileDomain: API.OperationMethod<
-  CreateVoiceProfileDomainRequest,
+  CreateVoiceProfileDomainRequest & RegionInput,
   CreateVoiceProfileDomainResponse,
   CreateVoiceProfileDomainError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type DeletePhoneNumberError =
  * they are deleted permanently.
  */
 export const deletePhoneNumber: API.OperationMethod<
-  DeletePhoneNumberRequest,
+  DeletePhoneNumberRequest & RegionInput,
   DeletePhoneNumberResponse,
   DeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1982,7 +1983,7 @@ export type DeleteProxySessionError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const deleteProxySession: API.OperationMethod<
-  DeleteProxySessionRequest,
+  DeleteProxySessionRequest & RegionInput,
   DeleteProxySessionResponse,
   DeleteProxySessionError,
   Credentials | HttpClient.HttpClient
@@ -2019,7 +2020,7 @@ export type DeleteSipMediaApplicationError =
  * Deletes a SIP media application.
  */
 export const deleteSipMediaApplication: API.OperationMethod<
-  DeleteSipMediaApplicationRequest,
+  DeleteSipMediaApplicationRequest & RegionInput,
   DeleteSipMediaApplicationResponse,
   DeleteSipMediaApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2057,7 +2058,7 @@ export type DeleteSipRuleError =
  * Deletes a SIP rule.
  */
 export const deleteSipRule: API.OperationMethod<
-  DeleteSipRuleRequest,
+  DeleteSipRuleRequest & RegionInput,
   DeleteSipRuleResponse,
   DeleteSipRuleError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type DeleteVoiceConnectorError =
  * can be deleted.
  */
 export const deleteVoiceConnector: API.OperationMethod<
-  DeleteVoiceConnectorRequest,
+  DeleteVoiceConnectorRequest & RegionInput,
   DeleteVoiceConnectorResponse,
   DeleteVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2135,7 +2136,7 @@ export type DeleteVoiceConnectorEmergencyCallingConfigurationError =
  * Connector.
  */
 export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
+  DeleteVoiceConnectorEmergencyCallingConfigurationRequest & RegionInput,
   DeleteVoiceConnectorEmergencyCallingConfigurationResponse,
   DeleteVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2179,7 +2180,7 @@ export type DeleteVoiceConnectorExternalSystemsConfigurationError =
  * Deletes the external systems configuration for a Voice Connector.
  */
 export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorExternalSystemsConfigurationRequest,
+  DeleteVoiceConnectorExternalSystemsConfigurationRequest & RegionInput,
   DeleteVoiceConnectorExternalSystemsConfigurationResponse,
   DeleteVoiceConnectorExternalSystemsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2226,7 +2227,7 @@ export type DeleteVoiceConnectorGroupError =
  * deleted.
  */
 export const deleteVoiceConnectorGroup: API.OperationMethod<
-  DeleteVoiceConnectorGroupRequest,
+  DeleteVoiceConnectorGroupRequest & RegionInput,
   DeleteVoiceConnectorGroupResponse,
   DeleteVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type DeleteVoiceConnectorOriginationError =
  * deleted prior to deleting the origination settings.
  */
 export const deleteVoiceConnectorOrigination: API.OperationMethod<
-  DeleteVoiceConnectorOriginationRequest,
+  DeleteVoiceConnectorOriginationRequest & RegionInput,
   DeleteVoiceConnectorOriginationResponse,
   DeleteVoiceConnectorOriginationError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type DeleteVoiceConnectorProxyError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const deleteVoiceConnectorProxy: API.OperationMethod<
-  DeleteVoiceConnectorProxyRequest,
+  DeleteVoiceConnectorProxyRequest & RegionInput,
   DeleteVoiceConnectorProxyResponse,
   DeleteVoiceConnectorProxyError,
   Credentials | HttpClient.HttpClient
@@ -2340,7 +2341,7 @@ export type DeleteVoiceConnectorStreamingConfigurationError =
  * Deletes a Voice Connector's streaming configuration.
  */
 export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
-  DeleteVoiceConnectorStreamingConfigurationRequest,
+  DeleteVoiceConnectorStreamingConfigurationRequest & RegionInput,
   DeleteVoiceConnectorStreamingConfigurationResponse,
   DeleteVoiceConnectorStreamingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type DeleteVoiceConnectorTerminationError =
  * deleted prior to deleting the termination settings.
  */
 export const deleteVoiceConnectorTermination: API.OperationMethod<
-  DeleteVoiceConnectorTerminationRequest,
+  DeleteVoiceConnectorTerminationRequest & RegionInput,
   DeleteVoiceConnectorTerminationResponse,
   DeleteVoiceConnectorTerminationError,
   Credentials | HttpClient.HttpClient
@@ -2416,7 +2417,7 @@ export type DeleteVoiceConnectorTerminationCredentialsError =
  * authenticate during call termination.
  */
 export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
-  DeleteVoiceConnectorTerminationCredentialsRequest,
+  DeleteVoiceConnectorTerminationCredentialsRequest & RegionInput,
   DeleteVoiceConnectorTerminationCredentialsResponse,
   DeleteVoiceConnectorTerminationCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type DeleteVoiceProfileError =
  * Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
  */
 export const deleteVoiceProfile: API.OperationMethod<
-  DeleteVoiceProfileRequest,
+  DeleteVoiceProfileRequest & RegionInput,
   DeleteVoiceProfileResponse,
   DeleteVoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2494,7 +2495,7 @@ export type DeleteVoiceProfileDomainError =
  * Deletes all voice profiles in the domain. WARNING: This action is not reversible.
  */
 export const deleteVoiceProfileDomain: API.OperationMethod<
-  DeleteVoiceProfileDomainRequest,
+  DeleteVoiceProfileDomainRequest & RegionInput,
   DeleteVoiceProfileDomainResponse,
   DeleteVoiceProfileDomainError,
   Credentials | HttpClient.HttpClient
@@ -2533,7 +2534,7 @@ export type DisassociatePhoneNumbersFromVoiceConnectorError =
  * Amazon Chime SDK Voice Connector.
  */
 export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
-  DisassociatePhoneNumbersFromVoiceConnectorRequest,
+  DisassociatePhoneNumbersFromVoiceConnectorRequest & RegionInput,
   DisassociatePhoneNumbersFromVoiceConnectorResponse,
   DisassociatePhoneNumbersFromVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2570,7 +2571,7 @@ export type DisassociatePhoneNumbersFromVoiceConnectorGroupError =
  * Connector group.
  */
 export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMethod<
-  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
+  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest & RegionInput,
   DisassociatePhoneNumbersFromVoiceConnectorGroupResponse,
   DisassociatePhoneNumbersFromVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type GetGlobalSettingsError =
  * Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsResponse,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2649,7 +2650,7 @@ export type GetPhoneNumberError =
  * capabilities, and product type.
  */
 export const getPhoneNumber: API.OperationMethod<
-  GetPhoneNumberRequest,
+  GetPhoneNumberRequest & RegionInput,
   GetPhoneNumberResponse,
   GetPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2687,7 +2688,7 @@ export type GetPhoneNumberOrderError =
  * order status.
  */
 export const getPhoneNumberOrder: API.OperationMethod<
-  GetPhoneNumberOrderRequest,
+  GetPhoneNumberOrderRequest & RegionInput,
   GetPhoneNumberOrderResponse,
   GetPhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type GetPhoneNumberSettingsError =
  * such as the default outbound calling name.
  */
 export const getPhoneNumberSettings: API.OperationMethod<
-  GetPhoneNumberSettingsRequest,
+  GetPhoneNumberSettingsRequest & RegionInput,
   GetPhoneNumberSettingsResponse,
   GetPhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2760,7 +2761,7 @@ export type GetProxySessionError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const getProxySession: API.OperationMethod<
-  GetProxySessionRequest,
+  GetProxySessionRequest & RegionInput,
   GetProxySessionResponse,
   GetProxySessionError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type GetSipMediaApplicationError =
  * AWS Region, and endpoints.
  */
 export const getSipMediaApplication: API.OperationMethod<
-  GetSipMediaApplicationRequest,
+  GetSipMediaApplicationRequest & RegionInput,
   GetSipMediaApplicationResponse,
   GetSipMediaApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2837,7 +2838,7 @@ export type GetSipMediaApplicationAlexaSkillConfigurationError =
  * the Alexa Smart Properties page.
  */
 export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
-  GetSipMediaApplicationAlexaSkillConfigurationRequest,
+  GetSipMediaApplicationAlexaSkillConfigurationRequest & RegionInput,
   GetSipMediaApplicationAlexaSkillConfigurationResponse,
   GetSipMediaApplicationAlexaSkillConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2883,7 @@ export type GetSipMediaApplicationLoggingConfigurationError =
  * Retrieves the logging configuration for the specified SIP media application.
  */
 export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
-  GetSipMediaApplicationLoggingConfigurationRequest,
+  GetSipMediaApplicationLoggingConfigurationRequest & RegionInput,
   GetSipMediaApplicationLoggingConfigurationResponse,
   GetSipMediaApplicationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2919,7 +2920,7 @@ export type GetSipRuleError =
  * target endpoints.
  */
 export const getSipRule: API.OperationMethod<
-  GetSipRuleRequest,
+  GetSipRuleRequest & RegionInput,
   GetSipRuleResponse,
   GetSipRuleError,
   Credentials | HttpClient.HttpClient
@@ -2957,7 +2958,7 @@ export type GetSpeakerSearchTaskError =
  * Retrieves the details of the specified speaker search task.
  */
 export const getSpeakerSearchTask: API.OperationMethod<
-  GetSpeakerSearchTaskRequest,
+  GetSpeakerSearchTaskRequest & RegionInput,
   GetSpeakerSearchTaskResponse,
   GetSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -2996,7 +2997,7 @@ export type GetVoiceConnectorError =
  * timestamps,name, outbound host, and encryption requirements.
  */
 export const getVoiceConnector: API.OperationMethod<
-  GetVoiceConnectorRequest,
+  GetVoiceConnectorRequest & RegionInput,
   GetVoiceConnectorResponse,
   GetVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3032,7 +3033,7 @@ export type GetVoiceConnectorEmergencyCallingConfigurationError =
  * Retrieves the emergency calling configuration details for the specified Voice Connector.
  */
 export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  GetVoiceConnectorEmergencyCallingConfigurationRequest,
+  GetVoiceConnectorEmergencyCallingConfigurationRequest & RegionInput,
   GetVoiceConnectorEmergencyCallingConfigurationResponse,
   GetVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3078,7 @@ export type GetVoiceConnectorExternalSystemsConfigurationError =
  * Connector.
  */
 export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  GetVoiceConnectorExternalSystemsConfigurationRequest,
+  GetVoiceConnectorExternalSystemsConfigurationRequest & RegionInput,
   GetVoiceConnectorExternalSystemsConfigurationResponse,
   GetVoiceConnectorExternalSystemsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3122,7 +3123,7 @@ export type GetVoiceConnectorGroupError =
  * such as timestamps,name, and associated `VoiceConnectorItems`.
  */
 export const getVoiceConnectorGroup: API.OperationMethod<
-  GetVoiceConnectorGroupRequest,
+  GetVoiceConnectorGroupRequest & RegionInput,
   GetVoiceConnectorGroupResponse,
   GetVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -3159,7 +3160,7 @@ export type GetVoiceConnectorLoggingConfigurationError =
  * Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
  */
 export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
-  GetVoiceConnectorLoggingConfigurationRequest,
+  GetVoiceConnectorLoggingConfigurationRequest & RegionInput,
   GetVoiceConnectorLoggingConfigurationResponse,
   GetVoiceConnectorLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type GetVoiceConnectorOriginationError =
  * Retrieves the origination settings for the specified Voice Connector.
  */
 export const getVoiceConnectorOrigination: API.OperationMethod<
-  GetVoiceConnectorOriginationRequest,
+  GetVoiceConnectorOriginationRequest & RegionInput,
   GetVoiceConnectorOriginationResponse,
   GetVoiceConnectorOriginationError,
   Credentials | HttpClient.HttpClient
@@ -3234,7 +3235,7 @@ export type GetVoiceConnectorProxyError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const getVoiceConnectorProxy: API.OperationMethod<
-  GetVoiceConnectorProxyRequest,
+  GetVoiceConnectorProxyRequest & RegionInput,
   GetVoiceConnectorProxyResponse,
   GetVoiceConnectorProxyError,
   Credentials | HttpClient.HttpClient
@@ -3272,7 +3273,7 @@ export type GetVoiceConnectorStreamingConfigurationError =
  * Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
  */
 export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
-  GetVoiceConnectorStreamingConfigurationRequest,
+  GetVoiceConnectorStreamingConfigurationRequest & RegionInput,
   GetVoiceConnectorStreamingConfigurationResponse,
   GetVoiceConnectorStreamingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type GetVoiceConnectorTerminationError =
  * Retrieves the termination setting details for the specified Voice Connector.
  */
 export const getVoiceConnectorTermination: API.OperationMethod<
-  GetVoiceConnectorTerminationRequest,
+  GetVoiceConnectorTerminationRequest & RegionInput,
   GetVoiceConnectorTerminationResponse,
   GetVoiceConnectorTerminationError,
   Credentials | HttpClient.HttpClient
@@ -3346,7 +3347,7 @@ export type GetVoiceConnectorTerminationHealthError =
  * Connector.
  */
 export const getVoiceConnectorTerminationHealth: API.OperationMethod<
-  GetVoiceConnectorTerminationHealthRequest,
+  GetVoiceConnectorTerminationHealthRequest & RegionInput,
   GetVoiceConnectorTerminationHealthResponse,
   GetVoiceConnectorTerminationHealthError,
   Credentials | HttpClient.HttpClient
@@ -3383,7 +3384,7 @@ export type GetVoiceProfileError =
  * Retrieves the details of the specified voice profile.
  */
 export const getVoiceProfile: API.OperationMethod<
-  GetVoiceProfileRequest,
+  GetVoiceProfileRequest & RegionInput,
   GetVoiceProfileResponse,
   GetVoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3421,7 +3422,7 @@ export type GetVoiceProfileDomainError =
  * Retrieves the details of the specified voice profile domain.
  */
 export const getVoiceProfileDomain: API.OperationMethod<
-  GetVoiceProfileDomainRequest,
+  GetVoiceProfileDomainRequest & RegionInput,
   GetVoiceProfileDomainResponse,
   GetVoiceProfileDomainError,
   Credentials | HttpClient.HttpClient
@@ -3460,7 +3461,7 @@ export type GetVoiceToneAnalysisTaskError =
  * Retrieves the details of a voice tone analysis task.
  */
 export const getVoiceToneAnalysisTask: API.OperationMethod<
-  GetVoiceToneAnalysisTaskRequest,
+  GetVoiceToneAnalysisTaskRequest & RegionInput,
   GetVoiceToneAnalysisTaskResponse,
   GetVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -3497,7 +3498,7 @@ export type ListAvailableVoiceConnectorRegionsError =
  * Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
  */
 export const listAvailableVoiceConnectorRegions: API.OperationMethod<
-  ListAvailableVoiceConnectorRegionsRequest,
+  ListAvailableVoiceConnectorRegionsRequest & RegionInput,
   ListAvailableVoiceConnectorRegionsResponse,
   ListAvailableVoiceConnectorRegionsError,
   Credentials | HttpClient.HttpClient
@@ -3531,7 +3532,7 @@ export type ListPhoneNumberOrdersError =
  * Lists the phone numbers for an administrator's Amazon Chime SDK account.
  */
 export const listPhoneNumberOrders: API.PaginatedOperationMethod<
-  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersRequest & RegionInput,
   ListPhoneNumberOrdersResponse,
   ListPhoneNumberOrdersError,
   Credentials | HttpClient.HttpClient,
@@ -3574,7 +3575,7 @@ export type ListPhoneNumbersError =
  * Connector group.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -3618,7 +3619,7 @@ export type ListProxySessionsError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const listProxySessions: API.PaginatedOperationMethod<
-  ListProxySessionsRequest,
+  ListProxySessionsRequest & RegionInput,
   ListProxySessionsResponse,
   ListProxySessionsError,
   Credentials | HttpClient.HttpClient,
@@ -3659,7 +3660,7 @@ export type ListSipMediaApplicationsError =
  * Lists the SIP media applications under the administrator's AWS account.
  */
 export const listSipMediaApplications: API.PaginatedOperationMethod<
-  ListSipMediaApplicationsRequest,
+  ListSipMediaApplicationsRequest & RegionInput,
   ListSipMediaApplicationsResponse,
   ListSipMediaApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3701,7 +3702,7 @@ export type ListSipRulesError =
  * Lists the SIP rules under the administrator's AWS account.
  */
 export const listSipRules: API.PaginatedOperationMethod<
-  ListSipRulesRequest,
+  ListSipRulesRequest & RegionInput,
   ListSipRulesResponse,
   ListSipRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3744,7 +3745,7 @@ export type ListSupportedPhoneNumberCountriesError =
  * Lists the countries that you can order phone numbers from.
  */
 export const listSupportedPhoneNumberCountries: API.OperationMethod<
-  ListSupportedPhoneNumberCountriesRequest,
+  ListSupportedPhoneNumberCountriesRequest & RegionInput,
   ListSupportedPhoneNumberCountriesResponse,
   ListSupportedPhoneNumberCountriesError,
   Credentials | HttpClient.HttpClient
@@ -3779,7 +3780,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags in a given resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3814,7 +3815,7 @@ export type ListVoiceConnectorGroupsError =
  * account.
  */
 export const listVoiceConnectorGroups: API.PaginatedOperationMethod<
-  ListVoiceConnectorGroupsRequest,
+  ListVoiceConnectorGroupsRequest & RegionInput,
   ListVoiceConnectorGroupsResponse,
   ListVoiceConnectorGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3855,7 +3856,7 @@ export type ListVoiceConnectorsError =
  * AWS account.
  */
 export const listVoiceConnectors: API.PaginatedOperationMethod<
-  ListVoiceConnectorsRequest,
+  ListVoiceConnectorsRequest & RegionInput,
   ListVoiceConnectorsResponse,
   ListVoiceConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -3896,7 +3897,7 @@ export type ListVoiceConnectorTerminationCredentialsError =
  * Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
  */
 export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
-  ListVoiceConnectorTerminationCredentialsRequest,
+  ListVoiceConnectorTerminationCredentialsRequest & RegionInput,
   ListVoiceConnectorTerminationCredentialsResponse,
   ListVoiceConnectorTerminationCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -3932,7 +3933,7 @@ export type ListVoiceProfileDomainsError =
  * Lists the specified voice profile domains in the administrator's AWS account.
  */
 export const listVoiceProfileDomains: API.PaginatedOperationMethod<
-  ListVoiceProfileDomainsRequest,
+  ListVoiceProfileDomainsRequest & RegionInput,
   ListVoiceProfileDomainsResponse,
   ListVoiceProfileDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -3974,7 +3975,7 @@ export type ListVoiceProfilesError =
  * Lists the voice profiles in a voice profile domain.
  */
 export const listVoiceProfiles: API.PaginatedOperationMethod<
-  ListVoiceProfilesRequest,
+  ListVoiceProfilesRequest & RegionInput,
   ListVoiceProfilesResponse,
   ListVoiceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4020,7 +4021,7 @@ export type PutSipMediaApplicationAlexaSkillConfigurationError =
  * the Alexa Smart Properties page.
  */
 export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
-  PutSipMediaApplicationAlexaSkillConfigurationRequest,
+  PutSipMediaApplicationAlexaSkillConfigurationRequest & RegionInput,
   PutSipMediaApplicationAlexaSkillConfigurationResponse,
   PutSipMediaApplicationAlexaSkillConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4065,7 +4066,7 @@ export type PutSipMediaApplicationLoggingConfigurationError =
  * Updates the logging configuration for the specified SIP media application.
  */
 export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
-  PutSipMediaApplicationLoggingConfigurationRequest,
+  PutSipMediaApplicationLoggingConfigurationRequest & RegionInput,
   PutSipMediaApplicationLoggingConfigurationResponse,
   PutSipMediaApplicationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4101,7 +4102,7 @@ export type PutVoiceConnectorEmergencyCallingConfigurationError =
  * Updates a Voice Connector's emergency calling configuration.
  */
 export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
-  PutVoiceConnectorEmergencyCallingConfigurationRequest,
+  PutVoiceConnectorEmergencyCallingConfigurationRequest & RegionInput,
   PutVoiceConnectorEmergencyCallingConfigurationResponse,
   PutVoiceConnectorEmergencyCallingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4146,7 +4147,7 @@ export type PutVoiceConnectorExternalSystemsConfigurationError =
  * Adds an external systems configuration to a Voice Connector.
  */
 export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
-  PutVoiceConnectorExternalSystemsConfigurationRequest,
+  PutVoiceConnectorExternalSystemsConfigurationRequest & RegionInput,
   PutVoiceConnectorExternalSystemsConfigurationResponse,
   PutVoiceConnectorExternalSystemsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4191,7 +4192,7 @@ export type PutVoiceConnectorLoggingConfigurationError =
  * Updates a Voice Connector's logging configuration.
  */
 export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
-  PutVoiceConnectorLoggingConfigurationRequest,
+  PutVoiceConnectorLoggingConfigurationRequest & RegionInput,
   PutVoiceConnectorLoggingConfigurationResponse,
   PutVoiceConnectorLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4228,7 +4229,7 @@ export type PutVoiceConnectorOriginationError =
  * Updates a Voice Connector's origination settings.
  */
 export const putVoiceConnectorOrigination: API.OperationMethod<
-  PutVoiceConnectorOriginationRequest,
+  PutVoiceConnectorOriginationRequest & RegionInput,
   PutVoiceConnectorOriginationResponse,
   PutVoiceConnectorOriginationError,
   Credentials | HttpClient.HttpClient
@@ -4268,7 +4269,7 @@ export type PutVoiceConnectorProxyError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const putVoiceConnectorProxy: API.OperationMethod<
-  PutVoiceConnectorProxyRequest,
+  PutVoiceConnectorProxyRequest & RegionInput,
   PutVoiceConnectorProxyResponse,
   PutVoiceConnectorProxyError,
   Credentials | HttpClient.HttpClient
@@ -4305,7 +4306,7 @@ export type PutVoiceConnectorStreamingConfigurationError =
  * Updates a Voice Connector's streaming configuration settings.
  */
 export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
-  PutVoiceConnectorStreamingConfigurationRequest,
+  PutVoiceConnectorStreamingConfigurationRequest & RegionInput,
   PutVoiceConnectorStreamingConfigurationResponse,
   PutVoiceConnectorStreamingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4342,7 +4343,7 @@ export type PutVoiceConnectorTerminationError =
  * Updates a Voice Connector's termination settings.
  */
 export const putVoiceConnectorTermination: API.OperationMethod<
-  PutVoiceConnectorTerminationRequest,
+  PutVoiceConnectorTerminationRequest & RegionInput,
   PutVoiceConnectorTerminationResponse,
   PutVoiceConnectorTerminationError,
   Credentials | HttpClient.HttpClient
@@ -4379,7 +4380,7 @@ export type PutVoiceConnectorTerminationCredentialsError =
  * Updates a Voice Connector's termination credentials.
  */
 export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
-  PutVoiceConnectorTerminationCredentialsRequest,
+  PutVoiceConnectorTerminationCredentialsRequest & RegionInput,
   PutVoiceConnectorTerminationCredentialsResponse,
   PutVoiceConnectorTerminationCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -4416,7 +4417,7 @@ export type RestorePhoneNumberError =
  * Restores a deleted phone number.
  */
 export const restorePhoneNumber: API.OperationMethod<
-  RestorePhoneNumberRequest,
+  RestorePhoneNumberRequest & RegionInput,
   RestorePhoneNumberResponse,
   RestorePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4454,7 @@ export type SearchAvailablePhoneNumbersError =
  * Searches the provisioned phone numbers in an organization.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -4503,7 +4504,7 @@ export type StartSpeakerSearchTaskError =
  * AWS service terms for the Amazon Chime SDK.
  */
 export const startSpeakerSearchTask: API.OperationMethod<
-  StartSpeakerSearchTaskRequest,
+  StartSpeakerSearchTaskRequest & RegionInput,
   StartSpeakerSearchTaskResponse,
   StartSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -4554,7 +4555,7 @@ export type StartVoiceToneAnalysisTaskError =
  * AWS service terms for the Amazon Chime SDK.
  */
 export const startVoiceToneAnalysisTask: API.OperationMethod<
-  StartVoiceToneAnalysisTaskRequest,
+  StartVoiceToneAnalysisTaskRequest & RegionInput,
   StartVoiceToneAnalysisTaskResponse,
   StartVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -4598,7 +4599,7 @@ export type StopSpeakerSearchTaskError =
  * Stops a speaker search task.
  */
 export const stopSpeakerSearchTask: API.OperationMethod<
-  StopSpeakerSearchTaskRequest,
+  StopSpeakerSearchTaskRequest & RegionInput,
   StopSpeakerSearchTaskResponse,
   StopSpeakerSearchTaskError,
   Credentials | HttpClient.HttpClient
@@ -4640,7 +4641,7 @@ export type StopVoiceToneAnalysisTaskError =
  * Stops a voice tone analysis task.
  */
 export const stopVoiceToneAnalysisTask: API.OperationMethod<
-  StopVoiceToneAnalysisTaskRequest,
+  StopVoiceToneAnalysisTaskRequest & RegionInput,
   StopVoiceToneAnalysisTaskResponse,
   StopVoiceToneAnalysisTaskError,
   Credentials | HttpClient.HttpClient
@@ -4679,7 +4680,7 @@ export type TagResourceError =
  * Adds a tag to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4714,7 +4715,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4748,7 +4749,7 @@ export type UpdateGlobalSettingsError =
  * Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsRequest,
+  UpdateGlobalSettingsRequest & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4793,7 +4794,7 @@ export type UpdatePhoneNumberError =
  * update.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -4832,7 +4833,7 @@ export type UpdatePhoneNumberSettingsError =
  * update.
  */
 export const updatePhoneNumberSettings: API.OperationMethod<
-  UpdatePhoneNumberSettingsRequest,
+  UpdatePhoneNumberSettingsRequest & RegionInput,
   UpdatePhoneNumberSettingsResponse,
   UpdatePhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4869,7 +4870,7 @@ export type UpdateProxySessionError =
  * End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
  */
 export const updateProxySession: API.OperationMethod<
-  UpdateProxySessionRequest,
+  UpdateProxySessionRequest & RegionInput,
   UpdateProxySessionResponse,
   UpdateProxySessionError,
   Credentials | HttpClient.HttpClient
@@ -4906,7 +4907,7 @@ export type UpdateSipMediaApplicationError =
  * Updates the details of the specified SIP media application.
  */
 export const updateSipMediaApplication: API.OperationMethod<
-  UpdateSipMediaApplicationRequest,
+  UpdateSipMediaApplicationRequest & RegionInput,
   UpdateSipMediaApplicationResponse,
   UpdateSipMediaApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4946,7 +4947,7 @@ export type UpdateSipMediaApplicationCallError =
  * of actions.
  */
 export const updateSipMediaApplicationCall: API.OperationMethod<
-  UpdateSipMediaApplicationCallRequest,
+  UpdateSipMediaApplicationCallRequest & RegionInput,
   UpdateSipMediaApplicationCallResponse,
   UpdateSipMediaApplicationCallError,
   Credentials | HttpClient.HttpClient
@@ -4985,7 +4986,7 @@ export type UpdateSipRuleError =
  * Updates the details of the specified SIP rule.
  */
 export const updateSipRule: API.OperationMethod<
-  UpdateSipRuleRequest,
+  UpdateSipRuleRequest & RegionInput,
   UpdateSipRuleResponse,
   UpdateSipRuleError,
   Credentials | HttpClient.HttpClient
@@ -5023,7 +5024,7 @@ export type UpdateVoiceConnectorError =
  * Updates the details for the specified Amazon Chime SDK Voice Connector.
  */
 export const updateVoiceConnector: API.OperationMethod<
-  UpdateVoiceConnectorRequest,
+  UpdateVoiceConnectorRequest & RegionInput,
   UpdateVoiceConnectorResponse,
   UpdateVoiceConnectorError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5061,7 @@ export type UpdateVoiceConnectorGroupError =
  * Updates the settings for the specified Amazon Chime SDK Voice Connector group.
  */
 export const updateVoiceConnectorGroup: API.OperationMethod<
-  UpdateVoiceConnectorGroupRequest,
+  UpdateVoiceConnectorGroupRequest & RegionInput,
   UpdateVoiceConnectorGroupResponse,
   UpdateVoiceConnectorGroupError,
   Credentials | HttpClient.HttpClient
@@ -5109,7 +5110,7 @@ export type UpdateVoiceProfileError =
  * with AWS governing your use of the service.
  */
 export const updateVoiceProfile: API.OperationMethod<
-  UpdateVoiceProfileRequest,
+  UpdateVoiceProfileRequest & RegionInput,
   UpdateVoiceProfileResponse,
   UpdateVoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5149,7 +5150,7 @@ export type UpdateVoiceProfileDomainError =
  * Updates the settings for the specified voice profile domain.
  */
 export const updateVoiceProfileDomain: API.OperationMethod<
-  UpdateVoiceProfileDomainRequest,
+  UpdateVoiceProfileDomainRequest & RegionInput,
   UpdateVoiceProfileDomainResponse,
   UpdateVoiceProfileDomainError,
   Credentials | HttpClient.HttpClient
@@ -5190,7 +5191,7 @@ export type ValidateE911AddressError =
  * are routed to the appropriate Public Safety Answering Point.
  */
 export const validateE911Address: API.OperationMethod<
-  ValidateE911AddressRequest,
+  ValidateE911AddressRequest & RegionInput,
   ValidateE911AddressResponse,
   ValidateE911AddressError,
   Credentials | HttpClient.HttpClient

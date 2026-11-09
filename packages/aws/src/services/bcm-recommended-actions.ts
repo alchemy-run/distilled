@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -247,7 +248,7 @@ export type ListRecommendedActionsError =
  * Returns a list of recommended actions that match the filter criteria.
  */
 export const listRecommendedActions: API.PaginatedOperationMethod<
-  ListRecommendedActionsRequest,
+  ListRecommendedActionsRequest & RegionInput,
   ListRecommendedActionsResponse,
   ListRecommendedActionsError,
   Credentials | HttpClient.HttpClient,

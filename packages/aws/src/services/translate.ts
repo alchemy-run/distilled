@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -576,7 +577,7 @@ export type CreateParallelDataError =
  * your translation output.
  */
 export const createParallelData: API.OperationMethod<
-  CreateParallelDataRequest,
+  CreateParallelDataRequest & RegionInput,
   CreateParallelDataResponse,
   CreateParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -610,7 +611,7 @@ export type DeleteParallelDataError =
  * Deletes a parallel data resource in Amazon Translate.
  */
 export const deleteParallelData: API.OperationMethod<
-  DeleteParallelDataRequest,
+  DeleteParallelDataRequest & RegionInput,
   DeleteParallelDataResponse,
   DeleteParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -640,7 +641,7 @@ export type DeleteTerminologyError =
  * A synchronous action that deletes a custom terminology.
  */
 export const deleteTerminology: API.OperationMethod<
-  DeleteTerminologyRequest,
+  DeleteTerminologyRequest & RegionInput,
   DeleteTerminologyResponse,
   DeleteTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type DescribeTextTranslationJobError =
  * ID, status, source and target languages, input/output S3 buckets, and so on.
  */
 export const describeTextTranslationJob: API.OperationMethod<
-  DescribeTextTranslationJobRequest,
+  DescribeTextTranslationJobRequest & RegionInput,
   DescribeTextTranslationJobResponse,
   DescribeTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -695,7 +696,7 @@ export type GetParallelDataError =
  * Provides information about a parallel data resource.
  */
 export const getParallelData: API.OperationMethod<
-  GetParallelDataRequest,
+  GetParallelDataRequest & RegionInput,
   GetParallelDataResponse,
   GetParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type GetTerminologyError =
  * Retrieves a custom terminology.
  */
 export const getTerminology: API.OperationMethod<
-  GetTerminologyRequest,
+  GetTerminologyRequest & RegionInput,
   GetTerminologyResponse,
   GetTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -765,7 +766,7 @@ export type ImportTerminologyError =
  * terminology.
  */
 export const importTerminology: API.OperationMethod<
-  ImportTerminologyRequest,
+  ImportTerminologyRequest & RegionInput,
   ImportTerminologyResponse,
   ImportTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +798,7 @@ export type ListLanguagesError =
  * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
  */
 export const listLanguages: API.PaginatedOperationMethod<
-  ListLanguagesRequest,
+  ListLanguagesRequest & RegionInput,
   ListLanguagesResponse,
   ListLanguagesError,
   Credentials | HttpClient.HttpClient,
@@ -832,7 +833,7 @@ export type ListParallelDataError =
  * Provides a list of your parallel data resources in Amazon Translate.
  */
 export const listParallelData: API.PaginatedOperationMethod<
-  ListParallelDataRequest,
+  ListParallelDataRequest & RegionInput,
   ListParallelDataResponse,
   ListParallelDataError,
   Credentials | HttpClient.HttpClient,
@@ -864,7 +865,7 @@ export type ListTagsForResourceError =
  * Tagging your resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type ListTerminologiesError =
  * Provides a list of custom terminologies associated with your account.
  */
 export const listTerminologies: API.PaginatedOperationMethod<
-  ListTerminologiesRequest,
+  ListTerminologiesRequest & RegionInput,
   ListTerminologiesResponse,
   ListTerminologiesError,
   Credentials | HttpClient.HttpClient,
@@ -919,7 +920,7 @@ export type ListTextTranslationJobsError =
  * Gets a list of the batch translation jobs that you have submitted.
  */
 export const listTextTranslationJobs: API.PaginatedOperationMethod<
-  ListTextTranslationJobsRequest,
+  ListTextTranslationJobsRequest & RegionInput,
   ListTextTranslationJobsResponse,
   ListTextTranslationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -965,7 +966,7 @@ export type StartTextTranslationJobError =
  * Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.
  */
 export const startTextTranslationJob: API.OperationMethod<
-  StartTextTranslationJobRequest,
+  StartTextTranslationJobRequest & RegionInput,
   StartTextTranslationJobResponse,
   StartTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1005,7 @@ export type StopTextTranslationJobError =
  * operations to get a batch translation job's `JobId`.
  */
 export const stopTextTranslationJob: API.OperationMethod<
-  StopTextTranslationJobRequest,
+  StopTextTranslationJobRequest & RegionInput,
   StopTextTranslationJobResponse,
   StopTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -1033,7 +1034,7 @@ export type TagResourceError =
  * Tagging your resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type TranslateDocumentError =
  * Setting formality.
  */
 export const translateDocument: API.OperationMethod<
-  TranslateDocumentRequest,
+  TranslateDocumentRequest & RegionInput,
   TranslateDocumentResponse,
   TranslateDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1115,7 @@ export type TranslateTextError =
  * available languages and language codes, see Supported languages.
  */
 export const translateText: API.OperationMethod<
-  TranslateTextRequest,
+  TranslateTextRequest & RegionInput,
   TranslateTextResponse,
   TranslateTextError,
   Credentials | HttpClient.HttpClient
@@ -1150,7 +1151,7 @@ export type UntagResourceError =
  * Tagging your resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1185,7 +1186,7 @@ export type UpdateParallelDataError =
  * Amazon S3.
  */
 export const updateParallelData: API.OperationMethod<
-  UpdateParallelDataRequest,
+  UpdateParallelDataRequest & RegionInput,
   UpdateParallelDataResponse,
   UpdateParallelDataError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1355,7 +1356,7 @@ export type CreateDeliveryStreamError =
  * information, see Grant Firehose Access to an Amazon S3 Destination in the *Amazon Firehose Developer Guide*.
  */
 export const createDeliveryStream: API.OperationMethod<
-  CreateDeliveryStreamInput,
+  CreateDeliveryStreamInput & RegionInput,
   CreateDeliveryStreamOutput,
   CreateDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1398,7 +1399,7 @@ export type DeleteDeliveryStreamError =
  * to be removed.
  */
 export const deleteDeliveryStream: API.OperationMethod<
-  DeleteDeliveryStreamInput,
+  DeleteDeliveryStreamInput & RegionInput,
   DeleteDeliveryStreamOutput,
   DeleteDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1425,7 +1426,7 @@ export type DescribeDeliveryStreamError = ResourceNotFoundException | CommonErro
  * If the status is `DELETING_FAILED`, you can force deletion by invoking DeleteDeliveryStream again but with DeleteDeliveryStreamInput$AllowForceDelete set to true.
  */
 export const describeDeliveryStream: API.OperationMethod<
-  DescribeDeliveryStreamInput,
+  DescribeDeliveryStreamInput & RegionInput,
   DescribeDeliveryStreamOutput,
   DescribeDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1454,7 @@ export type ListDeliveryStreamsError = CommonErrors;
  * of the last Firehose stream returned in the last call.
  */
 export const listDeliveryStreams: API.OperationMethod<
-  ListDeliveryStreamsInput,
+  ListDeliveryStreamsInput & RegionInput,
   ListDeliveryStreamsOutput,
   ListDeliveryStreamsError,
   Credentials | HttpClient.HttpClient
@@ -1478,7 +1479,7 @@ export type ListTagsForDeliveryStreamError =
  * transactions per second per account.
  */
 export const listTagsForDeliveryStream: API.OperationMethod<
-  ListTagsForDeliveryStreamInput,
+  ListTagsForDeliveryStreamInput & RegionInput,
   ListTagsForDeliveryStreamOutput,
   ListTagsForDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1553,7 @@ export type PutRecordError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordInput,
+  PutRecordInput & RegionInput,
   PutRecordOutput,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1654,7 @@ export type PutRecordBatchError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecordBatch: API.OperationMethod<
-  PutRecordBatchInput,
+  PutRecordBatchInput & RegionInput,
   PutRecordBatchOutput,
   PutRecordBatchError,
   Credentials | HttpClient.HttpClient
@@ -1730,7 +1731,7 @@ export type StartDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const startDeliveryStreamEncryption: API.OperationMethod<
-  StartDeliveryStreamEncryptionInput,
+  StartDeliveryStreamEncryptionInput & RegionInput,
   StartDeliveryStreamEncryptionOutput,
   StartDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type StopDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const stopDeliveryStreamEncryption: API.OperationMethod<
-  StopDeliveryStreamEncryptionInput,
+  StopDeliveryStreamEncryptionInput & RegionInput,
   StopDeliveryStreamEncryptionOutput,
   StopDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type TagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const tagDeliveryStream: API.OperationMethod<
-  TagDeliveryStreamInput,
+  TagDeliveryStreamInput & RegionInput,
   TagDeliveryStreamOutput,
   TagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1859,7 +1860,7 @@ export type UntagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const untagDeliveryStream: API.OperationMethod<
-  UntagDeliveryStreamInput,
+  UntagDeliveryStreamInput & RegionInput,
   UntagDeliveryStreamOutput,
   UntagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1916,7 +1917,7 @@ export type UpdateDestinationError =
  * `CurrentDeliveryStreamVersionId` in the next call.
  */
 export const updateDestination: API.OperationMethod<
-  UpdateDestinationInput,
+  UpdateDestinationInput & RegionInput,
   UpdateDestinationOutput,
   UpdateDestinationError,
   Credentials | HttpClient.HttpClient

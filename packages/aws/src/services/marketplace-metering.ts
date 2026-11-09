@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -366,7 +367,7 @@ export type BatchMeterUsageError =
  * Guide.
  */
 export const batchMeterUsage: API.OperationMethod<
-  BatchMeterUsageRequest,
+  BatchMeterUsageRequest & RegionInput,
   BatchMeterUsageResult,
   BatchMeterUsageError,
   Credentials | HttpClient.HttpClient
@@ -447,7 +448,7 @@ export type MeterUsageError =
  * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
  */
 export const meterUsage: API.OperationMethod<
-  MeterUsageRequest,
+  MeterUsageRequest & RegionInput,
   MeterUsageResult,
   MeterUsageError,
   Credentials | HttpClient.HttpClient
@@ -526,7 +527,7 @@ export type RegisterUsageError =
  * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
  */
 export const registerUsage: API.OperationMethod<
-  RegisterUsageRequest,
+  RegisterUsageRequest & RegionInput,
   RegisterUsageResult,
   RegisterUsageError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type ResolveCustomerError =
  * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
 export const resolveCustomer: API.OperationMethod<
-  ResolveCustomerRequest,
+  ResolveCustomerRequest & RegionInput,
   ResolveCustomerResult,
   ResolveCustomerError,
   Credentials | HttpClient.HttpClient

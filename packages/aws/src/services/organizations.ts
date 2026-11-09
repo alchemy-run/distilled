@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1478,7 +1479,7 @@ export type AcceptHandshakeError =
  * *Organizations User Guide*.
  */
 export const acceptHandshake: API.OperationMethod<
-  AcceptHandshakeRequest,
+  AcceptHandshakeRequest & RegionInput,
   AcceptHandshakeResponse,
   AcceptHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -1558,7 +1559,7 @@ export type AttachPolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const attachPolicy: API.OperationMethod<
-  AttachPolicyRequest,
+  AttachPolicyRequest & RegionInput,
   AttachPolicyResponse,
   AttachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1607,7 +1608,7 @@ export type CancelHandshakeError =
  * deleted.
  */
 export const cancelHandshake: API.OperationMethod<
-  CancelHandshakeRequest,
+  CancelHandshakeRequest & RegionInput,
   CancelHandshakeResponse,
   CancelHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type CloseAccountError =
  * available only in the management account's event history.
  */
 export const closeAccount: API.OperationMethod<
-  CloseAccountRequest,
+  CloseAccountRequest & RegionInput,
   CloseAccountResponse,
   CloseAccountError,
   Credentials | HttpClient.HttpClient
@@ -1805,7 +1806,7 @@ export type CreateAccountError =
  * your billing information and tools.
  */
 export const createAccount: API.OperationMethod<
-  CreateAccountRequest,
+  CreateAccountRequest & RegionInput,
   CreateAccountResponse,
   CreateAccountError,
   Credentials | HttpClient.HttpClient
@@ -1958,7 +1959,7 @@ export type CreateGovCloudAccountError =
  * access to your billing information and tools.
  */
 export const createGovCloudAccount: API.OperationMethod<
-  CreateGovCloudAccountRequest,
+  CreateGovCloudAccountRequest & RegionInput,
   CreateGovCloudAccountResponse,
   CreateGovCloudAccountError,
   Credentials | HttpClient.HttpClient
@@ -2014,7 +2015,7 @@ export type CreateOrganizationError =
  * context on how and when the account joined the organization.
  */
 export const createOrganization: API.OperationMethod<
-  CreateOrganizationRequest,
+  CreateOrganizationRequest & RegionInput,
   CreateOrganizationResponse,
   CreateOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2065,7 +2066,7 @@ export type CreateOrganizationalUnitError =
  * You can only call this operation from the management account.
  */
 export const createOrganizationalUnit: API.OperationMethod<
-  CreateOrganizationalUnitRequest,
+  CreateOrganizationalUnitRequest & RegionInput,
   CreateOrganizationalUnitResponse,
   CreateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type CreatePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type DeclineHandshakeError =
  * deleted.
  */
 export const declineHandshake: API.OperationMethod<
-  DeclineHandshakeRequest,
+  DeclineHandshakeRequest & RegionInput,
   DeclineHandshakeResponse,
   DeclineHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -2207,7 +2208,7 @@ export type DeleteOrganizationError =
  * only in the management account's event history.
  */
 export const deleteOrganization: API.OperationMethod<
-  DeleteOrganizationRequest,
+  DeleteOrganizationRequest & RegionInput,
   DeleteOrganizationResponse,
   DeleteOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2248,7 +2249,7 @@ export type DeleteOrganizationalUnitError =
  * You can only call this operation from the management account.
  */
 export const deleteOrganizationalUnit: API.OperationMethod<
-  DeleteOrganizationalUnitRequest,
+  DeleteOrganizationalUnitRequest & RegionInput,
   DeleteOrganizationalUnitResponse,
   DeleteOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -2291,7 +2292,7 @@ export type DeletePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2332,7 +2333,7 @@ export type DeleteResourcePolicyError =
  * You can only call this operation from the management account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type DeregisterDelegatedAdministratorError =
  * You can only call this operation from the management account.
  */
 export const deregisterDelegatedAdministrator: API.OperationMethod<
-  DeregisterDelegatedAdministratorRequest,
+  DeregisterDelegatedAdministratorRequest & RegionInput,
   DeregisterDelegatedAdministratorResponse,
   DeregisterDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2426,7 @@ export type DescribeAccountError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const describeAccount: API.OperationMethod<
-  DescribeAccountRequest,
+  DescribeAccountRequest & RegionInput,
   DescribeAccountResponse,
   DescribeAccountError,
   Credentials | HttpClient.HttpClient
@@ -2462,7 +2463,7 @@ export type DescribeCreateAccountStatusError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const describeCreateAccountStatus: API.OperationMethod<
-  DescribeCreateAccountStatusRequest,
+  DescribeCreateAccountStatusRequest & RegionInput,
   DescribeCreateAccountStatusResponse,
   DescribeCreateAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type DescribeEffectivePolicyError =
  * You can call this operation from any account in a organization.
  */
 export const describeEffectivePolicy: API.OperationMethod<
-  DescribeEffectivePolicyRequest,
+  DescribeEffectivePolicyRequest & RegionInput,
   DescribeEffectivePolicyResponse,
   DescribeEffectivePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2555,7 +2556,7 @@ export type DescribeHandshakeError =
  * You can call this operation from any account in a organization.
  */
 export const describeHandshake: API.OperationMethod<
-  DescribeHandshakeRequest,
+  DescribeHandshakeRequest & RegionInput,
   DescribeHandshakeResponse,
   DescribeHandshakeError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type DescribeOrganizationError =
  * root.
  */
 export const describeOrganization: API.OperationMethod<
-  DescribeOrganizationRequest,
+  DescribeOrganizationRequest & RegionInput,
   DescribeOrganizationResponse,
   DescribeOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -2630,7 +2631,7 @@ export type DescribeOrganizationalUnitError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const describeOrganizationalUnit: API.OperationMethod<
-  DescribeOrganizationalUnitRequest,
+  DescribeOrganizationalUnitRequest & RegionInput,
   DescribeOrganizationalUnitResponse,
   DescribeOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -2667,7 +2668,7 @@ export type DescribePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const describePolicy: API.OperationMethod<
-  DescribePolicyRequest,
+  DescribePolicyRequest & RegionInput,
   DescribePolicyResponse,
   DescribePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2705,7 +2706,7 @@ export type DescribeResourcePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2743,7 +2744,7 @@ export type DescribeResponsibilityTransferError =
  * responsibilities for their organization.
  */
 export const describeResponsibilityTransfer: API.OperationMethod<
-  DescribeResponsibilityTransferRequest,
+  DescribeResponsibilityTransferRequest & RegionInput,
   DescribeResponsibilityTransferResponse,
   DescribeResponsibilityTransferError,
   Credentials | HttpClient.HttpClient
@@ -2799,7 +2800,7 @@ export type DetachPolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const detachPolicy: API.OperationMethod<
-  DetachPolicyRequest,
+  DetachPolicyRequest & RegionInput,
   DetachPolicyResponse,
   DetachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2895,7 +2896,7 @@ export type DisableAWSServiceAccessError =
  * You can only call this operation from the management account.
  */
 export const disableAWSServiceAccess: API.OperationMethod<
-  DisableAWSServiceAccessRequest,
+  DisableAWSServiceAccessRequest & RegionInput,
   DisableAWSServiceAccessResponse,
   DisableAWSServiceAccessError,
   Credentials | HttpClient.HttpClient
@@ -2949,7 +2950,7 @@ export type DisablePolicyTypeError =
  * To view the status of available policy types in the organization, use ListRoots.
  */
 export const disablePolicyType: API.OperationMethod<
-  DisablePolicyTypeRequest,
+  DisablePolicyTypeRequest & RegionInput,
   DisablePolicyTypeResponse,
   DisablePolicyTypeError,
   Credentials | HttpClient.HttpClient
@@ -3017,7 +3018,7 @@ export type EnableAllFeaturesError =
  * You can only call this operation from the management account.
  */
 export const enableAllFeatures: API.OperationMethod<
-  EnableAllFeaturesRequest,
+  EnableAllFeaturesRequest & RegionInput,
   EnableAllFeaturesResponse,
   EnableAllFeaturesError,
   Credentials | HttpClient.HttpClient
@@ -3073,7 +3074,7 @@ export type EnableAWSServiceAccessError =
  * You can only call this operation from the management account.
  */
 export const enableAWSServiceAccess: API.OperationMethod<
-  EnableAWSServiceAccessRequest,
+  EnableAWSServiceAccessRequest & RegionInput,
   EnableAWSServiceAccessResponse,
   EnableAWSServiceAccessError,
   Credentials | HttpClient.HttpClient
@@ -3128,7 +3129,7 @@ export type EnablePolicyTypeError =
  * ListRoots.
  */
 export const enablePolicyType: API.OperationMethod<
-  EnablePolicyTypeRequest,
+  EnablePolicyTypeRequest & RegionInput,
   EnablePolicyTypeResponse,
   EnablePolicyTypeError,
   Credentials | HttpClient.HttpClient
@@ -3187,7 +3188,7 @@ export type InviteAccountToOrganizationError =
  * You can only call this operation from the management account.
  */
 export const inviteAccountToOrganization: API.OperationMethod<
-  InviteAccountToOrganizationRequest,
+  InviteAccountToOrganizationRequest & RegionInput,
   InviteAccountToOrganizationResponse,
   InviteAccountToOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -3234,7 +3235,7 @@ export type InviteOrganizationToTransferResponsibilityError =
  * You can only call this operation from the management account.
  */
 export const inviteOrganizationToTransferResponsibility: API.OperationMethod<
-  InviteOrganizationToTransferResponsibilityRequest,
+  InviteOrganizationToTransferResponsibilityRequest & RegionInput,
   InviteOrganizationToTransferResponsibilityResponse,
   InviteOrganizationToTransferResponsibilityError,
   Credentials | HttpClient.HttpClient
@@ -3328,7 +3329,7 @@ export type LeaveOrganizationError =
  * this up to 5 accounts per second in a single organization.
  */
 export const leaveOrganization: API.OperationMethod<
-  LeaveOrganizationRequest,
+  LeaveOrganizationRequest & RegionInput,
   LeaveOrganizationResponse,
   LeaveOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -3371,7 +3372,7 @@ export type ListAccountsError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3420,7 +3421,7 @@ export type ListAccountsForParentError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listAccountsForParent: API.PaginatedOperationMethod<
-  ListAccountsForParentRequest,
+  ListAccountsForParentRequest & RegionInput,
   ListAccountsForParentResponse,
   ListAccountsForParentError,
   Credentials | HttpClient.HttpClient,
@@ -3467,7 +3468,7 @@ export type ListAccountsWithInvalidEffectivePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listAccountsWithInvalidEffectivePolicy: API.PaginatedOperationMethod<
-  ListAccountsWithInvalidEffectivePolicyRequest,
+  ListAccountsWithInvalidEffectivePolicyRequest & RegionInput,
   ListAccountsWithInvalidEffectivePolicyResponse,
   ListAccountsWithInvalidEffectivePolicyError,
   Credentials | HttpClient.HttpClient,
@@ -3519,7 +3520,7 @@ export type ListAWSServiceAccessForOrganizationError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listAWSServiceAccessForOrganization: API.PaginatedOperationMethod<
-  ListAWSServiceAccessForOrganizationRequest,
+  ListAWSServiceAccessForOrganizationRequest & RegionInput,
   ListAWSServiceAccessForOrganizationResponse,
   ListAWSServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -3568,7 +3569,7 @@ export type ListChildrenError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listChildren: API.PaginatedOperationMethod<
-  ListChildrenRequest,
+  ListChildrenRequest & RegionInput,
   ListChildrenResponse,
   ListChildrenError,
   Credentials | HttpClient.HttpClient,
@@ -3615,7 +3616,7 @@ export type ListCreateAccountStatusError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listCreateAccountStatus: API.PaginatedOperationMethod<
-  ListCreateAccountStatusRequest,
+  ListCreateAccountStatusRequest & RegionInput,
   ListCreateAccountStatusResponse,
   ListCreateAccountStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3659,7 +3660,7 @@ export type ListDelegatedAdministratorsError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listDelegatedAdministrators: API.PaginatedOperationMethod<
-  ListDelegatedAdministratorsRequest,
+  ListDelegatedAdministratorsRequest & RegionInput,
   ListDelegatedAdministratorsResponse,
   ListDelegatedAdministratorsError,
   Credentials | HttpClient.HttpClient,
@@ -3707,7 +3708,7 @@ export type ListDelegatedServicesForAccountError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listDelegatedServicesForAccount: API.PaginatedOperationMethod<
-  ListDelegatedServicesForAccountRequest,
+  ListDelegatedServicesForAccountRequest & RegionInput,
   ListDelegatedServicesForAccountResponse,
   ListDelegatedServicesForAccountError,
   Credentials | HttpClient.HttpClient,
@@ -3757,7 +3758,7 @@ export type ListEffectivePolicyValidationErrorsError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listEffectivePolicyValidationErrors: API.PaginatedOperationMethod<
-  ListEffectivePolicyValidationErrorsRequest,
+  ListEffectivePolicyValidationErrorsRequest & RegionInput,
   ListEffectivePolicyValidationErrorsResponse,
   ListEffectivePolicyValidationErrorsError,
   Credentials | HttpClient.HttpClient,
@@ -3810,7 +3811,7 @@ export type ListHandshakesForAccountError =
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
 export const listHandshakesForAccount: API.PaginatedOperationMethod<
-  ListHandshakesForAccountRequest,
+  ListHandshakesForAccountRequest & RegionInput,
   ListHandshakesForAccountResponse,
   ListHandshakesForAccountError,
   Credentials | HttpClient.HttpClient,
@@ -3859,7 +3860,7 @@ export type ListHandshakesForOrganizationError =
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
 export const listHandshakesForOrganization: API.PaginatedOperationMethod<
-  ListHandshakesForOrganizationRequest,
+  ListHandshakesForOrganizationRequest & RegionInput,
   ListHandshakesForOrganizationResponse,
   ListHandshakesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -3906,7 +3907,7 @@ export type ListInboundResponsibilityTransfersError =
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
 export const listInboundResponsibilityTransfers: API.OperationMethod<
-  ListInboundResponsibilityTransfersRequest,
+  ListInboundResponsibilityTransfersRequest & RegionInput,
   ListInboundResponsibilityTransfersResponse,
   ListInboundResponsibilityTransfersError,
   Credentials | HttpClient.HttpClient
@@ -3948,7 +3949,7 @@ export type ListOrganizationalUnitsForParentError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listOrganizationalUnitsForParent: API.PaginatedOperationMethod<
-  ListOrganizationalUnitsForParentRequest,
+  ListOrganizationalUnitsForParentRequest & RegionInput,
   ListOrganizationalUnitsForParentResponse,
   ListOrganizationalUnitsForParentError,
   Credentials | HttpClient.HttpClient,
@@ -3995,7 +3996,7 @@ export type ListOutboundResponsibilityTransfersError =
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
 export const listOutboundResponsibilityTransfers: API.OperationMethod<
-  ListOutboundResponsibilityTransfersRequest,
+  ListOutboundResponsibilityTransfersRequest & RegionInput,
   ListOutboundResponsibilityTransfersResponse,
   ListOutboundResponsibilityTransfersError,
   Credentials | HttpClient.HttpClient
@@ -4040,7 +4041,7 @@ export type ListParentsError =
  * In the current release, a child can have only a single parent.
  */
 export const listParents: API.PaginatedOperationMethod<
-  ListParentsRequest,
+  ListParentsRequest & RegionInput,
   ListParentsResponse,
   ListParentsError,
   Credentials | HttpClient.HttpClient,
@@ -4086,7 +4087,7 @@ export type ListPoliciesError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4135,7 +4136,7 @@ export type ListPoliciesForTargetError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listPoliciesForTarget: API.PaginatedOperationMethod<
-  ListPoliciesForTargetRequest,
+  ListPoliciesForTargetRequest & RegionInput,
   ListPoliciesForTargetResponse,
   ListPoliciesForTargetError,
   Credentials | HttpClient.HttpClient,
@@ -4187,7 +4188,7 @@ export type ListRootsError =
  * organization, use DescribeOrganization.
  */
 export const listRoots: API.PaginatedOperationMethod<
-  ListRootsRequest,
+  ListRootsRequest & RegionInput,
   ListRootsResponse,
   ListRootsError,
   Credentials | HttpClient.HttpClient,
@@ -4238,7 +4239,7 @@ export type ListTagsForResourceError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4282,7 +4283,7 @@ export type ListTargetsForPolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const listTargetsForPolicy: API.PaginatedOperationMethod<
-  ListTargetsForPolicyRequest,
+  ListTargetsForPolicyRequest & RegionInput,
   ListTargetsForPolicyResponse,
   ListTargetsForPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -4330,7 +4331,7 @@ export type MoveAccountError =
  * You can only call this operation from the management account.
  */
 export const moveAccount: API.OperationMethod<
-  MoveAccountRequest,
+  MoveAccountRequest & RegionInput,
   MoveAccountResponse,
   MoveAccountError,
   Credentials | HttpClient.HttpClient
@@ -4372,7 +4373,7 @@ export type PutResourcePolicyError =
  * You can only call this operation from the management account..
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4421,7 +4422,7 @@ export type RegisterDelegatedAdministratorError =
  * You can only call this operation from the management account.
  */
 export const registerDelegatedAdministrator: API.OperationMethod<
-  RegisterDelegatedAdministratorRequest,
+  RegisterDelegatedAdministratorRequest & RegionInput,
   RegisterDelegatedAdministratorResponse,
   RegisterDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -4493,7 +4494,7 @@ export type RemoveAccountFromOrganizationError =
  * of an organization do not support tags.
  */
 export const removeAccountFromOrganization: API.OperationMethod<
-  RemoveAccountFromOrganizationRequest,
+  RemoveAccountFromOrganizationRequest & RegionInput,
   RemoveAccountFromOrganizationResponse,
   RemoveAccountFromOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -4544,7 +4545,7 @@ export type TagResourceError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4593,7 +4594,7 @@ export type TerminateResponsibilityTransferError =
  * *Organizations User Guide*.
  */
 export const terminateResponsibilityTransfer: API.OperationMethod<
-  TerminateResponsibilityTransferRequest,
+  TerminateResponsibilityTransferRequest & RegionInput,
   TerminateResponsibilityTransferResponse,
   TerminateResponsibilityTransferError,
   Credentials | HttpClient.HttpClient
@@ -4646,7 +4647,7 @@ export type UntagResourceError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4688,7 +4689,7 @@ export type UpdateOrganizationalUnitError =
  * You can only call this operation from the management account.
  */
 export const updateOrganizationalUnit: API.OperationMethod<
-  UpdateOrganizationalUnitRequest,
+  UpdateOrganizationalUnitRequest & RegionInput,
   UpdateOrganizationalUnitResponse,
   UpdateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -4734,7 +4735,7 @@ export type UpdatePolicyError =
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
+  UpdatePolicyRequest & RegionInput,
   UpdatePolicyResponse,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4780,7 +4781,7 @@ export type UpdateResponsibilityTransferError =
  * You can update the name assigned to a transfer.
  */
 export const updateResponsibilityTransfer: API.OperationMethod<
-  UpdateResponsibilityTransferRequest,
+  UpdateResponsibilityTransferRequest & RegionInput,
   UpdateResponsibilityTransferResponse,
   UpdateResponsibilityTransferError,
   Credentials | HttpClient.HttpClient

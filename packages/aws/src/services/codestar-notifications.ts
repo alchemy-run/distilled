@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -351,7 +352,7 @@ export type CreateNotificationRuleError =
  * them.
  */
 export const createNotificationRule: API.OperationMethod<
-  CreateNotificationRuleRequest,
+  CreateNotificationRuleRequest & RegionInput,
   CreateNotificationRuleResult,
   CreateNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -382,7 +383,7 @@ export type DeleteNotificationRuleError =
  * Deletes a notification rule for a resource.
  */
 export const deleteNotificationRule: API.OperationMethod<
-  DeleteNotificationRuleRequest,
+  DeleteNotificationRuleRequest & RegionInput,
   DeleteNotificationRuleResult,
   DeleteNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -402,7 +403,7 @@ export type DeleteTargetError = ValidationException | CommonErrors;
  * Deletes a specified target for notifications.
  */
 export const deleteTarget: API.OperationMethod<
-  DeleteTargetRequest,
+  DeleteTargetRequest & RegionInput,
   DeleteTargetResult,
   DeleteTargetError,
   Credentials | HttpClient.HttpClient
@@ -425,7 +426,7 @@ export type DescribeNotificationRuleError =
  * Returns information about a specified notification rule.
  */
 export const describeNotificationRule: API.OperationMethod<
-  DescribeNotificationRuleRequest,
+  DescribeNotificationRuleRequest & RegionInput,
   DescribeNotificationRuleResult,
   DescribeNotificationRuleError,
   Credentials | HttpClient.HttpClient
@@ -445,7 +446,7 @@ export type ListEventTypesError = InvalidNextTokenException | ValidationExceptio
  * Returns information about the event types available for configuring notifications.
  */
 export const listEventTypes: API.PaginatedOperationMethod<
-  ListEventTypesRequest,
+  ListEventTypesRequest & RegionInput,
   ListEventTypesResult,
   ListEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -475,7 +476,7 @@ export type ListNotificationRulesError =
  * Returns a list of the notification rules for an Amazon Web Services account.
  */
 export const listNotificationRules: API.PaginatedOperationMethod<
-  ListNotificationRulesRequest,
+  ListNotificationRulesRequest & RegionInput,
   ListNotificationRulesResult,
   ListNotificationRulesError,
   Credentials | HttpClient.HttpClient,
@@ -505,7 +506,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a notification rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -525,7 +526,7 @@ export type ListTargetsError = InvalidNextTokenException | ValidationException |
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
 export const listTargets: API.PaginatedOperationMethod<
-  ListTargetsRequest,
+  ListTargetsRequest & RegionInput,
   ListTargetsResult,
   ListTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -558,7 +559,7 @@ export type SubscribeError =
  * triggered.
  */
 export const subscribe: API.OperationMethod<
-  SubscribeRequest,
+  SubscribeRequest & RegionInput,
   SubscribeResult,
   SubscribeError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type TagResourceError =
  * Associates a set of provided tags with a notification rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -610,7 +611,7 @@ export type UnsubscribeError = ValidationException | CommonErrors;
  * rule are triggered.
  */
 export const unsubscribe: API.OperationMethod<
-  UnsubscribeRequest,
+  UnsubscribeRequest & RegionInput,
   UnsubscribeResult,
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
@@ -636,7 +637,7 @@ export type UntagResourceError =
  * rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -669,7 +670,7 @@ export type UpdateNotificationRuleError =
  * To add or remove tags for a notification rule, you must use TagResource and UntagResource.
  */
 export const updateNotificationRule: API.OperationMethod<
-  UpdateNotificationRuleRequest,
+  UpdateNotificationRuleRequest & RegionInput,
   UpdateNotificationRuleResult,
   UpdateNotificationRuleError,
   Credentials | HttpClient.HttpClient

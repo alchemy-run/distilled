@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -221,7 +222,7 @@ export type DeleteReportDefinitionError =
  * generated.
  */
 export const deleteReportDefinition: API.OperationMethod<
-  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionRequest & RegionInput,
   DeleteReportDefinitionResult,
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -251,7 +252,7 @@ export type GetReportDefinitionError =
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
 export const getReportDefinition: API.OperationMethod<
-  GetReportDefinitionRequest,
+  GetReportDefinitionRequest & RegionInput,
   GetReportDefinitionResult,
   GetReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -285,7 +286,7 @@ export type ImportApplicationUsageError =
  * asynchronously.
  */
 export const importApplicationUsage: API.OperationMethod<
-  ImportApplicationUsageRequest,
+  ImportApplicationUsageRequest & RegionInput,
   ImportApplicationUsageResult,
   ImportApplicationUsageError,
   Credentials | HttpClient.HttpClient
@@ -317,7 +318,7 @@ export type ListReportDefinitionsError =
  * The maximum number of reports is one.
  */
 export const listReportDefinitions: API.PaginatedOperationMethod<
-  ListReportDefinitionsRequest,
+  ListReportDefinitionsRequest & RegionInput,
   ListReportDefinitionsResult,
   ListReportDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -355,7 +356,7 @@ export type PutReportDefinitionError =
  * Creates the report definition for a report in Application Cost Profiler.
  */
 export const putReportDefinition: API.OperationMethod<
-  PutReportDefinitionRequest,
+  PutReportDefinitionRequest & RegionInput,
   PutReportDefinitionResult,
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -386,7 +387,7 @@ export type UpdateReportDefinitionError =
  * Updates existing report in AWS Application Cost Profiler.
  */
 export const updateReportDefinition: API.OperationMethod<
-  UpdateReportDefinitionRequest,
+  UpdateReportDefinitionRequest & RegionInput,
   UpdateReportDefinitionResult,
   UpdateReportDefinitionError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -451,7 +452,7 @@ export type BulkPublishError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const bulkPublish: API.OperationMethod<
-  BulkPublishRequest,
+  BulkPublishRequest & RegionInput,
   BulkPublishResponse,
   BulkPublishError,
   Credentials | HttpClient.HttpClient
@@ -490,7 +491,7 @@ export type DeleteDatasetError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -527,7 +528,7 @@ export type DescribeDatasetError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type DescribeIdentityPoolUsageError =
  * }
  */
 export const describeIdentityPoolUsage: API.OperationMethod<
-  DescribeIdentityPoolUsageRequest,
+  DescribeIdentityPoolUsageRequest & RegionInput,
   DescribeIdentityPoolUsageResponse,
   DescribeIdentityPoolUsageError,
   Credentials | HttpClient.HttpClient
@@ -679,7 +680,7 @@ export type DescribeIdentityUsageError =
  * }
  */
 export const describeIdentityUsage: API.OperationMethod<
-  DescribeIdentityUsageRequest,
+  DescribeIdentityUsageRequest & RegionInput,
   DescribeIdentityUsageResponse,
   DescribeIdentityUsageError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type GetBulkPublishDetailsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const getBulkPublishDetails: API.OperationMethod<
-  GetBulkPublishDetailsRequest,
+  GetBulkPublishDetailsRequest & RegionInput,
   GetBulkPublishDetailsResponse,
   GetBulkPublishDetailsError,
   Credentials | HttpClient.HttpClient
@@ -745,7 +746,7 @@ export type GetCognitoEventsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const getCognitoEvents: API.OperationMethod<
-  GetCognitoEventsRequest,
+  GetCognitoEventsRequest & RegionInput,
   GetCognitoEventsResponse,
   GetCognitoEventsError,
   Credentials | HttpClient.HttpClient
@@ -819,7 +820,7 @@ export type GetIdentityPoolConfigurationError =
  * }
  */
 export const getIdentityPoolConfiguration: API.OperationMethod<
-  GetIdentityPoolConfigurationRequest,
+  GetIdentityPoolConfigurationRequest & RegionInput,
   GetIdentityPoolConfigurationResponse,
   GetIdentityPoolConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +905,7 @@ export type ListDatasetsError =
  * }
  */
 export const listDatasets: API.OperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type ListIdentityPoolUsageError =
  * }
  */
 export const listIdentityPoolUsage: API.OperationMethod<
-  ListIdentityPoolUsageRequest,
+  ListIdentityPoolUsageRequest & RegionInput,
   ListIdentityPoolUsageResponse,
   ListIdentityPoolUsageError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type ListRecordsError =
  * }
  */
 export const listRecords: API.OperationMethod<
-  ListRecordsRequest,
+  ListRecordsRequest & RegionInput,
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type RegisterDeviceError =
  * }
  */
 export const registerDevice: API.OperationMethod<
-  RegisterDeviceRequest,
+  RegisterDeviceRequest & RegionInput,
   RegisterDeviceResponse,
   RegisterDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type SetCognitoEventsError =
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
 export const setCognitoEvents: API.OperationMethod<
-  SetCognitoEventsRequest,
+  SetCognitoEventsRequest & RegionInput,
   SetCognitoEventsResponse,
   SetCognitoEventsError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1258,7 @@ export type SetIdentityPoolConfigurationError =
  * }
  */
 export const setIdentityPoolConfiguration: API.OperationMethod<
-  SetIdentityPoolConfigurationRequest,
+  SetIdentityPoolConfigurationRequest & RegionInput,
   SetIdentityPoolConfigurationResponse,
   SetIdentityPoolConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1331,7 +1332,7 @@ export type SubscribeToDatasetError =
  * }
  */
 export const subscribeToDataset: API.OperationMethod<
-  SubscribeToDatasetRequest,
+  SubscribeToDatasetRequest & RegionInput,
   SubscribeToDatasetResponse,
   SubscribeToDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type UnsubscribeFromDatasetError =
  * }
  */
 export const unsubscribeFromDataset: API.OperationMethod<
-  UnsubscribeFromDatasetRequest,
+  UnsubscribeFromDatasetRequest & RegionInput,
   UnsubscribeFromDatasetResponse,
   UnsubscribeFromDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1449,7 +1450,7 @@ export type UpdateRecordsError =
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
 export const updateRecords: API.OperationMethod<
-  UpdateRecordsRequest,
+  UpdateRecordsRequest & RegionInput,
   UpdateRecordsResponse,
   UpdateRecordsError,
   Credentials | HttpClient.HttpClient

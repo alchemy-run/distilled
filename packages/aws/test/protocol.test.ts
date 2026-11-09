@@ -14,7 +14,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
-import * as Credentials from "../src/credentials.browser.ts";
+import * as Credentials from "../src/credentials.ts";
 import * as Endpoint from "../src/endpoint.ts";
 import { AwsProtocol } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";

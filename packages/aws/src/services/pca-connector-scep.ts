@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -343,7 +344,7 @@ export type CreateChallengeError =
  * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
  */
 export const createChallenge: API.OperationMethod<
-  CreateChallengeRequest,
+  CreateChallengeRequest & RegionInput,
   CreateChallengeResponse,
   CreateChallengeError,
   Credentials | HttpClient.HttpClient
@@ -380,7 +381,7 @@ export type CreateConnectorError =
  * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type DeleteChallengeError =
  * Deletes the specified Challenge.
  */
 export const deleteChallenge: API.OperationMethod<
-  DeleteChallengeRequest,
+  DeleteChallengeRequest & RegionInput,
   DeleteChallengeResponse,
   DeleteChallengeError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type DeleteConnectorError =
  * Deletes the specified Connector. This operation also deletes any challenges associated with the connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -482,7 +483,7 @@ export type GetChallengeMetadataError =
  * Retrieves the metadata for the specified Challenge.
  */
 export const getChallengeMetadata: API.OperationMethod<
-  GetChallengeMetadataRequest,
+  GetChallengeMetadataRequest & RegionInput,
   GetChallengeMetadataResponse,
   GetChallengeMetadataError,
   Credentials | HttpClient.HttpClient
@@ -514,7 +515,7 @@ export type GetChallengePasswordError =
  * Retrieves the challenge password for the specified Challenge.
  */
 export const getChallengePassword: API.OperationMethod<
-  GetChallengePasswordRequest,
+  GetChallengePasswordRequest & RegionInput,
   GetChallengePasswordResponse,
   GetChallengePasswordError,
   Credentials | HttpClient.HttpClient
@@ -546,7 +547,7 @@ export type GetConnectorError =
  * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type ListChallengeMetadataError =
  * Retrieves the challenge metadata for the specified ARN.
  */
 export const listChallengeMetadata: API.PaginatedOperationMethod<
-  ListChallengeMetadataRequest,
+  ListChallengeMetadataRequest & RegionInput,
   ListChallengeMetadataResponse,
   ListChallengeMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -616,7 +617,7 @@ export type ListConnectorsError =
  * Lists the connectors belonging to your Amazon Web Services account.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -654,7 +655,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type TagResourceError =
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type UntagResourceError =
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

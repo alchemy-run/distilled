@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -258,7 +259,7 @@ export type SendSerialConsoleSSHPublicKeyError =
  * the *Amazon EC2 User Guide*.
  */
 export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
-  SendSerialConsoleSSHPublicKeyRequest,
+  SendSerialConsoleSSHPublicKeyRequest & RegionInput,
   SendSerialConsoleSSHPublicKeyResponse,
   SendSerialConsoleSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -302,7 +303,7 @@ export type SendSSHPublicKeyError =
  * User Guide.
  */
 export const sendSSHPublicKey: API.OperationMethod<
-  SendSSHPublicKeyRequest,
+  SendSSHPublicKeyRequest & RegionInput,
   SendSSHPublicKeyResponse,
   SendSSHPublicKeyError,
   Credentials | HttpClient.HttpClient

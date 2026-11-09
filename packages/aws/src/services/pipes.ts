@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -860,7 +861,7 @@ export type CreatePipeError =
  * the need for specialized knowledge and integration code.
  */
 export const createPipe: API.OperationMethod<
-  CreatePipeRequest,
+  CreatePipeRequest & RegionInput,
   CreatePipeResponse,
   CreatePipeError,
   Credentials | HttpClient.HttpClient
@@ -893,7 +894,7 @@ export type DeletePipeError =
  * Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const deletePipe: API.OperationMethod<
-  DeletePipeRequest,
+  DeletePipeRequest & RegionInput,
   DeletePipeResponse,
   DeletePipeError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DescribePipeError =
  * Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const describePipe: API.OperationMethod<
-  DescribePipeRequest,
+  DescribePipeRequest & RegionInput,
   DescribePipeResponse,
   DescribePipeError,
   Credentials | HttpClient.HttpClient
@@ -948,7 +949,7 @@ export type ListPipesError =
  * Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const listPipes: API.PaginatedOperationMethod<
-  ListPipesRequest,
+  ListPipesRequest & RegionInput,
   ListPipesResponse,
   ListPipesError,
   Credentials | HttpClient.HttpClient,
@@ -979,7 +980,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a pipe.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type StartPipeError =
  * Start an existing pipe.
  */
 export const startPipe: API.OperationMethod<
-  StartPipeRequest,
+  StartPipeRequest & RegionInput,
   StartPipeResponse,
   StartPipeError,
   Credentials | HttpClient.HttpClient
@@ -1037,7 +1038,7 @@ export type StopPipeError =
  * Stop an existing pipe.
  */
 export const stopPipe: API.OperationMethod<
-  StopPipeRequest,
+  StopPipeRequest & RegionInput,
   StopPipeResponse,
   StopPipeError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a pipe.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1104,7 +1105,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified pipes.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type UpdatePipeError =
  * Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const updatePipe: API.OperationMethod<
-  UpdatePipeRequest,
+  UpdatePipeRequest & RegionInput,
   UpdatePipeResponse,
   UpdatePipeError,
   Credentials | HttpClient.HttpClient

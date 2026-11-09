@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -682,7 +683,7 @@ export type CreateClusterError =
  * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -726,7 +727,7 @@ export type CreateParameterGroupError =
  * you apply to all of the nodes in a DAX cluster.
  */
 export const createParameterGroup: API.OperationMethod<
-  CreateParameterGroupRequest,
+  CreateParameterGroupRequest & RegionInput,
   CreateParameterGroupResponse,
   CreateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -760,7 +761,7 @@ export type CreateSubnetGroupError =
  * Creates a new subnet group.
  */
 export const createSubnetGroup: API.OperationMethod<
-  CreateSubnetGroupRequest,
+  CreateSubnetGroupRequest & RegionInput,
   CreateSubnetGroupResponse,
   CreateSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -798,7 +799,7 @@ export type DecreaseReplicationFactorError =
  * `DeleteCluster` instead.
  */
 export const decreaseReplicationFactor: API.OperationMethod<
-  DecreaseReplicationFactorRequest,
+  DecreaseReplicationFactorRequest & RegionInput,
   DecreaseReplicationFactorResponse,
   DecreaseReplicationFactorError,
   Credentials | HttpClient.HttpClient
@@ -835,7 +836,7 @@ export type DeleteClusterError =
  * revert this action.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -868,7 +869,7 @@ export type DeleteParameterGroupError =
  * associated with any DAX clusters.
  */
 export const deleteParameterGroup: API.OperationMethod<
-  DeleteParameterGroupRequest,
+  DeleteParameterGroupRequest & RegionInput,
   DeleteParameterGroupResponse,
   DeleteParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -901,7 +902,7 @@ export type DeleteSubnetGroupError =
  * clusters.
  */
 export const deleteSubnetGroup: API.OperationMethod<
-  DeleteSubnetGroupRequest,
+  DeleteSubnetGroupRequest & RegionInput,
   DeleteSubnetGroupResponse,
   DeleteSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DescribeClustersError =
  * endpoint information for the removed nodes is displayed.
  */
 export const describeClusters: API.OperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type DescribeDefaultParametersError =
  * software.
  */
 export const describeDefaultParameters: API.OperationMethod<
-  DescribeDefaultParametersRequest,
+  DescribeDefaultParametersRequest & RegionInput,
   DescribeDefaultParametersResponse,
   DescribeDefaultParametersError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type DescribeEventsError =
  * however, you can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.OperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type DescribeParameterGroupsError =
  * specified, the list will contain only the descriptions for that group.
  */
 export const describeParameterGroups: API.OperationMethod<
-  DescribeParameterGroupsRequest,
+  DescribeParameterGroupsRequest & RegionInput,
   DescribeParameterGroupsResponse,
   DescribeParameterGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1065,7 +1066,7 @@ export type DescribeParametersError =
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.OperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResponse,
   DescribeParametersError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type DescribeSubnetGroupsError =
  * the list will contain only the description of that group.
  */
 export const describeSubnetGroups: API.OperationMethod<
-  DescribeSubnetGroupsRequest,
+  DescribeSubnetGroupsRequest & RegionInput,
   DescribeSubnetGroupsResponse,
   DescribeSubnetGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type IncreaseReplicationFactorError =
  * Adds one or more nodes to a DAX cluster.
  */
 export const increaseReplicationFactor: API.OperationMethod<
-  IncreaseReplicationFactorRequest,
+  IncreaseReplicationFactorRequest & RegionInput,
   IncreaseReplicationFactorResponse,
   IncreaseReplicationFactorError,
   Credentials | HttpClient.HttpClient
@@ -1162,7 +1163,7 @@ export type ListTagsError =
  * `ListTags` up to 10 times per second, per account.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type RebootNodeError =
  * contents of the cache.
  */
 export const rebootNode: API.OperationMethod<
-  RebootNodeRequest,
+  RebootNodeRequest & RegionInput,
   RebootNodeResponse,
   RebootNodeError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type TagResourceError =
  * 5 times per second, per account.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1276,7 @@ export type UntagResourceError =
  * `UntagResource` up to 5 times per second, per account.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1313,7 +1314,7 @@ export type UpdateClusterError =
  * new values.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1348,7 +1349,7 @@ export type UpdateParameterGroupError =
  * a single request by submitting a list parameter name and value pairs.
  */
 export const updateParameterGroup: API.OperationMethod<
-  UpdateParameterGroupRequest,
+  UpdateParameterGroupRequest & RegionInput,
   UpdateParameterGroupResponse,
   UpdateParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1381,7 +1382,7 @@ export type UpdateSubnetGroupError =
  * Modifies an existing subnet group.
  */
 export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupRequest & RegionInput,
   UpdateSubnetGroupResponse,
   UpdateSubnetGroupError,
   Credentials | HttpClient.HttpClient

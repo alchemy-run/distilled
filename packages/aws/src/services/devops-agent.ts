@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2855,7 +2856,7 @@ export type AssociateServiceError =
  * Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success.
  */
 export const associateService: API.OperationMethod<
-  AssociateServiceInput,
+  AssociateServiceInput & RegionInput,
   AssociateServiceOutput,
   AssociateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2888,7 +2889,7 @@ export type CreateAgentSpaceError =
  * Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed.
  */
 export const createAgentSpace: API.OperationMethod<
-  CreateAgentSpaceInput,
+  CreateAgentSpaceInput & RegionInput,
   CreateAgentSpaceOutput,
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -2921,7 +2922,7 @@ export type CreateAssetError =
  * Creates a new asset in the specified agent space
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
+  CreateAssetRequest & RegionInput,
   CreateAssetResponse,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2957,7 @@ export type CreateAssetFileError =
  * Creates a file in an asset
  */
 export const createAssetFile: API.OperationMethod<
-  CreateAssetFileRequest,
+  CreateAssetFileRequest & RegionInput,
   CreateAssetFileResponse,
   CreateAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -2992,7 +2993,7 @@ export type CreateBacklogTaskError =
  * Creates a new backlog task in the specified agent space
  */
 export const createBacklogTask: API.OperationMethod<
-  CreateBacklogTaskRequest,
+  CreateBacklogTaskRequest & RegionInput,
   CreateBacklogTaskResponse,
   CreateBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3026,7 @@ export type CreateChatError =
  * Creates a new chat execution in the specified agent space
  */
 export const createChat: API.OperationMethod<
-  CreateChatRequest,
+  CreateChatRequest & RegionInput,
   CreateChatResponse,
   CreateChatError,
   Credentials | HttpClient.HttpClient
@@ -3056,7 +3057,7 @@ export type CreatePrivateConnectionError =
  * Creates a Private Connection to a target resource.
  */
 export const createPrivateConnection: API.OperationMethod<
-  CreatePrivateConnectionInput,
+  CreatePrivateConnectionInput & RegionInput,
   CreatePrivateConnectionOutput,
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type CreateTriggerError =
  * Creates a new Trigger in the specified agent space
  */
 export const createTrigger: API.OperationMethod<
-  CreateTriggerRequest,
+  CreateTriggerRequest & RegionInput,
   CreateTriggerResponse,
   CreateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3122,7 +3123,7 @@ export type DeleteAgentSpaceError =
  * Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
  */
 export const deleteAgentSpace: API.OperationMethod<
-  DeleteAgentSpaceInput,
+  DeleteAgentSpaceInput & RegionInput,
   DeleteAgentSpaceOutput,
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3155,7 +3156,7 @@ export type DeleteAssetError =
  * Deletes an asset and all its files from the specified agent space
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -3189,7 +3190,7 @@ export type DeleteAssetFileError =
  * Deletes a file from an asset
  */
 export const deleteAssetFile: API.OperationMethod<
-  DeleteAssetFileRequest,
+  DeleteAssetFileRequest & RegionInput,
   DeleteAssetFileResponse,
   DeleteAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -3221,7 +3222,7 @@ export type DeletePrivateConnectionError =
  * Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status.
  */
 export const deletePrivateConnection: API.OperationMethod<
-  DeletePrivateConnectionInput,
+  DeletePrivateConnectionInput & RegionInput,
   DeletePrivateConnectionOutput,
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3254,7 +3255,7 @@ export type DeleteTriggerError =
  * Deletes a Trigger from the specified agent space
  */
 export const deleteTrigger: API.OperationMethod<
-  DeleteTriggerRequest,
+  DeleteTriggerRequest & RegionInput,
   DeleteTriggerResponse,
   DeleteTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3287,7 +3288,7 @@ export type DeregisterServiceError =
  * Deregister a service
  */
 export const deregisterService: API.OperationMethod<
-  DeregisterServiceInput,
+  DeregisterServiceInput & RegionInput,
   DeregisterServiceOutput,
   DeregisterServiceError,
   Credentials | HttpClient.HttpClient
@@ -3318,7 +3319,7 @@ export type DescribePrivateConnectionError =
  * Retrieves details of an existing Private Connection.
  */
 export const describePrivateConnection: API.OperationMethod<
-  DescribePrivateConnectionInput,
+  DescribePrivateConnectionInput & RegionInput,
   DescribePrivateConnectionOutput,
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3348,7 +3349,7 @@ export type DisableOperatorAppError =
  * Disable the Operator App for the specified AgentSpace
  */
 export const disableOperatorApp: API.OperationMethod<
-  DisableOperatorAppInput,
+  DisableOperatorAppInput & RegionInput,
   DisableOperatorAppResponse,
   DisableOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3373,7 +3374,7 @@ export type DisassociateServiceError =
  * Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
  */
 export const disassociateService: API.OperationMethod<
-  DisassociateServiceInput,
+  DisassociateServiceInput & RegionInput,
   DisassociateServiceOutput,
   DisassociateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3398,7 +3399,7 @@ export type EnableOperatorAppError =
  * Enable the Operator App to access the given AgentSpace
  */
 export const enableOperatorApp: API.OperationMethod<
-  EnableOperatorAppInput,
+  EnableOperatorAppInput & RegionInput,
   EnableOperatorAppOutput,
   EnableOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3425,7 +3426,7 @@ export type GetAccountUsageError =
  * Retrieves monthly account usage metrics and limits for the AWS account.
  */
 export const getAccountUsage: API.OperationMethod<
-  GetAccountUsageInput,
+  GetAccountUsageInput & RegionInput,
   GetAccountUsageOutput,
   GetAccountUsageError,
   Credentials | HttpClient.HttpClient
@@ -3456,7 +3457,7 @@ export type GetAgentSpaceError =
  * Retrieves detailed information about a specific AgentSpace.
  */
 export const getAgentSpace: API.OperationMethod<
-  GetAgentSpaceInput,
+  GetAgentSpaceInput & RegionInput,
   GetAgentSpaceOutput,
   GetAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3483,7 +3484,7 @@ export type GetAssetError =
  * Gets an asset from the specified agent space
  */
 export const getAsset: API.OperationMethod<
-  GetAssetRequest,
+  GetAssetRequest & RegionInput,
   GetAssetResponse,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -3516,7 +3517,7 @@ export type GetAssetContentError =
  * Gets an asset's content as a zip bundle
  */
 export const getAssetContent: API.OperationMethod<
-  GetAssetContentRequest,
+  GetAssetContentRequest & RegionInput,
   GetAssetContentResponse,
   GetAssetContentError,
   Credentials | HttpClient.HttpClient
@@ -3549,7 +3550,7 @@ export type GetAssetFileError =
  * Gets a file from an asset
  */
 export const getAssetFile: API.OperationMethod<
-  GetAssetFileRequest,
+  GetAssetFileRequest & RegionInput,
   GetAssetFileResponse,
   GetAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -3580,7 +3581,7 @@ export type GetAssociationError =
  * Retrieves given associations configured for a specific AgentSpace.
  */
 export const getAssociation: API.OperationMethod<
-  GetAssociationInput,
+  GetAssociationInput & RegionInput,
   GetAssociationOutput,
   GetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3608,7 +3609,7 @@ export type GetBacklogTaskError =
  * Gets a backlog task for the specified agent space and task id
  */
 export const getBacklogTask: API.OperationMethod<
-  GetBacklogTaskRequest,
+  GetBacklogTaskRequest & RegionInput,
   GetBacklogTaskResponse,
   GetBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -3636,7 +3637,7 @@ export type GetOperatorAppError = InternalServerException | ValidationException 
  * Get the full auth configuration of operator including any enabled auth flow
  */
 export const getOperatorApp: API.OperationMethod<
-  GetOperatorAppInput,
+  GetOperatorAppInput & RegionInput,
   GetOperatorAppOutput,
   GetOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3663,7 +3664,7 @@ export type GetRecommendationError =
  * Retrieves a specific recommendation by its ID
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -3694,7 +3695,7 @@ export type GetServiceError =
  * Retrieves given service by it's unique identifier
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3721,7 +3722,7 @@ export type GetTriggerError =
  * Gets a Trigger from the specified agent space
  */
 export const getTrigger: API.OperationMethod<
-  GetTriggerRequest,
+  GetTriggerRequest & RegionInput,
   GetTriggerResponse,
   GetTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3748,7 +3749,7 @@ export type ListAgentSpacesError = InternalServerException | ValidationException
  * Lists all AgentSpaces with optional pagination.
  */
 export const listAgentSpaces: API.PaginatedOperationMethod<
-  ListAgentSpacesInput,
+  ListAgentSpacesInput & RegionInput,
   ListAgentSpacesOutput,
   ListAgentSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -3782,7 +3783,7 @@ export type ListAssetFilesError =
  * Lists files in an asset
  */
 export const listAssetFiles: API.PaginatedOperationMethod<
-  ListAssetFilesRequest,
+  ListAssetFilesRequest & RegionInput,
   ListAssetFilesResponse,
   ListAssetFilesError,
   Credentials | HttpClient.HttpClient,
@@ -3821,7 +3822,7 @@ export type ListAssetsError =
  * Lists assets in the specified agent space
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsRequest,
+  ListAssetsRequest & RegionInput,
   ListAssetsResponse,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -3859,7 +3860,7 @@ export type ListAssetTypesError =
  * Lists the supported asset types
  */
 export const listAssetTypes: API.PaginatedOperationMethod<
-  ListAssetTypesRequest,
+  ListAssetTypesRequest & RegionInput,
   ListAssetTypesResponse,
   ListAssetTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3898,7 +3899,7 @@ export type ListAssetVersionsError =
  * Lists versions of an asset in the specified agent space
  */
 export const listAssetVersions: API.PaginatedOperationMethod<
-  ListAssetVersionsRequest,
+  ListAssetVersionsRequest & RegionInput,
   ListAssetVersionsResponse,
   ListAssetVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3936,7 +3937,7 @@ export type ListAssociationsError =
  * List all associations for given AgentSpace
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsInput,
+  ListAssociationsInput & RegionInput,
   ListAssociationsOutput,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3969,7 +3970,7 @@ export type ListBacklogTasksError =
  * Lists backlog tasks in the specified agent space with optional filtering and sorting
  */
 export const listBacklogTasks: API.PaginatedOperationMethod<
-  ListBacklogTasksRequest,
+  ListBacklogTasksRequest & RegionInput,
   ListBacklogTasksResponse,
   ListBacklogTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4007,7 +4008,7 @@ export type ListChatsError =
  * Retrieves a paginated list of the user's recent chat executions
  */
 export const listChats: API.OperationMethod<
-  ListChatsRequest,
+  ListChatsRequest & RegionInput,
   ListChatsResponse,
   ListChatsError,
   Credentials | HttpClient.HttpClient
@@ -4039,7 +4040,7 @@ export type ListExecutionsError =
  * List executions
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4078,7 +4079,7 @@ export type ListGoalsError =
  * Lists goals in the specified agent space with optional filtering
  */
 export const listGoals: API.PaginatedOperationMethod<
-  ListGoalsRequest,
+  ListGoalsRequest & RegionInput,
   ListGoalsResponse,
   ListGoalsError,
   Credentials | HttpClient.HttpClient,
@@ -4117,7 +4118,7 @@ export type ListJournalRecordsError =
  * List journal records for a specific execution
  */
 export const listJournalRecords: API.PaginatedOperationMethod<
-  ListJournalRecordsRequest,
+  ListJournalRecordsRequest & RegionInput,
   ListJournalRecordsResponse,
   ListJournalRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -4157,7 +4158,7 @@ export type ListPendingMessagesError =
  * List pending messages for a specific execution.
  */
 export const listPendingMessages: API.OperationMethod<
-  ListPendingMessagesRequest,
+  ListPendingMessagesRequest & RegionInput,
   ListPendingMessagesResponse,
   ListPendingMessagesError,
   Credentials | HttpClient.HttpClient
@@ -4188,7 +4189,7 @@ export type ListPrivateConnectionsError =
  * Lists all Private Connections in the caller's account.
  */
 export const listPrivateConnections: API.OperationMethod<
-  ListPrivateConnectionsInput,
+  ListPrivateConnectionsInput & RegionInput,
   ListPrivateConnectionsOutput,
   ListPrivateConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -4214,7 +4215,7 @@ export type ListRecommendationsError =
  * Lists recommendations for the specified agent space
  */
 export const listRecommendations: API.OperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4240,7 +4241,7 @@ export type ListServicesError = InternalServerException | ValidationException | 
  * List a list of registered service on the account level.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -4273,7 +4274,7 @@ export type ListTagsForResourceError =
  * Lists tags for the specified AWS DevOps Agent resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4305,7 +4306,7 @@ export type ListTriggersError =
  * Lists Triggers in the specified agent space
  */
 export const listTriggers: API.PaginatedOperationMethod<
-  ListTriggersRequest,
+  ListTriggersRequest & RegionInput,
   ListTriggersResponse,
   ListTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -4343,7 +4344,7 @@ export type ListWebhooksError =
  * List all webhooks for given Association
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksInput,
+  ListWebhooksInput & RegionInput,
   ListWebhooksOutput,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
@@ -4369,7 +4370,7 @@ export type RegisterServiceError =
  * This operation registers the specified service
  */
 export const registerService: API.OperationMethod<
-  RegisterServiceInput,
+  RegisterServiceInput & RegionInput,
   RegisterServiceOutput,
   RegisterServiceError,
   Credentials | HttpClient.HttpClient
@@ -4402,7 +4403,7 @@ export type SendMessageError =
  * Sends a chat message and streams the response for the specified agent space execution
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -4435,7 +4436,7 @@ export type TagResourceError =
  * Adds or overwrites tags for the specified AWS DevOps Agent resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4466,7 +4467,7 @@ export type UntagResourceError =
  * Removes tags from the specified AWS DevOps Agent resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4497,7 +4498,7 @@ export type UpdateAgentSpaceError =
  * Updates the information of an existing AgentSpace.
  */
 export const updateAgentSpace: API.OperationMethod<
-  UpdateAgentSpaceInput,
+  UpdateAgentSpaceInput & RegionInput,
   UpdateAgentSpaceOutput,
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -4531,7 +4532,7 @@ export type UpdateApprovalActionError =
  * Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
  */
 export const updateApprovalAction: API.OperationMethod<
-  UpdateApprovalActionRequest,
+  UpdateApprovalActionRequest & RegionInput,
   UpdateApprovalActionResponse,
   UpdateApprovalActionError,
   Credentials | HttpClient.HttpClient
@@ -4567,7 +4568,7 @@ export type UpdateAssetError =
  * Updates an asset in the specified agent space
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -4603,7 +4604,7 @@ export type UpdateAssetFileError =
  * Updates a file in an asset
  */
 export const updateAssetFile: API.OperationMethod<
-  UpdateAssetFileRequest,
+  UpdateAssetFileRequest & RegionInput,
   UpdateAssetFileResponse,
   UpdateAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -4637,7 +4638,7 @@ export type UpdateAssociationError =
  * Partially updates the configuration of an existing service association for an AgentSpace. Present fields are fully replaced; absent fields are left unchanged. Returns 200 OK on success.
  */
 export const updateAssociation: API.OperationMethod<
-  UpdateAssociationInput,
+  UpdateAssociationInput & RegionInput,
   UpdateAssociationOutput,
   UpdateAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4670,7 +4671,7 @@ export type UpdateBacklogTaskError =
  * Update an existing backlog task.
  */
 export const updateBacklogTask: API.OperationMethod<
-  UpdateBacklogTaskRequest,
+  UpdateBacklogTaskRequest & RegionInput,
   UpdateBacklogTaskResponse,
   UpdateBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -4705,7 +4706,7 @@ export type UpdateGoalError =
  * Update an existing goal
  */
 export const updateGoal: API.OperationMethod<
-  UpdateGoalRequest,
+  UpdateGoalRequest & RegionInput,
   UpdateGoalResponse,
   UpdateGoalError,
   Credentials | HttpClient.HttpClient
@@ -4737,7 +4738,7 @@ export type UpdateOperatorAppIdpConfigError =
  * Update the external Identity Provider configuration for the Operator App
  */
 export const updateOperatorAppIdpConfig: API.OperationMethod<
-  UpdateOperatorAppIdpConfigInput,
+  UpdateOperatorAppIdpConfigInput & RegionInput,
   UpdateOperatorAppIdpConfigOutput,
   UpdateOperatorAppIdpConfigError,
   Credentials | HttpClient.HttpClient
@@ -4763,7 +4764,7 @@ export type UpdatePrivateConnectionCertificateError =
  * Updates the certificate associated with a Private Connection.
  */
 export const updatePrivateConnectionCertificate: API.OperationMethod<
-  UpdatePrivateConnectionCertificateInput,
+  UpdatePrivateConnectionCertificateInput & RegionInput,
   UpdatePrivateConnectionCertificateOutput,
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4796,7 +4797,7 @@ export type UpdateRecommendationError =
  * Updates an existing recommendation with new content, status, or metadata
  */
 export const updateRecommendation: API.OperationMethod<
-  UpdateRecommendationRequest,
+  UpdateRecommendationRequest & RegionInput,
   UpdateRecommendationResponse,
   UpdateRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4830,7 +4831,7 @@ export type UpdateTriggerError =
  * Updates the status of an existing Trigger
  */
 export const updateTrigger: API.OperationMethod<
-  UpdateTriggerRequest,
+  UpdateTriggerRequest & RegionInput,
   UpdateTriggerResponse,
   UpdateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -4861,7 +4862,7 @@ export type ValidateAwsAssociationsError =
  * Validates an aws association and set status and returns a 204 No Content response on success.
  */
 export const validateAwsAssociations: API.OperationMethod<
-  ValidateAwsAssociationsInput,
+  ValidateAwsAssociationsInput & RegionInput,
   ValidateAwsAssociationsOutput,
   ValidateAwsAssociationsError,
   Credentials | HttpClient.HttpClient

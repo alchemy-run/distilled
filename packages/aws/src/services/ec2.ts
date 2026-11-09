@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -21145,7 +21146,7 @@ export type AcceptAddressTransferError =
  * Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the *Amazon VPC User Guide*.
  */
 export const acceptAddressTransfer: API.OperationMethod<
-  AcceptAddressTransferRequest,
+  AcceptAddressTransferRequest & RegionInput,
   AcceptAddressTransferResult,
   AcceptAddressTransferError,
   Credentials | HttpClient.HttpClient
@@ -21176,7 +21177,7 @@ export type AcceptCapacityReservationBillingOwnershipError =
  * Amazon EC2 Capacity Reservations.
  */
 export const acceptCapacityReservationBillingOwnership: API.OperationMethod<
-  AcceptCapacityReservationBillingOwnershipRequest,
+  AcceptCapacityReservationBillingOwnershipRequest & RegionInput,
   AcceptCapacityReservationBillingOwnershipResult,
   AcceptCapacityReservationBillingOwnershipError,
   Credentials | HttpClient.HttpClient
@@ -21200,7 +21201,7 @@ export type AcceptReservedInstancesExchangeQuoteError =
  * Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
  */
 export const acceptReservedInstancesExchangeQuote: API.OperationMethod<
-  AcceptReservedInstancesExchangeQuoteRequest,
+  AcceptReservedInstancesExchangeQuoteRequest & RegionInput,
   AcceptReservedInstancesExchangeQuoteResult,
   AcceptReservedInstancesExchangeQuoteError,
   Credentials | HttpClient.HttpClient
@@ -21220,7 +21221,7 @@ export type AcceptTransitGatewayClientVpnAttachmentError = CommonErrors;
  * Accepts a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner must accept the attachment request before the Client VPN endpoint can route traffic through the Transit Gateway.
  */
 export const acceptTransitGatewayClientVpnAttachment: API.OperationMethod<
-  AcceptTransitGatewayClientVpnAttachmentRequest,
+  AcceptTransitGatewayClientVpnAttachmentRequest & RegionInput,
   AcceptTransitGatewayClientVpnAttachmentResult,
   AcceptTransitGatewayClientVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -21244,7 +21245,7 @@ export type AcceptTransitGatewayMulticastDomainAssociationsError =
  * Accepts a request to associate subnets with a transit gateway multicast domain.
  */
 export const acceptTransitGatewayMulticastDomainAssociations: API.OperationMethod<
-  AcceptTransitGatewayMulticastDomainAssociationsRequest,
+  AcceptTransitGatewayMulticastDomainAssociationsRequest & RegionInput,
   AcceptTransitGatewayMulticastDomainAssociationsResult,
   AcceptTransitGatewayMulticastDomainAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -21277,7 +21278,7 @@ export type AcceptTransitGatewayPeeringAttachmentError =
  * in the `pendingAcceptance` state.
  */
 export const acceptTransitGatewayPeeringAttachment: API.OperationMethod<
-  AcceptTransitGatewayPeeringAttachmentRequest,
+  AcceptTransitGatewayPeeringAttachmentRequest & RegionInput,
   AcceptTransitGatewayPeeringAttachmentResult,
   AcceptTransitGatewayPeeringAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -21305,7 +21306,7 @@ export type AcceptTransitGatewayVpcAttachmentError =
  * Use RejectTransitGatewayVpcAttachment to reject a VPC attachment request.
  */
 export const acceptTransitGatewayVpcAttachment: API.OperationMethod<
-  AcceptTransitGatewayVpcAttachmentRequest,
+  AcceptTransitGatewayVpcAttachmentRequest & RegionInput,
   AcceptTransitGatewayVpcAttachmentResult,
   AcceptTransitGatewayVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -21330,7 +21331,7 @@ export type AcceptVpcEndpointConnectionsError =
  * Accepts connection requests to your VPC endpoint service.
  */
 export const acceptVpcEndpointConnections: API.OperationMethod<
-  AcceptVpcEndpointConnectionsRequest,
+  AcceptVpcEndpointConnectionsRequest & RegionInput,
   AcceptVpcEndpointConnectionsResult,
   AcceptVpcEndpointConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -21366,7 +21367,7 @@ export type AcceptVpcPeeringConnectionError =
  * connection in the Region of the accepter VPC.
  */
 export const acceptVpcPeeringConnection: API.OperationMethod<
-  AcceptVpcPeeringConnectionRequest,
+  AcceptVpcPeeringConnectionRequest & RegionInput,
   AcceptVpcPeeringConnectionResult,
   AcceptVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -21403,7 +21404,7 @@ export type AdvertiseByoipCidrError = RequestLimitExceeded | UnauthorizedOperati
  * because of BGP propagation delays.
  */
 export const advertiseByoipCidr: API.OperationMethod<
-  AdvertiseByoipCidrRequest,
+  AdvertiseByoipCidrRequest & RegionInput,
   AdvertiseByoipCidrResult,
   AdvertiseByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -21451,7 +21452,7 @@ export type AllocateAddressError =
  * to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
  */
 export const allocateAddress: API.OperationMethod<
-  AllocateAddressRequest,
+  AllocateAddressRequest & RegionInput,
   AllocateAddressResult,
   AllocateAddressError,
   Credentials | HttpClient.HttpClient
@@ -21478,7 +21479,7 @@ export type AllocateHostsError =
  * and the number of hosts to allocate.
  */
 export const allocateHosts: API.OperationMethod<
-  AllocateHostsRequest,
+  AllocateHostsRequest & RegionInput,
   AllocateHostsResult,
   AllocateHostsError,
   Credentials | HttpClient.HttpClient
@@ -21506,7 +21507,7 @@ export type AllocateIpamPoolCidrError =
  * This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same pool.
  */
 export const allocateIpamPoolCidr: API.OperationMethod<
-  AllocateIpamPoolCidrRequest,
+  AllocateIpamPoolCidrRequest & RegionInput,
   AllocateIpamPoolCidrResult,
   AllocateIpamPoolCidrError,
   Credentials | HttpClient.HttpClient
@@ -21531,7 +21532,7 @@ export type ApplySecurityGroupsToClientVpnTargetNetworkError =
  * security groups with the specified security groups.
  */
 export const applySecurityGroupsToClientVpnTargetNetwork: API.OperationMethod<
-  ApplySecurityGroupsToClientVpnTargetNetworkRequest,
+  ApplySecurityGroupsToClientVpnTargetNetworkRequest & RegionInput,
   ApplySecurityGroupsToClientVpnTargetNetworkResult,
   ApplySecurityGroupsToClientVpnTargetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -21567,7 +21568,7 @@ export type AssignIpv6AddressesError =
  * interfaces in the *Amazon EC2 User Guide*.
  */
 export const assignIpv6Addresses: API.OperationMethod<
-  AssignIpv6AddressesRequest,
+  AssignIpv6AddressesRequest & RegionInput,
   AssignIpv6AddressesResult,
   AssignIpv6AddressesError,
   Credentials | HttpClient.HttpClient
@@ -21621,7 +21622,7 @@ export type AssignPrivateIpAddressesError =
  * interfaces in the *Amazon EC2 User Guide*.
  */
 export const assignPrivateIpAddresses: API.OperationMethod<
-  AssignPrivateIpAddressesRequest,
+  AssignPrivateIpAddressesRequest & RegionInput,
   AssignPrivateIpAddressesResult,
   AssignPrivateIpAddressesError,
   Credentials | HttpClient.HttpClient
@@ -21652,7 +21653,7 @@ export type AssignPrivateNatGatewayAddressError =
  * Work with NAT gateways in the *Amazon VPC User Guide*.
  */
 export const assignPrivateNatGatewayAddress: API.OperationMethod<
-  AssignPrivateNatGatewayAddressRequest,
+  AssignPrivateNatGatewayAddressRequest & RegionInput,
   AssignPrivateNatGatewayAddressResult,
   AssignPrivateNatGatewayAddressError,
   Credentials | HttpClient.HttpClient
@@ -21698,7 +21699,7 @@ export type AssociateAddressError =
  * Pricing.
  */
 export const associateAddress: API.OperationMethod<
-  AssociateAddressRequest,
+  AssociateAddressRequest & RegionInput,
   AssociateAddressResult,
   AssociateAddressError,
   Credentials | HttpClient.HttpClient
@@ -21737,7 +21738,7 @@ export type AssociateApplicationStatusCheckError = CommonErrors;
  * - You can associate tags so that the application status check automatically monitors all current and future instances that have the specified tags.
  */
 export const associateApplicationStatusCheck: API.OperationMethod<
-  AssociateApplicationStatusCheckRequest,
+  AssociateApplicationStatusCheckRequest & RegionInput,
   AssociateApplicationStatusCheckResult,
   AssociateApplicationStatusCheckError,
   Credentials | HttpClient.HttpClient
@@ -21765,7 +21766,7 @@ export type AssociateCapacityReservationBillingOwnerError =
  * Amazon EC2 Capacity Reservations.
  */
 export const associateCapacityReservationBillingOwner: API.OperationMethod<
-  AssociateCapacityReservationBillingOwnerRequest,
+  AssociateCapacityReservationBillingOwnerRequest & RegionInput,
   AssociateCapacityReservationBillingOwnerResult,
   AssociateCapacityReservationBillingOwnerError,
   Credentials | HttpClient.HttpClient
@@ -21804,7 +21805,7 @@ export type AssociateClientVpnTargetNetworkError =
  * If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
  */
 export const associateClientVpnTargetNetwork: API.OperationMethod<
-  AssociateClientVpnTargetNetworkRequest,
+  AssociateClientVpnTargetNetworkRequest & RegionInput,
   AssociateClientVpnTargetNetworkResult,
   AssociateClientVpnTargetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -21847,7 +21848,7 @@ export type AssociateDhcpOptionsError =
  * in the *Amazon VPC User Guide*.
  */
 export const associateDhcpOptions: API.OperationMethod<
-  AssociateDhcpOptionsRequest,
+  AssociateDhcpOptionsRequest & RegionInput,
   AssociateDhcpOptionsResponse,
   AssociateDhcpOptionsError,
   Credentials | HttpClient.HttpClient
@@ -21892,7 +21893,7 @@ export type AssociateEnclaveCertificateIamRoleError =
  * *Amazon Web Services Nitro Enclaves User Guide*.
  */
 export const associateEnclaveCertificateIamRole: API.OperationMethod<
-  AssociateEnclaveCertificateIamRoleRequest,
+  AssociateEnclaveCertificateIamRoleRequest & RegionInput,
   AssociateEnclaveCertificateIamRoleResult,
   AssociateEnclaveCertificateIamRoleError,
   Credentials | HttpClient.HttpClient
@@ -21922,7 +21923,7 @@ export type AssociateIamInstanceProfileError =
  * associate more than one IAM instance profile with an instance.
  */
 export const associateIamInstanceProfile: API.OperationMethod<
-  AssociateIamInstanceProfileRequest,
+  AssociateIamInstanceProfileRequest & RegionInput,
   AssociateIamInstanceProfileResult,
   AssociateIamInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -21950,7 +21951,7 @@ export type AssociateInstanceEventWindowError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const associateInstanceEventWindow: API.OperationMethod<
-  AssociateInstanceEventWindowRequest,
+  AssociateInstanceEventWindowRequest & RegionInput,
   AssociateInstanceEventWindowResult,
   AssociateInstanceEventWindowError,
   Credentials | HttpClient.HttpClient
@@ -21978,7 +21979,7 @@ export type AssociateIpamByoasnError =
  * advertisement. You can view the association with DescribeByoipCidrs. You can advertise the CIDR with AdvertiseByoipCidr.
  */
 export const associateIpamByoasn: API.OperationMethod<
-  AssociateIpamByoasnRequest,
+  AssociateIpamByoasnRequest & RegionInput,
   AssociateIpamByoasnResult,
   AssociateIpamByoasnError,
   Credentials | HttpClient.HttpClient
@@ -22003,7 +22004,7 @@ export type AssociateIpamResourceDiscoveryError =
  * Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const associateIpamResourceDiscovery: API.OperationMethod<
-  AssociateIpamResourceDiscoveryRequest,
+  AssociateIpamResourceDiscoveryRequest & RegionInput,
   AssociateIpamResourceDiscoveryResult,
   AssociateIpamResourceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -22044,7 +22045,7 @@ export type AssociateNatGatewayAddressError =
  * about network border groups and EIPs, see Allocate an Elastic IP address in the *Amazon VPC User Guide*.
  */
 export const associateNatGatewayAddress: API.OperationMethod<
-  AssociateNatGatewayAddressRequest,
+  AssociateNatGatewayAddressRequest & RegionInput,
   AssociateNatGatewayAddressResult,
   AssociateNatGatewayAddressError,
   Credentials | HttpClient.HttpClient
@@ -22078,7 +22079,7 @@ export type AssociateRouteServerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const associateRouteServer: API.OperationMethod<
-  AssociateRouteServerRequest,
+  AssociateRouteServerRequest & RegionInput,
   AssociateRouteServerResult,
   AssociateRouteServerError,
   Credentials | HttpClient.HttpClient
@@ -22116,7 +22117,7 @@ export type AssociateRouteTableError =
  * *Amazon VPC User Guide*.
  */
 export const associateRouteTable: API.OperationMethod<
-  AssociateRouteTableRequest,
+  AssociateRouteTableRequest & RegionInput,
   AssociateRouteTableResult,
   AssociateRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -22162,7 +22163,7 @@ export type AssociateSecurityGroupVpcError =
  * - You cannot use this feature with the default VPC.
  */
 export const associateSecurityGroupVpc: API.OperationMethod<
-  AssociateSecurityGroupVpcRequest,
+  AssociateSecurityGroupVpcRequest & RegionInput,
   AssociateSecurityGroupVpcResult,
   AssociateSecurityGroupVpcError,
   Credentials | HttpClient.HttpClient
@@ -22188,7 +22189,7 @@ export type AssociateSubnetCidrBlockError =
  * block with your subnet.
  */
 export const associateSubnetCidrBlock: API.OperationMethod<
-  AssociateSubnetCidrBlockRequest,
+  AssociateSubnetCidrBlockRequest & RegionInput,
   AssociateSubnetCidrBlockResult,
   AssociateSubnetCidrBlockError,
   Credentials | HttpClient.HttpClient
@@ -22215,7 +22216,7 @@ export type AssociateTransitGatewayMulticastDomainError =
  * to see the state of the attachment.
  */
 export const associateTransitGatewayMulticastDomain: API.OperationMethod<
-  AssociateTransitGatewayMulticastDomainRequest,
+  AssociateTransitGatewayMulticastDomainRequest & RegionInput,
   AssociateTransitGatewayMulticastDomainResult,
   AssociateTransitGatewayMulticastDomainError,
   Credentials | HttpClient.HttpClient
@@ -22244,7 +22245,7 @@ export type AssociateTransitGatewayPolicyTableError =
  * Associates the specified transit gateway attachment with a transit gateway policy table.
  */
 export const associateTransitGatewayPolicyTable: API.OperationMethod<
-  AssociateTransitGatewayPolicyTableRequest,
+  AssociateTransitGatewayPolicyTableRequest & RegionInput,
   AssociateTransitGatewayPolicyTableResult,
   AssociateTransitGatewayPolicyTableError,
   Credentials | HttpClient.HttpClient
@@ -22274,7 +22275,7 @@ export type AssociateTransitGatewayRouteTableError =
  * associate only one route table with an attachment.
  */
 export const associateTransitGatewayRouteTable: API.OperationMethod<
-  AssociateTransitGatewayRouteTableRequest,
+  AssociateTransitGatewayRouteTableRequest & RegionInput,
   AssociateTransitGatewayRouteTableResult,
   AssociateTransitGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -22303,7 +22304,7 @@ export type AssociateTrunkInterfaceError =
  * network interface.
  */
 export const associateTrunkInterface: API.OperationMethod<
-  AssociateTrunkInterfaceRequest,
+  AssociateTrunkInterfaceRequest & RegionInput,
   AssociateTrunkInterfaceResult,
   AssociateTrunkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -22340,7 +22341,7 @@ export type AssociateVpcCidrBlockError =
  * in the *Amazon VPC User Guide*.
  */
 export const associateVpcCidrBlock: API.OperationMethod<
-  AssociateVpcCidrBlockRequest,
+  AssociateVpcCidrBlockRequest & RegionInput,
   AssociateVpcCidrBlockResult,
   AssociateVpcCidrBlockError,
   Credentials | HttpClient.HttpClient
@@ -22383,7 +22384,7 @@ export type AttachClassicLinkVpcError =
  * Linking your instance to a VPC is sometimes referred to as *attaching* your instance.
  */
 export const attachClassicLinkVpc: API.OperationMethod<
-  AttachClassicLinkVpcRequest,
+  AttachClassicLinkVpcRequest & RegionInput,
   AttachClassicLinkVpcResult,
   AttachClassicLinkVpcError,
   Credentials | HttpClient.HttpClient
@@ -22414,7 +22415,7 @@ export type AttachImageWatermarkError = CommonErrors;
  * AMIs.
  */
 export const attachImageWatermark: API.OperationMethod<
-  AttachImageWatermarkRequest,
+  AttachImageWatermarkRequest & RegionInput,
   AttachImageWatermarkResult,
   AttachImageWatermarkError,
   Credentials | HttpClient.HttpClient
@@ -22443,7 +22444,7 @@ export type AttachInternetGatewayError =
  * *Amazon VPC User Guide*.
  */
 export const attachInternetGateway: API.OperationMethod<
-  AttachInternetGatewayRequest,
+  AttachInternetGatewayRequest & RegionInput,
   AttachInternetGatewayResponse,
   AttachInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -22476,7 +22477,7 @@ export type AttachNetworkInterfaceError =
  * Attaches a network interface to an instance.
  */
 export const attachNetworkInterface: API.OperationMethod<
-  AttachNetworkInterfaceRequest,
+  AttachNetworkInterfaceRequest & RegionInput,
   AttachNetworkInterfaceResult,
   AttachNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -22506,7 +22507,7 @@ export type AttachVerifiedAccessTrustProviderError =
  * Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
  */
 export const attachVerifiedAccessTrustProvider: API.OperationMethod<
-  AttachVerifiedAccessTrustProviderRequest,
+  AttachVerifiedAccessTrustProviderRequest & RegionInput,
   AttachVerifiedAccessTrustProviderResult,
   AttachVerifiedAccessTrustProviderError,
   Credentials | HttpClient.HttpClient
@@ -22559,7 +22560,7 @@ export type AttachVolumeError =
  * *Amazon EBS User Guide*.
  */
 export const attachVolume: API.OperationMethod<
-  AttachVolumeRequest,
+  AttachVolumeRequest & RegionInput,
   VolumeAttachment,
   AttachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -22595,7 +22596,7 @@ export type AttachVpnGatewayError =
  * User Guide.
  */
 export const attachVpnGateway: API.OperationMethod<
-  AttachVpnGatewayRequest,
+  AttachVpnGatewayRequest & RegionInput,
   AttachVpnGatewayResult,
   AttachVpnGatewayError,
   Credentials | HttpClient.HttpClient
@@ -22631,7 +22632,7 @@ export type AuthorizeClientVpnIngressError =
  * enable clients to access resources in Amazon Web Services or on-premises networks.
  */
 export const authorizeClientVpnIngress: API.OperationMethod<
-  AuthorizeClientVpnIngressRequest,
+  AuthorizeClientVpnIngressRequest & RegionInput,
   AuthorizeClientVpnIngressResult,
   AuthorizeClientVpnIngressError,
   Credentials | HttpClient.HttpClient
@@ -22684,7 +22685,7 @@ export type AuthorizeSecurityGroupEgressError =
  * For information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
 export const authorizeSecurityGroupEgress: API.OperationMethod<
-  AuthorizeSecurityGroupEgressRequest,
+  AuthorizeSecurityGroupEgressRequest & RegionInput,
   AuthorizeSecurityGroupEgressResult,
   AuthorizeSecurityGroupEgressError,
   Credentials | HttpClient.HttpClient
@@ -22735,7 +22736,7 @@ export type AuthorizeSecurityGroupIngressError =
  * For more information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
 export const authorizeSecurityGroupIngress: API.OperationMethod<
-  AuthorizeSecurityGroupIngressRequest,
+  AuthorizeSecurityGroupIngressRequest & RegionInput,
   AuthorizeSecurityGroupIngressResult,
   AuthorizeSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -22762,7 +22763,7 @@ export type BatchModifyIpamRoutingPolicyRegistrationsError = CommonErrors;
  * Modifies multiple routing policy registrations in a single operation. You can create, update, or delete Route Origin Authorizations (ROAs) in batch.
  */
 export const batchModifyIpamRoutingPolicyRegistrations: API.OperationMethod<
-  BatchModifyIpamRoutingPolicyRegistrationsRequest,
+  BatchModifyIpamRoutingPolicyRegistrationsRequest & RegionInput,
   BatchModifyIpamRoutingPolicyRegistrationsResult,
   BatchModifyIpamRoutingPolicyRegistrationsError,
   Credentials | HttpClient.HttpClient
@@ -22794,7 +22795,7 @@ export type BundleInstanceError =
  * Create an Amazon EBS-backed AMI in the *Amazon EC2 User Guide*.
  */
 export const bundleInstance: API.OperationMethod<
-  BundleInstanceRequest,
+  BundleInstanceRequest & RegionInput,
   BundleInstanceResult,
   BundleInstanceError,
   Credentials | HttpClient.HttpClient
@@ -22822,7 +22823,7 @@ export type CancelBundleTaskError =
  * the operation it cancels, is no longer supported.
  */
 export const cancelBundleTask: API.OperationMethod<
-  CancelBundleTaskRequest,
+  CancelBundleTaskRequest & RegionInput,
   CancelBundleTaskResult,
   CancelBundleTaskError,
   Credentials | HttpClient.HttpClient
@@ -22884,7 +22885,7 @@ export type CancelCapacityReservationError =
  * and sufficient capacity.
  */
 export const cancelCapacityReservation: API.OperationMethod<
-  CancelCapacityReservationRequest,
+  CancelCapacityReservationRequest & RegionInput,
   CancelCapacityReservationResult,
   CancelCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -22923,7 +22924,7 @@ export type CancelCapacityReservationFleetsError =
  * - The Fleet stops creating new Capacity Reservations.
  */
 export const cancelCapacityReservationFleets: API.OperationMethod<
-  CancelCapacityReservationFleetsRequest,
+  CancelCapacityReservationFleetsRequest & RegionInput,
   CancelCapacityReservationFleetsResult,
   CancelCapacityReservationFleetsError,
   Credentials | HttpClient.HttpClient
@@ -22949,7 +22950,7 @@ export type CancelConversionTaskError =
  * in the process of transferring the final disk image, the command fails and returns an exception.
  */
 export const cancelConversionTask: API.OperationMethod<
-  CancelConversionRequest,
+  CancelConversionRequest & RegionInput,
   CancelConversionTaskResponse,
   CancelConversionTaskError,
   Credentials | HttpClient.HttpClient
@@ -22980,7 +22981,7 @@ export type CancelDeclarativePoliciesReportError =
  * *Amazon Web Services Organizations User Guide*.
  */
 export const cancelDeclarativePoliciesReport: API.OperationMethod<
-  CancelDeclarativePoliciesReportRequest,
+  CancelDeclarativePoliciesReportRequest & RegionInput,
   CancelDeclarativePoliciesReportResult,
   CancelDeclarativePoliciesReportError,
   Credentials | HttpClient.HttpClient
@@ -23010,7 +23011,7 @@ export type CancelExportTaskError =
  * command fails and returns an error.
  */
 export const cancelExportTask: API.OperationMethod<
-  CancelExportTaskRequest,
+  CancelExportTaskRequest & RegionInput,
   CancelExportTaskResponse,
   CancelExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -23036,7 +23037,7 @@ export type CancelImageLaunchPermissionError =
  * your Amazon Web Services account in the *Amazon EC2 User Guide*.
  */
 export const cancelImageLaunchPermission: API.OperationMethod<
-  CancelImageLaunchPermissionRequest,
+  CancelImageLaunchPermissionRequest & RegionInput,
   CancelImageLaunchPermissionResult,
   CancelImageLaunchPermissionError,
   Credentials | HttpClient.HttpClient
@@ -23060,7 +23061,7 @@ export type CancelImportTaskError =
  * Cancels an in-process import virtual machine or import snapshot task.
  */
 export const cancelImportTask: API.OperationMethod<
-  CancelImportTaskRequest,
+  CancelImportTaskRequest & RegionInput,
   CancelImportTaskResult,
   CancelImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -23088,7 +23089,7 @@ export type CancelReservedInstancesListingError =
  * Marketplace in the *Amazon EC2 User Guide*.
  */
 export const cancelReservedInstancesListing: API.OperationMethod<
-  CancelReservedInstancesListingRequest,
+  CancelReservedInstancesListingRequest & RegionInput,
   CancelReservedInstancesListingResult,
   CancelReservedInstancesListingError,
   Credentials | HttpClient.HttpClient
@@ -23137,7 +23138,7 @@ export type CancelSpotFleetRequestsError =
  * number, no fleets are deleted.
  */
 export const cancelSpotFleetRequests: API.OperationMethod<
-  CancelSpotFleetRequestsRequest,
+  CancelSpotFleetRequestsRequest & RegionInput,
   CancelSpotFleetRequestsResponse,
   CancelSpotFleetRequestsError,
   Credentials | HttpClient.HttpClient
@@ -23165,7 +23166,7 @@ export type CancelSpotInstanceRequestsError =
  * associated with the request.
  */
 export const cancelSpotInstanceRequests: API.OperationMethod<
-  CancelSpotInstanceRequestsRequest,
+  CancelSpotInstanceRequestsRequest & RegionInput,
   CancelSpotInstanceRequestsResult,
   CancelSpotInstanceRequestsError,
   Credentials | HttpClient.HttpClient
@@ -23196,7 +23197,7 @@ export type ConfirmProductInstanceError =
  * verify whether another user's instance is eligible for support.
  */
 export const confirmProductInstance: API.OperationMethod<
-  ConfirmProductInstanceRequest,
+  ConfirmProductInstanceRequest & RegionInput,
   ConfirmProductInstanceResult,
   ConfirmProductInstanceError,
   Credentials | HttpClient.HttpClient
@@ -23220,7 +23221,7 @@ export type CopyFpgaImageError =
  * Copies the specified Amazon FPGA Image (AFI) to the current Region.
  */
 export const copyFpgaImage: API.OperationMethod<
-  CopyFpgaImageRequest,
+  CopyFpgaImageRequest & RegionInput,
   CopyFpgaImageResult,
   CopyFpgaImageError,
   Credentials | HttpClient.HttpClient
@@ -23308,7 +23309,7 @@ export type CopyImageError =
  * *Amazon EC2 User Guide*.
  */
 export const copyImage: API.OperationMethod<
-  CopyImageRequest,
+  CopyImageRequest & RegionInput,
   CopyImageResult,
   CopyImageError,
   Credentials | HttpClient.HttpClient
@@ -23369,7 +23370,7 @@ export type CopySnapshotError =
  * *Amazon EBS User Guide*.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
+  CopySnapshotRequest & RegionInput,
   CopySnapshotResult,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -23401,7 +23402,7 @@ export type CopyVolumesError =
  * `available` state. For more information, see Copy an Amazon EBS volume.
  */
 export const copyVolumes: API.OperationMethod<
-  CopyVolumesRequest,
+  CopyVolumesRequest & RegionInput,
   CopyVolumesResult,
   CopyVolumesError,
   Credentials | HttpClient.HttpClient
@@ -23435,7 +23436,7 @@ export type CreateApplicationStatusCheckError = CommonErrors;
  * - You can tag the application status check during creation. For more information, see Tag your Amazon EC2 resources.
  */
 export const createApplicationStatusCheck: API.OperationMethod<
-  CreateApplicationStatusCheckRequest,
+  CreateApplicationStatusCheckRequest & RegionInput,
   CreateApplicationStatusCheckResult,
   CreateApplicationStatusCheckError,
   Credentials | HttpClient.HttpClient
@@ -23460,7 +23461,7 @@ export type CreateCapacityManagerDataExportError =
  * The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization.
  */
 export const createCapacityManagerDataExport: API.OperationMethod<
-  CreateCapacityManagerDataExportRequest,
+  CreateCapacityManagerDataExportRequest & RegionInput,
   CreateCapacityManagerDataExportResult,
   CreateCapacityManagerDataExportError,
   Credentials | HttpClient.HttpClient
@@ -23507,7 +23508,7 @@ export type CreateCapacityReservationError =
  * *Amazon EC2 User Guide*.
  */
 export const createCapacityReservation: API.OperationMethod<
-  CreateCapacityReservationRequest,
+  CreateCapacityReservationRequest & RegionInput,
   CreateCapacityReservationResult,
   CreateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -23535,7 +23536,7 @@ export type CreateCapacityReservationBySplittingError =
  * `active` and owned by your Amazon Web Services account.
  */
 export const createCapacityReservationBySplitting: API.OperationMethod<
-  CreateCapacityReservationBySplittingRequest,
+  CreateCapacityReservationBySplittingRequest & RegionInput,
   CreateCapacityReservationBySplittingResult,
   CreateCapacityReservationBySplittingError,
   Credentials | HttpClient.HttpClient
@@ -23563,7 +23564,7 @@ export type CreateCapacityReservationCancellationQuoteError = CommonErrors;
  * quotes are valid for 24 hours.
  */
 export const createCapacityReservationCancellationQuote: API.OperationMethod<
-  CreateCapacityReservationCancellationQuoteRequest,
+  CreateCapacityReservationCancellationQuoteRequest & RegionInput,
   CreateCapacityReservationCancellationQuoteResult,
   CreateCapacityReservationCancellationQuoteError,
   Credentials | HttpClient.HttpClient
@@ -23590,7 +23591,7 @@ export type CreateCapacityReservationDateChangeQuoteError = CommonErrors;
  * least one hour before the start date.
  */
 export const createCapacityReservationDateChangeQuote: API.OperationMethod<
-  CreateCapacityReservationDateChangeQuoteRequest,
+  CreateCapacityReservationDateChangeQuoteRequest & RegionInput,
   CreateCapacityReservationDateChangeQuoteResult,
   CreateCapacityReservationDateChangeQuoteError,
   Credentials | HttpClient.HttpClient
@@ -23616,7 +23617,7 @@ export type CreateCapacityReservationFleetError =
  * *Amazon EC2 User Guide*.
  */
 export const createCapacityReservationFleet: API.OperationMethod<
-  CreateCapacityReservationFleetRequest,
+  CreateCapacityReservationFleetRequest & RegionInput,
   CreateCapacityReservationFleetResult,
   CreateCapacityReservationFleetError,
   Credentials | HttpClient.HttpClient
@@ -23643,7 +23644,7 @@ export type CreateCarrierGatewayError =
  * Creates a carrier gateway. For more information about carrier gateways, see Carrier gateways in the *Amazon Web Services Wavelength Developer Guide*.
  */
 export const createCarrierGateway: API.OperationMethod<
-  CreateCarrierGatewayRequest,
+  CreateCarrierGatewayRequest & RegionInput,
   CreateCarrierGatewayResult,
   CreateCarrierGatewayError,
   Credentials | HttpClient.HttpClient
@@ -23680,7 +23681,7 @@ export type CreateClientVpnEndpointError =
  * are terminated.
  */
 export const createClientVpnEndpoint: API.OperationMethod<
-  CreateClientVpnEndpointRequest,
+  CreateClientVpnEndpointRequest & RegionInput,
   CreateClientVpnEndpointResult,
   CreateClientVpnEndpointError,
   Credentials | HttpClient.HttpClient
@@ -23718,7 +23719,7 @@ export type CreateClientVpnRouteError =
  * available destination network routes. Each route in the route table specifies the path for traU+FB03c to speciU+FB01c resources or networks.
  */
 export const createClientVpnRoute: API.OperationMethod<
-  CreateClientVpnRouteRequest,
+  CreateClientVpnRouteRequest & RegionInput,
   CreateClientVpnRouteResult,
   CreateClientVpnRouteError,
   Credentials | HttpClient.HttpClient
@@ -23753,7 +23754,7 @@ export type CreateCoipCidrError =
  * Creates a range of customer-owned IP addresses.
  */
 export const createCoipCidr: API.OperationMethod<
-  CreateCoipCidrRequest,
+  CreateCoipCidrRequest & RegionInput,
   CreateCoipCidrResult,
   CreateCoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -23785,7 +23786,7 @@ export type CreateCoipPoolError =
  * Creates a pool of customer-owned IP (CoIP) addresses.
  */
 export const createCoipPool: API.OperationMethod<
-  CreateCoipPoolRequest,
+  CreateCoipPoolRequest & RegionInput,
   CreateCoipPoolResult,
   CreateCoipPoolError,
   Credentials | HttpClient.HttpClient
@@ -23831,7 +23832,7 @@ export type CreateCustomerGatewayError =
  * gateway.
  */
 export const createCustomerGateway: API.OperationMethod<
-  CreateCustomerGatewayRequest,
+  CreateCustomerGatewayRequest & RegionInput,
   CreateCustomerGatewayResult,
   CreateCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -23859,7 +23860,7 @@ export type CreateDefaultSubnetError =
  * subnet in the *Amazon VPC User Guide*.
  */
 export const createDefaultSubnet: API.OperationMethod<
-  CreateDefaultSubnetRequest,
+  CreateDefaultSubnetRequest & RegionInput,
   CreateDefaultSubnetResult,
   CreateDefaultSubnetError,
   Credentials | HttpClient.HttpClient
@@ -23895,7 +23896,7 @@ export type CreateDefaultVpcError =
  * more than one default VPC per Region.
  */
 export const createDefaultVpc: API.OperationMethod<
-  CreateDefaultVpcRequest,
+  CreateDefaultVpcRequest & RegionInput,
   CreateDefaultVpcResult,
   CreateDefaultVpcError,
   Credentials | HttpClient.HttpClient
@@ -23920,7 +23921,7 @@ export type CreateDelegateMacVolumeOwnershipTaskError =
  * Mac instance to an administrative user.
  */
 export const createDelegateMacVolumeOwnershipTask: API.OperationMethod<
-  CreateDelegateMacVolumeOwnershipTaskRequest,
+  CreateDelegateMacVolumeOwnershipTaskRequest & RegionInput,
   CreateDelegateMacVolumeOwnershipTaskResult,
   CreateDelegateMacVolumeOwnershipTaskError,
   Credentials | HttpClient.HttpClient
@@ -23982,7 +23983,7 @@ export type CreateDhcpOptionsError =
  * lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
  */
 export const createDhcpOptions: API.OperationMethod<
-  CreateDhcpOptionsRequest,
+  CreateDhcpOptionsRequest & RegionInput,
   CreateDhcpOptionsResult,
   CreateDhcpOptionsError,
   Credentials | HttpClient.HttpClient
@@ -24012,7 +24013,7 @@ export type CreateEgressOnlyInternetGatewayError =
  * connection with your instance.
  */
 export const createEgressOnlyInternetGateway: API.OperationMethod<
-  CreateEgressOnlyInternetGatewayRequest,
+  CreateEgressOnlyInternetGatewayRequest & RegionInput,
   CreateEgressOnlyInternetGatewayResult,
   CreateEgressOnlyInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -24049,7 +24050,7 @@ export type CreateFleetError =
  * For more information, see EC2 Fleet in the *Amazon EC2 User Guide*.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResult,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -24089,7 +24090,7 @@ export type CreateFlowLogsError =
  * in the *Amazon VPC User Guide*.
  */
 export const createFlowLogs: API.OperationMethod<
-  CreateFlowLogsRequest,
+  CreateFlowLogsRequest & RegionInput,
   CreateFlowLogsResult,
   CreateFlowLogsError,
   Credentials | HttpClient.HttpClient
@@ -24126,7 +24127,7 @@ export type CreateFpgaImageError =
  * For more information, see the Amazon Web Services FPGA Hardware Development Kit.
  */
 export const createFpgaImage: API.OperationMethod<
-  CreateFpgaImageRequest,
+  CreateFpgaImageRequest & RegionInput,
   CreateFpgaImageResult,
   CreateFpgaImageError,
   Credentials | HttpClient.HttpClient
@@ -24174,7 +24175,7 @@ export type CreateImageError =
  * the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const createImage: API.OperationMethod<
-  CreateImageRequest,
+  CreateImageRequest & RegionInput,
   CreateImageResult,
   CreateImageError,
   Credentials | HttpClient.HttpClient
@@ -24208,7 +24209,7 @@ export type CreateImageUsageReportError =
  * *Amazon EC2 User Guide*.
  */
 export const createImageUsageReport: API.OperationMethod<
-  CreateImageUsageReportRequest,
+  CreateImageUsageReportRequest & RegionInput,
   CreateImageUsageReportResult,
   CreateImageUsageReportError,
   Credentials | HttpClient.HttpClient
@@ -24239,7 +24240,7 @@ export type CreateInstanceConnectEndpointError =
  * *Amazon EC2 User Guide*.
  */
 export const createInstanceConnectEndpoint: API.OperationMethod<
-  CreateInstanceConnectEndpointRequest,
+  CreateInstanceConnectEndpointRequest & RegionInput,
   CreateInstanceConnectEndpointResult,
   CreateInstanceConnectEndpointError,
   Credentials | HttpClient.HttpClient
@@ -24291,7 +24292,7 @@ export type CreateInstanceEventWindowError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const createInstanceEventWindow: API.OperationMethod<
-  CreateInstanceEventWindowRequest,
+  CreateInstanceEventWindowRequest & RegionInput,
   CreateInstanceEventWindowResult,
   CreateInstanceEventWindowError,
   Credentials | HttpClient.HttpClient
@@ -24319,7 +24320,7 @@ export type CreateInstanceExportTaskError =
  * Import/Export in the *VM Import/Export User Guide*.
  */
 export const createInstanceExportTask: API.OperationMethod<
-  CreateInstanceExportTaskRequest,
+  CreateInstanceExportTaskRequest & RegionInput,
   CreateInstanceExportTaskResult,
   CreateInstanceExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -24348,7 +24349,7 @@ export type CreateInternetGatewayError =
  * *Amazon VPC User Guide*.
  */
 export const createInternetGateway: API.OperationMethod<
-  CreateInternetGatewayRequest,
+  CreateInternetGatewayRequest & RegionInput,
   CreateInternetGatewayResult,
   CreateInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -24372,7 +24373,7 @@ export type CreateInterruptibleCapacityReservationAllocationError =
  * Creates an interruptible Capacity Reservation by specifying the number of unused instances you want to allocate from your source reservation. This helps you make unused capacity available for other workloads within your account while maintaining control to reclaim it.
  */
 export const createInterruptibleCapacityReservationAllocation: API.OperationMethod<
-  CreateInterruptibleCapacityReservationAllocationRequest,
+  CreateInterruptibleCapacityReservationAllocationRequest & RegionInput,
   CreateInterruptibleCapacityReservationAllocationResult,
   CreateInterruptibleCapacityReservationAllocationError,
   Credentials | HttpClient.HttpClient
@@ -24411,7 +24412,7 @@ export type CreateIpamError =
  * For more information, see Create an IPAM in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpam: API.OperationMethod<
-  CreateIpamRequest,
+  CreateIpamRequest & RegionInput,
   CreateIpamResult,
   CreateIpamError,
   Credentials | HttpClient.HttpClient
@@ -24444,7 +24445,7 @@ export type CreateIpamExternalResourceVerificationTokenError =
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
 export const createIpamExternalResourceVerificationToken: API.OperationMethod<
-  CreateIpamExternalResourceVerificationTokenRequest,
+  CreateIpamExternalResourceVerificationTokenRequest & RegionInput,
   CreateIpamExternalResourceVerificationTokenResult,
   CreateIpamExternalResourceVerificationTokenError,
   Credentials | HttpClient.HttpClient
@@ -24472,7 +24473,7 @@ export type CreateIpamInternetRegistryAssociationError = CommonErrors;
  * Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature.
  */
 export const createIpamInternetRegistryAssociation: API.OperationMethod<
-  CreateIpamInternetRegistryAssociationRequest,
+  CreateIpamInternetRegistryAssociationRequest & RegionInput,
   CreateIpamInternetRegistryAssociationResult,
   CreateIpamInternetRegistryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -24501,7 +24502,7 @@ export type CreateIpamPolicyError =
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpamPolicy: API.OperationMethod<
-  CreateIpamPolicyRequest,
+  CreateIpamPolicyRequest & RegionInput,
   CreateIpamPolicyResult,
   CreateIpamPolicyError,
   Credentials | HttpClient.HttpClient
@@ -24528,7 +24529,7 @@ export type CreateIpamPoolError =
  * For more information, see Create a top-level pool in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpamPool: API.OperationMethod<
-  CreateIpamPoolRequest,
+  CreateIpamPoolRequest & RegionInput,
   CreateIpamPoolResult,
   CreateIpamPoolError,
   Credentials | HttpClient.HttpClient
@@ -24561,7 +24562,7 @@ export type CreateIpamPrefixListResolverError =
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpamPrefixListResolver: API.OperationMethod<
-  CreateIpamPrefixListResolverRequest,
+  CreateIpamPrefixListResolverRequest & RegionInput,
   CreateIpamPrefixListResolverResult,
   CreateIpamPrefixListResolverError,
   Credentials | HttpClient.HttpClient
@@ -24591,7 +24592,7 @@ export type CreateIpamPrefixListResolverTargetError =
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpamPrefixListResolverTarget: API.OperationMethod<
-  CreateIpamPrefixListResolverTargetRequest,
+  CreateIpamPrefixListResolverTargetRequest & RegionInput,
   CreateIpamPrefixListResolverTargetResult,
   CreateIpamPrefixListResolverTargetError,
   Credentials | HttpClient.HttpClient
@@ -24621,7 +24622,7 @@ export type CreateIpamResourceDiscoveryError =
  * Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const createIpamResourceDiscovery: API.OperationMethod<
-  CreateIpamResourceDiscoveryRequest,
+  CreateIpamResourceDiscoveryRequest & RegionInput,
   CreateIpamResourceDiscoveryResult,
   CreateIpamResourceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -24641,7 +24642,7 @@ export type CreateIpamRoutingPolicyRegistrationError = CommonErrors;
  * Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs.
  */
 export const createIpamRoutingPolicyRegistration: API.OperationMethod<
-  CreateIpamRoutingPolicyRegistrationRequest,
+  CreateIpamRoutingPolicyRegistrationRequest & RegionInput,
   CreateIpamRoutingPolicyRegistrationResult,
   CreateIpamRoutingPolicyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -24668,7 +24669,7 @@ export type CreateIpamScopeError =
  * For more information, see Add a scope in the *Amazon VPC IPAM User Guide*.
  */
 export const createIpamScope: API.OperationMethod<
-  CreateIpamScopeRequest,
+  CreateIpamScopeRequest & RegionInput,
   CreateIpamScopeResult,
   CreateIpamScopeError,
   Credentials | HttpClient.HttpClient
@@ -24705,7 +24706,7 @@ export type CreateKeyPairError =
  * *Amazon EC2 User Guide*.
  */
 export const createKeyPair: API.OperationMethod<
-  CreateKeyPairRequest,
+  CreateKeyPairRequest & RegionInput,
   KeyPair,
   CreateKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -24740,7 +24741,7 @@ export type CreateLaunchTemplateError =
  * *Amazon EC2 User Guide*.
  */
 export const createLaunchTemplate: API.OperationMethod<
-  CreateLaunchTemplateRequest,
+  CreateLaunchTemplateRequest & RegionInput,
   CreateLaunchTemplateResult,
   CreateLaunchTemplateError,
   Credentials | HttpClient.HttpClient
@@ -24773,7 +24774,7 @@ export type CreateLaunchTemplateVersionError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const createLaunchTemplateVersion: API.OperationMethod<
-  CreateLaunchTemplateVersionRequest,
+  CreateLaunchTemplateVersionRequest & RegionInput,
   CreateLaunchTemplateVersionResult,
   CreateLaunchTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -24803,7 +24804,7 @@ export type CreateLocalGatewayRouteError =
  * - `NetworkInterfaceId`
  */
 export const createLocalGatewayRoute: API.OperationMethod<
-  CreateLocalGatewayRouteRequest,
+  CreateLocalGatewayRouteRequest & RegionInput,
   CreateLocalGatewayRouteResult,
   CreateLocalGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -24829,7 +24830,7 @@ export type CreateLocalGatewayRouteTableError =
  * Creates a local gateway route table.
  */
 export const createLocalGatewayRouteTable: API.OperationMethod<
-  CreateLocalGatewayRouteTableRequest,
+  CreateLocalGatewayRouteTableRequest & RegionInput,
   CreateLocalGatewayRouteTableResult,
   CreateLocalGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -24861,7 +24862,7 @@ export type CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationError =
  * Creates a local gateway route table virtual interface group association.
  */
 export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.OperationMethod<
-  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest & RegionInput,
   CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
   CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -24902,7 +24903,7 @@ export type CreateLocalGatewayRouteTableVpcAssociationError =
  * Associates the specified VPC with the specified local gateway route table.
  */
 export const createLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
-  CreateLocalGatewayRouteTableVpcAssociationRequest,
+  CreateLocalGatewayRouteTableVpcAssociationRequest & RegionInput,
   CreateLocalGatewayRouteTableVpcAssociationResult,
   CreateLocalGatewayRouteTableVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -24935,7 +24936,7 @@ export type CreateLocalGatewayVirtualInterfaceError =
  * Create a virtual interface for a local gateway.
  */
 export const createLocalGatewayVirtualInterface: API.OperationMethod<
-  CreateLocalGatewayVirtualInterfaceRequest,
+  CreateLocalGatewayVirtualInterfaceRequest & RegionInput,
   CreateLocalGatewayVirtualInterfaceResult,
   CreateLocalGatewayVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -24966,7 +24967,7 @@ export type CreateLocalGatewayVirtualInterfaceGroupError =
  * Create a local gateway virtual interface group.
  */
 export const createLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
-  CreateLocalGatewayVirtualInterfaceGroupRequest,
+  CreateLocalGatewayVirtualInterfaceGroupRequest & RegionInput,
   CreateLocalGatewayVirtualInterfaceGroupResult,
   CreateLocalGatewayVirtualInterfaceGroupError,
   Credentials | HttpClient.HttpClient
@@ -25024,7 +25025,7 @@ export type CreateMacSystemIntegrityProtectionModificationTaskError = CommonErro
  * - `MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"`
  */
 export const createMacSystemIntegrityProtectionModificationTask: API.OperationMethod<
-  CreateMacSystemIntegrityProtectionModificationTaskRequest,
+  CreateMacSystemIntegrityProtectionModificationTaskRequest & RegionInput,
   CreateMacSystemIntegrityProtectionModificationTaskResult,
   CreateMacSystemIntegrityProtectionModificationTaskError,
   Credentials | HttpClient.HttpClient
@@ -25058,7 +25059,7 @@ export type CreateManagedPrefixListError =
  * Each entry consists of a CIDR block and an optional description.
  */
 export const createManagedPrefixList: API.OperationMethod<
-  CreateManagedPrefixListRequest,
+  CreateManagedPrefixListRequest & RegionInput,
   CreateManagedPrefixListResult,
   CreateManagedPrefixListError,
   Credentials | HttpClient.HttpClient
@@ -25106,7 +25107,7 @@ export type CreateNatGatewayError =
  * in the *Amazon VPC User Guide*.
  */
 export const createNatGateway: API.OperationMethod<
-  CreateNatGatewayRequest,
+  CreateNatGatewayRequest & RegionInput,
   CreateNatGatewayResult,
   CreateNatGatewayError,
   Credentials | HttpClient.HttpClient
@@ -25143,7 +25144,7 @@ export type CreateNetworkAclError =
  * *Amazon VPC User Guide*.
  */
 export const createNetworkAcl: API.OperationMethod<
-  CreateNetworkAclRequest,
+  CreateNetworkAclRequest & RegionInput,
   CreateNetworkAclResult,
   CreateNetworkAclError,
   Credentials | HttpClient.HttpClient
@@ -25185,7 +25186,7 @@ export type CreateNetworkAclEntryError =
  * in the *Amazon VPC User Guide*.
  */
 export const createNetworkAclEntry: API.OperationMethod<
-  CreateNetworkAclEntryRequest,
+  CreateNetworkAclEntryRequest & RegionInput,
   CreateNetworkAclEntryResponse,
   CreateNetworkAclEntryError,
   Credentials | HttpClient.HttpClient
@@ -25214,7 +25215,7 @@ export type CreateNetworkInsightsAccessScopeError = CommonErrors;
  * objectives. For more information, see the Amazon Web Services Network Access Analyzer Guide.
  */
 export const createNetworkInsightsAccessScope: API.OperationMethod<
-  CreateNetworkInsightsAccessScopeRequest,
+  CreateNetworkInsightsAccessScopeRequest & RegionInput,
   CreateNetworkInsightsAccessScopeResult,
   CreateNetworkInsightsAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -25243,7 +25244,7 @@ export type CreateNetworkInsightsPathError =
  * Reachability Analyzer Guide.
  */
 export const createNetworkInsightsPath: API.OperationMethod<
-  CreateNetworkInsightsPathRequest,
+  CreateNetworkInsightsPathRequest & RegionInput,
   CreateNetworkInsightsPathResult,
   CreateNetworkInsightsPathError,
   Credentials | HttpClient.HttpClient
@@ -25275,7 +25276,7 @@ export type CreateNetworkInterfaceError =
  * *Amazon EC2 User Guide*.
  */
 export const createNetworkInterface: API.OperationMethod<
-  CreateNetworkInterfaceRequest,
+  CreateNetworkInterfaceRequest & RegionInput,
   CreateNetworkInterfaceResult,
   CreateNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -25309,7 +25310,7 @@ export type CreateNetworkInterfacePermissionError =
  * account at a time.
  */
 export const createNetworkInterfacePermission: API.OperationMethod<
-  CreateNetworkInterfacePermissionRequest,
+  CreateNetworkInterfacePermissionRequest & RegionInput,
   CreateNetworkInterfacePermissionResult,
   CreateNetworkInterfacePermissionError,
   Credentials | HttpClient.HttpClient
@@ -25347,7 +25348,7 @@ export type CreatePlacementGroupError =
  * *Amazon EC2 User Guide*.
  */
 export const createPlacementGroup: API.OperationMethod<
-  CreatePlacementGroupRequest,
+  CreatePlacementGroupRequest & RegionInput,
   CreatePlacementGroupResult,
   CreatePlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -25367,7 +25368,7 @@ export type CreatePublicIpv4PoolError = CommonErrors;
  * Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use DescribePublicIpv4Pools.
  */
 export const createPublicIpv4Pool: API.OperationMethod<
-  CreatePublicIpv4PoolRequest,
+  CreatePublicIpv4PoolRequest & RegionInput,
   CreatePublicIpv4PoolResult,
   CreatePublicIpv4PoolError,
   Credentials | HttpClient.HttpClient
@@ -25397,7 +25398,7 @@ export type CreateReplaceRootVolumeTaskError =
  * For more information, see Replace a root volume in the *Amazon EC2 User Guide*.
  */
 export const createReplaceRootVolumeTask: API.OperationMethod<
-  CreateReplaceRootVolumeTaskRequest,
+  CreateReplaceRootVolumeTaskRequest & RegionInput,
   CreateReplaceRootVolumeTaskResult,
   CreateReplaceRootVolumeTaskError,
   Credentials | HttpClient.HttpClient
@@ -25441,7 +25442,7 @@ export type CreateReservedInstancesListingError =
  * Marketplace in the *Amazon EC2 User Guide*.
  */
 export const createReservedInstancesListing: API.OperationMethod<
-  CreateReservedInstancesListingRequest,
+  CreateReservedInstancesListingRequest & RegionInput,
   CreateReservedInstancesListingResult,
   CreateReservedInstancesListingError,
   Credentials | HttpClient.HttpClient
@@ -25472,7 +25473,7 @@ export type CreateRestoreImageTaskError =
  * S3 in the *Amazon EC2 User Guide*.
  */
 export const createRestoreImageTask: API.OperationMethod<
-  CreateRestoreImageTaskRequest,
+  CreateRestoreImageTaskRequest & RegionInput,
   CreateRestoreImageTaskResult,
   CreateRestoreImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -25522,7 +25523,7 @@ export type CreateRouteError =
  * *Amazon VPC User Guide*.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteRequest,
+  CreateRouteRequest & RegionInput,
   CreateRouteResult,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -25573,7 +25574,7 @@ export type CreateRouteServerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const createRouteServer: API.OperationMethod<
-  CreateRouteServerRequest,
+  CreateRouteServerRequest & RegionInput,
   CreateRouteServerResult,
   CreateRouteServerError,
   Credentials | HttpClient.HttpClient
@@ -25604,7 +25605,7 @@ export type CreateRouteServerEndpointError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const createRouteServerEndpoint: API.OperationMethod<
-  CreateRouteServerEndpointRequest,
+  CreateRouteServerEndpointRequest & RegionInput,
   CreateRouteServerEndpointResult,
   CreateRouteServerEndpointError,
   Credentials | HttpClient.HttpClient
@@ -25645,7 +25646,7 @@ export type CreateRouteServerPeerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const createRouteServerPeer: API.OperationMethod<
-  CreateRouteServerPeerRequest,
+  CreateRouteServerPeerRequest & RegionInput,
   CreateRouteServerPeerResult,
   CreateRouteServerPeerError,
   Credentials | HttpClient.HttpClient
@@ -25674,7 +25675,7 @@ export type CreateRouteTableError =
  * *Amazon VPC User Guide*.
  */
 export const createRouteTable: API.OperationMethod<
-  CreateRouteTableRequest,
+  CreateRouteTableRequest & RegionInput,
   CreateRouteTableResult,
   CreateRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -25702,7 +25703,7 @@ export type CreateSecondaryNetworkError = CommonErrors;
  * The allowed size for a secondary network CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses).
  */
 export const createSecondaryNetwork: API.OperationMethod<
-  CreateSecondaryNetworkRequest,
+  CreateSecondaryNetworkRequest & RegionInput,
   CreateSecondaryNetworkResult,
   CreateSecondaryNetworkError,
   Credentials | HttpClient.HttpClient
@@ -25726,7 +25727,7 @@ export type CreateSecondarySubnetError = CommonErrors;
  * The allowed size for a secondary subnet CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use.
  */
 export const createSecondarySubnet: API.OperationMethod<
-  CreateSecondarySubnetRequest,
+  CreateSecondarySubnetRequest & RegionInput,
   CreateSecondarySubnetResult,
   CreateSecondarySubnetError,
   Credentials | HttpClient.HttpClient
@@ -25778,7 +25779,7 @@ export type CreateSecurityGroupError =
  * For more information about VPC security group limits, see Amazon VPC Limits.
  */
 export const createSecurityGroup: API.OperationMethod<
-  CreateSecurityGroupRequest,
+  CreateSecurityGroupRequest & RegionInput,
   CreateSecurityGroupResult,
   CreateSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -25846,7 +25847,7 @@ export type CreateSnapshotError =
  * in the *Amazon EBS User Guide*.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   Snapshot,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -25891,7 +25892,7 @@ export type CreateSnapshotsError =
  * Outpost or in its parent Amazon Web Services Region.
  */
 export const createSnapshots: API.OperationMethod<
-  CreateSnapshotsRequest,
+  CreateSnapshotsRequest & RegionInput,
   CreateSnapshotsResult,
   CreateSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -25918,7 +25919,7 @@ export type CreateSpotDatafeedSubscriptionError =
  * in the *Amazon EC2 User Guide*.
  */
 export const createSpotDatafeedSubscription: API.OperationMethod<
-  CreateSpotDatafeedSubscriptionRequest,
+  CreateSpotDatafeedSubscriptionRequest & RegionInput,
   CreateSpotDatafeedSubscriptionResult,
   CreateSpotDatafeedSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -25948,7 +25949,7 @@ export type CreateStoreImageTaskError =
  * S3 in the *Amazon EC2 User Guide*.
  */
 export const createStoreImageTask: API.OperationMethod<
-  CreateStoreImageTaskRequest,
+  CreateStoreImageTaskRequest & RegionInput,
   CreateStoreImageTaskResult,
   CreateStoreImageTaskError,
   Credentials | HttpClient.HttpClient
@@ -25998,7 +25999,7 @@ export type CreateSubnetError =
  * For more information, see Subnets in the *Amazon VPC User Guide*.
  */
 export const createSubnet: API.OperationMethod<
-  CreateSubnetRequest,
+  CreateSubnetRequest & RegionInput,
   CreateSubnetResult,
   CreateSubnetError,
   Credentials | HttpClient.HttpClient
@@ -26034,7 +26035,7 @@ export type CreateSubnetCidrReservationError =
  * for your network interfaces in the *Amazon EC2 User Guide*.
  */
 export const createSubnetCidrReservation: API.OperationMethod<
-  CreateSubnetCidrReservationRequest,
+  CreateSubnetCidrReservationRequest & RegionInput,
   CreateSubnetCidrReservationResult,
   CreateSubnetCidrReservationError,
   Credentials | HttpClient.HttpClient
@@ -26074,7 +26075,7 @@ export type CreateTagsError =
  * Elastic Compute Cloud User Guide.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -26104,7 +26105,7 @@ export type CreateTrafficMirrorFilterError =
  * You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
  */
 export const createTrafficMirrorFilter: API.OperationMethod<
-  CreateTrafficMirrorFilterRequest,
+  CreateTrafficMirrorFilterRequest & RegionInput,
   CreateTrafficMirrorFilterResult,
   CreateTrafficMirrorFilterError,
   Credentials | HttpClient.HttpClient
@@ -26132,7 +26133,7 @@ export type CreateTrafficMirrorFilterRuleError =
  * You need the Traffic Mirror filter ID when you create the rule.
  */
 export const createTrafficMirrorFilterRule: API.OperationMethod<
-  CreateTrafficMirrorFilterRuleRequest,
+  CreateTrafficMirrorFilterRuleRequest & RegionInput,
   CreateTrafficMirrorFilterRuleResult,
   CreateTrafficMirrorFilterRuleError,
   Credentials | HttpClient.HttpClient
@@ -26167,7 +26168,7 @@ export type CreateTrafficMirrorSessionError =
  * create filter rules that specify the traffic to mirror.
  */
 export const createTrafficMirrorSession: API.OperationMethod<
-  CreateTrafficMirrorSessionRequest,
+  CreateTrafficMirrorSessionRequest & RegionInput,
   CreateTrafficMirrorSessionResult,
   CreateTrafficMirrorSessionError,
   Credentials | HttpClient.HttpClient
@@ -26205,7 +26206,7 @@ export type CreateTrafficMirrorTargetError =
  * To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
  */
 export const createTrafficMirrorTarget: API.OperationMethod<
-  CreateTrafficMirrorTargetRequest,
+  CreateTrafficMirrorTargetRequest & RegionInput,
   CreateTrafficMirrorTargetResult,
   CreateTrafficMirrorTargetError,
   Credentials | HttpClient.HttpClient
@@ -26246,7 +26247,7 @@ export type CreateTransitGatewayError =
  * attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
  */
 export const createTransitGateway: API.OperationMethod<
-  CreateTransitGatewayRequest,
+  CreateTransitGatewayRequest & RegionInput,
   CreateTransitGatewayResult,
   CreateTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -26272,7 +26273,7 @@ export type CreateTransitGatewayConnectError =
  * A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
  */
 export const createTransitGatewayConnect: API.OperationMethod<
-  CreateTransitGatewayConnectRequest,
+  CreateTransitGatewayConnectRequest & RegionInput,
   CreateTransitGatewayConnectResult,
   CreateTransitGatewayConnectError,
   Credentials | HttpClient.HttpClient
@@ -26302,7 +26303,7 @@ export type CreateTransitGatewayConnectPeerError =
  * in the *Amazon Web Services Transit Gateways Guide*.
  */
 export const createTransitGatewayConnectPeer: API.OperationMethod<
-  CreateTransitGatewayConnectPeerRequest,
+  CreateTransitGatewayConnectPeerRequest & RegionInput,
   CreateTransitGatewayConnectPeerResult,
   CreateTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -26328,7 +26329,7 @@ export type CreateTransitGatewayMeteringPolicyError =
  * Creates a metering policy for a transit gateway to track and measure network traffic.
  */
 export const createTransitGatewayMeteringPolicy: API.OperationMethod<
-  CreateTransitGatewayMeteringPolicyRequest,
+  CreateTransitGatewayMeteringPolicyRequest & RegionInput,
   CreateTransitGatewayMeteringPolicyResult,
   CreateTransitGatewayMeteringPolicyError,
   Credentials | HttpClient.HttpClient
@@ -26358,7 +26359,7 @@ export type CreateTransitGatewayMeteringPolicyEntryError =
  * Creates an entry in a transit gateway metering policy to define traffic measurement rules.
  */
 export const createTransitGatewayMeteringPolicyEntry: API.OperationMethod<
-  CreateTransitGatewayMeteringPolicyEntryRequest,
+  CreateTransitGatewayMeteringPolicyEntryRequest & RegionInput,
   CreateTransitGatewayMeteringPolicyEntryResult,
   CreateTransitGatewayMeteringPolicyEntryError,
   Credentials | HttpClient.HttpClient
@@ -26387,7 +26388,7 @@ export type CreateTransitGatewayMulticastDomainError =
  * The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
  */
 export const createTransitGatewayMulticastDomain: API.OperationMethod<
-  CreateTransitGatewayMulticastDomainRequest,
+  CreateTransitGatewayMulticastDomainRequest & RegionInput,
   CreateTransitGatewayMulticastDomainResult,
   CreateTransitGatewayMulticastDomainError,
   Credentials | HttpClient.HttpClient
@@ -26425,7 +26426,7 @@ export type CreateTransitGatewayPeeringAttachmentError =
  * must accept the attachment request.
  */
 export const createTransitGatewayPeeringAttachment: API.OperationMethod<
-  CreateTransitGatewayPeeringAttachmentRequest,
+  CreateTransitGatewayPeeringAttachmentRequest & RegionInput,
   CreateTransitGatewayPeeringAttachmentResult,
   CreateTransitGatewayPeeringAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -26457,7 +26458,7 @@ export type CreateTransitGatewayPolicyTableError =
  * Creates a transit gateway policy table.
  */
 export const createTransitGatewayPolicyTable: API.OperationMethod<
-  CreateTransitGatewayPolicyTableRequest,
+  CreateTransitGatewayPolicyTableRequest & RegionInput,
   CreateTransitGatewayPolicyTableResult,
   CreateTransitGatewayPolicyTableError,
   Credentials | HttpClient.HttpClient
@@ -26483,7 +26484,7 @@ export type CreateTransitGatewayPolicyTableEntryError = CommonErrors;
  * Creates an entry in a transit gateway policy table to route matching traffic to a specified route table.
  */
 export const createTransitGatewayPolicyTableEntry: API.OperationMethod<
-  CreateTransitGatewayPolicyTableEntryRequest,
+  CreateTransitGatewayPolicyTableEntryRequest & RegionInput,
   CreateTransitGatewayPolicyTableEntryResult,
   CreateTransitGatewayPolicyTableEntryError,
   Credentials | HttpClient.HttpClient
@@ -26507,7 +26508,7 @@ export type CreateTransitGatewayPrefixListReferenceError =
  * Creates a reference (route) to a prefix list in a specified transit gateway route table.
  */
 export const createTransitGatewayPrefixListReference: API.OperationMethod<
-  CreateTransitGatewayPrefixListReferenceRequest,
+  CreateTransitGatewayPrefixListReferenceRequest & RegionInput,
   CreateTransitGatewayPrefixListReferenceResult,
   CreateTransitGatewayPrefixListReferenceError,
   Credentials | HttpClient.HttpClient
@@ -26532,7 +26533,7 @@ export type CreateTransitGatewayRouteError =
  * Creates a static route for the specified transit gateway route table.
  */
 export const createTransitGatewayRoute: API.OperationMethod<
-  CreateTransitGatewayRouteRequest,
+  CreateTransitGatewayRouteRequest & RegionInput,
   CreateTransitGatewayRouteResult,
   CreateTransitGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -26564,7 +26565,7 @@ export type CreateTransitGatewayRouteTableError =
  * Creates a route table for the specified transit gateway.
  */
 export const createTransitGatewayRouteTable: API.OperationMethod<
-  CreateTransitGatewayRouteTableRequest,
+  CreateTransitGatewayRouteTableRequest & RegionInput,
   CreateTransitGatewayRouteTableResult,
   CreateTransitGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -26597,7 +26598,7 @@ export type CreateTransitGatewayRouteTableAnnouncementError =
  * Advertises a new transit gateway route table.
  */
 export const createTransitGatewayRouteTableAnnouncement: API.OperationMethod<
-  CreateTransitGatewayRouteTableAnnouncementRequest,
+  CreateTransitGatewayRouteTableAnnouncementRequest & RegionInput,
   CreateTransitGatewayRouteTableAnnouncementResult,
   CreateTransitGatewayRouteTableAnnouncementError,
   Credentials | HttpClient.HttpClient
@@ -26642,7 +26643,7 @@ export type CreateTransitGatewayVpcAttachmentError =
  * To send VPC traffic to an attached transit gateway, add a route to the VPC route table using CreateRoute.
  */
 export const createTransitGatewayVpcAttachment: API.OperationMethod<
-  CreateTransitGatewayVpcAttachmentRequest,
+  CreateTransitGatewayVpcAttachmentRequest & RegionInput,
   CreateTransitGatewayVpcAttachmentResult,
   CreateTransitGatewayVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -26672,7 +26673,7 @@ export type CreateVerifiedAccessEndpointError =
  * An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
  */
 export const createVerifiedAccessEndpoint: API.OperationMethod<
-  CreateVerifiedAccessEndpointRequest,
+  CreateVerifiedAccessEndpointRequest & RegionInput,
   CreateVerifiedAccessEndpointResult,
   CreateVerifiedAccessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -26701,7 +26702,7 @@ export type CreateVerifiedAccessGroupError =
  * use one common Verified Access policy.
  */
 export const createVerifiedAccessGroup: API.OperationMethod<
-  CreateVerifiedAccessGroupRequest,
+  CreateVerifiedAccessGroupRequest & RegionInput,
   CreateVerifiedAccessGroupResult,
   CreateVerifiedAccessGroupError,
   Credentials | HttpClient.HttpClient
@@ -26733,7 +26734,7 @@ export type CreateVerifiedAccessInstanceError =
  * access only when your security requirements are met.
  */
 export const createVerifiedAccessInstance: API.OperationMethod<
-  CreateVerifiedAccessInstanceRequest,
+  CreateVerifiedAccessInstanceRequest & RegionInput,
   CreateVerifiedAccessInstanceResult,
   CreateVerifiedAccessInstanceError,
   Credentials | HttpClient.HttpClient
@@ -26765,7 +26766,7 @@ export type CreateVerifiedAccessTrustProviderError =
  * denying the application request.
  */
 export const createVerifiedAccessTrustProvider: API.OperationMethod<
-  CreateVerifiedAccessTrustProviderRequest,
+  CreateVerifiedAccessTrustProviderRequest & RegionInput,
   CreateVerifiedAccessTrustProviderResult,
   CreateVerifiedAccessTrustProviderError,
   Credentials | HttpClient.HttpClient
@@ -26806,7 +26807,7 @@ export type CreateVolumeError =
  * *Amazon EBS User Guide*.
  */
 export const createVolume: API.OperationMethod<
-  CreateVolumeRequest,
+  CreateVolumeRequest & RegionInput,
   Volume,
   CreateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -26855,7 +26856,7 @@ export type CreateVpcError =
  * *Amazon VPC User Guide*.
  */
 export const createVpc: API.OperationMethod<
-  CreateVpcRequest,
+  CreateVpcRequest & RegionInput,
   CreateVpcResult,
   CreateVpcError,
   Credentials | HttpClient.HttpClient
@@ -26887,7 +26888,7 @@ export type CreateVpcBlockPublicAccessExclusionError =
  * Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account's BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const createVpcBlockPublicAccessExclusion: API.OperationMethod<
-  CreateVpcBlockPublicAccessExclusionRequest,
+  CreateVpcBlockPublicAccessExclusionRequest & RegionInput,
   CreateVpcBlockPublicAccessExclusionResult,
   CreateVpcBlockPublicAccessExclusionError,
   Credentials | HttpClient.HttpClient
@@ -26914,7 +26915,7 @@ export type CreateVpcEncryptionControlError =
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const createVpcEncryptionControl: API.OperationMethod<
-  CreateVpcEncryptionControlRequest,
+  CreateVpcEncryptionControlRequest & RegionInput,
   CreateVpcEncryptionControlResult,
   CreateVpcEncryptionControlError,
   Credentials | HttpClient.HttpClient
@@ -26945,7 +26946,7 @@ export type CreateVpcEndpointError =
  * Amazon Web Services account. For more information, see the Amazon Web Services PrivateLink User Guide.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResult,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -26982,7 +26983,7 @@ export type CreateVpcEndpointConnectionNotificationError =
  * You can create a connection notification for interface endpoints only.
  */
 export const createVpcEndpointConnectionNotification: API.OperationMethod<
-  CreateVpcEndpointConnectionNotificationRequest,
+  CreateVpcEndpointConnectionNotificationRequest & RegionInput,
   CreateVpcEndpointConnectionNotificationResult,
   CreateVpcEndpointConnectionNotificationError,
   Credentials | HttpClient.HttpClient
@@ -27021,7 +27022,7 @@ export type CreateVpcEndpointServiceConfigurationError =
  * Guide.
  */
 export const createVpcEndpointServiceConfiguration: API.OperationMethod<
-  CreateVpcEndpointServiceConfigurationRequest,
+  CreateVpcEndpointServiceConfigurationRequest & RegionInput,
   CreateVpcEndpointServiceConfigurationResult,
   CreateVpcEndpointServiceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -27061,7 +27062,7 @@ export type CreateVpcPeeringConnectionError =
  * blocks, the VPC peering connection has a status of `failed`.
  */
 export const createVpcPeeringConnection: API.OperationMethod<
-  CreateVpcPeeringConnectionRequest,
+  CreateVpcPeeringConnectionRequest & RegionInput,
   CreateVpcPeeringConnectionResult,
   CreateVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -27092,7 +27093,7 @@ export type CreateVpnConcentratorError =
  * Creates a VPN concentrator that aggregates multiple VPN connections to a transit gateway.
  */
 export const createVpnConcentrator: API.OperationMethod<
-  CreateVpnConcentratorRequest,
+  CreateVpnConcentratorRequest & RegionInput,
   CreateVpnConcentratorResult,
   CreateVpnConcentratorError,
   Credentials | HttpClient.HttpClient
@@ -27138,7 +27139,7 @@ export type CreateVpnConnectionError =
  * User Guide.
  */
 export const createVpnConnection: API.OperationMethod<
-  CreateVpnConnectionRequest,
+  CreateVpnConnectionRequest & RegionInput,
   CreateVpnConnectionResult,
   CreateVpnConnectionError,
   Credentials | HttpClient.HttpClient
@@ -27175,7 +27176,7 @@ export type CreateVpnConnectionRouteError =
  * User Guide.
  */
 export const createVpnConnectionRoute: API.OperationMethod<
-  CreateVpnConnectionRouteRequest,
+  CreateVpnConnectionRouteRequest & RegionInput,
   CreateVpnConnectionRouteResponse,
   CreateVpnConnectionRouteError,
   Credentials | HttpClient.HttpClient
@@ -27205,7 +27206,7 @@ export type CreateVpnGatewayError =
  * User Guide.
  */
 export const createVpnGateway: API.OperationMethod<
-  CreateVpnGatewayRequest,
+  CreateVpnGatewayRequest & RegionInput,
   CreateVpnGatewayResult,
   CreateVpnGatewayError,
   Credentials | HttpClient.HttpClient
@@ -27229,7 +27230,7 @@ export type DeleteApplicationStatusCheckError = CommonErrors;
  * - Use `DescribeApplicationStatusChecks` to view existing checks before deleting.
  */
 export const deleteApplicationStatusCheck: API.OperationMethod<
-  DeleteApplicationStatusCheckRequest,
+  DeleteApplicationStatusCheckRequest & RegionInput,
   DeleteApplicationStatusCheckResult,
   DeleteApplicationStatusCheckError,
   Credentials | HttpClient.HttpClient
@@ -27254,7 +27255,7 @@ export type DeleteCapacityManagerDataExportError =
  * Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3.
  */
 export const deleteCapacityManagerDataExport: API.OperationMethod<
-  DeleteCapacityManagerDataExportRequest,
+  DeleteCapacityManagerDataExportRequest & RegionInput,
   DeleteCapacityManagerDataExportResult,
   DeleteCapacityManagerDataExportError,
   Credentials | HttpClient.HttpClient
@@ -27289,7 +27290,7 @@ export type DeleteCarrierGatewayError =
  * DeleteRoute.
  */
 export const deleteCarrierGateway: API.OperationMethod<
-  DeleteCarrierGatewayRequest,
+  DeleteCarrierGatewayRequest & RegionInput,
   DeleteCarrierGatewayResult,
   DeleteCarrierGatewayError,
   Credentials | HttpClient.HttpClient
@@ -27322,7 +27323,7 @@ export type DeleteClientVpnEndpointError =
  * can delete a Client VPN endpoint.
  */
 export const deleteClientVpnEndpoint: API.OperationMethod<
-  DeleteClientVpnEndpointRequest,
+  DeleteClientVpnEndpointRequest & RegionInput,
   DeleteClientVpnEndpointResult,
   DeleteClientVpnEndpointError,
   Credentials | HttpClient.HttpClient
@@ -27348,7 +27349,7 @@ export type DeleteClientVpnEndpointAuthorizationPolicyError = CommonErrors;
  * Deletes the authorization policy for a Client VPN endpoint.
  */
 export const deleteClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
-  DeleteClientVpnEndpointAuthorizationPolicyRequest,
+  DeleteClientVpnEndpointAuthorizationPolicyRequest & RegionInput,
   DeleteClientVpnEndpointAuthorizationPolicyResult,
   DeleteClientVpnEndpointAuthorizationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -27385,7 +27386,7 @@ export type DeleteClientVpnRouteError =
  * disassociate the target subnet from the Client VPN endpoint.
  */
 export const deleteClientVpnRoute: API.OperationMethod<
-  DeleteClientVpnRouteRequest,
+  DeleteClientVpnRouteRequest & RegionInput,
   DeleteClientVpnRouteResult,
   DeleteClientVpnRouteError,
   Credentials | HttpClient.HttpClient
@@ -27417,7 +27418,7 @@ export type DeleteCoipCidrError =
  * Deletes a range of customer-owned IP addresses.
  */
 export const deleteCoipCidr: API.OperationMethod<
-  DeleteCoipCidrRequest,
+  DeleteCoipCidrRequest & RegionInput,
   DeleteCoipCidrResult,
   DeleteCoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -27449,7 +27450,7 @@ export type DeleteCoipPoolError =
  * Deletes a pool of customer-owned IP (CoIP) addresses.
  */
 export const deleteCoipPool: API.OperationMethod<
-  DeleteCoipPoolRequest,
+  DeleteCoipPoolRequest & RegionInput,
   DeleteCoipPoolResult,
   DeleteCoipPoolError,
   Credentials | HttpClient.HttpClient
@@ -27482,7 +27483,7 @@ export type DeleteCustomerGatewayError =
  * can delete the customer gateway.
  */
 export const deleteCustomerGateway: API.OperationMethod<
-  DeleteCustomerGatewayRequest,
+  DeleteCustomerGatewayRequest & RegionInput,
   DeleteCustomerGatewayResponse,
   DeleteCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -27515,7 +27516,7 @@ export type DeleteDhcpOptionsError =
  * Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
  */
 export const deleteDhcpOptions: API.OperationMethod<
-  DeleteDhcpOptionsRequest,
+  DeleteDhcpOptionsRequest & RegionInput,
   DeleteDhcpOptionsResponse,
   DeleteDhcpOptionsError,
   Credentials | HttpClient.HttpClient
@@ -27551,7 +27552,7 @@ export type DeleteEgressOnlyInternetGatewayError =
  * Deletes an egress-only internet gateway.
  */
 export const deleteEgressOnlyInternetGateway: API.OperationMethod<
-  DeleteEgressOnlyInternetGatewayRequest,
+  DeleteEgressOnlyInternetGatewayRequest & RegionInput,
   DeleteEgressOnlyInternetGatewayResult,
   DeleteEgressOnlyInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -27626,7 +27627,7 @@ export type DeleteFleetsError =
  * in the fleet in the *Amazon EC2 User Guide*.
  */
 export const deleteFleets: API.OperationMethod<
-  DeleteFleetsRequest,
+  DeleteFleetsRequest & RegionInput,
   DeleteFleetsResult,
   DeleteFleetsError,
   Credentials | HttpClient.HttpClient
@@ -27650,7 +27651,7 @@ export type DeleteFlowLogsError =
  * Deletes one or more flow logs.
  */
 export const deleteFlowLogs: API.OperationMethod<
-  DeleteFlowLogsRequest,
+  DeleteFlowLogsRequest & RegionInput,
   DeleteFlowLogsResult,
   DeleteFlowLogsError,
   Credentials | HttpClient.HttpClient
@@ -27674,7 +27675,7 @@ export type DeleteFpgaImageError =
  * Deletes the specified Amazon FPGA Image (AFI).
  */
 export const deleteFpgaImage: API.OperationMethod<
-  DeleteFpgaImageRequest,
+  DeleteFpgaImageRequest & RegionInput,
   DeleteFpgaImageResult,
   DeleteFpgaImageError,
   Credentials | HttpClient.HttpClient
@@ -27702,7 +27703,7 @@ export type DeleteImageUsageReportError =
  * *Amazon EC2 User Guide*.
  */
 export const deleteImageUsageReport: API.OperationMethod<
-  DeleteImageUsageReportRequest,
+  DeleteImageUsageReportRequest & RegionInput,
   DeleteImageUsageReportResult,
   DeleteImageUsageReportError,
   Credentials | HttpClient.HttpClient
@@ -27734,7 +27735,7 @@ export type DeleteInstanceConnectEndpointError =
  * Deletes the specified EC2 Instance Connect Endpoint.
  */
 export const deleteInstanceConnectEndpoint: API.OperationMethod<
-  DeleteInstanceConnectEndpointRequest,
+  DeleteInstanceConnectEndpointRequest & RegionInput,
   DeleteInstanceConnectEndpointResult,
   DeleteInstanceConnectEndpointError,
   Credentials | HttpClient.HttpClient
@@ -27769,7 +27770,7 @@ export type DeleteInstanceEventWindowError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const deleteInstanceEventWindow: API.OperationMethod<
-  DeleteInstanceEventWindowRequest,
+  DeleteInstanceEventWindowRequest & RegionInput,
   DeleteInstanceEventWindowResult,
   DeleteInstanceEventWindowError,
   Credentials | HttpClient.HttpClient
@@ -27801,7 +27802,7 @@ export type DeleteInternetGatewayError =
  * VPC before you can delete it.
  */
 export const deleteInternetGateway: API.OperationMethod<
-  DeleteInternetGatewayRequest,
+  DeleteInternetGatewayRequest & RegionInput,
   DeleteInternetGatewayResponse,
   DeleteInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -27835,7 +27836,7 @@ export type DeleteIpamError =
  * For more information, see Delete an IPAM in the *Amazon VPC IPAM User Guide*.
  */
 export const deleteIpam: API.OperationMethod<
-  DeleteIpamRequest,
+  DeleteIpamRequest & RegionInput,
   DeleteIpamResult,
   DeleteIpamError,
   Credentials | HttpClient.HttpClient
@@ -27869,7 +27870,7 @@ export type DeleteIpamExternalResourceVerificationTokenError =
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
 export const deleteIpamExternalResourceVerificationToken: API.OperationMethod<
-  DeleteIpamExternalResourceVerificationTokenRequest,
+  DeleteIpamExternalResourceVerificationTokenRequest & RegionInput,
   DeleteIpamExternalResourceVerificationTokenResult,
   DeleteIpamExternalResourceVerificationTokenError,
   Credentials | HttpClient.HttpClient
@@ -27903,7 +27904,7 @@ export type DeleteIpamInternetRegistryAssociationError = CommonErrors;
  * Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry.
  */
 export const deleteIpamInternetRegistryAssociation: API.OperationMethod<
-  DeleteIpamInternetRegistryAssociationRequest,
+  DeleteIpamInternetRegistryAssociationRequest & RegionInput,
   DeleteIpamInternetRegistryAssociationResult,
   DeleteIpamInternetRegistryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -27931,7 +27932,7 @@ export type DeleteIpamPolicyError =
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
 export const deleteIpamPolicy: API.OperationMethod<
-  DeleteIpamPolicyRequest,
+  DeleteIpamPolicyRequest & RegionInput,
   DeleteIpamPolicyResult,
   DeleteIpamPolicyError,
   Credentials | HttpClient.HttpClient
@@ -27969,7 +27970,7 @@ export type DeleteIpamPoolError =
  * For more information, see Delete a pool in the *Amazon VPC IPAM User Guide*.
  */
 export const deleteIpamPool: API.OperationMethod<
-  DeleteIpamPoolRequest,
+  DeleteIpamPoolRequest & RegionInput,
   DeleteIpamPoolResult,
   DeleteIpamPoolError,
   Credentials | HttpClient.HttpClient
@@ -28001,7 +28002,7 @@ export type DeleteIpamPrefixListResolverError =
  * Deletes an IPAM prefix list resolver. Before deleting a resolver, you must first delete all resolver targets associated with it.
  */
 export const deleteIpamPrefixListResolver: API.OperationMethod<
-  DeleteIpamPrefixListResolverRequest,
+  DeleteIpamPrefixListResolverRequest & RegionInput,
   DeleteIpamPrefixListResolverResult,
   DeleteIpamPrefixListResolverError,
   Credentials | HttpClient.HttpClient
@@ -28034,7 +28035,7 @@ export type DeleteIpamPrefixListResolverTargetError =
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
 export const deleteIpamPrefixListResolverTarget: API.OperationMethod<
-  DeleteIpamPrefixListResolverTargetRequest,
+  DeleteIpamPrefixListResolverTargetRequest & RegionInput,
   DeleteIpamPrefixListResolverTargetResult,
   DeleteIpamPrefixListResolverTargetError,
   Credentials | HttpClient.HttpClient
@@ -28064,7 +28065,7 @@ export type DeleteIpamResourceDiscoveryError =
  * Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const deleteIpamResourceDiscovery: API.OperationMethod<
-  DeleteIpamResourceDiscoveryRequest,
+  DeleteIpamResourceDiscoveryRequest & RegionInput,
   DeleteIpamResourceDiscoveryResult,
   DeleteIpamResourceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -28089,7 +28090,7 @@ export type DeleteIpamRoutingPolicyRegistrationError = CommonErrors;
  * Deletes a routing policy registration for a specified CIDR prefix.
  */
 export const deleteIpamRoutingPolicyRegistration: API.OperationMethod<
-  DeleteIpamRoutingPolicyRegistrationRequest,
+  DeleteIpamRoutingPolicyRegistrationRequest & RegionInput,
   DeleteIpamRoutingPolicyRegistrationResult,
   DeleteIpamRoutingPolicyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -28118,7 +28119,7 @@ export type DeleteIpamScopeError =
  * For more information, see Delete a scope in the *Amazon VPC IPAM User Guide*.
  */
 export const deleteIpamScope: API.OperationMethod<
-  DeleteIpamScopeRequest,
+  DeleteIpamScopeRequest & RegionInput,
   DeleteIpamScopeResult,
   DeleteIpamScopeError,
   Credentials | HttpClient.HttpClient
@@ -28149,7 +28150,7 @@ export type DeleteKeyPairError =
  * Deletes the specified key pair, by removing the public key from Amazon EC2.
  */
 export const deleteKeyPair: API.OperationMethod<
-  DeleteKeyPairRequest,
+  DeleteKeyPairRequest & RegionInput,
   DeleteKeyPairResult,
   DeleteKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -28176,7 +28177,7 @@ export type DeleteLaunchTemplateError =
  * versions.
  */
 export const deleteLaunchTemplate: API.OperationMethod<
-  DeleteLaunchTemplateRequest,
+  DeleteLaunchTemplateRequest & RegionInput,
   DeleteLaunchTemplateResult,
   DeleteLaunchTemplateError,
   Credentials | HttpClient.HttpClient
@@ -28217,7 +28218,7 @@ export type DeleteLaunchTemplateVersionsError =
  * *Amazon EC2 User Guide*.
  */
 export const deleteLaunchTemplateVersions: API.OperationMethod<
-  DeleteLaunchTemplateVersionsRequest,
+  DeleteLaunchTemplateVersionsRequest & RegionInput,
   DeleteLaunchTemplateVersionsResult,
   DeleteLaunchTemplateVersionsError,
   Credentials | HttpClient.HttpClient
@@ -28241,7 +28242,7 @@ export type DeleteLocalGatewayRouteError =
  * Deletes the specified route from the specified local gateway route table.
  */
 export const deleteLocalGatewayRoute: API.OperationMethod<
-  DeleteLocalGatewayRouteRequest,
+  DeleteLocalGatewayRouteRequest & RegionInput,
   DeleteLocalGatewayRouteResult,
   DeleteLocalGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -28266,7 +28267,7 @@ export type DeleteLocalGatewayRouteTableError =
  * Deletes a local gateway route table.
  */
 export const deleteLocalGatewayRouteTable: API.OperationMethod<
-  DeleteLocalGatewayRouteTableRequest,
+  DeleteLocalGatewayRouteTableRequest & RegionInput,
   DeleteLocalGatewayRouteTableResult,
   DeleteLocalGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -28297,7 +28298,7 @@ export type DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationError =
  * Deletes a local gateway route table virtual interface group association.
  */
 export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.OperationMethod<
-  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest & RegionInput,
   DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
   DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -28337,7 +28338,7 @@ export type DeleteLocalGatewayRouteTableVpcAssociationError =
  * Deletes the specified association between a VPC and local gateway route table.
  */
 export const deleteLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
-  DeleteLocalGatewayRouteTableVpcAssociationRequest,
+  DeleteLocalGatewayRouteTableVpcAssociationRequest & RegionInput,
   DeleteLocalGatewayRouteTableVpcAssociationResult,
   DeleteLocalGatewayRouteTableVpcAssociationError,
   Credentials | HttpClient.HttpClient
@@ -28377,7 +28378,7 @@ export type DeleteLocalGatewayVirtualInterfaceError =
  * Deletes the specified local gateway virtual interface.
  */
 export const deleteLocalGatewayVirtualInterface: API.OperationMethod<
-  DeleteLocalGatewayVirtualInterfaceRequest,
+  DeleteLocalGatewayVirtualInterfaceRequest & RegionInput,
   DeleteLocalGatewayVirtualInterfaceResult,
   DeleteLocalGatewayVirtualInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -28409,7 +28410,7 @@ export type DeleteLocalGatewayVirtualInterfaceGroupError =
  * Delete the specified local gateway interface group.
  */
 export const deleteLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
-  DeleteLocalGatewayVirtualInterfaceGroupRequest,
+  DeleteLocalGatewayVirtualInterfaceGroupRequest & RegionInput,
   DeleteLocalGatewayVirtualInterfaceGroupResult,
   DeleteLocalGatewayVirtualInterfaceGroupError,
   Credentials | HttpClient.HttpClient
@@ -28441,7 +28442,7 @@ export type DeleteManagedPrefixListError =
  * Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
  */
 export const deleteManagedPrefixList: API.OperationMethod<
-  DeleteManagedPrefixListRequest,
+  DeleteManagedPrefixListRequest & RegionInput,
   DeleteManagedPrefixListResult,
   DeleteManagedPrefixListError,
   Credentials | HttpClient.HttpClient
@@ -28478,7 +28479,7 @@ export type DeleteNatGatewayError =
  * routes in your route tables.
  */
 export const deleteNatGateway: API.OperationMethod<
-  DeleteNatGatewayRequest,
+  DeleteNatGatewayRequest & RegionInput,
   DeleteNatGatewayResult,
   DeleteNatGatewayError,
   Credentials | HttpClient.HttpClient
@@ -28516,7 +28517,7 @@ export type DeleteNetworkAclError =
  * Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
  */
 export const deleteNetworkAcl: API.OperationMethod<
-  DeleteNetworkAclRequest,
+  DeleteNetworkAclRequest & RegionInput,
   DeleteNetworkAclResponse,
   DeleteNetworkAclError,
   Credentials | HttpClient.HttpClient
@@ -28552,7 +28553,7 @@ export type DeleteNetworkAclEntryError =
  * Deletes the specified ingress or egress entry (rule) from the specified network ACL.
  */
 export const deleteNetworkAclEntry: API.OperationMethod<
-  DeleteNetworkAclEntryRequest,
+  DeleteNetworkAclEntryRequest & RegionInput,
   DeleteNetworkAclEntryResponse,
   DeleteNetworkAclEntryError,
   Credentials | HttpClient.HttpClient
@@ -28584,7 +28585,7 @@ export type DeleteNetworkInsightsAccessScopeError =
  * Deletes the specified Network Access Scope.
  */
 export const deleteNetworkInsightsAccessScope: API.OperationMethod<
-  DeleteNetworkInsightsAccessScopeRequest,
+  DeleteNetworkInsightsAccessScopeRequest & RegionInput,
   DeleteNetworkInsightsAccessScopeResult,
   DeleteNetworkInsightsAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -28614,7 +28615,7 @@ export type DeleteNetworkInsightsAccessScopeAnalysisError =
  * Deletes the specified Network Access Scope analysis.
  */
 export const deleteNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
-  DeleteNetworkInsightsAccessScopeAnalysisRequest,
+  DeleteNetworkInsightsAccessScopeAnalysisRequest & RegionInput,
   DeleteNetworkInsightsAccessScopeAnalysisResult,
   DeleteNetworkInsightsAccessScopeAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -28639,7 +28640,7 @@ export type DeleteNetworkInsightsAnalysisError =
  * Deletes the specified network insights analysis.
  */
 export const deleteNetworkInsightsAnalysis: API.OperationMethod<
-  DeleteNetworkInsightsAnalysisRequest,
+  DeleteNetworkInsightsAnalysisRequest & RegionInput,
   DeleteNetworkInsightsAnalysisResult,
   DeleteNetworkInsightsAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -28664,7 +28665,7 @@ export type DeleteNetworkInsightsPathError =
  * Deletes the specified path.
  */
 export const deleteNetworkInsightsPath: API.OperationMethod<
-  DeleteNetworkInsightsPathRequest,
+  DeleteNetworkInsightsPathRequest & RegionInput,
   DeleteNetworkInsightsPathResult,
   DeleteNetworkInsightsPathError,
   Credentials | HttpClient.HttpClient
@@ -28693,7 +28694,7 @@ export type DeleteNetworkInterfaceError =
  * you can delete it.
  */
 export const deleteNetworkInterface: API.OperationMethod<
-  DeleteNetworkInterfaceRequest,
+  DeleteNetworkInterfaceRequest & RegionInput,
   DeleteNetworkInterfaceResponse,
   DeleteNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -28730,7 +28731,7 @@ export type DeleteNetworkInterfacePermissionError =
  * regardless of any attachment.
  */
 export const deleteNetworkInterfacePermission: API.OperationMethod<
-  DeleteNetworkInterfacePermissionRequest,
+  DeleteNetworkInterfacePermissionRequest & RegionInput,
   DeleteNetworkInterfacePermissionResult,
   DeleteNetworkInterfacePermissionError,
   Credentials | HttpClient.HttpClient
@@ -28764,7 +28765,7 @@ export type DeletePlacementGroupError =
  * Placement groups in the *Amazon EC2 User Guide*.
  */
 export const deletePlacementGroup: API.OperationMethod<
-  DeletePlacementGroupRequest,
+  DeletePlacementGroupRequest & RegionInput,
   DeletePlacementGroupResponse,
   DeletePlacementGroupError,
   Credentials | HttpClient.HttpClient
@@ -28789,7 +28790,7 @@ export type DeletePublicIpv4PoolError =
  * Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
  */
 export const deletePublicIpv4Pool: API.OperationMethod<
-  DeletePublicIpv4PoolRequest,
+  DeletePublicIpv4PoolRequest & RegionInput,
   DeletePublicIpv4PoolResult,
   DeletePublicIpv4PoolError,
   Credentials | HttpClient.HttpClient
@@ -28818,7 +28819,7 @@ export type DeleteQueuedReservedInstancesError =
  * Deletes the queued purchases for the specified Reserved Instances.
  */
 export const deleteQueuedReservedInstances: API.OperationMethod<
-  DeleteQueuedReservedInstancesRequest,
+  DeleteQueuedReservedInstancesRequest & RegionInput,
   DeleteQueuedReservedInstancesResult,
   DeleteQueuedReservedInstancesError,
   Credentials | HttpClient.HttpClient
@@ -28847,7 +28848,7 @@ export type DeleteRouteError =
  * Deletes the specified route from the specified route table.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
+  DeleteRouteRequest & RegionInput,
   DeleteRouteResponse,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -28896,7 +28897,7 @@ export type DeleteRouteServerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const deleteRouteServer: API.OperationMethod<
-  DeleteRouteServerRequest,
+  DeleteRouteServerRequest & RegionInput,
   DeleteRouteServerResult,
   DeleteRouteServerError,
   Credentials | HttpClient.HttpClient
@@ -28928,7 +28929,7 @@ export type DeleteRouteServerEndpointError =
  * A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers.
  */
 export const deleteRouteServerEndpoint: API.OperationMethod<
-  DeleteRouteServerEndpointRequest,
+  DeleteRouteServerEndpointRequest & RegionInput,
   DeleteRouteServerEndpointResult,
   DeleteRouteServerEndpointError,
   Credentials | HttpClient.HttpClient
@@ -28967,7 +28968,7 @@ export type DeleteRouteServerPeerError =
  * - Can initiate BGP sessions
  */
 export const deleteRouteServerPeer: API.OperationMethod<
-  DeleteRouteServerPeerRequest,
+  DeleteRouteServerPeerRequest & RegionInput,
   DeleteRouteServerPeerResult,
   DeleteRouteServerPeerError,
   Credentials | HttpClient.HttpClient
@@ -28999,7 +29000,7 @@ export type DeleteRouteTableError =
  * Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
  */
 export const deleteRouteTable: API.OperationMethod<
-  DeleteRouteTableRequest,
+  DeleteRouteTableRequest & RegionInput,
   DeleteRouteTableResponse,
   DeleteRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -29025,7 +29026,7 @@ export type DeleteSecondaryNetworkError = CommonErrors;
  * Deletes a secondary network. You must delete all secondary subnets in the secondary network before you can delete the secondary network.
  */
 export const deleteSecondaryNetwork: API.OperationMethod<
-  DeleteSecondaryNetworkRequest,
+  DeleteSecondaryNetworkRequest & RegionInput,
   DeleteSecondaryNetworkResult,
   DeleteSecondaryNetworkError,
   Credentials | HttpClient.HttpClient
@@ -29045,7 +29046,7 @@ export type DeleteSecondarySubnetError = CommonErrors;
  * Deletes a secondary subnet. A secondary subnet must not contain any secondary interfaces prior to deletion.
  */
 export const deleteSecondarySubnet: API.OperationMethod<
-  DeleteSecondarySubnetRequest,
+  DeleteSecondarySubnetRequest & RegionInput,
   DeleteSecondarySubnetResult,
   DeleteSecondarySubnetError,
   Credentials | HttpClient.HttpClient
@@ -29078,7 +29079,7 @@ export type DeleteSecurityGroupError =
  * `DependencyViolation`.
  */
 export const deleteSecurityGroup: API.OperationMethod<
-  DeleteSecurityGroupRequest,
+  DeleteSecurityGroupRequest & RegionInput,
   DeleteSecurityGroupResult,
   DeleteSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -29125,7 +29126,7 @@ export type DeleteSnapshotError =
  * *Amazon EBS User Guide*.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -29151,7 +29152,7 @@ export type DeleteSpotDatafeedSubscriptionError = CommonErrors;
  * Deletes the data feed for Spot Instances.
  */
 export const deleteSpotDatafeedSubscription: API.OperationMethod<
-  DeleteSpotDatafeedSubscriptionRequest,
+  DeleteSpotDatafeedSubscriptionRequest & RegionInput,
   DeleteSpotDatafeedSubscriptionResponse,
   DeleteSpotDatafeedSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -29178,7 +29179,7 @@ export type DeleteSubnetError =
  * Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
  */
 export const deleteSubnet: API.OperationMethod<
-  DeleteSubnetRequest,
+  DeleteSubnetRequest & RegionInput,
   DeleteSubnetResponse,
   DeleteSubnetError,
   Credentials | HttpClient.HttpClient
@@ -29211,7 +29212,7 @@ export type DeleteSubnetCidrReservationError =
  * Deletes a subnet CIDR reservation.
  */
 export const deleteSubnetCidrReservation: API.OperationMethod<
-  DeleteSubnetCidrReservationRequest,
+  DeleteSubnetCidrReservationRequest & RegionInput,
   DeleteSubnetCidrReservationResult,
   DeleteSubnetCidrReservationError,
   Credentials | HttpClient.HttpClient
@@ -29247,7 +29248,7 @@ export type DeleteTagsError =
  * Guide.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -29274,7 +29275,7 @@ export type DeleteTrafficMirrorFilterError =
  * You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
  */
 export const deleteTrafficMirrorFilter: API.OperationMethod<
-  DeleteTrafficMirrorFilterRequest,
+  DeleteTrafficMirrorFilterRequest & RegionInput,
   DeleteTrafficMirrorFilterResult,
   DeleteTrafficMirrorFilterError,
   Credentials | HttpClient.HttpClient
@@ -29305,7 +29306,7 @@ export type DeleteTrafficMirrorFilterRuleError =
  * Deletes the specified Traffic Mirror rule.
  */
 export const deleteTrafficMirrorFilterRule: API.OperationMethod<
-  DeleteTrafficMirrorFilterRuleRequest,
+  DeleteTrafficMirrorFilterRuleRequest & RegionInput,
   DeleteTrafficMirrorFilterRuleResult,
   DeleteTrafficMirrorFilterRuleError,
   Credentials | HttpClient.HttpClient
@@ -29337,7 +29338,7 @@ export type DeleteTrafficMirrorSessionError =
  * Deletes the specified Traffic Mirror session.
  */
 export const deleteTrafficMirrorSession: API.OperationMethod<
-  DeleteTrafficMirrorSessionRequest,
+  DeleteTrafficMirrorSessionRequest & RegionInput,
   DeleteTrafficMirrorSessionResult,
   DeleteTrafficMirrorSessionError,
   Credentials | HttpClient.HttpClient
@@ -29371,7 +29372,7 @@ export type DeleteTrafficMirrorTargetError =
  * You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
  */
 export const deleteTrafficMirrorTarget: API.OperationMethod<
-  DeleteTrafficMirrorTargetRequest,
+  DeleteTrafficMirrorTargetRequest & RegionInput,
   DeleteTrafficMirrorTargetResult,
   DeleteTrafficMirrorTargetError,
   Credentials | HttpClient.HttpClient
@@ -29405,7 +29406,7 @@ export type DeleteTransitGatewayError =
  * Deletes the specified transit gateway.
  */
 export const deleteTransitGateway: API.OperationMethod<
-  DeleteTransitGatewayRequest,
+  DeleteTransitGatewayRequest & RegionInput,
   DeleteTransitGatewayResult,
   DeleteTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -29433,7 +29434,7 @@ export type DeleteTransitGatewayClientVpnAttachmentError = CommonErrors;
  * Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the association between the Client VPN endpoint and the Transit Gateway.
  */
 export const deleteTransitGatewayClientVpnAttachment: API.OperationMethod<
-  DeleteTransitGatewayClientVpnAttachmentRequest,
+  DeleteTransitGatewayClientVpnAttachmentRequest & RegionInput,
   DeleteTransitGatewayClientVpnAttachmentResult,
   DeleteTransitGatewayClientVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -29458,7 +29459,7 @@ export type DeleteTransitGatewayConnectError =
  * the attachment.
  */
 export const deleteTransitGatewayConnect: API.OperationMethod<
-  DeleteTransitGatewayConnectRequest,
+  DeleteTransitGatewayConnectRequest & RegionInput,
   DeleteTransitGatewayConnectResult,
   DeleteTransitGatewayConnectError,
   Credentials | HttpClient.HttpClient
@@ -29483,7 +29484,7 @@ export type DeleteTransitGatewayConnectPeerError =
  * Deletes the specified Connect peer.
  */
 export const deleteTransitGatewayConnectPeer: API.OperationMethod<
-  DeleteTransitGatewayConnectPeerRequest,
+  DeleteTransitGatewayConnectPeerRequest & RegionInput,
   DeleteTransitGatewayConnectPeerResult,
   DeleteTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -29514,7 +29515,7 @@ export type DeleteTransitGatewayMeteringPolicyError =
  * Deletes a transit gateway metering policy.
  */
 export const deleteTransitGatewayMeteringPolicy: API.OperationMethod<
-  DeleteTransitGatewayMeteringPolicyRequest,
+  DeleteTransitGatewayMeteringPolicyRequest & RegionInput,
   DeleteTransitGatewayMeteringPolicyResult,
   DeleteTransitGatewayMeteringPolicyError,
   Credentials | HttpClient.HttpClient
@@ -29546,7 +29547,7 @@ export type DeleteTransitGatewayMeteringPolicyEntryError =
  * Deletes an entry from a transit gateway metering policy.
  */
 export const deleteTransitGatewayMeteringPolicyEntry: API.OperationMethod<
-  DeleteTransitGatewayMeteringPolicyEntryRequest,
+  DeleteTransitGatewayMeteringPolicyEntryRequest & RegionInput,
   DeleteTransitGatewayMeteringPolicyEntryResult,
   DeleteTransitGatewayMeteringPolicyEntryError,
   Credentials | HttpClient.HttpClient
@@ -29577,7 +29578,7 @@ export type DeleteTransitGatewayMulticastDomainError =
  * Deletes the specified transit gateway multicast domain.
  */
 export const deleteTransitGatewayMulticastDomain: API.OperationMethod<
-  DeleteTransitGatewayMulticastDomainRequest,
+  DeleteTransitGatewayMulticastDomainRequest & RegionInput,
   DeleteTransitGatewayMulticastDomainResult,
   DeleteTransitGatewayMulticastDomainError,
   Credentials | HttpClient.HttpClient
@@ -29606,7 +29607,7 @@ export type DeleteTransitGatewayPeeringAttachmentError =
  * Deletes a transit gateway peering attachment.
  */
 export const deleteTransitGatewayPeeringAttachment: API.OperationMethod<
-  DeleteTransitGatewayPeeringAttachmentRequest,
+  DeleteTransitGatewayPeeringAttachmentRequest & RegionInput,
   DeleteTransitGatewayPeeringAttachmentResult,
   DeleteTransitGatewayPeeringAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -29632,7 +29633,7 @@ export type DeleteTransitGatewayPolicyTableError =
  * Deletes the specified transit gateway policy table.
  */
 export const deleteTransitGatewayPolicyTable: API.OperationMethod<
-  DeleteTransitGatewayPolicyTableRequest,
+  DeleteTransitGatewayPolicyTableRequest & RegionInput,
   DeleteTransitGatewayPolicyTableResult,
   DeleteTransitGatewayPolicyTableError,
   Credentials | HttpClient.HttpClient
@@ -29658,7 +29659,7 @@ export type DeleteTransitGatewayPolicyTableEntryError = CommonErrors;
  * Deletes the specified transit gateway policy table entry.
  */
 export const deleteTransitGatewayPolicyTableEntry: API.OperationMethod<
-  DeleteTransitGatewayPolicyTableEntryRequest,
+  DeleteTransitGatewayPolicyTableEntryRequest & RegionInput,
   DeleteTransitGatewayPolicyTableEntryResult,
   DeleteTransitGatewayPolicyTableEntryError,
   Credentials | HttpClient.HttpClient
@@ -29683,7 +29684,7 @@ export type DeleteTransitGatewayPrefixListReferenceError =
  * Deletes a reference (route) to a prefix list in a specified transit gateway route table.
  */
 export const deleteTransitGatewayPrefixListReference: API.OperationMethod<
-  DeleteTransitGatewayPrefixListReferenceRequest,
+  DeleteTransitGatewayPrefixListReferenceRequest & RegionInput,
   DeleteTransitGatewayPrefixListReferenceResult,
   DeleteTransitGatewayPrefixListReferenceError,
   Credentials | HttpClient.HttpClient
@@ -29713,7 +29714,7 @@ export type DeleteTransitGatewayRouteError =
  * Deletes the specified route from the specified transit gateway route table.
  */
 export const deleteTransitGatewayRoute: API.OperationMethod<
-  DeleteTransitGatewayRouteRequest,
+  DeleteTransitGatewayRouteRequest & RegionInput,
   DeleteTransitGatewayRouteResult,
   DeleteTransitGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -29742,7 +29743,7 @@ export type DeleteTransitGatewayRouteTableError =
  * the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
  */
 export const deleteTransitGatewayRouteTable: API.OperationMethod<
-  DeleteTransitGatewayRouteTableRequest,
+  DeleteTransitGatewayRouteTableRequest & RegionInput,
   DeleteTransitGatewayRouteTableResult,
   DeleteTransitGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -29775,7 +29776,7 @@ export type DeleteTransitGatewayRouteTableAnnouncementError =
  * Advertises to the transit gateway that a transit gateway route table is deleted.
  */
 export const deleteTransitGatewayRouteTableAnnouncement: API.OperationMethod<
-  DeleteTransitGatewayRouteTableAnnouncementRequest,
+  DeleteTransitGatewayRouteTableAnnouncementRequest & RegionInput,
   DeleteTransitGatewayRouteTableAnnouncementResult,
   DeleteTransitGatewayRouteTableAnnouncementError,
   Credentials | HttpClient.HttpClient
@@ -29813,7 +29814,7 @@ export type DeleteTransitGatewayVpcAttachmentError =
  * Deletes the specified VPC attachment.
  */
 export const deleteTransitGatewayVpcAttachment: API.OperationMethod<
-  DeleteTransitGatewayVpcAttachmentRequest,
+  DeleteTransitGatewayVpcAttachmentRequest & RegionInput,
   DeleteTransitGatewayVpcAttachmentResult,
   DeleteTransitGatewayVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -29844,7 +29845,7 @@ export type DeleteVerifiedAccessEndpointError =
  * Delete an Amazon Web Services Verified Access endpoint.
  */
 export const deleteVerifiedAccessEndpoint: API.OperationMethod<
-  DeleteVerifiedAccessEndpointRequest,
+  DeleteVerifiedAccessEndpointRequest & RegionInput,
   DeleteVerifiedAccessEndpointResult,
   DeleteVerifiedAccessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -29875,7 +29876,7 @@ export type DeleteVerifiedAccessGroupError =
  * Delete an Amazon Web Services Verified Access group.
  */
 export const deleteVerifiedAccessGroup: API.OperationMethod<
-  DeleteVerifiedAccessGroupRequest,
+  DeleteVerifiedAccessGroupRequest & RegionInput,
   DeleteVerifiedAccessGroupResult,
   DeleteVerifiedAccessGroupError,
   Credentials | HttpClient.HttpClient
@@ -29904,7 +29905,7 @@ export type DeleteVerifiedAccessInstanceError =
  * Delete an Amazon Web Services Verified Access instance.
  */
 export const deleteVerifiedAccessInstance: API.OperationMethod<
-  DeleteVerifiedAccessInstanceRequest,
+  DeleteVerifiedAccessInstanceRequest & RegionInput,
   DeleteVerifiedAccessInstanceResult,
   DeleteVerifiedAccessInstanceError,
   Credentials | HttpClient.HttpClient
@@ -29928,7 +29929,7 @@ export type DeleteVerifiedAccessTrustProviderError =
  * Delete an Amazon Web Services Verified Access trust provider.
  */
 export const deleteVerifiedAccessTrustProvider: API.OperationMethod<
-  DeleteVerifiedAccessTrustProviderRequest,
+  DeleteVerifiedAccessTrustProviderRequest & RegionInput,
   DeleteVerifiedAccessTrustProviderResult,
   DeleteVerifiedAccessTrustProviderError,
   Credentials | HttpClient.HttpClient
@@ -29964,7 +29965,7 @@ export type DeleteVolumeError =
  * *Amazon EBS User Guide*.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -30005,7 +30006,7 @@ export type DeleteVpcError =
  * VPCs are eventually automatically removed.
  */
 export const deleteVpc: API.OperationMethod<
-  DeleteVpcRequest,
+  DeleteVpcRequest & RegionInput,
   DeleteVpcResponse,
   DeleteVpcError,
   Credentials | HttpClient.HttpClient
@@ -30038,7 +30039,7 @@ export type DeleteVpcBlockPublicAccessExclusionError =
  * Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account's BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const deleteVpcBlockPublicAccessExclusion: API.OperationMethod<
-  DeleteVpcBlockPublicAccessExclusionRequest,
+  DeleteVpcBlockPublicAccessExclusionRequest & RegionInput,
   DeleteVpcBlockPublicAccessExclusionResult,
   DeleteVpcBlockPublicAccessExclusionError,
   Credentials | HttpClient.HttpClient
@@ -30071,7 +30072,7 @@ export type DeleteVpcEncryptionControlError =
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const deleteVpcEncryptionControl: API.OperationMethod<
-  DeleteVpcEncryptionControlRequest,
+  DeleteVpcEncryptionControlRequest & RegionInput,
   DeleteVpcEncryptionControlResult,
   DeleteVpcEncryptionControlError,
   Credentials | HttpClient.HttpClient
@@ -30097,7 +30098,7 @@ export type DeleteVpcEndpointConnectionNotificationsError = CommonErrors;
  * Deletes the specified VPC endpoint connection notifications.
  */
 export const deleteVpcEndpointConnectionNotifications: API.OperationMethod<
-  DeleteVpcEndpointConnectionNotificationsRequest,
+  DeleteVpcEndpointConnectionNotificationsRequest & RegionInput,
   DeleteVpcEndpointConnectionNotificationsResult,
   DeleteVpcEndpointConnectionNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -30129,7 +30130,7 @@ export type DeleteVpcEndpointsError =
  * When you delete an interface endpoint, we delete its endpoint network interfaces.
  */
 export const deleteVpcEndpoints: API.OperationMethod<
-  DeleteVpcEndpointsRequest,
+  DeleteVpcEndpointsRequest & RegionInput,
   DeleteVpcEndpointsResult,
   DeleteVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -30152,7 +30153,7 @@ export type DeleteVpcEndpointServiceConfigurationsError = CommonErrors;
  * the service.
  */
 export const deleteVpcEndpointServiceConfigurations: API.OperationMethod<
-  DeleteVpcEndpointServiceConfigurationsRequest,
+  DeleteVpcEndpointServiceConfigurationsRequest & RegionInput,
   DeleteVpcEndpointServiceConfigurationsResult,
   DeleteVpcEndpointServiceConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -30182,7 +30183,7 @@ export type DeleteVpcPeeringConnectionError =
  * connection that's in the `failed` or `rejected` state.
  */
 export const deleteVpcPeeringConnection: API.OperationMethod<
-  DeleteVpcPeeringConnectionRequest,
+  DeleteVpcPeeringConnectionRequest & RegionInput,
   DeleteVpcPeeringConnectionResult,
   DeleteVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -30212,7 +30213,7 @@ export type DeleteVpnConcentratorError =
  * Deletes the specified VPN concentrator.
  */
 export const deleteVpnConcentrator: API.OperationMethod<
-  DeleteVpnConcentratorRequest,
+  DeleteVpnConcentratorRequest & RegionInput,
   DeleteVpnConcentratorResult,
   DeleteVpnConcentratorError,
   Credentials | HttpClient.HttpClient
@@ -30249,7 +30250,7 @@ export type DeleteVpnConnectionError =
  * connection before deleting the VPN connection.
  */
 export const deleteVpnConnection: API.OperationMethod<
-  DeleteVpnConnectionRequest,
+  DeleteVpnConnectionRequest & RegionInput,
   DeleteVpnConnectionResponse,
   DeleteVpnConnectionError,
   Credentials | HttpClient.HttpClient
@@ -30282,7 +30283,7 @@ export type DeleteVpnConnectionRouteError =
  * gateway.
  */
 export const deleteVpnConnectionRoute: API.OperationMethod<
-  DeleteVpnConnectionRouteRequest,
+  DeleteVpnConnectionRouteRequest & RegionInput,
   DeleteVpnConnectionRouteResponse,
   DeleteVpnConnectionRouteError,
   Credentials | HttpClient.HttpClient
@@ -30310,7 +30311,7 @@ export type DeleteVpnGatewayError =
  * network.
  */
 export const deleteVpnGateway: API.OperationMethod<
-  DeleteVpnGatewayRequest,
+  DeleteVpnGatewayRequest & RegionInput,
   DeleteVpnGatewayResponse,
   DeleteVpnGatewayError,
   Credentials | HttpClient.HttpClient
@@ -30339,7 +30340,7 @@ export type DeprovisionByoipCidrError = RequestLimitExceeded | UnauthorizedOpera
  * have any IP addresses allocated from its address range.
  */
 export const deprovisionByoipCidr: API.OperationMethod<
-  DeprovisionByoipCidrRequest,
+  DeprovisionByoipCidrRequest & RegionInput,
   DeprovisionByoipCidrResult,
   DeprovisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -30365,7 +30366,7 @@ export type DeprovisionIpamByoasnError =
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
 export const deprovisionIpamByoasn: API.OperationMethod<
-  DeprovisionIpamByoasnRequest,
+  DeprovisionIpamByoasnRequest & RegionInput,
   DeprovisionIpamByoasnResult,
   DeprovisionIpamByoasnError,
   Credentials | HttpClient.HttpClient
@@ -30390,7 +30391,7 @@ export type DeprovisionIpamPoolCidrError =
  * Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see Deprovision pool CIDRs in the *Amazon VPC IPAM User Guide*.
  */
 export const deprovisionIpamPoolCidr: API.OperationMethod<
-  DeprovisionIpamPoolCidrRequest,
+  DeprovisionIpamPoolCidrRequest & RegionInput,
   DeprovisionIpamPoolCidrResult,
   DeprovisionIpamPoolCidrError,
   Credentials | HttpClient.HttpClient
@@ -30421,7 +30422,7 @@ export type DeprovisionPublicIpv4PoolCidrError =
  * Deprovision a CIDR from a public IPv4 pool.
  */
 export const deprovisionPublicIpv4PoolCidr: API.OperationMethod<
-  DeprovisionPublicIpv4PoolCidrRequest,
+  DeprovisionPublicIpv4PoolCidrRequest & RegionInput,
   DeprovisionPublicIpv4PoolCidrResult,
   DeprovisionPublicIpv4PoolCidrError,
   Credentials | HttpClient.HttpClient
@@ -30479,7 +30480,7 @@ export type DeregisterImageError =
  * *Amazon EC2 User Guide*.
  */
 export const deregisterImage: API.OperationMethod<
-  DeregisterImageRequest,
+  DeregisterImageRequest & RegionInput,
   DeregisterImageResult,
   DeregisterImageError,
   Credentials | HttpClient.HttpClient
@@ -30510,7 +30511,7 @@ export type DeregisterInstanceEventNotificationAttributesError =
  * included in scheduled event notifications for resources in the Region.
  */
 export const deregisterInstanceEventNotificationAttributes: API.OperationMethod<
-  DeregisterInstanceEventNotificationAttributesRequest,
+  DeregisterInstanceEventNotificationAttributesRequest & RegionInput,
   DeregisterInstanceEventNotificationAttributesResult,
   DeregisterInstanceEventNotificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -30542,7 +30543,7 @@ export type DeregisterTransitGatewayMulticastGroupMembersError =
  * Deregisters the specified members (network interfaces) from the transit gateway multicast group.
  */
 export const deregisterTransitGatewayMulticastGroupMembers: API.OperationMethod<
-  DeregisterTransitGatewayMulticastGroupMembersRequest,
+  DeregisterTransitGatewayMulticastGroupMembersRequest & RegionInput,
   DeregisterTransitGatewayMulticastGroupMembersResult,
   DeregisterTransitGatewayMulticastGroupMembersError,
   Credentials | HttpClient.HttpClient
@@ -30574,7 +30575,7 @@ export type DeregisterTransitGatewayMulticastGroupSourcesError =
  * Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
  */
 export const deregisterTransitGatewayMulticastGroupSources: API.OperationMethod<
-  DeregisterTransitGatewayMulticastGroupSourcesRequest,
+  DeregisterTransitGatewayMulticastGroupSourcesRequest & RegionInput,
   DeregisterTransitGatewayMulticastGroupSourcesResult,
   DeregisterTransitGatewayMulticastGroupSourcesError,
   Credentials | HttpClient.HttpClient
@@ -30622,7 +30623,7 @@ export type DescribeAccountAttributesError = CommonErrors;
  * particular order.
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesRequest & RegionInput,
   DescribeAccountAttributesResult,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -30644,7 +30645,7 @@ export type DescribeAccountVpcEncryptionControlError = CommonErrors;
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const describeAccountVpcEncryptionControl: API.OperationMethod<
-  DescribeAccountVpcEncryptionControlRequest,
+  DescribeAccountVpcEncryptionControlRequest & RegionInput,
   DescribeAccountVpcEncryptionControlResult,
   DescribeAccountVpcEncryptionControlError,
   Credentials | HttpClient.HttpClient
@@ -30662,20 +30663,26 @@ export const describeAccountVpcEncryptionControl: API.OperationMethod<
 export type DescribeAddressesError =
   | RequestLimitExceeded
   | InvalidAllocationIDNotFound
+  | InvalidAddressNotFound
   | UnauthorizedOperation
   | CommonErrors;
 /**
  * Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
  */
 export const describeAddresses: API.OperationMethod<
-  DescribeAddressesRequest,
+  DescribeAddressesRequest & RegionInput,
   DescribeAddressesResult,
   DescribeAddressesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18049, __c564, 1) as any as S.Schema<DescribeAddressesRequest>,
   output: __S(18052, __c564, 4) as any as S.Schema<DescribeAddressesResult>,
-  errors: [RequestLimitExceeded, InvalidAllocationIDNotFound, UnauthorizedOperation],
+  errors: [
+    RequestLimitExceeded,
+    InvalidAllocationIDNotFound,
+    InvalidAddressNotFound,
+    UnauthorizedOperation,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddresses",
@@ -30692,7 +30699,7 @@ export type DescribeAddressesAttributeError =
  * Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
  */
 export const describeAddressesAttribute: API.PaginatedOperationMethod<
-  DescribeAddressesAttributeRequest,
+  DescribeAddressesAttributeRequest & RegionInput,
   DescribeAddressesAttributeResult,
   DescribeAddressesAttributeError,
   Credentials | HttpClient.HttpClient,
@@ -30729,7 +30736,7 @@ export type DescribeAddressTransfersError = CommonErrors;
  * after the transfers have been accepted.
  */
 export const describeAddressTransfers: API.PaginatedOperationMethod<
-  DescribeAddressTransfersRequest,
+  DescribeAddressTransfersRequest & RegionInput,
   DescribeAddressTransfersResult,
   DescribeAddressTransfersError,
   Credentials | HttpClient.HttpClient,
@@ -30774,7 +30781,7 @@ export type DescribeAggregateIdFormatError = CommonErrors;
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
 export const describeAggregateIdFormat: API.OperationMethod<
-  DescribeAggregateIdFormatRequest,
+  DescribeAggregateIdFormatRequest & RegionInput,
   DescribeAggregateIdFormatResult,
   DescribeAggregateIdFormatError,
   Credentials | HttpClient.HttpClient
@@ -30800,7 +30807,7 @@ export type DescribeApplicationStatusError = CommonErrors;
  * - Use `EnableApplicationStatusCheckSuppression` to temporarily suppress health check results from affecting the instance-level status.
  */
 export const describeApplicationStatus: API.OperationMethod<
-  DescribeApplicationStatusRequest,
+  DescribeApplicationStatusRequest & RegionInput,
   DescribeApplicationStatusResult,
   DescribeApplicationStatusError,
   Credentials | HttpClient.HttpClient
@@ -30826,7 +30833,7 @@ export type DescribeApplicationStatusCheckAssociationsError = CommonErrors;
  * structures, might vary.
  */
 export const describeApplicationStatusCheckAssociations: API.OperationMethod<
-  DescribeApplicationStatusCheckAssociationsRequest,
+  DescribeApplicationStatusCheckAssociationsRequest & RegionInput,
   DescribeApplicationStatusCheckAssociationsResult,
   DescribeApplicationStatusCheckAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -30858,7 +30865,7 @@ export type DescribeApplicationStatusChecksError = CommonErrors;
  * - Use `DescribeApplicationStatus` to see the actual health status of instances.
  */
 export const describeApplicationStatusChecks: API.OperationMethod<
-  DescribeApplicationStatusChecksRequest,
+  DescribeApplicationStatusChecksRequest & RegionInput,
   DescribeApplicationStatusChecksResult,
   DescribeApplicationStatusChecksError,
   Credentials | HttpClient.HttpClient
@@ -30892,7 +30899,7 @@ export type DescribeAvailabilityZonesError =
  * particular order.
  */
 export const describeAvailabilityZones: API.OperationMethod<
-  DescribeAvailabilityZonesRequest,
+  DescribeAvailabilityZonesRequest & RegionInput,
   DescribeAvailabilityZonesResult,
   DescribeAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
@@ -30912,7 +30919,7 @@ export type DescribeAwsNetworkPerformanceMetricSubscriptionsError = CommonErrors
  * Describes the current Infrastructure Performance metric subscriptions.
  */
 export const describeAwsNetworkPerformanceMetricSubscriptions: API.PaginatedOperationMethod<
-  DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  DescribeAwsNetworkPerformanceMetricSubscriptionsRequest & RegionInput,
   DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
   DescribeAwsNetworkPerformanceMetricSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -30960,7 +30967,7 @@ export type DescribeBundleTasksError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeBundleTasks: API.OperationMethod<
-  DescribeBundleTasksRequest,
+  DescribeBundleTasksRequest & RegionInput,
   DescribeBundleTasksResult,
   DescribeBundleTasksError,
   Credentials | HttpClient.HttpClient
@@ -30990,7 +30997,7 @@ export type DescribeByoipCidrsError =
  * through through bring your own IP addresses (BYOIP).
  */
 export const describeByoipCidrs: API.PaginatedOperationMethod<
-  DescribeByoipCidrsRequest,
+  DescribeByoipCidrsRequest & RegionInput,
   DescribeByoipCidrsResult,
   DescribeByoipCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -31022,7 +31029,7 @@ export type DescribeCapacityBlockExtensionHistoryError =
  * time.
  */
 export const describeCapacityBlockExtensionHistory: API.PaginatedOperationMethod<
-  DescribeCapacityBlockExtensionHistoryRequest,
+  DescribeCapacityBlockExtensionHistoryRequest & RegionInput,
   DescribeCapacityBlockExtensionHistoryResult,
   DescribeCapacityBlockExtensionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -31054,7 +31061,7 @@ export type DescribeCapacityBlockExtensionOfferingsError =
  * Region that you're currently using.
  */
 export const describeCapacityBlockExtensionOfferings: API.PaginatedOperationMethod<
-  DescribeCapacityBlockExtensionOfferingsRequest,
+  DescribeCapacityBlockExtensionOfferingsRequest & RegionInput,
   DescribeCapacityBlockExtensionOfferingsResult,
   DescribeCapacityBlockExtensionOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -31089,7 +31096,7 @@ export type DescribeCapacityBlockOfferingsError =
  * and instance count.
  */
 export const describeCapacityBlockOfferings: API.PaginatedOperationMethod<
-  DescribeCapacityBlockOfferingsRequest,
+  DescribeCapacityBlockOfferingsRequest & RegionInput,
   DescribeCapacityBlockOfferingsResult,
   DescribeCapacityBlockOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -31120,7 +31127,7 @@ export type DescribeCapacityBlocksError =
  * Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
  */
 export const describeCapacityBlocks: API.PaginatedOperationMethod<
-  DescribeCapacityBlocksRequest,
+  DescribeCapacityBlocksRequest & RegionInput,
   DescribeCapacityBlocksResult,
   DescribeCapacityBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -31151,7 +31158,7 @@ export type DescribeCapacityBlockStatusError =
  * Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
  */
 export const describeCapacityBlockStatus: API.PaginatedOperationMethod<
-  DescribeCapacityBlockStatusRequest,
+  DescribeCapacityBlockStatusRequest & RegionInput,
   DescribeCapacityBlockStatusResult,
   DescribeCapacityBlockStatusError,
   Credentials | HttpClient.HttpClient,
@@ -31182,7 +31189,7 @@ export type DescribeCapacityManagerDataExportsError =
  * Describes one or more Capacity Manager data export configurations. Returns information about export settings, delivery status, and recent export activity.
  */
 export const describeCapacityManagerDataExports: API.PaginatedOperationMethod<
-  DescribeCapacityManagerDataExportsRequest,
+  DescribeCapacityManagerDataExportsRequest & RegionInput,
   DescribeCapacityManagerDataExportsResult,
   DescribeCapacityManagerDataExportsError,
   Credentials | HttpClient.HttpClient,
@@ -31215,7 +31222,7 @@ export type DescribeCapacityReservationBillingRequestsError =
  * Amazon EC2 Capacity Reservations.
  */
 export const describeCapacityReservationBillingRequests: API.PaginatedOperationMethod<
-  DescribeCapacityReservationBillingRequestsRequest,
+  DescribeCapacityReservationBillingRequestsRequest & RegionInput,
   DescribeCapacityReservationBillingRequestsResult,
   DescribeCapacityReservationBillingRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -31252,7 +31259,7 @@ export type DescribeCapacityReservationCancellationQuotesError = CommonErrors;
  * `CreateCapacityReservationCancellationQuote` action.
  */
 export const describeCapacityReservationCancellationQuotes: API.OperationMethod<
-  DescribeCapacityReservationCancellationQuotesRequest,
+  DescribeCapacityReservationCancellationQuotesRequest & RegionInput,
   DescribeCapacityReservationCancellationQuotesResult,
   DescribeCapacityReservationCancellationQuotesError,
   Credentials | HttpClient.HttpClient
@@ -31281,7 +31288,7 @@ export type DescribeCapacityReservationDateChangeQuotesError = CommonErrors;
  * the `CreateCapacityReservationDateChangeQuote` operation.
  */
 export const describeCapacityReservationDateChangeQuotes: API.PaginatedOperationMethod<
-  DescribeCapacityReservationDateChangeQuotesRequest,
+  DescribeCapacityReservationDateChangeQuotesRequest & RegionInput,
   DescribeCapacityReservationDateChangeQuotesResult,
   DescribeCapacityReservationDateChangeQuotesError,
   Credentials | HttpClient.HttpClient,
@@ -31320,7 +31327,7 @@ export type DescribeCapacityReservationFleetsError =
  * Describes one or more Capacity Reservation Fleets.
  */
 export const describeCapacityReservationFleets: API.PaginatedOperationMethod<
-  DescribeCapacityReservationFleetsRequest,
+  DescribeCapacityReservationFleetsRequest & RegionInput,
   DescribeCapacityReservationFleetsResult,
   DescribeCapacityReservationFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -31353,7 +31360,7 @@ export type DescribeCapacityReservationsError =
  * using.
  */
 export const describeCapacityReservations: API.PaginatedOperationMethod<
-  DescribeCapacityReservationsRequest,
+  DescribeCapacityReservationsRequest & RegionInput,
   DescribeCapacityReservationsResult,
   DescribeCapacityReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -31401,7 +31408,7 @@ export type DescribeCapacityReservationTopologyError = CommonErrors;
  * the *Amazon EC2 User Guide*.
  */
 export const describeCapacityReservationTopology: API.OperationMethod<
-  DescribeCapacityReservationTopologyRequest,
+  DescribeCapacityReservationTopologyRequest & RegionInput,
   DescribeCapacityReservationTopologyResult,
   DescribeCapacityReservationTopologyError,
   Credentials | HttpClient.HttpClient
@@ -31427,7 +31434,7 @@ export type DescribeCarrierGatewaysError =
  * Describes one or more of your carrier gateways.
  */
 export const describeCarrierGateways: API.PaginatedOperationMethod<
-  DescribeCarrierGatewaysRequest,
+  DescribeCarrierGatewaysRequest & RegionInput,
   DescribeCarrierGatewaysResult,
   DescribeCarrierGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -31468,7 +31475,7 @@ export type DescribeClassicLinkInstancesError =
  * use this request to return information about other instances.
  */
 export const describeClassicLinkInstances: API.PaginatedOperationMethod<
-  DescribeClassicLinkInstancesRequest,
+  DescribeClassicLinkInstancesRequest & RegionInput,
   DescribeClassicLinkInstancesResult,
   DescribeClassicLinkInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -31499,7 +31506,7 @@ export type DescribeClientVpnAuthorizationRulesError =
  * Describes the authorization rules for a specified Client VPN endpoint.
  */
 export const describeClientVpnAuthorizationRules: API.PaginatedOperationMethod<
-  DescribeClientVpnAuthorizationRulesRequest,
+  DescribeClientVpnAuthorizationRulesRequest & RegionInput,
   DescribeClientVpnAuthorizationRulesResult,
   DescribeClientVpnAuthorizationRulesError,
   Credentials | HttpClient.HttpClient,
@@ -31532,7 +31539,7 @@ export type DescribeClientVpnConnectionsError =
  * minutes for the specified Client VPN endpoint.
  */
 export const describeClientVpnConnections: API.PaginatedOperationMethod<
-  DescribeClientVpnConnectionsRequest,
+  DescribeClientVpnConnectionsRequest & RegionInput,
   DescribeClientVpnConnectionsResult,
   DescribeClientVpnConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -31568,7 +31575,7 @@ export type DescribeClientVpnEndpointsError =
  * Describes one or more Client VPN endpoints in the account.
  */
 export const describeClientVpnEndpoints: API.PaginatedOperationMethod<
-  DescribeClientVpnEndpointsRequest,
+  DescribeClientVpnEndpointsRequest & RegionInput,
   DescribeClientVpnEndpointsResult,
   DescribeClientVpnEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -31600,7 +31607,7 @@ export type DescribeClientVpnRoutesError =
  * Describes the routes for the specified Client VPN endpoint.
  */
 export const describeClientVpnRoutes: API.PaginatedOperationMethod<
-  DescribeClientVpnRoutesRequest,
+  DescribeClientVpnRoutesRequest & RegionInput,
   DescribeClientVpnRoutesResult,
   DescribeClientVpnRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -31637,7 +31644,7 @@ export type DescribeClientVpnTargetNetworksError =
  * Describes the target networks associated with the specified Client VPN endpoint.
  */
 export const describeClientVpnTargetNetworks: API.PaginatedOperationMethod<
-  DescribeClientVpnTargetNetworksRequest,
+  DescribeClientVpnTargetNetworksRequest & RegionInput,
   DescribeClientVpnTargetNetworksResult,
   DescribeClientVpnTargetNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -31673,7 +31680,7 @@ export type DescribeCoipPoolsError =
  * Describes the specified customer-owned address pools or all of your customer-owned address pools.
  */
 export const describeCoipPools: API.PaginatedOperationMethod<
-  DescribeCoipPoolsRequest,
+  DescribeCoipPoolsRequest & RegionInput,
   DescribeCoipPoolsResult,
   DescribeCoipPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -31703,7 +31710,7 @@ export type DescribeConversionTasksError = CommonErrors;
  * For information about the import manifest referenced by this API action, see VM Import Manifest.
  */
 export const describeConversionTasks: API.OperationMethod<
-  DescribeConversionTasksRequest,
+  DescribeConversionTasksRequest & RegionInput,
   DescribeConversionTasksResult,
   DescribeConversionTasksError,
   Credentials | HttpClient.HttpClient
@@ -31731,7 +31738,7 @@ export type DescribeCustomerGatewaysError =
  * User Guide.
  */
 export const describeCustomerGateways: API.OperationMethod<
-  DescribeCustomerGatewaysRequest,
+  DescribeCustomerGatewaysRequest & RegionInput,
   DescribeCustomerGatewaysResult,
   DescribeCustomerGatewaysError,
   Credentials | HttpClient.HttpClient
@@ -31771,7 +31778,7 @@ export type DescribeDeclarativePoliciesReportsError =
  * *Amazon Web Services Organizations User Guide*.
  */
 export const describeDeclarativePoliciesReports: API.OperationMethod<
-  DescribeDeclarativePoliciesReportsRequest,
+  DescribeDeclarativePoliciesReportsRequest & RegionInput,
   DescribeDeclarativePoliciesReportsResult,
   DescribeDeclarativePoliciesReportsError,
   Credentials | HttpClient.HttpClient
@@ -31803,7 +31810,7 @@ export type DescribeDhcpOptionsError =
  * *Amazon VPC User Guide*.
  */
 export const describeDhcpOptions: API.PaginatedOperationMethod<
-  DescribeDhcpOptionsRequest,
+  DescribeDhcpOptionsRequest & RegionInput,
   DescribeDhcpOptionsResult,
   DescribeDhcpOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -31845,7 +31852,7 @@ export type DescribeEgressOnlyInternetGatewaysError =
  * include only the egress-only internet gateways that match specific criteria.
  */
 export const describeEgressOnlyInternetGateways: API.PaginatedOperationMethod<
-  DescribeEgressOnlyInternetGatewaysRequest,
+  DescribeEgressOnlyInternetGatewaysRequest & RegionInput,
   DescribeEgressOnlyInternetGatewaysResult,
   DescribeEgressOnlyInternetGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -31884,7 +31891,7 @@ export type DescribeElasticGpusError =
  * Describes the Elastic Graphics accelerator associated with your instances.
  */
 export const describeElasticGpus: API.OperationMethod<
-  DescribeElasticGpusRequest,
+  DescribeElasticGpusRequest & RegionInput,
   DescribeElasticGpusResult,
   DescribeElasticGpusError,
   Credentials | HttpClient.HttpClient
@@ -31908,7 +31915,7 @@ export type DescribeExportImageTasksError =
  * Describes the specified export image tasks or all of your export image tasks.
  */
 export const describeExportImageTasks: API.PaginatedOperationMethod<
-  DescribeExportImageTasksRequest,
+  DescribeExportImageTasksRequest & RegionInput,
   DescribeExportImageTasksResult,
   DescribeExportImageTasksError,
   Credentials | HttpClient.HttpClient,
@@ -31939,7 +31946,7 @@ export type DescribeExportTasksError =
  * Describes the specified export instance tasks or all of your export instance tasks.
  */
 export const describeExportTasks: API.OperationMethod<
-  DescribeExportTasksRequest,
+  DescribeExportTasksRequest & RegionInput,
   DescribeExportTasksResult,
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient
@@ -31963,7 +31970,7 @@ export type DescribeFastLaunchImagesError =
  * Describe details for Windows AMIs that are configured for Windows fast launch.
  */
 export const describeFastLaunchImages: API.PaginatedOperationMethod<
-  DescribeFastLaunchImagesRequest,
+  DescribeFastLaunchImagesRequest & RegionInput,
   DescribeFastLaunchImagesResult,
   DescribeFastLaunchImagesError,
   Credentials | HttpClient.HttpClient,
@@ -31990,7 +31997,7 @@ export type DescribeFastSnapshotRestoresError = CommonErrors;
  * Describes the state of fast snapshot restores for your snapshots.
  */
 export const describeFastSnapshotRestores: API.PaginatedOperationMethod<
-  DescribeFastSnapshotRestoresRequest,
+  DescribeFastSnapshotRestoresRequest & RegionInput,
   DescribeFastSnapshotRestoresResult,
   DescribeFastSnapshotRestoresError,
   Credentials | HttpClient.HttpClient,
@@ -32028,7 +32035,7 @@ export type DescribeFleetHistoryError =
  * *Amazon EC2 User Guide*.
  */
 export const describeFleetHistory: API.OperationMethod<
-  DescribeFleetHistoryRequest,
+  DescribeFleetHistoryRequest & RegionInput,
   DescribeFleetHistoryResult,
   DescribeFleetHistoryError,
   Credentials | HttpClient.HttpClient
@@ -32059,7 +32066,7 @@ export type DescribeFleetInstancesError =
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
 export const describeFleetInstances: API.OperationMethod<
-  DescribeFleetInstancesRequest,
+  DescribeFleetInstancesRequest & RegionInput,
   DescribeFleetInstancesResult,
   DescribeFleetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -32089,7 +32096,7 @@ export type DescribeFleetsError =
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
 export const describeFleets: API.PaginatedOperationMethod<
-  DescribeFleetsRequest,
+  DescribeFleetsRequest & RegionInput,
   DescribeFleetsResult,
   DescribeFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -32124,7 +32131,7 @@ export type DescribeFlowLogsError =
  * the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
  */
 export const describeFlowLogs: API.PaginatedOperationMethod<
-  DescribeFlowLogsRequest,
+  DescribeFlowLogsRequest & RegionInput,
   DescribeFlowLogsResult,
   DescribeFlowLogsError,
   Credentials | HttpClient.HttpClient,
@@ -32156,7 +32163,7 @@ export type DescribeFpgaImageAttributeError =
  * Describes the specified attribute of the specified Amazon FPGA Image (AFI).
  */
 export const describeFpgaImageAttribute: API.OperationMethod<
-  DescribeFpgaImageAttributeRequest,
+  DescribeFpgaImageAttributeRequest & RegionInput,
   DescribeFpgaImageAttributeResult,
   DescribeFpgaImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -32187,7 +32194,7 @@ export type DescribeFpgaImagesError =
  * permissions.
  */
 export const describeFpgaImages: API.PaginatedOperationMethod<
-  DescribeFpgaImagesRequest,
+  DescribeFpgaImagesRequest & RegionInput,
   DescribeFpgaImagesResult,
   DescribeFpgaImagesError,
   Credentials | HttpClient.HttpClient,
@@ -32225,7 +32232,7 @@ export type DescribeHostReservationOfferingsError =
  * in the *Amazon EC2 User Guide*.
  */
 export const describeHostReservationOfferings: API.PaginatedOperationMethod<
-  DescribeHostReservationOfferingsRequest,
+  DescribeHostReservationOfferingsRequest & RegionInput,
   DescribeHostReservationOfferingsResult,
   DescribeHostReservationOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -32253,7 +32260,7 @@ export type DescribeHostReservationsError = CommonErrors;
  * account.
  */
 export const describeHostReservations: API.PaginatedOperationMethod<
-  DescribeHostReservationsRequest,
+  DescribeHostReservationsRequest & RegionInput,
   DescribeHostReservationsResult,
   DescribeHostReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -32288,7 +32295,7 @@ export type DescribeHostsError =
  * recently been released are listed with the state `released`.
  */
 export const describeHosts: API.PaginatedOperationMethod<
-  DescribeHostsRequest,
+  DescribeHostsRequest & RegionInput,
   DescribeHostsResult,
   DescribeHostsError,
   Credentials | HttpClient.HttpClient,
@@ -32319,7 +32326,7 @@ export type DescribeIamInstanceProfileAssociationsError =
  * Describes your IAM instance profile associations.
  */
 export const describeIamInstanceProfileAssociations: API.PaginatedOperationMethod<
-  DescribeIamInstanceProfileAssociationsRequest,
+  DescribeIamInstanceProfileAssociationsRequest & RegionInput,
   DescribeIamInstanceProfileAssociationsResult,
   DescribeIamInstanceProfileAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -32370,7 +32377,7 @@ export type DescribeIdentityIdFormatError =
  * principal that makes the request.
  */
 export const describeIdentityIdFormat: API.OperationMethod<
-  DescribeIdentityIdFormatRequest,
+  DescribeIdentityIdFormatRequest & RegionInput,
   DescribeIdentityIdFormatResult,
   DescribeIdentityIdFormatError,
   Credentials | HttpClient.HttpClient
@@ -32411,7 +32418,7 @@ export type DescribeIdFormatError = CommonErrors;
  * resource type.
  */
 export const describeIdFormat: API.OperationMethod<
-  DescribeIdFormatRequest,
+  DescribeIdFormatRequest & RegionInput,
   DescribeIdFormatResult,
   DescribeIdFormatError,
   Credentials | HttpClient.HttpClient
@@ -32440,7 +32447,7 @@ export type DescribeImageAttributeError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeImageAttribute: API.OperationMethod<
-  DescribeImageAttributeRequest,
+  DescribeImageAttributeRequest & RegionInput,
   ImageAttribute,
   DescribeImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -32467,7 +32474,7 @@ export type DescribeImageReferencesError =
  * specified AMIs in the *Amazon EC2 User Guide*.
  */
 export const describeImageReferences: API.PaginatedOperationMethod<
-  DescribeImageReferencesRequest,
+  DescribeImageReferencesRequest & RegionInput,
   DescribeImageReferencesResult,
   DescribeImageReferencesError,
   Credentials | HttpClient.HttpClient,
@@ -32527,7 +32534,7 @@ export type DescribeImagesError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResult,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -32567,7 +32574,7 @@ export type DescribeImageUsageReportEntriesError =
  * *Amazon EC2 User Guide*.
  */
 export const describeImageUsageReportEntries: API.PaginatedOperationMethod<
-  DescribeImageUsageReportEntriesRequest,
+  DescribeImageUsageReportEntriesRequest & RegionInput,
   DescribeImageUsageReportEntriesResult,
   DescribeImageUsageReportEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -32602,7 +32609,7 @@ export type DescribeImageUsageReportsError =
  * *Amazon EC2 User Guide*.
  */
 export const describeImageUsageReports: API.PaginatedOperationMethod<
-  DescribeImageUsageReportsRequest,
+  DescribeImageUsageReportsRequest & RegionInput,
   DescribeImageUsageReportsResult,
   DescribeImageUsageReportsError,
   Credentials | HttpClient.HttpClient,
@@ -32633,7 +32640,7 @@ export type DescribeImportImageTasksError =
  * Displays details about an import virtual machine or import snapshot tasks that are already created.
  */
 export const describeImportImageTasks: API.PaginatedOperationMethod<
-  DescribeImportImageTasksRequest,
+  DescribeImportImageTasksRequest & RegionInput,
   DescribeImportImageTasksResult,
   DescribeImportImageTasksError,
   Credentials | HttpClient.HttpClient,
@@ -32664,7 +32671,7 @@ export type DescribeImportSnapshotTasksError =
  * Describes your import snapshot tasks.
  */
 export const describeImportSnapshotTasks: API.PaginatedOperationMethod<
-  DescribeImportSnapshotTasksRequest,
+  DescribeImportSnapshotTasksRequest & RegionInput,
   DescribeImportSnapshotTasksResult,
   DescribeImportSnapshotTasksError,
   Credentials | HttpClient.HttpClient,
@@ -32698,7 +32705,7 @@ export type DescribeInstanceAttributeError =
  * for instances registered with the SQL LE service.
  */
 export const describeInstanceAttribute: API.OperationMethod<
-  DescribeInstanceAttributeRequest,
+  DescribeInstanceAttributeRequest & RegionInput,
   InstanceAttribute,
   DescribeInstanceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -32727,7 +32734,7 @@ export type DescribeInstanceConnectEndpointsError =
  * Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints.
  */
 export const describeInstanceConnectEndpoints: API.PaginatedOperationMethod<
-  DescribeInstanceConnectEndpointsRequest,
+  DescribeInstanceConnectEndpointsRequest & RegionInput,
   DescribeInstanceConnectEndpointsResult,
   DescribeInstanceConnectEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -32782,7 +32789,7 @@ export type DescribeInstanceCreditSpecificationsError =
  * performance instances in the *Amazon EC2 User Guide*.
  */
 export const describeInstanceCreditSpecifications: API.PaginatedOperationMethod<
-  DescribeInstanceCreditSpecificationsRequest,
+  DescribeInstanceCreditSpecificationsRequest & RegionInput,
   DescribeInstanceCreditSpecificationsResult,
   DescribeInstanceCreditSpecificationsError,
   Credentials | HttpClient.HttpClient,
@@ -32810,7 +32817,7 @@ export type DescribeInstanceEventNotificationAttributesError = CommonErrors;
  * for resources in the current Region.
  */
 export const describeInstanceEventNotificationAttributes: API.OperationMethod<
-  DescribeInstanceEventNotificationAttributesRequest,
+  DescribeInstanceEventNotificationAttributesRequest & RegionInput,
   DescribeInstanceEventNotificationAttributesResult,
   DescribeInstanceEventNotificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -32852,7 +32859,7 @@ export type DescribeInstanceEventWindowsError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const describeInstanceEventWindows: API.PaginatedOperationMethod<
-  DescribeInstanceEventWindowsRequest,
+  DescribeInstanceEventWindowsRequest & RegionInput,
   DescribeInstanceEventWindowsResult,
   DescribeInstanceEventWindowsError,
   Credentials | HttpClient.HttpClient,
@@ -32905,7 +32912,7 @@ export type DescribeInstanceImageMetadataError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeInstanceImageMetadata: API.PaginatedOperationMethod<
-  DescribeInstanceImageMetadataRequest,
+  DescribeInstanceImageMetadataRequest & RegionInput,
   DescribeInstanceImageMetadataResult,
   DescribeInstanceImageMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -32974,7 +32981,7 @@ export type DescribeInstancesError =
  * particular order.
  */
 export const describeInstances: API.PaginatedOperationMethod<
-  DescribeInstancesRequest,
+  DescribeInstancesRequest & RegionInput,
   DescribeInstancesResult,
   DescribeInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -33012,7 +33019,7 @@ export type DescribeInstanceSqlHaHistoryStatesError =
  * instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
 export const describeInstanceSqlHaHistoryStates: API.OperationMethod<
-  DescribeInstanceSqlHaHistoryStatesRequest,
+  DescribeInstanceSqlHaHistoryStatesRequest & RegionInput,
   DescribeInstanceSqlHaHistoryStatesResult,
   DescribeInstanceSqlHaHistoryStatesError,
   Credentials | HttpClient.HttpClient
@@ -33037,7 +33044,7 @@ export type DescribeInstanceSqlHaStatesError =
  * enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
 export const describeInstanceSqlHaStates: API.OperationMethod<
-  DescribeInstanceSqlHaStatesRequest,
+  DescribeInstanceSqlHaStatesRequest & RegionInput,
   DescribeInstanceSqlHaStatesResult,
   DescribeInstanceSqlHaStatesError,
   Credentials | HttpClient.HttpClient
@@ -33098,7 +33105,7 @@ export type DescribeInstanceStatusError =
  * particular order.
  */
 export const describeInstanceStatus: API.PaginatedOperationMethod<
-  DescribeInstanceStatusRequest,
+  DescribeInstanceStatusRequest & RegionInput,
   DescribeInstanceStatusResult,
   DescribeInstanceStatusError,
   Credentials | HttpClient.HttpClient,
@@ -33150,7 +33157,7 @@ export type DescribeInstanceTopologyError = CommonErrors;
  * the *Amazon EC2 User Guide*.
  */
 export const describeInstanceTopology: API.PaginatedOperationMethod<
-  DescribeInstanceTopologyRequest,
+  DescribeInstanceTopologyRequest & RegionInput,
   DescribeInstanceTopologyResult,
   DescribeInstanceTopologyError,
   Credentials | HttpClient.HttpClient,
@@ -33179,7 +33186,7 @@ export type DescribeInstanceTypeOfferingsError = CommonErrors;
  * Region.
  */
 export const describeInstanceTypeOfferings: API.PaginatedOperationMethod<
-  DescribeInstanceTypeOfferingsRequest,
+  DescribeInstanceTypeOfferingsRequest & RegionInput,
   DescribeInstanceTypeOfferingsResult,
   DescribeInstanceTypeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -33209,7 +33216,7 @@ export type DescribeInstanceTypesError = CommonErrors;
  * to `true`.
  */
 export const describeInstanceTypes: API.PaginatedOperationMethod<
-  DescribeInstanceTypesRequest,
+  DescribeInstanceTypesRequest & RegionInput,
   DescribeInstanceTypesResult,
   DescribeInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -33243,7 +33250,7 @@ export type DescribeInternetGatewaysError =
  * include only the internet gateways that match specific criteria.
  */
 export const describeInternetGateways: API.PaginatedOperationMethod<
-  DescribeInternetGatewaysRequest,
+  DescribeInternetGatewaysRequest & RegionInput,
   DescribeInternetGatewaysResult,
   DescribeInternetGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -33275,7 +33282,7 @@ export type DescribeIpamByoasnError = CommonErrors;
  * Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
 export const describeIpamByoasn: API.OperationMethod<
-  DescribeIpamByoasnRequest,
+  DescribeIpamByoasnRequest & RegionInput,
   DescribeIpamByoasnResult,
   DescribeIpamByoasnError,
   Credentials | HttpClient.HttpClient
@@ -33301,7 +33308,7 @@ export type DescribeIpamExternalResourceVerificationTokensError =
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
 export const describeIpamExternalResourceVerificationTokens: API.OperationMethod<
-  DescribeIpamExternalResourceVerificationTokensRequest,
+  DescribeIpamExternalResourceVerificationTokensRequest & RegionInput,
   DescribeIpamExternalResourceVerificationTokensResult,
   DescribeIpamExternalResourceVerificationTokensError,
   Credentials | HttpClient.HttpClient
@@ -33333,7 +33340,7 @@ export type DescribeIpamInternetRegistryAssociationsError = CommonErrors;
  * Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const describeIpamInternetRegistryAssociations: API.OperationMethod<
-  DescribeIpamInternetRegistryAssociationsRequest,
+  DescribeIpamInternetRegistryAssociationsRequest & RegionInput,
   DescribeIpamInternetRegistryAssociationsResult,
   DescribeIpamInternetRegistryAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -33359,7 +33366,7 @@ export type DescribeIpamPoliciesError =
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
 export const describeIpamPolicies: API.OperationMethod<
-  DescribeIpamPoliciesRequest,
+  DescribeIpamPoliciesRequest & RegionInput,
   DescribeIpamPoliciesResult,
   DescribeIpamPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -33383,7 +33390,7 @@ export type DescribeIpamPoolAllocationsError = CommonErrors;
  * This action returns only allocations directly owned by you. To view all allocations in a pool you own or that has been shared with you, including allocations owned by other accounts, use GetIpamPoolAllocations.
  */
 export const describeIpamPoolAllocations: API.PaginatedOperationMethod<
-  DescribeIpamPoolAllocationsRequest,
+  DescribeIpamPoolAllocationsRequest & RegionInput,
   DescribeIpamPoolAllocationsResult,
   DescribeIpamPoolAllocationsError,
   Credentials | HttpClient.HttpClient,
@@ -33414,7 +33421,7 @@ export type DescribeIpamPoolsError =
  * Get information about your IPAM pools.
  */
 export const describeIpamPools: API.PaginatedOperationMethod<
-  DescribeIpamPoolsRequest,
+  DescribeIpamPoolsRequest & RegionInput,
   DescribeIpamPoolsResult,
   DescribeIpamPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -33445,7 +33452,7 @@ export type DescribeIpamPrefixListResolversError =
  * Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers.
  */
 export const describeIpamPrefixListResolvers: API.PaginatedOperationMethod<
-  DescribeIpamPrefixListResolversRequest,
+  DescribeIpamPrefixListResolversRequest & RegionInput,
   DescribeIpamPrefixListResolversResult,
   DescribeIpamPrefixListResolversError,
   Credentials | HttpClient.HttpClient,
@@ -33476,7 +33483,7 @@ export type DescribeIpamPrefixListResolverTargetsError =
  * Describes one or more IPAM prefix list resolver Targets. Use this operation to view the configuration and status of resolver targets.
  */
 export const describeIpamPrefixListResolverTargets: API.PaginatedOperationMethod<
-  DescribeIpamPrefixListResolverTargetsRequest,
+  DescribeIpamPrefixListResolverTargetsRequest & RegionInput,
   DescribeIpamPrefixListResolverTargetsResult,
   DescribeIpamPrefixListResolverTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -33511,7 +33518,7 @@ export type DescribeIpamResourceDiscoveriesError =
  * Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const describeIpamResourceDiscoveries: API.PaginatedOperationMethod<
-  DescribeIpamResourceDiscoveriesRequest,
+  DescribeIpamResourceDiscoveriesRequest & RegionInput,
   DescribeIpamResourceDiscoveriesResult,
   DescribeIpamResourceDiscoveriesError,
   Credentials | HttpClient.HttpClient,
@@ -33542,7 +33549,7 @@ export type DescribeIpamResourceDiscoveryAssociationsError =
  * Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
  */
 export const describeIpamResourceDiscoveryAssociations: API.PaginatedOperationMethod<
-  DescribeIpamResourceDiscoveryAssociationsRequest,
+  DescribeIpamResourceDiscoveryAssociationsRequest & RegionInput,
   DescribeIpamResourceDiscoveryAssociationsResult,
   DescribeIpamResourceDiscoveryAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -33579,7 +33586,7 @@ export type DescribeIpamsError =
  * For more information, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
 export const describeIpams: API.PaginatedOperationMethod<
-  DescribeIpamsRequest,
+  DescribeIpamsRequest & RegionInput,
   DescribeIpamsResult,
   DescribeIpamsError,
   Credentials | HttpClient.HttpClient,
@@ -33610,7 +33617,7 @@ export type DescribeIpamScopesError =
  * Get information about your IPAM scopes.
  */
 export const describeIpamScopes: API.PaginatedOperationMethod<
-  DescribeIpamScopesRequest,
+  DescribeIpamScopesRequest & RegionInput,
   DescribeIpamScopesResult,
   DescribeIpamScopesError,
   Credentials | HttpClient.HttpClient,
@@ -33641,7 +33648,7 @@ export type DescribeIpv6PoolsError =
  * Describes your IPv6 address pools.
  */
 export const describeIpv6Pools: API.PaginatedOperationMethod<
-  DescribeIpv6PoolsRequest,
+  DescribeIpv6PoolsRequest & RegionInput,
   DescribeIpv6PoolsResult,
   DescribeIpv6PoolsError,
   Credentials | HttpClient.HttpClient,
@@ -33676,7 +33683,7 @@ export type DescribeKeyPairsError =
  * in the *Amazon EC2 User Guide*.
  */
 export const describeKeyPairs: API.OperationMethod<
-  DescribeKeyPairsRequest,
+  DescribeKeyPairsRequest & RegionInput,
   DescribeKeyPairsResult,
   DescribeKeyPairsError,
   Credentials | HttpClient.HttpClient
@@ -33708,7 +33715,7 @@ export type DescribeLaunchTemplatesError =
  * Describes one or more launch templates.
  */
 export const describeLaunchTemplates: API.PaginatedOperationMethod<
-  DescribeLaunchTemplatesRequest,
+  DescribeLaunchTemplatesRequest & RegionInput,
   DescribeLaunchTemplatesResult,
   DescribeLaunchTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -33750,7 +33757,7 @@ export type DescribeLaunchTemplateVersionsError =
  * account.
  */
 export const describeLaunchTemplateVersions: API.PaginatedOperationMethod<
-  DescribeLaunchTemplateVersionsRequest,
+  DescribeLaunchTemplateVersionsRequest & RegionInput,
   DescribeLaunchTemplateVersionsResult,
   DescribeLaunchTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -33783,7 +33790,7 @@ export type DescribeLocalGatewayRouteTablesError = CommonErrors;
  * Alternatively, you can filter the results.
  */
 export const describeLocalGatewayRouteTables: API.PaginatedOperationMethod<
-  DescribeLocalGatewayRouteTablesRequest,
+  DescribeLocalGatewayRouteTablesRequest & RegionInput,
   DescribeLocalGatewayRouteTablesResult,
   DescribeLocalGatewayRouteTablesError,
   Credentials | HttpClient.HttpClient,
@@ -33810,7 +33817,7 @@ export type DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsError
  * Describes the associations between virtual interface groups and local gateway route tables.
  */
 export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: API.PaginatedOperationMethod<
-  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest & RegionInput,
   DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
   DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -33845,7 +33852,7 @@ export type DescribeLocalGatewayRouteTableVpcAssociationsError = CommonErrors;
  * Describes the specified associations between VPCs and local gateway route tables.
  */
 export const describeLocalGatewayRouteTableVpcAssociations: API.PaginatedOperationMethod<
-  DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  DescribeLocalGatewayRouteTableVpcAssociationsRequest & RegionInput,
   DescribeLocalGatewayRouteTableVpcAssociationsResult,
   DescribeLocalGatewayRouteTableVpcAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -33881,7 +33888,7 @@ export type DescribeLocalGatewaysError = CommonErrors;
  * Alternatively, you can filter the results.
  */
 export const describeLocalGateways: API.PaginatedOperationMethod<
-  DescribeLocalGatewaysRequest,
+  DescribeLocalGatewaysRequest & RegionInput,
   DescribeLocalGatewaysResult,
   DescribeLocalGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -33908,7 +33915,7 @@ export type DescribeLocalGatewayVirtualInterfaceGroupsError = CommonErrors;
  * Describes the specified local gateway virtual interface groups.
  */
 export const describeLocalGatewayVirtualInterfaceGroups: API.PaginatedOperationMethod<
-  DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  DescribeLocalGatewayVirtualInterfaceGroupsRequest & RegionInput,
   DescribeLocalGatewayVirtualInterfaceGroupsResult,
   DescribeLocalGatewayVirtualInterfaceGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -33943,7 +33950,7 @@ export type DescribeLocalGatewayVirtualInterfacesError = CommonErrors;
  * Describes the specified local gateway virtual interfaces.
  */
 export const describeLocalGatewayVirtualInterfaces: API.PaginatedOperationMethod<
-  DescribeLocalGatewayVirtualInterfacesRequest,
+  DescribeLocalGatewayVirtualInterfacesRequest & RegionInput,
   DescribeLocalGatewayVirtualInterfacesResult,
   DescribeLocalGatewayVirtualInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -33974,7 +33981,7 @@ export type DescribeLockedSnapshotsError =
  * Describes the lock status for a snapshot.
  */
 export const describeLockedSnapshots: API.OperationMethod<
-  DescribeLockedSnapshotsRequest,
+  DescribeLockedSnapshotsRequest & RegionInput,
   DescribeLockedSnapshotsResult,
   DescribeLockedSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -33998,7 +34005,7 @@ export type DescribeMacHostsError =
  * Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
  */
 export const describeMacHosts: API.PaginatedOperationMethod<
-  DescribeMacHostsRequest,
+  DescribeMacHostsRequest & RegionInput,
   DescribeMacHostsResult,
   DescribeMacHostsError,
   Credentials | HttpClient.HttpClient,
@@ -34031,7 +34038,7 @@ export type DescribeMacModificationTasksError =
  * SIP for Amazon EC2 instances in the *Amazon EC2 User Guide*.
  */
 export const describeMacModificationTasks: API.PaginatedOperationMethod<
-  DescribeMacModificationTasksRequest,
+  DescribeMacModificationTasksRequest & RegionInput,
   DescribeMacModificationTasksResult,
   DescribeMacModificationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -34063,7 +34070,7 @@ export type DescribeManagedPrefixListsError =
  * Describes your managed prefix lists and any Amazon Web Services-managed prefix lists.
  */
 export const describeManagedPrefixLists: API.PaginatedOperationMethod<
-  DescribeManagedPrefixListsRequest,
+  DescribeManagedPrefixListsRequest & RegionInput,
   DescribeManagedPrefixListsResult,
   DescribeManagedPrefixListsError,
   Credentials | HttpClient.HttpClient,
@@ -34097,7 +34104,7 @@ export type DescribeMovingAddressesError =
  * This request does not return information about any other Elastic IP addresses in your account.
  */
 export const describeMovingAddresses: API.PaginatedOperationMethod<
-  DescribeMovingAddressesRequest,
+  DescribeMovingAddressesRequest & RegionInput,
   DescribeMovingAddressesResult,
   DescribeMovingAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -34135,7 +34142,7 @@ export type DescribeNatGatewaysError =
  * include only the NAT gateways that match specific criteria.
  */
 export const describeNatGateways: API.PaginatedOperationMethod<
-  DescribeNatGatewaysRequest,
+  DescribeNatGatewaysRequest & RegionInput,
   DescribeNatGatewaysResult,
   DescribeNatGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -34182,7 +34189,7 @@ export type DescribeNetworkAclsError =
  * *Amazon VPC User Guide*.
  */
 export const describeNetworkAcls: API.PaginatedOperationMethod<
-  DescribeNetworkAclsRequest,
+  DescribeNetworkAclsRequest & RegionInput,
   DescribeNetworkAclsResult,
   DescribeNetworkAclsError,
   Credentials | HttpClient.HttpClient,
@@ -34219,7 +34226,7 @@ export type DescribeNetworkInsightsAccessScopeAnalysesError =
  * Describes the specified Network Access Scope analyses.
  */
 export const describeNetworkInsightsAccessScopeAnalyses: API.PaginatedOperationMethod<
-  DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  DescribeNetworkInsightsAccessScopeAnalysesRequest & RegionInput,
   DescribeNetworkInsightsAccessScopeAnalysesResult,
   DescribeNetworkInsightsAccessScopeAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -34258,7 +34265,7 @@ export type DescribeNetworkInsightsAccessScopesError =
  * Describes the specified Network Access Scopes.
  */
 export const describeNetworkInsightsAccessScopes: API.PaginatedOperationMethod<
-  DescribeNetworkInsightsAccessScopesRequest,
+  DescribeNetworkInsightsAccessScopesRequest & RegionInput,
   DescribeNetworkInsightsAccessScopesResult,
   DescribeNetworkInsightsAccessScopesError,
   Credentials | HttpClient.HttpClient,
@@ -34289,7 +34296,7 @@ export type DescribeNetworkInsightsAnalysesError =
  * Describes one or more of your network insights analyses.
  */
 export const describeNetworkInsightsAnalyses: API.PaginatedOperationMethod<
-  DescribeNetworkInsightsAnalysesRequest,
+  DescribeNetworkInsightsAnalysesRequest & RegionInput,
   DescribeNetworkInsightsAnalysesResult,
   DescribeNetworkInsightsAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -34320,7 +34327,7 @@ export type DescribeNetworkInsightsPathsError =
  * Describes one or more of your paths.
  */
 export const describeNetworkInsightsPaths: API.PaginatedOperationMethod<
-  DescribeNetworkInsightsPathsRequest,
+  DescribeNetworkInsightsPathsRequest & RegionInput,
   DescribeNetworkInsightsPathsResult,
   DescribeNetworkInsightsPathsError,
   Credentials | HttpClient.HttpClient,
@@ -34354,7 +34361,7 @@ export type DescribeNetworkInterfaceAttributeError =
  * time.
  */
 export const describeNetworkInterfaceAttribute: API.OperationMethod<
-  DescribeNetworkInterfaceAttributeRequest,
+  DescribeNetworkInterfaceAttributeRequest & RegionInput,
   DescribeNetworkInterfaceAttributeResult,
   DescribeNetworkInterfaceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -34384,7 +34391,7 @@ export type DescribeNetworkInterfacePermissionsError =
  * Describes the permissions for your network interfaces.
  */
 export const describeNetworkInterfacePermissions: API.PaginatedOperationMethod<
-  DescribeNetworkInterfacePermissionsRequest,
+  DescribeNetworkInterfacePermissionsRequest & RegionInput,
   DescribeNetworkInterfacePermissionsResult,
   DescribeNetworkInterfacePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -34426,7 +34433,7 @@ export type DescribeNetworkInterfacesError =
  * susceptible to throttling and timeouts.
  */
 export const describeNetworkInterfaces: API.PaginatedOperationMethod<
-  DescribeNetworkInterfacesRequest,
+  DescribeNetworkInterfacesRequest & RegionInput,
   DescribeNetworkInterfacesResult,
   DescribeNetworkInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -34465,7 +34472,7 @@ export type DescribeOutpostLagsError =
  * LAGs are only available for second-generation Outposts racks at this time.
  */
 export const describeOutpostLags: API.OperationMethod<
-  DescribeOutpostLagsRequest,
+  DescribeOutpostLagsRequest & RegionInput,
   DescribeOutpostLagsResult,
   DescribeOutpostLagsError,
   Credentials | HttpClient.HttpClient
@@ -34499,7 +34506,7 @@ export type DescribePlacementGroupsError =
  * *Amazon EC2 User Guide*.
  */
 export const describePlacementGroups: API.OperationMethod<
-  DescribePlacementGroupsRequest,
+  DescribePlacementGroupsRequest & RegionInput,
   DescribePlacementGroupsResult,
   DescribePlacementGroupsError,
   Credentials | HttpClient.HttpClient
@@ -34529,7 +34536,7 @@ export type DescribePrefixListsError =
  * name and prefix list ID of the service and the IP address range for the service.
  */
 export const describePrefixLists: API.PaginatedOperationMethod<
-  DescribePrefixListsRequest,
+  DescribePrefixListsRequest & RegionInput,
   DescribePrefixListsResult,
   DescribePrefixListsError,
   Credentials | HttpClient.HttpClient,
@@ -34575,7 +34582,7 @@ export type DescribePrincipalIdFormatError = CommonErrors;
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
 export const describePrincipalIdFormat: API.PaginatedOperationMethod<
-  DescribePrincipalIdFormatRequest,
+  DescribePrincipalIdFormatRequest & RegionInput,
   DescribePrincipalIdFormatResult,
   DescribePrincipalIdFormatError,
   Credentials | HttpClient.HttpClient,
@@ -34606,7 +34613,7 @@ export type DescribePublicIpv4PoolsError =
  * Describes the specified IPv4 address pools.
  */
 export const describePublicIpv4Pools: API.PaginatedOperationMethod<
-  DescribePublicIpv4PoolsRequest,
+  DescribePublicIpv4PoolsRequest & RegionInput,
   DescribePublicIpv4PoolsResult,
   DescribePublicIpv4PoolsError,
   Credentials | HttpClient.HttpClient,
@@ -34645,7 +34652,7 @@ export type DescribeRegionsError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeRegions: API.OperationMethod<
-  DescribeRegionsRequest,
+  DescribeRegionsRequest & RegionInput,
   DescribeRegionsResult,
   DescribeRegionsError,
   Credentials | HttpClient.HttpClient
@@ -34670,7 +34677,7 @@ export type DescribeReplaceRootVolumeTasksError =
  * Replace a root volume in the *Amazon EC2 User Guide*.
  */
 export const describeReplaceRootVolumeTasks: API.PaginatedOperationMethod<
-  DescribeReplaceRootVolumeTasksRequest,
+  DescribeReplaceRootVolumeTasksRequest & RegionInput,
   DescribeReplaceRootVolumeTasksResult,
   DescribeReplaceRootVolumeTasksError,
   Credentials | HttpClient.HttpClient,
@@ -34707,7 +34714,7 @@ export type DescribeReservedInstancesError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeReservedInstances: API.OperationMethod<
-  DescribeReservedInstancesRequest,
+  DescribeReservedInstancesRequest & RegionInput,
   DescribeReservedInstancesResult,
   DescribeReservedInstancesError,
   Credentials | HttpClient.HttpClient
@@ -34749,7 +34756,7 @@ export type DescribeReservedInstancesListingsError = CommonErrors;
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeReservedInstancesListings: API.OperationMethod<
-  DescribeReservedInstancesListingsRequest,
+  DescribeReservedInstancesListingsRequest & RegionInput,
   DescribeReservedInstancesListingsResult,
   DescribeReservedInstancesListingsError,
   Credentials | HttpClient.HttpClient
@@ -34782,7 +34789,7 @@ export type DescribeReservedInstancesModificationsError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeReservedInstancesModifications: API.PaginatedOperationMethod<
-  DescribeReservedInstancesModificationsRequest,
+  DescribeReservedInstancesModificationsRequest & RegionInput,
   DescribeReservedInstancesModificationsResult,
   DescribeReservedInstancesModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -34825,7 +34832,7 @@ export type DescribeReservedInstancesOfferingsError =
  * might vary. Applications should not assume the elements appear in a particular order.
  */
 export const describeReservedInstancesOfferings: API.PaginatedOperationMethod<
-  DescribeReservedInstancesOfferingsRequest,
+  DescribeReservedInstancesOfferingsRequest & RegionInput,
   DescribeReservedInstancesOfferingsResult,
   DescribeReservedInstancesOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -34860,7 +34867,7 @@ export type DescribeRouteServerEndpointsError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const describeRouteServerEndpoints: API.PaginatedOperationMethod<
-  DescribeRouteServerEndpointsRequest,
+  DescribeRouteServerEndpointsRequest & RegionInput,
   DescribeRouteServerEndpointsResult,
   DescribeRouteServerEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -34901,7 +34908,7 @@ export type DescribeRouteServerPeersError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const describeRouteServerPeers: API.PaginatedOperationMethod<
-  DescribeRouteServerPeersRequest,
+  DescribeRouteServerPeersRequest & RegionInput,
   DescribeRouteServerPeersResult,
   DescribeRouteServerPeersError,
   Credentials | HttpClient.HttpClient,
@@ -34947,7 +34954,7 @@ export type DescribeRouteServersError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const describeRouteServers: API.PaginatedOperationMethod<
-  DescribeRouteServersRequest,
+  DescribeRouteServersRequest & RegionInput,
   DescribeRouteServersResult,
   DescribeRouteServersError,
   Credentials | HttpClient.HttpClient,
@@ -34986,7 +34993,7 @@ export type DescribeRouteTablesError =
  * *Amazon VPC User Guide*.
  */
 export const describeRouteTables: API.PaginatedOperationMethod<
-  DescribeRouteTablesRequest,
+  DescribeRouteTablesRequest & RegionInput,
   DescribeRouteTablesResult,
   DescribeRouteTablesError,
   Credentials | HttpClient.HttpClient,
@@ -35018,7 +35025,7 @@ export type DescribeScheduledInstanceAvailabilityError = CommonErrors;
  * to purchase Scheduled Instances with that schedule.
  */
 export const describeScheduledInstanceAvailability: API.PaginatedOperationMethod<
-  DescribeScheduledInstanceAvailabilityRequest,
+  DescribeScheduledInstanceAvailabilityRequest & RegionInput,
   DescribeScheduledInstanceAvailabilityResult,
   DescribeScheduledInstanceAvailabilityError,
   Credentials | HttpClient.HttpClient,
@@ -35045,7 +35052,7 @@ export type DescribeScheduledInstancesError = CommonErrors;
  * Describes the specified Scheduled Instances or all your Scheduled Instances.
  */
 export const describeScheduledInstances: API.PaginatedOperationMethod<
-  DescribeScheduledInstancesRequest,
+  DescribeScheduledInstancesRequest & RegionInput,
   DescribeScheduledInstancesResult,
   DescribeScheduledInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -35072,7 +35079,7 @@ export type DescribeSecondaryInterfacesError = CommonErrors;
  * Describes one or more of your secondary interfaces.
  */
 export const describeSecondaryInterfaces: API.PaginatedOperationMethod<
-  DescribeSecondaryInterfacesRequest,
+  DescribeSecondaryInterfacesRequest & RegionInput,
   DescribeSecondaryInterfacesResult,
   DescribeSecondaryInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -35099,7 +35106,7 @@ export type DescribeSecondaryNetworksError = CommonErrors;
  * Describes one or more secondary networks.
  */
 export const describeSecondaryNetworks: API.PaginatedOperationMethod<
-  DescribeSecondaryNetworksRequest,
+  DescribeSecondaryNetworksRequest & RegionInput,
   DescribeSecondaryNetworksResult,
   DescribeSecondaryNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -35126,7 +35133,7 @@ export type DescribeSecondarySubnetsError = CommonErrors;
  * Describes one or more of your secondary subnets.
  */
 export const describeSecondarySubnets: API.PaginatedOperationMethod<
-  DescribeSecondarySubnetsRequest,
+  DescribeSecondarySubnetsRequest & RegionInput,
   DescribeSecondarySubnetsResult,
   DescribeSecondarySubnetsError,
   Credentials | HttpClient.HttpClient,
@@ -35153,7 +35160,7 @@ export type DescribeSecurityGroupReferencesError = CommonErrors;
  * Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
  */
 export const describeSecurityGroupReferences: API.OperationMethod<
-  DescribeSecurityGroupReferencesRequest,
+  DescribeSecurityGroupReferencesRequest & RegionInput,
   DescribeSecurityGroupReferencesResult,
   DescribeSecurityGroupReferencesError,
   Credentials | HttpClient.HttpClient
@@ -35177,7 +35184,7 @@ export type DescribeSecurityGroupRulesError =
  * Describes one or more of your security group rules.
  */
 export const describeSecurityGroupRules: API.PaginatedOperationMethod<
-  DescribeSecurityGroupRulesRequest,
+  DescribeSecurityGroupRulesRequest & RegionInput,
   DescribeSecurityGroupRulesResult,
   DescribeSecurityGroupRulesError,
   Credentials | HttpClient.HttpClient,
@@ -35211,7 +35218,7 @@ export type DescribeSecurityGroupsError =
  * Describes the specified security groups or all of your security groups.
  */
 export const describeSecurityGroups: API.PaginatedOperationMethod<
-  DescribeSecurityGroupsRequest,
+  DescribeSecurityGroupsRequest & RegionInput,
   DescribeSecurityGroupsResult,
   DescribeSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -35245,7 +35252,7 @@ export type DescribeSecurityGroupVpcAssociationsError = CommonErrors;
  * Describes security group VPC associations made with AssociateSecurityGroupVpc.
  */
 export const describeSecurityGroupVpcAssociations: API.PaginatedOperationMethod<
-  DescribeSecurityGroupVpcAssociationsRequest,
+  DescribeSecurityGroupVpcAssociationsRequest & RegionInput,
   DescribeSecurityGroupVpcAssociationsResult,
   DescribeSecurityGroupVpcAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -35276,7 +35283,7 @@ export type DescribeServiceLinkVirtualInterfacesError =
  * Describes the Outpost service link virtual interfaces.
  */
 export const describeServiceLinkVirtualInterfaces: API.OperationMethod<
-  DescribeServiceLinkVirtualInterfacesRequest,
+  DescribeServiceLinkVirtualInterfacesRequest & RegionInput,
   DescribeServiceLinkVirtualInterfacesResult,
   DescribeServiceLinkVirtualInterfacesError,
   Credentials | HttpClient.HttpClient
@@ -35309,7 +35316,7 @@ export type DescribeSnapshotAttributeError =
  * For more information about EBS snapshots, see Amazon EBS snapshots in the *Amazon EBS User Guide*.
  */
 export const describeSnapshotAttribute: API.OperationMethod<
-  DescribeSnapshotAttributeRequest,
+  DescribeSnapshotAttributeRequest & RegionInput,
   DescribeSnapshotAttributeResult,
   DescribeSnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -35384,7 +35391,7 @@ export type DescribeSnapshotsError =
  * susceptible to throttling and timeouts.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResult,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -35416,7 +35423,7 @@ export type DescribeSnapshotTierStatusError = CommonErrors;
  * Describes the storage tier status of one or more Amazon EBS snapshots.
  */
 export const describeSnapshotTierStatus: API.PaginatedOperationMethod<
-  DescribeSnapshotTierStatusRequest,
+  DescribeSnapshotTierStatusRequest & RegionInput,
   DescribeSnapshotTierStatusResult,
   DescribeSnapshotTierStatusError,
   Credentials | HttpClient.HttpClient,
@@ -35448,7 +35455,7 @@ export type DescribeSpotDatafeedSubscriptionError =
  * Instance data feed in the *Amazon EC2 User Guide*.
  */
 export const describeSpotDatafeedSubscription: API.OperationMethod<
-  DescribeSpotDatafeedSubscriptionRequest,
+  DescribeSpotDatafeedSubscriptionRequest & RegionInput,
   DescribeSpotDatafeedSubscriptionResult,
   DescribeSpotDatafeedSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -35472,7 +35479,7 @@ export type DescribeSpotFleetInstancesError =
  * Describes the running instances for the specified Spot Fleet.
  */
 export const describeSpotFleetInstances: API.OperationMethod<
-  DescribeSpotFleetInstancesRequest,
+  DescribeSpotFleetInstancesRequest & RegionInput,
   DescribeSpotFleetInstancesResponse,
   DescribeSpotFleetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -35504,7 +35511,7 @@ export type DescribeSpotFleetRequestHistoryError =
  * EventBridge in the *Amazon EC2 User Guide*.
  */
 export const describeSpotFleetRequestHistory: API.OperationMethod<
-  DescribeSpotFleetRequestHistoryRequest,
+  DescribeSpotFleetRequestHistoryRequest & RegionInput,
   DescribeSpotFleetRequestHistoryResponse,
   DescribeSpotFleetRequestHistoryError,
   Credentials | HttpClient.HttpClient
@@ -35532,7 +35539,7 @@ export type DescribeSpotFleetRequestsError =
  * are terminated.
  */
 export const describeSpotFleetRequests: API.PaginatedOperationMethod<
-  DescribeSpotFleetRequestsRequest,
+  DescribeSpotFleetRequestsRequest & RegionInput,
   DescribeSpotFleetRequestsResponse,
   DescribeSpotFleetRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -35582,7 +35589,7 @@ export type DescribeSpotInstanceRequestsError =
  * terminated.
  */
 export const describeSpotInstanceRequests: API.PaginatedOperationMethod<
-  DescribeSpotInstanceRequestsRequest,
+  DescribeSpotInstanceRequestsRequest & RegionInput,
   DescribeSpotInstanceRequestsResult,
   DescribeSpotInstanceRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -35619,7 +35626,7 @@ export type DescribeSpotPriceHistoryError = CommonErrors;
  * start time, which is the effective price as of the start time.
  */
 export const describeSpotPriceHistory: API.PaginatedOperationMethod<
-  DescribeSpotPriceHistoryRequest,
+  DescribeSpotPriceHistoryRequest & RegionInput,
   DescribeSpotPriceHistoryResult,
   DescribeSpotPriceHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -35657,7 +35664,7 @@ export type DescribeStaleSecurityGroupsError =
  * security group VPC association has been disassociated.
  */
 export const describeStaleSecurityGroups: API.PaginatedOperationMethod<
-  DescribeStaleSecurityGroupsRequest,
+  DescribeStaleSecurityGroupsRequest & RegionInput,
   DescribeStaleSecurityGroupsResult,
   DescribeStaleSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -35699,7 +35706,7 @@ export type DescribeStoreImageTasksError = CommonErrors;
  * S3 in the *Amazon EC2 User Guide*.
  */
 export const describeStoreImageTasks: API.PaginatedOperationMethod<
-  DescribeStoreImageTasksRequest,
+  DescribeStoreImageTasksRequest & RegionInput,
   DescribeStoreImageTasksResult,
   DescribeStoreImageTasksError,
   Credentials | HttpClient.HttpClient,
@@ -35736,7 +35743,7 @@ export type DescribeSubnetsError =
  * *Amazon VPC User Guide*.
  */
 export const describeSubnets: API.PaginatedOperationMethod<
-  DescribeSubnetsRequest,
+  DescribeSubnetsRequest & RegionInput,
   DescribeSubnetsResult,
   DescribeSubnetsError,
   Credentials | HttpClient.HttpClient,
@@ -35777,7 +35784,7 @@ export type DescribeTagsError =
  * particular order.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResult,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -35804,7 +35811,7 @@ export type DescribeTrafficMirrorFilterRulesError = CommonErrors;
  * Describe traffic mirror filters that determine the traffic that is mirrored.
  */
 export const describeTrafficMirrorFilterRules: API.OperationMethod<
-  DescribeTrafficMirrorFilterRulesRequest,
+  DescribeTrafficMirrorFilterRulesRequest & RegionInput,
   DescribeTrafficMirrorFilterRulesResult,
   DescribeTrafficMirrorFilterRulesError,
   Credentials | HttpClient.HttpClient
@@ -35828,7 +35835,7 @@ export type DescribeTrafficMirrorFiltersError =
  * Describes one or more Traffic Mirror filters.
  */
 export const describeTrafficMirrorFilters: API.PaginatedOperationMethod<
-  DescribeTrafficMirrorFiltersRequest,
+  DescribeTrafficMirrorFiltersRequest & RegionInput,
   DescribeTrafficMirrorFiltersResult,
   DescribeTrafficMirrorFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -35859,7 +35866,7 @@ export type DescribeTrafficMirrorSessionsError =
  * Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
  */
 export const describeTrafficMirrorSessions: API.PaginatedOperationMethod<
-  DescribeTrafficMirrorSessionsRequest,
+  DescribeTrafficMirrorSessionsRequest & RegionInput,
   DescribeTrafficMirrorSessionsResult,
   DescribeTrafficMirrorSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -35890,7 +35897,7 @@ export type DescribeTrafficMirrorTargetsError =
  * Information about one or more Traffic Mirror targets.
  */
 export const describeTrafficMirrorTargets: API.PaginatedOperationMethod<
-  DescribeTrafficMirrorTargetsRequest,
+  DescribeTrafficMirrorTargetsRequest & RegionInput,
   DescribeTrafficMirrorTargetsResult,
   DescribeTrafficMirrorTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -35923,7 +35930,7 @@ export type DescribeTransitGatewayAttachmentsError =
  * Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
  */
 export const describeTransitGatewayAttachments: API.PaginatedOperationMethod<
-  DescribeTransitGatewayAttachmentsRequest,
+  DescribeTransitGatewayAttachmentsRequest & RegionInput,
   DescribeTransitGatewayAttachmentsResult,
   DescribeTransitGatewayAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -35959,7 +35966,7 @@ export type DescribeTransitGatewayConnectPeersError =
  * Describes one or more Connect peers.
  */
 export const describeTransitGatewayConnectPeers: API.PaginatedOperationMethod<
-  DescribeTransitGatewayConnectPeersRequest,
+  DescribeTransitGatewayConnectPeersRequest & RegionInput,
   DescribeTransitGatewayConnectPeersResult,
   DescribeTransitGatewayConnectPeersError,
   Credentials | HttpClient.HttpClient,
@@ -35990,7 +35997,7 @@ export type DescribeTransitGatewayConnectsError =
  * Describes one or more Connect attachments.
  */
 export const describeTransitGatewayConnects: API.PaginatedOperationMethod<
-  DescribeTransitGatewayConnectsRequest,
+  DescribeTransitGatewayConnectsRequest & RegionInput,
   DescribeTransitGatewayConnectsResult,
   DescribeTransitGatewayConnectsError,
   Credentials | HttpClient.HttpClient,
@@ -36021,7 +36028,7 @@ export type DescribeTransitGatewayMeteringPoliciesError =
  * Describes one or more transit gateway metering policies.
  */
 export const describeTransitGatewayMeteringPolicies: API.OperationMethod<
-  DescribeTransitGatewayMeteringPoliciesRequest,
+  DescribeTransitGatewayMeteringPoliciesRequest & RegionInput,
   DescribeTransitGatewayMeteringPoliciesResult,
   DescribeTransitGatewayMeteringPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -36049,7 +36056,7 @@ export type DescribeTransitGatewayMulticastDomainsError =
  * Describes one or more transit gateway multicast domains.
  */
 export const describeTransitGatewayMulticastDomains: API.PaginatedOperationMethod<
-  DescribeTransitGatewayMulticastDomainsRequest,
+  DescribeTransitGatewayMulticastDomainsRequest & RegionInput,
   DescribeTransitGatewayMulticastDomainsResult,
   DescribeTransitGatewayMulticastDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -36084,7 +36091,7 @@ export type DescribeTransitGatewayPeeringAttachmentsError =
  * Describes your transit gateway peering attachments.
  */
 export const describeTransitGatewayPeeringAttachments: API.PaginatedOperationMethod<
-  DescribeTransitGatewayPeeringAttachmentsRequest,
+  DescribeTransitGatewayPeeringAttachmentsRequest & RegionInput,
   DescribeTransitGatewayPeeringAttachmentsResult,
   DescribeTransitGatewayPeeringAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -36115,7 +36122,7 @@ export type DescribeTransitGatewayPolicyTablesError =
  * Describes one or more transit gateway route policy tables.
  */
 export const describeTransitGatewayPolicyTables: API.PaginatedOperationMethod<
-  DescribeTransitGatewayPolicyTablesRequest,
+  DescribeTransitGatewayPolicyTablesRequest & RegionInput,
   DescribeTransitGatewayPolicyTablesResult,
   DescribeTransitGatewayPolicyTablesError,
   Credentials | HttpClient.HttpClient,
@@ -36146,7 +36153,7 @@ export type DescribeTransitGatewayRouteTableAnnouncementsError =
  * Describes one or more transit gateway route table advertisements.
  */
 export const describeTransitGatewayRouteTableAnnouncements: API.PaginatedOperationMethod<
-  DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  DescribeTransitGatewayRouteTableAnnouncementsRequest & RegionInput,
   DescribeTransitGatewayRouteTableAnnouncementsResult,
   DescribeTransitGatewayRouteTableAnnouncementsError,
   Credentials | HttpClient.HttpClient,
@@ -36191,7 +36198,7 @@ export type DescribeTransitGatewayRouteTablesError =
  * Alternatively, you can filter the results.
  */
 export const describeTransitGatewayRouteTables: API.PaginatedOperationMethod<
-  DescribeTransitGatewayRouteTablesRequest,
+  DescribeTransitGatewayRouteTablesRequest & RegionInput,
   DescribeTransitGatewayRouteTablesResult,
   DescribeTransitGatewayRouteTablesError,
   Credentials | HttpClient.HttpClient,
@@ -36224,7 +36231,7 @@ export type DescribeTransitGatewaysError =
  * filter the results.
  */
 export const describeTransitGateways: API.PaginatedOperationMethod<
-  DescribeTransitGatewaysRequest,
+  DescribeTransitGatewaysRequest & RegionInput,
   DescribeTransitGatewaysResult,
   DescribeTransitGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -36261,7 +36268,7 @@ export type DescribeTransitGatewayVpcAttachmentsError =
  * Alternatively, you can filter the results.
  */
 export const describeTransitGatewayVpcAttachments: API.PaginatedOperationMethod<
-  DescribeTransitGatewayVpcAttachmentsRequest,
+  DescribeTransitGatewayVpcAttachmentsRequest & RegionInput,
   DescribeTransitGatewayVpcAttachmentsResult,
   DescribeTransitGatewayVpcAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -36292,7 +36299,7 @@ export type DescribeTrunkInterfaceAssociationsError =
  * Describes one or more network interface trunk associations.
  */
 export const describeTrunkInterfaceAssociations: API.PaginatedOperationMethod<
-  DescribeTrunkInterfaceAssociationsRequest,
+  DescribeTrunkInterfaceAssociationsRequest & RegionInput,
   DescribeTrunkInterfaceAssociationsResult,
   DescribeTrunkInterfaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -36323,7 +36330,7 @@ export type DescribeVerifiedAccessEndpointsError =
  * Describes the specified Amazon Web Services Verified Access endpoints.
  */
 export const describeVerifiedAccessEndpoints: API.PaginatedOperationMethod<
-  DescribeVerifiedAccessEndpointsRequest,
+  DescribeVerifiedAccessEndpointsRequest & RegionInput,
   DescribeVerifiedAccessEndpointsResult,
   DescribeVerifiedAccessEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -36354,7 +36361,7 @@ export type DescribeVerifiedAccessGroupsError =
  * Describes the specified Verified Access groups.
  */
 export const describeVerifiedAccessGroups: API.PaginatedOperationMethod<
-  DescribeVerifiedAccessGroupsRequest,
+  DescribeVerifiedAccessGroupsRequest & RegionInput,
   DescribeVerifiedAccessGroupsResult,
   DescribeVerifiedAccessGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -36385,7 +36392,7 @@ export type DescribeVerifiedAccessInstanceLoggingConfigurationsError =
  * Describes the specified Amazon Web Services Verified Access instances.
  */
 export const describeVerifiedAccessInstanceLoggingConfigurations: API.PaginatedOperationMethod<
-  DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  DescribeVerifiedAccessInstanceLoggingConfigurationsRequest & RegionInput,
   DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
   DescribeVerifiedAccessInstanceLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -36424,7 +36431,7 @@ export type DescribeVerifiedAccessInstancesError =
  * Describes the specified Amazon Web Services Verified Access instances.
  */
 export const describeVerifiedAccessInstances: API.PaginatedOperationMethod<
-  DescribeVerifiedAccessInstancesRequest,
+  DescribeVerifiedAccessInstancesRequest & RegionInput,
   DescribeVerifiedAccessInstancesResult,
   DescribeVerifiedAccessInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -36455,7 +36462,7 @@ export type DescribeVerifiedAccessTrustProvidersError =
  * Describes the specified Amazon Web Services Verified Access trust providers.
  */
 export const describeVerifiedAccessTrustProviders: API.PaginatedOperationMethod<
-  DescribeVerifiedAccessTrustProvidersRequest,
+  DescribeVerifiedAccessTrustProvidersRequest & RegionInput,
   DescribeVerifiedAccessTrustProvidersResult,
   DescribeVerifiedAccessTrustProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -36495,7 +36502,7 @@ export type DescribeVolumeAttributeError =
  * For more information about EBS volumes, see Amazon EBS volumes in the *Amazon EBS User Guide*.
  */
 export const describeVolumeAttribute: API.OperationMethod<
-  DescribeVolumeAttributeRequest,
+  DescribeVolumeAttributeRequest & RegionInput,
   DescribeVolumeAttributeResult,
   DescribeVolumeAttributeError,
   Credentials | HttpClient.HttpClient
@@ -36539,7 +36546,7 @@ export type DescribeVolumesError =
  * particular order.
  */
 export const describeVolumes: API.PaginatedOperationMethod<
-  DescribeVolumesRequest,
+  DescribeVolumesRequest & RegionInput,
   DescribeVolumesResult,
   DescribeVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -36579,7 +36586,7 @@ export type DescribeVolumesModificationsError =
  * Monitor the progress of volume modifications in the *Amazon EBS User Guide*.
  */
 export const describeVolumesModifications: API.PaginatedOperationMethod<
-  DescribeVolumesModificationsRequest,
+  DescribeVolumesModificationsRequest & RegionInput,
   DescribeVolumesModificationsResult,
   DescribeVolumesModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -36649,7 +36656,7 @@ export type DescribeVolumeStatusError =
  * particular order.
  */
 export const describeVolumeStatus: API.PaginatedOperationMethod<
-  DescribeVolumeStatusRequest,
+  DescribeVolumeStatusRequest & RegionInput,
   DescribeVolumeStatusResult,
   DescribeVolumeStatusError,
   Credentials | HttpClient.HttpClient,
@@ -36681,7 +36688,7 @@ export type DescribeVpcAttributeError =
  * Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
  */
 export const describeVpcAttribute: API.OperationMethod<
-  DescribeVpcAttributeRequest,
+  DescribeVpcAttributeRequest & RegionInput,
   DescribeVpcAttributeResult,
   DescribeVpcAttributeError,
   Credentials | HttpClient.HttpClient
@@ -36711,7 +36718,7 @@ export type DescribeVpcBlockPublicAccessExclusionsError =
  * Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account's BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const describeVpcBlockPublicAccessExclusions: API.OperationMethod<
-  DescribeVpcBlockPublicAccessExclusionsRequest,
+  DescribeVpcBlockPublicAccessExclusionsRequest & RegionInput,
   DescribeVpcBlockPublicAccessExclusionsResult,
   DescribeVpcBlockPublicAccessExclusionsError,
   Credentials | HttpClient.HttpClient
@@ -36736,7 +36743,7 @@ export type DescribeVpcBlockPublicAccessOptionsError = CommonErrors;
  * Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const describeVpcBlockPublicAccessOptions: API.OperationMethod<
-  DescribeVpcBlockPublicAccessOptionsRequest,
+  DescribeVpcBlockPublicAccessOptionsRequest & RegionInput,
   DescribeVpcBlockPublicAccessOptionsResult,
   DescribeVpcBlockPublicAccessOptionsError,
   Credentials | HttpClient.HttpClient
@@ -36763,7 +36770,7 @@ export type DescribeVpcClassicLinkError =
  * Describes the ClassicLink status of the specified VPCs.
  */
 export const describeVpcClassicLink: API.OperationMethod<
-  DescribeVpcClassicLinkRequest,
+  DescribeVpcClassicLinkRequest & RegionInput,
   DescribeVpcClassicLinkResult,
   DescribeVpcClassicLinkError,
   Credentials | HttpClient.HttpClient
@@ -36798,7 +36805,7 @@ export type DescribeVpcClassicLinkDnsSupportError =
  * EC2-Classic instance.
  */
 export const describeVpcClassicLinkDnsSupport: API.PaginatedOperationMethod<
-  DescribeVpcClassicLinkDnsSupportRequest,
+  DescribeVpcClassicLinkDnsSupportRequest & RegionInput,
   DescribeVpcClassicLinkDnsSupportResult,
   DescribeVpcClassicLinkDnsSupportError,
   Credentials | HttpClient.HttpClient,
@@ -36831,7 +36838,7 @@ export type DescribeVpcEncryptionControlsError =
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const describeVpcEncryptionControls: API.OperationMethod<
-  DescribeVpcEncryptionControlsRequest,
+  DescribeVpcEncryptionControlsRequest & RegionInput,
   DescribeVpcEncryptionControlsResult,
   DescribeVpcEncryptionControlsError,
   Credentials | HttpClient.HttpClient
@@ -36852,7 +36859,7 @@ export type DescribeVpcEndpointAssociationsError = CommonErrors;
  * associated with the VPC endpoint.
  */
 export const describeVpcEndpointAssociations: API.OperationMethod<
-  DescribeVpcEndpointAssociationsRequest,
+  DescribeVpcEndpointAssociationsRequest & RegionInput,
   DescribeVpcEndpointAssociationsResult,
   DescribeVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -36877,7 +36884,7 @@ export type DescribeVpcEndpointConnectionNotificationsError =
  * services.
  */
 export const describeVpcEndpointConnectionNotifications: API.PaginatedOperationMethod<
-  DescribeVpcEndpointConnectionNotificationsRequest,
+  DescribeVpcEndpointConnectionNotificationsRequest & RegionInput,
   DescribeVpcEndpointConnectionNotificationsResult,
   DescribeVpcEndpointConnectionNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -36913,7 +36920,7 @@ export type DescribeVpcEndpointConnectionsError = CommonErrors;
  * endpoints that are pending your acceptance.
  */
 export const describeVpcEndpointConnections: API.PaginatedOperationMethod<
-  DescribeVpcEndpointConnectionsRequest,
+  DescribeVpcEndpointConnectionsRequest & RegionInput,
   DescribeVpcEndpointConnectionsResult,
   DescribeVpcEndpointConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -36947,7 +36954,7 @@ export type DescribeVpcEndpointsError =
  * include only the VPC endpoints that match specific criteria.
  */
 export const describeVpcEndpoints: API.PaginatedOperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResult,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -36978,7 +36985,7 @@ export type DescribeVpcEndpointServiceConfigurationsError =
  * Describes the VPC endpoint service configurations in your account (your services).
  */
 export const describeVpcEndpointServiceConfigurations: API.PaginatedOperationMethod<
-  DescribeVpcEndpointServiceConfigurationsRequest,
+  DescribeVpcEndpointServiceConfigurationsRequest & RegionInput,
   DescribeVpcEndpointServiceConfigurationsResult,
   DescribeVpcEndpointServiceConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -37011,7 +37018,7 @@ export type DescribeVpcEndpointServicePermissionsError =
  * endpoint service. Principal ARNs with path components aren't supported.
  */
 export const describeVpcEndpointServicePermissions: API.PaginatedOperationMethod<
-  DescribeVpcEndpointServicePermissionsRequest,
+  DescribeVpcEndpointServicePermissionsRequest & RegionInput,
   DescribeVpcEndpointServicePermissionsResult,
   DescribeVpcEndpointServicePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -37055,7 +37062,7 @@ export type DescribeVpcEndpointServicesError =
  * `us-east-1a`.
  */
 export const describeVpcEndpointServices: API.OperationMethod<
-  DescribeVpcEndpointServicesRequest,
+  DescribeVpcEndpointServicesRequest & RegionInput,
   DescribeVpcEndpointServicesResult,
   DescribeVpcEndpointServicesError,
   Credentials | HttpClient.HttpClient
@@ -37083,7 +37090,7 @@ export type DescribeVpcPeeringConnectionsError =
  * include only the VPC peering connections that match specific criteria.
  */
 export const describeVpcPeeringConnections: API.PaginatedOperationMethod<
-  DescribeVpcPeeringConnectionsRequest,
+  DescribeVpcPeeringConnectionsRequest & RegionInput,
   DescribeVpcPeeringConnectionsResult,
   DescribeVpcPeeringConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -37124,7 +37131,7 @@ export type DescribeVpcsError =
  * include only the VPCs that match specific criteria.
  */
 export const describeVpcs: API.PaginatedOperationMethod<
-  DescribeVpcsRequest,
+  DescribeVpcsRequest & RegionInput,
   DescribeVpcsResult,
   DescribeVpcsError,
   Credentials | HttpClient.HttpClient,
@@ -37161,7 +37168,7 @@ export type DescribeVpnConcentratorsError =
  * Describes one or more of your VPN concentrators.
  */
 export const describeVpnConcentrators: API.PaginatedOperationMethod<
-  DescribeVpnConcentratorsRequest,
+  DescribeVpnConcentratorsRequest & RegionInput,
   DescribeVpnConcentratorsResult,
   DescribeVpnConcentratorsError,
   Credentials | HttpClient.HttpClient,
@@ -37195,7 +37202,7 @@ export type DescribeVpnConnectionsError =
  * User Guide.
  */
 export const describeVpnConnections: API.OperationMethod<
-  DescribeVpnConnectionsRequest,
+  DescribeVpnConnectionsRequest & RegionInput,
   DescribeVpnConnectionsResult,
   DescribeVpnConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -37223,7 +37230,7 @@ export type DescribeVpnGatewaysError =
  * User Guide.
  */
 export const describeVpnGateways: API.OperationMethod<
-  DescribeVpnGatewaysRequest,
+  DescribeVpnGatewaysRequest & RegionInput,
   DescribeVpnGatewaysResult,
   DescribeVpnGatewaysError,
   Credentials | HttpClient.HttpClient
@@ -37254,7 +37261,7 @@ export type DetachClassicLinkVpcError =
  * a VPC when it's stopped.
  */
 export const detachClassicLinkVpc: API.OperationMethod<
-  DetachClassicLinkVpcRequest,
+  DetachClassicLinkVpcRequest & RegionInput,
   DetachClassicLinkVpcResult,
   DetachClassicLinkVpcError,
   Credentials | HttpClient.HttpClient
@@ -37287,7 +37294,7 @@ export type DetachImageWatermarkError = CommonErrors;
  * Only the AMI owner can detach watermarks.
  */
 export const detachImageWatermark: API.OperationMethod<
-  DetachImageWatermarkRequest,
+  DetachImageWatermarkRequest & RegionInput,
   DetachImageWatermarkResult,
   DetachImageWatermarkError,
   Credentials | HttpClient.HttpClient
@@ -37317,7 +37324,7 @@ export type DetachInternetGatewayError =
  * public IPv4 addresses.
  */
 export const detachInternetGateway: API.OperationMethod<
-  DetachInternetGatewayRequest,
+  DetachInternetGatewayRequest & RegionInput,
   DetachInternetGatewayResponse,
   DetachInternetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -37351,7 +37358,7 @@ export type DetachNetworkInterfaceError =
  * Detaches a network interface from an instance.
  */
 export const detachNetworkInterface: API.OperationMethod<
-  DetachNetworkInterfaceRequest,
+  DetachNetworkInterfaceRequest & RegionInput,
   DetachNetworkInterfaceResponse,
   DetachNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -37382,7 +37389,7 @@ export type DetachVerifiedAccessTrustProviderError =
  * Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
  */
 export const detachVerifiedAccessTrustProvider: API.OperationMethod<
-  DetachVerifiedAccessTrustProviderRequest,
+  DetachVerifiedAccessTrustProviderRequest & RegionInput,
   DetachVerifiedAccessTrustProviderResult,
   DetachVerifiedAccessTrustProviderError,
   Credentials | HttpClient.HttpClient
@@ -37430,7 +37437,7 @@ export type DetachVolumeError =
  * *Amazon EBS User Guide*.
  */
 export const detachVolume: API.OperationMethod<
-  DetachVolumeRequest,
+  DetachVolumeRequest & RegionInput,
   VolumeAttachment,
   DetachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -37470,7 +37477,7 @@ export type DetachVpnGatewayError =
  * can delete the VPC or attach a different VPC to the virtual private gateway.
  */
 export const detachVpnGateway: API.OperationMethod<
-  DetachVpnGatewayRequest,
+  DetachVpnGatewayRequest & RegionInput,
   DetachVpnGatewayResponse,
   DetachVpnGatewayError,
   Credentials | HttpClient.HttpClient
@@ -37501,7 +37508,7 @@ export type DisableAddressTransferError =
  * Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
 export const disableAddressTransfer: API.OperationMethod<
-  DisableAddressTransferRequest,
+  DisableAddressTransferRequest & RegionInput,
   DisableAddressTransferResult,
   DisableAddressTransferError,
   Credentials | HttpClient.HttpClient
@@ -37532,7 +37539,7 @@ export type DisableAllowedImagesSettingsError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const disableAllowedImagesSettings: API.OperationMethod<
-  DisableAllowedImagesSettingsRequest,
+  DisableAllowedImagesSettingsRequest & RegionInput,
   DisableAllowedImagesSettingsResult,
   DisableAllowedImagesSettingsError,
   Credentials | HttpClient.HttpClient
@@ -37552,7 +37559,7 @@ export type DisableApplicationStatusCheckSuppressionError = CommonErrors;
  * Disables suppression of application status checks for the specified instances. After suppression is disabled, health check results resume affecting the instance-level application status. You can specify a maximum of 100 instance IDs for each request.
  */
 export const disableApplicationStatusCheckSuppression: API.OperationMethod<
-  DisableApplicationStatusCheckSuppressionRequest,
+  DisableApplicationStatusCheckSuppressionRequest & RegionInput,
   DisableApplicationStatusCheckSuppressionResult,
   DisableApplicationStatusCheckSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -37576,7 +37583,7 @@ export type DisableAwsNetworkPerformanceMetricSubscriptionError =
  * Disables Infrastructure Performance metric subscriptions.
  */
 export const disableAwsNetworkPerformanceMetricSubscription: API.OperationMethod<
-  DisableAwsNetworkPerformanceMetricSubscriptionRequest,
+  DisableAwsNetworkPerformanceMetricSubscriptionRequest & RegionInput,
   DisableAwsNetworkPerformanceMetricSubscriptionResult,
   DisableAwsNetworkPerformanceMetricSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -37609,7 +37616,7 @@ export type DisableCapacityManagerError =
  * Previously collected data is retained but no new data will be processed.
  */
 export const disableCapacityManager: API.OperationMethod<
-  DisableCapacityManagerRequest,
+  DisableCapacityManagerRequest & RegionInput,
   DisableCapacityManagerResult,
   DisableCapacityManagerError,
   Credentials | HttpClient.HttpClient
@@ -37638,7 +37645,7 @@ export type DisableEbsEncryptionByDefaultError = CommonErrors;
  * *Amazon EBS User Guide*.
  */
 export const disableEbsEncryptionByDefault: API.OperationMethod<
-  DisableEbsEncryptionByDefaultRequest,
+  DisableEbsEncryptionByDefaultRequest & RegionInput,
   DisableEbsEncryptionByDefaultResult,
   DisableEbsEncryptionByDefaultError,
   Credentials | HttpClient.HttpClient
@@ -37668,7 +37675,7 @@ export type DisableFastLaunchError =
  * shared with you.
  */
 export const disableFastLaunch: API.OperationMethod<
-  DisableFastLaunchRequest,
+  DisableFastLaunchRequest & RegionInput,
   DisableFastLaunchResult,
   DisableFastLaunchError,
   Credentials | HttpClient.HttpClient
@@ -37692,7 +37699,7 @@ export type DisableFastSnapshotRestoresError =
  * Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
  */
 export const disableFastSnapshotRestores: API.OperationMethod<
-  DisableFastSnapshotRestoresRequest,
+  DisableFastSnapshotRestoresRequest & RegionInput,
   DisableFastSnapshotRestoresResult,
   DisableFastSnapshotRestoresError,
   Credentials | HttpClient.HttpClient
@@ -37731,7 +37738,7 @@ export type DisableImageError =
  * *Amazon EC2 User Guide*.
  */
 export const disableImage: API.OperationMethod<
-  DisableImageRequest,
+  DisableImageRequest & RegionInput,
   DisableImageResult,
   DisableImageError,
   Credentials | HttpClient.HttpClient
@@ -37757,7 +37764,7 @@ export type DisableImageBlockPublicAccessError = CommonErrors;
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
 export const disableImageBlockPublicAccess: API.OperationMethod<
-  DisableImageBlockPublicAccessRequest,
+  DisableImageBlockPublicAccessRequest & RegionInput,
   DisableImageBlockPublicAccessResult,
   DisableImageBlockPublicAccessError,
   Credentials | HttpClient.HttpClient
@@ -37784,7 +37791,7 @@ export type DisableImageDeprecationError =
  * *Amazon EC2 User Guide*.
  */
 export const disableImageDeprecation: API.OperationMethod<
-  DisableImageDeprecationRequest,
+  DisableImageDeprecationRequest & RegionInput,
   DisableImageDeprecationResult,
   DisableImageDeprecationError,
   Credentials | HttpClient.HttpClient
@@ -37816,7 +37823,7 @@ export type DisableImageDeregistrationProtectionError =
  * deregistration in the *Amazon EC2 User Guide*.
  */
 export const disableImageDeregistrationProtection: API.OperationMethod<
-  DisableImageDeregistrationProtectionRequest,
+  DisableImageDeregistrationProtectionRequest & RegionInput,
   DisableImageDeregistrationProtectionResult,
   DisableImageDeregistrationProtectionError,
   Credentials | HttpClient.HttpClient
@@ -37843,7 +37850,7 @@ export type DisableInstanceSqlHaStandbyDetectionsError =
  * SQL Server High Availability cluster.
  */
 export const disableInstanceSqlHaStandbyDetections: API.OperationMethod<
-  DisableInstanceSqlHaStandbyDetectionsRequest,
+  DisableInstanceSqlHaStandbyDetectionsRequest & RegionInput,
   DisableInstanceSqlHaStandbyDetectionsResult,
   DisableInstanceSqlHaStandbyDetectionsError,
   Credentials | HttpClient.HttpClient
@@ -37867,7 +37874,7 @@ export type DisableIpamOrganizationAdminAccountError =
  * Disable the IPAM account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
 export const disableIpamOrganizationAdminAccount: API.OperationMethod<
-  DisableIpamOrganizationAdminAccountRequest,
+  DisableIpamOrganizationAdminAccountRequest & RegionInput,
   DisableIpamOrganizationAdminAccountResult,
   DisableIpamOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -37894,7 +37901,7 @@ export type DisableIpamPolicyError =
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
 export const disableIpamPolicy: API.OperationMethod<
-  DisableIpamPolicyRequest,
+  DisableIpamPolicyRequest & RegionInput,
   DisableIpamPolicyResult,
   DisableIpamPolicyError,
   Credentials | HttpClient.HttpClient
@@ -37940,7 +37947,7 @@ export type DisableRouteServerPropagationError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const disableRouteServerPropagation: API.OperationMethod<
-  DisableRouteServerPropagationRequest,
+  DisableRouteServerPropagationRequest & RegionInput,
   DisableRouteServerPropagationResult,
   DisableRouteServerPropagationError,
   Credentials | HttpClient.HttpClient
@@ -37963,7 +37970,7 @@ export type DisableSerialConsoleAccessError = CommonErrors;
  * User Guide.
  */
 export const disableSerialConsoleAccess: API.OperationMethod<
-  DisableSerialConsoleAccessRequest,
+  DisableSerialConsoleAccessRequest & RegionInput,
   DisableSerialConsoleAccessResult,
   DisableSerialConsoleAccessError,
   Credentials | HttpClient.HttpClient
@@ -37997,7 +38004,7 @@ export type DisableSnapshotBlockPublicAccessError = CommonErrors;
  * Block public access for snapshots in the *Amazon EBS User Guide* .
  */
 export const disableSnapshotBlockPublicAccess: API.OperationMethod<
-  DisableSnapshotBlockPublicAccessRequest,
+  DisableSnapshotBlockPublicAccessRequest & RegionInput,
   DisableSnapshotBlockPublicAccessResult,
   DisableSnapshotBlockPublicAccessError,
   Credentials | HttpClient.HttpClient
@@ -38022,7 +38029,7 @@ export type DisableTransitGatewayRouteTablePropagationError =
  * propagation route table.
  */
 export const disableTransitGatewayRouteTablePropagation: API.OperationMethod<
-  DisableTransitGatewayRouteTablePropagationRequest,
+  DisableTransitGatewayRouteTablePropagationRequest & RegionInput,
   DisableTransitGatewayRouteTablePropagationResult,
   DisableTransitGatewayRouteTablePropagationError,
   Credentials | HttpClient.HttpClient
@@ -38055,7 +38062,7 @@ export type DisableVgwRoutePropagationError =
  * table of a VPC.
  */
 export const disableVgwRoutePropagation: API.OperationMethod<
-  DisableVgwRoutePropagationRequest,
+  DisableVgwRoutePropagationRequest & RegionInput,
   DisableVgwRoutePropagationResponse,
   DisableVgwRoutePropagationError,
   Credentials | HttpClient.HttpClient
@@ -38083,7 +38090,7 @@ export type DisableVpcClassicLinkError =
  * linked to it.
  */
 export const disableVpcClassicLink: API.OperationMethod<
-  DisableVpcClassicLinkRequest,
+  DisableVpcClassicLinkRequest & RegionInput,
   DisableVpcClassicLinkResult,
   DisableVpcClassicLinkError,
   Credentials | HttpClient.HttpClient
@@ -38119,7 +38126,7 @@ export type DisableVpcClassicLinkDnsSupportError =
  * You must specify a VPC ID in the request.
  */
 export const disableVpcClassicLinkDnsSupport: API.OperationMethod<
-  DisableVpcClassicLinkDnsSupportRequest,
+  DisableVpcClassicLinkDnsSupportRequest & RegionInput,
   DisableVpcClassicLinkDnsSupportResult,
   DisableVpcClassicLinkDnsSupportError,
   Credentials | HttpClient.HttpClient
@@ -38154,7 +38161,7 @@ export type DisassociateAddressError =
  * - Network interface only has one remaining public IPv4 address
  */
 export const disassociateAddress: API.OperationMethod<
-  DisassociateAddressRequest,
+  DisassociateAddressRequest & RegionInput,
   DisassociateAddressResponse,
   DisassociateAddressError,
   Credentials | HttpClient.HttpClient
@@ -38185,7 +38192,7 @@ export type DisassociateApplicationStatusCheckError = CommonErrors;
  * - Tag keys must not be blank.
  */
 export const disassociateApplicationStatusCheck: API.OperationMethod<
-  DisassociateApplicationStatusCheckRequest,
+  DisassociateApplicationStatusCheckRequest & RegionInput,
   DisassociateApplicationStatusCheckResult,
   DisassociateApplicationStatusCheckError,
   Credentials | HttpClient.HttpClient
@@ -38213,7 +38220,7 @@ export type DisassociateCapacityReservationBillingOwnerError =
  * Amazon EC2 Capacity Reservations.
  */
 export const disassociateCapacityReservationBillingOwner: API.OperationMethod<
-  DisassociateCapacityReservationBillingOwnerRequest,
+  DisassociateCapacityReservationBillingOwnerRequest & RegionInput,
   DisassociateCapacityReservationBillingOwnerResult,
   DisassociateCapacityReservationBillingOwnerError,
   Credentials | HttpClient.HttpClient
@@ -38262,7 +38269,7 @@ export type DisassociateClientVpnTargetNetworkError =
  * - The Client VPN endpoint's status changes to `pending-associate`
  */
 export const disassociateClientVpnTargetNetwork: API.OperationMethod<
-  DisassociateClientVpnTargetNetworkRequest,
+  DisassociateClientVpnTargetNetworkRequest & RegionInput,
   DisassociateClientVpnTargetNetworkResult,
   DisassociateClientVpnTargetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -38298,7 +38305,7 @@ export type DisassociateEnclaveCertificateIamRoleError =
  * to use the certificate.
  */
 export const disassociateEnclaveCertificateIamRole: API.OperationMethod<
-  DisassociateEnclaveCertificateIamRoleRequest,
+  DisassociateEnclaveCertificateIamRoleRequest & RegionInput,
   DisassociateEnclaveCertificateIamRoleResult,
   DisassociateEnclaveCertificateIamRoleError,
   Credentials | HttpClient.HttpClient
@@ -38330,7 +38337,7 @@ export type DisassociateIamInstanceProfileError =
  * ID.
  */
 export const disassociateIamInstanceProfile: API.OperationMethod<
-  DisassociateIamInstanceProfileRequest,
+  DisassociateIamInstanceProfileRequest & RegionInput,
   DisassociateIamInstanceProfileResult,
   DisassociateIamInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -38358,7 +38365,7 @@ export type DisassociateInstanceEventWindowError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const disassociateInstanceEventWindow: API.OperationMethod<
-  DisassociateInstanceEventWindowRequest,
+  DisassociateInstanceEventWindowRequest & RegionInput,
   DisassociateInstanceEventWindowResult,
   DisassociateInstanceEventWindowError,
   Credentials | HttpClient.HttpClient
@@ -38383,7 +38390,7 @@ export type DisassociateIpamByoasnError =
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
 export const disassociateIpamByoasn: API.OperationMethod<
-  DisassociateIpamByoasnRequest,
+  DisassociateIpamByoasnRequest & RegionInput,
   DisassociateIpamByoasnResult,
   DisassociateIpamByoasnError,
   Credentials | HttpClient.HttpClient
@@ -38408,7 +38415,7 @@ export type DisassociateIpamResourceDiscoveryError =
  * Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const disassociateIpamResourceDiscovery: API.OperationMethod<
-  DisassociateIpamResourceDiscoveryRequest,
+  DisassociateIpamResourceDiscoveryRequest & RegionInput,
   DisassociateIpamResourceDiscoveryResult,
   DisassociateIpamResourceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -38448,7 +38455,7 @@ export type DisassociateNatGatewayAddressError =
  * are released.
  */
 export const disassociateNatGatewayAddress: API.OperationMethod<
-  DisassociateNatGatewayAddressRequest,
+  DisassociateNatGatewayAddressRequest & RegionInput,
   DisassociateNatGatewayAddressResult,
   DisassociateNatGatewayAddressError,
   Credentials | HttpClient.HttpClient
@@ -38484,7 +38491,7 @@ export type DisassociateRouteServerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const disassociateRouteServer: API.OperationMethod<
-  DisassociateRouteServerRequest,
+  DisassociateRouteServerRequest & RegionInput,
   DisassociateRouteServerResult,
   DisassociateRouteServerError,
   Credentials | HttpClient.HttpClient
@@ -38521,7 +38528,7 @@ export type DisassociateRouteTableError =
  * tables in the *Amazon VPC User Guide*.
  */
 export const disassociateRouteTable: API.OperationMethod<
-  DisassociateRouteTableRequest,
+  DisassociateRouteTableRequest & RegionInput,
   DisassociateRouteTableResponse,
   DisassociateRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -38554,7 +38561,7 @@ export type DisassociateSecurityGroupVpcError =
  * Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations.
  */
 export const disassociateSecurityGroupVpc: API.OperationMethod<
-  DisassociateSecurityGroupVpcRequest,
+  DisassociateSecurityGroupVpcRequest & RegionInput,
   DisassociateSecurityGroupVpcResult,
   DisassociateSecurityGroupVpcError,
   Credentials | HttpClient.HttpClient
@@ -38579,7 +38586,7 @@ export type DisassociateSubnetCidrBlockError =
  * Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
  */
 export const disassociateSubnetCidrBlock: API.OperationMethod<
-  DisassociateSubnetCidrBlockRequest,
+  DisassociateSubnetCidrBlockRequest & RegionInput,
   DisassociateSubnetCidrBlockResult,
   DisassociateSubnetCidrBlockError,
   Credentials | HttpClient.HttpClient
@@ -38609,7 +38616,7 @@ export type DisassociateTransitGatewayMulticastDomainError =
  * Disassociates the specified subnets from the transit gateway multicast domain.
  */
 export const disassociateTransitGatewayMulticastDomain: API.OperationMethod<
-  DisassociateTransitGatewayMulticastDomainRequest,
+  DisassociateTransitGatewayMulticastDomainRequest & RegionInput,
   DisassociateTransitGatewayMulticastDomainResult,
   DisassociateTransitGatewayMulticastDomainError,
   Credentials | HttpClient.HttpClient
@@ -38640,7 +38647,7 @@ export type DisassociateTransitGatewayPolicyTableError =
  * Removes the association between an an attachment and a policy table.
  */
 export const disassociateTransitGatewayPolicyTable: API.OperationMethod<
-  DisassociateTransitGatewayPolicyTableRequest,
+  DisassociateTransitGatewayPolicyTableRequest & RegionInput,
   DisassociateTransitGatewayPolicyTableResult,
   DisassociateTransitGatewayPolicyTableError,
   Credentials | HttpClient.HttpClient
@@ -38671,7 +38678,7 @@ export type DisassociateTransitGatewayRouteTableError =
  * Disassociates a resource attachment from a transit gateway route table.
  */
 export const disassociateTransitGatewayRouteTable: API.OperationMethod<
-  DisassociateTransitGatewayRouteTableRequest,
+  DisassociateTransitGatewayRouteTableRequest & RegionInput,
   DisassociateTransitGatewayRouteTableResult,
   DisassociateTransitGatewayRouteTableError,
   Credentials | HttpClient.HttpClient
@@ -38700,7 +38707,7 @@ export type DisassociateTrunkInterfaceError =
  * Removes an association between a branch network interface with a trunk network interface.
  */
 export const disassociateTrunkInterface: API.OperationMethod<
-  DisassociateTrunkInterfaceRequest,
+  DisassociateTrunkInterfaceRequest & RegionInput,
   DisassociateTrunkInterfaceResult,
   DisassociateTrunkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -38733,7 +38740,7 @@ export type DisassociateVpcCidrBlockError =
  * primary CIDR block).
  */
 export const disassociateVpcCidrBlock: API.OperationMethod<
-  DisassociateVpcCidrBlockRequest,
+  DisassociateVpcCidrBlockRequest & RegionInput,
   DisassociateVpcCidrBlockResult,
   DisassociateVpcCidrBlockError,
   Credentials | HttpClient.HttpClient
@@ -38764,7 +38771,7 @@ export type EnableAddressTransferError =
  * Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
 export const enableAddressTransfer: API.OperationMethod<
-  EnableAddressTransferRequest,
+  EnableAddressTransferRequest & RegionInput,
   EnableAddressTransferResult,
   EnableAddressTransferError,
   Credentials | HttpClient.HttpClient
@@ -38807,7 +38814,7 @@ export type EnableAllowedImagesSettingsError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const enableAllowedImagesSettings: API.OperationMethod<
-  EnableAllowedImagesSettingsRequest,
+  EnableAllowedImagesSettingsRequest & RegionInput,
   EnableAllowedImagesSettingsResult,
   EnableAllowedImagesSettingsError,
   Credentials | HttpClient.HttpClient
@@ -38833,7 +38840,7 @@ export type EnableApplicationStatusCheckSuppressionError = CommonErrors;
  * - If you do not specify `DurationSeconds`, suppression continues indefinitely until you call `DisableApplicationStatusCheckSuppression`.
  */
 export const enableApplicationStatusCheckSuppression: API.OperationMethod<
-  EnableApplicationStatusCheckSuppressionRequest,
+  EnableApplicationStatusCheckSuppressionRequest & RegionInput,
   EnableApplicationStatusCheckSuppressionResult,
   EnableApplicationStatusCheckSuppressionError,
   Credentials | HttpClient.HttpClient
@@ -38857,7 +38864,7 @@ export type EnableAwsNetworkPerformanceMetricSubscriptionError =
  * Enables Infrastructure Performance subscriptions.
  */
 export const enableAwsNetworkPerformanceMetricSubscription: API.OperationMethod<
-  EnableAwsNetworkPerformanceMetricSubscriptionRequest,
+  EnableAwsNetworkPerformanceMetricSubscriptionRequest & RegionInput,
   EnableAwsNetworkPerformanceMetricSubscriptionResult,
   EnableAwsNetworkPerformanceMetricSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -38886,7 +38893,7 @@ export type EnableCapacityManagerError = CommonErrors;
  * Initial data processing may take several hours to complete.
  */
 export const enableCapacityManager: API.OperationMethod<
-  EnableCapacityManagerRequest,
+  EnableCapacityManagerRequest & RegionInput,
   EnableCapacityManagerResult,
   EnableCapacityManagerError,
   Credentials | HttpClient.HttpClient
@@ -38918,7 +38925,7 @@ export type EnableEbsEncryptionByDefaultError = CommonErrors;
  * instance types.
  */
 export const enableEbsEncryptionByDefault: API.OperationMethod<
-  EnableEbsEncryptionByDefaultRequest,
+  EnableEbsEncryptionByDefaultRequest & RegionInput,
   EnableEbsEncryptionByDefaultResult,
   EnableEbsEncryptionByDefaultError,
   Credentials | HttpClient.HttpClient
@@ -38950,7 +38957,7 @@ export type EnableFastLaunchError =
  * shared with you.
  */
 export const enableFastLaunch: API.OperationMethod<
-  EnableFastLaunchRequest,
+  EnableFastLaunchRequest & RegionInput,
   EnableFastLaunchResult,
   EnableFastLaunchError,
   Credentials | HttpClient.HttpClient
@@ -38979,7 +38986,7 @@ export type EnableFastSnapshotRestoresError =
  * restore in the *Amazon EBS User Guide*.
  */
 export const enableFastSnapshotRestores: API.OperationMethod<
-  EnableFastSnapshotRestoresRequest,
+  EnableFastSnapshotRestoresRequest & RegionInput,
   EnableFastSnapshotRestoresResult,
   EnableFastSnapshotRestoresError,
   Credentials | HttpClient.HttpClient
@@ -39012,7 +39019,7 @@ export type EnableImageError =
  * in the *Amazon EC2 User Guide*.
  */
 export const enableImage: API.OperationMethod<
-  EnableImageRequest,
+  EnableImageRequest & RegionInput,
   EnableImageResult,
   EnableImageError,
   Credentials | HttpClient.HttpClient
@@ -39046,7 +39053,7 @@ export type EnableImageBlockPublicAccessError =
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
 export const enableImageBlockPublicAccess: API.OperationMethod<
-  EnableImageBlockPublicAccessRequest,
+  EnableImageBlockPublicAccessRequest & RegionInput,
   EnableImageBlockPublicAccessResult,
   EnableImageBlockPublicAccessError,
   Credentials | HttpClient.HttpClient
@@ -39073,7 +39080,7 @@ export type EnableImageDeprecationError =
  * *Amazon EC2 User Guide*.
  */
 export const enableImageDeprecation: API.OperationMethod<
-  EnableImageDeprecationRequest,
+  EnableImageDeprecationRequest & RegionInput,
   EnableImageDeprecationResult,
   EnableImageDeprecationError,
   Credentials | HttpClient.HttpClient
@@ -39103,7 +39110,7 @@ export type EnableImageDeregistrationProtectionError =
  * Amazon EC2 AMI from deregistration in the *Amazon EC2 User Guide*.
  */
 export const enableImageDeregistrationProtection: API.OperationMethod<
-  EnableImageDeregistrationProtectionRequest,
+  EnableImageDeregistrationProtectionRequest & RegionInput,
   EnableImageDeregistrationProtectionResult,
   EnableImageDeregistrationProtectionError,
   Credentials | HttpClient.HttpClient
@@ -39137,7 +39144,7 @@ export type EnableInstanceSqlHaStandbyDetectionsError =
  * Prerequisites for using SQL Server High Availability instance standby detection.
  */
 export const enableInstanceSqlHaStandbyDetections: API.OperationMethod<
-  EnableInstanceSqlHaStandbyDetectionsRequest,
+  EnableInstanceSqlHaStandbyDetectionsRequest & RegionInput,
   EnableInstanceSqlHaStandbyDetectionsResult,
   EnableInstanceSqlHaStandbyDetectionsError,
   Credentials | HttpClient.HttpClient
@@ -39157,7 +39164,7 @@ export type EnableIpamInternetRegistryAssociationError = CommonErrors;
  * Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry.
  */
 export const enableIpamInternetRegistryAssociation: API.OperationMethod<
-  EnableIpamInternetRegistryAssociationRequest,
+  EnableIpamInternetRegistryAssociationRequest & RegionInput,
   EnableIpamInternetRegistryAssociationResult,
   EnableIpamInternetRegistryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -39181,7 +39188,7 @@ export type EnableIpamOrganizationAdminAccountError =
  * Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
 export const enableIpamOrganizationAdminAccount: API.OperationMethod<
-  EnableIpamOrganizationAdminAccountRequest,
+  EnableIpamOrganizationAdminAccountRequest & RegionInput,
   EnableIpamOrganizationAdminAccountResult,
   EnableIpamOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -39210,7 +39217,7 @@ export type EnableIpamPolicyError =
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
 export const enableIpamPolicy: API.OperationMethod<
-  EnableIpamPolicyRequest,
+  EnableIpamPolicyRequest & RegionInput,
   EnableIpamPolicyResult,
   EnableIpamPolicyError,
   Credentials | HttpClient.HttpClient
@@ -39240,7 +39247,7 @@ export type EnableReachabilityAnalyzerOrganizationSharingError = CommonErrors;
  * from the member accounts.
  */
 export const enableReachabilityAnalyzerOrganizationSharing: API.OperationMethod<
-  EnableReachabilityAnalyzerOrganizationSharingRequest,
+  EnableReachabilityAnalyzerOrganizationSharingRequest & RegionInput,
   EnableReachabilityAnalyzerOrganizationSharingResult,
   EnableReachabilityAnalyzerOrganizationSharingError,
   Credentials | HttpClient.HttpClient
@@ -39276,7 +39283,7 @@ export type EnableRouteServerPropagationError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const enableRouteServerPropagation: API.OperationMethod<
-  EnableRouteServerPropagationRequest,
+  EnableRouteServerPropagationRequest & RegionInput,
   EnableRouteServerPropagationResult,
   EnableRouteServerPropagationError,
   Credentials | HttpClient.HttpClient
@@ -39298,7 +39305,7 @@ export type EnableSerialConsoleAccessError = CommonErrors;
  * in the *Amazon EC2 User Guide*.
  */
 export const enableSerialConsoleAccess: API.OperationMethod<
-  EnableSerialConsoleAccessRequest,
+  EnableSerialConsoleAccessRequest & RegionInput,
   EnableSerialConsoleAccessResult,
   EnableSerialConsoleAccessError,
   Credentials | HttpClient.HttpClient
@@ -39339,7 +39346,7 @@ export type EnableSnapshotBlockPublicAccessError =
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
 export const enableSnapshotBlockPublicAccess: API.OperationMethod<
-  EnableSnapshotBlockPublicAccessRequest,
+  EnableSnapshotBlockPublicAccessRequest & RegionInput,
   EnableSnapshotBlockPublicAccessResult,
   EnableSnapshotBlockPublicAccessError,
   Credentials | HttpClient.HttpClient
@@ -39364,7 +39371,7 @@ export type EnableTransitGatewayRouteTablePropagationError =
  * propagation route table.
  */
 export const enableTransitGatewayRouteTablePropagation: API.OperationMethod<
-  EnableTransitGatewayRouteTablePropagationRequest,
+  EnableTransitGatewayRouteTablePropagationRequest & RegionInput,
   EnableTransitGatewayRouteTablePropagationResult,
   EnableTransitGatewayRouteTablePropagationError,
   Credentials | HttpClient.HttpClient
@@ -39389,7 +39396,7 @@ export type EnableVgwRoutePropagationError =
  * table of a VPC.
  */
 export const enableVgwRoutePropagation: API.OperationMethod<
-  EnableVgwRoutePropagationRequest,
+  EnableVgwRoutePropagationRequest & RegionInput,
   EnableVgwRoutePropagationResponse,
   EnableVgwRoutePropagationError,
   Credentials | HttpClient.HttpClient
@@ -39410,7 +39417,7 @@ export type EnableVolumeIOError = CommonErrors;
  * the volume was potentially inconsistent.
  */
 export const enableVolumeIO: API.OperationMethod<
-  EnableVolumeIORequest,
+  EnableVolumeIORequest & RegionInput,
   EnableVolumeIOResponse,
   EnableVolumeIOError,
   Credentials | HttpClient.HttpClient
@@ -39442,7 +39449,7 @@ export type EnableVpcClassicLinkError =
  * ranges.
  */
 export const enableVpcClassicLink: API.OperationMethod<
-  EnableVpcClassicLinkRequest,
+  EnableVpcClassicLinkRequest & RegionInput,
   EnableVpcClassicLinkResult,
   EnableVpcClassicLinkError,
   Credentials | HttpClient.HttpClient
@@ -39480,7 +39487,7 @@ export type EnableVpcClassicLinkDnsSupportError =
  * You must specify a VPC ID in the request.
  */
 export const enableVpcClassicLinkDnsSupport: API.OperationMethod<
-  EnableVpcClassicLinkDnsSupportRequest,
+  EnableVpcClassicLinkDnsSupportRequest & RegionInput,
   EnableVpcClassicLinkDnsSupportResult,
   EnableVpcClassicLinkDnsSupportError,
   Credentials | HttpClient.HttpClient
@@ -39504,7 +39511,7 @@ export type ExportClientVpnClientCertificateRevocationListError =
  * Downloads the client certificate revocation list for the specified Client VPN endpoint.
  */
 export const exportClientVpnClientCertificateRevocationList: API.OperationMethod<
-  ExportClientVpnClientCertificateRevocationListRequest,
+  ExportClientVpnClientCertificateRevocationListRequest & RegionInput,
   ExportClientVpnClientCertificateRevocationListResult,
   ExportClientVpnClientCertificateRevocationListError,
   Credentials | HttpClient.HttpClient
@@ -39538,7 +39545,7 @@ export type ExportClientVpnClientConfigurationError =
  * with the Client VPN endpoint.
  */
 export const exportClientVpnClientConfiguration: API.OperationMethod<
-  ExportClientVpnClientConfigurationRequest,
+  ExportClientVpnClientConfigurationRequest & RegionInput,
   ExportClientVpnClientConfigurationResult,
   ExportClientVpnClientConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -39564,7 +39571,7 @@ export type ExportImageError =
  * *VM Import/Export User Guide*.
  */
 export const exportImage: API.OperationMethod<
-  ExportImageRequest,
+  ExportImageRequest & RegionInput,
   ExportImageResult,
   ExportImageError,
   Credentials | HttpClient.HttpClient
@@ -39593,7 +39600,7 @@ export type ExportTransitGatewayRoutesError =
  * to Amazon S3 in the *Amazon Web Services Transit Gateways Guide*.
  */
 export const exportTransitGatewayRoutes: API.OperationMethod<
-  ExportTransitGatewayRoutesRequest,
+  ExportTransitGatewayRoutesRequest & RegionInput,
   ExportTransitGatewayRoutesResult,
   ExportTransitGatewayRoutesError,
   Credentials | HttpClient.HttpClient
@@ -39617,7 +39624,7 @@ export type ExportVerifiedAccessInstanceClientConfigurationError =
  * Exports the client configuration for a Verified Access instance.
  */
 export const exportVerifiedAccessInstanceClientConfiguration: API.OperationMethod<
-  ExportVerifiedAccessInstanceClientConfigurationRequest,
+  ExportVerifiedAccessInstanceClientConfigurationRequest & RegionInput,
   ExportVerifiedAccessInstanceClientConfigurationResult,
   ExportVerifiedAccessInstanceClientConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -39649,7 +39656,7 @@ export type GetActiveVpnTunnelStatusError =
  * Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms.
  */
 export const getActiveVpnTunnelStatus: API.OperationMethod<
-  GetActiveVpnTunnelStatusRequest,
+  GetActiveVpnTunnelStatusRequest & RegionInput,
   GetActiveVpnTunnelStatusResult,
   GetActiveVpnTunnelStatusError,
   Credentials | HttpClient.HttpClient
@@ -39678,7 +39685,7 @@ export type GetAllowedImagesSettingsError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const getAllowedImagesSettings: API.OperationMethod<
-  GetAllowedImagesSettingsRequest,
+  GetAllowedImagesSettingsRequest & RegionInput,
   GetAllowedImagesSettingsResult,
   GetAllowedImagesSettingsError,
   Credentials | HttpClient.HttpClient
@@ -39705,7 +39712,7 @@ export type GetAssociatedEnclaveCertificateIamRolesError =
  * that's used to encrypt the private key.
  */
 export const getAssociatedEnclaveCertificateIamRoles: API.OperationMethod<
-  GetAssociatedEnclaveCertificateIamRolesRequest,
+  GetAssociatedEnclaveCertificateIamRolesRequest & RegionInput,
   GetAssociatedEnclaveCertificateIamRolesResult,
   GetAssociatedEnclaveCertificateIamRolesError,
   Credentials | HttpClient.HttpClient
@@ -39729,7 +39736,7 @@ export type GetAssociatedIpv6PoolCidrsError =
  * Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
  */
 export const getAssociatedIpv6PoolCidrs: API.PaginatedOperationMethod<
-  GetAssociatedIpv6PoolCidrsRequest,
+  GetAssociatedIpv6PoolCidrsRequest & RegionInput,
   GetAssociatedIpv6PoolCidrsResult,
   GetAssociatedIpv6PoolCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -39760,7 +39767,7 @@ export type GetAwsNetworkPerformanceDataError =
  * Gets network performance data.
  */
 export const getAwsNetworkPerformanceData: API.PaginatedOperationMethod<
-  GetAwsNetworkPerformanceDataRequest,
+  GetAwsNetworkPerformanceDataRequest & RegionInput,
   GetAwsNetworkPerformanceDataResult,
   GetAwsNetworkPerformanceDataError,
   Credentials | HttpClient.HttpClient,
@@ -39787,7 +39794,7 @@ export type GetCapacityManagerAttributesError = CommonErrors;
  * Retrieves the current configuration and status of EC2 Capacity Manager for your account, including enablement status, Organizations access settings, and data ingestion status.
  */
 export const getCapacityManagerAttributes: API.OperationMethod<
-  GetCapacityManagerAttributesRequest,
+  GetCapacityManagerAttributesRequest & RegionInput,
   GetCapacityManagerAttributesResult,
   GetCapacityManagerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -39812,7 +39819,7 @@ export type GetCapacityManagerMetricDataError =
  * across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family.
  */
 export const getCapacityManagerMetricData: API.PaginatedOperationMethod<
-  GetCapacityManagerMetricDataRequest,
+  GetCapacityManagerMetricDataRequest & RegionInput,
   GetCapacityManagerMetricDataResult,
   GetCapacityManagerMetricDataError,
   Credentials | HttpClient.HttpClient,
@@ -39844,7 +39851,7 @@ export type GetCapacityManagerMetricDimensionsError =
  * regions, instance families, and other dimensions have data available for filtering and grouping.
  */
 export const getCapacityManagerMetricDimensions: API.PaginatedOperationMethod<
-  GetCapacityManagerMetricDimensionsRequest,
+  GetCapacityManagerMetricDimensionsRequest & RegionInput,
   GetCapacityManagerMetricDimensionsResult,
   GetCapacityManagerMetricDimensionsError,
   Credentials | HttpClient.HttpClient,
@@ -39871,7 +39878,7 @@ export type GetCapacityManagerMonitoredTagKeysError = CommonErrors;
  * Retrieves the tag keys that are currently being monitored by EC2 Capacity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
  */
 export const getCapacityManagerMonitoredTagKeys: API.PaginatedOperationMethod<
-  GetCapacityManagerMonitoredTagKeysRequest,
+  GetCapacityManagerMonitoredTagKeysRequest & RegionInput,
   GetCapacityManagerMonitoredTagKeysResult,
   GetCapacityManagerMonitoredTagKeysError,
   Credentials | HttpClient.HttpClient,
@@ -39904,7 +39911,7 @@ export type GetCapacityReservationUsageError =
  * Reservation is not shared, it shows only the Capacity Reservation owner's usage.
  */
 export const getCapacityReservationUsage: API.OperationMethod<
-  GetCapacityReservationUsageRequest,
+  GetCapacityReservationUsageRequest & RegionInput,
   GetCapacityReservationUsageResult,
   GetCapacityReservationUsageError,
   Credentials | HttpClient.HttpClient
@@ -39924,7 +39931,7 @@ export type GetClientVpnEndpointAuthorizationPolicyError = CommonErrors;
  * Describes the authorization policy for a Client VPN endpoint.
  */
 export const getClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
-  GetClientVpnEndpointAuthorizationPolicyRequest,
+  GetClientVpnEndpointAuthorizationPolicyRequest & RegionInput,
   GetClientVpnEndpointAuthorizationPolicyResult,
   GetClientVpnEndpointAuthorizationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -39948,7 +39955,7 @@ export type GetCoipPoolUsageError =
  * Describes the allocations from the specified customer-owned address pool.
  */
 export const getCoipPoolUsage: API.OperationMethod<
-  GetCoipPoolUsageRequest,
+  GetCoipPoolUsageRequest & RegionInput,
   GetCoipPoolUsageResult,
   GetCoipPoolUsageError,
   Credentials | HttpClient.HttpClient
@@ -39979,7 +39986,7 @@ export type GetConsoleOutputError =
  * console output in the *Amazon EC2 User Guide*.
  */
 export const getConsoleOutput: API.OperationMethod<
-  GetConsoleOutputRequest,
+  GetConsoleOutputRequest & RegionInput,
   GetConsoleOutputResult,
   GetConsoleOutputError,
   Credentials | HttpClient.HttpClient
@@ -40014,7 +40021,7 @@ export type GetConsoleScreenshotError =
  * For more information, see Instance console output in the *Amazon EC2 User Guide*.
  */
 export const getConsoleScreenshot: API.OperationMethod<
-  GetConsoleScreenshotRequest,
+  GetConsoleScreenshotRequest & RegionInput,
   GetConsoleScreenshotResult,
   GetConsoleScreenshotError,
   Credentials | HttpClient.HttpClient
@@ -40053,7 +40060,7 @@ export type GetDeclarativePoliciesReportSummaryError =
  * *Amazon Web Services Organizations User Guide*.
  */
 export const getDeclarativePoliciesReportSummary: API.OperationMethod<
-  GetDeclarativePoliciesReportSummaryRequest,
+  GetDeclarativePoliciesReportSummaryRequest & RegionInput,
   GetDeclarativePoliciesReportSummaryResult,
   GetDeclarativePoliciesReportSummaryError,
   Credentials | HttpClient.HttpClient
@@ -40085,7 +40092,7 @@ export type GetDefaultCreditSpecificationError =
  * performance instances in the *Amazon EC2 User Guide*.
  */
 export const getDefaultCreditSpecification: API.OperationMethod<
-  GetDefaultCreditSpecificationRequest,
+  GetDefaultCreditSpecificationRequest & RegionInput,
   GetDefaultCreditSpecificationResult,
   GetDefaultCreditSpecificationError,
   Credentials | HttpClient.HttpClient
@@ -40108,7 +40115,7 @@ export type GetEbsDefaultKmsKeyIdError = CommonErrors;
  * in the *Amazon EBS User Guide*.
  */
 export const getEbsDefaultKmsKeyId: API.OperationMethod<
-  GetEbsDefaultKmsKeyIdRequest,
+  GetEbsDefaultKmsKeyIdRequest & RegionInput,
   GetEbsDefaultKmsKeyIdResult,
   GetEbsDefaultKmsKeyIdError,
   Credentials | HttpClient.HttpClient
@@ -40132,7 +40139,7 @@ export type GetEbsEncryptionByDefaultError = CommonErrors;
  * in the *Amazon EBS User Guide*.
  */
 export const getEbsEncryptionByDefault: API.OperationMethod<
-  GetEbsEncryptionByDefaultRequest,
+  GetEbsEncryptionByDefaultRequest & RegionInput,
   GetEbsEncryptionByDefaultResult,
   GetEbsEncryptionByDefaultError,
   Credentials | HttpClient.HttpClient
@@ -40154,7 +40161,7 @@ export type GetEnabledIpamPolicyError = CommonErrors;
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
 export const getEnabledIpamPolicy: API.OperationMethod<
-  GetEnabledIpamPolicyRequest,
+  GetEnabledIpamPolicyRequest & RegionInput,
   GetEnabledIpamPolicyResult,
   GetEnabledIpamPolicyError,
   Credentials | HttpClient.HttpClient
@@ -40188,7 +40195,7 @@ export type GetFlowLogsIntegrationTemplateError = CommonErrors;
  * Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
  */
 export const getFlowLogsIntegrationTemplate: API.OperationMethod<
-  GetFlowLogsIntegrationTemplateRequest,
+  GetFlowLogsIntegrationTemplateRequest & RegionInput,
   GetFlowLogsIntegrationTemplateResult,
   GetFlowLogsIntegrationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -40212,7 +40219,7 @@ export type GetGroupsForCapacityReservationError =
  * Lists the resource groups to which a Capacity Reservation has been added.
  */
 export const getGroupsForCapacityReservation: API.PaginatedOperationMethod<
-  GetGroupsForCapacityReservationRequest,
+  GetGroupsForCapacityReservationRequest & RegionInput,
   GetGroupsForCapacityReservationResult,
   GetGroupsForCapacityReservationError,
   Credentials | HttpClient.HttpClient,
@@ -40244,7 +40251,7 @@ export type GetHostReservationPurchasePreviewError = CommonErrors;
  * result in the offering being purchased.
  */
 export const getHostReservationPurchasePreview: API.OperationMethod<
-  GetHostReservationPurchasePreviewRequest,
+  GetHostReservationPurchasePreviewRequest & RegionInput,
   GetHostReservationPurchasePreviewResult,
   GetHostReservationPurchasePreviewError,
   Credentials | HttpClient.HttpClient
@@ -40270,7 +40277,7 @@ export type GetImageAncestryError =
  * *Amazon EC2 User Guide*.
  */
 export const getImageAncestry: API.OperationMethod<
-  GetImageAncestryRequest,
+  GetImageAncestryRequest & RegionInput,
   GetImageAncestryResult,
   GetImageAncestryError,
   Credentials | HttpClient.HttpClient
@@ -40294,7 +40301,7 @@ export type GetImageBlockPublicAccessStateError = CommonErrors;
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
 export const getImageBlockPublicAccessState: API.OperationMethod<
-  GetImageBlockPublicAccessStateRequest,
+  GetImageBlockPublicAccessStateRequest & RegionInput,
   GetImageBlockPublicAccessStateResult,
   GetImageBlockPublicAccessStateError,
   Credentials | HttpClient.HttpClient
@@ -40318,7 +40325,7 @@ export type GetInstanceMetadataDefaultsError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const getInstanceMetadataDefaults: API.OperationMethod<
-  GetInstanceMetadataDefaultsRequest,
+  GetInstanceMetadataDefaultsRequest & RegionInput,
   GetInstanceMetadataDefaultsResult,
   GetInstanceMetadataDefaultsError,
   Credentials | HttpClient.HttpClient
@@ -40343,7 +40350,7 @@ export type GetInstanceTpmEkPubError =
  * Platform Module (NitroTPM) for the specified instance.
  */
 export const getInstanceTpmEkPub: API.OperationMethod<
-  GetInstanceTpmEkPubRequest,
+  GetInstanceTpmEkPubRequest & RegionInput,
   GetInstanceTpmEkPubResult,
   GetInstanceTpmEkPubError,
   Credentials | HttpClient.HttpClient
@@ -40378,7 +40385,7 @@ export type GetInstanceTypesFromInstanceRequirementsError =
  * *Amazon EC2 Auto Scaling User Guide*.
  */
 export const getInstanceTypesFromInstanceRequirements: API.PaginatedOperationMethod<
-  GetInstanceTypesFromInstanceRequirementsRequest,
+  GetInstanceTypesFromInstanceRequirementsRequest & RegionInput,
   GetInstanceTypesFromInstanceRequirementsResult,
   GetInstanceTypesFromInstanceRequirementsError,
   Credentials | HttpClient.HttpClient,
@@ -40421,7 +40428,7 @@ export type GetInstanceUefiDataError =
  * *Amazon EC2 User Guide*.
  */
 export const getInstanceUefiData: API.OperationMethod<
-  GetInstanceUefiDataRequest,
+  GetInstanceUefiDataRequest & RegionInput,
   GetInstanceUefiDataResult,
   GetInstanceUefiDataError,
   Credentials | HttpClient.HttpClient
@@ -40445,7 +40452,7 @@ export type GetIpamAddressHistoryError =
  * Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the *Amazon VPC IPAM User Guide*.
  */
 export const getIpamAddressHistory: API.PaginatedOperationMethod<
-  GetIpamAddressHistoryRequest,
+  GetIpamAddressHistoryRequest & RegionInput,
   GetIpamAddressHistoryResult,
   GetIpamAddressHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -40477,7 +40484,7 @@ export type GetIpamDiscoveredAccountsError =
  * Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
  */
 export const getIpamDiscoveredAccounts: API.PaginatedOperationMethod<
-  GetIpamDiscoveredAccountsRequest,
+  GetIpamDiscoveredAccountsRequest & RegionInput,
   GetIpamDiscoveredAccountsResult,
   GetIpamDiscoveredAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -40514,7 +40521,7 @@ export type GetIpamDiscoveredPublicAddressesError =
  * Gets the public IP addresses that have been discovered by IPAM.
  */
 export const getIpamDiscoveredPublicAddresses: API.OperationMethod<
-  GetIpamDiscoveredPublicAddressesRequest,
+  GetIpamDiscoveredPublicAddressesRequest & RegionInput,
   GetIpamDiscoveredPublicAddressesResult,
   GetIpamDiscoveredPublicAddressesError,
   Credentials | HttpClient.HttpClient
@@ -40544,7 +40551,7 @@ export type GetIpamDiscoveredResourceCidrsError =
  * Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
  */
 export const getIpamDiscoveredResourceCidrs: API.PaginatedOperationMethod<
-  GetIpamDiscoveredResourceCidrsRequest,
+  GetIpamDiscoveredResourceCidrsRequest & RegionInput,
   GetIpamDiscoveredResourceCidrsResult,
   GetIpamDiscoveredResourceCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -40576,7 +40583,7 @@ export type GetIpamDiscoveredRoutesError = CommonErrors;
  * Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM resource discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamDiscoveredRoutes: API.OperationMethod<
-  GetIpamDiscoveredRoutesRequest,
+  GetIpamDiscoveredRoutesRequest & RegionInput,
   GetIpamDiscoveredRoutesResult,
   GetIpamDiscoveredRoutesError,
   Credentials | HttpClient.HttpClient
@@ -40596,7 +40603,7 @@ export type GetIpamInternetRegistryAssociationAsnsError = CommonErrors;
  * Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamInternetRegistryAssociationAsns: API.OperationMethod<
-  GetIpamInternetRegistryAssociationAsnsRequest,
+  GetIpamInternetRegistryAssociationAsnsRequest & RegionInput,
   GetIpamInternetRegistryAssociationAsnsResult,
   GetIpamInternetRegistryAssociationAsnsError,
   Credentials | HttpClient.HttpClient
@@ -40616,7 +40623,7 @@ export type GetIpamInternetRegistryAssociationCidrsError = CommonErrors;
  * Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamInternetRegistryAssociationCidrs: API.OperationMethod<
-  GetIpamInternetRegistryAssociationCidrsRequest,
+  GetIpamInternetRegistryAssociationCidrsRequest & RegionInput,
   GetIpamInternetRegistryAssociationCidrsResult,
   GetIpamInternetRegistryAssociationCidrsError,
   Credentials | HttpClient.HttpClient
@@ -40645,7 +40652,7 @@ export type GetIpamPolicyAllocationRulesError =
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
 export const getIpamPolicyAllocationRules: API.OperationMethod<
-  GetIpamPolicyAllocationRulesRequest,
+  GetIpamPolicyAllocationRulesRequest & RegionInput,
   GetIpamPolicyAllocationRulesResult,
   GetIpamPolicyAllocationRulesError,
   Credentials | HttpClient.HttpClient
@@ -40679,7 +40686,7 @@ export type GetIpamPolicyOrganizationTargetsError =
  * A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
  */
 export const getIpamPolicyOrganizationTargets: API.OperationMethod<
-  GetIpamPolicyOrganizationTargetsRequest,
+  GetIpamPolicyOrganizationTargetsRequest & RegionInput,
   GetIpamPolicyOrganizationTargetsResult,
   GetIpamPolicyOrganizationTargetsError,
   Credentials | HttpClient.HttpClient
@@ -40711,7 +40718,7 @@ export type GetIpamPoolAllocationsError =
  * If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation, note that all EC2 API actions follow an eventual consistency model.
  */
 export const getIpamPoolAllocations: API.PaginatedOperationMethod<
-  GetIpamPoolAllocationsRequest,
+  GetIpamPoolAllocationsRequest & RegionInput,
   GetIpamPoolAllocationsResult,
   GetIpamPoolAllocationsError,
   Credentials | HttpClient.HttpClient,
@@ -40748,7 +40755,7 @@ export type GetIpamPoolCidrsError =
  * Get the CIDRs provisioned to an IPAM pool.
  */
 export const getIpamPoolCidrs: API.PaginatedOperationMethod<
-  GetIpamPoolCidrsRequest,
+  GetIpamPoolCidrsRequest & RegionInput,
   GetIpamPoolCidrsResult,
   GetIpamPoolCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -40785,7 +40792,7 @@ export type GetIpamPrefixListResolverRulesError =
  * Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists.
  */
 export const getIpamPrefixListResolverRules: API.PaginatedOperationMethod<
-  GetIpamPrefixListResolverRulesRequest,
+  GetIpamPrefixListResolverRulesRequest & RegionInput,
   GetIpamPrefixListResolverRulesResult,
   GetIpamPrefixListResolverRulesError,
   Credentials | HttpClient.HttpClient,
@@ -40821,7 +40828,7 @@ export type GetIpamPrefixListResolverVersionEntriesError =
  * Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and synchronized at a particular point in time.
  */
 export const getIpamPrefixListResolverVersionEntries: API.PaginatedOperationMethod<
-  GetIpamPrefixListResolverVersionEntriesRequest,
+  GetIpamPrefixListResolverVersionEntriesRequest & RegionInput,
   GetIpamPrefixListResolverVersionEntriesResult,
   GetIpamPrefixListResolverVersionEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -40880,7 +40887,7 @@ export type GetIpamPrefixListResolverVersionsError =
  * **Version 2 CIDRs:** 10.1.0.0/16, 10.2.0.0/16, 10.3.0.0/16
  */
 export const getIpamPrefixListResolverVersions: API.PaginatedOperationMethod<
-  GetIpamPrefixListResolverVersionsRequest,
+  GetIpamPrefixListResolverVersionsRequest & RegionInput,
   GetIpamPrefixListResolverVersionsResult,
   GetIpamPrefixListResolverVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -40917,7 +40924,7 @@ export type GetIpamResourceCidrsError =
  * Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const getIpamResourceCidrs: API.PaginatedOperationMethod<
-  GetIpamResourceCidrsRequest,
+  GetIpamResourceCidrsRequest & RegionInput,
   GetIpamResourceCidrsResult,
   GetIpamResourceCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -40949,7 +40956,7 @@ export type GetIpamRouteOriginAuthorizationsError = CommonErrors;
  * Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamRouteOriginAuthorizations: API.OperationMethod<
-  GetIpamRouteOriginAuthorizationsRequest,
+  GetIpamRouteOriginAuthorizationsRequest & RegionInput,
   GetIpamRouteOriginAuthorizationsResult,
   GetIpamRouteOriginAuthorizationsError,
   Credentials | HttpClient.HttpClient
@@ -40969,7 +40976,7 @@ export type GetIpamRouteProtectionFindingsError = CommonErrors;
  * Retrieves route protection findings for an IPAM. Route protection findings show the Resource Public Key Infrastructure (RPKI) validation status of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamRouteProtectionFindings: API.OperationMethod<
-  GetIpamRouteProtectionFindingsRequest,
+  GetIpamRouteProtectionFindingsRequest & RegionInput,
   GetIpamRouteProtectionFindingsResult,
   GetIpamRouteProtectionFindingsError,
   Credentials | HttpClient.HttpClient
@@ -40989,7 +40996,7 @@ export type GetIpamRoutingPolicyRegistrationDeltasError = CommonErrors;
  * Retrieves the history of routing policy registration changes for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamRoutingPolicyRegistrationDeltas: API.OperationMethod<
-  GetIpamRoutingPolicyRegistrationDeltasRequest,
+  GetIpamRoutingPolicyRegistrationDeltasRequest & RegionInput,
   GetIpamRoutingPolicyRegistrationDeltasResult,
   GetIpamRoutingPolicyRegistrationDeltasError,
   Credentials | HttpClient.HttpClient
@@ -41009,7 +41016,7 @@ export type GetIpamRoutingPolicyRegistrationsError = CommonErrors;
  * Retrieves routing policy registrations for an IPAM internet registry association. Each registration represents a Route Origin Authorization (ROA) that has been created or is pending publication to the RPKI. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getIpamRoutingPolicyRegistrations: API.OperationMethod<
-  GetIpamRoutingPolicyRegistrationsRequest,
+  GetIpamRoutingPolicyRegistrationsRequest & RegionInput,
   GetIpamRoutingPolicyRegistrationsResult,
   GetIpamRoutingPolicyRegistrationsError,
   Credentials | HttpClient.HttpClient
@@ -41041,7 +41048,7 @@ export type GetLaunchTemplateDataError =
  * Or, you can allow `describe*` depending on your instance requirements.
  */
 export const getLaunchTemplateData: API.OperationMethod<
-  GetLaunchTemplateDataRequest,
+  GetLaunchTemplateDataRequest & RegionInput,
   GetLaunchTemplateDataResult,
   GetLaunchTemplateDataError,
   Credentials | HttpClient.HttpClient
@@ -41066,7 +41073,7 @@ export type GetManagedPrefixListAssociationsError =
  * Gets information about the resources that are associated with the specified managed prefix list.
  */
 export const getManagedPrefixListAssociations: API.PaginatedOperationMethod<
-  GetManagedPrefixListAssociationsRequest,
+  GetManagedPrefixListAssociationsRequest & RegionInput,
   GetManagedPrefixListAssociationsResult,
   GetManagedPrefixListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -41104,7 +41111,7 @@ export type GetManagedPrefixListEntriesError =
  * Gets information about the entries for a specified managed prefix list.
  */
 export const getManagedPrefixListEntries: API.PaginatedOperationMethod<
-  GetManagedPrefixListEntriesRequest,
+  GetManagedPrefixListEntriesRequest & RegionInput,
   GetManagedPrefixListEntriesResult,
   GetManagedPrefixListEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -41138,7 +41145,7 @@ export type GetManagedResourceVisibilityError = CommonErrors;
  * indicates whether managed resources are hidden or visible by default.
  */
 export const getManagedResourceVisibility: API.OperationMethod<
-  GetManagedResourceVisibilityRequest,
+  GetManagedResourceVisibilityRequest & RegionInput,
   GetManagedResourceVisibilityResult,
   GetManagedResourceVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -41162,7 +41169,7 @@ export type GetNetworkInsightsAccessScopeAnalysisFindingsError =
  * Gets the findings for the specified Network Access Scope analysis.
  */
 export const getNetworkInsightsAccessScopeAnalysisFindings: API.PaginatedOperationMethod<
-  GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  GetNetworkInsightsAccessScopeAnalysisFindingsRequest & RegionInput,
   GetNetworkInsightsAccessScopeAnalysisFindingsResult,
   GetNetworkInsightsAccessScopeAnalysisFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -41201,7 +41208,7 @@ export type GetNetworkInsightsAccessScopeContentError =
  * Gets the content for the specified Network Access Scope.
  */
 export const getNetworkInsightsAccessScopeContent: API.OperationMethod<
-  GetNetworkInsightsAccessScopeContentRequest,
+  GetNetworkInsightsAccessScopeContentRequest & RegionInput,
   GetNetworkInsightsAccessScopeContentResult,
   GetNetworkInsightsAccessScopeContentError,
   Credentials | HttpClient.HttpClient
@@ -41242,7 +41249,7 @@ export type GetPasswordDataError =
  * before trying to retrieve the generated password.
  */
 export const getPasswordData: API.OperationMethod<
-  GetPasswordDataRequest,
+  GetPasswordDataRequest & RegionInput,
   GetPasswordDataResult,
   GetPasswordDataError,
   Credentials | HttpClient.HttpClient
@@ -41273,7 +41280,7 @@ export type GetReservedInstancesExchangeQuoteError =
  * performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange.
  */
 export const getReservedInstancesExchangeQuote: API.OperationMethod<
-  GetReservedInstancesExchangeQuoteRequest,
+  GetReservedInstancesExchangeQuoteRequest & RegionInput,
   GetReservedInstancesExchangeQuoteResult,
   GetReservedInstancesExchangeQuoteError,
   Credentials | HttpClient.HttpClient
@@ -41301,7 +41308,7 @@ export type GetRouteServerAssociationsError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const getRouteServerAssociations: API.OperationMethod<
-  GetRouteServerAssociationsRequest,
+  GetRouteServerAssociationsRequest & RegionInput,
   GetRouteServerAssociationsResult,
   GetRouteServerAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -41340,7 +41347,7 @@ export type GetRouteServerPropagationsError =
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
 export const getRouteServerPropagations: API.OperationMethod<
-  GetRouteServerPropagationsRequest,
+  GetRouteServerPropagationsRequest & RegionInput,
   GetRouteServerPropagationsResult,
   GetRouteServerPropagationsError,
   Credentials | HttpClient.HttpClient
@@ -41377,7 +41384,7 @@ export type GetRouteServerRoutingDatabaseError =
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
 export const getRouteServerRoutingDatabase: API.OperationMethod<
-  GetRouteServerRoutingDatabaseRequest,
+  GetRouteServerRoutingDatabaseRequest & RegionInput,
   GetRouteServerRoutingDatabaseResult,
   GetRouteServerRoutingDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -41402,7 +41409,7 @@ export type GetSecurityGroupsForVpcError =
  * Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
  */
 export const getSecurityGroupsForVpc: API.PaginatedOperationMethod<
-  GetSecurityGroupsForVpcRequest,
+  GetSecurityGroupsForVpcRequest & RegionInput,
   GetSecurityGroupsForVpcResult,
   GetSecurityGroupsForVpcError,
   Credentials | HttpClient.HttpClient,
@@ -41432,7 +41439,7 @@ export type GetSerialConsoleAccessStatusError = CommonErrors;
  * User Guide.
  */
 export const getSerialConsoleAccessStatus: API.OperationMethod<
-  GetSerialConsoleAccessStatusRequest,
+  GetSerialConsoleAccessStatusRequest & RegionInput,
   GetSerialConsoleAccessStatusResult,
   GetSerialConsoleAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -41456,7 +41463,7 @@ export type GetSnapshotBlockPublicAccessStateError = CommonErrors;
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
 export const getSnapshotBlockPublicAccessState: API.OperationMethod<
-  GetSnapshotBlockPublicAccessStateRequest,
+  GetSnapshotBlockPublicAccessStateRequest & RegionInput,
   GetSnapshotBlockPublicAccessStateResult,
   GetSnapshotBlockPublicAccessStateError,
   Credentials | HttpClient.HttpClient
@@ -41485,7 +41492,7 @@ export type GetSpotPlacementScoresError = CommonErrors;
  * the *Amazon EC2 User Guide*.
  */
 export const getSpotPlacementScores: API.PaginatedOperationMethod<
-  GetSpotPlacementScoresRequest,
+  GetSpotPlacementScoresRequest & RegionInput,
   GetSpotPlacementScoresResult,
   GetSpotPlacementScoresError,
   Credentials | HttpClient.HttpClient,
@@ -41517,7 +41524,7 @@ export type GetSubnetCidrReservationsError =
  * Gets information about the subnet CIDR reservations.
  */
 export const getSubnetCidrReservations: API.OperationMethod<
-  GetSubnetCidrReservationsRequest,
+  GetSubnetCidrReservationsRequest & RegionInput,
   GetSubnetCidrReservationsResult,
   GetSubnetCidrReservationsError,
   Credentials | HttpClient.HttpClient
@@ -41541,7 +41548,7 @@ export type GetTransitGatewayAttachmentPropagationsError =
  * Lists the route tables to which the specified resource attachment propagates routes.
  */
 export const getTransitGatewayAttachmentPropagations: API.PaginatedOperationMethod<
-  GetTransitGatewayAttachmentPropagationsRequest,
+  GetTransitGatewayAttachmentPropagationsRequest & RegionInput,
   GetTransitGatewayAttachmentPropagationsResult,
   GetTransitGatewayAttachmentPropagationsError,
   Credentials | HttpClient.HttpClient,
@@ -41573,7 +41580,7 @@ export type GetTransitGatewayMeteringPolicyEntriesError =
  * Retrieves the entries for a transit gateway metering policy.
  */
 export const getTransitGatewayMeteringPolicyEntries: API.OperationMethod<
-  GetTransitGatewayMeteringPolicyEntriesRequest,
+  GetTransitGatewayMeteringPolicyEntriesRequest & RegionInput,
   GetTransitGatewayMeteringPolicyEntriesResult,
   GetTransitGatewayMeteringPolicyEntriesError,
   Credentials | HttpClient.HttpClient
@@ -41604,7 +41611,7 @@ export type GetTransitGatewayMulticastDomainAssociationsError =
  * Gets information about the associations for the transit gateway multicast domain.
  */
 export const getTransitGatewayMulticastDomainAssociations: API.PaginatedOperationMethod<
-  GetTransitGatewayMulticastDomainAssociationsRequest,
+  GetTransitGatewayMulticastDomainAssociationsRequest & RegionInput,
   GetTransitGatewayMulticastDomainAssociationsResult,
   GetTransitGatewayMulticastDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -41650,7 +41657,7 @@ export type GetTransitGatewayPolicyTableAssociationsError =
  * Gets a list of the transit gateway policy table associations.
  */
 export const getTransitGatewayPolicyTableAssociations: API.PaginatedOperationMethod<
-  GetTransitGatewayPolicyTableAssociationsRequest,
+  GetTransitGatewayPolicyTableAssociationsRequest & RegionInput,
   GetTransitGatewayPolicyTableAssociationsResult,
   GetTransitGatewayPolicyTableAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -41687,7 +41694,7 @@ export type GetTransitGatewayPolicyTableEntriesError =
  * Returns a list of transit gateway policy table entries.
  */
 export const getTransitGatewayPolicyTableEntries: API.PaginatedOperationMethod<
-  GetTransitGatewayPolicyTableEntriesRequest,
+  GetTransitGatewayPolicyTableEntriesRequest & RegionInput,
   GetTransitGatewayPolicyTableEntriesResult,
   GetTransitGatewayPolicyTableEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -41724,7 +41731,7 @@ export type GetTransitGatewayPrefixListReferencesError =
  * Gets information about the prefix list references in a specified transit gateway route table.
  */
 export const getTransitGatewayPrefixListReferences: API.PaginatedOperationMethod<
-  GetTransitGatewayPrefixListReferencesRequest,
+  GetTransitGatewayPrefixListReferencesRequest & RegionInput,
   GetTransitGatewayPrefixListReferencesResult,
   GetTransitGatewayPrefixListReferencesError,
   Credentials | HttpClient.HttpClient,
@@ -41760,7 +41767,7 @@ export type GetTransitGatewayRouteTableAssociationsError =
  * Gets information about the associations for the specified transit gateway route table.
  */
 export const getTransitGatewayRouteTableAssociations: API.PaginatedOperationMethod<
-  GetTransitGatewayRouteTableAssociationsRequest,
+  GetTransitGatewayRouteTableAssociationsRequest & RegionInput,
   GetTransitGatewayRouteTableAssociationsResult,
   GetTransitGatewayRouteTableAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -41791,7 +41798,7 @@ export type GetTransitGatewayRouteTablePropagationsError =
  * Gets information about the route table propagations for the specified transit gateway route table.
  */
 export const getTransitGatewayRouteTablePropagations: API.PaginatedOperationMethod<
-  GetTransitGatewayRouteTablePropagationsRequest,
+  GetTransitGatewayRouteTablePropagationsRequest & RegionInput,
   GetTransitGatewayRouteTablePropagationsResult,
   GetTransitGatewayRouteTablePropagationsError,
   Credentials | HttpClient.HttpClient,
@@ -41823,7 +41830,7 @@ export type GetVerifiedAccessEndpointPolicyError =
  * Get the Verified Access policy associated with the endpoint.
  */
 export const getVerifiedAccessEndpointPolicy: API.OperationMethod<
-  GetVerifiedAccessEndpointPolicyRequest,
+  GetVerifiedAccessEndpointPolicyRequest & RegionInput,
   GetVerifiedAccessEndpointPolicyResult,
   GetVerifiedAccessEndpointPolicyError,
   Credentials | HttpClient.HttpClient
@@ -41852,7 +41859,7 @@ export type GetVerifiedAccessEndpointTargetsError =
  * Gets the targets for the specified network CIDR endpoint for Verified Access.
  */
 export const getVerifiedAccessEndpointTargets: API.OperationMethod<
-  GetVerifiedAccessEndpointTargetsRequest,
+  GetVerifiedAccessEndpointTargetsRequest & RegionInput,
   GetVerifiedAccessEndpointTargetsResult,
   GetVerifiedAccessEndpointTargetsError,
   Credentials | HttpClient.HttpClient
@@ -41876,7 +41883,7 @@ export type GetVerifiedAccessGroupPolicyError =
  * Shows the contents of the Verified Access policy associated with the group.
  */
 export const getVerifiedAccessGroupPolicy: API.OperationMethod<
-  GetVerifiedAccessGroupPolicyRequest,
+  GetVerifiedAccessGroupPolicyRequest & RegionInput,
   GetVerifiedAccessGroupPolicyResult,
   GetVerifiedAccessGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -41902,7 +41909,7 @@ export type GetVpcResourcesBlockingEncryptionEnforcementError =
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const getVpcResourcesBlockingEncryptionEnforcement: API.OperationMethod<
-  GetVpcResourcesBlockingEncryptionEnforcementRequest,
+  GetVpcResourcesBlockingEncryptionEnforcementRequest & RegionInput,
   GetVpcResourcesBlockingEncryptionEnforcementResult,
   GetVpcResourcesBlockingEncryptionEnforcementError,
   Credentials | HttpClient.HttpClient
@@ -41935,7 +41942,7 @@ export type GetVpnConnectionDeviceSampleConfigurationError =
  * gateway device specified for your Site-to-Site VPN connection.
  */
 export const getVpnConnectionDeviceSampleConfiguration: API.OperationMethod<
-  GetVpnConnectionDeviceSampleConfigurationRequest,
+  GetVpnConnectionDeviceSampleConfigurationRequest & RegionInput,
   GetVpnConnectionDeviceSampleConfigurationResult,
   GetVpnConnectionDeviceSampleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -41958,7 +41965,7 @@ export type GetVpnConnectionDeviceTypesError = CommonErrors;
  * device in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
 export const getVpnConnectionDeviceTypes: API.PaginatedOperationMethod<
-  GetVpnConnectionDeviceTypesRequest,
+  GetVpnConnectionDeviceTypesRequest & RegionInput,
   GetVpnConnectionDeviceTypesResult,
   GetVpnConnectionDeviceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -41989,7 +41996,7 @@ export type GetVpnTunnelReplacementStatusError =
  * Get details of available tunnel endpoint maintenance.
  */
 export const getVpnTunnelReplacementStatus: API.OperationMethod<
-  GetVpnTunnelReplacementStatusRequest,
+  GetVpnTunnelReplacementStatusRequest & RegionInput,
   GetVpnTunnelReplacementStatusResult,
   GetVpnTunnelReplacementStatusError,
   Credentials | HttpClient.HttpClient
@@ -42015,7 +42022,7 @@ export type ImportClientVpnClientCertificateRevocationListError =
  * Uploading a client certificate revocation list resets existing client connections.
  */
 export const importClientVpnClientCertificateRevocationList: API.OperationMethod<
-  ImportClientVpnClientCertificateRevocationListRequest,
+  ImportClientVpnClientCertificateRevocationListRequest & RegionInput,
   ImportClientVpnClientCertificateRevocationListResult,
   ImportClientVpnClientCertificateRevocationListError,
   Credentials | HttpClient.HttpClient
@@ -42061,7 +42068,7 @@ export type ImportImageError =
  * VM as an image using VM Import/Export in the *VM Import/Export User Guide*.
  */
 export const importImage: API.OperationMethod<
-  ImportImageRequest,
+  ImportImageRequest & RegionInput,
   ImportImageResult,
   ImportImageError,
   Credentials | HttpClient.HttpClient
@@ -42098,7 +42105,7 @@ export type ImportInstanceError =
  * This API action is not supported by the Command Line Interface (CLI).
  */
 export const importInstance: API.OperationMethod<
-  ImportInstanceRequest,
+  ImportInstanceRequest & RegionInput,
   ImportInstanceResult,
   ImportInstanceError,
   Credentials | HttpClient.HttpClient
@@ -42125,7 +42132,7 @@ export type ImportKeyPairError =
  * For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the *Amazon EC2 User Guide*.
  */
 export const importKeyPair: API.OperationMethod<
-  ImportKeyPairRequest,
+  ImportKeyPairRequest & RegionInput,
   ImportKeyPairResult,
   ImportKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -42152,7 +42159,7 @@ export type ImportSnapshotError =
  * *VM Import/Export User Guide*.
  */
 export const importSnapshot: API.OperationMethod<
-  ImportSnapshotRequest,
+  ImportSnapshotRequest & RegionInput,
   ImportSnapshotResult,
   ImportSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -42180,7 +42187,7 @@ export type ImportVolumeError = CommonErrors;
  * This API action is not supported by the Command Line Interface (CLI).
  */
 export const importVolume: API.OperationMethod<
-  ImportVolumeRequest,
+  ImportVolumeRequest & RegionInput,
   ImportVolumeResult,
   ImportVolumeError,
   Credentials | HttpClient.HttpClient
@@ -42206,7 +42213,7 @@ export type ListImagesInRecycleBinError =
  * Bin in the *Amazon EC2 User Guide*.
  */
 export const listImagesInRecycleBin: API.PaginatedOperationMethod<
-  ListImagesInRecycleBinRequest,
+  ListImagesInRecycleBinRequest & RegionInput,
   ListImagesInRecycleBinResult,
   ListImagesInRecycleBinError,
   Credentials | HttpClient.HttpClient,
@@ -42237,7 +42244,7 @@ export type ListSnapshotsInRecycleBinError =
  * Lists one or more snapshots that are currently in the Recycle Bin.
  */
 export const listSnapshotsInRecycleBin: API.PaginatedOperationMethod<
-  ListSnapshotsInRecycleBinRequest,
+  ListSnapshotsInRecycleBinRequest & RegionInput,
   ListSnapshotsInRecycleBinResult,
   ListSnapshotsInRecycleBinError,
   Credentials | HttpClient.HttpClient,
@@ -42268,7 +42275,7 @@ export type ListVolumesInRecycleBinError =
  * Lists one or more volumes that are currently in the Recycle Bin.
  */
 export const listVolumesInRecycleBin: API.OperationMethod<
-  ListVolumesInRecycleBinRequest,
+  ListVolumesInRecycleBinRequest & RegionInput,
   ListVolumesInRecycleBinResult,
   ListVolumesInRecycleBinError,
   Credentials | HttpClient.HttpClient
@@ -42306,7 +42313,7 @@ export type LockSnapshotError =
  * only increase the lock duration or extend the lock expiration date.
  */
 export const lockSnapshot: API.OperationMethod<
-  LockSnapshotRequest,
+  LockSnapshotRequest & RegionInput,
   LockSnapshotResult,
   LockSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -42328,7 +42335,7 @@ export type ModifyAccountVpcEncryptionControlError = CommonErrors;
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const modifyAccountVpcEncryptionControl: API.OperationMethod<
-  ModifyAccountVpcEncryptionControlRequest,
+  ModifyAccountVpcEncryptionControlRequest & RegionInput,
   ModifyAccountVpcEncryptionControlResult,
   ModifyAccountVpcEncryptionControlError,
   Credentials | HttpClient.HttpClient
@@ -42353,7 +42360,7 @@ export type ModifyAddressAttributeError =
  * Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications.
  */
 export const modifyAddressAttribute: API.OperationMethod<
-  ModifyAddressAttributeRequest,
+  ModifyAddressAttributeRequest & RegionInput,
   ModifyAddressAttributeResult,
   ModifyAddressAttributeError,
   Credentials | HttpClient.HttpClient
@@ -42382,7 +42389,7 @@ export type ModifyApplicationStatusCheckError = CommonErrors;
  * - Changes take effect on the next health check interval.
  */
 export const modifyApplicationStatusCheck: API.OperationMethod<
-  ModifyApplicationStatusCheckRequest,
+  ModifyApplicationStatusCheckRequest & RegionInput,
   ModifyApplicationStatusCheckResult,
   ModifyApplicationStatusCheckError,
   Credentials | HttpClient.HttpClient
@@ -42406,7 +42413,7 @@ export type ModifyAvailabilityZoneGroupError =
  * Changes the opt-in status of the specified zone group for your account.
  */
 export const modifyAvailabilityZoneGroup: API.OperationMethod<
-  ModifyAvailabilityZoneGroupRequest,
+  ModifyAvailabilityZoneGroupRequest & RegionInput,
   ModifyAvailabilityZoneGroupResult,
   ModifyAvailabilityZoneGroupError,
   Credentials | HttpClient.HttpClient
@@ -42460,7 +42467,7 @@ export type ModifyCapacityReservationError =
  * Capacity Reservation in the *Amazon EC2 User Guide*.
  */
 export const modifyCapacityReservation: API.OperationMethod<
-  ModifyCapacityReservationRequest,
+  ModifyCapacityReservationRequest & RegionInput,
   ModifyCapacityReservationResult,
   ModifyCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -42490,7 +42497,7 @@ export type ModifyCapacityReservationFleetError =
  * Reservations in the Fleet are updated accordingly.
  */
 export const modifyCapacityReservationFleet: API.OperationMethod<
-  ModifyCapacityReservationFleetRequest,
+  ModifyCapacityReservationFleetRequest & RegionInput,
   ModifyCapacityReservationFleetResult,
   ModifyCapacityReservationFleetError,
   Credentials | HttpClient.HttpClient
@@ -42516,7 +42523,7 @@ export type ModifyClientVpnEndpointError =
  * Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections.
  */
 export const modifyClientVpnEndpoint: API.OperationMethod<
-  ModifyClientVpnEndpointRequest,
+  ModifyClientVpnEndpointRequest & RegionInput,
   ModifyClientVpnEndpointResult,
   ModifyClientVpnEndpointError,
   Credentials | HttpClient.HttpClient
@@ -42542,7 +42549,7 @@ export type ModifyClientVpnEndpointAuthorizationPolicyError = CommonErrors;
  * Creates or updates the authorization policy for a Client VPN endpoint. A Client VPN endpoint can have one authorization policy. If a policy already exists for the endpoint, the values that you specify replace the corresponding values in the existing policy, and values that you do not specify remain unchanged.
  */
 export const modifyClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
-  ModifyClientVpnEndpointAuthorizationPolicyRequest,
+  ModifyClientVpnEndpointAuthorizationPolicyRequest & RegionInput,
   ModifyClientVpnEndpointAuthorizationPolicyResult,
   ModifyClientVpnEndpointAuthorizationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -42588,7 +42595,7 @@ export type ModifyDefaultCreditSpecificationError =
  * performance instances in the *Amazon EC2 User Guide*.
  */
 export const modifyDefaultCreditSpecification: API.OperationMethod<
-  ModifyDefaultCreditSpecificationRequest,
+  ModifyDefaultCreditSpecificationRequest & RegionInput,
   ModifyDefaultCreditSpecificationResult,
   ModifyDefaultCreditSpecificationError,
   Credentials | HttpClient.HttpClient
@@ -42622,7 +42629,7 @@ export type ModifyEbsDefaultKmsKeyIdError =
  * in the *Amazon EBS User Guide*.
  */
 export const modifyEbsDefaultKmsKeyId: API.OperationMethod<
-  ModifyEbsDefaultKmsKeyIdRequest,
+  ModifyEbsDefaultKmsKeyIdRequest & RegionInput,
   ModifyEbsDefaultKmsKeyIdResult,
   ModifyEbsDefaultKmsKeyIdError,
   Credentials | HttpClient.HttpClient
@@ -42672,7 +42679,7 @@ export type ModifyFleetError =
  * target capacity to 0.
  */
 export const modifyFleet: API.OperationMethod<
-  ModifyFleetRequest,
+  ModifyFleetRequest & RegionInput,
   ModifyFleetResult,
   ModifyFleetError,
   Credentials | HttpClient.HttpClient
@@ -42697,7 +42704,7 @@ export type ModifyFpgaImageAttributeError =
  * Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
  */
 export const modifyFpgaImageAttribute: API.OperationMethod<
-  ModifyFpgaImageAttributeRequest,
+  ModifyFpgaImageAttributeRequest & RegionInput,
   ModifyFpgaImageAttributeResult,
   ModifyFpgaImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -42731,7 +42738,7 @@ export type ModifyHostsError = CommonErrors;
  * only.
  */
 export const modifyHosts: API.OperationMethod<
-  ModifyHostsRequest,
+  ModifyHostsRequest & RegionInput,
   ModifyHostsResult,
   ModifyHostsError,
   Credentials | HttpClient.HttpClient
@@ -42776,7 +42783,7 @@ export type ModifyIdentityIdFormatError = CommonErrors;
  * command for the resource type.
  */
 export const modifyIdentityIdFormat: API.OperationMethod<
-  ModifyIdentityIdFormatRequest,
+  ModifyIdentityIdFormatRequest & RegionInput,
   ModifyIdentityIdFormatResponse,
   ModifyIdentityIdFormatError,
   Credentials | HttpClient.HttpClient
@@ -42822,7 +42829,7 @@ export type ModifyIdFormatError = CommonErrors;
  * `Describe` command for the resource type.
  */
 export const modifyIdFormat: API.OperationMethod<
-  ModifyIdFormatRequest,
+  ModifyIdFormatRequest & RegionInput,
   ModifyIdFormatResponse,
   ModifyIdFormatError,
   Credentials | HttpClient.HttpClient
@@ -42858,7 +42865,7 @@ export type ModifyImageAttributeError =
  * SriovNetSupport on an instance and create an AMI from the instance.
  */
 export const modifyImageAttribute: API.OperationMethod<
-  ModifyImageAttributeRequest,
+  ModifyImageAttributeRequest & RegionInput,
   ModifyImageAttributeResponse,
   ModifyImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -42900,7 +42907,7 @@ export type ModifyInstanceAttributeError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyInstanceAttribute: API.OperationMethod<
-  ModifyInstanceAttributeRequest,
+  ModifyInstanceAttributeRequest & RegionInput,
   ModifyInstanceAttributeResponse,
   ModifyInstanceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -42932,7 +42939,7 @@ export type ModifyInstanceCapacityReservationAttributesError =
  * Instance capacity, or only run in a Capacity Reservation.
  */
 export const modifyInstanceCapacityReservationAttributes: API.OperationMethod<
-  ModifyInstanceCapacityReservationAttributesRequest,
+  ModifyInstanceCapacityReservationAttributesRequest & RegionInput,
   ModifyInstanceCapacityReservationAttributesResult,
   ModifyInstanceCapacityReservationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -42969,7 +42976,7 @@ export type ModifyInstanceConnectEndpointError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyInstanceConnectEndpoint: API.OperationMethod<
-  ModifyInstanceConnectEndpointRequest,
+  ModifyInstanceConnectEndpointRequest & RegionInput,
   ModifyInstanceConnectEndpointResult,
   ModifyInstanceConnectEndpointError,
   Credentials | HttpClient.HttpClient
@@ -43007,7 +43014,7 @@ export type ModifyInstanceCpuOptionsError =
  * options in the *Amazon EC2 User Guide*.
  */
 export const modifyInstanceCpuOptions: API.OperationMethod<
-  ModifyInstanceCpuOptionsRequest,
+  ModifyInstanceCpuOptionsRequest & RegionInput,
   ModifyInstanceCpuOptionsResult,
   ModifyInstanceCpuOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43032,7 +43039,7 @@ export type ModifyInstanceCreditSpecificationError = CommonErrors;
  * performance instances in the *Amazon EC2 User Guide*.
  */
 export const modifyInstanceCreditSpecification: API.OperationMethod<
-  ModifyInstanceCreditSpecificationRequest,
+  ModifyInstanceCreditSpecificationRequest & RegionInput,
   ModifyInstanceCreditSpecificationResult,
   ModifyInstanceCreditSpecificationError,
   Credentials | HttpClient.HttpClient
@@ -43056,7 +43063,7 @@ export type ModifyInstanceEventStartTimeError =
  * Modifies the start time for a scheduled Amazon EC2 instance event.
  */
 export const modifyInstanceEventStartTime: API.OperationMethod<
-  ModifyInstanceEventStartTimeRequest,
+  ModifyInstanceEventStartTimeRequest & RegionInput,
   ModifyInstanceEventStartTimeResult,
   ModifyInstanceEventStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -43092,7 +43099,7 @@ export type ModifyInstanceEventWindowError =
  * events in the *Amazon EC2 User Guide*.
  */
 export const modifyInstanceEventWindow: API.OperationMethod<
-  ModifyInstanceEventWindowRequest,
+  ModifyInstanceEventWindowRequest & RegionInput,
   ModifyInstanceEventWindowResult,
   ModifyInstanceEventWindowError,
   Credentials | HttpClient.HttpClient
@@ -43127,7 +43134,7 @@ export type ModifyInstanceMaintenanceOptionsError =
  * that has a pending `system-reboot` event. For more information, see Enable or disable reboot migration.
  */
 export const modifyInstanceMaintenanceOptions: API.OperationMethod<
-  ModifyInstanceMaintenanceOptionsRequest,
+  ModifyInstanceMaintenanceOptionsRequest & RegionInput,
   ModifyInstanceMaintenanceOptionsResult,
   ModifyInstanceMaintenanceOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43158,7 +43165,7 @@ export type ModifyInstanceMetadataDefaultsError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyInstanceMetadataDefaults: API.OperationMethod<
-  ModifyInstanceMetadataDefaultsRequest,
+  ModifyInstanceMetadataDefaultsRequest & RegionInput,
   ModifyInstanceMetadataDefaultsResult,
   ModifyInstanceMetadataDefaultsError,
   Credentials | HttpClient.HttpClient
@@ -43188,7 +43195,7 @@ export type ModifyInstanceMetadataOptionsError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyInstanceMetadataOptions: API.OperationMethod<
-  ModifyInstanceMetadataOptionsRequest,
+  ModifyInstanceMetadataOptionsRequest & RegionInput,
   ModifyInstanceMetadataOptionsResult,
   ModifyInstanceMetadataOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43213,7 +43220,7 @@ export type ModifyInstanceNetworkPerformanceOptionsError =
  * instance.
  */
 export const modifyInstanceNetworkPerformanceOptions: API.OperationMethod<
-  ModifyInstanceNetworkPerformanceRequest,
+  ModifyInstanceNetworkPerformanceRequest & RegionInput,
   ModifyInstanceNetworkPerformanceResult,
   ModifyInstanceNetworkPerformanceOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43258,7 +43265,7 @@ export type ModifyInstancePlacementError =
  * instance must be in the `stopped` state.
  */
 export const modifyInstancePlacement: API.OperationMethod<
-  ModifyInstancePlacementRequest,
+  ModifyInstancePlacementRequest & RegionInput,
   ModifyInstancePlacementResult,
   ModifyInstancePlacementError,
   Credentials | HttpClient.HttpClient
@@ -43282,7 +43289,7 @@ export type ModifyIpamError =
  * Modify the configurations of an IPAM.
  */
 export const modifyIpam: API.OperationMethod<
-  ModifyIpamRequest,
+  ModifyIpamRequest & RegionInput,
   ModifyIpamResult,
   ModifyIpamError,
   Credentials | HttpClient.HttpClient
@@ -43310,7 +43317,7 @@ export type ModifyIpamPolicyAllocationRulesError =
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
 export const modifyIpamPolicyAllocationRules: API.OperationMethod<
-  ModifyIpamPolicyAllocationRulesRequest,
+  ModifyIpamPolicyAllocationRulesRequest & RegionInput,
   ModifyIpamPolicyAllocationRulesResult,
   ModifyIpamPolicyAllocationRulesError,
   Credentials | HttpClient.HttpClient
@@ -43336,7 +43343,7 @@ export type ModifyIpamPoolError =
  * For more information, see Modify a pool in the *Amazon VPC IPAM User Guide*.
  */
 export const modifyIpamPool: API.OperationMethod<
-  ModifyIpamPoolRequest,
+  ModifyIpamPoolRequest & RegionInput,
   ModifyIpamPoolResult,
   ModifyIpamPoolError,
   Credentials | HttpClient.HttpClient
@@ -43356,7 +43363,7 @@ export type ModifyIpamPoolAllocationError = CommonErrors;
  * Modifies the description of an IPAM pool allocation. For more information, see Modify an IPAM pool allocation in the *Amazon VPC IPAM User Guide*.
  */
 export const modifyIpamPoolAllocation: API.OperationMethod<
-  ModifyIpamPoolAllocationRequest,
+  ModifyIpamPoolAllocationRequest & RegionInput,
   ModifyIpamPoolAllocationResult,
   ModifyIpamPoolAllocationError,
   Credentials | HttpClient.HttpClient
@@ -43381,7 +43388,7 @@ export type ModifyIpamPrefixListResolverError =
  * Modifies an IPAM prefix list resolver. You can update the description and CIDR selection rules. Changes to rules will trigger re-evaluation and potential updates to associated prefix lists.
  */
 export const modifyIpamPrefixListResolver: API.OperationMethod<
-  ModifyIpamPrefixListResolverRequest,
+  ModifyIpamPrefixListResolverRequest & RegionInput,
   ModifyIpamPrefixListResolverResult,
   ModifyIpamPrefixListResolverError,
   Credentials | HttpClient.HttpClient
@@ -43410,7 +43417,7 @@ export type ModifyIpamPrefixListResolverTargetError =
  * Modifies an IPAM prefix list resolver target. You can update version tracking settings and the desired version of the target prefix list.
  */
 export const modifyIpamPrefixListResolverTarget: API.OperationMethod<
-  ModifyIpamPrefixListResolverTargetRequest,
+  ModifyIpamPrefixListResolverTargetRequest & RegionInput,
   ModifyIpamPrefixListResolverTargetResult,
   ModifyIpamPrefixListResolverTargetError,
   Credentials | HttpClient.HttpClient
@@ -43441,7 +43448,7 @@ export type ModifyIpamResourceCidrError =
  * For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the *Amazon VPC IPAM User Guide*.
  */
 export const modifyIpamResourceCidr: API.OperationMethod<
-  ModifyIpamResourceCidrRequest,
+  ModifyIpamResourceCidrRequest & RegionInput,
   ModifyIpamResourceCidrResult,
   ModifyIpamResourceCidrError,
   Credentials | HttpClient.HttpClient
@@ -43471,7 +43478,7 @@ export type ModifyIpamResourceDiscoveryError =
  * Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
 export const modifyIpamResourceDiscovery: API.OperationMethod<
-  ModifyIpamResourceDiscoveryRequest,
+  ModifyIpamResourceDiscoveryRequest & RegionInput,
   ModifyIpamResourceDiscoveryResult,
   ModifyIpamResourceDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -43496,7 +43503,7 @@ export type ModifyIpamRoutingPolicyRegistrationError = CommonErrors;
  * Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA).
  */
 export const modifyIpamRoutingPolicyRegistration: API.OperationMethod<
-  ModifyIpamRoutingPolicyRegistrationRequest,
+  ModifyIpamRoutingPolicyRegistrationRequest & RegionInput,
   ModifyIpamRoutingPolicyRegistrationResult,
   ModifyIpamRoutingPolicyRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -43520,7 +43527,7 @@ export type ModifyIpamScopeError =
  * Modify an IPAM scope.
  */
 export const modifyIpamScope: API.OperationMethod<
-  ModifyIpamScopeRequest,
+  ModifyIpamScopeRequest & RegionInput,
   ModifyIpamScopeResult,
   ModifyIpamScopeError,
   Credentials | HttpClient.HttpClient
@@ -43546,7 +43553,7 @@ export type ModifyLaunchTemplateError =
  * a launch template version is not specified.
  */
 export const modifyLaunchTemplate: API.OperationMethod<
-  ModifyLaunchTemplateRequest,
+  ModifyLaunchTemplateRequest & RegionInput,
   ModifyLaunchTemplateResult,
   ModifyLaunchTemplateError,
   Credentials | HttpClient.HttpClient
@@ -43570,7 +43577,7 @@ export type ModifyLocalGatewayRouteError =
  * Modifies the specified local gateway route.
  */
 export const modifyLocalGatewayRoute: API.OperationMethod<
-  ModifyLocalGatewayRouteRequest,
+  ModifyLocalGatewayRouteRequest & RegionInput,
   ModifyLocalGatewayRouteResult,
   ModifyLocalGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -43602,7 +43609,7 @@ export type ModifyManagedPrefixListError =
  * number, the request fails.
  */
 export const modifyManagedPrefixList: API.OperationMethod<
-  ModifyManagedPrefixListRequest,
+  ModifyManagedPrefixListRequest & RegionInput,
   ModifyManagedPrefixListResult,
   ModifyManagedPrefixListError,
   Credentials | HttpClient.HttpClient
@@ -43631,7 +43638,7 @@ export type ModifyManagedResourceVisibilityError = CommonErrors;
  * resources remain fully operational and billable.
  */
 export const modifyManagedResourceVisibility: API.OperationMethod<
-  ModifyManagedResourceVisibilityRequest,
+  ModifyManagedResourceVisibilityRequest & RegionInput,
   ModifyManagedResourceVisibilityResult,
   ModifyManagedResourceVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -43659,7 +43666,7 @@ export type ModifyNetworkInterfaceAttributeError =
  * EC2 instance.
  */
 export const modifyNetworkInterfaceAttribute: API.OperationMethod<
-  ModifyNetworkInterfaceAttributeRequest,
+  ModifyNetworkInterfaceAttributeRequest & RegionInput,
   ModifyNetworkInterfaceAttributeResponse,
   ModifyNetworkInterfaceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -43689,7 +43696,7 @@ export type ModifyPrivateDnsNameOptionsError =
  * Modifies the options for instance hostnames for the specified instance.
  */
 export const modifyPrivateDnsNameOptions: API.OperationMethod<
-  ModifyPrivateDnsNameOptionsRequest,
+  ModifyPrivateDnsNameOptionsRequest & RegionInput,
   ModifyPrivateDnsNameOptionsResult,
   ModifyPrivateDnsNameOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43713,7 +43720,7 @@ export type ModifyPublicIpDnsNameOptionsError =
  * Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the *Amazon EC2 User Guide*.
  */
 export const modifyPublicIpDnsNameOptions: API.OperationMethod<
-  ModifyPublicIpDnsNameOptionsRequest,
+  ModifyPublicIpDnsNameOptionsRequest & RegionInput,
   ModifyPublicIpDnsNameOptionsResult,
   ModifyPublicIpDnsNameOptionsError,
   Credentials | HttpClient.HttpClient
@@ -43742,7 +43749,7 @@ export type ModifyReservedInstancesError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyReservedInstances: API.OperationMethod<
-  ModifyReservedInstancesRequest,
+  ModifyReservedInstancesRequest & RegionInput,
   ModifyReservedInstancesResult,
   ModifyReservedInstancesError,
   Credentials | HttpClient.HttpClient
@@ -43781,7 +43788,7 @@ export type ModifyRouteServerError =
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
 export const modifyRouteServer: API.OperationMethod<
-  ModifyRouteServerRequest,
+  ModifyRouteServerRequest & RegionInput,
   ModifyRouteServerResult,
   ModifyRouteServerError,
   Credentials | HttpClient.HttpClient
@@ -43807,7 +43814,7 @@ export type ModifySecurityGroupRulesError =
  * Modifies the rules of a security group.
  */
 export const modifySecurityGroupRules: API.OperationMethod<
-  ModifySecurityGroupRulesRequest,
+  ModifySecurityGroupRulesRequest & RegionInput,
   ModifySecurityGroupRulesResult,
   ModifySecurityGroupRulesError,
   Credentials | HttpClient.HttpClient
@@ -43847,7 +43854,7 @@ export type ModifySnapshotAttributeError =
  * *Amazon EBS User Guide*.
  */
 export const modifySnapshotAttribute: API.OperationMethod<
-  ModifySnapshotAttributeRequest,
+  ModifySnapshotAttributeRequest & RegionInput,
   ModifySnapshotAttributeResponse,
   ModifySnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -43880,7 +43887,7 @@ export type ModifySnapshotTierError =
  * in the *Amazon EBS User Guide*.
  */
 export const modifySnapshotTier: API.OperationMethod<
-  ModifySnapshotTierRequest,
+  ModifySnapshotTierRequest & RegionInput,
   ModifySnapshotTierResult,
   ModifySnapshotTierError,
   Credentials | HttpClient.HttpClient
@@ -43933,7 +43940,7 @@ export type ModifySpotFleetRequestError =
  * set the target capacity to 0.
  */
 export const modifySpotFleetRequest: API.OperationMethod<
-  ModifySpotFleetRequestRequest,
+  ModifySpotFleetRequestRequest & RegionInput,
   ModifySpotFleetRequestResponse,
   ModifySpotFleetRequestError,
   Credentials | HttpClient.HttpClient
@@ -43975,7 +43982,7 @@ export type ModifySubnetAttributeError =
  * - Outpost racks
  */
 export const modifySubnetAttribute: API.OperationMethod<
-  ModifySubnetAttributeRequest,
+  ModifySubnetAttributeRequest & RegionInput,
   ModifySubnetAttributeResponse,
   ModifySubnetAttributeError,
   Credentials | HttpClient.HttpClient
@@ -44002,7 +44009,7 @@ export type ModifyTrafficMirrorFilterNetworkServicesError =
  * When you no longer want to mirror network services, use `RemoveNetworkServices` to remove the network services from the Traffic Mirror filter.
  */
 export const modifyTrafficMirrorFilterNetworkServices: API.OperationMethod<
-  ModifyTrafficMirrorFilterNetworkServicesRequest,
+  ModifyTrafficMirrorFilterNetworkServicesRequest & RegionInput,
   ModifyTrafficMirrorFilterNetworkServicesResult,
   ModifyTrafficMirrorFilterNetworkServicesError,
   Credentials | HttpClient.HttpClient
@@ -44030,7 +44037,7 @@ export type ModifyTrafficMirrorFilterRuleError =
  * range or an IPv6 range.
  */
 export const modifyTrafficMirrorFilterRule: API.OperationMethod<
-  ModifyTrafficMirrorFilterRuleRequest,
+  ModifyTrafficMirrorFilterRuleRequest & RegionInput,
   ModifyTrafficMirrorFilterRuleResult,
   ModifyTrafficMirrorFilterRuleError,
   Credentials | HttpClient.HttpClient
@@ -44059,7 +44066,7 @@ export type ModifyTrafficMirrorSessionError =
  * Modifies a Traffic Mirror session.
  */
 export const modifyTrafficMirrorSession: API.OperationMethod<
-  ModifyTrafficMirrorSessionRequest,
+  ModifyTrafficMirrorSessionRequest & RegionInput,
   ModifyTrafficMirrorSessionResult,
   ModifyTrafficMirrorSessionError,
   Credentials | HttpClient.HttpClient
@@ -44083,7 +44090,7 @@ export type ModifyTransitGatewayError =
  * Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
  */
 export const modifyTransitGateway: API.OperationMethod<
-  ModifyTransitGatewayRequest,
+  ModifyTransitGatewayRequest & RegionInput,
   ModifyTransitGatewayResult,
   ModifyTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -44108,7 +44115,7 @@ export type ModifyTransitGatewayMeteringPolicyError =
  * Modifies a transit gateway metering policy.
  */
 export const modifyTransitGatewayMeteringPolicy: API.OperationMethod<
-  ModifyTransitGatewayMeteringPolicyRequest,
+  ModifyTransitGatewayMeteringPolicyRequest & RegionInput,
   ModifyTransitGatewayMeteringPolicyResult,
   ModifyTransitGatewayMeteringPolicyError,
   Credentials | HttpClient.HttpClient
@@ -44133,7 +44140,7 @@ export type ModifyTransitGatewayPolicyTableEntryError = CommonErrors;
  * Modifies the specified transit gateway policy table entry.
  */
 export const modifyTransitGatewayPolicyTableEntry: API.OperationMethod<
-  ModifyTransitGatewayPolicyTableEntryRequest,
+  ModifyTransitGatewayPolicyTableEntryRequest & RegionInput,
   ModifyTransitGatewayPolicyTableEntryResult,
   ModifyTransitGatewayPolicyTableEntryError,
   Credentials | HttpClient.HttpClient
@@ -44157,7 +44164,7 @@ export type ModifyTransitGatewayPrefixListReferenceError =
  * Modifies a reference (route) to a prefix list in a specified transit gateway route table.
  */
 export const modifyTransitGatewayPrefixListReference: API.OperationMethod<
-  ModifyTransitGatewayPrefixListReferenceRequest,
+  ModifyTransitGatewayPrefixListReferenceRequest & RegionInput,
   ModifyTransitGatewayPrefixListReferenceResult,
   ModifyTransitGatewayPrefixListReferenceError,
   Credentials | HttpClient.HttpClient
@@ -44181,7 +44188,7 @@ export type ModifyTransitGatewayVpcAttachmentError =
  * Modifies the specified VPC attachment.
  */
 export const modifyTransitGatewayVpcAttachment: API.OperationMethod<
-  ModifyTransitGatewayVpcAttachmentRequest,
+  ModifyTransitGatewayVpcAttachmentRequest & RegionInput,
   ModifyTransitGatewayVpcAttachmentResult,
   ModifyTransitGatewayVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -44206,7 +44213,7 @@ export type ModifyVerifiedAccessEndpointError =
  * Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
  */
 export const modifyVerifiedAccessEndpoint: API.OperationMethod<
-  ModifyVerifiedAccessEndpointRequest,
+  ModifyVerifiedAccessEndpointRequest & RegionInput,
   ModifyVerifiedAccessEndpointResult,
   ModifyVerifiedAccessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -44236,7 +44243,7 @@ export type ModifyVerifiedAccessEndpointPolicyError =
  * Modifies the specified Amazon Web Services Verified Access endpoint policy.
  */
 export const modifyVerifiedAccessEndpointPolicy: API.OperationMethod<
-  ModifyVerifiedAccessEndpointPolicyRequest,
+  ModifyVerifiedAccessEndpointPolicyRequest & RegionInput,
   ModifyVerifiedAccessEndpointPolicyResult,
   ModifyVerifiedAccessEndpointPolicyError,
   Credentials | HttpClient.HttpClient
@@ -44265,7 +44272,7 @@ export type ModifyVerifiedAccessGroupError =
  * Modifies the specified Amazon Web Services Verified Access group configuration.
  */
 export const modifyVerifiedAccessGroup: API.OperationMethod<
-  ModifyVerifiedAccessGroupRequest,
+  ModifyVerifiedAccessGroupRequest & RegionInput,
   ModifyVerifiedAccessGroupResult,
   ModifyVerifiedAccessGroupError,
   Credentials | HttpClient.HttpClient
@@ -44289,7 +44296,7 @@ export type ModifyVerifiedAccessGroupPolicyError =
  * Modifies the specified Amazon Web Services Verified Access group policy.
  */
 export const modifyVerifiedAccessGroupPolicy: API.OperationMethod<
-  ModifyVerifiedAccessGroupPolicyRequest,
+  ModifyVerifiedAccessGroupPolicyRequest & RegionInput,
   ModifyVerifiedAccessGroupPolicyResult,
   ModifyVerifiedAccessGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -44313,7 +44320,7 @@ export type ModifyVerifiedAccessInstanceError =
  * Modifies the configuration of the specified Amazon Web Services Verified Access instance.
  */
 export const modifyVerifiedAccessInstance: API.OperationMethod<
-  ModifyVerifiedAccessInstanceRequest,
+  ModifyVerifiedAccessInstanceRequest & RegionInput,
   ModifyVerifiedAccessInstanceResult,
   ModifyVerifiedAccessInstanceError,
   Credentials | HttpClient.HttpClient
@@ -44337,7 +44344,7 @@ export type ModifyVerifiedAccessInstanceLoggingConfigurationError =
  * Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
  */
 export const modifyVerifiedAccessInstanceLoggingConfiguration: API.OperationMethod<
-  ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
+  ModifyVerifiedAccessInstanceLoggingConfigurationRequest & RegionInput,
   ModifyVerifiedAccessInstanceLoggingConfigurationResult,
   ModifyVerifiedAccessInstanceLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -44369,7 +44376,7 @@ export type ModifyVerifiedAccessTrustProviderError =
  * Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
  */
 export const modifyVerifiedAccessTrustProvider: API.OperationMethod<
-  ModifyVerifiedAccessTrustProviderRequest,
+  ModifyVerifiedAccessTrustProviderRequest & RegionInput,
   ModifyVerifiedAccessTrustProviderResult,
   ModifyVerifiedAccessTrustProviderError,
   Credentials | HttpClient.HttpClient
@@ -44418,7 +44425,7 @@ export type ModifyVolumeError =
  * that indicates when you can perform your next modification.
  */
 export const modifyVolume: API.OperationMethod<
-  ModifyVolumeRequest,
+  ModifyVolumeRequest & RegionInput,
   ModifyVolumeResult,
   ModifyVolumeError,
   Credentials | HttpClient.HttpClient
@@ -44457,7 +44464,7 @@ export type ModifyVolumeAttributeError =
  * this only for boot volumes or for volumes that are stateless or disposable.
  */
 export const modifyVolumeAttribute: API.OperationMethod<
-  ModifyVolumeAttributeRequest,
+  ModifyVolumeAttributeRequest & RegionInput,
   ModifyVolumeAttributeResponse,
   ModifyVolumeAttributeError,
   Credentials | HttpClient.HttpClient
@@ -44487,7 +44494,7 @@ export type ModifyVpcAttributeError =
  * Modifies the specified attribute of the specified VPC.
  */
 export const modifyVpcAttribute: API.OperationMethod<
-  ModifyVpcAttributeRequest,
+  ModifyVpcAttributeRequest & RegionInput,
   ModifyVpcAttributeResponse,
   ModifyVpcAttributeError,
   Credentials | HttpClient.HttpClient
@@ -44512,7 +44519,7 @@ export type ModifyVpcBlockPublicAccessExclusionError = CommonErrors;
  * Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account's BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
  */
 export const modifyVpcBlockPublicAccessExclusion: API.OperationMethod<
-  ModifyVpcBlockPublicAccessExclusionRequest,
+  ModifyVpcBlockPublicAccessExclusionRequest & RegionInput,
   ModifyVpcBlockPublicAccessExclusionResult,
   ModifyVpcBlockPublicAccessExclusionError,
   Credentials | HttpClient.HttpClient
@@ -44532,7 +44539,7 @@ export type ModifyVpcBlockPublicAccessOptionsError = CommonErrors;
  * Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
 export const modifyVpcBlockPublicAccessOptions: API.OperationMethod<
-  ModifyVpcBlockPublicAccessOptionsRequest,
+  ModifyVpcBlockPublicAccessOptionsRequest & RegionInput,
   ModifyVpcBlockPublicAccessOptionsResult,
   ModifyVpcBlockPublicAccessOptionsError,
   Credentials | HttpClient.HttpClient
@@ -44559,7 +44566,7 @@ export type ModifyVpcEncryptionControlError =
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
 export const modifyVpcEncryptionControl: API.OperationMethod<
-  ModifyVpcEncryptionControlRequest,
+  ModifyVpcEncryptionControlRequest & RegionInput,
   ModifyVpcEncryptionControlResult,
   ModifyVpcEncryptionControlError,
   Credentials | HttpClient.HttpClient
@@ -44591,7 +44598,7 @@ export type ModifyVpcEndpointError =
  * Guide.
  */
 export const modifyVpcEndpoint: API.OperationMethod<
-  ModifyVpcEndpointRequest,
+  ModifyVpcEndpointRequest & RegionInput,
   ModifyVpcEndpointResult,
   ModifyVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -44617,7 +44624,7 @@ export type ModifyVpcEndpointConnectionNotificationError =
  * can change the SNS topic for the notification, or the events for which to be notified.
  */
 export const modifyVpcEndpointConnectionNotification: API.OperationMethod<
-  ModifyVpcEndpointConnectionNotificationRequest,
+  ModifyVpcEndpointConnectionNotificationRequest & RegionInput,
   ModifyVpcEndpointConnectionNotificationResult,
   ModifyVpcEndpointConnectionNotificationError,
   Credentials | HttpClient.HttpClient
@@ -44642,7 +44649,7 @@ export type ModifyVpcEndpointPayerResponsibilityError = CommonErrors;
  * Modifies the billing account for VPC endpoint usage/charges.
  */
 export const modifyVpcEndpointPayerResponsibility: API.OperationMethod<
-  ModifyVpcEndpointPayerResponsibilityRequest,
+  ModifyVpcEndpointPayerResponsibilityRequest & RegionInput,
   ModifyVpcEndpointPayerResponsibilityResult,
   ModifyVpcEndpointPayerResponsibilityError,
   Credentials | HttpClient.HttpClient
@@ -44670,7 +44677,7 @@ export type ModifyVpcEndpointServiceConfigurationError =
  * domain name.
  */
 export const modifyVpcEndpointServiceConfiguration: API.OperationMethod<
-  ModifyVpcEndpointServiceConfigurationRequest,
+  ModifyVpcEndpointServiceConfigurationRequest & RegionInput,
   ModifyVpcEndpointServiceConfigurationResult,
   ModifyVpcEndpointServiceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -44699,7 +44706,7 @@ export type ModifyVpcEndpointServicePayerResponsibilityError =
  * Modifies the payer responsibility for your VPC endpoint service.
  */
 export const modifyVpcEndpointServicePayerResponsibility: API.OperationMethod<
-  ModifyVpcEndpointServicePayerResponsibilityRequest,
+  ModifyVpcEndpointServicePayerResponsibilityRequest & RegionInput,
   ModifyVpcEndpointServicePayerResponsibilityResult,
   ModifyVpcEndpointServicePayerResponsibilityError,
   Credentials | HttpClient.HttpClient
@@ -44738,7 +44745,7 @@ export type ModifyVpcEndpointServicePermissionsError =
  * attachments are automatically approved.
  */
 export const modifyVpcEndpointServicePermissions: API.OperationMethod<
-  ModifyVpcEndpointServicePermissionsRequest,
+  ModifyVpcEndpointServicePermissionsRequest & RegionInput,
   ModifyVpcEndpointServicePermissionsResult,
   ModifyVpcEndpointServicePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -44779,7 +44786,7 @@ export type ModifyVpcPeeringConnectionOptionsError =
  * requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
  */
 export const modifyVpcPeeringConnectionOptions: API.OperationMethod<
-  ModifyVpcPeeringConnectionOptionsRequest,
+  ModifyVpcPeeringConnectionOptionsRequest & RegionInput,
   ModifyVpcPeeringConnectionOptionsResult,
   ModifyVpcPeeringConnectionOptionsError,
   Credentials | HttpClient.HttpClient
@@ -44818,7 +44825,7 @@ export type ModifyVpcTenancyError =
  * *Amazon EC2 User Guide*.
  */
 export const modifyVpcTenancy: API.OperationMethod<
-  ModifyVpcTenancyRequest,
+  ModifyVpcTenancyRequest & RegionInput,
   ModifyVpcTenancyResult,
   ModifyVpcTenancyError,
   Credentials | HttpClient.HttpClient
@@ -44884,7 +44891,7 @@ export type ModifyVpnConnectionError =
  * endpoints.
  */
 export const modifyVpnConnection: API.OperationMethod<
-  ModifyVpnConnectionRequest,
+  ModifyVpnConnectionRequest & RegionInput,
   ModifyVpnConnectionResult,
   ModifyVpnConnectionError,
   Credentials | HttpClient.HttpClient
@@ -44913,7 +44920,7 @@ export type ModifyVpnConnectionOptionsError =
  * connection is updated.
  */
 export const modifyVpnConnectionOptions: API.OperationMethod<
-  ModifyVpnConnectionOptionsRequest,
+  ModifyVpnConnectionOptionsRequest & RegionInput,
   ModifyVpnConnectionOptionsResult,
   ModifyVpnConnectionOptionsError,
   Credentials | HttpClient.HttpClient
@@ -44937,7 +44944,7 @@ export type ModifyVpnTunnelCertificateError =
  * Modifies the VPN tunnel endpoint certificate.
  */
 export const modifyVpnTunnelCertificate: API.OperationMethod<
-  ModifyVpnTunnelCertificateRequest,
+  ModifyVpnTunnelCertificateRequest & RegionInput,
   ModifyVpnTunnelCertificateResult,
   ModifyVpnTunnelCertificateError,
   Credentials | HttpClient.HttpClient
@@ -44964,7 +44971,7 @@ export type ModifyVpnTunnelOptionsError =
  * connection in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
 export const modifyVpnTunnelOptions: API.OperationMethod<
-  ModifyVpnTunnelOptionsRequest,
+  ModifyVpnTunnelOptionsRequest & RegionInput,
   ModifyVpnTunnelOptionsResult,
   ModifyVpnTunnelOptionsError,
   Credentials | HttpClient.HttpClient
@@ -44993,7 +45000,7 @@ export type MonitorInstancesError =
  * To disable detailed monitoring, see UnmonitorInstances.
  */
 export const monitorInstances: API.OperationMethod<
-  MonitorInstancesRequest,
+  MonitorInstancesRequest & RegionInput,
   MonitorInstancesResult,
   MonitorInstancesError,
   Credentials | HttpClient.HttpClient
@@ -45023,7 +45030,7 @@ export type MoveAddressToVpcError =
  * originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
  */
 export const moveAddressToVpc: API.OperationMethod<
-  MoveAddressToVpcRequest,
+  MoveAddressToVpcRequest & RegionInput,
   MoveAddressToVpcResult,
   MoveAddressToVpcError,
   Credentials | HttpClient.HttpClient
@@ -45049,7 +45056,7 @@ export type MoveByoipCidrToIpamError =
  * If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
  */
 export const moveByoipCidrToIpam: API.OperationMethod<
-  MoveByoipCidrToIpamRequest,
+  MoveByoipCidrToIpamRequest & RegionInput,
   MoveByoipCidrToIpamResult,
   MoveByoipCidrToIpamError,
   Credentials | HttpClient.HttpClient
@@ -45088,7 +45095,7 @@ export type MoveCapacityReservationInstancesError =
  * `Manually`.
  */
 export const moveCapacityReservationInstances: API.OperationMethod<
-  MoveCapacityReservationInstancesRequest,
+  MoveCapacityReservationInstancesRequest & RegionInput,
   MoveCapacityReservationInstancesResult,
   MoveCapacityReservationInstancesError,
   Credentials | HttpClient.HttpClient
@@ -45125,7 +45132,7 @@ export type ProvisionByoipCidrError =
  * to `provisioned`. For more information, see Onboard your address range.
  */
 export const provisionByoipCidr: API.OperationMethod<
-  ProvisionByoipCidrRequest,
+  ProvisionByoipCidrRequest & RegionInput,
   ProvisionByoipCidrResult,
   ProvisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -45149,7 +45156,7 @@ export type ProvisionIpamByoasnError =
  * Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
 export const provisionIpamByoasn: API.OperationMethod<
-  ProvisionIpamByoasnRequest,
+  ProvisionIpamByoasnRequest & RegionInput,
   ProvisionIpamByoasnResult,
   ProvisionIpamByoasnError,
   Credentials | HttpClient.HttpClient
@@ -45176,7 +45183,7 @@ export type ProvisionIpamPoolCidrError =
  * For more information, see Provision CIDRs to pools in the *Amazon VPC IPAM User Guide*.
  */
 export const provisionIpamPoolCidr: API.OperationMethod<
-  ProvisionIpamPoolCidrRequest,
+  ProvisionIpamPoolCidrRequest & RegionInput,
   ProvisionIpamPoolCidrResult,
   ProvisionIpamPoolCidrError,
   Credentials | HttpClient.HttpClient
@@ -45208,7 +45215,7 @@ export type ProvisionPublicIpv4PoolCidrError =
  * For more information about IPAM, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
 export const provisionPublicIpv4PoolCidr: API.OperationMethod<
-  ProvisionPublicIpv4PoolCidrRequest,
+  ProvisionPublicIpv4PoolCidrRequest & RegionInput,
   ProvisionPublicIpv4PoolCidrResult,
   ProvisionPublicIpv4PoolCidrError,
   Credentials | HttpClient.HttpClient
@@ -45239,7 +45246,7 @@ export type PurchaseCapacityBlockError =
  * of the Capacity Block offering you are purchasing.
  */
 export const purchaseCapacityBlock: API.OperationMethod<
-  PurchaseCapacityBlockRequest,
+  PurchaseCapacityBlockRequest & RegionInput,
   PurchaseCapacityBlockResult,
   PurchaseCapacityBlockError,
   Credentials | HttpClient.HttpClient
@@ -45264,7 +45271,7 @@ export type PurchaseCapacityBlockExtensionError =
  * ID of the Capacity Block extension offering you are purchasing.
  */
 export const purchaseCapacityBlockExtension: API.OperationMethod<
-  PurchaseCapacityBlockExtensionRequest,
+  PurchaseCapacityBlockExtensionRequest & RegionInput,
   PurchaseCapacityBlockExtensionResult,
   PurchaseCapacityBlockExtensionError,
   Credentials | HttpClient.HttpClient
@@ -45287,7 +45294,7 @@ export type PurchaseHostReservationError = CommonErrors;
  * account.
  */
 export const purchaseHostReservation: API.OperationMethod<
-  PurchaseHostReservationRequest,
+  PurchaseHostReservationRequest & RegionInput,
   PurchaseHostReservationResult,
   PurchaseHostReservationError,
   Credentials | HttpClient.HttpClient
@@ -45323,7 +45330,7 @@ export type PurchaseReservedInstancesOfferingError =
  * Marketplace in the *Amazon EC2 User Guide*.
  */
 export const purchaseReservedInstancesOffering: API.OperationMethod<
-  PurchaseReservedInstancesOfferingRequest,
+  PurchaseReservedInstancesOfferingRequest & RegionInput,
   PurchaseReservedInstancesOfferingResult,
   PurchaseReservedInstancesOfferingError,
   Credentials | HttpClient.HttpClient
@@ -45356,7 +45363,7 @@ export type PurchaseScheduledInstancesError =
  * After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
  */
 export const purchaseScheduledInstances: API.OperationMethod<
-  PurchaseScheduledInstancesRequest,
+  PurchaseScheduledInstancesRequest & RegionInput,
   PurchaseScheduledInstancesResult,
   PurchaseScheduledInstancesError,
   Credentials | HttpClient.HttpClient
@@ -45391,7 +45398,7 @@ export type RebootInstancesError =
  * instance in the *Amazon EC2 User Guide*.
  */
 export const rebootInstances: API.OperationMethod<
-  RebootInstancesRequest,
+  RebootInstancesRequest & RegionInput,
   RebootInstancesResponse,
   RebootInstancesError,
   Credentials | HttpClient.HttpClient
@@ -45462,7 +45469,7 @@ export type RegisterImageError =
  * billing information in the *Amazon EC2 User Guide*.
  */
 export const registerImage: API.OperationMethod<
-  RegisterImageRequest,
+  RegisterImageRequest & RegionInput,
   RegisterImageResult,
   RegisterImageError,
   Credentials | HttpClient.HttpClient
@@ -45489,7 +45496,7 @@ export type RegisterInstanceEventNotificationAttributesError =
  * To remove tags, use DeregisterInstanceEventNotificationAttributes.
  */
 export const registerInstanceEventNotificationAttributes: API.OperationMethod<
-  RegisterInstanceEventNotificationAttributesRequest,
+  RegisterInstanceEventNotificationAttributesRequest & RegionInput,
   RegisterInstanceEventNotificationAttributesResult,
   RegisterInstanceEventNotificationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -45528,7 +45535,7 @@ export type RegisterTransitGatewayMulticastGroupMembersError =
  * to the transit gateway multicast group.
  */
 export const registerTransitGatewayMulticastGroupMembers: API.OperationMethod<
-  RegisterTransitGatewayMulticastGroupMembersRequest,
+  RegisterTransitGatewayMulticastGroupMembersRequest & RegionInput,
   RegisterTransitGatewayMulticastGroupMembersResult,
   RegisterTransitGatewayMulticastGroupMembersError,
   Credentials | HttpClient.HttpClient
@@ -45573,7 +45580,7 @@ export type RegisterTransitGatewayMulticastGroupSourcesError =
  * group.
  */
 export const registerTransitGatewayMulticastGroupSources: API.OperationMethod<
-  RegisterTransitGatewayMulticastGroupSourcesRequest,
+  RegisterTransitGatewayMulticastGroupSourcesRequest & RegionInput,
   RegisterTransitGatewayMulticastGroupSourcesResult,
   RegisterTransitGatewayMulticastGroupSourcesError,
   Credentials | HttpClient.HttpClient
@@ -45612,7 +45619,7 @@ export type RejectCapacityReservationBillingOwnershipError =
  * Amazon EC2 Capacity Reservations.
  */
 export const rejectCapacityReservationBillingOwnership: API.OperationMethod<
-  RejectCapacityReservationBillingOwnershipRequest,
+  RejectCapacityReservationBillingOwnershipRequest & RegionInput,
   RejectCapacityReservationBillingOwnershipResult,
   RejectCapacityReservationBillingOwnershipError,
   Credentials | HttpClient.HttpClient
@@ -45640,7 +45647,7 @@ export type RejectTransitGatewayClientVpnAttachmentError = CommonErrors;
  * Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gateway.
  */
 export const rejectTransitGatewayClientVpnAttachment: API.OperationMethod<
-  RejectTransitGatewayClientVpnAttachmentRequest,
+  RejectTransitGatewayClientVpnAttachmentRequest & RegionInput,
   RejectTransitGatewayClientVpnAttachmentResult,
   RejectTransitGatewayClientVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -45664,7 +45671,7 @@ export type RejectTransitGatewayMulticastDomainAssociationsError =
  * Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
  */
 export const rejectTransitGatewayMulticastDomainAssociations: API.OperationMethod<
-  RejectTransitGatewayMulticastDomainAssociationsRequest,
+  RejectTransitGatewayMulticastDomainAssociationsRequest & RegionInput,
   RejectTransitGatewayMulticastDomainAssociationsResult,
   RejectTransitGatewayMulticastDomainAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -45697,7 +45704,7 @@ export type RejectTransitGatewayPeeringAttachmentError =
  * Rejects a transit gateway peering attachment request.
  */
 export const rejectTransitGatewayPeeringAttachment: API.OperationMethod<
-  RejectTransitGatewayPeeringAttachmentRequest,
+  RejectTransitGatewayPeeringAttachmentRequest & RegionInput,
   RejectTransitGatewayPeeringAttachmentResult,
   RejectTransitGatewayPeeringAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -45731,7 +45738,7 @@ export type RejectTransitGatewayVpcAttachmentError =
  * Use AcceptTransitGatewayVpcAttachment to accept a VPC attachment request.
  */
 export const rejectTransitGatewayVpcAttachment: API.OperationMethod<
-  RejectTransitGatewayVpcAttachmentRequest,
+  RejectTransitGatewayVpcAttachmentRequest & RegionInput,
   RejectTransitGatewayVpcAttachmentResult,
   RejectTransitGatewayVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -45761,7 +45768,7 @@ export type RejectVpcEndpointConnectionsError =
  * Rejects VPC endpoint connection requests to your VPC endpoint service.
  */
 export const rejectVpcEndpointConnections: API.OperationMethod<
-  RejectVpcEndpointConnectionsRequest,
+  RejectVpcEndpointConnectionsRequest & RegionInput,
   RejectVpcEndpointConnectionsResult,
   RejectVpcEndpointConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -45795,7 +45802,7 @@ export type RejectVpcPeeringConnectionError =
  * connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeeringConnection.
  */
 export const rejectVpcPeeringConnection: API.OperationMethod<
-  RejectVpcPeeringConnectionRequest,
+  RejectVpcPeeringConnectionRequest & RegionInput,
   RejectVpcPeeringConnectionResult,
   RejectVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -45848,7 +45855,7 @@ export type ReleaseAddressError =
  * For more information, see Release an Elastic IP address.
  */
 export const releaseAddress: API.OperationMethod<
-  ReleaseAddressRequest,
+  ReleaseAddressRequest & RegionInput,
   ReleaseAddressResponse,
   ReleaseAddressError,
   Credentials | HttpClient.HttpClient
@@ -45894,7 +45901,7 @@ export type ReleaseHostsError =
  * Released hosts still appear in a DescribeHosts response.
  */
 export const releaseHosts: API.OperationMethod<
-  ReleaseHostsRequest,
+  ReleaseHostsRequest & RegionInput,
   ReleaseHostsResult,
   ReleaseHostsError,
   Credentials | HttpClient.HttpClient
@@ -45920,7 +45927,7 @@ export type ReleaseIpamPoolAllocationError =
  * All EC2 API actions follow an eventual consistency model.
  */
 export const releaseIpamPoolAllocation: API.OperationMethod<
-  ReleaseIpamPoolAllocationRequest,
+  ReleaseIpamPoolAllocationRequest & RegionInput,
   ReleaseIpamPoolAllocationResult,
   ReleaseIpamPoolAllocationError,
   Credentials | HttpClient.HttpClient
@@ -45945,7 +45952,7 @@ export type ReplaceIamInstanceProfileAssociationError = CommonErrors;
  * ID.
  */
 export const replaceIamInstanceProfileAssociation: API.OperationMethod<
-  ReplaceIamInstanceProfileAssociationRequest,
+  ReplaceIamInstanceProfileAssociationRequest & RegionInput,
   ReplaceIamInstanceProfileAssociationResult,
   ReplaceIamInstanceProfileAssociationError,
   Credentials | HttpClient.HttpClient
@@ -45977,7 +45984,7 @@ export type ReplaceImageCriteriaInAllowedImagesSettingsError = CommonErrors;
  * *Amazon EC2 User Guide*.
  */
 export const replaceImageCriteriaInAllowedImagesSettings: API.OperationMethod<
-  ReplaceImageCriteriaInAllowedImagesSettingsRequest,
+  ReplaceImageCriteriaInAllowedImagesSettingsRequest & RegionInput,
   ReplaceImageCriteriaInAllowedImagesSettingsResult,
   ReplaceImageCriteriaInAllowedImagesSettingsError,
   Credentials | HttpClient.HttpClient
@@ -46024,7 +46031,7 @@ export type ReplaceImageInstanceTypeSpecificationError = CommonErrors;
  * in Amazon Web Services Marketplace if it has an instance type specification set.
  */
 export const replaceImageInstanceTypeSpecification: API.OperationMethod<
-  ReplaceImageInstanceTypeSpecificationRequest,
+  ReplaceImageInstanceTypeSpecificationRequest & RegionInput,
   ReplaceImageInstanceTypeSpecificationResult,
   ReplaceImageInstanceTypeSpecificationError,
   Credentials | HttpClient.HttpClient
@@ -46054,7 +46061,7 @@ export type ReplaceNetworkAclAssociationError =
  * This is an idempotent operation.
  */
 export const replaceNetworkAclAssociation: API.OperationMethod<
-  ReplaceNetworkAclAssociationRequest,
+  ReplaceNetworkAclAssociationRequest & RegionInput,
   ReplaceNetworkAclAssociationResult,
   ReplaceNetworkAclAssociationError,
   Credentials | HttpClient.HttpClient
@@ -46086,7 +46093,7 @@ export type ReplaceNetworkAclEntryError =
  * *Amazon VPC User Guide*.
  */
 export const replaceNetworkAclEntry: API.OperationMethod<
-  ReplaceNetworkAclEntryRequest,
+  ReplaceNetworkAclEntryRequest & RegionInput,
   ReplaceNetworkAclEntryResponse,
   ReplaceNetworkAclEntryError,
   Credentials | HttpClient.HttpClient
@@ -46123,7 +46130,7 @@ export type ReplaceRouteError =
  * *Amazon VPC User Guide*.
  */
 export const replaceRoute: API.OperationMethod<
-  ReplaceRouteRequest,
+  ReplaceRouteRequest & RegionInput,
   ReplaceRouteResponse,
   ReplaceRouteError,
   Credentials | HttpClient.HttpClient
@@ -46158,7 +46165,7 @@ export type ReplaceRouteTableAssociationError =
  * You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
  */
 export const replaceRouteTableAssociation: API.OperationMethod<
-  ReplaceRouteTableAssociationRequest,
+  ReplaceRouteTableAssociationRequest & RegionInput,
   ReplaceRouteTableAssociationResult,
   ReplaceRouteTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -46187,7 +46194,7 @@ export type ReplaceTransitGatewayRouteError =
  * Replaces the specified route in the specified transit gateway route table.
  */
 export const replaceTransitGatewayRoute: API.OperationMethod<
-  ReplaceTransitGatewayRouteRequest,
+  ReplaceTransitGatewayRouteRequest & RegionInput,
   ReplaceTransitGatewayRouteResult,
   ReplaceTransitGatewayRouteError,
   Credentials | HttpClient.HttpClient
@@ -46211,7 +46218,7 @@ export type ReplaceVpnTunnelError =
  * Trigger replacement of specified VPN tunnel.
  */
 export const replaceVpnTunnel: API.OperationMethod<
-  ReplaceVpnTunnelRequest,
+  ReplaceVpnTunnelRequest & RegionInput,
   ReplaceVpnTunnelResult,
   ReplaceVpnTunnelError,
   Credentials | HttpClient.HttpClient
@@ -46240,7 +46247,7 @@ export type ReportInstanceStatusError =
  * Use of this action does not change the value returned by DescribeInstanceStatus.
  */
 export const reportInstanceStatus: API.OperationMethod<
-  ReportInstanceStatusRequest,
+  ReportInstanceStatusRequest & RegionInput,
   ReportInstanceStatusResponse,
   ReportInstanceStatusError,
   Credentials | HttpClient.HttpClient
@@ -46295,7 +46302,7 @@ export type RequestSpotFleetError =
  * *Amazon EC2 User Guide*.
  */
 export const requestSpotFleet: API.OperationMethod<
-  RequestSpotFleetRequest,
+  RequestSpotFleetRequest & RegionInput,
   RequestSpotFleetResponse,
   RequestSpotFleetError,
   Credentials | HttpClient.HttpClient
@@ -46328,7 +46335,7 @@ export type RequestSpotInstancesError =
  * *Amazon EC2 User Guide*.
  */
 export const requestSpotInstances: API.OperationMethod<
-  RequestSpotInstancesRequest,
+  RequestSpotInstancesRequest & RegionInput,
   RequestSpotInstancesResult,
   RequestSpotInstancesError,
   Credentials | HttpClient.HttpClient
@@ -46352,7 +46359,7 @@ export type ResetAddressAttributeError =
  * Resets the attribute of the specified IP address. For requirements, see Using reverse DNS for email applications.
  */
 export const resetAddressAttribute: API.OperationMethod<
-  ResetAddressAttributeRequest,
+  ResetAddressAttributeRequest & RegionInput,
   ResetAddressAttributeResult,
   ResetAddressAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46378,7 +46385,7 @@ export type ResetEbsDefaultKmsKeyIdError = CommonErrors;
  * in the *Amazon EBS User Guide*.
  */
 export const resetEbsDefaultKmsKeyId: API.OperationMethod<
-  ResetEbsDefaultKmsKeyIdRequest,
+  ResetEbsDefaultKmsKeyIdRequest & RegionInput,
   ResetEbsDefaultKmsKeyIdResult,
   ResetEbsDefaultKmsKeyIdError,
   Credentials | HttpClient.HttpClient
@@ -46403,7 +46410,7 @@ export type ResetFpgaImageAttributeError =
  * You can only reset the load permission attribute.
  */
 export const resetFpgaImageAttribute: API.OperationMethod<
-  ResetFpgaImageAttributeRequest,
+  ResetFpgaImageAttributeRequest & RegionInput,
   ResetFpgaImageAttributeResult,
   ResetFpgaImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46429,7 +46436,7 @@ export type ResetImageAttributeError =
  * Resets an attribute of an AMI to its default value.
  */
 export const resetImageAttribute: API.OperationMethod<
-  ResetImageAttributeRequest,
+  ResetImageAttributeRequest & RegionInput,
   ResetImageAttributeResponse,
   ResetImageAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46468,7 +46475,7 @@ export type ResetInstanceAttributeError =
  * *Amazon VPC User Guide*.
  */
 export const resetInstanceAttribute: API.OperationMethod<
-  ResetInstanceAttributeRequest,
+  ResetInstanceAttributeRequest & RegionInput,
   ResetInstanceAttributeResponse,
   ResetInstanceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46493,7 +46500,7 @@ export type ResetNetworkInterfaceAttributeError =
  * time.
  */
 export const resetNetworkInterfaceAttribute: API.OperationMethod<
-  ResetNetworkInterfaceAttributeRequest,
+  ResetNetworkInterfaceAttributeRequest & RegionInput,
   ResetNetworkInterfaceAttributeResponse,
   ResetNetworkInterfaceAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46522,7 +46529,7 @@ export type ResetSnapshotAttributeError =
  * *Amazon EBS User Guide*.
  */
 export const resetSnapshotAttribute: API.OperationMethod<
-  ResetSnapshotAttributeRequest,
+  ResetSnapshotAttributeRequest & RegionInput,
   ResetSnapshotAttributeResponse,
   ResetSnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -46554,7 +46561,7 @@ export type RestoreAddressToClassicError =
  * Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
  */
 export const restoreAddressToClassic: API.OperationMethod<
-  RestoreAddressToClassicRequest,
+  RestoreAddressToClassicRequest & RegionInput,
   RestoreAddressToClassicResult,
   RestoreAddressToClassicError,
   Credentials | HttpClient.HttpClient
@@ -46580,7 +46587,7 @@ export type RestoreImageFromRecycleBinError =
  * *Amazon EC2 User Guide*.
  */
 export const restoreImageFromRecycleBin: API.OperationMethod<
-  RestoreImageFromRecycleBinRequest,
+  RestoreImageFromRecycleBinRequest & RegionInput,
   RestoreImageFromRecycleBinResult,
   RestoreImageFromRecycleBinError,
   Credentials | HttpClient.HttpClient
@@ -46604,7 +46611,7 @@ export type RestoreManagedPrefixListVersionError =
  * Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
  */
 export const restoreManagedPrefixListVersion: API.OperationMethod<
-  RestoreManagedPrefixListVersionRequest,
+  RestoreManagedPrefixListVersionRequest & RegionInput,
   RestoreManagedPrefixListVersionResult,
   RestoreManagedPrefixListVersionError,
   Credentials | HttpClient.HttpClient
@@ -46629,7 +46636,7 @@ export type RestoreSnapshotFromRecycleBinError =
  * snapshots from the Recycle Bin in the *Amazon EBS User Guide*.
  */
 export const restoreSnapshotFromRecycleBin: API.OperationMethod<
-  RestoreSnapshotFromRecycleBinRequest,
+  RestoreSnapshotFromRecycleBinRequest & RegionInput,
   RestoreSnapshotFromRecycleBinResult,
   RestoreSnapshotFromRecycleBinError,
   Credentials | HttpClient.HttpClient
@@ -46658,7 +46665,7 @@ export type RestoreSnapshotTierError =
  * modify the restore period or restore type for a temporarily restored snapshot in the *Amazon EBS User Guide*.
  */
 export const restoreSnapshotTier: API.OperationMethod<
-  RestoreSnapshotTierRequest,
+  RestoreSnapshotTierRequest & RegionInput,
   RestoreSnapshotTierResult,
   RestoreSnapshotTierError,
   Credentials | HttpClient.HttpClient
@@ -46683,7 +46690,7 @@ export type RestoreVolumeFromRecycleBinError =
  * volumes from the Recycle Bin in the *Amazon EBS User Guide*.
  */
 export const restoreVolumeFromRecycleBin: API.OperationMethod<
-  RestoreVolumeFromRecycleBinRequest,
+  RestoreVolumeFromRecycleBinRequest & RegionInput,
   RestoreVolumeFromRecycleBinResult,
   RestoreVolumeFromRecycleBinError,
   Credentials | HttpClient.HttpClient
@@ -46710,7 +46717,7 @@ export type RevokeClientVpnIngressError =
  * Removes an ingress authorization rule from a Client VPN endpoint.
  */
 export const revokeClientVpnIngress: API.OperationMethod<
-  RevokeClientVpnIngressRequest,
+  RevokeClientVpnIngressRequest & RegionInput,
   RevokeClientVpnIngressResult,
   RevokeClientVpnIngressError,
   Credentials | HttpClient.HttpClient
@@ -46765,7 +46772,7 @@ export type RevokeSecurityGroupEgressError =
  * a small delay might occur.
  */
 export const revokeSecurityGroupEgress: API.OperationMethod<
-  RevokeSecurityGroupEgressRequest,
+  RevokeSecurityGroupEgressRequest & RegionInput,
   RevokeSecurityGroupEgressResult,
   RevokeSecurityGroupEgressError,
   Credentials | HttpClient.HttpClient
@@ -46827,7 +46834,7 @@ export type RevokeSecurityGroupIngressError =
  * However, a small delay might occur.
  */
 export const revokeSecurityGroupIngress: API.OperationMethod<
-  RevokeSecurityGroupIngressRequest,
+  RevokeSecurityGroupIngressRequest & RegionInput,
   RevokeSecurityGroupIngressResult,
   RevokeSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -46914,7 +46921,7 @@ export type RunInstancesError =
  * an instance immediately terminates, and Troubleshooting connecting to your instance.
  */
 export const runInstances: API.OperationMethod<
-  RunInstancesRequest,
+  RunInstancesRequest & RegionInput,
   Reservation,
   RunInstancesError,
   Credentials | HttpClient.HttpClient
@@ -46954,7 +46961,7 @@ export type RunScheduledInstancesError =
  * after a few minutes.
  */
 export const runScheduledInstances: API.OperationMethod<
-  RunScheduledInstancesRequest,
+  RunScheduledInstancesRequest & RegionInput,
   RunScheduledInstancesResult,
   RunScheduledInstancesError,
   Credentials | HttpClient.HttpClient
@@ -46979,7 +46986,7 @@ export type SearchLocalGatewayRoutesError =
  * Searches for routes in the specified local gateway route table.
  */
 export const searchLocalGatewayRoutes: API.PaginatedOperationMethod<
-  SearchLocalGatewayRoutesRequest,
+  SearchLocalGatewayRoutesRequest & RegionInput,
   SearchLocalGatewayRoutesResult,
   SearchLocalGatewayRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -47016,7 +47023,7 @@ export type SearchTransitGatewayMulticastGroupsError =
  * Searches one or more transit gateway multicast groups and returns the group membership information.
  */
 export const searchTransitGatewayMulticastGroups: API.PaginatedOperationMethod<
-  SearchTransitGatewayMulticastGroupsRequest,
+  SearchTransitGatewayMulticastGroupsRequest & RegionInput,
   SearchTransitGatewayMulticastGroupsResult,
   SearchTransitGatewayMulticastGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -47053,7 +47060,7 @@ export type SearchTransitGatewayRoutesError =
  * Searches for routes in the specified transit gateway route table.
  */
 export const searchTransitGatewayRoutes: API.PaginatedOperationMethod<
-  SearchTransitGatewayRoutesRequest,
+  SearchTransitGatewayRoutesRequest & RegionInput,
   SearchTransitGatewayRoutesResult,
   SearchTransitGatewayRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -47105,7 +47112,7 @@ export type SendDiagnosticInterruptError =
  * (for advanced users) in the *Amazon EC2 User Guide*.
  */
 export const sendDiagnosticInterrupt: API.OperationMethod<
-  SendDiagnosticInterruptRequest,
+  SendDiagnosticInterruptRequest & RegionInput,
   SendDiagnosticInterruptResponse,
   SendDiagnosticInterruptError,
   Credentials | HttpClient.HttpClient
@@ -47167,7 +47174,7 @@ export type StartDeclarativePoliciesReportError =
  * *Amazon Web Services Organizations User Guide*.
  */
 export const startDeclarativePoliciesReport: API.OperationMethod<
-  StartDeclarativePoliciesReportRequest,
+  StartDeclarativePoliciesReportRequest & RegionInput,
   StartDeclarativePoliciesReportResult,
   StartDeclarativePoliciesReportError,
   Credentials | HttpClient.HttpClient
@@ -47216,7 +47223,7 @@ export type StartInstancesError =
  * instances in the *Amazon EC2 User Guide*.
  */
 export const startInstances: API.OperationMethod<
-  StartInstancesRequest,
+  StartInstancesRequest & RegionInput,
   StartInstancesResult,
   StartInstancesError,
   Credentials | HttpClient.HttpClient
@@ -47247,7 +47254,7 @@ export type StartNetworkInsightsAccessScopeAnalysisError =
  * Starts analyzing the specified Network Access Scope.
  */
 export const startNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
-  StartNetworkInsightsAccessScopeAnalysisRequest,
+  StartNetworkInsightsAccessScopeAnalysisRequest & RegionInput,
   StartNetworkInsightsAccessScopeAnalysisResult,
   StartNetworkInsightsAccessScopeAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -47278,7 +47285,7 @@ export type StartNetworkInsightsAnalysisError =
  * operation returns the shortest feasible path.
  */
 export const startNetworkInsightsAnalysis: API.OperationMethod<
-  StartNetworkInsightsAnalysisRequest,
+  StartNetworkInsightsAnalysisRequest & RegionInput,
   StartNetworkInsightsAnalysisResult,
   StartNetworkInsightsAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -47308,7 +47315,7 @@ export type StartVpcEndpointServicePrivateDnsVerificationError =
  * Before the service provider runs this command, they must add a record to the DNS server.
  */
 export const startVpcEndpointServicePrivateDnsVerification: API.OperationMethod<
-  StartVpcEndpointServicePrivateDnsVerificationRequest,
+  StartVpcEndpointServicePrivateDnsVerificationRequest & RegionInput,
   StartVpcEndpointServicePrivateDnsVerificationResult,
   StartVpcEndpointServicePrivateDnsVerificationError,
   Credentials | HttpClient.HttpClient
@@ -47383,7 +47390,7 @@ export type StopInstancesError =
  * You can't stop or hibernate instance store-backed instances.
  */
 export const stopInstances: API.OperationMethod<
-  StopInstancesRequest,
+  StopInstancesRequest & RegionInput,
   StopInstancesResult,
   StopInstancesError,
   Credentials | HttpClient.HttpClient
@@ -47413,7 +47420,7 @@ export type TerminateClientVpnConnectionsError =
  * Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
  */
 export const terminateClientVpnConnections: API.OperationMethod<
-  TerminateClientVpnConnectionsRequest,
+  TerminateClientVpnConnectionsRequest & RegionInput,
   TerminateClientVpnConnectionsResult,
   TerminateClientVpnConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -47511,7 +47518,7 @@ export type TerminateInstancesError =
  * *Amazon EC2 User Guide*.
  */
 export const terminateInstances: API.OperationMethod<
-  TerminateInstancesRequest,
+  TerminateInstancesRequest & RegionInput,
   TerminateInstancesResult,
   TerminateInstancesError,
   Credentials | HttpClient.HttpClient
@@ -47543,7 +47550,7 @@ export type UnassignIpv6AddressesError =
  * interface.
  */
 export const unassignIpv6Addresses: API.OperationMethod<
-  UnassignIpv6AddressesRequest,
+  UnassignIpv6AddressesRequest & RegionInput,
   UnassignIpv6AddressesResult,
   UnassignIpv6AddressesError,
   Credentials | HttpClient.HttpClient
@@ -47575,7 +47582,7 @@ export type UnassignPrivateIpAddressesError =
  * prefixes from a network interface.
  */
 export const unassignPrivateIpAddresses: API.OperationMethod<
-  UnassignPrivateIpAddressesRequest,
+  UnassignPrivateIpAddressesRequest & RegionInput,
   UnassignPrivateIpAddressesResponse,
   UnassignPrivateIpAddressesError,
   Credentials | HttpClient.HttpClient
@@ -47611,7 +47618,7 @@ export type UnassignPrivateNatGatewayAddressError = CommonErrors;
  * addresses are released.
  */
 export const unassignPrivateNatGatewayAddress: API.OperationMethod<
-  UnassignPrivateNatGatewayAddressRequest,
+  UnassignPrivateNatGatewayAddressRequest & RegionInput,
   UnassignPrivateNatGatewayAddressResult,
   UnassignPrivateNatGatewayAddressError,
   Credentials | HttpClient.HttpClient
@@ -47637,7 +47644,7 @@ export type UnlockSnapshotError =
  * mode after the cooling-off period has expired.
  */
 export const unlockSnapshot: API.OperationMethod<
-  UnlockSnapshotRequest,
+  UnlockSnapshotRequest & RegionInput,
   UnlockSnapshotResult,
   UnlockSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -47664,7 +47671,7 @@ export type UnmonitorInstancesError =
  * *Amazon EC2 User Guide*.
  */
 export const unmonitorInstances: API.OperationMethod<
-  UnmonitorInstancesRequest,
+  UnmonitorInstancesRequest & RegionInput,
   UnmonitorInstancesResult,
   UnmonitorInstancesError,
   Credentials | HttpClient.HttpClient
@@ -47689,7 +47696,7 @@ export type UpdateCapacityManagerMonitoredTagKeysError = CommonErrors;
  * Activates or deactivates tag keys for monitoring by EC2 Capacity Manager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
  */
 export const updateCapacityManagerMonitoredTagKeys: API.OperationMethod<
-  UpdateCapacityManagerMonitoredTagKeysRequest,
+  UpdateCapacityManagerMonitoredTagKeysRequest & RegionInput,
   UpdateCapacityManagerMonitoredTagKeysResult,
   UpdateCapacityManagerMonitoredTagKeysError,
   Credentials | HttpClient.HttpClient
@@ -47714,7 +47721,7 @@ export type UpdateCapacityManagerOrganizationsAccessError =
  * data from all accounts in your Amazon Web Services Organization or only from the current account.
  */
 export const updateCapacityManagerOrganizationsAccess: API.OperationMethod<
-  UpdateCapacityManagerOrganizationsAccessRequest,
+  UpdateCapacityManagerOrganizationsAccessRequest & RegionInput,
   UpdateCapacityManagerOrganizationsAccessResult,
   UpdateCapacityManagerOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -47738,7 +47745,7 @@ export type UpdateInterruptibleCapacityReservationAllocationError =
  * Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation.
  */
 export const updateInterruptibleCapacityReservationAllocation: API.OperationMethod<
-  UpdateInterruptibleCapacityReservationAllocationRequest,
+  UpdateInterruptibleCapacityReservationAllocationRequest & RegionInput,
   UpdateInterruptibleCapacityReservationAllocationResult,
   UpdateInterruptibleCapacityReservationAllocationError,
   Credentials | HttpClient.HttpClient
@@ -47773,7 +47780,7 @@ export type UpdateSecurityGroupRuleDescriptionsEgressError =
  * description parameter in the request.
  */
 export const updateSecurityGroupRuleDescriptionsEgress: API.OperationMethod<
-  UpdateSecurityGroupRuleDescriptionsEgressRequest,
+  UpdateSecurityGroupRuleDescriptionsEgressRequest & RegionInput,
   UpdateSecurityGroupRuleDescriptionsEgressResult,
   UpdateSecurityGroupRuleDescriptionsEgressError,
   Credentials | HttpClient.HttpClient
@@ -47800,7 +47807,7 @@ export type UpdateSecurityGroupRuleDescriptionsIngressError =
  * parameter in the request.
  */
 export const updateSecurityGroupRuleDescriptionsIngress: API.OperationMethod<
-  UpdateSecurityGroupRuleDescriptionsIngressRequest,
+  UpdateSecurityGroupRuleDescriptionsIngressRequest & RegionInput,
   UpdateSecurityGroupRuleDescriptionsIngressResult,
   UpdateSecurityGroupRuleDescriptionsIngressError,
   Credentials | HttpClient.HttpClient
@@ -47826,7 +47833,7 @@ export type ValidateSecurityGroupQuotasForInterfaceError = CommonErrors;
  * VPC quotas in the *Amazon VPC User Guide*.
  */
 export const validateSecurityGroupQuotasForInterface: API.OperationMethod<
-  ValidateSecurityGroupQuotasForInterfaceRequest,
+  ValidateSecurityGroupQuotasForInterfaceRequest & RegionInput,
   ValidateSecurityGroupQuotasForInterfaceResult,
   ValidateSecurityGroupQuotasForInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -47852,7 +47859,7 @@ export type WithdrawByoipCidrError = RequestLimitExceeded | UnauthorizedOperatio
  * because of BGP propagation delays.
  */
 export const withdrawByoipCidr: API.OperationMethod<
-  WithdrawByoipCidrRequest,
+  WithdrawByoipCidrRequest & RegionInput,
   WithdrawByoipCidrResult,
   WithdrawByoipCidrError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1619,7 +1620,7 @@ export type ActivateGatewayError =
  * You must turn on the gateway VM before you can activate your gateway.
  */
 export const activateGateway: API.OperationMethod<
-  ActivateGatewayInput,
+  ActivateGatewayInput & RegionInput,
   ActivateGatewayOutput,
   ActivateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type AddCacheError = InternalServerError | InvalidGatewayRequestException
  * add cache, and one or more disk IDs that you want to configure as cache.
  */
 export const addCache: API.OperationMethod<
-  AddCacheInput,
+  AddCacheInput & RegionInput,
   AddCacheOutput,
   AddCacheError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type AddTagsToResourceError =
  * that are recovered to a new gateway maintain their tags.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceInput,
+  AddTagsToResourceInput & RegionInput,
   AddTagsToResourceOutput,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type AddUploadBufferError =
  * buffer.
  */
 export const addUploadBuffer: API.OperationMethod<
-  AddUploadBufferInput,
+  AddUploadBufferInput & RegionInput,
   AddUploadBufferOutput,
   AddUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -1744,7 +1745,7 @@ export type AddWorkingStorageError =
  * storage.
  */
 export const addWorkingStorage: API.OperationMethod<
-  AddWorkingStorageInput,
+  AddWorkingStorageInput & RegionInput,
   AddWorkingStorageOutput,
   AddWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type AssignTapePoolError =
  * S3 Glacier Deep Archive) that corresponds to the pool.
  */
 export const assignTapePool: API.OperationMethod<
-  AssignTapePoolInput,
+  AssignTapePoolInput & RegionInput,
   AssignTapePoolOutput,
   AssignTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1797,7 @@ export type AssociateFileSystemError =
  * type.
  */
 export const associateFileSystem: API.OperationMethod<
-  AssociateFileSystemInput,
+  AssociateFileSystemInput & RegionInput,
   AssociateFileSystemOutput,
   AssociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type AttachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
  */
 export const attachVolume: API.OperationMethod<
-  AttachVolumeInput,
+  AttachVolumeInput & RegionInput,
   AttachVolumeOutput,
   AttachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1843,7 +1844,7 @@ export type CancelArchivalError =
  * process is initiated. This operation is only supported in the tape gateway type.
  */
 export const cancelArchival: API.OperationMethod<
-  CancelArchivalInput,
+  CancelArchivalInput & RegionInput,
   CancelArchivalOutput,
   CancelArchivalError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type CancelCacheReportError =
  * error.
  */
 export const cancelCacheReport: API.OperationMethod<
-  CancelCacheReportInput,
+  CancelCacheReportInput & RegionInput,
   CancelCacheReportOutput,
   CancelCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1896,7 @@ export type CancelRetrievalError =
  * is only supported in the tape gateway type.
  */
 export const cancelRetrieval: API.OperationMethod<
-  CancelRetrievalInput,
+  CancelRetrievalInput & RegionInput,
   CancelRetrievalOutput,
   CancelRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1933,7 +1934,7 @@ export type CreateCachediSCSIVolumeError =
  * equal to or larger than the size of the copied volume, in bytes.
  */
 export const createCachediSCSIVolume: API.OperationMethod<
-  CreateCachediSCSIVolumeInput,
+  CreateCachediSCSIVolumeInput & RegionInput,
   CreateCachediSCSIVolumeOutput,
   CreateCachediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type CreateNFSFileShareError =
  * share.
  */
 export const createNFSFileShare: API.OperationMethod<
-  CreateNFSFileShareInput,
+  CreateNFSFileShareInput & RegionInput,
   CreateNFSFileShareOutput,
   CreateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2008,7 @@ export type CreateSMBFileShareError =
  * share.
  */
 export const createSMBFileShare: API.OperationMethod<
-  CreateSMBFileShareInput,
+  CreateSMBFileShareInput & RegionInput,
   CreateSMBFileShareOutput,
   CreateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type CreateSnapshotError =
  * information, see the important note on the Welcome page.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotInput,
+  CreateSnapshotInput & RegionInput,
   CreateSnapshotOutput,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2096,7 +2097,7 @@ export type CreateSnapshotFromVolumeRecoveryPointError =
  * Reference.
  */
 export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
-  CreateSnapshotFromVolumeRecoveryPointInput,
+  CreateSnapshotFromVolumeRecoveryPointInput & RegionInput,
   CreateSnapshotFromVolumeRecoveryPointOutput,
   CreateSnapshotFromVolumeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2131,7 @@ export type CreateStorediSCSIVolumeError =
  * ARN that initiators can use to connect to the volume target.
  */
 export const createStorediSCSIVolume: API.OperationMethod<
-  CreateStorediSCSIVolumeInput,
+  CreateStorediSCSIVolumeInput & RegionInput,
   CreateStorediSCSIVolumeOutput,
   CreateStorediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type CreateTapePoolError =
  * lock on tapes that are archived in the custom pool.
  */
 export const createTapePool: API.OperationMethod<
-  CreateTapePoolInput,
+  CreateTapePoolInput & RegionInput,
   CreateTapePoolOutput,
   CreateTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type CreateTapesError = InternalServerError | InvalidGatewayRequestExcept
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapes: API.OperationMethod<
-  CreateTapesInput,
+  CreateTapesInput & RegionInput,
   CreateTapesOutput,
   CreateTapesError,
   Credentials | HttpClient.HttpClient
@@ -2207,7 +2208,7 @@ export type CreateTapeWithBarcodeError =
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapeWithBarcode: API.OperationMethod<
-  CreateTapeWithBarcodeInput,
+  CreateTapeWithBarcodeInput & RegionInput,
   CreateTapeWithBarcodeOutput,
   CreateTapeWithBarcodeError,
   Credentials | HttpClient.HttpClient
@@ -2232,7 +2233,7 @@ export type DeleteAutomaticTapeCreationPolicyError =
  * in your request to remove the policy.
  */
 export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
-  DeleteAutomaticTapeCreationPolicyInput,
+  DeleteAutomaticTapeCreationPolicyInput & RegionInput,
   DeleteAutomaticTapeCreationPolicyOutput,
   DeleteAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2259,7 +2260,7 @@ export type DeleteBandwidthRateLimitError =
  * for the stored volume, cached volume, and tape gateway types.
  */
 export const deleteBandwidthRateLimit: API.OperationMethod<
-  DeleteBandwidthRateLimitInput,
+  DeleteBandwidthRateLimitInput & RegionInput,
   DeleteBandwidthRateLimitOutput,
   DeleteBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2286,7 +2287,7 @@ export type DeleteCacheReportError =
  * `DeleteCacheReport` does not delete the report object from your Amazon S3 bucket.
  */
 export const deleteCacheReport: API.OperationMethod<
-  DeleteCacheReportInput,
+  DeleteCacheReportInput & RegionInput,
   DeleteCacheReportOutput,
   DeleteCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type DeleteChapCredentialsError =
  * types.
  */
 export const deleteChapCredentials: API.OperationMethod<
-  DeleteChapCredentialsInput,
+  DeleteChapCredentialsInput & RegionInput,
   DeleteChapCredentialsOutput,
   DeleteChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2336,7 @@ export type DeleteFileShareError =
  * File Gateways.
  */
 export const deleteFileShare: API.OperationMethod<
-  DeleteFileShareInput,
+  DeleteFileShareInput & RegionInput,
   DeleteFileShareOutput,
   DeleteFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2373,7 +2374,7 @@ export type DeleteGatewayError =
  * page.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2407,7 +2408,7 @@ export type DeleteSnapshotScheduleError =
  * in the *Amazon Elastic Compute Cloud API Reference*.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleInput,
+  DeleteSnapshotScheduleInput & RegionInput,
   DeleteSnapshotScheduleOutput,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2428,7 +2429,7 @@ export type DeleteTapeError = InternalServerError | InvalidGatewayRequestExcepti
  * type.
  */
 export const deleteTape: API.OperationMethod<
-  DeleteTapeInput,
+  DeleteTapeInput & RegionInput,
   DeleteTapeOutput,
   DeleteTapeError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type DeleteTapeArchiveError =
  * only supported in the tape gateway type.
  */
 export const deleteTapeArchive: API.OperationMethod<
-  DeleteTapeArchiveInput,
+  DeleteTapeArchiveInput & RegionInput,
   DeleteTapeArchiveOutput,
   DeleteTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2477,7 +2478,7 @@ export type DeleteTapePoolError =
  * tape pool.
  */
 export const deleteTapePool: API.OperationMethod<
-  DeleteTapePoolInput,
+  DeleteTapePoolInput & RegionInput,
   DeleteTapePoolOutput,
   DeleteTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2509,7 +2510,7 @@ export type DeleteVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * you want to delete.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeInput,
+  DeleteVolumeInput & RegionInput,
   DeleteVolumeOutput,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type DescribeAvailabilityMonitorTestError =
  * time in the response would be null.
  */
 export const describeAvailabilityMonitorTest: API.OperationMethod<
-  DescribeAvailabilityMonitorTestInput,
+  DescribeAvailabilityMonitorTestInput & RegionInput,
   DescribeAvailabilityMonitorTestOutput,
   DescribeAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -2565,7 +2566,7 @@ export type DescribeBandwidthRateLimitError =
  * the gateway in your request.
  */
 export const describeBandwidthRateLimit: API.OperationMethod<
-  DescribeBandwidthRateLimitInput,
+  DescribeBandwidthRateLimitInput & RegionInput,
   DescribeBandwidthRateLimitOutput,
   DescribeBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2604,7 +2605,7 @@ export type DescribeBandwidthRateLimitScheduleError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeBandwidthRateLimitSchedule: API.OperationMethod<
-  DescribeBandwidthRateLimitScheduleInput,
+  DescribeBandwidthRateLimitScheduleInput & RegionInput,
   DescribeBandwidthRateLimitScheduleOutput,
   DescribeBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2631,7 +2632,7 @@ export type DescribeCacheError =
  * of cache allocated and used.
  */
 export const describeCache: API.OperationMethod<
-  DescribeCacheInput,
+  DescribeCacheInput & RegionInput,
   DescribeCacheOutput,
   DescribeCacheError,
   Credentials | HttpClient.HttpClient
@@ -2659,7 +2660,7 @@ export type DescribeCachediSCSIVolumesError =
  * (ARN).
  */
 export const describeCachediSCSIVolumes: API.OperationMethod<
-  DescribeCachediSCSIVolumesInput,
+  DescribeCachediSCSIVolumesInput & RegionInput,
   DescribeCachediSCSIVolumesOutput,
   DescribeCachediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type DescribeCacheReportError =
  * generation progress.
  */
 export const describeCacheReport: API.OperationMethod<
-  DescribeCacheReportInput,
+  DescribeCacheReportInput & RegionInput,
   DescribeCacheReportOutput,
   DescribeCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2708,7 +2709,7 @@ export type DescribeChapCredentialsError =
  * operation is supported in the volume and tape gateway types.
  */
 export const describeChapCredentials: API.OperationMethod<
-  DescribeChapCredentialsInput,
+  DescribeChapCredentialsInput & RegionInput,
   DescribeChapCredentialsOutput,
   DescribeChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2732,7 +2733,7 @@ export type DescribeFileSystemAssociationsError =
  * File Gateways.
  */
 export const describeFileSystemAssociations: API.OperationMethod<
-  DescribeFileSystemAssociationsInput,
+  DescribeFileSystemAssociationsInput & RegionInput,
   DescribeFileSystemAssociationsOutput,
   DescribeFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2757,7 +2758,7 @@ export type DescribeGatewayInformationError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeGatewayInformation: API.OperationMethod<
-  DescribeGatewayInformationInput,
+  DescribeGatewayInformationInput & RegionInput,
   DescribeGatewayInformationOutput,
   DescribeGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2783,7 @@ export type DescribeMaintenanceStartTimeError =
  * updates to apply. Time values returned are for the gateway's time zone.
  */
 export const describeMaintenanceStartTime: API.OperationMethod<
-  DescribeMaintenanceStartTimeInput,
+  DescribeMaintenanceStartTimeInput & RegionInput,
   DescribeMaintenanceStartTimeOutput,
   DescribeMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type DescribeNFSFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeNFSFileShares: API.OperationMethod<
-  DescribeNFSFileSharesInput,
+  DescribeNFSFileSharesInput & RegionInput,
   DescribeNFSFileSharesOutput,
   DescribeNFSFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type DescribeSMBFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeSMBFileShares: API.OperationMethod<
-  DescribeSMBFileSharesInput,
+  DescribeSMBFileSharesInput & RegionInput,
   DescribeSMBFileSharesOutput,
   DescribeSMBFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2854,7 +2855,7 @@ export type DescribeSMBSettingsError =
  * gateway. This operation is only supported for file gateways.
  */
 export const describeSMBSettings: API.OperationMethod<
-  DescribeSMBSettingsInput,
+  DescribeSMBSettingsInput & RegionInput,
   DescribeSMBSettingsOutput,
   DescribeSMBSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2880,7 +2881,7 @@ export type DescribeSnapshotScheduleError =
  * types.
  */
 export const describeSnapshotSchedule: API.OperationMethod<
-  DescribeSnapshotScheduleInput,
+  DescribeSnapshotScheduleInput & RegionInput,
   DescribeSnapshotScheduleOutput,
   DescribeSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2905,7 +2906,7 @@ export type DescribeStorediSCSIVolumesError =
  * supported in stored volume gateway type.
  */
 export const describeStorediSCSIVolumes: API.OperationMethod<
-  DescribeStorediSCSIVolumesInput,
+  DescribeStorediSCSIVolumesInput & RegionInput,
   DescribeStorediSCSIVolumesOutput,
   DescribeStorediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2932,7 +2933,7 @@ export type DescribeTapeArchivesError =
  * description of all virtual tapes found in the VTS associated with your account.
  */
 export const describeTapeArchives: API.PaginatedOperationMethod<
-  DescribeTapeArchivesInput,
+  DescribeTapeArchivesInput & RegionInput,
   DescribeTapeArchivesOutput,
   DescribeTapeArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2968,7 +2969,7 @@ export type DescribeTapeRecoveryPointsError =
  * gateway type.
  */
 export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
-  DescribeTapeRecoveryPointsInput,
+  DescribeTapeRecoveryPointsInput & RegionInput,
   DescribeTapeRecoveryPointsOutput,
   DescribeTapeRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -3008,7 +3009,7 @@ export type DescribeTapesError =
  * tapes.
  */
 export const describeTapes: API.PaginatedOperationMethod<
-  DescribeTapesInput,
+  DescribeTapesInput & RegionInput,
   DescribeTapesOutput,
   DescribeTapesError,
   Credentials | HttpClient.HttpClient,
@@ -3042,7 +3043,7 @@ export type DescribeUploadBufferError =
  * includes the amount of upload buffer space allocated and used.
  */
 export const describeUploadBuffer: API.OperationMethod<
-  DescribeUploadBufferInput,
+  DescribeUploadBufferInput & RegionInput,
   DescribeUploadBufferOutput,
   DescribeUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -3068,7 +3069,7 @@ export type DescribeVTLDevicesError =
  * This operation is only supported in the tape gateway type.
  */
 export const describeVTLDevices: API.PaginatedOperationMethod<
-  DescribeVTLDevicesInput,
+  DescribeVTLDevicesInput & RegionInput,
   DescribeVTLDevicesOutput,
   DescribeVTLDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3106,7 +3107,7 @@ export type DescribeWorkingStorageError =
  * the amount of working storage allocated and used.
  */
 export const describeWorkingStorage: API.OperationMethod<
-  DescribeWorkingStorageInput,
+  DescribeWorkingStorageInput & RegionInput,
   DescribeWorkingStorageOutput,
   DescribeWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type DetachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * instance. This operation is only supported in the volume gateway type.
  */
 export const detachVolume: API.OperationMethod<
-  DetachVolumeInput,
+  DetachVolumeInput & RegionInput,
   DetachVolumeOutput,
   DetachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -3159,7 +3160,7 @@ export type DisableGatewayError =
  * After a gateway is disabled, it cannot be enabled.
  */
 export const disableGateway: API.OperationMethod<
-  DisableGatewayInput,
+  DisableGatewayInput & RegionInput,
   DisableGatewayOutput,
   DisableGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3185,7 @@ export type DisassociateFileSystemError =
  * file system. This operation is only supported in the FSx File Gateway type.
  */
 export const disassociateFileSystem: API.OperationMethod<
-  DisassociateFileSystemInput,
+  DisassociateFileSystemInput & RegionInput,
   DisassociateFileSystemOutput,
   DisassociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -3218,7 +3219,7 @@ export type EvictFilesFailingUploadError =
  * loss.
  */
 export const evictFilesFailingUpload: API.OperationMethod<
-  EvictFilesFailingUploadInput,
+  EvictFilesFailingUploadInput & RegionInput,
   EvictFilesFailingUploadOutput,
   EvictFilesFailingUploadError,
   Credentials | HttpClient.HttpClient
@@ -3248,7 +3249,7 @@ export type JoinDomainError = InternalServerError | InvalidGatewayRequestExcepti
  * default, you must specify the organizational unit when joining the domain.
  */
 export const joinDomain: API.OperationMethod<
-  JoinDomainInput,
+  JoinDomainInput & RegionInput,
   JoinDomainOutput,
   JoinDomainError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type ListAutomaticTapeCreationPoliciesError =
  * This operation is only supported for tape gateways.
  */
 export const listAutomaticTapeCreationPolicies: API.OperationMethod<
-  ListAutomaticTapeCreationPoliciesInput,
+  ListAutomaticTapeCreationPoliciesInput & RegionInput,
   ListAutomaticTapeCreationPoliciesOutput,
   ListAutomaticTapeCreationPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -3300,7 +3301,7 @@ export type ListCacheReportsError =
  * progress, start time, end time, filters, and tags.
  */
 export const listCacheReports: API.PaginatedOperationMethod<
-  ListCacheReportsInput,
+  ListCacheReportsInput & RegionInput,
   ListCacheReportsOutput,
   ListCacheReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3327,7 +3328,7 @@ export type ListFileSharesError =
  * supported for S3 File Gateways.
  */
 export const listFileShares: API.PaginatedOperationMethod<
-  ListFileSharesInput,
+  ListFileSharesInput & RegionInput,
   ListFileSharesOutput,
   ListFileSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3359,7 +3360,7 @@ export type ListFileSystemAssociationsError =
  * Gateways.
  */
 export const listFileSystemAssociations: API.PaginatedOperationMethod<
-  ListFileSystemAssociationsInput,
+  ListFileSystemAssociationsInput & RegionInput,
   ListFileSystemAssociationsOutput,
   ListFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,7 +3397,7 @@ export type ListGatewaysError = InternalServerError | InvalidGatewayRequestExcep
  * specify in your next request to fetch the next page of gateways.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3434,7 +3435,7 @@ export type ListLocalDisksError =
  * corrupted).
  */
 export const listLocalDisks: API.OperationMethod<
-  ListLocalDisksInput,
+  ListLocalDisksInput & RegionInput,
   ListLocalDisksOutput,
   ListLocalDisksError,
   Credentials | HttpClient.HttpClient
@@ -3458,7 +3459,7 @@ export type ListTagsForResourceError =
  * supported in storage gateways of all types.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3496,7 +3497,7 @@ export type ListTapePoolsError =
  * next set of tape pools.
  */
 export const listTapePools: API.PaginatedOperationMethod<
-  ListTapePoolsInput,
+  ListTapePoolsInput & RegionInput,
   ListTapePoolsOutput,
   ListTapePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -3533,7 +3534,7 @@ export type ListTapesError = InternalServerError | InvalidGatewayRequestExceptio
  * the tape gateway type.
  */
 export const listTapes: API.PaginatedOperationMethod<
-  ListTapesInput,
+  ListTapesInput & RegionInput,
   ListTapesOutput,
   ListTapesError,
   Credentials | HttpClient.HttpClient,
@@ -3565,7 +3566,7 @@ export type ListVolumeInitiatorsError =
  * cached volume and stored volume gateway types.
  */
 export const listVolumeInitiators: API.OperationMethod<
-  ListVolumeInitiatorsInput,
+  ListVolumeInitiatorsInput & RegionInput,
   ListVolumeInitiatorsOutput,
   ListVolumeInitiatorsError,
   Credentials | HttpClient.HttpClient
@@ -3594,7 +3595,7 @@ export type ListVolumeRecoveryPointsError =
  * point use the CreateSnapshotFromVolumeRecoveryPoint operation.
  */
 export const listVolumeRecoveryPoints: API.OperationMethod<
-  ListVolumeRecoveryPointsInput,
+  ListVolumeRecoveryPointsInput & RegionInput,
   ListVolumeRecoveryPointsOutput,
   ListVolumeRecoveryPointsError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type ListVolumesError = InternalServerError | InvalidGatewayRequestExcept
  * the cached volume and stored volume gateway types.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesInput,
+  ListVolumesInput & RegionInput,
   ListVolumesOutput,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -3665,7 +3666,7 @@ export type NotifyWhenUploadedError =
  * Guide.
  */
 export const notifyWhenUploaded: API.OperationMethod<
-  NotifyWhenUploadedInput,
+  NotifyWhenUploadedInput & RegionInput,
   NotifyWhenUploadedOutput,
   NotifyWhenUploadedError,
   Credentials | HttpClient.HttpClient
@@ -3722,7 +3723,7 @@ export type RefreshCacheError = InternalServerError | InvalidGatewayRequestExcep
  * Guide.
  */
 export const refreshCache: API.OperationMethod<
-  RefreshCacheInput,
+  RefreshCacheInput & RegionInput,
   RefreshCacheOutput,
   RefreshCacheError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3747,7 @@ export type RemoveTagsFromResourceError =
  * storage gateways of all types.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceInput,
+  RemoveTagsFromResourceInput & RegionInput,
   RemoveTagsFromResourceOutput,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3777,7 @@ export type ResetCacheError = InternalServerError | InvalidGatewayRequestExcepti
  * cache disk for your gateway to function properly.
  */
 export const resetCache: API.OperationMethod<
-  ResetCacheInput,
+  ResetCacheInput & RegionInput,
   ResetCacheOutput,
   ResetCacheError,
   Credentials | HttpClient.HttpClient
@@ -3806,7 +3807,7 @@ export type RetrieveTapeArchiveError =
  * gateway. This operation is only supported in the tape gateway type.
  */
 export const retrieveTapeArchive: API.OperationMethod<
-  RetrieveTapeArchiveInput,
+  RetrieveTapeArchiveInput & RegionInput,
   RetrieveTapeArchiveOutput,
   RetrieveTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3838,7 +3839,7 @@ export type RetrieveTapeRecoveryPointError =
  * for retrieving recovery points.
  */
 export const retrieveTapeRecoveryPoint: API.OperationMethod<
-  RetrieveTapeRecoveryPointInput,
+  RetrieveTapeRecoveryPointInput & RegionInput,
   RetrieveTapeRecoveryPointOutput,
   RetrieveTapeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3864,7 +3865,7 @@ export type SetLocalConsolePasswordError =
  * password.
  */
 export const setLocalConsolePassword: API.OperationMethod<
-  SetLocalConsolePasswordInput,
+  SetLocalConsolePasswordInput & RegionInput,
   SetLocalConsolePasswordOutput,
   SetLocalConsolePasswordError,
   Credentials | HttpClient.HttpClient
@@ -3889,7 +3890,7 @@ export type SetSMBGuestPasswordError =
  * `GuestAccess`. This operation only supported for S3 File Gateways
  */
 export const setSMBGuestPassword: API.OperationMethod<
-  SetSMBGuestPasswordInput,
+  SetSMBGuestPasswordInput & RegionInput,
   SetSMBGuestPasswordOutput,
   SetSMBGuestPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type ShutdownGatewayError =
  * gateway.
  */
 export const shutdownGateway: API.OperationMethod<
-  ShutdownGatewayInput,
+  ShutdownGatewayInput & RegionInput,
   ShutdownGatewayOutput,
   ShutdownGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3963,7 +3964,7 @@ export type StartAvailabilityMonitorTestError =
  * Starting this test will cause your gateway to go offline for a brief period.
  */
 export const startAvailabilityMonitorTest: API.OperationMethod<
-  StartAvailabilityMonitorTestInput,
+  StartAvailabilityMonitorTestInput & RegionInput,
   StartAvailabilityMonitorTestOutput,
   StartAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -4013,7 +4014,7 @@ export type StartCacheReportError =
  * `ExclusionFilters` in the request.
  */
 export const startCacheReport: API.OperationMethod<
-  StartCacheReportInput,
+  StartCacheReportInput & RegionInput,
   StartCacheReportOutput,
   StartCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type StartGatewayError = InternalServerError | InvalidGatewayRequestExcep
  * your request.
  */
 export const startGateway: API.OperationMethod<
-  StartGatewayInput,
+  StartGatewayInput & RegionInput,
   StartGatewayOutput,
   StartGatewayError,
   Credentials | HttpClient.HttpClient
@@ -4072,7 +4073,7 @@ export type UpdateAutomaticTapeCreationPolicyError =
  * A gateway can have only one automatic tape creation policy.
  */
 export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
-  UpdateAutomaticTapeCreationPolicyInput,
+  UpdateAutomaticTapeCreationPolicyInput & RegionInput,
   UpdateAutomaticTapeCreationPolicyOutput,
   UpdateAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4106,7 +4107,7 @@ export type UpdateBandwidthRateLimitError =
  * your request.
  */
 export const updateBandwidthRateLimit: API.OperationMethod<
-  UpdateBandwidthRateLimitInput,
+  UpdateBandwidthRateLimitInput & RegionInput,
   UpdateBandwidthRateLimitOutput,
   UpdateBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -4134,7 +4135,7 @@ export type UpdateBandwidthRateLimitScheduleError =
  * limits.
  */
 export const updateBandwidthRateLimitSchedule: API.OperationMethod<
-  UpdateBandwidthRateLimitScheduleInput,
+  UpdateBandwidthRateLimitScheduleInput & RegionInput,
   UpdateBandwidthRateLimitScheduleOutput,
   UpdateBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4163,7 +4164,7 @@ export type UpdateChapCredentialsError =
  * and initiators must reconnect with the new credentials.
  */
 export const updateChapCredentials: API.OperationMethod<
-  UpdateChapCredentialsInput,
+  UpdateChapCredentialsInput & RegionInput,
   UpdateChapCredentialsOutput,
   UpdateChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -4187,7 +4188,7 @@ export type UpdateFileSystemAssociationError =
  * Gateways.
  */
 export const updateFileSystemAssociation: API.OperationMethod<
-  UpdateFileSystemAssociationInput,
+  UpdateFileSystemAssociationInput & RegionInput,
   UpdateFileSystemAssociationOutput,
   UpdateFileSystemAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4217,7 @@ export type UpdateGatewayInformationError =
  * no effect on the gateway's ARN.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -4250,7 +4251,7 @@ export type UpdateGatewaySoftwareNowError =
  * Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -4288,7 +4289,7 @@ export type UpdateMaintenanceStartTimeError =
  * deployment.
  */
 export const updateMaintenanceStartTime: API.OperationMethod<
-  UpdateMaintenanceStartTimeInput,
+  UpdateMaintenanceStartTimeInput & RegionInput,
   UpdateMaintenanceStartTimeOutput,
   UpdateMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -4327,7 +4328,7 @@ export type UpdateNFSFileShareError =
  * - Write status of your file share
  */
 export const updateNFSFileShare: API.OperationMethod<
-  UpdateNFSFileShareInput,
+  UpdateNFSFileShareInput & RegionInput,
   UpdateNFSFileShareOutput,
   UpdateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4365,7 +4366,7 @@ export type UpdateSMBFileShareError =
  * share.
  */
 export const updateSMBFileShare: API.OperationMethod<
-  UpdateSMBFileShareInput,
+  UpdateSMBFileShareInput & RegionInput,
   UpdateSMBFileShareOutput,
   UpdateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4389,7 +4390,7 @@ export type UpdateSMBFileShareVisibilityError =
  * list. The operation is only supported for S3 File Gateways.
  */
 export const updateSMBFileShareVisibility: API.OperationMethod<
-  UpdateSMBFileShareVisibilityInput,
+  UpdateSMBFileShareVisibilityInput & RegionInput,
   UpdateSMBFileShareVisibilityOutput,
   UpdateSMBFileShareVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type UpdateSMBLocalGroupsError =
  * SMB file shares on the gateway.
  */
 export const updateSMBLocalGroups: API.OperationMethod<
-  UpdateSMBLocalGroupsInput,
+  UpdateSMBLocalGroupsInput & RegionInput,
   UpdateSMBLocalGroupsOutput,
   UpdateSMBLocalGroupsError,
   Credentials | HttpClient.HttpClient
@@ -4443,7 +4444,7 @@ export type UpdateSMBSecurityStrategyError =
  * A higher security strategy level can affect performance of the gateway.
  */
 export const updateSMBSecurityStrategy: API.OperationMethod<
-  UpdateSMBSecurityStrategyInput,
+  UpdateSMBSecurityStrategyInput & RegionInput,
   UpdateSMBSecurityStrategyOutput,
   UpdateSMBSecurityStrategyError,
   Credentials | HttpClient.HttpClient
@@ -4475,7 +4476,7 @@ export type UpdateSnapshotScheduleError =
  * day and the frequency (in hours) of snapshots.
  */
 export const updateSnapshotSchedule: API.OperationMethod<
-  UpdateSnapshotScheduleInput,
+  UpdateSnapshotScheduleInput & RegionInput,
   UpdateSnapshotScheduleOutput,
   UpdateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4501,7 +4502,7 @@ export type UpdateVTLDeviceTypeError =
  * only supported in the tape gateway type.
  */
 export const updateVTLDeviceType: API.OperationMethod<
-  UpdateVTLDeviceTypeInput,
+  UpdateVTLDeviceTypeInput & RegionInput,
   UpdateVTLDeviceTypeOutput,
   UpdateVTLDeviceTypeError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -373,7 +374,7 @@ export type CreateTokenError =
  * AWS accounts or to access application APIs using `bearer` authentication.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
@@ -424,7 +425,7 @@ export type CreateTokenWithIAMError =
  * Version 4 for API Requests.
  */
 export const createTokenWithIAM: API.OperationMethod<
-  CreateTokenWithIAMRequest,
+  CreateTokenWithIAMRequest & RegionInput,
   CreateTokenWithIAMResponse,
   CreateTokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -467,7 +468,7 @@ export type RegisterClientError =
  * code grant.
  */
 export const registerClient: API.OperationMethod<
-  RegisterClientRequest,
+  RegisterClientRequest & RegionInput,
   RegisterClientResponse,
   RegisterClientError,
   Credentials | HttpClient.HttpClient
@@ -502,7 +503,7 @@ export type StartDeviceAuthorizationError =
  * authorization service.
  */
 export const startDeviceAuthorization: API.OperationMethod<
-  StartDeviceAuthorizationRequest,
+  StartDeviceAuthorizationRequest & RegionInput,
   StartDeviceAuthorizationResponse,
   StartDeviceAuthorizationError,
   Credentials | HttpClient.HttpClient

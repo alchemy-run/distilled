@@ -1,12 +1,13 @@
 {
-  "description": "pipeline listing is page/per_page envelope-paginated — mark it so result_info is delivered (consumer-proven)",
+  "description": "pipeline listing is page/per_page envelope-paginated — mark it so result_info is delivered (consumer-proven). It pages by number: page/per_page in, result_info { count, page, per_page, total_count } and results out (https://developers.cloudflare.com/api/resources/pipelines/methods/list/, read 2026-11-07), so it takes page mode like listV1Pipeline. Without a mode, .pages() fell through to token pagination and died before any request.",
   "patches": [
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.pipelines#ListPipelines/traits/smithy.api#paginated",
       "value": {
+        "mode": "page",
         "inputToken": "page",
-        "pageSize": "per_page",
+        "pageSize": "perPage",
         "items": "results"
       }
     }

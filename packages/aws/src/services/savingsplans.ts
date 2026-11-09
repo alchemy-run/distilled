@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -537,7 +538,7 @@ export type CreateSavingsPlanError =
  * Creates a Savings Plan.
  */
 export const createSavingsPlan: API.OperationMethod<
-  CreateSavingsPlanRequest,
+  CreateSavingsPlanRequest & RegionInput,
   CreateSavingsPlanResponse,
   CreateSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -567,7 +568,7 @@ export type DeleteQueuedSavingsPlanError =
  * Deletes the queued purchase for the specified Savings Plan.
  */
 export const deleteQueuedSavingsPlan: API.OperationMethod<
-  DeleteQueuedSavingsPlanRequest,
+  DeleteQueuedSavingsPlanRequest & RegionInput,
   DeleteQueuedSavingsPlanResponse,
   DeleteQueuedSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -596,7 +597,7 @@ export type DescribeSavingsPlanRatesError =
  * Describes the rates for a specific, existing Savings Plan.
  */
 export const describeSavingsPlanRates: API.OperationMethod<
-  DescribeSavingsPlanRatesRequest,
+  DescribeSavingsPlanRatesRequest & RegionInput,
   DescribeSavingsPlanRatesResponse,
   DescribeSavingsPlanRatesError,
   Credentials | HttpClient.HttpClient
@@ -619,7 +620,7 @@ export type DescribeSavingsPlansError =
  * Describes the specified Savings Plans.
  */
 export const describeSavingsPlans: API.OperationMethod<
-  DescribeSavingsPlansRequest,
+  DescribeSavingsPlansRequest & RegionInput,
   DescribeSavingsPlansResponse,
   DescribeSavingsPlansError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DescribeSavingsPlansOfferingRatesError =
  * Describes the offering rates for Savings Plans you might want to purchase.
  */
 export const describeSavingsPlansOfferingRates: API.OperationMethod<
-  DescribeSavingsPlansOfferingRatesRequest,
+  DescribeSavingsPlansOfferingRatesRequest & RegionInput,
   DescribeSavingsPlansOfferingRatesResponse,
   DescribeSavingsPlansOfferingRatesError,
   Credentials | HttpClient.HttpClient
@@ -665,7 +666,7 @@ export type DescribeSavingsPlansOfferingsError =
  * Describes the offerings for the specified Savings Plans.
  */
 export const describeSavingsPlansOfferings: API.OperationMethod<
-  DescribeSavingsPlansOfferingsRequest,
+  DescribeSavingsPlansOfferingsRequest & RegionInput,
   DescribeSavingsPlansOfferingsResponse,
   DescribeSavingsPlansOfferingsError,
   Credentials | HttpClient.HttpClient
@@ -689,7 +690,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -714,7 +715,7 @@ export type ReturnSavingsPlanError =
  * Returns the specified Savings Plan.
  */
 export const returnSavingsPlan: API.OperationMethod<
-  ReturnSavingsPlanRequest,
+  ReturnSavingsPlanRequest & RegionInput,
   ReturnSavingsPlanResponse,
   ReturnSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

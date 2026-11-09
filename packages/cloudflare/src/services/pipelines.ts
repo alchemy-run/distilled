@@ -2837,7 +2837,12 @@ export const listPipelines: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPipelines",
-    pagination: { inputToken: "page", pageSize: "per_page", items: "results" } as const,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      pageSize: "perPage",
+      items: "results",
+    } as const,
   }),
   cloudflarePaginate,
 ) as any;

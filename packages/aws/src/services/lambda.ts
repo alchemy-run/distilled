@@ -10,6 +10,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2676,7 +2677,7 @@ export type AddLayerVersionPermissionError =
  * To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
  */
 export const addLayerVersionPermission: API.OperationMethod<
-  AddLayerVersionPermissionRequest,
+  AddLayerVersionPermissionRequest & RegionInput,
   AddLayerVersionPermissionResponse,
   AddLayerVersionPermissionError,
   Credentials | HttpClient.HttpClient
@@ -2721,7 +2722,7 @@ export type AddPermissionError =
  * This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionRequest,
+  AddPermissionRequest & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -2762,7 +2763,7 @@ export type CheckpointDurableExecutionError =
  * Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order state updates.
  */
 export const checkpointDurableExecution: API.OperationMethod<
-  CheckpointDurableExecutionRequest,
+  CheckpointDurableExecutionRequest & RegionInput,
   CheckpointDurableExecutionResponse,
   CheckpointDurableExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type CreateAliasError =
  * You can also map an alias to split invocation requests between two versions. Use the `RoutingConfig` parameter to specify a second version and the percentage of invocation requests that it receives.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   AliasConfiguration,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -2836,7 +2837,7 @@ export type CreateCapacityProviderError =
  * Creates a capacity provider that manages compute resources for Lambda Event Functions
  */
 export const createCapacityProvider: API.OperationMethod<
-  CreateCapacityProviderRequest,
+  CreateCapacityProviderRequest & RegionInput,
   CreateCapacityProviderResponse,
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -2865,7 +2866,7 @@ export type CreateCodeSigningConfigError =
  * Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
  */
 export const createCodeSigningConfig: API.OperationMethod<
-  CreateCodeSigningConfigRequest,
+  CreateCodeSigningConfigRequest & RegionInput,
   CreateCodeSigningConfigResponse,
   CreateCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -2942,7 +2943,7 @@ export type CreateEventSourceMappingError =
  * - Amazon DocumentDB
  */
 export const createEventSourceMapping: API.OperationMethod<
-  CreateEventSourceMappingRequest,
+  CreateEventSourceMappingRequest & RegionInput,
   EventSourceMappingConfiguration,
   CreateEventSourceMappingError,
   Credentials | HttpClient.HttpClient
@@ -3008,7 +3009,7 @@ export type CreateFunctionError =
  * To invoke your function directly, use Invoke. To invoke your function in response to events in other Amazon Web Services services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Lambda functions.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   FunctionConfiguration,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3052,7 +3053,7 @@ export type CreateFunctionUrlConfigError =
  * Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
  */
 export const createFunctionUrlConfig: API.OperationMethod<
-  CreateFunctionUrlConfigRequest,
+  CreateFunctionUrlConfigRequest & RegionInput,
   CreateFunctionUrlConfigResponse,
   CreateFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
@@ -3087,7 +3088,7 @@ export type DeleteAliasError =
  * Deletes a Lambda Event Function alias.
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
+  DeleteAliasRequest & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -3120,7 +3121,7 @@ export type DeleteCapacityProviderError =
  * Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
  */
 export const deleteCapacityProvider: API.OperationMethod<
-  DeleteCapacityProviderRequest,
+  DeleteCapacityProviderRequest & RegionInput,
   DeleteCapacityProviderResponse,
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3153,7 +3154,7 @@ export type DeleteCodeSigningConfigError =
  * Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
  */
 export const deleteCodeSigningConfig: API.OperationMethod<
-  DeleteCodeSigningConfigRequest,
+  DeleteCodeSigningConfigRequest & RegionInput,
   DeleteCodeSigningConfigResponse,
   DeleteCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -3189,7 +3190,7 @@ export type DeleteEventSourceMappingError =
  * When you delete an event source mapping, it enters a `Deleting` state and might not be completely deleted for several seconds.
  */
 export const deleteEventSourceMapping: API.OperationMethod<
-  DeleteEventSourceMappingRequest,
+  DeleteEventSourceMappingRequest & RegionInput,
   EventSourceMappingConfiguration,
   DeleteEventSourceMappingError,
   Credentials | HttpClient.HttpClient
@@ -3226,7 +3227,7 @@ export type DeleteFunctionError =
  * To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3259,7 +3260,7 @@ export type DeleteFunctionCodeSigningConfigError =
  * Removes the code signing configuration from the function.
  */
 export const deleteFunctionCodeSigningConfig: API.OperationMethod<
-  DeleteFunctionCodeSigningConfigRequest,
+  DeleteFunctionCodeSigningConfigRequest & RegionInput,
   DeleteFunctionCodeSigningConfigResponse,
   DeleteFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -3297,7 +3298,7 @@ export type DeleteFunctionConcurrencyError =
  * Removes a concurrent execution limit from a function.
  */
 export const deleteFunctionConcurrency: API.OperationMethod<
-  DeleteFunctionConcurrencyRequest,
+  DeleteFunctionConcurrencyRequest & RegionInput,
   DeleteFunctionConcurrencyResponse,
   DeleteFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
@@ -3338,7 +3339,7 @@ export type DeleteFunctionEventInvokeConfigError =
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
 export const deleteFunctionEventInvokeConfig: API.OperationMethod<
-  DeleteFunctionEventInvokeConfigRequest,
+  DeleteFunctionEventInvokeConfigRequest & RegionInput,
   DeleteFunctionEventInvokeConfigResponse,
   DeleteFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
@@ -3377,7 +3378,7 @@ export type DeleteFunctionUrlConfigError =
  * Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
  */
 export const deleteFunctionUrlConfig: API.OperationMethod<
-  DeleteFunctionUrlConfigRequest,
+  DeleteFunctionUrlConfigRequest & RegionInput,
   DeleteFunctionUrlConfigResponse,
   DeleteFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
@@ -3412,7 +3413,7 @@ export type DeleteLayerVersionError =
  * Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
  */
 export const deleteLayerVersion: API.OperationMethod<
-  DeleteLayerVersionRequest,
+  DeleteLayerVersionRequest & RegionInput,
   DeleteLayerVersionResponse,
   DeleteLayerVersionError,
   Credentials | HttpClient.HttpClient
@@ -3447,7 +3448,7 @@ export type DeleteProvisionedConcurrencyConfigError =
  * Deletes the provisioned concurrency configuration for a function.
  */
 export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
-  DeleteProvisionedConcurrencyConfigRequest,
+  DeleteProvisionedConcurrencyConfigRequest & RegionInput,
   DeleteProvisionedConcurrencyConfigResponse,
   DeleteProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
@@ -3485,7 +3486,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy from a Lambda resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3512,7 +3513,7 @@ export type GetAccountSettingsError = ServiceException | TooManyRequestsExceptio
  * Retrieves details about your account's limits and usage in an Amazon Web Services Region.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3537,7 +3538,7 @@ export type GetAliasError =
  * Returns details about a Lambda Event Function alias.
  */
 export const getAlias: API.OperationMethod<
-  GetAliasRequest,
+  GetAliasRequest & RegionInput,
   AliasConfiguration,
   GetAliasError,
   Credentials | HttpClient.HttpClient
@@ -3567,7 +3568,7 @@ export type GetCapacityProviderError =
  * Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
  */
 export const getCapacityProvider: API.OperationMethod<
-  GetCapacityProviderRequest,
+  GetCapacityProviderRequest & RegionInput,
   GetCapacityProviderResponse,
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3598,7 +3599,7 @@ export type GetCodeSigningConfigError =
  * Returns information about the specified code signing configuration.
  */
 export const getCodeSigningConfig: API.OperationMethod<
-  GetCodeSigningConfigRequest,
+  GetCodeSigningConfigRequest & RegionInput,
   GetCodeSigningConfigResponse,
   GetCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -3633,7 +3634,7 @@ export type GetDurableExecutionError =
  * Retrieves detailed information about a specific durable execution, including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
  */
 export const getDurableExecution: API.OperationMethod<
-  GetDurableExecutionRequest,
+  GetDurableExecutionRequest & RegionInput,
   GetDurableExecutionResponse,
   GetDurableExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3673,7 +3674,7 @@ export type GetDurableExecutionHistoryError =
  * The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads.
  */
 export const getDurableExecutionHistory: API.PaginatedOperationMethod<
-  GetDurableExecutionHistoryRequest,
+  GetDurableExecutionHistoryRequest & RegionInput,
   GetDurableExecutionHistoryResponse,
   GetDurableExecutionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -3719,7 +3720,7 @@ export type GetDurableExecutionStateError =
  * The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed.
  */
 export const getDurableExecutionState: API.PaginatedOperationMethod<
-  GetDurableExecutionStateRequest,
+  GetDurableExecutionStateRequest & RegionInput,
   GetDurableExecutionStateResponse,
   GetDurableExecutionStateError,
   Credentials | HttpClient.HttpClient,
@@ -3759,7 +3760,7 @@ export type GetEventSourceMappingError =
  * Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
  */
 export const getEventSourceMapping: API.OperationMethod<
-  GetEventSourceMappingRequest,
+  GetEventSourceMappingRequest & RegionInput,
   EventSourceMappingConfiguration,
   GetEventSourceMappingError,
   Credentials | HttpClient.HttpClient
@@ -3789,7 +3790,7 @@ export type GetFunctionError =
  * Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResponse,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -3820,7 +3821,7 @@ export type GetFunctionCodeSigningConfigError =
  * Returns the code signing configuration for the specified function.
  */
 export const getFunctionCodeSigningConfig: API.OperationMethod<
-  GetFunctionCodeSigningConfigRequest,
+  GetFunctionCodeSigningConfigRequest & RegionInput,
   GetFunctionCodeSigningConfigResponse,
   GetFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -3856,7 +3857,7 @@ export type GetFunctionConcurrencyError =
  * Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
  */
 export const getFunctionConcurrency: API.OperationMethod<
-  GetFunctionConcurrencyRequest,
+  GetFunctionConcurrencyRequest & RegionInput,
   GetFunctionConcurrencyResponse,
   GetFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
@@ -3890,7 +3891,7 @@ export type GetFunctionConfigurationError =
  * To get all of a function's details, including function-level settings, use GetFunction.
  */
 export const getFunctionConfiguration: API.OperationMethod<
-  GetFunctionConfigurationRequest,
+  GetFunctionConfigurationRequest & RegionInput,
   FunctionConfiguration,
   GetFunctionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3927,7 +3928,7 @@ export type GetFunctionEventInvokeConfigError =
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
 export const getFunctionEventInvokeConfig: API.OperationMethod<
-  GetFunctionEventInvokeConfigRequest,
+  GetFunctionEventInvokeConfigRequest & RegionInput,
   FunctionEventInvokeConfig,
   GetFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
@@ -3964,7 +3965,7 @@ export type GetFunctionRecursionConfigError =
  * Returns your function's recursive loop detection configuration.
  */
 export const getFunctionRecursionConfig: API.OperationMethod<
-  GetFunctionRecursionConfigRequest,
+  GetFunctionRecursionConfigRequest & RegionInput,
   GetFunctionRecursionConfigResponse,
   GetFunctionRecursionConfigError,
   Credentials | HttpClient.HttpClient
@@ -3999,7 +4000,7 @@ export type GetFunctionScalingConfigError =
  * Retrieves the scaling configuration for a Lambda Managed Instances function.
  */
 export const getFunctionScalingConfig: API.OperationMethod<
-  GetFunctionScalingConfigRequest,
+  GetFunctionScalingConfigRequest & RegionInput,
   GetFunctionScalingConfigResponse,
   GetFunctionScalingConfigError,
   Credentials | HttpClient.HttpClient
@@ -4032,7 +4033,7 @@ export type GetFunctionUrlConfigError =
  * Returns details about a Lambda function URL.
  */
 export const getFunctionUrlConfig: API.OperationMethod<
-  GetFunctionUrlConfigRequest,
+  GetFunctionUrlConfigRequest & RegionInput,
   GetFunctionUrlConfigResponse,
   GetFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
@@ -4064,7 +4065,7 @@ export type GetLayerVersionError =
  * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
  */
 export const getLayerVersion: API.OperationMethod<
-  GetLayerVersionRequest,
+  GetLayerVersionRequest & RegionInput,
   GetLayerVersionResponse,
   GetLayerVersionError,
   Credentials | HttpClient.HttpClient
@@ -4096,7 +4097,7 @@ export type GetLayerVersionByArnError =
  * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
  */
 export const getLayerVersionByArn: API.OperationMethod<
-  GetLayerVersionByArnRequest,
+  GetLayerVersionByArnRequest & RegionInput,
   GetLayerVersionResponse,
   GetLayerVersionByArnError,
   Credentials | HttpClient.HttpClient
@@ -4128,7 +4129,7 @@ export type GetLayerVersionPolicyError =
  * Returns the permission policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
  */
 export const getLayerVersionPolicy: API.OperationMethod<
-  GetLayerVersionPolicyRequest,
+  GetLayerVersionPolicyRequest & RegionInput,
   GetLayerVersionPolicyResponse,
   GetLayerVersionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4160,7 +4161,7 @@ export type GetPolicyError =
  * Returns the resource-based IAM policy for a function, version, or alias.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4193,7 +4194,7 @@ export type GetProvisionedConcurrencyConfigError =
  * Retrieves the provisioned concurrency configuration for a function's alias or version.
  */
 export const getProvisionedConcurrencyConfig: API.OperationMethod<
-  GetProvisionedConcurrencyConfigRequest,
+  GetProvisionedConcurrencyConfigRequest & RegionInput,
   GetProvisionedConcurrencyConfigResponse,
   GetProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
@@ -4229,7 +4230,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a Lambda resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4259,7 +4260,7 @@ export type GetRuntimeManagementConfigError =
  * Retrieves the runtime management configuration for a function's version. If the runtime update mode is **Manual**, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is **Auto** or **Function update**, this includes the runtime update mode and `null` is returned for the ARN. For more information, see Runtime updates.
  */
 export const getRuntimeManagementConfig: API.OperationMethod<
-  GetRuntimeManagementConfigRequest,
+  GetRuntimeManagementConfigRequest & RegionInput,
   GetRuntimeManagementConfigResponse,
   GetRuntimeManagementConfigError,
   Credentials | HttpClient.HttpClient
@@ -4347,7 +4348,7 @@ export type InvokeError =
  * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
  */
 export const invoke: API.OperationMethod<
-  InvocationRequest,
+  InvocationRequest & RegionInput,
   InvocationResponse,
   InvokeError,
   Credentials | HttpClient.HttpClient
@@ -4455,7 +4456,7 @@ export type InvokeAsyncError =
  * If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
  */
 export const invokeAsync: API.OperationMethod<
-  InvokeAsyncRequest,
+  InvokeAsyncRequest & RegionInput,
   InvokeAsyncResponse,
   InvokeAsyncError,
   Credentials | HttpClient.HttpClient
@@ -4548,7 +4549,7 @@ export type InvokeWithResponseStreamError =
  * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
  */
 export const invokeWithResponseStream: API.OperationMethod<
-  InvokeWithResponseStreamRequest,
+  InvokeWithResponseStreamRequest & RegionInput,
   InvokeWithResponseStreamResponse,
   InvokeWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -4620,7 +4621,7 @@ export type ListAliasesError =
  * Returns a list of aliases for a Lambda Event Function.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -4656,7 +4657,7 @@ export type ListCapacityProvidersError =
  * Returns a list of capacity providers in your account.
  */
 export const listCapacityProviders: API.PaginatedOperationMethod<
-  ListCapacityProvidersRequest,
+  ListCapacityProvidersRequest & RegionInput,
   ListCapacityProvidersResponse,
   ListCapacityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -4686,7 +4687,7 @@ export type ListCodeSigningConfigsError =
  * Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the `MaxItems` parameter to return fewer configurations per call.
  */
 export const listCodeSigningConfigs: API.PaginatedOperationMethod<
-  ListCodeSigningConfigsRequest,
+  ListCodeSigningConfigsRequest & RegionInput,
   ListCodeSigningConfigsResponse,
   ListCodeSigningConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4718,7 +4719,7 @@ export type ListDurableExecutionsByFunctionError =
  * Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
  */
 export const listDurableExecutionsByFunction: API.PaginatedOperationMethod<
-  ListDurableExecutionsByFunctionRequest,
+  ListDurableExecutionsByFunctionRequest & RegionInput,
   ListDurableExecutionsByFunctionResponse,
   ListDurableExecutionsByFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -4758,7 +4759,7 @@ export type ListEventSourceMappingsError =
  * Lists event source mappings. Specify an `EventSourceArn` to show only event source mappings for a single event source.
  */
 export const listEventSourceMappings: API.PaginatedOperationMethod<
-  ListEventSourceMappingsRequest,
+  ListEventSourceMappingsRequest & RegionInput,
   ListEventSourceMappingsResponse,
   ListEventSourceMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -4799,7 +4800,7 @@ export type ListFunctionEventInvokeConfigsError =
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
 export const listFunctionEventInvokeConfigs: API.PaginatedOperationMethod<
-  ListFunctionEventInvokeConfigsRequest,
+  ListFunctionEventInvokeConfigsRequest & RegionInput,
   ListFunctionEventInvokeConfigsResponse,
   ListFunctionEventInvokeConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4844,7 +4845,7 @@ export type ListFunctionsError =
  * The `ListFunctions` operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use GetFunction.
  */
 export const listFunctions: API.PaginatedOperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResponse,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -4875,7 +4876,7 @@ export type ListFunctionsByCodeSigningConfigError =
  * List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
  */
 export const listFunctionsByCodeSigningConfig: API.PaginatedOperationMethod<
-  ListFunctionsByCodeSigningConfigRequest,
+  ListFunctionsByCodeSigningConfigRequest & RegionInput,
   ListFunctionsByCodeSigningConfigResponse,
   ListFunctionsByCodeSigningConfigError,
   Credentials | HttpClient.HttpClient,
@@ -4907,7 +4908,7 @@ export type ListFunctionUrlConfigsError =
  * Returns a list of Lambda function URLs for the specified function.
  */
 export const listFunctionUrlConfigs: API.PaginatedOperationMethod<
-  ListFunctionUrlConfigsRequest,
+  ListFunctionUrlConfigsRequest & RegionInput,
   ListFunctionUrlConfigsResponse,
   ListFunctionUrlConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -4944,7 +4945,7 @@ export type ListFunctionVersionsByCapacityProviderError =
  * Returns a list of function versions that are configured to use a specific capacity provider.
  */
 export const listFunctionVersionsByCapacityProvider: API.PaginatedOperationMethod<
-  ListFunctionVersionsByCapacityProviderRequest,
+  ListFunctionVersionsByCapacityProviderRequest & RegionInput,
   ListFunctionVersionsByCapacityProviderResponse,
   ListFunctionVersionsByCapacityProviderError,
   Credentials | HttpClient.HttpClient,
@@ -4980,7 +4981,7 @@ export type ListLayersError =
  * Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
  */
 export const listLayers: API.PaginatedOperationMethod<
-  ListLayersRequest,
+  ListLayersRequest & RegionInput,
   ListLayersResponse,
   ListLayersError,
   Credentials | HttpClient.HttpClient,
@@ -5014,7 +5015,7 @@ export type ListLayerVersionsError =
  * Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
  */
 export const listLayerVersions: API.PaginatedOperationMethod<
-  ListLayerVersionsRequest,
+  ListLayerVersionsRequest & RegionInput,
   ListLayerVersionsResponse,
   ListLayerVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5055,7 +5056,7 @@ export type ListProvisionedConcurrencyConfigsError =
  * Retrieves a list of provisioned concurrency configurations for a function.
  */
 export const listProvisionedConcurrencyConfigs: API.PaginatedOperationMethod<
-  ListProvisionedConcurrencyConfigsRequest,
+  ListProvisionedConcurrencyConfigsRequest & RegionInput,
   ListProvisionedConcurrencyConfigsResponse,
   ListProvisionedConcurrencyConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -5099,7 +5100,7 @@ export type ListTagsError =
  * Returns a function, event source mapping, or code signing configuration's tags. You can also view function tags with GetFunction.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -5131,7 +5132,7 @@ export type ListVersionsByFunctionError =
  * Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
  */
 export const listVersionsByFunction: API.PaginatedOperationMethod<
-  ListVersionsByFunctionRequest,
+  ListVersionsByFunctionRequest & RegionInput,
   ListVersionsByFunctionResponse,
   ListVersionsByFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -5173,7 +5174,7 @@ export type PublishLayerVersionError =
  * Add layers to your function with CreateFunction or UpdateFunctionConfiguration.
  */
 export const publishLayerVersion: API.OperationMethod<
-  PublishLayerVersionRequest,
+  PublishLayerVersionRequest & RegionInput,
   PublishLayerVersionResponse,
   PublishLayerVersionError,
   Credentials | HttpClient.HttpClient
@@ -5216,7 +5217,7 @@ export type PublishVersionError =
  * Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias.
  */
 export const publishVersion: API.OperationMethod<
-  PublishVersionRequest,
+  PublishVersionRequest & RegionInput,
   FunctionConfiguration,
   PublishVersionError,
   Credentials | HttpClient.HttpClient
@@ -5256,7 +5257,7 @@ export type PutFunctionCodeSigningConfigError =
  * Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
  */
 export const putFunctionCodeSigningConfig: API.OperationMethod<
-  PutFunctionCodeSigningConfigRequest,
+  PutFunctionCodeSigningConfigRequest & RegionInput,
   PutFunctionCodeSigningConfigResponse,
   PutFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -5300,7 +5301,7 @@ export type PutFunctionConcurrencyError =
  * Use GetAccountSettings to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see Lambda function scaling.
  */
 export const putFunctionConcurrency: API.OperationMethod<
-  PutFunctionConcurrencyRequest,
+  PutFunctionConcurrencyRequest & RegionInput,
   Concurrency,
   PutFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
@@ -5342,7 +5343,7 @@ export type PutFunctionEventInvokeConfigError =
  * S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
  */
 export const putFunctionEventInvokeConfig: API.OperationMethod<
-  PutFunctionEventInvokeConfigRequest,
+  PutFunctionEventInvokeConfigRequest & RegionInput,
   FunctionEventInvokeConfig,
   PutFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
@@ -5385,7 +5386,7 @@ export type PutFunctionRecursionConfigError =
  * Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to `Terminate`, it stops your function being invoked and notifies you.
  */
 export const putFunctionRecursionConfig: API.OperationMethod<
-  PutFunctionRecursionConfigRequest,
+  PutFunctionRecursionConfigRequest & RegionInput,
   PutFunctionRecursionConfigResponse,
   PutFunctionRecursionConfigError,
   Credentials | HttpClient.HttpClient
@@ -5422,7 +5423,7 @@ export type PutFunctionScalingConfigError =
  * Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
  */
 export const putFunctionScalingConfig: API.OperationMethod<
-  PutFunctionScalingConfigRequest,
+  PutFunctionScalingConfigRequest & RegionInput,
   PutFunctionScalingConfigResponse,
   PutFunctionScalingConfigError,
   Credentials | HttpClient.HttpClient
@@ -5459,7 +5460,7 @@ export type PutProvisionedConcurrencyConfigError =
  * Adds a provisioned concurrency configuration to a function's alias or version.
  */
 export const putProvisionedConcurrencyConfig: API.OperationMethod<
-  PutProvisionedConcurrencyConfigRequest,
+  PutProvisionedConcurrencyConfigRequest & RegionInput,
   PutProvisionedConcurrencyConfigResponse,
   PutProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
@@ -5501,7 +5502,7 @@ export type PutResourcePolicyError =
  * This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5536,7 +5537,7 @@ export type PutRuntimeManagementConfigError =
  * Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
  */
 export const putRuntimeManagementConfig: API.OperationMethod<
-  PutRuntimeManagementConfigRequest,
+  PutRuntimeManagementConfigRequest & RegionInput,
   PutRuntimeManagementConfigResponse,
   PutRuntimeManagementConfigError,
   Credentials | HttpClient.HttpClient
@@ -5573,7 +5574,7 @@ export type RemoveLayerVersionPermissionError =
  * Removes a statement from the permissions policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
  */
 export const removeLayerVersionPermission: API.OperationMethod<
-  RemoveLayerVersionPermissionRequest,
+  RemoveLayerVersionPermissionRequest & RegionInput,
   RemoveLayerVersionPermissionResponse,
   RemoveLayerVersionPermissionError,
   Credentials | HttpClient.HttpClient
@@ -5608,7 +5609,7 @@ export type RemovePermissionError =
  * Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of GetPolicy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -5645,7 +5646,7 @@ export type SendDurableExecutionCallbackFailureError =
  * Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
  */
 export const sendDurableExecutionCallbackFailure: API.OperationMethod<
-  SendDurableExecutionCallbackFailureRequest,
+  SendDurableExecutionCallbackFailureRequest & RegionInput,
   SendDurableExecutionCallbackFailureResponse,
   SendDurableExecutionCallbackFailureError,
   Credentials | HttpClient.HttpClient
@@ -5681,7 +5682,7 @@ export type SendDurableExecutionCallbackHeartbeatError =
  * Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
  */
 export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
-  SendDurableExecutionCallbackHeartbeatRequest,
+  SendDurableExecutionCallbackHeartbeatRequest & RegionInput,
   SendDurableExecutionCallbackHeartbeatResponse,
   SendDurableExecutionCallbackHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5718,7 @@ export type SendDurableExecutionCallbackSuccessError =
  * Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
  */
 export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
-  SendDurableExecutionCallbackSuccessRequest,
+  SendDurableExecutionCallbackSuccessRequest & RegionInput,
   SendDurableExecutionCallbackSuccessResponse,
   SendDurableExecutionCallbackSuccessError,
   Credentials | HttpClient.HttpClient
@@ -5756,7 +5757,7 @@ export type StopDurableExecutionError =
  * Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
  */
 export const stopDurableExecution: API.OperationMethod<
-  StopDurableExecutionRequest,
+  StopDurableExecutionRequest & RegionInput,
   StopDurableExecutionResponse,
   StopDurableExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5793,7 +5794,7 @@ export type TagResourceError =
  * Adds tags to a function, event source mapping, or code signing configuration.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5829,7 +5830,7 @@ export type UntagResourceError =
  * Removes tags from a function, event source mapping, or code signing configuration.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5866,7 +5867,7 @@ export type UpdateAliasError =
  * Updates the configuration of a Lambda Event Function alias.
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasRequest,
+  UpdateAliasRequest & RegionInput,
   AliasConfiguration,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -5901,7 +5902,7 @@ export type UpdateCapacityProviderError =
  * Updates the configuration of an existing capacity provider.
  */
 export const updateCapacityProvider: API.OperationMethod<
-  UpdateCapacityProviderRequest,
+  UpdateCapacityProviderRequest & RegionInput,
   UpdateCapacityProviderResponse,
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -5931,7 +5932,7 @@ export type UpdateCodeSigningConfigError =
  * Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
  */
 export const updateCodeSigningConfig: API.OperationMethod<
-  UpdateCodeSigningConfigRequest,
+  UpdateCodeSigningConfigRequest & RegionInput,
   UpdateCodeSigningConfigResponse,
   UpdateCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
@@ -6009,7 +6010,7 @@ export type UpdateEventSourceMappingError =
  * - Amazon DocumentDB
  */
 export const updateEventSourceMapping: API.OperationMethod<
-  UpdateEventSourceMappingRequest,
+  UpdateEventSourceMappingRequest & RegionInput,
   EventSourceMappingConfiguration,
   UpdateEventSourceMappingError,
   Credentials | HttpClient.HttpClient
@@ -6070,7 +6071,7 @@ export type UpdateFunctionCodeError =
  * For a function defined as a container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the image tag to a new image, Lambda does not automatically update the function.
  */
 export const updateFunctionCode: API.OperationMethod<
-  UpdateFunctionCodeRequest,
+  UpdateFunctionCodeRequest & RegionInput,
   FunctionConfiguration,
   UpdateFunctionCodeError,
   Credentials | HttpClient.HttpClient
@@ -6128,7 +6129,7 @@ export type UpdateFunctionConfigurationError =
  * To configure function concurrency, use PutFunctionConcurrency. To grant invoke permissions to an Amazon Web Services account or Amazon Web Services service, use AddPermission.
  */
 export const updateFunctionConfiguration: API.OperationMethod<
-  UpdateFunctionConfigurationRequest,
+  UpdateFunctionConfigurationRequest & RegionInput,
   FunctionConfiguration,
   UpdateFunctionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6175,7 +6176,7 @@ export type UpdateFunctionEventInvokeConfigError =
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
 export const updateFunctionEventInvokeConfig: API.OperationMethod<
-  UpdateFunctionEventInvokeConfigRequest,
+  UpdateFunctionEventInvokeConfigRequest & RegionInput,
   FunctionEventInvokeConfig,
   UpdateFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
@@ -6212,7 +6213,7 @@ export type UpdateFunctionUrlConfigError =
  * Updates the configuration for a Lambda function URL.
  */
 export const updateFunctionUrlConfig: API.OperationMethod<
-  UpdateFunctionUrlConfigRequest,
+  UpdateFunctionUrlConfigRequest & RegionInput,
   UpdateFunctionUrlConfigResponse,
   UpdateFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient

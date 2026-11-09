@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2545,7 +2546,7 @@ export type AcceptInboundConnectionError =
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const acceptInboundConnection: API.OperationMethod<
-  AcceptInboundConnectionRequest,
+  AcceptInboundConnectionRequest & RegionInput,
   AcceptInboundConnectionResponse,
   AcceptInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2575,7 +2576,7 @@ export type AddDataSourceError =
  * S3.
  */
 export const addDataSource: API.OperationMethod<
-  AddDataSourceRequest,
+  AddDataSourceRequest & RegionInput,
   AddDataSourceResponse,
   AddDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type AddDirectQueryDataSourceError =
  * queries on external data.
  */
 export const addDirectQueryDataSource: API.OperationMethod<
-  AddDirectQueryDataSourceRequest,
+  AddDirectQueryDataSourceRequest & RegionInput,
   AddDirectQueryDataSourceResponse,
   AddDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2647,7 +2648,7 @@ export type AddTagsError =
  * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type AssociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2712,7 @@ export type AssociatePackagesError =
  * a domain simultaneously.
  */
 export const associatePackages: API.OperationMethod<
-  AssociatePackagesRequest,
+  AssociatePackagesRequest & RegionInput,
   AssociatePackagesResponse,
   AssociatePackagesError,
   Credentials | HttpClient.HttpClient
@@ -2745,7 +2746,7 @@ export type AttachDataSourceError =
  * Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of `ATTACHED`. Otherwise, the operation returns `PENDING` and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes `FAILED`. This operation is idempotent: If the data source is already attached or pending, the operation returns the existing attachment.
  */
 export const attachDataSource: API.OperationMethod<
-  AttachDataSourceRequest,
+  AttachDataSourceRequest & RegionInput,
   AttachDataSourceResponse,
   AttachDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2780,7 +2781,7 @@ export type AuthorizeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2813,7 +2814,7 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
@@ -2848,7 +2849,7 @@ export type CancelServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const cancelServiceSoftwareUpdate: API.OperationMethod<
-  CancelServiceSoftwareUpdateRequest,
+  CancelServiceSoftwareUpdateRequest & RegionInput,
   CancelServiceSoftwareUpdateResponse,
   CancelServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2875,7 +2876,7 @@ export type CreateApplicationError =
  * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2911,7 +2912,7 @@ export type CreateDomainError =
  * managing Amazon OpenSearch Service domains.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -2948,7 +2949,7 @@ export type CreateIndexError =
  * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2984,7 +2985,7 @@ export type CreateOutboundConnectionError =
  * for Amazon OpenSearch Service.
  */
 export const createOutboundConnection: API.OperationMethod<
-  CreateOutboundConnectionRequest,
+  CreateOutboundConnectionRequest & RegionInput,
   CreateOutboundConnectionResponse,
   CreateOutboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3019,7 +3020,7 @@ export type CreatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -3054,7 +3055,7 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type DeleteApplicationError =
  * Deletes a specified OpenSearch application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3125,7 +3126,7 @@ export type DeleteDataSourceError =
  * an Amazon OpenSearch Service data source with Amazon S3.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3159,7 +3160,7 @@ export type DeleteDirectQueryDataSourceError =
  * Service.
  */
 export const deleteDirectQueryDataSource: API.OperationMethod<
-  DeleteDirectQueryDataSourceRequest,
+  DeleteDirectQueryDataSourceRequest & RegionInput,
   DeleteDirectQueryDataSourceResponse,
   DeleteDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3192,7 @@ export type DeleteDomainError =
  * domain after you delete it.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -3215,7 +3216,7 @@ export type DeleteInboundConnectionError =
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteInboundConnection: API.OperationMethod<
-  DeleteInboundConnectionRequest,
+  DeleteInboundConnectionRequest & RegionInput,
   DeleteInboundConnectionResponse,
   DeleteInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3243,7 +3244,7 @@ export type DeleteIndexError =
  * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3276,7 @@ export type DeleteOutboundConnectionError =
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteOutboundConnection: API.OperationMethod<
-  DeleteOutboundConnectionRequest,
+  DeleteOutboundConnectionRequest & RegionInput,
   DeleteOutboundConnectionResponse,
   DeleteOutboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3303,7 +3304,7 @@ export type DeletePackageError =
  * for Amazon OpenSearch Service.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3362,7 +3363,7 @@ export type DeregisterCapabilityError =
  * Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration.
  */
 export const deregisterCapability: API.OperationMethod<
-  DeregisterCapabilityRequest,
+  DeregisterCapabilityRequest & RegionInput,
   DeregisterCapabilityResponse,
   DeregisterCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3396,7 @@ export type DescribeDataSourceAttachmentError =
  * Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a `ResourceNotFoundException` if no attachment record exists for the specified application and data source combination.
  */
 export const describeDataSourceAttachment: API.OperationMethod<
-  DescribeDataSourceAttachmentRequest,
+  DescribeDataSourceAttachmentRequest & RegionInput,
   DescribeDataSourceAttachmentResponse,
   DescribeDataSourceAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3427,7 +3428,7 @@ export type DescribeDomainError =
  * including the domain ID, domain service endpoint, and domain ARN.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -3454,7 +3455,7 @@ export type DescribeDomainAutoTunesError =
  * OpenSearch Service.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
@@ -3486,7 +3487,7 @@ export type DescribeDomainChangeProgressError =
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -3511,7 +3512,7 @@ export type DescribeDomainConfigError =
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
 export const describeDomainConfig: API.OperationMethod<
-  DescribeDomainConfigRequest,
+  DescribeDomainConfigRequest & RegionInput,
   DescribeDomainConfigResponse,
   DescribeDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -3538,7 +3539,7 @@ export type DescribeDomainHealthError =
  * number of nodes per Availability Zone, and shard count per node.
  */
 export const describeDomainHealth: API.OperationMethod<
-  DescribeDomainHealthRequest,
+  DescribeDomainHealthRequest & RegionInput,
   DescribeDomainHealthResponse,
   DescribeDomainHealthError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type DescribeDomainNodesError =
  * states.
  */
 export const describeDomainNodes: API.OperationMethod<
-  DescribeDomainNodesRequest,
+  DescribeDomainNodesRequest & RegionInput,
   DescribeDomainNodesResponse,
   DescribeDomainNodesError,
   Credentials | HttpClient.HttpClient
@@ -3605,7 +3606,7 @@ export type DescribeDomainsError =
  * domains.
  */
 export const describeDomains: API.OperationMethod<
-  DescribeDomainsRequest,
+  DescribeDomainsRequest & RegionInput,
   DescribeDomainsResponse,
   DescribeDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3632,7 +3633,7 @@ export type DescribeDryRunProgressError =
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
  */
 export const describeDryRunProgress: API.OperationMethod<
-  DescribeDryRunProgressRequest,
+  DescribeDryRunProgressRequest & RegionInput,
   DescribeDryRunProgressResponse,
   DescribeDryRunProgressError,
   Credentials | HttpClient.HttpClient
@@ -3662,7 +3663,7 @@ export type DescribeInboundConnectionsError =
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeInboundConnections: API.PaginatedOperationMethod<
-  DescribeInboundConnectionsRequest,
+  DescribeInboundConnectionsRequest & RegionInput,
   DescribeInboundConnectionsResponse,
   DescribeInboundConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3697,7 +3698,7 @@ export type DescribeInsightDetailsError =
  * and metric data.
  */
 export const describeInsightDetails: API.OperationMethod<
-  DescribeInsightDetailsRequest,
+  DescribeInsightDetailsRequest & RegionInput,
   DescribeInsightDetailsResponse,
   DescribeInsightDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3732,7 +3733,7 @@ export type DescribeInstanceTypeLimitsError =
  * or Elasticsearch version and instance type.
  */
 export const describeInstanceTypeLimits: API.OperationMethod<
-  DescribeInstanceTypeLimitsRequest,
+  DescribeInstanceTypeLimitsRequest & RegionInput,
   DescribeInstanceTypeLimitsResponse,
   DescribeInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3763,7 +3764,7 @@ export type DescribeOutboundConnectionsError =
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeOutboundConnections: API.PaginatedOperationMethod<
-  DescribeOutboundConnectionsRequest,
+  DescribeOutboundConnectionsRequest & RegionInput,
   DescribeOutboundConnectionsResponse,
   DescribeOutboundConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3797,7 +3798,7 @@ export type DescribePackagesError =
  * for Amazon OpenSearch Service.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -3836,7 +3837,7 @@ export type DescribeReservedInstanceOfferingsError =
  * OpenSearch Service.
  */
 export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedInstanceOfferingsRequest,
+  DescribeReservedInstanceOfferingsRequest & RegionInput,
   DescribeReservedInstanceOfferingsResponse,
   DescribeReservedInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -3874,7 +3875,7 @@ export type DescribeReservedInstancesError =
  * OpenSearch Service.
  */
 export const describeReservedInstances: API.PaginatedOperationMethod<
-  DescribeReservedInstancesRequest,
+  DescribeReservedInstancesRequest & RegionInput,
   DescribeReservedInstancesResponse,
   DescribeReservedInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3910,7 +3911,7 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -3937,7 +3938,7 @@ export type DetachDataSourceError =
  * Removes a data source from an OpenSearch application. The application must be in the `ACTIVE` state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a `ConflictException` if the specified data source has a `PENDING` attachment, and a `ResourceNotFoundException` if the data source is not currently attached to the application.
  */
 export const detachDataSource: API.OperationMethod<
-  DetachDataSourceRequest,
+  DetachDataSourceRequest & RegionInput,
   DetachDataSourceResponse,
   DetachDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3975,7 +3976,7 @@ export type DissociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -4009,7 +4010,7 @@ export type DissociatePackagesError =
  * Dissociates multiple packages from a domain simultaneously.
  */
 export const dissociatePackages: API.OperationMethod<
-  DissociatePackagesRequest,
+  DissociatePackagesRequest & RegionInput,
   DissociatePackagesResponse,
   DissociatePackagesError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type GetApplicationError =
  * Retrieves the configuration and status of an existing OpenSearch application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4076,7 +4077,7 @@ export type GetCapabilityError =
  * Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status.
  */
 export const getCapability: API.OperationMethod<
-  GetCapabilityRequest,
+  GetCapabilityRequest & RegionInput,
   GetCapabilityResponse,
   GetCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -4109,7 +4110,7 @@ export type GetCompatibleVersionsError =
  * them to.
  */
 export const getCompatibleVersions: API.OperationMethod<
-  GetCompatibleVersionsRequest,
+  GetCompatibleVersionsRequest & RegionInput,
   GetCompatibleVersionsResponse,
   GetCompatibleVersionsError,
   Credentials | HttpClient.HttpClient
@@ -4142,7 +4143,7 @@ export type GetDataSourceError =
  * Retrieves information about a direct query data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4177,7 +4178,7 @@ export type GetDefaultApplicationSettingError =
  * error.
  */
 export const getDefaultApplicationSetting: API.OperationMethod<
-  GetDefaultApplicationSettingRequest,
+  GetDefaultApplicationSettingRequest & RegionInput,
   GetDefaultApplicationSettingResponse,
   GetDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
@@ -4209,7 +4210,7 @@ export type GetDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const getDirectQueryDataSource: API.OperationMethod<
-  GetDirectQueryDataSourceRequest,
+  GetDirectQueryDataSourceRequest & RegionInput,
   GetDirectQueryDataSourceResponse,
   GetDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4241,7 +4242,7 @@ export type GetDomainMaintenanceStatusError =
  * The status of the maintenance action.
  */
 export const getDomainMaintenanceStatus: API.OperationMethod<
-  GetDomainMaintenanceStatusRequest,
+  GetDomainMaintenanceStatusRequest & RegionInput,
   GetDomainMaintenanceStatusResponse,
   GetDomainMaintenanceStatusError,
   Credentials | HttpClient.HttpClient
@@ -4275,7 +4276,7 @@ export type GetIndexError =
  * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -4309,7 +4310,7 @@ export type GetMigrationError =
  * Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed.
  */
 export const getMigration: API.OperationMethod<
-  GetMigrationRequest,
+  GetMigrationRequest & RegionInput,
   GetMigrationResponse,
   GetMigrationError,
   Credentials | HttpClient.HttpClient
@@ -4344,7 +4345,7 @@ export type GetPackageVersionHistoryError =
  * OpenSearch Service.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4383,7 +4384,7 @@ export type GetUpgradeHistoryError =
  * Service domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4422,7 +4423,7 @@ export type GetUpgradeStatusError =
  * an Amazon OpenSearch Service domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
@@ -4457,7 +4458,7 @@ export type InsightFeedbackError =
  * for a specific insight.
  */
 export const insightFeedback: API.OperationMethod<
-  InsightFeedbackRequest,
+  InsightFeedbackRequest & RegionInput,
   InsightFeedbackResponse,
   InsightFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4491,7 +4492,7 @@ export type ListApplicationsError =
  * Lists all OpenSearch applications under your account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -4531,7 +4532,7 @@ export type ListDataSourceAttachmentsError =
  * Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (`PENDING`, `ATTACHED`, and `FAILED`).
  */
 export const listDataSourceAttachments: API.OperationMethod<
-  ListDataSourceAttachmentsRequest,
+  ListDataSourceAttachmentsRequest & RegionInput,
   ListDataSourceAttachmentsResponse,
   ListDataSourceAttachmentsError,
   Credentials | HttpClient.HttpClient
@@ -4566,7 +4567,7 @@ export type ListDataSourcesError =
  * Amazon OpenSearch Service direct queries with Amazon S3.
  */
 export const listDataSources: API.OperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4600,7 +4601,7 @@ export type ListDirectQueryDataSourcesError =
  * within Amazon OpenSearch Service.
  */
 export const listDirectQueryDataSources: API.OperationMethod<
-  ListDirectQueryDataSourcesRequest,
+  ListDirectQueryDataSourcesRequest & RegionInput,
   ListDirectQueryDataSourcesResponse,
   ListDirectQueryDataSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4632,7 +4633,7 @@ export type ListDomainMaintenancesError =
  * A list of maintenance actions for the domain.
  */
 export const listDomainMaintenances: API.PaginatedOperationMethod<
-  ListDomainMaintenancesRequest,
+  ListDomainMaintenancesRequest & RegionInput,
   ListDomainMaintenancesResponse,
   ListDomainMaintenancesError,
   Credentials | HttpClient.HttpClient,
@@ -4665,7 +4666,7 @@ export type ListDomainNamesError = BaseException | ValidationException | CommonE
  * in the active Region.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -4693,7 +4694,7 @@ export type ListDomainsForPackageError =
  * for Amazon OpenSearch Service.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
@@ -4734,7 +4735,7 @@ export type ListInsightsError =
  * and sort order.
  */
 export const listInsights: API.OperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient
@@ -4767,7 +4768,7 @@ export type ListInstanceTypeDetailsError =
  * Elasticsearch version.
  */
 export const listInstanceTypeDetails: API.PaginatedOperationMethod<
-  ListInstanceTypeDetailsRequest,
+  ListInstanceTypeDetailsRequest & RegionInput,
   ListInstanceTypeDetailsResponse,
   ListInstanceTypeDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4798,7 +4799,7 @@ export type ListMigrationsError =
  * Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMigrations: API.OperationMethod<
-  ListMigrationsRequest,
+  ListMigrationsRequest & RegionInput,
   ListMigrationsResponse,
   ListMigrationsError,
   Credentials | HttpClient.HttpClient
@@ -4831,7 +4832,7 @@ export type ListPackagesForDomainError =
  * for Amazon OpenSearch Service.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
@@ -4871,7 +4872,7 @@ export type ListScheduledActionsError =
  * software updates or blue/green Auto-Tune enhancements.
  */
 export const listScheduledActions: API.PaginatedOperationMethod<
-  ListScheduledActionsRequest,
+  ListScheduledActionsRequest & RegionInput,
   ListScheduledActionsResponse,
   ListScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4909,7 +4910,7 @@ export type ListTagsError =
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -4935,7 +4936,7 @@ export type ListVersionsError =
  * supports.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4968,7 +4969,7 @@ export type ListVpcEndpointAccessError =
  * endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4992,7 +4993,7 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -5018,7 +5019,7 @@ export type ListVpcEndpointsForDomainError =
  * particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -5045,7 +5046,7 @@ export type PurchaseReservedInstanceOfferingError =
  * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
 export const purchaseReservedInstanceOffering: API.OperationMethod<
-  PurchaseReservedInstanceOfferingRequest,
+  PurchaseReservedInstanceOfferingRequest & RegionInput,
   PurchaseReservedInstanceOfferingResponse,
   PurchaseReservedInstanceOfferingError,
   Credentials | HttpClient.HttpClient
@@ -5082,7 +5083,7 @@ export type PutDefaultApplicationSettingError =
  * `setAsDefault` parameter set to `false`.
  */
 export const putDefaultApplicationSetting: API.OperationMethod<
-  PutDefaultApplicationSettingRequest,
+  PutDefaultApplicationSettingRequest & RegionInput,
   PutDefaultApplicationSettingResponse,
   PutDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
@@ -5115,7 +5116,7 @@ export type RegisterCapabilityError =
  * Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI.
  */
 export const registerCapability: API.OperationMethod<
-  RegisterCapabilityRequest,
+  RegisterCapabilityRequest & RegionInput,
   RegisterCapabilityResponse,
   RegisterCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -5147,7 +5148,7 @@ export type RejectInboundConnectionError =
  * cross-cluster connection request.
  */
 export const rejectInboundConnection: API.OperationMethod<
-  RejectInboundConnectionRequest,
+  RejectInboundConnectionRequest & RegionInput,
   RejectInboundConnectionResponse,
   RejectInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -5172,7 +5173,7 @@ export type RemoveTagsError =
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -5199,7 +5200,7 @@ export type RevokeVpcEndpointAccessError =
  * interface VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -5233,7 +5234,7 @@ export type RollbackServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const rollbackServiceSoftwareUpdate: API.OperationMethod<
-  RollbackServiceSoftwareUpdateRequest,
+  RollbackServiceSoftwareUpdateRequest & RegionInput,
   RollbackServiceSoftwareUpdateResponse,
   RollbackServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5267,7 +5268,7 @@ export type StartDomainMaintenanceError =
  * restart.
  */
 export const startDomainMaintenance: API.OperationMethod<
-  StartDomainMaintenanceRequest,
+  StartDomainMaintenanceRequest & RegionInput,
   StartDomainMaintenanceResponse,
   StartDomainMaintenanceError,
   Credentials | HttpClient.HttpClient
@@ -5300,7 +5301,7 @@ export type StartMigrationError =
  * Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationRequest,
+  StartMigrationRequest & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5334,7 +5335,7 @@ export type StartServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const startServiceSoftwareUpdate: API.OperationMethod<
-  StartServiceSoftwareUpdateRequest,
+  StartServiceSoftwareUpdateRequest & RegionInput,
   StartServiceSoftwareUpdateResponse,
   StartServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5362,7 +5363,7 @@ export type UpdateApplicationError =
  * Updates the configuration and settings of an existing OpenSearch application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5399,7 +5400,7 @@ export type UpdateDataSourceError =
  * S3.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5434,7 +5435,7 @@ export type UpdateDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const updateDirectQueryDataSource: API.OperationMethod<
-  UpdateDirectQueryDataSourceRequest,
+  UpdateDirectQueryDataSourceRequest & RegionInput,
   UpdateDirectQueryDataSourceResponse,
   UpdateDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5469,7 +5470,7 @@ export type UpdateDomainConfigError =
  * domain.
  */
 export const updateDomainConfig: API.OperationMethod<
-  UpdateDomainConfigRequest,
+  UpdateDomainConfigRequest & RegionInput,
   UpdateDomainConfigResponse,
   UpdateDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -5504,7 +5505,7 @@ export type UpdateIndexError =
  * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -5541,7 +5542,7 @@ export type UpdatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -5575,7 +5576,7 @@ export type UpdatePackageScopeError =
  * associate a package.
  */
 export const updatePackageScope: API.OperationMethod<
-  UpdatePackageScopeRequest,
+  UpdatePackageScopeRequest & RegionInput,
   UpdatePackageScopeResponse,
   UpdatePackageScopeError,
   Credentials | HttpClient.HttpClient
@@ -5611,7 +5612,7 @@ export type UpdateScheduledActionError =
  * software update or a blue/green Auto-Tune enhancement.
  */
 export const updateScheduledAction: API.OperationMethod<
-  UpdateScheduledActionRequest,
+  UpdateScheduledActionRequest & RegionInput,
   UpdateScheduledActionResponse,
   UpdateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -5646,7 +5647,7 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5681,7 +5682,7 @@ export type UpgradeDomainError =
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
 export const upgradeDomain: API.OperationMethod<
-  UpgradeDomainRequest,
+  UpgradeDomainRequest & RegionInput,
   UpgradeDomainResponse,
   UpgradeDomainError,
   Credentials | HttpClient.HttpClient

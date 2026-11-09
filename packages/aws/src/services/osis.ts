@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -504,7 +505,7 @@ export type CreatePipelineError =
  * Ingestion pipelines.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
+  CreatePipelineRequest & RegionInput,
   CreatePipelineResponse,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -540,7 +541,7 @@ export type CreatePipelineEndpointError =
  * ingest data from your VPC into pipelines that you have access to.
  */
 export const createPipelineEndpoint: API.OperationMethod<
-  CreatePipelineEndpointRequest,
+  CreatePipelineEndpointRequest & RegionInput,
   CreatePipelineEndpointResponse,
   CreatePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -575,7 +576,7 @@ export type DeletePipelineError =
  * Ingestion pipelines.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineRequest,
+  DeletePipelineRequest & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -607,7 +608,7 @@ export type DeletePipelineEndpointError =
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
 export const deletePipelineEndpoint: API.OperationMethod<
-  DeletePipelineEndpointRequest,
+  DeletePipelineEndpointRequest & RegionInput,
   DeletePipelineEndpointResponse,
   DeletePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -639,7 +640,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy from an OpenSearch Ingestion resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -672,7 +673,7 @@ export type GetPipelineError =
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
 export const getPipeline: API.OperationMethod<
-  GetPipelineRequest,
+  GetPipelineRequest & RegionInput,
   GetPipelineResponse,
   GetPipelineError,
   Credentials | HttpClient.HttpClient
@@ -707,7 +708,7 @@ export type GetPipelineBlueprintError =
  * blueprints to create a pipeline.
  */
 export const getPipelineBlueprint: API.OperationMethod<
-  GetPipelineBlueprintRequest,
+  GetPipelineBlueprintRequest & RegionInput,
   GetPipelineBlueprintResponse,
   GetPipelineBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type GetPipelineChangeProgressError =
  * For more information, see Tracking the status of pipeline creation.
  */
 export const getPipelineChangeProgress: API.OperationMethod<
-  GetPipelineChangeProgressRequest,
+  GetPipelineChangeProgressRequest & RegionInput,
   GetPipelineChangeProgressResponse,
   GetPipelineChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -811,7 +812,7 @@ export type ListPipelineBlueprintsError =
  * blueprints to create a pipeline.
  */
 export const listPipelineBlueprints: API.OperationMethod<
-  ListPipelineBlueprintsRequest,
+  ListPipelineBlueprintsRequest & RegionInput,
   ListPipelineBlueprintsResponse,
   ListPipelineBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -843,7 +844,7 @@ export type ListPipelineEndpointConnectionsError =
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
 export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
-  ListPipelineEndpointConnectionsRequest,
+  ListPipelineEndpointConnectionsRequest & RegionInput,
   ListPipelineEndpointConnectionsResponse,
   ListPipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -882,7 +883,7 @@ export type ListPipelineEndpointsError =
  * Lists all pipeline endpoints in your account.
  */
 export const listPipelineEndpoints: API.PaginatedOperationMethod<
-  ListPipelineEndpointsRequest,
+  ListPipelineEndpointsRequest & RegionInput,
   ListPipelineEndpointsResponse,
   ListPipelineEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -923,7 +924,7 @@ export type ListPipelinesError =
  * Ingestion pipelines.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesRequest,
+  ListPipelinesRequest & RegionInput,
   ListPipelinesResponse,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -962,7 +963,7 @@ export type ListTagsForResourceError =
  * see Tagging Amazon OpenSearch Ingestion pipelines.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type PutResourcePolicyError =
  * policies grant permissions to principals to perform actions on the resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1029,7 +1030,7 @@ export type RevokePipelineEndpointConnectionsError =
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
 export const revokePipelineEndpointConnections: API.OperationMethod<
-  RevokePipelineEndpointConnectionsRequest,
+  RevokePipelineEndpointConnectionsRequest & RegionInput,
   RevokePipelineEndpointConnectionsResponse,
   RevokePipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type StartPipelineError =
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
 export const startPipeline: API.OperationMethod<
-  StartPipelineRequest,
+  StartPipelineRequest & RegionInput,
   StartPipelineResponse,
   StartPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1097,7 +1098,7 @@ export type StopPipelineError =
  * an OpenSearch Ingestion pipeline.
  */
 export const stopPipeline: API.OperationMethod<
-  StopPipelineRequest,
+  StopPipelineRequest & RegionInput,
   StopPipelineResponse,
   StopPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1132,7 +1133,7 @@ export type TagResourceError =
  * Ingestion pipelines.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type UntagResourceError =
  * Amazon OpenSearch Ingestion pipelines.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1200,7 +1201,7 @@ export type UpdatePipelineError =
  * Ingestion pipelines.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineRequest,
+  UpdatePipelineRequest & RegionInput,
   UpdatePipelineResponse,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type ValidatePipelineError =
  * Ingestion pipelines.
  */
 export const validatePipeline: API.OperationMethod<
-  ValidatePipelineRequest,
+  ValidatePipelineRequest & RegionInput,
   ValidatePipelineResponse,
   ValidatePipelineError,
   Credentials | HttpClient.HttpClient

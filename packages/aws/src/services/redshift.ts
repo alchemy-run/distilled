@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3881,7 +3882,7 @@ export type AcceptReservedNodeExchangeError =
  * configuration (term, payment type, or number of nodes) and no additional costs.
  */
 export const acceptReservedNodeExchange: API.OperationMethod<
-  AcceptReservedNodeExchangeInputMessage,
+  AcceptReservedNodeExchangeInputMessage & RegionInput,
   AcceptReservedNodeExchangeOutputMessage,
   AcceptReservedNodeExchangeError,
   Credentials | HttpClient.HttpClient
@@ -3916,7 +3917,7 @@ export type AddPartnerError =
  * To complete the integration, you also set up the integration on the partner website.
  */
 export const addPartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   AddPartnerError,
   Credentials | HttpClient.HttpClient
@@ -3946,7 +3947,7 @@ export type AssociateDataShareConsumerError =
  * can consume the datashare.
  */
 export const associateDataShareConsumer: API.OperationMethod<
-  AssociateDataShareConsumerMessage,
+  AssociateDataShareConsumerMessage & RegionInput,
   DataShare,
   AssociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -3989,7 +3990,7 @@ export type AuthorizeClusterSecurityGroupIngressError =
  * Groups in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
-  AuthorizeClusterSecurityGroupIngressMessage,
+  AuthorizeClusterSecurityGroupIngressMessage & RegionInput,
   AuthorizeClusterSecurityGroupIngressResult,
   AuthorizeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -4016,7 +4017,7 @@ export type AuthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * the producer account must have the correct access permissions.
  */
 export const authorizeDataShare: API.OperationMethod<
-  AuthorizeDataShareMessage,
+  AuthorizeDataShareMessage & RegionInput,
   DataShare,
   AuthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type AuthorizeEndpointAccessError =
  * Grants access to a cluster.
  */
 export const authorizeEndpointAccess: API.OperationMethod<
-  AuthorizeEndpointAccessMessage,
+  AuthorizeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   AuthorizeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4083,7 +4084,7 @@ export type AuthorizeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeSnapshotAccess: API.OperationMethod<
-  AuthorizeSnapshotAccessMessage,
+  AuthorizeSnapshotAccessMessage & RegionInput,
   AuthorizeSnapshotAccessResult,
   AuthorizeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -4111,7 +4112,7 @@ export type BatchDeleteClusterSnapshotsError = BatchDeleteRequestSizeExceededFau
  * Deletes a set of cluster snapshots.
  */
 export const batchDeleteClusterSnapshots: API.OperationMethod<
-  BatchDeleteClusterSnapshotsRequest,
+  BatchDeleteClusterSnapshotsRequest & RegionInput,
   BatchDeleteClusterSnapshotsResult,
   BatchDeleteClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4134,7 +4135,7 @@ export type BatchModifyClusterSnapshotsError =
  * Modifies the settings for a set of cluster snapshots.
  */
 export const batchModifyClusterSnapshots: API.OperationMethod<
-  BatchModifyClusterSnapshotsMessage,
+  BatchModifyClusterSnapshotsMessage & RegionInput,
   BatchModifyClusterSnapshotsOutputMessage,
   BatchModifyClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4159,7 +4160,7 @@ export type CancelResizeError =
  * Cancels a resize operation for a cluster.
  */
 export const cancelResize: API.OperationMethod<
-  CancelResizeMessage,
+  CancelResizeMessage & RegionInput,
   ResizeProgressMessage,
   CancelResizeError,
   Credentials | HttpClient.HttpClient
@@ -4203,7 +4204,7 @@ export type CopyClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotMessage,
+  CopyClusterSnapshotMessage & RegionInput,
   CopyClusterSnapshotResult,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4234,7 +4235,7 @@ export type CreateAuthenticationProfileError =
  * Creates an authentication profile with the specified parameters.
  */
 export const createAuthenticationProfile: API.OperationMethod<
-  CreateAuthenticationProfileMessage,
+  CreateAuthenticationProfileMessage & RegionInput,
   CreateAuthenticationProfileResult,
   CreateAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -4311,7 +4312,7 @@ export type CreateClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterMessage,
+  CreateClusterMessage & RegionInput,
   CreateClusterResult,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -4374,7 +4375,7 @@ export type CreateClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterParameterGroup: API.OperationMethod<
-  CreateClusterParameterGroupMessage,
+  CreateClusterParameterGroupMessage & RegionInput,
   CreateClusterParameterGroupResult,
   CreateClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4409,7 +4410,7 @@ export type CreateClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSecurityGroup: API.OperationMethod<
-  CreateClusterSecurityGroupMessage,
+  CreateClusterSecurityGroupMessage & RegionInput,
   CreateClusterSecurityGroupResult,
   CreateClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -4447,7 +4448,7 @@ export type CreateClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotMessage,
+  CreateClusterSnapshotMessage & RegionInput,
   CreateClusterSnapshotResult,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4490,7 +4491,7 @@ export type CreateClusterSubnetGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSubnetGroup: API.OperationMethod<
-  CreateClusterSubnetGroupMessage,
+  CreateClusterSubnetGroupMessage & RegionInput,
   CreateClusterSubnetGroupResult,
   CreateClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -4524,7 +4525,7 @@ export type CreateCustomDomainAssociationError =
  * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
  */
 export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationMessage,
+  CreateCustomDomainAssociationMessage & RegionInput,
   CreateCustomDomainAssociationResult,
   CreateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4555,7 +4556,7 @@ export type CreateEndpointAccessError =
  * Creates a Redshift-managed VPC endpoint.
  */
 export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessMessage,
+  CreateEndpointAccessMessage & RegionInput,
   EndpointAccess,
   CreateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4617,7 @@ export type CreateEventSubscriptionError =
  * will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4661,7 +4662,7 @@ export type CreateHsmClientCertificateError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createHsmClientCertificate: API.OperationMethod<
-  CreateHsmClientCertificateMessage,
+  CreateHsmClientCertificateMessage & RegionInput,
   CreateHsmClientCertificateResult,
   CreateHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4698,7 +4699,7 @@ export type CreateHsmConfigurationError =
  * in the Amazon Redshift Cluster Management Guide.
  */
 export const createHsmConfiguration: API.OperationMethod<
-  CreateHsmConfigurationMessage,
+  CreateHsmConfigurationMessage & RegionInput,
   CreateHsmConfigurationResult,
   CreateHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4733,7 +4734,7 @@ export type CreateIntegrationError =
  * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationMessage,
+  CreateIntegrationMessage & RegionInput,
   Integration,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4768,7 +4769,7 @@ export type CreateQev2IdcApplicationError =
  * Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const createQev2IdcApplication: API.OperationMethod<
-  CreateQev2IdcApplicationMessage,
+  CreateQev2IdcApplicationMessage & RegionInput,
   CreateQev2IdcApplicationResult,
   CreateQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4801,7 +4802,7 @@ export type CreateRedshiftIdcApplicationError =
  * Creates an Amazon Redshift application for use with IAM Identity Center.
  */
 export const createRedshiftIdcApplication: API.OperationMethod<
-  CreateRedshiftIdcApplicationMessage,
+  CreateRedshiftIdcApplicationMessage & RegionInput,
   CreateRedshiftIdcApplicationResult,
   CreateRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4839,7 +4840,7 @@ export type CreateScheduledActionError =
  * For example, you can create a schedule of when to run the `ResizeCluster` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
-  CreateScheduledActionMessage,
+  CreateScheduledActionMessage & RegionInput,
   ScheduledAction,
   CreateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -4881,7 +4882,7 @@ export type CreateSnapshotCopyGrantError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createSnapshotCopyGrant: API.OperationMethod<
-  CreateSnapshotCopyGrantMessage,
+  CreateSnapshotCopyGrantMessage & RegionInput,
   CreateSnapshotCopyGrantResult,
   CreateSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -4915,7 +4916,7 @@ export type CreateSnapshotScheduleError =
  * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
  */
 export const createSnapshotSchedule: API.OperationMethod<
-  CreateSnapshotScheduleMessage,
+  CreateSnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   CreateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4953,7 +4954,7 @@ export type CreateTagsError =
  * will be updated with the new value.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsMessage,
+  CreateTagsMessage & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -4982,7 +4983,7 @@ export type CreateUsageLimitError =
  * The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
-  CreateUsageLimitMessage,
+  CreateUsageLimitMessage & RegionInput,
   UsageLimit,
   CreateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -5010,7 +5011,7 @@ export type DeauthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare producer account, removes authorization from the specified datashare.
  */
 export const deauthorizeDataShare: API.OperationMethod<
-  DeauthorizeDataShareMessage,
+  DeauthorizeDataShareMessage & RegionInput,
   DataShare,
   DeauthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -5033,7 +5034,7 @@ export type DeleteAuthenticationProfileError =
  * Deletes an authentication profile.
  */
 export const deleteAuthenticationProfile: API.OperationMethod<
-  DeleteAuthenticationProfileMessage,
+  DeleteAuthenticationProfileMessage & RegionInput,
   DeleteAuthenticationProfileResult,
   DeleteAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -5075,7 +5076,7 @@ export type DeleteClusterError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterMessage,
+  DeleteClusterMessage & RegionInput,
   DeleteClusterResult,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -5107,7 +5108,7 @@ export type DeleteClusterParameterGroupError =
  * cluster.
  */
 export const deleteClusterParameterGroup: API.OperationMethod<
-  DeleteClusterParameterGroupMessage,
+  DeleteClusterParameterGroupMessage & RegionInput,
   DeleteClusterParameterGroupResponse,
   DeleteClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -5137,7 +5138,7 @@ export type DeleteClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteClusterSecurityGroup: API.OperationMethod<
-  DeleteClusterSecurityGroupMessage,
+  DeleteClusterSecurityGroupMessage & RegionInput,
   DeleteClusterSecurityGroupResponse,
   DeleteClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -5167,7 +5168,7 @@ export type DeleteClusterSnapshotError =
  * snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotMessage,
+  DeleteClusterSnapshotMessage & RegionInput,
   DeleteClusterSnapshotResult,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5191,7 +5192,7 @@ export type DeleteClusterSubnetGroupError =
  * Deletes the specified cluster subnet group.
  */
 export const deleteClusterSubnetGroup: API.OperationMethod<
-  DeleteClusterSubnetGroupMessage,
+  DeleteClusterSubnetGroupMessage & RegionInput,
   DeleteClusterSubnetGroupResponse,
   DeleteClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -5220,7 +5221,7 @@ export type DeleteCustomDomainAssociationError =
  * Contains information about deleting a custom domain association for a cluster.
  */
 export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationMessage,
+  DeleteCustomDomainAssociationMessage & RegionInput,
   DeleteCustomDomainAssociationResponse,
   DeleteCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5251,7 +5252,7 @@ export type DeleteEndpointAccessError =
  * Deletes a Redshift-managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
-  DeleteEndpointAccessMessage,
+  DeleteEndpointAccessMessage & RegionInput,
   EndpointAccess,
   DeleteEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -5280,7 +5281,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an Amazon Redshift event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResponse,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5303,7 +5304,7 @@ export type DeleteHsmClientCertificateError =
  * Deletes the specified HSM client certificate.
  */
 export const deleteHsmClientCertificate: API.OperationMethod<
-  DeleteHsmClientCertificateMessage,
+  DeleteHsmClientCertificateMessage & RegionInput,
   DeleteHsmClientCertificateResponse,
   DeleteHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5326,7 +5327,7 @@ export type DeleteHsmConfigurationError =
  * Deletes the specified Amazon Redshift HSM configuration.
  */
 export const deleteHsmConfiguration: API.OperationMethod<
-  DeleteHsmConfigurationMessage,
+  DeleteHsmConfigurationMessage & RegionInput,
   DeleteHsmConfigurationResponse,
   DeleteHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5351,7 +5352,7 @@ export type DeleteIntegrationError =
  * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationMessage,
+  DeleteIntegrationMessage & RegionInput,
   Integration,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5381,7 +5382,7 @@ export type DeletePartnerError =
  * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
 export const deletePartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   DeletePartnerError,
   Credentials | HttpClient.HttpClient
@@ -5411,7 +5412,7 @@ export type DeleteQev2IdcApplicationError =
  * Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const deleteQev2IdcApplication: API.OperationMethod<
-  DeleteQev2IdcApplicationMessage,
+  DeleteQev2IdcApplicationMessage & RegionInput,
   DeleteQev2IdcApplicationResponse,
   DeleteQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5441,7 +5442,7 @@ export type DeleteRedshiftIdcApplicationError =
  * Deletes an Amazon Redshift IAM Identity Center application.
  */
 export const deleteRedshiftIdcApplication: API.OperationMethod<
-  DeleteRedshiftIdcApplicationMessage,
+  DeleteRedshiftIdcApplicationMessage & RegionInput,
   DeleteRedshiftIdcApplicationResponse,
   DeleteRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5469,7 +5470,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy for a specified resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyMessage,
+  DeleteResourcePolicyMessage & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5492,7 +5493,7 @@ export type DeleteScheduledActionError =
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionMessage,
+  DeleteScheduledActionMessage & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -5515,7 +5516,7 @@ export type DeleteSnapshotCopyGrantError =
  * Deletes the specified snapshot copy grant.
  */
 export const deleteSnapshotCopyGrant: API.OperationMethod<
-  DeleteSnapshotCopyGrantMessage,
+  DeleteSnapshotCopyGrantMessage & RegionInput,
   DeleteSnapshotCopyGrantResponse,
   DeleteSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -5538,7 +5539,7 @@ export type DeleteSnapshotScheduleError =
  * Deletes a snapshot schedule.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleMessage,
+  DeleteSnapshotScheduleMessage & RegionInput,
   DeleteSnapshotScheduleResponse,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -5559,7 +5560,7 @@ export type DeleteTagsError = InvalidTagFault | ResourceNotFoundFault | CommonEr
  * from which you want to delete the tag or tags.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsMessage,
+  DeleteTagsMessage & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -5582,7 +5583,7 @@ export type DeleteUsageLimitError =
  * Deletes a usage limit from a cluster.
  */
 export const deleteUsageLimit: API.OperationMethod<
-  DeleteUsageLimitMessage,
+  DeleteUsageLimitMessage & RegionInput,
   DeleteUsageLimitResponse,
   DeleteUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -5606,7 +5607,7 @@ export type DeregisterNamespaceError =
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
 export const deregisterNamespace: API.OperationMethod<
-  DeregisterNamespaceInputMessage,
+  DeregisterNamespaceInputMessage & RegionInput,
   DeregisterNamespaceOutputMessage,
   DeregisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -5626,7 +5627,7 @@ export type DescribeAccountAttributesError = CommonErrors;
  * Returns a list of attributes attached to an account
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesMessage,
+  DescribeAccountAttributesMessage & RegionInput,
   AccountAttributeList,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5649,7 +5650,7 @@ export type DescribeAuthenticationProfilesError =
  * Describes an authentication profile.
  */
 export const describeAuthenticationProfiles: API.OperationMethod<
-  DescribeAuthenticationProfilesMessage,
+  DescribeAuthenticationProfilesMessage & RegionInput,
   DescribeAuthenticationProfilesResult,
   DescribeAuthenticationProfilesError,
   Credentials | HttpClient.HttpClient
@@ -5672,7 +5673,7 @@ export type DescribeClusterDbRevisionsError =
  * Returns an array of `ClusterDbRevision` objects.
  */
 export const describeClusterDbRevisions: API.PaginatedOperationMethod<
-  DescribeClusterDbRevisionsMessage,
+  DescribeClusterDbRevisionsMessage & RegionInput,
   ClusterDbRevisionsMessage,
   DescribeClusterDbRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -5720,7 +5721,7 @@ export type DescribeClusterParameterGroupsError =
  * them.
  */
 export const describeClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeClusterParameterGroupsMessage,
+  DescribeClusterParameterGroupsMessage & RegionInput,
   ClusterParameterGroupsMessage,
   DescribeClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5759,7 +5760,7 @@ export type DescribeClusterParametersError = ClusterParameterGroupNotFoundFault 
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterParameters: API.PaginatedOperationMethod<
-  DescribeClusterParametersMessage,
+  DescribeClusterParametersMessage & RegionInput,
   ClusterParameterGroupDetails,
   DescribeClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -5800,7 +5801,7 @@ export type DescribeClustersError = ClusterNotFoundFault | InvalidTagFault | Com
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersMessage,
+  DescribeClustersMessage & RegionInput,
   ClustersMessage,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -5846,7 +5847,7 @@ export type DescribeClusterSecurityGroupsError =
  * them.
  */
 export const describeClusterSecurityGroups: API.PaginatedOperationMethod<
-  DescribeClusterSecurityGroupsMessage,
+  DescribeClusterSecurityGroupsMessage & RegionInput,
   ClusterSecurityGroupMessage,
   DescribeClusterSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5892,7 +5893,7 @@ export type DescribeClusterSnapshotsError =
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeClusterSnapshotsMessage,
+  DescribeClusterSnapshotsMessage & RegionInput,
   SnapshotMessage,
   DescribeClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -5939,7 +5940,7 @@ export type DescribeClusterSubnetGroupsError =
  * them.
  */
 export const describeClusterSubnetGroups: API.PaginatedOperationMethod<
-  DescribeClusterSubnetGroupsMessage,
+  DescribeClusterSubnetGroupsMessage & RegionInput,
   ClusterSubnetGroupMessage,
   DescribeClusterSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5969,7 +5970,7 @@ export type DescribeClusterTracksError =
  * Returns a list of all the available maintenance tracks.
  */
 export const describeClusterTracks: API.PaginatedOperationMethod<
-  DescribeClusterTracksMessage,
+  DescribeClusterTracksMessage & RegionInput,
   TrackListMessage,
   DescribeClusterTracksError,
   Credentials | HttpClient.HttpClient,
@@ -6001,7 +6002,7 @@ export type DescribeClusterVersionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterVersions: API.PaginatedOperationMethod<
-  DescribeClusterVersionsMessage,
+  DescribeClusterVersionsMessage & RegionInput,
   ClusterVersionsMessage,
   DescribeClusterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -6031,7 +6032,7 @@ export type DescribeCustomDomainAssociationsError =
  * Contains information about custom domain associations for a cluster.
  */
 export const describeCustomDomainAssociations: API.PaginatedOperationMethod<
-  DescribeCustomDomainAssociationsMessage,
+  DescribeCustomDomainAssociationsMessage & RegionInput,
   CustomDomainAssociationsMessage,
   DescribeCustomDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6059,7 +6060,7 @@ export type DescribeDataSharesError = InvalidDataShareFault | CommonErrors;
  * account.
  */
 export const describeDataShares: API.PaginatedOperationMethod<
-  DescribeDataSharesMessage,
+  DescribeDataSharesMessage & RegionInput,
   DescribeDataSharesResult,
   DescribeDataSharesError,
   Credentials | HttpClient.HttpClient,
@@ -6086,7 +6087,7 @@ export type DescribeDataSharesForConsumerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
 export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
-  DescribeDataSharesForConsumerMessage,
+  DescribeDataSharesForConsumerMessage & RegionInput,
   DescribeDataSharesForConsumerResult,
   DescribeDataSharesForConsumerError,
   Credentials | HttpClient.HttpClient,
@@ -6113,7 +6114,7 @@ export type DescribeDataSharesForProducerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
 export const describeDataSharesForProducer: API.PaginatedOperationMethod<
-  DescribeDataSharesForProducerMessage,
+  DescribeDataSharesForProducerMessage & RegionInput,
   DescribeDataSharesForProducerResult,
   DescribeDataSharesForProducerError,
   Credentials | HttpClient.HttpClient,
@@ -6145,7 +6146,7 @@ export type DescribeDefaultClusterParametersError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeDefaultClusterParameters: API.PaginatedOperationMethod<
-  DescribeDefaultClusterParametersMessage,
+  DescribeDefaultClusterParametersMessage & RegionInput,
   DescribeDefaultClusterParametersResult,
   DescribeDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -6176,7 +6177,7 @@ export type DescribeEndpointAccessError =
  * Describes a Redshift-managed VPC endpoint.
  */
 export const describeEndpointAccess: API.PaginatedOperationMethod<
-  DescribeEndpointAccessMessage,
+  DescribeEndpointAccessMessage & RegionInput,
   EndpointAccessList,
   DescribeEndpointAccessError,
   Credentials | HttpClient.HttpClient,
@@ -6206,7 +6207,7 @@ export type DescribeEndpointAuthorizationError =
  * Describes an endpoint authorization.
  */
 export const describeEndpointAuthorization: API.PaginatedOperationMethod<
-  DescribeEndpointAuthorizationMessage,
+  DescribeEndpointAuthorizationMessage & RegionInput,
   EndpointAuthorizationList,
   DescribeEndpointAuthorizationError,
   Credentials | HttpClient.HttpClient,
@@ -6235,7 +6236,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * Notifications.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -6258,7 +6259,7 @@ export type DescribeEventsError = CommonErrors;
  * default, the past hour of events are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -6300,7 +6301,7 @@ export type DescribeEventSubscriptionsError =
  * them.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6341,7 +6342,7 @@ export type DescribeHsmClientCertificatesError =
  * them.
  */
 export const describeHsmClientCertificates: API.PaginatedOperationMethod<
-  DescribeHsmClientCertificatesMessage,
+  DescribeHsmClientCertificatesMessage & RegionInput,
   HsmClientCertificateMessage,
   DescribeHsmClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -6383,7 +6384,7 @@ export type DescribeHsmConfigurationsError =
  * them.
  */
 export const describeHsmConfigurations: API.PaginatedOperationMethod<
-  DescribeHsmConfigurationsMessage,
+  DescribeHsmConfigurationsMessage & RegionInput,
   HsmConfigurationMessage,
   DescribeHsmConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6414,7 +6415,7 @@ export type DescribeInboundIntegrationsError =
  * Returns a list of inbound integrations.
  */
 export const describeInboundIntegrations: API.PaginatedOperationMethod<
-  DescribeInboundIntegrationsMessage,
+  DescribeInboundIntegrationsMessage & RegionInput,
   InboundIntegrationsMessage,
   DescribeInboundIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6444,7 +6445,7 @@ export type DescribeIntegrationsError =
  * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
  */
 export const describeIntegrations: API.PaginatedOperationMethod<
-  DescribeIntegrationsMessage,
+  DescribeIntegrationsMessage & RegionInput,
   IntegrationsMessage,
   DescribeIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6475,7 +6476,7 @@ export type DescribeLoggingStatusError =
  * logged for the specified Amazon Redshift cluster.
  */
 export const describeLoggingStatus: API.OperationMethod<
-  DescribeLoggingStatusMessage,
+  DescribeLoggingStatusMessage & RegionInput,
   LoggingStatus,
   DescribeLoggingStatusError,
   Credentials | HttpClient.HttpClient
@@ -6502,7 +6503,7 @@ export type DescribeNodeConfigurationOptionsError =
  * disk usage for the specified action type.
  */
 export const describeNodeConfigurationOptions: API.PaginatedOperationMethod<
-  DescribeNodeConfigurationOptionsMessage,
+  DescribeNodeConfigurationOptionsMessage & RegionInput,
   NodeConfigurationOptionsMessage,
   DescribeNodeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6543,7 +6544,7 @@ export type DescribeOrderableClusterOptionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeOrderableClusterOptions: API.PaginatedOperationMethod<
-  DescribeOrderableClusterOptionsMessage,
+  DescribeOrderableClusterOptionsMessage & RegionInput,
   OrderableClusterOptionsMessage,
   DescribeOrderableClusterOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6574,7 +6575,7 @@ export type DescribePartnersError =
  * Returns information about the partner integrations defined for a cluster.
  */
 export const describePartners: API.OperationMethod<
-  DescribePartnersInputMessage,
+  DescribePartnersInputMessage & RegionInput,
   DescribePartnersOutputMessage,
   DescribePartnersError,
   Credentials | HttpClient.HttpClient
@@ -6599,7 +6600,7 @@ export type DescribeQev2IdcApplicationsError =
  * Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters.
  */
 export const describeQev2IdcApplications: API.PaginatedOperationMethod<
-  DescribeQev2IdcApplicationsMessage,
+  DescribeQev2IdcApplicationsMessage & RegionInput,
   DescribeQev2IdcApplicationsResult,
   DescribeQev2IdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6636,7 +6637,7 @@ export type DescribeRedshiftIdcApplicationsError =
  * Lists the Amazon Redshift IAM Identity Center applications.
  */
 export const describeRedshiftIdcApplications: API.PaginatedOperationMethod<
-  DescribeRedshiftIdcApplicationsMessage,
+  DescribeRedshiftIdcApplicationsMessage & RegionInput,
   DescribeRedshiftIdcApplicationsResult,
   DescribeRedshiftIdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6673,7 +6674,7 @@ export type DescribeReservedNodeExchangeStatusError =
  * exchange. Statuses include such values as in progress and requested.
  */
 export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
-  DescribeReservedNodeExchangeStatusInputMessage,
+  DescribeReservedNodeExchangeStatusInputMessage & RegionInput,
   DescribeReservedNodeExchangeStatusOutputMessage,
   DescribeReservedNodeExchangeStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6713,7 +6714,7 @@ export type DescribeReservedNodeOfferingsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeReservedNodeOfferings: API.PaginatedOperationMethod<
-  DescribeReservedNodeOfferingsMessage,
+  DescribeReservedNodeOfferingsMessage & RegionInput,
   ReservedNodeOfferingsMessage,
   DescribeReservedNodeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -6747,7 +6748,7 @@ export type DescribeReservedNodesError =
  * Returns the descriptions of the reserved nodes.
  */
 export const describeReservedNodes: API.PaginatedOperationMethod<
-  DescribeReservedNodesMessage,
+  DescribeReservedNodesMessage & RegionInput,
   ReservedNodesMessage,
   DescribeReservedNodesError,
   Credentials | HttpClient.HttpClient,
@@ -6784,7 +6785,7 @@ export type DescribeResizeError =
  * specifying a different number or type of nodes for the cluster.
  */
 export const describeResize: API.OperationMethod<
-  DescribeResizeMessage,
+  DescribeResizeMessage & RegionInput,
   ResizeProgressMessage,
   DescribeResizeError,
   Credentials | HttpClient.HttpClient
@@ -6807,7 +6808,7 @@ export type DescribeScheduledActionsError =
  * Describes properties of scheduled actions.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsMessage,
+  DescribeScheduledActionsMessage & RegionInput,
   ScheduledActionsMessage,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6842,7 +6843,7 @@ export type DescribeSnapshotCopyGrantsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeSnapshotCopyGrants: API.PaginatedOperationMethod<
-  DescribeSnapshotCopyGrantsMessage,
+  DescribeSnapshotCopyGrantsMessage & RegionInput,
   SnapshotCopyGrantMessage,
   DescribeSnapshotCopyGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -6869,7 +6870,7 @@ export type DescribeSnapshotSchedulesError = CommonErrors;
  * Returns a list of snapshot schedules.
  */
 export const describeSnapshotSchedules: API.PaginatedOperationMethod<
-  DescribeSnapshotSchedulesMessage,
+  DescribeSnapshotSchedulesMessage & RegionInput,
   DescribeSnapshotSchedulesOutputMessage,
   DescribeSnapshotSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -6896,7 +6897,7 @@ export type DescribeStorageError = CommonErrors;
  * Returns account level backups storage size and provisional storage.
  */
 export const describeStorage: API.OperationMethod<
-  DescribeStorageRequest,
+  DescribeStorageRequest & RegionInput,
   CustomerStorageMessage,
   DescribeStorageError,
   Credentials | HttpClient.HttpClient
@@ -6924,7 +6925,7 @@ export type DescribeTableRestoreStatusError =
  * `TableRestoreRequestId`.
  */
 export const describeTableRestoreStatus: API.PaginatedOperationMethod<
-  DescribeTableRestoreStatusMessage,
+  DescribeTableRestoreStatusMessage & RegionInput,
   TableRestoreStatusMessage,
   DescribeTableRestoreStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6973,7 +6974,7 @@ export type DescribeTagsError = InvalidTagFault | ResourceNotFoundFault | Common
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsMessage,
+  DescribeTagsMessage & RegionInput,
   TaggedResourceListMessage,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7016,7 +7017,7 @@ export type DescribeUsageLimitsError =
  * then all usage limit objects for the combination of cluster and feature are returned.
  */
 export const describeUsageLimits: API.PaginatedOperationMethod<
-  DescribeUsageLimitsMessage,
+  DescribeUsageLimitsMessage & RegionInput,
   UsageLimitList,
   DescribeUsageLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -7048,7 +7049,7 @@ export type DisableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const disableLogging: API.OperationMethod<
-  DisableLoggingMessage,
+  DisableLoggingMessage & RegionInput,
   LoggingStatus,
   DisableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -7079,7 +7080,7 @@ export type DisableSnapshotCopyError =
  * grants Amazon Redshift permission to the key in the destination region.
  */
 export const disableSnapshotCopy: API.OperationMethod<
-  DisableSnapshotCopyMessage,
+  DisableSnapshotCopyMessage & RegionInput,
   DisableSnapshotCopyResult,
   DisableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -7108,7 +7109,7 @@ export type DisassociateDataShareConsumerError =
  * From a datashare consumer account, remove association for the specified datashare.
  */
 export const disassociateDataShareConsumer: API.OperationMethod<
-  DisassociateDataShareConsumerMessage,
+  DisassociateDataShareConsumerMessage & RegionInput,
   DataShare,
   DisassociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -7137,7 +7138,7 @@ export type EnableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const enableLogging: API.OperationMethod<
-  EnableLoggingMessage,
+  EnableLoggingMessage & RegionInput,
   LoggingStatus,
   EnableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -7178,7 +7179,7 @@ export type EnableSnapshotCopyError =
  * specified cluster.
  */
 export const enableSnapshotCopy: API.OperationMethod<
-  EnableSnapshotCopyMessage,
+  EnableSnapshotCopyMessage & RegionInput,
   EnableSnapshotCopyResult,
   EnableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -7215,7 +7216,7 @@ export type FailoverPrimaryComputeError =
  * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
  */
 export const failoverPrimaryCompute: API.OperationMethod<
-  FailoverPrimaryComputeInputMessage,
+  FailoverPrimaryComputeInputMessage & RegionInput,
   FailoverPrimaryComputeResult,
   FailoverPrimaryComputeError,
   Credentials | HttpClient.HttpClient
@@ -7267,7 +7268,7 @@ export type GetClusterCredentialsError =
  * to the resource `dbname` for the specified database name.
  */
 export const getClusterCredentials: API.OperationMethod<
-  GetClusterCredentialsMessage,
+  GetClusterCredentialsMessage & RegionInput,
   ClusterCredentials,
   GetClusterCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7300,7 +7301,7 @@ export type GetClusterCredentialsWithIAMError =
  * Amazon Redshift Cluster Management Guide.
  */
 export const getClusterCredentialsWithIAM: API.OperationMethod<
-  GetClusterCredentialsWithIAMMessage,
+  GetClusterCredentialsWithIAMMessage & RegionInput,
   ClusterExtendedCredentials,
   GetClusterCredentialsWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -7336,7 +7337,7 @@ export type GetIdentityCenterAuthTokenError =
  * return an error.
  */
 export const getIdentityCenterAuthToken: API.OperationMethod<
-  GetIdentityCenterAuthTokenRequest,
+  GetIdentityCenterAuthTokenRequest & RegionInput,
   GetIdentityCenterAuthTokenResponse,
   GetIdentityCenterAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -7372,7 +7373,7 @@ export type GetReservedNodeExchangeConfigurationOptionsError =
  * Details include the node type, the price, the node count, and the offering type.
  */
 export const getReservedNodeExchangeConfigurationOptions: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  GetReservedNodeExchangeConfigurationOptionsInputMessage & RegionInput,
   GetReservedNodeExchangeConfigurationOptionsOutputMessage,
   GetReservedNodeExchangeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -7424,7 +7425,7 @@ export type GetReservedNodeExchangeOfferingsError =
  * and usage price of the given DC1 reserved node.
  */
 export const getReservedNodeExchangeOfferings: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeOfferingsInputMessage,
+  GetReservedNodeExchangeOfferingsInputMessage & RegionInput,
   GetReservedNodeExchangeOfferingsOutputMessage,
   GetReservedNodeExchangeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -7462,7 +7463,7 @@ export type GetResourcePolicyError =
  * Get the resource policy for a specified resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyMessage,
+  GetResourcePolicyMessage & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7485,7 +7486,7 @@ export type ListRecommendationsError =
  * List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsMessage,
+  ListRecommendationsMessage & RegionInput,
   ListRecommendationsResult,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -7516,7 +7517,7 @@ export type ModifyAquaConfigurationError =
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
 export const modifyAquaConfiguration: API.OperationMethod<
-  ModifyAquaInputMessage,
+  ModifyAquaInputMessage & RegionInput,
   ModifyAquaOutputMessage,
   ModifyAquaConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7540,7 +7541,7 @@ export type ModifyAuthenticationProfileError =
  * Modifies an authentication profile.
  */
 export const modifyAuthenticationProfile: API.OperationMethod<
-  ModifyAuthenticationProfileMessage,
+  ModifyAuthenticationProfileMessage & RegionInput,
   ModifyAuthenticationProfileResult,
   ModifyAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -7615,7 +7616,7 @@ export type ModifyClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterMessage,
+  ModifyClusterMessage & RegionInput,
   ModifyClusterResult,
   ModifyClusterError,
   Credentials | HttpClient.HttpClient
@@ -7664,7 +7665,7 @@ export type ModifyClusterDbRevisionError =
  * revision of the database running in a cluster.
  */
 export const modifyClusterDbRevision: API.OperationMethod<
-  ModifyClusterDbRevisionMessage,
+  ModifyClusterDbRevisionMessage & RegionInput,
   ModifyClusterDbRevisionResult,
   ModifyClusterDbRevisionError,
   Credentials | HttpClient.HttpClient
@@ -7697,7 +7698,7 @@ export type ModifyClusterIamRolesError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterIamRoles: API.OperationMethod<
-  ModifyClusterIamRolesMessage,
+  ModifyClusterIamRolesMessage & RegionInput,
   ModifyClusterIamRolesResult,
   ModifyClusterIamRolesError,
   Credentials | HttpClient.HttpClient
@@ -7720,7 +7721,7 @@ export type ModifyClusterMaintenanceError =
  * Modifies the maintenance settings of a cluster.
  */
 export const modifyClusterMaintenance: API.OperationMethod<
-  ModifyClusterMaintenanceMessage,
+  ModifyClusterMaintenanceMessage & RegionInput,
   ModifyClusterMaintenanceResult,
   ModifyClusterMaintenanceError,
   Credentials | HttpClient.HttpClient
@@ -7747,7 +7748,7 @@ export type ModifyClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterParameterGroup: API.OperationMethod<
-  ModifyClusterParameterGroupMessage,
+  ModifyClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ModifyClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -7773,7 +7774,7 @@ export type ModifyClusterSnapshotError =
  * This exanmple modifies the manual retention period setting for a cluster snapshot.
  */
 export const modifyClusterSnapshot: API.OperationMethod<
-  ModifyClusterSnapshotMessage,
+  ModifyClusterSnapshotMessage & RegionInput,
   ModifyClusterSnapshotResult,
   ModifyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -7801,7 +7802,7 @@ export type ModifyClusterSnapshotScheduleError =
  * Modifies a snapshot schedule for a cluster.
  */
 export const modifyClusterSnapshotSchedule: API.OperationMethod<
-  ModifyClusterSnapshotScheduleMessage,
+  ModifyClusterSnapshotScheduleMessage & RegionInput,
   ModifyClusterSnapshotScheduleResponse,
   ModifyClusterSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -7851,7 +7852,7 @@ export type ModifyClusterSubnetGroupError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyClusterSubnetGroup: API.OperationMethod<
-  ModifyClusterSubnetGroupMessage,
+  ModifyClusterSubnetGroupMessage & RegionInput,
   ModifyClusterSubnetGroupResult,
   ModifyClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -7883,7 +7884,7 @@ export type ModifyCustomDomainAssociationError =
  * Contains information for changing a custom domain association.
  */
 export const modifyCustomDomainAssociation: API.OperationMethod<
-  ModifyCustomDomainAssociationMessage,
+  ModifyCustomDomainAssociationMessage & RegionInput,
   ModifyCustomDomainAssociationResult,
   ModifyCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7915,7 +7916,7 @@ export type ModifyEndpointAccessError =
  * Modifies a Redshift-managed VPC endpoint.
  */
 export const modifyEndpointAccess: API.OperationMethod<
-  ModifyEndpointAccessMessage,
+  ModifyEndpointAccessMessage & RegionInput,
   EndpointAccess,
   ModifyEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -7952,7 +7953,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing Amazon Redshift event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -7988,7 +7989,7 @@ export type ModifyIntegrationError =
  * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const modifyIntegration: API.OperationMethod<
-  ModifyIntegrationMessage,
+  ModifyIntegrationMessage & RegionInput,
   Integration,
   ModifyIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -8022,7 +8023,7 @@ export type ModifyLakehouseConfigurationError =
  * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const modifyLakehouseConfiguration: API.OperationMethod<
-  ModifyLakehouseConfigurationMessage,
+  ModifyLakehouseConfigurationMessage & RegionInput,
   LakehouseConfiguration,
   ModifyLakehouseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8055,7 +8056,7 @@ export type ModifyQev2IdcApplicationError =
  * Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const modifyQev2IdcApplication: API.OperationMethod<
-  ModifyQev2IdcApplicationMessage,
+  ModifyQev2IdcApplicationMessage & RegionInput,
   ModifyQev2IdcApplicationResult,
   ModifyQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -8085,7 +8086,7 @@ export type ModifyRedshiftIdcApplicationError =
  * Changes an existing Amazon Redshift IAM Identity Center application.
  */
 export const modifyRedshiftIdcApplication: API.OperationMethod<
-  ModifyRedshiftIdcApplicationMessage,
+  ModifyRedshiftIdcApplicationMessage & RegionInput,
   ModifyRedshiftIdcApplicationResult,
   ModifyRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -8118,7 +8119,7 @@ export type ModifyScheduledActionError =
  * Modifies a scheduled action.
  */
 export const modifyScheduledAction: API.OperationMethod<
-  ModifyScheduledActionMessage,
+  ModifyScheduledActionMessage & RegionInput,
   ScheduledAction,
   ModifyScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -8158,7 +8159,7 @@ export type ModifySnapshotCopyRetentionPeriodError =
  * period.
  */
 export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
-  ModifySnapshotCopyRetentionPeriodMessage,
+  ModifySnapshotCopyRetentionPeriodMessage & RegionInput,
   ModifySnapshotCopyRetentionPeriodResult,
   ModifySnapshotCopyRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -8189,7 +8190,7 @@ export type ModifySnapshotScheduleError =
  * asynchronously.
  */
 export const modifySnapshotSchedule: API.OperationMethod<
-  ModifySnapshotScheduleMessage,
+  ModifySnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   ModifySnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -8218,7 +8219,7 @@ export type ModifyUsageLimitError =
  * You can't modify the feature type or period of a usage limit.
  */
 export const modifyUsageLimit: API.OperationMethod<
-  ModifyUsageLimitMessage,
+  ModifyUsageLimitMessage & RegionInput,
   UsageLimit,
   ModifyUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -8242,7 +8243,7 @@ export type PauseClusterError =
  * Pauses a cluster.
  */
 export const pauseCluster: API.OperationMethod<
-  PauseClusterMessage,
+  PauseClusterMessage & RegionInput,
   PauseClusterResult,
   PauseClusterError,
   Credentials | HttpClient.HttpClient
@@ -8275,7 +8276,7 @@ export type PurchaseReservedNodeOfferingError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const purchaseReservedNodeOffering: API.OperationMethod<
-  PurchaseReservedNodeOfferingMessage,
+  PurchaseReservedNodeOfferingMessage & RegionInput,
   PurchaseReservedNodeOfferingResult,
   PurchaseReservedNodeOfferingError,
   Credentials | HttpClient.HttpClient
@@ -8305,7 +8306,7 @@ export type PutResourcePolicyError =
  * Updates the resource policy for a specified resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyMessage,
+  PutResourcePolicyMessage & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8337,7 +8338,7 @@ export type RebootClusterError = ClusterNotFoundFault | InvalidClusterStateFault
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const rebootCluster: API.OperationMethod<
-  RebootClusterMessage,
+  RebootClusterMessage & RegionInput,
   RebootClusterResult,
   RebootClusterError,
   Credentials | HttpClient.HttpClient
@@ -8361,7 +8362,7 @@ export type RegisterNamespaceError =
  * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
  */
 export const registerNamespace: API.OperationMethod<
-  RegisterNamespaceInputMessage,
+  RegisterNamespaceInputMessage & RegionInput,
   RegisterNamespaceOutputMessage,
   RegisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -8381,7 +8382,7 @@ export type RejectDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare consumer account, rejects the specified datashare.
  */
 export const rejectDataShare: API.OperationMethod<
-  RejectDataShareMessage,
+  RejectDataShareMessage & RegionInput,
   DataShare,
   RejectDataShareError,
   Credentials | HttpClient.HttpClient
@@ -8407,7 +8408,7 @@ export type ResetClusterParameterGroupError =
  * For parameter changes to take effect you must reboot any associated clusters.
  */
 export const resetClusterParameterGroup: API.OperationMethod<
-  ResetClusterParameterGroupMessage,
+  ResetClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ResetClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -8473,7 +8474,7 @@ export type ResizeClusterError =
  * cluster.
  */
 export const resizeCluster: API.OperationMethod<
-  ResizeClusterMessage,
+  ResizeClusterMessage & RegionInput,
   ResizeClusterResult,
   ResizeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8575,7 +8576,7 @@ export type RestoreFromClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const restoreFromClusterSnapshot: API.OperationMethod<
-  RestoreFromClusterSnapshotMessage,
+  RestoreFromClusterSnapshotMessage & RegionInput,
   RestoreFromClusterSnapshotResult,
   RestoreFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8654,7 +8655,7 @@ export type RestoreTableFromClusterSnapshotError =
  * interleaved sort keys.
  */
 export const restoreTableFromClusterSnapshot: API.OperationMethod<
-  RestoreTableFromClusterSnapshotMessage,
+  RestoreTableFromClusterSnapshotMessage & RegionInput,
   RestoreTableFromClusterSnapshotResult,
   RestoreTableFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8687,7 +8688,7 @@ export type ResumeClusterError =
  * Resumes a paused cluster.
  */
 export const resumeCluster: API.OperationMethod<
-  ResumeClusterMessage,
+  ResumeClusterMessage & RegionInput,
   ResumeClusterResult,
   ResumeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8720,7 +8721,7 @@ export type RevokeClusterSecurityGroupIngressError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeClusterSecurityGroupIngress: API.OperationMethod<
-  RevokeClusterSecurityGroupIngressMessage,
+  RevokeClusterSecurityGroupIngressMessage & RegionInput,
   RevokeClusterSecurityGroupIngressResult,
   RevokeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -8752,7 +8753,7 @@ export type RevokeEndpointAccessError =
  * Revokes access to a cluster.
  */
 export const revokeEndpointAccess: API.OperationMethod<
-  RevokeEndpointAccessMessage,
+  RevokeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   RevokeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -8791,7 +8792,7 @@ export type RevokeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeSnapshotAccess: API.OperationMethod<
-  RevokeSnapshotAccessMessage,
+  RevokeSnapshotAccessMessage & RegionInput,
   RevokeSnapshotAccessResult,
   RevokeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -8821,7 +8822,7 @@ export type RotateEncryptionKeyError =
  * Rotates the encryption keys for a cluster.
  */
 export const rotateEncryptionKey: API.OperationMethod<
-  RotateEncryptionKeyMessage,
+  RotateEncryptionKeyMessage & RegionInput,
   RotateEncryptionKeyResult,
   RotateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -8851,7 +8852,7 @@ export type UpdatePartnerStatusError =
  * Updates the status of a partner integration.
  */
 export const updatePartnerStatus: API.OperationMethod<
-  UpdatePartnerStatusInputMessage,
+  UpdatePartnerStatusInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   UpdatePartnerStatusError,
   Credentials | HttpClient.HttpClient

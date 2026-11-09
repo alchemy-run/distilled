@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1233,7 +1234,7 @@ export type AddApplicationCloudWatchLoggingOptionError =
  * Adds an Amazon CloudWatch log stream to monitor application configuration errors.
  */
 export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
-  AddApplicationCloudWatchLoggingOptionRequest,
+  AddApplicationCloudWatchLoggingOptionRequest & RegionInput,
   AddApplicationCloudWatchLoggingOptionResponse,
   AddApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1276,7 @@ export type AddApplicationInputError =
  * to find the current application version.
  */
 export const addApplicationInput: API.OperationMethod<
-  AddApplicationInputRequest,
+  AddApplicationInputRequest & RegionInput,
   AddApplicationInputResponse,
   AddApplicationInputError,
   Credentials | HttpClient.HttpClient
@@ -1310,7 +1311,7 @@ export type AddApplicationInputProcessingConfigurationError =
  * application's SQL code executes. Currently, the only input processor available is Amazon Lambda.
  */
 export const addApplicationInputProcessingConfiguration: API.OperationMethod<
-  AddApplicationInputProcessingConfigurationRequest,
+  AddApplicationInputProcessingConfigurationRequest & RegionInput,
   AddApplicationInputProcessingConfigurationResponse,
   AddApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1357,7 +1358,7 @@ export type AddApplicationOutputError =
  * version.
  */
 export const addApplicationOutput: API.OperationMethod<
-  AddApplicationOutputRequest,
+  AddApplicationOutputRequest & RegionInput,
   AddApplicationOutputResponse,
   AddApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type AddApplicationReferenceDataSourceError =
  * in the resulting in-application table.
  */
 export const addApplicationReferenceDataSource: API.OperationMethod<
-  AddApplicationReferenceDataSourceRequest,
+  AddApplicationReferenceDataSourceRequest & RegionInput,
   AddApplicationReferenceDataSourceResponse,
   AddApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type AddApplicationVpcConfigurationError =
  * Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
  */
 export const addApplicationVpcConfiguration: API.OperationMethod<
-  AddApplicationVpcConfigurationRequest,
+  AddApplicationVpcConfigurationRequest & RegionInput,
   AddApplicationVpcConfigurationResponse,
   AddApplicationVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type CreateApplicationError =
  * Application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1518,7 +1519,7 @@ export type CreateApplicationPresignedUrlError =
  * If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
  */
 export const createApplicationPresignedUrl: API.OperationMethod<
-  CreateApplicationPresignedUrlRequest,
+  CreateApplicationPresignedUrlRequest & RegionInput,
   CreateApplicationPresignedUrlResponse,
   CreateApplicationPresignedUrlError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type CreateApplicationSnapshotError =
  * Creates a snapshot of the application's state data.
  */
 export const createApplicationSnapshot: API.OperationMethod<
-  CreateApplicationSnapshotRequest,
+  CreateApplicationSnapshotRequest & RegionInput,
   CreateApplicationSnapshotResponse,
   CreateApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1581,7 +1582,7 @@ export type DeleteApplicationError =
  * Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1615,7 +1616,7 @@ export type DeleteApplicationCloudWatchLoggingOptionError =
  * Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
  */
 export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
-  DeleteApplicationCloudWatchLoggingOptionRequest,
+  DeleteApplicationCloudWatchLoggingOptionRequest & RegionInput,
   DeleteApplicationCloudWatchLoggingOptionResponse,
   DeleteApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -1648,7 +1649,7 @@ export type DeleteApplicationInputProcessingConfigurationError =
  * Deletes an InputProcessingConfiguration from an input.
  */
 export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
-  DeleteApplicationInputProcessingConfigurationRequest,
+  DeleteApplicationInputProcessingConfigurationRequest & RegionInput,
   DeleteApplicationInputProcessingConfigurationResponse,
   DeleteApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type DeleteApplicationOutputError =
  * the corresponding in-application stream to the external output destination.
  */
 export const deleteApplicationOutput: API.OperationMethod<
-  DeleteApplicationOutputRequest,
+  DeleteApplicationOutputRequest & RegionInput,
   DeleteApplicationOutputResponse,
   DeleteApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -1725,7 +1726,7 @@ export type DeleteApplicationReferenceDataSourceError =
  * that you created using the AddApplicationReferenceDataSource operation.
  */
 export const deleteApplicationReferenceDataSource: API.OperationMethod<
-  DeleteApplicationReferenceDataSourceRequest,
+  DeleteApplicationReferenceDataSourceRequest & RegionInput,
   DeleteApplicationReferenceDataSourceResponse,
   DeleteApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type DeleteApplicationSnapshotError =
  * Deletes a snapshot of application state.
  */
 export const deleteApplicationSnapshot: API.OperationMethod<
-  DeleteApplicationSnapshotRequest,
+  DeleteApplicationSnapshotRequest & RegionInput,
   DeleteApplicationSnapshotResponse,
   DeleteApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1791,7 +1792,7 @@ export type DeleteApplicationVpcConfigurationError =
  * Removes a VPC configuration from a Managed Service for Apache Flink application.
  */
 export const deleteApplicationVpcConfiguration: API.OperationMethod<
-  DeleteApplicationVpcConfigurationRequest,
+  DeleteApplicationVpcConfigurationRequest & RegionInput,
   DeleteApplicationVpcConfigurationResponse,
   DeleteApplicationVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type DescribeApplicationError =
  * use the ListApplications operation.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1850,7 +1851,7 @@ export type DescribeApplicationOperationError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const describeApplicationOperation: API.OperationMethod<
-  DescribeApplicationOperationRequest,
+  DescribeApplicationOperationRequest & RegionInput,
   DescribeApplicationOperationResponse,
   DescribeApplicationOperationError,
   Credentials | HttpClient.HttpClient
@@ -1874,7 +1875,7 @@ export type DescribeApplicationSnapshotError =
  * Returns information about a snapshot of application state data.
  */
 export const describeApplicationSnapshot: API.OperationMethod<
-  DescribeApplicationSnapshotRequest,
+  DescribeApplicationSnapshotRequest & RegionInput,
   DescribeApplicationSnapshotResponse,
   DescribeApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type DescribeApplicationVersionError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const describeApplicationVersion: API.OperationMethod<
-  DescribeApplicationVersionRequest,
+  DescribeApplicationVersionRequest & RegionInput,
   DescribeApplicationVersionResponse,
   DescribeApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1934,7 +1935,7 @@ export type DiscoverInputSchemaError =
  * operation to infer a schema and show it in the console user interface.
  */
 export const discoverInputSchema: API.OperationMethod<
-  DiscoverInputSchemaRequest,
+  DiscoverInputSchemaRequest & RegionInput,
   DiscoverInputSchemaResponse,
   DiscoverInputSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type ListApplicationOperationsError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const listApplicationOperations: API.PaginatedOperationMethod<
-  ListApplicationOperationsRequest,
+  ListApplicationOperationsRequest & RegionInput,
   ListApplicationOperationsResponse,
   ListApplicationOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -2002,7 +2003,7 @@ export type ListApplicationsError = InvalidRequestException | CommonErrors;
  * DescribeApplication.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -2032,7 +2033,7 @@ export type ListApplicationSnapshotsError =
  * Lists information about the current application snapshots.
  */
 export const listApplicationSnapshots: API.PaginatedOperationMethod<
-  ListApplicationSnapshotsRequest,
+  ListApplicationSnapshotsRequest & RegionInput,
   ListApplicationSnapshotsResponse,
   ListApplicationSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2068,7 +2069,7 @@ export type ListApplicationVersionsError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2100,7 +2101,7 @@ export type ListTagsForResourceError =
  * Using Tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2134,7 +2135,7 @@ export type RollbackApplicationError =
  * If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
  */
 export const rollbackApplication: API.OperationMethod<
-  RollbackApplicationRequest,
+  RollbackApplicationRequest & RegionInput,
   RollbackApplicationResponse,
   RollbackApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2168,7 +2169,7 @@ export type StartApplicationError =
  * start your application.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type StopApplicationError =
  * to `true`.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2243,7 +2244,7 @@ export type TagResourceError =
  * For more information, see Using Tagging.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2276,7 +2277,7 @@ export type UntagResourceError =
  * Using Tagging.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2315,7 +2316,7 @@ export type UpdateApplicationError =
  * your application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2367,7 +2368,7 @@ export type UpdateApplicationMaintenanceConfigurationError =
  * This operation is supported only for Managed Service for Apache Flink.
  */
 export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
-  UpdateApplicationMaintenanceConfigurationRequest,
+  UpdateApplicationMaintenanceConfigurationRequest & RegionInput,
   UpdateApplicationMaintenanceConfigurationResponse,
   UpdateApplicationMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient

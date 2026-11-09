@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -5922,7 +5923,7 @@ export type AddDatasetExamplesError =
  * Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
  */
 export const addDatasetExamples: API.OperationMethod<
-  AddDatasetExamplesRequest,
+  AddDatasetExamplesRequest & RegionInput,
   AddDatasetExamplesResponse,
   AddDatasetExamplesError,
   Credentials | HttpClient.HttpClient
@@ -5958,7 +5959,7 @@ export type BatchPutGatewayRateLimitsError =
  * Atomically creates or updates multiple rate limits for a gateway. The operation updates existing limits with matching keys and creates new limits for new keys. If the operation fails, the service applies no changes. Retry the request after resolving the issue.
  */
 export const batchPutGatewayRateLimits: API.OperationMethod<
-  BatchPutGatewayRateLimitsRequest,
+  BatchPutGatewayRateLimitsRequest & RegionInput,
   BatchPutGatewayRateLimitsResponse,
   BatchPutGatewayRateLimitsError,
   Credentials | HttpClient.HttpClient
@@ -5993,7 +5994,7 @@ export type CreateAgentRuntimeError =
  * Creates an Amazon Bedrock AgentCore Runtime.
  */
 export const createAgentRuntime: API.OperationMethod<
-  CreateAgentRuntimeRequest,
+  CreateAgentRuntimeRequest & RegionInput,
   CreateAgentRuntimeResponse,
   CreateAgentRuntimeError,
   Credentials | HttpClient.HttpClient
@@ -6028,7 +6029,7 @@ export type CreateAgentRuntimeEndpointError =
  * Creates an AgentCore Runtime endpoint.
  */
 export const createAgentRuntimeEndpoint: API.OperationMethod<
-  CreateAgentRuntimeEndpointRequest,
+  CreateAgentRuntimeEndpointRequest & RegionInput,
   CreateAgentRuntimeEndpointResponse,
   CreateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6068,7 +6069,7 @@ export type CreateApiKeyCredentialProviderError =
  * Creates a new API key credential provider.
  */
 export const createApiKeyCredentialProvider: API.OperationMethod<
-  CreateApiKeyCredentialProviderRequest,
+  CreateApiKeyCredentialProviderRequest & RegionInput,
   CreateApiKeyCredentialProviderResponse,
   CreateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -6107,7 +6108,7 @@ export type CreateBrowserError =
  * Creates a custom browser.
  */
 export const createBrowser: API.OperationMethod<
-  CreateBrowserRequest,
+  CreateBrowserRequest & RegionInput,
   CreateBrowserResponse,
   CreateBrowserError,
   Credentials | HttpClient.HttpClient
@@ -6141,7 +6142,7 @@ export type CreateBrowserProfileError =
  * Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
  */
 export const createBrowserProfile: API.OperationMethod<
-  CreateBrowserProfileRequest,
+  CreateBrowserProfileRequest & RegionInput,
   CreateBrowserProfileResponse,
   CreateBrowserProfileError,
   Credentials | HttpClient.HttpClient
@@ -6179,7 +6180,7 @@ export type CreateCapacityProviderError =
  * The capacity provider name must be unique within your account. After you create the capacity provider, it enters a `CREATING` state and transitions to `READY` when it is available for use.
  */
 export const createCapacityProvider: API.OperationMethod<
-  CreateCapacityProviderInput,
+  CreateCapacityProviderInput & RegionInput,
   CreateCapacityProviderOutput,
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -6215,7 +6216,7 @@ export type CreateCodeInterpreterError =
  * Creates a custom code interpreter.
  */
 export const createCodeInterpreter: API.OperationMethod<
-  CreateCodeInterpreterRequest,
+  CreateCodeInterpreterRequest & RegionInput,
   CreateCodeInterpreterResponse,
   CreateCodeInterpreterError,
   Credentials | HttpClient.HttpClient
@@ -6249,7 +6250,7 @@ export type CreateConfigurationBundleError =
  * Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows.
  */
 export const createConfigurationBundle: API.OperationMethod<
-  CreateConfigurationBundleRequest,
+  CreateConfigurationBundleRequest & RegionInput,
   CreateConfigurationBundleResponse,
   CreateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
@@ -6285,7 +6286,7 @@ export type CreateConsentPortalError =
  * Creates a new consent portal.
  */
 export const createConsentPortal: API.OperationMethod<
-  CreateConsentPortalRequest,
+  CreateConsentPortalRequest & RegionInput,
   CreateConsentPortalResponse,
   CreateConsentPortalError,
   Credentials | HttpClient.HttpClient
@@ -6321,7 +6322,7 @@ export type CreateDatasetError =
  * Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll `GetDataset` until status transitions to ACTIVE or CREATE_FAILED.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -6356,7 +6357,7 @@ export type CreateDatasetVersionError =
  * Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll `GetDataset` until status transitions to ACTIVE or UPDATE_FAILED.
  */
 export const createDatasetVersion: API.OperationMethod<
-  CreateDatasetVersionRequest,
+  CreateDatasetVersionRequest & RegionInput,
   CreateDatasetVersionResponse,
   CreateDatasetVersionError,
   Credentials | HttpClient.HttpClient
@@ -6391,7 +6392,7 @@ export type CreateEvaluatorError =
  * Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
  */
 export const createEvaluator: API.OperationMethod<
-  CreateEvaluatorRequest,
+  CreateEvaluatorRequest & RegionInput,
   CreateEvaluatorResponse,
   CreateEvaluatorError,
   Credentials | HttpClient.HttpClient
@@ -6427,7 +6428,7 @@ export type CreateGatewayError =
  * If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide an `authorizerConfiguration`.
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayRequest,
+  CreateGatewayRequest & RegionInput,
   CreateGatewayResponse,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -6462,7 +6463,7 @@ export type CreateGatewayRateLimitError =
  * Creates a rate limit for a gateway. Rate limits define throttling rules for each dimension that control request rates, token consumption rates, and concurrent connections through the gateway.
  */
 export const createGatewayRateLimit: API.OperationMethod<
-  CreateGatewayRateLimitRequest,
+  CreateGatewayRateLimitRequest & RegionInput,
   CreateGatewayRateLimitResponse,
   CreateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -6498,7 +6499,7 @@ export type CreateGatewayRuleError =
  * Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, including principal-based access control and path-based routing.
  */
 export const createGatewayRule: API.OperationMethod<
-  CreateGatewayRuleRequest,
+  CreateGatewayRuleRequest & RegionInput,
   CreateGatewayRuleResponse,
   CreateGatewayRuleError,
   Credentials | HttpClient.HttpClient
@@ -6534,7 +6535,7 @@ export type CreateGatewayTargetError =
  * Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
  */
 export const createGatewayTarget: API.OperationMethod<
-  CreateGatewayTargetRequest,
+  CreateGatewayTargetRequest & RegionInput,
   CreateGatewayTargetResponse,
   CreateGatewayTargetError,
   Credentials | HttpClient.HttpClient
@@ -6569,7 +6570,7 @@ export type CreateHarnessError =
  * Operation to create a harness.
  */
 export const createHarness: API.OperationMethod<
-  CreateHarnessRequest,
+  CreateHarnessRequest & RegionInput,
   CreateHarnessResponse,
   CreateHarnessError,
   Credentials | HttpClient.HttpClient
@@ -6604,7 +6605,7 @@ export type CreateHarnessEndpointError =
  * Operation to create a harness endpoint.
  */
 export const createHarnessEndpoint: API.OperationMethod<
-  CreateHarnessEndpointRequest,
+  CreateHarnessEndpointRequest & RegionInput,
   CreateHarnessEndpointResponse,
   CreateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6640,7 +6641,7 @@ export type CreateMemoryError =
  * Creates a new Amazon Bedrock AgentCore Memory resource.
  */
 export const createMemory: API.OperationMethod<
-  CreateMemoryInput,
+  CreateMemoryInput & RegionInput,
   CreateMemoryOutput,
   CreateMemoryError,
   Credentials | HttpClient.HttpClient
@@ -6680,7 +6681,7 @@ export type CreateOauth2CredentialProviderError =
  * Creates a new OAuth2 credential provider.
  */
 export const createOauth2CredentialProvider: API.OperationMethod<
-  CreateOauth2CredentialProviderRequest,
+  CreateOauth2CredentialProviderRequest & RegionInput,
   CreateOauth2CredentialProviderResponse,
   CreateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -6719,7 +6720,7 @@ export type CreateOnlineEvaluationConfigError =
  * Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
  */
 export const createOnlineEvaluationConfig: API.OperationMethod<
-  CreateOnlineEvaluationConfigRequest,
+  CreateOnlineEvaluationConfigRequest & RegionInput,
   CreateOnlineEvaluationConfigResponse,
   CreateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
@@ -6755,7 +6756,7 @@ export type CreatePaymentConnectorError =
  * Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities.
  */
 export const createPaymentConnector: API.OperationMethod<
-  CreatePaymentConnectorRequest,
+  CreatePaymentConnectorRequest & RegionInput,
   CreatePaymentConnectorResponse,
   CreatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -6796,7 +6797,7 @@ export type CreatePaymentCredentialProviderError =
  * Creates a new payment credential provider for storing authentication credentials used by payment connectors to communicate with external payment providers.
  */
 export const createPaymentCredentialProvider: API.OperationMethod<
-  CreatePaymentCredentialProviderRequest,
+  CreatePaymentCredentialProviderRequest & RegionInput,
   CreatePaymentCredentialProviderResponse,
   CreatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -6837,7 +6838,7 @@ export type CreatePaymentManagerError =
  * If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide an `authorizerConfiguration`.
  */
 export const createPaymentManager: API.OperationMethod<
-  CreatePaymentManagerRequest,
+  CreatePaymentManagerRequest & RegionInput,
   CreatePaymentManagerResponse,
   CreatePaymentManagerError,
   Credentials | HttpClient.HttpClient
@@ -6874,7 +6875,7 @@ export type CreatePolicyError =
  * If the new policy is a temporal policy, creating it invalidates the policy engine's active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 `ConflictException` to in-flight sessions. To resume, you must start a new session with a new session ID.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6909,7 +6910,7 @@ export type CreatePolicyEngineError =
  * Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the `status` field to track completion.
  */
 export const createPolicyEngine: API.OperationMethod<
-  CreatePolicyEngineRequest,
+  CreatePolicyEngineRequest & RegionInput,
   CreatePolicyEngineResponse,
   CreatePolicyEngineError,
   Credentials | HttpClient.HttpClient
@@ -6945,7 +6946,7 @@ export type CreateRegistryError =
  * If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide an `authorizerConfiguration`.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
+  CreateRegistryRequest & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -6982,7 +6983,7 @@ export type CreateRegistryRecordError =
  * The record is processed asynchronously and returns HTTP 202 Accepted.
  */
 export const createRegistryRecord: API.OperationMethod<
-  CreateRegistryRecordRequest,
+  CreateRegistryRecordRequest & RegionInput,
   CreateRegistryRecordResponse,
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -7017,7 +7018,7 @@ export type CreateWorkloadIdentityError =
  * Creates a new workload identity.
  */
 export const createWorkloadIdentity: API.OperationMethod<
-  CreateWorkloadIdentityRequest,
+  CreateWorkloadIdentityRequest & RegionInput,
   CreateWorkloadIdentityResponse,
   CreateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
@@ -7050,7 +7051,7 @@ export type DeleteAgentRuntimeError =
  * Deletes an Amazon Bedrock AgentCore Runtime, or a single version of an AgentCore Runtime when you provide the version qualifier.
  */
 export const deleteAgentRuntime: API.OperationMethod<
-  DeleteAgentRuntimeRequest,
+  DeleteAgentRuntimeRequest & RegionInput,
   DeleteAgentRuntimeResponse,
   DeleteAgentRuntimeError,
   Credentials | HttpClient.HttpClient
@@ -7082,7 +7083,7 @@ export type DeleteAgentRuntimeEndpointError =
  * Deletes an AgentCore Runtime endpoint.
  */
 export const deleteAgentRuntimeEndpoint: API.OperationMethod<
-  DeleteAgentRuntimeEndpointRequest,
+  DeleteAgentRuntimeEndpointRequest & RegionInput,
   DeleteAgentRuntimeEndpointResponse,
   DeleteAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7115,7 +7116,7 @@ export type DeleteApiKeyCredentialProviderError =
  * Deletes an API key credential provider.
  */
 export const deleteApiKeyCredentialProvider: API.OperationMethod<
-  DeleteApiKeyCredentialProviderRequest,
+  DeleteApiKeyCredentialProviderRequest & RegionInput,
   DeleteApiKeyCredentialProviderResponse,
   DeleteApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -7150,7 +7151,7 @@ export type DeleteBrowserError =
  * Deletes a custom browser.
  */
 export const deleteBrowser: API.OperationMethod<
-  DeleteBrowserRequest,
+  DeleteBrowserRequest & RegionInput,
   DeleteBrowserResponse,
   DeleteBrowserError,
   Credentials | HttpClient.HttpClient
@@ -7185,7 +7186,7 @@ export type DeleteBrowserProfileError =
  * Deletes a browser profile.
  */
 export const deleteBrowserProfile: API.OperationMethod<
-  DeleteBrowserProfileRequest,
+  DeleteBrowserProfileRequest & RegionInput,
   DeleteBrowserProfileResponse,
   DeleteBrowserProfileError,
   Credentials | HttpClient.HttpClient
@@ -7220,7 +7221,7 @@ export type DeleteCapacityProviderError =
  * Deletes a capacity provider. Before you delete a capacity provider, disassociate all agent runtimes and runtime versions that reference it. If any references remain, the operation fails.
  */
 export const deleteCapacityProvider: API.OperationMethod<
-  DeleteCapacityProviderInput,
+  DeleteCapacityProviderInput & RegionInput,
   DeleteCapacityProviderOutput,
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -7256,7 +7257,7 @@ export type DeleteCodeInterpreterError =
  * Deletes a custom code interpreter.
  */
 export const deleteCodeInterpreter: API.OperationMethod<
-  DeleteCodeInterpreterRequest,
+  DeleteCodeInterpreterRequest & RegionInput,
   DeleteCodeInterpreterResponse,
   DeleteCodeInterpreterError,
   Credentials | HttpClient.HttpClient
@@ -7291,7 +7292,7 @@ export type DeleteConfigurationBundleError =
  * Deletes a configuration bundle and all of its versions.
  */
 export const deleteConfigurationBundle: API.OperationMethod<
-  DeleteConfigurationBundleRequest,
+  DeleteConfigurationBundleRequest & RegionInput,
   DeleteConfigurationBundleResponse,
   DeleteConfigurationBundleError,
   Credentials | HttpClient.HttpClient
@@ -7326,7 +7327,7 @@ export type DeleteConsentPortalError =
  * Deletes a consent portal.
  */
 export const deleteConsentPortal: API.OperationMethod<
-  DeleteConsentPortalRequest,
+  DeleteConsentPortalRequest & RegionInput,
   DeleteConsentPortalResponse,
   DeleteConsentPortalError,
   Credentials | HttpClient.HttpClient
@@ -7361,7 +7362,7 @@ export type DeleteDatasetError =
  * Deletes a dataset version or an entire dataset asynchronously. If `datasetVersion` is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -7395,7 +7396,7 @@ export type DeleteDatasetExamplesError =
  * Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics).
  */
 export const deleteDatasetExamples: API.OperationMethod<
-  DeleteDatasetExamplesRequest,
+  DeleteDatasetExamplesRequest & RegionInput,
   DeleteDatasetExamplesResponse,
   DeleteDatasetExamplesError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7430,7 @@ export type DeleteEvaluatorError =
  * Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
  */
 export const deleteEvaluator: API.OperationMethod<
-  DeleteEvaluatorRequest,
+  DeleteEvaluatorRequest & RegionInput,
   DeleteEvaluatorResponse,
   DeleteEvaluatorError,
   Credentials | HttpClient.HttpClient
@@ -7463,7 +7464,7 @@ export type DeleteGatewayError =
  * Deletes a gateway.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayRequest,
+  DeleteGatewayRequest & RegionInput,
   DeleteGatewayResponse,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -7497,7 +7498,7 @@ export type DeleteGatewayRateLimitError =
  * Deletes a gateway rate limit.
  */
 export const deleteGatewayRateLimit: API.OperationMethod<
-  DeleteGatewayRateLimitRequest,
+  DeleteGatewayRateLimitRequest & RegionInput,
   DeleteGatewayRateLimitResponse,
   DeleteGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -7531,7 +7532,7 @@ export type DeleteGatewayRuleError =
  * Deletes a gateway rule.
  */
 export const deleteGatewayRule: API.OperationMethod<
-  DeleteGatewayRuleRequest,
+  DeleteGatewayRuleRequest & RegionInput,
   DeleteGatewayRuleResponse,
   DeleteGatewayRuleError,
   Credentials | HttpClient.HttpClient
@@ -7567,7 +7568,7 @@ export type DeleteGatewayTargetError =
  * You cannot delete a target that is in a pending authorization state (`CREATE_PENDING_AUTH`, `UPDATE_PENDING_AUTH`, or `SYNCHRONIZE_PENDING_AUTH`). Wait for the authorization to complete or fail before deleting the target.
  */
 export const deleteGatewayTarget: API.OperationMethod<
-  DeleteGatewayTargetRequest,
+  DeleteGatewayTargetRequest & RegionInput,
   DeleteGatewayTargetResponse,
   DeleteGatewayTargetError,
   Credentials | HttpClient.HttpClient
@@ -7601,7 +7602,7 @@ export type DeleteHarnessError =
  * Operation to delete a Harness.
  */
 export const deleteHarness: API.OperationMethod<
-  DeleteHarnessRequest,
+  DeleteHarnessRequest & RegionInput,
   DeleteHarnessResponse,
   DeleteHarnessError,
   Credentials | HttpClient.HttpClient
@@ -7635,7 +7636,7 @@ export type DeleteHarnessEndpointError =
  * Operation to delete a harness endpoint.
  */
 export const deleteHarnessEndpoint: API.OperationMethod<
-  DeleteHarnessEndpointRequest,
+  DeleteHarnessEndpointRequest & RegionInput,
   DeleteHarnessEndpointResponse,
   DeleteHarnessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7669,7 +7670,7 @@ export type DeleteMemoryError =
  * Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
  */
 export const deleteMemory: API.OperationMethod<
-  DeleteMemoryInput,
+  DeleteMemoryInput & RegionInput,
   DeleteMemoryOutput,
   DeleteMemoryError,
   Credentials | HttpClient.HttpClient
@@ -7704,7 +7705,7 @@ export type DeleteOauth2CredentialProviderError =
  * Deletes an OAuth2 credential provider.
  */
 export const deleteOauth2CredentialProvider: API.OperationMethod<
-  DeleteOauth2CredentialProviderRequest,
+  DeleteOauth2CredentialProviderRequest & RegionInput,
   DeleteOauth2CredentialProviderResponse,
   DeleteOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -7739,7 +7740,7 @@ export type DeleteOnlineEvaluationConfigError =
  * Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
  */
 export const deleteOnlineEvaluationConfig: API.OperationMethod<
-  DeleteOnlineEvaluationConfigRequest,
+  DeleteOnlineEvaluationConfigRequest & RegionInput,
   DeleteOnlineEvaluationConfigResponse,
   DeleteOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
@@ -7772,7 +7773,7 @@ export type DeletePaymentConnectorError =
  * Deletes a payment connector.
  */
 export const deletePaymentConnector: API.OperationMethod<
-  DeletePaymentConnectorRequest,
+  DeletePaymentConnectorRequest & RegionInput,
   DeletePaymentConnectorResponse,
   DeletePaymentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -7805,7 +7806,7 @@ export type DeletePaymentCredentialProviderError =
  * Deletes a payment credential provider and its associated stored credentials.
  */
 export const deletePaymentCredentialProvider: API.OperationMethod<
-  DeletePaymentCredentialProviderRequest,
+  DeletePaymentCredentialProviderRequest & RegionInput,
   DeletePaymentCredentialProviderResponse,
   DeletePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -7838,7 +7839,7 @@ export type DeletePaymentManagerError =
  * Deletes a payment manager. All payment connectors associated with the payment manager must be deleted before the payment manager can be deleted. This operation initiates the deletion process asynchronously.
  */
 export const deletePaymentManager: API.OperationMethod<
-  DeletePaymentManagerRequest,
+  DeletePaymentManagerRequest & RegionInput,
   DeletePaymentManagerResponse,
   DeletePaymentManagerError,
   Credentials | HttpClient.HttpClient
@@ -7871,7 +7872,7 @@ export type DeletePolicyError =
  * Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7905,7 +7906,7 @@ export type DeletePolicyEngineError =
  * Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
 export const deletePolicyEngine: API.OperationMethod<
-  DeletePolicyEngineRequest,
+  DeletePolicyEngineRequest & RegionInput,
   DeletePolicyEngineResponse,
   DeletePolicyEngineError,
   Credentials | HttpClient.HttpClient
@@ -7939,7 +7940,7 @@ export type DeleteRegistryError =
  * Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchronously.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
+  DeleteRegistryRequest & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -7973,7 +7974,7 @@ export type DeleteRegistryRecordError =
  * Deletes a registry record. The record's status transitions to `DELETING` and the record is removed asynchronously.
  */
 export const deleteRegistryRecord: API.OperationMethod<
-  DeleteRegistryRecordRequest,
+  DeleteRegistryRecordRequest & RegionInput,
   DeleteRegistryRecordResponse,
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -8008,7 +8009,7 @@ export type DeleteResourcePolicyError =
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8041,7 +8042,7 @@ export type DeleteWorkloadIdentityError =
  * Deletes a workload identity.
  */
 export const deleteWorkloadIdentity: API.OperationMethod<
-  DeleteWorkloadIdentityRequest,
+  DeleteWorkloadIdentityRequest & RegionInput,
   DeleteWorkloadIdentityResponse,
   DeleteWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
@@ -8074,7 +8075,7 @@ export type GetAgentRuntimeError =
  * Gets an Amazon Bedrock AgentCore Runtime.
  */
 export const getAgentRuntime: API.OperationMethod<
-  GetAgentRuntimeRequest,
+  GetAgentRuntimeRequest & RegionInput,
   GetAgentRuntimeResponse,
   GetAgentRuntimeError,
   Credentials | HttpClient.HttpClient
@@ -8106,7 +8107,7 @@ export type GetAgentRuntimeEndpointError =
  * Gets information about an Amazon Secure AgentEndpoint.
  */
 export const getAgentRuntimeEndpoint: API.OperationMethod<
-  GetAgentRuntimeEndpointRequest,
+  GetAgentRuntimeEndpointRequest & RegionInput,
   GetAgentRuntimeEndpointResponse,
   GetAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -8140,7 +8141,7 @@ export type GetApiKeyCredentialProviderError =
  * Retrieves information about an API key credential provider.
  */
 export const getApiKeyCredentialProvider: API.OperationMethod<
-  GetApiKeyCredentialProviderRequest,
+  GetApiKeyCredentialProviderRequest & RegionInput,
   GetApiKeyCredentialProviderResponse,
   GetApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -8174,7 +8175,7 @@ export type GetBrowserError =
  * Gets information about a custom browser.
  */
 export const getBrowser: API.OperationMethod<
-  GetBrowserRequest,
+  GetBrowserRequest & RegionInput,
   GetBrowserResponse,
   GetBrowserError,
   Credentials | HttpClient.HttpClient
@@ -8206,7 +8207,7 @@ export type GetBrowserProfileError =
  * Gets information about a browser profile.
  */
 export const getBrowserProfile: API.OperationMethod<
-  GetBrowserProfileRequest,
+  GetBrowserProfileRequest & RegionInput,
   GetBrowserProfileResponse,
   GetBrowserProfileError,
   Credentials | HttpClient.HttpClient
@@ -8238,7 +8239,7 @@ export type GetCapacityProviderError =
  * Retrieves information about a capacity provider, including its status, permissions configuration, and compute configuration.
  */
 export const getCapacityProvider: API.OperationMethod<
-  GetCapacityProviderInput,
+  GetCapacityProviderInput & RegionInput,
   GetCapacityProviderOutput,
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -8270,7 +8271,7 @@ export type GetCodeInterpreterError =
  * Gets information about a custom code interpreter.
  */
 export const getCodeInterpreter: API.OperationMethod<
-  GetCodeInterpreterRequest,
+  GetCodeInterpreterRequest & RegionInput,
   GetCodeInterpreterResponse,
   GetCodeInterpreterError,
   Credentials | HttpClient.HttpClient
@@ -8302,7 +8303,7 @@ export type GetConfigurationBundleError =
  * Gets the latest version of a configuration bundle. By default, returns the latest version on the mainline branch. Use `GetConfigurationBundleVersion` to retrieve a specific historical version.
  */
 export const getConfigurationBundle: API.OperationMethod<
-  GetConfigurationBundleRequest,
+  GetConfigurationBundleRequest & RegionInput,
   GetConfigurationBundleResponse,
   GetConfigurationBundleError,
   Credentials | HttpClient.HttpClient
@@ -8334,7 +8335,7 @@ export type GetConfigurationBundleVersionError =
  * Gets a specific version of a configuration bundle by its version identifier.
  */
 export const getConfigurationBundleVersion: API.OperationMethod<
-  GetConfigurationBundleVersionRequest,
+  GetConfigurationBundleVersionRequest & RegionInput,
   GetConfigurationBundleVersionResponse,
   GetConfigurationBundleVersionError,
   Credentials | HttpClient.HttpClient
@@ -8367,7 +8368,7 @@ export type GetConsentPortalError =
  * Retrieves information about a consent portal.
  */
 export const getConsentPortal: API.OperationMethod<
-  GetConsentPortalRequest,
+  GetConsentPortalRequest & RegionInput,
   GetConsentPortalResponse,
   GetConsentPortalError,
   Credentials | HttpClient.HttpClient
@@ -8401,7 +8402,7 @@ export type GetDatasetError =
  * Retrieves dataset metadata. Use the `datasetVersion` query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use `ListDatasetExamples`.
  */
 export const getDataset: API.OperationMethod<
-  GetDatasetRequest,
+  GetDatasetRequest & RegionInput,
   GetDatasetResponse,
   GetDatasetError,
   Credentials | HttpClient.HttpClient
@@ -8434,7 +8435,7 @@ export type GetEvaluatorError =
  * Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
  */
 export const getEvaluator: API.OperationMethod<
-  GetEvaluatorRequest,
+  GetEvaluatorRequest & RegionInput,
   GetEvaluatorResponse,
   GetEvaluatorError,
   Credentials | HttpClient.HttpClient
@@ -8466,7 +8467,7 @@ export type GetGatewayError =
  * Retrieves information about a specific Gateway.
  */
 export const getGateway: API.OperationMethod<
-  GetGatewayRequest,
+  GetGatewayRequest & RegionInput,
   GetGatewayResponse,
   GetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -8498,7 +8499,7 @@ export type GetGatewayRateLimitError =
  * Retrieves information about a gateway rate limit.
  */
 export const getGatewayRateLimit: API.OperationMethod<
-  GetGatewayRateLimitRequest,
+  GetGatewayRateLimitRequest & RegionInput,
   GetGatewayRateLimitResponse,
   GetGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -8530,7 +8531,7 @@ export type GetGatewayRuleError =
  * Retrieves detailed information about a specific gateway rule.
  */
 export const getGatewayRule: API.OperationMethod<
-  GetGatewayRuleRequest,
+  GetGatewayRuleRequest & RegionInput,
   GetGatewayRuleResponse,
   GetGatewayRuleError,
   Credentials | HttpClient.HttpClient
@@ -8562,7 +8563,7 @@ export type GetGatewayTargetError =
  * Retrieves information about a specific gateway target.
  */
 export const getGatewayTarget: API.OperationMethod<
-  GetGatewayTargetRequest,
+  GetGatewayTargetRequest & RegionInput,
   GetGatewayTargetResponse,
   GetGatewayTargetError,
   Credentials | HttpClient.HttpClient
@@ -8594,7 +8595,7 @@ export type GetHarnessError =
  * Operation to get a single harness.
  */
 export const getHarness: API.OperationMethod<
-  GetHarnessRequest,
+  GetHarnessRequest & RegionInput,
   GetHarnessResponse,
   GetHarnessError,
   Credentials | HttpClient.HttpClient
@@ -8626,7 +8627,7 @@ export type GetHarnessEndpointError =
  * Operation to get a single harness endpoint.
  */
 export const getHarnessEndpoint: API.OperationMethod<
-  GetHarnessEndpointRequest,
+  GetHarnessEndpointRequest & RegionInput,
   GetHarnessEndpointResponse,
   GetHarnessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -8658,7 +8659,7 @@ export type GetMemoryError =
  * Retrieve an existing Amazon Bedrock AgentCore Memory resource.
  */
 export const getMemory: API.OperationMethod<
-  GetMemoryInput,
+  GetMemoryInput & RegionInput,
   GetMemoryOutput,
   GetMemoryError,
   Credentials | HttpClient.HttpClient
@@ -8692,7 +8693,7 @@ export type GetOauth2CredentialProviderError =
  * Retrieves information about an OAuth2 credential provider.
  */
 export const getOauth2CredentialProvider: API.OperationMethod<
-  GetOauth2CredentialProviderRequest,
+  GetOauth2CredentialProviderRequest & RegionInput,
   GetOauth2CredentialProviderResponse,
   GetOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -8726,7 +8727,7 @@ export type GetOnlineEvaluationConfigError =
  * Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
  */
 export const getOnlineEvaluationConfig: API.OperationMethod<
-  GetOnlineEvaluationConfigRequest,
+  GetOnlineEvaluationConfigRequest & RegionInput,
   GetOnlineEvaluationConfigResponse,
   GetOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
@@ -8758,7 +8759,7 @@ export type GetPaymentConnectorError =
  * Retrieves information about a specific payment connector.
  */
 export const getPaymentConnector: API.OperationMethod<
-  GetPaymentConnectorRequest,
+  GetPaymentConnectorRequest & RegionInput,
   GetPaymentConnectorResponse,
   GetPaymentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -8792,7 +8793,7 @@ export type GetPaymentCredentialProviderError =
  * Retrieves information about a specific payment credential provider.
  */
 export const getPaymentCredentialProvider: API.OperationMethod<
-  GetPaymentCredentialProviderRequest,
+  GetPaymentCredentialProviderRequest & RegionInput,
   GetPaymentCredentialProviderResponse,
   GetPaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -8826,7 +8827,7 @@ export type GetPaymentManagerError =
  * Retrieves information about a specific payment manager.
  */
 export const getPaymentManager: API.OperationMethod<
-  GetPaymentManagerRequest,
+  GetPaymentManagerRequest & RegionInput,
   GetPaymentManagerResponse,
   GetPaymentManagerError,
   Credentials | HttpClient.HttpClient
@@ -8858,7 +8859,7 @@ export type GetPolicyError =
  * Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8890,7 +8891,7 @@ export type GetPolicyEngineError =
  * Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
  */
 export const getPolicyEngine: API.OperationMethod<
-  GetPolicyEngineRequest,
+  GetPolicyEngineRequest & RegionInput,
   GetPolicyEngineResponse,
   GetPolicyEngineError,
   Credentials | HttpClient.HttpClient
@@ -8922,7 +8923,7 @@ export type GetPolicyEngineSummaryError =
  * Retrieves a metadata-only summary of a specific policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and the encryption key ARN, but does not include the description or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const getPolicyEngineSummary: API.OperationMethod<
-  GetPolicyEngineSummaryRequest,
+  GetPolicyEngineSummaryRequest & RegionInput,
   GetPolicyEngineSummaryResponse,
   GetPolicyEngineSummaryError,
   Credentials | HttpClient.HttpClient
@@ -8954,7 +8955,7 @@ export type GetPolicyGenerationError =
  * Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies.
  */
 export const getPolicyGeneration: API.OperationMethod<
-  GetPolicyGenerationRequest,
+  GetPolicyGenerationRequest & RegionInput,
   GetPolicyGenerationResponse,
   GetPolicyGenerationError,
   Credentials | HttpClient.HttpClient
@@ -8986,7 +8987,7 @@ export type GetPolicyGenerationSummaryError =
  * Retrieves a metadata-only summary of a specific policy generation request without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const getPolicyGenerationSummary: API.OperationMethod<
-  GetPolicyGenerationSummaryRequest,
+  GetPolicyGenerationSummaryRequest & RegionInput,
   GetPolicyGenerationSummaryResponse,
   GetPolicyGenerationSummaryError,
   Credentials | HttpClient.HttpClient
@@ -9018,7 +9019,7 @@ export type GetPolicySummaryError =
  * Retrieves a metadata-only summary of a specific policy without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const getPolicySummary: API.OperationMethod<
-  GetPolicySummaryRequest,
+  GetPolicySummaryRequest & RegionInput,
   GetPolicySummaryResponse,
   GetPolicySummaryError,
   Credentials | HttpClient.HttpClient
@@ -9050,7 +9051,7 @@ export type GetRegistryError =
  * Retrieves information about a specific registry.
  */
 export const getRegistry: API.OperationMethod<
-  GetRegistryRequest,
+  GetRegistryRequest & RegionInput,
   GetRegistryResponse,
   GetRegistryError,
   Credentials | HttpClient.HttpClient
@@ -9083,7 +9084,7 @@ export type GetRegistryRecordError =
  * Retrieves information about a specific registry record.
  */
 export const getRegistryRecord: API.OperationMethod<
-  GetRegistryRecordRequest,
+  GetRegistryRecordRequest & RegionInput,
   GetRegistryRecordResponse,
   GetRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -9118,7 +9119,7 @@ export type GetResourcePolicyError =
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -9151,7 +9152,7 @@ export type GetTokenVaultError =
  * Retrieves information about a token vault.
  */
 export const getTokenVault: API.OperationMethod<
-  GetTokenVaultRequest,
+  GetTokenVaultRequest & RegionInput,
   GetTokenVaultResponse,
   GetTokenVaultError,
   Credentials | HttpClient.HttpClient
@@ -9185,7 +9186,7 @@ export type GetWorkloadIdentityError =
  * Retrieves information about a workload identity.
  */
 export const getWorkloadIdentity: API.OperationMethod<
-  GetWorkloadIdentityRequest,
+  GetWorkloadIdentityRequest & RegionInput,
   GetWorkloadIdentityResponse,
   GetWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
@@ -9217,7 +9218,7 @@ export type ListAgentRuntimeEndpointsError =
  * Lists all endpoints for a specific Amazon Secure Agent.
  */
 export const listAgentRuntimeEndpoints: API.PaginatedOperationMethod<
-  ListAgentRuntimeEndpointsRequest,
+  ListAgentRuntimeEndpointsRequest & RegionInput,
   ListAgentRuntimeEndpointsResponse,
   ListAgentRuntimeEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -9254,7 +9255,7 @@ export type ListAgentRuntimesError =
  * Lists all Amazon Secure Agents in your account.
  */
 export const listAgentRuntimes: API.PaginatedOperationMethod<
-  ListAgentRuntimesRequest,
+  ListAgentRuntimesRequest & RegionInput,
   ListAgentRuntimesResponse,
   ListAgentRuntimesError,
   Credentials | HttpClient.HttpClient,
@@ -9292,7 +9293,7 @@ export type ListAgentRuntimeVersionsError =
  * Lists all versions of a specific Amazon Secure Agent.
  */
 export const listAgentRuntimeVersions: API.PaginatedOperationMethod<
-  ListAgentRuntimeVersionsRequest,
+  ListAgentRuntimeVersionsRequest & RegionInput,
   ListAgentRuntimeVersionsResponse,
   ListAgentRuntimeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -9330,7 +9331,7 @@ export type ListAgentRuntimeVersionsByCapacityProviderError =
  * Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disassociate before you can delete the capacity provider. Results are paginated; use the `nextToken` parameter to retrieve additional results.
  */
 export const listAgentRuntimeVersionsByCapacityProvider: API.PaginatedOperationMethod<
-  ListAgentRuntimeVersionsByCapacityProviderInput,
+  ListAgentRuntimeVersionsByCapacityProviderInput & RegionInput,
   ListAgentRuntimeVersionsByCapacityProviderOutput,
   ListAgentRuntimeVersionsByCapacityProviderError,
   Credentials | HttpClient.HttpClient,
@@ -9369,7 +9370,7 @@ export type ListApiKeyCredentialProvidersError =
  * Lists all API key credential providers in your account.
  */
 export const listApiKeyCredentialProviders: API.PaginatedOperationMethod<
-  ListApiKeyCredentialProvidersRequest,
+  ListApiKeyCredentialProvidersRequest & RegionInput,
   ListApiKeyCredentialProvidersResponse,
   ListApiKeyCredentialProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -9408,7 +9409,7 @@ export type ListBrowserProfilesError =
  * Lists all browser profiles in your account.
  */
 export const listBrowserProfiles: API.PaginatedOperationMethod<
-  ListBrowserProfilesRequest,
+  ListBrowserProfilesRequest & RegionInput,
   ListBrowserProfilesResponse,
   ListBrowserProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -9445,7 +9446,7 @@ export type ListBrowsersError =
  * Lists all custom browsers in your account.
  */
 export const listBrowsers: API.PaginatedOperationMethod<
-  ListBrowsersRequest,
+  ListBrowsersRequest & RegionInput,
   ListBrowsersResponse,
   ListBrowsersError,
   Credentials | HttpClient.HttpClient,
@@ -9482,7 +9483,7 @@ export type ListCapacityProvidersError =
  * Lists the capacity providers in your account and returns summary information for each one. To retrieve the full configuration for a specific capacity provider, use `GetCapacityProvider`. Results are paginated; use the `nextToken` parameter to retrieve additional results.
  */
 export const listCapacityProviders: API.PaginatedOperationMethod<
-  ListCapacityProvidersInput,
+  ListCapacityProvidersInput & RegionInput,
   ListCapacityProvidersOutput,
   ListCapacityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -9519,7 +9520,7 @@ export type ListCodeInterpretersError =
  * Lists all custom code interpreters in your account.
  */
 export const listCodeInterpreters: API.PaginatedOperationMethod<
-  ListCodeInterpretersRequest,
+  ListCodeInterpretersRequest & RegionInput,
   ListCodeInterpretersResponse,
   ListCodeInterpretersError,
   Credentials | HttpClient.HttpClient,
@@ -9556,7 +9557,7 @@ export type ListConfigurationBundlesError =
  * Lists all configuration bundles in the account.
  */
 export const listConfigurationBundles: API.PaginatedOperationMethod<
-  ListConfigurationBundlesRequest,
+  ListConfigurationBundlesRequest & RegionInput,
   ListConfigurationBundlesResponse,
   ListConfigurationBundlesError,
   Credentials | HttpClient.HttpClient,
@@ -9594,7 +9595,7 @@ export type ListConfigurationBundleVersionsError =
  * Lists all versions of a configuration bundle, with optional filtering by branch name or creation source.
  */
 export const listConfigurationBundleVersions: API.PaginatedOperationMethod<
-  ListConfigurationBundleVersionsRequest,
+  ListConfigurationBundleVersionsRequest & RegionInput,
   ListConfigurationBundleVersionsResponse,
   ListConfigurationBundleVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -9633,7 +9634,7 @@ export type ListConsentPortalsError =
  * Lists all of the consent portals in your account.
  */
 export const listConsentPortals: API.PaginatedOperationMethod<
-  ListConsentPortalsRequest,
+  ListConsentPortalsRequest & RegionInput,
   ListConsentPortalsResponse,
   ListConsentPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -9673,7 +9674,7 @@ export type ListDatasetExamplesError =
  * Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
  */
 export const listDatasetExamples: API.PaginatedOperationMethod<
-  ListDatasetExamplesRequest,
+  ListDatasetExamplesRequest & RegionInput,
   ListDatasetExamplesResponse,
   ListDatasetExamplesError,
   Credentials | HttpClient.HttpClient,
@@ -9712,7 +9713,7 @@ export type ListDatasetsError =
  * Lists all datasets in the caller's account, paginated.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -9750,7 +9751,7 @@ export type ListDatasetVersionsError =
  * Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy.
  */
 export const listDatasetVersions: API.PaginatedOperationMethod<
-  ListDatasetVersionsRequest,
+  ListDatasetVersionsRequest & RegionInput,
   ListDatasetVersionsResponse,
   ListDatasetVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -9788,7 +9789,7 @@ export type ListEvaluatorsError =
  * Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
  */
 export const listEvaluators: API.PaginatedOperationMethod<
-  ListEvaluatorsRequest,
+  ListEvaluatorsRequest & RegionInput,
   ListEvaluatorsResponse,
   ListEvaluatorsError,
   Credentials | HttpClient.HttpClient,
@@ -9826,7 +9827,7 @@ export type ListGatewayRateLimitsError =
  * Lists all rate limits for a gateway. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listGatewayRateLimits: API.PaginatedOperationMethod<
-  ListGatewayRateLimitsRequest,
+  ListGatewayRateLimitsRequest & RegionInput,
   ListGatewayRateLimitsResponse,
   ListGatewayRateLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -9865,7 +9866,7 @@ export type ListGatewayRulesError =
  * Lists all rules for a gateway.
  */
 export const listGatewayRules: API.PaginatedOperationMethod<
-  ListGatewayRulesRequest,
+  ListGatewayRulesRequest & RegionInput,
   ListGatewayRulesResponse,
   ListGatewayRulesError,
   Credentials | HttpClient.HttpClient,
@@ -9903,7 +9904,7 @@ export type ListGatewaysError =
  * Lists all gateways in the account.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysRequest,
+  ListGatewaysRequest & RegionInput,
   ListGatewaysResponse,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -9941,7 +9942,7 @@ export type ListGatewayTargetsError =
  * Lists all targets for a specific gateway.
  */
 export const listGatewayTargets: API.PaginatedOperationMethod<
-  ListGatewayTargetsRequest,
+  ListGatewayTargetsRequest & RegionInput,
   ListGatewayTargetsResponse,
   ListGatewayTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -9980,7 +9981,7 @@ export type ListHarnessEndpointsError =
  * Operation to list the endpoints of a harness.
  */
 export const listHarnessEndpoints: API.PaginatedOperationMethod<
-  ListHarnessEndpointsRequest,
+  ListHarnessEndpointsRequest & RegionInput,
   ListHarnessEndpointsResponse,
   ListHarnessEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -10018,7 +10019,7 @@ export type ListHarnessesError =
  * Operation to list harnesses.
  */
 export const listHarnesses: API.PaginatedOperationMethod<
-  ListHarnessesRequest,
+  ListHarnessesRequest & RegionInput,
   ListHarnessesResponse,
   ListHarnessesError,
   Credentials | HttpClient.HttpClient,
@@ -10056,7 +10057,7 @@ export type ListHarnessVersionsError =
  * Operation to list the versions of a Harness.
  */
 export const listHarnessVersions: API.PaginatedOperationMethod<
-  ListHarnessVersionsRequest,
+  ListHarnessVersionsRequest & RegionInput,
   ListHarnessVersionsResponse,
   ListHarnessVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -10095,7 +10096,7 @@ export type ListMemoriesError =
  * Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
  */
 export const listMemories: API.PaginatedOperationMethod<
-  ListMemoriesInput,
+  ListMemoriesInput & RegionInput,
   ListMemoriesOutput,
   ListMemoriesError,
   Credentials | HttpClient.HttpClient,
@@ -10135,7 +10136,7 @@ export type ListOauth2CredentialProvidersError =
  * Lists all OAuth2 credential providers in your account.
  */
 export const listOauth2CredentialProviders: API.PaginatedOperationMethod<
-  ListOauth2CredentialProvidersRequest,
+  ListOauth2CredentialProvidersRequest & RegionInput,
   ListOauth2CredentialProvidersResponse,
   ListOauth2CredentialProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -10174,7 +10175,7 @@ export type ListOnlineEvaluationConfigsError =
  * Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
  */
 export const listOnlineEvaluationConfigs: API.PaginatedOperationMethod<
-  ListOnlineEvaluationConfigsRequest,
+  ListOnlineEvaluationConfigsRequest & RegionInput,
   ListOnlineEvaluationConfigsResponse,
   ListOnlineEvaluationConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -10211,7 +10212,7 @@ export type ListPaymentConnectorsError =
  * Lists all payment connectors for a specified payment manager.
  */
 export const listPaymentConnectors: API.PaginatedOperationMethod<
-  ListPaymentConnectorsRequest,
+  ListPaymentConnectorsRequest & RegionInput,
   ListPaymentConnectorsResponse,
   ListPaymentConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -10250,7 +10251,7 @@ export type ListPaymentCredentialProvidersError =
  * Lists all payment credential providers in the account.
  */
 export const listPaymentCredentialProviders: API.PaginatedOperationMethod<
-  ListPaymentCredentialProvidersRequest,
+  ListPaymentCredentialProvidersRequest & RegionInput,
   ListPaymentCredentialProvidersResponse,
   ListPaymentCredentialProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -10289,7 +10290,7 @@ export type ListPaymentManagersError =
  * Lists all payment managers in the account.
  */
 export const listPaymentManagers: API.PaginatedOperationMethod<
-  ListPaymentManagersRequest,
+  ListPaymentManagersRequest & RegionInput,
   ListPaymentManagersResponse,
   ListPaymentManagersError,
   Credentials | HttpClient.HttpClient,
@@ -10327,7 +10328,7 @@ export type ListPoliciesError =
  * Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -10365,7 +10366,7 @@ export type ListPolicyEnginesError =
  * Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
  */
 export const listPolicyEngines: API.PaginatedOperationMethod<
-  ListPolicyEnginesRequest,
+  ListPolicyEnginesRequest & RegionInput,
   ListPolicyEnginesResponse,
   ListPolicyEnginesError,
   Credentials | HttpClient.HttpClient,
@@ -10402,7 +10403,7 @@ export type ListPolicyEngineSummariesError =
  * Retrieves a paginated list of metadata-only policy engine summaries without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy engine, but does not include descriptions or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const listPolicyEngineSummaries: API.PaginatedOperationMethod<
-  ListPolicyEngineSummariesRequest,
+  ListPolicyEngineSummariesRequest & RegionInput,
   ListPolicyEngineSummariesResponse,
   ListPolicyEngineSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -10440,7 +10441,7 @@ export type ListPolicyGenerationAssetsError =
  * Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
  */
 export const listPolicyGenerationAssets: API.PaginatedOperationMethod<
-  ListPolicyGenerationAssetsRequest,
+  ListPolicyGenerationAssetsRequest & RegionInput,
   ListPolicyGenerationAssetsResponse,
   ListPolicyGenerationAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -10479,7 +10480,7 @@ export type ListPolicyGenerationsError =
  * Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
  */
 export const listPolicyGenerations: API.PaginatedOperationMethod<
-  ListPolicyGenerationsRequest,
+  ListPolicyGenerationsRequest & RegionInput,
   ListPolicyGenerationsResponse,
   ListPolicyGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -10518,7 +10519,7 @@ export type ListPolicyGenerationSummariesError =
  * Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const listPolicyGenerationSummaries: API.PaginatedOperationMethod<
-  ListPolicyGenerationSummariesRequest,
+  ListPolicyGenerationSummariesRequest & RegionInput,
   ListPolicyGenerationSummariesResponse,
   ListPolicyGenerationSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -10557,7 +10558,7 @@ export type ListPolicySummariesError =
  * Retrieves a paginated list of metadata-only policy summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy, but does not include policy definitions, descriptions, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
  */
 export const listPolicySummaries: API.PaginatedOperationMethod<
-  ListPolicySummariesRequest,
+  ListPolicySummariesRequest & RegionInput,
   ListPolicySummariesResponse,
   ListPolicySummariesError,
   Credentials | HttpClient.HttpClient,
@@ -10595,7 +10596,7 @@ export type ListRegistriesError =
  * Lists all registries in the account. You can optionally filter results by status using the `status` parameter, or by authorizer type using the `authorizerType` parameter.
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesRequest,
+  ListRegistriesRequest & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -10634,7 +10635,7 @@ export type ListRegistryRecordsError =
  * Lists registry records within a registry. You can optionally filter results using the `name`, `status`, and `descriptorType` parameters. When multiple filters are specified, they are combined using AND logic.
  */
 export const listRegistryRecords: API.PaginatedOperationMethod<
-  ListRegistryRecordsRequest,
+  ListRegistryRecordsRequest & RegionInput,
   ListRegistryRecordsResponse,
   ListRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -10676,7 +10677,7 @@ export type ListTagsForResourceError =
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -10709,7 +10710,7 @@ export type ListWorkloadIdentitiesError =
  * Lists all workload identities in your account.
  */
 export const listWorkloadIdentities: API.PaginatedOperationMethod<
-  ListWorkloadIdentitiesRequest,
+  ListWorkloadIdentitiesRequest & RegionInput,
   ListWorkloadIdentitiesResponse,
   ListWorkloadIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -10751,7 +10752,7 @@ export type PutResourcePolicyError =
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -10790,7 +10791,7 @@ export type RotatePaymentConnectorCredentialsError =
  * Rotation replaces the credential on the connector's credential provider, so every payment connector that uses that provider is affected. Replace any copy of the previous credential that you use outside AgentCore.
  */
 export const rotatePaymentConnectorCredentials: API.OperationMethod<
-  RotatePaymentConnectorCredentialsRequest,
+  RotatePaymentConnectorCredentialsRequest & RegionInput,
   RotatePaymentConnectorCredentialsResponse,
   RotatePaymentConnectorCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -10825,7 +10826,7 @@ export type SetTokenVaultCMKError =
  * Sets the customer master key (CMK) for a token vault.
  */
 export const setTokenVaultCMK: API.OperationMethod<
-  SetTokenVaultCMKRequest,
+  SetTokenVaultCMKRequest & RegionInput,
   SetTokenVaultCMKResponse,
   SetTokenVaultCMKError,
   Credentials | HttpClient.HttpClient
@@ -10861,7 +10862,7 @@ export type StartPolicyGenerationError =
  * Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Dogwood syntax, though generated policies may require refinement for complex scenarios.
  */
 export const startPolicyGeneration: API.OperationMethod<
-  StartPolicyGenerationRequest,
+  StartPolicyGenerationRequest & RegionInput,
   StartPolicyGenerationResponse,
   StartPolicyGenerationError,
   Credentials | HttpClient.HttpClient
@@ -10896,7 +10897,7 @@ export type SubmitRegistryRecordForApprovalError =
  * Submits a registry record for approval. This transitions the record from `DRAFT` status to `PENDING_APPROVAL` status. If the registry has auto-approval enabled, the record is automatically approved.
  */
 export const submitRegistryRecordForApproval: API.OperationMethod<
-  SubmitRegistryRecordForApprovalRequest,
+  SubmitRegistryRecordForApprovalRequest & RegionInput,
   SubmitRegistryRecordForApprovalResponse,
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
@@ -10935,7 +10936,7 @@ export type SynchronizeGatewayTargetsError =
  * You cannot synchronize a target that has a static tool schema (`mcpToolSchema`) configured. Remove the static schema through an `UpdateGatewayTarget` call to enable dynamic tool synchronization.
  */
 export const synchronizeGatewayTargets: API.OperationMethod<
-  SynchronizeGatewayTargetsRequest,
+  SynchronizeGatewayTargetsRequest & RegionInput,
   SynchronizeGatewayTargetsResponse,
   SynchronizeGatewayTargetsError,
   Credentials | HttpClient.HttpClient
@@ -10972,7 +10973,7 @@ export type TagResourceError =
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -11007,7 +11008,7 @@ export type UntagResourceError =
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -11041,7 +11042,7 @@ export type UpdateAgentRuntimeError =
  * Updates an existing Amazon Secure Agent.
  */
 export const updateAgentRuntime: API.OperationMethod<
-  UpdateAgentRuntimeRequest,
+  UpdateAgentRuntimeRequest & RegionInput,
   UpdateAgentRuntimeResponse,
   UpdateAgentRuntimeError,
   Credentials | HttpClient.HttpClient
@@ -11077,7 +11078,7 @@ export type UpdateAgentRuntimeEndpointError =
  * Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
  */
 export const updateAgentRuntimeEndpoint: API.OperationMethod<
-  UpdateAgentRuntimeEndpointRequest,
+  UpdateAgentRuntimeEndpointRequest & RegionInput,
   UpdateAgentRuntimeEndpointResponse,
   UpdateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -11116,7 +11117,7 @@ export type UpdateApiKeyCredentialProviderError =
  * Updates an existing API key credential provider.
  */
 export const updateApiKeyCredentialProvider: API.OperationMethod<
-  UpdateApiKeyCredentialProviderRequest,
+  UpdateApiKeyCredentialProviderRequest & RegionInput,
   UpdateApiKeyCredentialProviderResponse,
   UpdateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -11155,7 +11156,7 @@ export type UpdateCapacityProviderError =
  * Updates a capacity provider. Only the description can be changed. To change other configuration, such as instance types, networking, or storage, create a new capacity provider.
  */
 export const updateCapacityProvider: API.OperationMethod<
-  UpdateCapacityProviderInput,
+  UpdateCapacityProviderInput & RegionInput,
   UpdateCapacityProviderOutput,
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -11190,7 +11191,7 @@ export type UpdateConfigurationBundleError =
  * Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history.
  */
 export const updateConfigurationBundle: API.OperationMethod<
-  UpdateConfigurationBundleRequest,
+  UpdateConfigurationBundleRequest & RegionInput,
   UpdateConfigurationBundleResponse,
   UpdateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
@@ -11225,7 +11226,7 @@ export type UpdateConsentPortalError =
  * Updates an existing consent portal.
  */
 export const updateConsentPortal: API.OperationMethod<
-  UpdateConsentPortalRequest,
+  UpdateConsentPortalRequest & RegionInput,
   UpdateConsentPortalResponse,
   UpdateConsentPortalError,
   Credentials | HttpClient.HttpClient
@@ -11260,7 +11261,7 @@ export type UpdateDatasetError =
  * Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use `AddDatasetExamples`, `UpdateDatasetExamples`, or `DeleteDatasetExamples`.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -11295,7 +11296,7 @@ export type UpdateDatasetExamplesError =
  * Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
  */
 export const updateDatasetExamples: API.OperationMethod<
-  UpdateDatasetExamplesRequest,
+  UpdateDatasetExamplesRequest & RegionInput,
   UpdateDatasetExamplesResponse,
   UpdateDatasetExamplesError,
   Credentials | HttpClient.HttpClient
@@ -11331,7 +11332,7 @@ export type UpdateEvaluatorError =
  * Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
  */
 export const updateEvaluator: API.OperationMethod<
-  UpdateEvaluatorRequest,
+  UpdateEvaluatorRequest & RegionInput,
   UpdateEvaluatorResponse,
   UpdateEvaluatorError,
   Credentials | HttpClient.HttpClient
@@ -11367,7 +11368,7 @@ export type UpdateGatewayError =
  * Updates an existing gateway.
  */
 export const updateGateway: API.OperationMethod<
-  UpdateGatewayRequest,
+  UpdateGatewayRequest & RegionInput,
   UpdateGatewayResponse,
   UpdateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -11402,7 +11403,7 @@ export type UpdateGatewayRateLimitError =
  * Updates the entries of a gateway rate limit. The dimension keys are immutable after creation.
  */
 export const updateGatewayRateLimit: API.OperationMethod<
-  UpdateGatewayRateLimitRequest,
+  UpdateGatewayRateLimitRequest & RegionInput,
   UpdateGatewayRateLimitResponse,
   UpdateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -11436,7 +11437,7 @@ export type UpdateGatewayRuleError =
  * Updates a gateway rule's priority, conditions, actions, or description.
  */
 export const updateGatewayRule: API.OperationMethod<
-  UpdateGatewayRuleRequest,
+  UpdateGatewayRuleRequest & RegionInput,
   UpdateGatewayRuleResponse,
   UpdateGatewayRuleError,
   Credentials | HttpClient.HttpClient
@@ -11473,7 +11474,7 @@ export type UpdateGatewayTargetError =
  * You cannot update a target that is in a pending authorization state (`CREATE_PENDING_AUTH`, `UPDATE_PENDING_AUTH`, or `SYNCHRONIZE_PENDING_AUTH`). Wait for the authorization to complete or fail before updating the target.
  */
 export const updateGatewayTarget: API.OperationMethod<
-  UpdateGatewayTargetRequest,
+  UpdateGatewayTargetRequest & RegionInput,
   UpdateGatewayTargetResponse,
   UpdateGatewayTargetError,
   Credentials | HttpClient.HttpClient
@@ -11509,7 +11510,7 @@ export type UpdateHarnessError =
  * Operation to update a harness.
  */
 export const updateHarness: API.OperationMethod<
-  UpdateHarnessRequest,
+  UpdateHarnessRequest & RegionInput,
   UpdateHarnessResponse,
   UpdateHarnessError,
   Credentials | HttpClient.HttpClient
@@ -11545,7 +11546,7 @@ export type UpdateHarnessEndpointError =
  * Operation to update a harness endpoint.
  */
 export const updateHarnessEndpoint: API.OperationMethod<
-  UpdateHarnessEndpointRequest,
+  UpdateHarnessEndpointRequest & RegionInput,
   UpdateHarnessEndpointResponse,
   UpdateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
@@ -11581,7 +11582,7 @@ export type UpdateMemoryError =
  * Update an Amazon Bedrock AgentCore Memory resource memory.
  */
 export const updateMemory: API.OperationMethod<
-  UpdateMemoryInput,
+  UpdateMemoryInput & RegionInput,
   UpdateMemoryOutput,
   UpdateMemoryError,
   Credentials | HttpClient.HttpClient
@@ -11620,7 +11621,7 @@ export type UpdateOauth2CredentialProviderError =
  * Updates an existing OAuth2 credential provider.
  */
 export const updateOauth2CredentialProvider: API.OperationMethod<
-  UpdateOauth2CredentialProviderRequest,
+  UpdateOauth2CredentialProviderRequest & RegionInput,
   UpdateOauth2CredentialProviderResponse,
   UpdateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -11659,7 +11660,7 @@ export type UpdateOnlineEvaluationConfigError =
  * Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
  */
 export const updateOnlineEvaluationConfig: API.OperationMethod<
-  UpdateOnlineEvaluationConfigRequest,
+  UpdateOnlineEvaluationConfigRequest & RegionInput,
   UpdateOnlineEvaluationConfigResponse,
   UpdateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
@@ -11696,7 +11697,7 @@ export type UpdatePaymentConnectorError =
  * Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
  */
 export const updatePaymentConnector: API.OperationMethod<
-  UpdatePaymentConnectorRequest,
+  UpdatePaymentConnectorRequest & RegionInput,
   UpdatePaymentConnectorResponse,
   UpdatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -11736,7 +11737,7 @@ export type UpdatePaymentCredentialProviderError =
  * Updates an existing payment credential provider with new authentication credentials.
  */
 export const updatePaymentCredentialProvider: API.OperationMethod<
-  UpdatePaymentCredentialProviderRequest,
+  UpdatePaymentCredentialProviderRequest & RegionInput,
   UpdatePaymentCredentialProviderResponse,
   UpdatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
@@ -11775,7 +11776,7 @@ export type UpdatePaymentManagerError =
  * Updates an existing payment manager. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
  */
 export const updatePaymentManager: API.OperationMethod<
-  UpdatePaymentManagerRequest,
+  UpdatePaymentManagerRequest & RegionInput,
   UpdatePaymentManagerResponse,
   UpdatePaymentManagerError,
   Credentials | HttpClient.HttpClient
@@ -11813,7 +11814,7 @@ export type UpdatePolicyError =
  * If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or removes temporal operators, the policy engine also invalidates active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 `ConflictException` to in-flight sessions. To resume, you must start a new session with a new session ID.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
+  UpdatePolicyRequest & RegionInput,
   UpdatePolicyResponse,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -11848,7 +11849,7 @@ export type UpdatePolicyEngineError =
  * Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
 export const updatePolicyEngine: API.OperationMethod<
-  UpdatePolicyEngineRequest,
+  UpdatePolicyEngineRequest & RegionInput,
   UpdatePolicyEngineResponse,
   UpdatePolicyEngineError,
   Credentials | HttpClient.HttpClient
@@ -11883,7 +11884,7 @@ export type UpdateRegistryError =
  * Updates an existing registry. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
+  UpdateRegistryRequest & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -11918,7 +11919,7 @@ export type UpdateRegistryRecordError =
  * Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted.
  */
 export const updateRegistryRecord: API.OperationMethod<
-  UpdateRegistryRecordRequest,
+  UpdateRegistryRecordRequest & RegionInput,
   UpdateRegistryRecordResponse,
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -11952,7 +11953,7 @@ export type UpdateRegistryRecordStatusError =
  * Updates the status of a registry record. Use this operation to approve, reject, or deprecate a registry record.
  */
 export const updateRegistryRecordStatus: API.OperationMethod<
-  UpdateRegistryRecordStatusRequest,
+  UpdateRegistryRecordStatusRequest & RegionInput,
   UpdateRegistryRecordStatusResponse,
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient
@@ -11986,7 +11987,7 @@ export type UpdateWorkloadIdentityError =
  * Updates an existing workload identity.
  */
 export const updateWorkloadIdentity: API.OperationMethod<
-  UpdateWorkloadIdentityRequest,
+  UpdateWorkloadIdentityRequest & RegionInput,
   UpdateWorkloadIdentityResponse,
   UpdateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient

@@ -28,6 +28,13 @@
       "workerd": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./Jurisdiction": {
+      "types": "./lib/jurisdiction.d.ts",
+      "bun": "./src/jurisdiction.ts",
+      "worker": "./src/jurisdiction.ts",
+      "workerd": "./src/jurisdiction.ts",
+      "default": "./lib/jurisdiction.js"
+    },
     "./Traits": {
       "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",
@@ -588,7 +595,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-cloudflare"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",
@@ -599,7 +607,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-02",
+    "generatedAt": "2026-11-09",
     "specUpdatedAt": "2026-10-29"
   }
 }

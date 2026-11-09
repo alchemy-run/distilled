@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -221,7 +222,7 @@ export type DeleteHumanLoopError =
  * `ResourceNotFoundException`.
  */
 export const deleteHumanLoop: API.OperationMethod<
-  DeleteHumanLoopRequest,
+  DeleteHumanLoopRequest & RegionInput,
   DeleteHumanLoopResponse,
   DeleteHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -252,7 +253,7 @@ export type DescribeHumanLoopError =
  * operation will return a `ResourceNotFoundException` error.
  */
 export const describeHumanLoop: API.OperationMethod<
-  DescribeHumanLoopRequest,
+  DescribeHumanLoopRequest & RegionInput,
   DescribeHumanLoopResponse,
   DescribeHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -282,7 +283,7 @@ export type ListHumanLoopsError =
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
 export const listHumanLoops: API.PaginatedOperationMethod<
-  ListHumanLoopsRequest,
+  ListHumanLoopsRequest & RegionInput,
   ListHumanLoopsResponse,
   ListHumanLoopsError,
   Credentials | HttpClient.HttpClient,
@@ -320,7 +321,7 @@ export type StartHumanLoopError =
  * Starts a human loop, provided that at least one activation condition is met.
  */
 export const startHumanLoop: API.OperationMethod<
-  StartHumanLoopRequest,
+  StartHumanLoopRequest & RegionInput,
   StartHumanLoopResponse,
   StartHumanLoopError,
   Credentials | HttpClient.HttpClient
@@ -351,7 +352,7 @@ export type StopHumanLoopError =
  * Stops the specified human loop.
  */
 export const stopHumanLoop: API.OperationMethod<
-  StopHumanLoopRequest,
+  StopHumanLoopRequest & RegionInput,
   StopHumanLoopResponse,
   StopHumanLoopError,
   Credentials | HttpClient.HttpClient

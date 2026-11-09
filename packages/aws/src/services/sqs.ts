@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -724,7 +725,7 @@ export type AddPermissionError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionRequest,
+  AddPermissionRequest & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -778,7 +779,7 @@ export type CancelMessageMoveTaskError =
  * time.
  */
 export const cancelMessageMoveTask: API.OperationMethod<
-  CancelMessageMoveTaskRequest,
+  CancelMessageMoveTaskRequest & RegionInput,
   CancelMessageMoveTaskResult,
   CancelMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type ChangeMessageVisibilityError =
  * received.
  */
 export const changeMessageVisibility: API.OperationMethod<
-  ChangeMessageVisibilityRequest,
+  ChangeMessageVisibilityRequest & RegionInput,
   ChangeMessageVisibilityResponse,
   ChangeMessageVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -911,7 +912,7 @@ export type ChangeMessageVisibilityBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const changeMessageVisibilityBatch: API.OperationMethod<
-  ChangeMessageVisibilityBatchRequest,
+  ChangeMessageVisibilityBatchRequest & RegionInput,
   ChangeMessageVisibilityBatchResult,
   ChangeMessageVisibilityBatchError,
   Credentials | HttpClient.HttpClient
@@ -1006,7 +1007,7 @@ export type CreateQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResult,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -1065,7 +1066,7 @@ export type DeleteMessageError =
  * receiving a message more than once does not cause issues.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -1118,7 +1119,7 @@ export type DeleteMessageBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const deleteMessageBatch: API.OperationMethod<
-  DeleteMessageBatchRequest,
+  DeleteMessageBatchRequest & RegionInput,
   DeleteMessageBatchResult,
   DeleteMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1185,7 +1186,7 @@ export type DeleteQueueError =
  * The delete operation uses the HTTP `GET` verb.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -1228,7 +1229,7 @@ export type GetQueueAttributesError =
  * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
  */
 export const getQueueAttributes: API.OperationMethod<
-  GetQueueAttributesRequest,
+  GetQueueAttributesRequest & RegionInput,
   GetQueueAttributesResult,
   GetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1280,7 +1281,7 @@ export type GetQueueUrlError =
  * Developer Guide.
  */
 export const getQueueUrl: API.OperationMethod<
-  GetQueueUrlRequest,
+  GetQueueUrlRequest & RegionInput,
   GetQueueUrlResult,
   GetQueueUrlError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type ListDeadLetterSourceQueuesError =
  * Guide.
  */
 export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
-  ListDeadLetterSourceQueuesRequest,
+  ListDeadLetterSourceQueuesRequest & RegionInput,
   ListDeadLetterSourceQueuesResult,
   ListDeadLetterSourceQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1382,7 +1383,7 @@ export type ListMessageMoveTasksError =
  * time.
  */
 export const listMessageMoveTasks: API.OperationMethod<
-  ListMessageMoveTasksRequest,
+  ListMessageMoveTasksRequest & RegionInput,
   ListMessageMoveTasksResult,
   ListMessageMoveTasksError,
   Credentials | HttpClient.HttpClient
@@ -1430,7 +1431,7 @@ export type ListQueuesError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResult,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1469,7 +1470,7 @@ export type ListQueueTagsError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueueTags: API.OperationMethod<
-  ListQueueTagsRequest,
+  ListQueueTagsRequest & RegionInput,
   ListQueueTagsResult,
   ListQueueTagsError,
   Credentials | HttpClient.HttpClient
@@ -1524,7 +1525,7 @@ export type PurgeQueueError =
  * might be deleted while the queue is being purged.
  */
 export const purgeQueue: API.OperationMethod<
-  PurgeQueueRequest,
+  PurgeQueueRequest & RegionInput,
   PurgeQueueResponse,
   PurgeQueueError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type ReceiveMessageError =
  * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
  */
 export const receiveMessage: API.OperationMethod<
-  ReceiveMessageRequest,
+  ReceiveMessageRequest & RegionInput,
   ReceiveMessageResult,
   ReceiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -1683,7 +1684,7 @@ export type RemovePermissionError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1740,7 +1741,7 @@ export type SendMessageError =
  * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResult,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -1831,7 +1832,7 @@ export type SendMessageBatchError =
  * the default value for the queue.
  */
 export const sendMessageBatch: API.OperationMethod<
-  SendMessageBatchRequest,
+  SendMessageBatchRequest & RegionInput,
   SendMessageBatchResult,
   SendMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1912,7 +1913,7 @@ export type SetQueueAttributesError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const setQueueAttributes: API.OperationMethod<
-  SetQueueAttributesRequest,
+  SetQueueAttributesRequest & RegionInput,
   SetQueueAttributesResponse,
   SetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1976,7 +1977,7 @@ export type StartMessageMoveTaskError =
  * time.
  */
 export const startMessageMoveTask: API.OperationMethod<
-  StartMessageMoveTaskRequest,
+  StartMessageMoveTaskRequest & RegionInput,
   StartMessageMoveTaskResult,
   StartMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2031,7 @@ export type TagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const tagQueue: API.OperationMethod<
-  TagQueueRequest,
+  TagQueueRequest & RegionInput,
   TagQueueResponse,
   TagQueueError,
   Credentials | HttpClient.HttpClient
@@ -2075,7 +2076,7 @@ export type UntagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const untagQueue: API.OperationMethod<
-  UntagQueueRequest,
+  UntagQueueRequest & RegionInput,
   UntagQueueResponse,
   UntagQueueError,
   Credentials | HttpClient.HttpClient

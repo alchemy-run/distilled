@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1435,7 +1436,7 @@ export type AssociateSourceNetworkStackError =
  * Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
  */
 export const associateSourceNetworkStack: API.OperationMethod<
-  AssociateSourceNetworkStackRequest,
+  AssociateSourceNetworkStackRequest & RegionInput,
   AssociateSourceNetworkStackResponse,
   AssociateSourceNetworkStackError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type CancelRecoveryPlanExecutionError =
  * Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
  */
 export const cancelRecoveryPlanExecution: API.OperationMethod<
-  CancelRecoveryPlanExecutionRequest,
+  CancelRecoveryPlanExecutionRequest & RegionInput,
   CancelRecoveryPlanExecutionResponse,
   CancelRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1508,7 @@ export type CreateExtendedSourceServerError =
  * Create an extended source server in the target Account based on the source server in staging account.
  */
 export const createExtendedSourceServer: API.OperationMethod<
-  CreateExtendedSourceServerRequest,
+  CreateExtendedSourceServerRequest & RegionInput,
   CreateExtendedSourceServerResponse,
   CreateExtendedSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -1542,7 +1543,7 @@ export type CreateLaunchConfigurationTemplateError =
  * Creates a new Launch Configuration Template.
  */
 export const createLaunchConfigurationTemplate: API.OperationMethod<
-  CreateLaunchConfigurationTemplateRequest,
+  CreateLaunchConfigurationTemplateRequest & RegionInput,
   CreateLaunchConfigurationTemplateResponse,
   CreateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1577,7 +1578,7 @@ export type CreateRecoveryPlanError =
  * Creates a Recovery Plan to orchestrate multi-server disaster recovery.
  */
 export const createRecoveryPlan: API.OperationMethod<
-  CreateRecoveryPlanRequest,
+  CreateRecoveryPlanRequest & RegionInput,
   CreateRecoveryPlanResponse,
   CreateRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -1614,7 +1615,7 @@ export type CreateRecoveryPlanStepError =
  * Creates a step in a Recovery Plan. A step is either `SERVER` type (servers to recover in parallel) or `WAIT` type (timed pause between steps).
  */
 export const createRecoveryPlanStep: API.OperationMethod<
-  CreateRecoveryPlanStepRequest,
+  CreateRecoveryPlanStepRequest & RegionInput,
   CreateRecoveryPlanStepResponse,
   CreateRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -1650,7 +1651,7 @@ export type CreateReplicationConfigurationTemplateError =
  * Creates a new ReplicationConfigurationTemplate.
  */
 export const createReplicationConfigurationTemplate: API.OperationMethod<
-  CreateReplicationConfigurationTemplateRequest,
+  CreateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   CreateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1685,7 +1686,7 @@ export type CreateSourceNetworkError =
  * Create a new Source Network resource for a provided VPC ID.
  */
 export const createSourceNetwork: API.OperationMethod<
-  CreateSourceNetworkRequest,
+  CreateSourceNetworkRequest & RegionInput,
   CreateSourceNetworkResponse,
   CreateSourceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type DeleteJobError =
  * Deletes a single Job by ID.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1752,7 @@ export type DeleteLaunchActionError =
  * Deletes a resource launch action.
  */
 export const deleteLaunchAction: API.OperationMethod<
-  DeleteLaunchActionRequest,
+  DeleteLaunchActionRequest & RegionInput,
   DeleteLaunchActionResponse,
   DeleteLaunchActionError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type DeleteLaunchConfigurationTemplateError =
  * Deletes a single Launch Configuration Template by ID.
  */
 export const deleteLaunchConfigurationTemplate: API.OperationMethod<
-  DeleteLaunchConfigurationTemplateRequest,
+  DeleteLaunchConfigurationTemplateRequest & RegionInput,
   DeleteLaunchConfigurationTemplateResponse,
   DeleteLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1815,7 +1816,7 @@ export type DeleteRecoveryInstanceError =
  * Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
  */
 export const deleteRecoveryInstance: API.OperationMethod<
-  DeleteRecoveryInstanceRequest,
+  DeleteRecoveryInstanceRequest & RegionInput,
   DeleteRecoveryInstanceResponse,
   DeleteRecoveryInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1850,7 @@ export type DeleteRecoveryPlanError =
  * Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (`CREATED`, `IN_PROGRESS`).
  */
 export const deleteRecoveryPlan: API.OperationMethod<
-  DeleteRecoveryPlanRequest,
+  DeleteRecoveryPlanRequest & RegionInput,
   DeleteRecoveryPlanResponse,
   DeleteRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -1885,7 +1886,7 @@ export type DeleteRecoveryPlanExecutionError =
  * Deletes a Recovery Plan execution record. Must be in a terminal status.
  */
 export const deleteRecoveryPlanExecution: API.OperationMethod<
-  DeleteRecoveryPlanExecutionRequest,
+  DeleteRecoveryPlanExecutionRequest & RegionInput,
   DeleteRecoveryPlanExecutionResponse,
   DeleteRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type DeleteRecoveryPlanStepError =
  * Deletes a step from a Recovery Plan.
  */
 export const deleteRecoveryPlanStep: API.OperationMethod<
-  DeleteRecoveryPlanStepRequest,
+  DeleteRecoveryPlanStepRequest & RegionInput,
   DeleteRecoveryPlanStepResponse,
   DeleteRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -1955,7 +1956,7 @@ export type DeleteReplicationConfigurationTemplateError =
  * Deletes a single Replication Configuration Template by ID
  */
 export const deleteReplicationConfigurationTemplate: API.OperationMethod<
-  DeleteReplicationConfigurationTemplateRequest,
+  DeleteReplicationConfigurationTemplateRequest & RegionInput,
   DeleteReplicationConfigurationTemplateResponse,
   DeleteReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1987,7 +1988,7 @@ export type DeleteSourceNetworkError =
  * Delete Source Network resource.
  */
 export const deleteSourceNetwork: API.OperationMethod<
-  DeleteSourceNetworkRequest,
+  DeleteSourceNetworkRequest & RegionInput,
   DeleteSourceNetworkResponse,
   DeleteSourceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2019,7 +2020,7 @@ export type DeleteSourceServerError =
  * Deletes a single Source Server by ID. The Source Server must be disconnected first.
  */
 export const deleteSourceServer: API.OperationMethod<
-  DeleteSourceServerRequest,
+  DeleteSourceServerRequest & RegionInput,
   DeleteSourceServerResponse,
   DeleteSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -2050,7 +2051,7 @@ export type DescribeJobLogItemsError =
  * Retrieves a detailed Job log with pagination.
  */
 export const describeJobLogItems: API.PaginatedOperationMethod<
-  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsRequest & RegionInput,
   DescribeJobLogItemsResponse,
   DescribeJobLogItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2087,7 +2088,7 @@ export type DescribeJobsError =
  * Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
 export const describeJobs: API.PaginatedOperationMethod<
-  DescribeJobsRequest,
+  DescribeJobsRequest & RegionInput,
   DescribeJobsResponse,
   DescribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2125,7 +2126,7 @@ export type DescribeLaunchConfigurationTemplatesError =
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
 export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesRequest & RegionInput,
   DescribeLaunchConfigurationTemplatesResponse,
   DescribeLaunchConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2163,7 +2164,7 @@ export type DescribeRecoveryInstancesError =
  * Lists all Recovery Instances or multiple Recovery Instances by ID.
  */
 export const describeRecoveryInstances: API.PaginatedOperationMethod<
-  DescribeRecoveryInstancesRequest,
+  DescribeRecoveryInstancesRequest & RegionInput,
   DescribeRecoveryInstancesResponse,
   DescribeRecoveryInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2201,7 +2202,7 @@ export type DescribeRecoverySnapshotsError =
  * Lists all Recovery Snapshots for a single Source Server.
  */
 export const describeRecoverySnapshots: API.PaginatedOperationMethod<
-  DescribeRecoverySnapshotsRequest,
+  DescribeRecoverySnapshotsRequest & RegionInput,
   DescribeRecoverySnapshotsResponse,
   DescribeRecoverySnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2240,7 +2241,7 @@ export type DescribeReplicationConfigurationTemplatesError =
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
 export const describeReplicationConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesRequest & RegionInput,
   DescribeReplicationConfigurationTemplatesResponse,
   DescribeReplicationConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2278,7 +2279,7 @@ export type DescribeSourceNetworksError =
  * Lists all Source Networks or multiple Source Networks filtered by ID.
  */
 export const describeSourceNetworks: API.PaginatedOperationMethod<
-  DescribeSourceNetworksRequest,
+  DescribeSourceNetworksRequest & RegionInput,
   DescribeSourceNetworksResponse,
   DescribeSourceNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -2315,7 +2316,7 @@ export type DescribeSourceServersError =
  * Lists all Source Servers or multiple Source Servers filtered by ID.
  */
 export const describeSourceServers: API.PaginatedOperationMethod<
-  DescribeSourceServersRequest,
+  DescribeSourceServersRequest & RegionInput,
   DescribeSourceServersResponse,
   DescribeSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2354,7 +2355,7 @@ export type DisconnectRecoveryInstanceError =
  * Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectRecoveryInstance: API.OperationMethod<
-  DisconnectRecoveryInstanceRequest,
+  DisconnectRecoveryInstanceRequest & RegionInput,
   DisconnectRecoveryInstanceResponse,
   DisconnectRecoveryInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2387,7 +2388,7 @@ export type DisconnectSourceServerError =
  * Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectSourceServer: API.OperationMethod<
-  DisconnectSourceServerRequest,
+  DisconnectSourceServerRequest & RegionInput,
   SourceServer,
   DisconnectSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type ExportSourceNetworkCfnTemplateError =
  * Export the Source Network CloudFormation template to an S3 bucket.
  */
 export const exportSourceNetworkCfnTemplate: API.OperationMethod<
-  ExportSourceNetworkCfnTemplateRequest,
+  ExportSourceNetworkCfnTemplateRequest & RegionInput,
   ExportSourceNetworkCfnTemplateResponse,
   ExportSourceNetworkCfnTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type GetFailbackReplicationConfigurationError =
  * Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
  */
 export const getFailbackReplicationConfiguration: API.OperationMethod<
-  GetFailbackReplicationConfigurationRequest,
+  GetFailbackReplicationConfigurationRequest & RegionInput,
   GetFailbackReplicationConfigurationResponse,
   GetFailbackReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2482,7 +2483,7 @@ export type GetLaunchConfigurationError =
  * Gets a LaunchConfiguration, filtered by Source Server IDs.
  */
 export const getLaunchConfiguration: API.OperationMethod<
-  GetLaunchConfigurationRequest,
+  GetLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   GetLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2514,7 +2515,7 @@ export type GetRecoveryPlanError =
  * Gets a Recovery Plan by ARN.
  */
 export const getRecoveryPlan: API.OperationMethod<
-  GetRecoveryPlanRequest,
+  GetRecoveryPlanRequest & RegionInput,
   GetRecoveryPlanResponse,
   GetRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -2548,7 +2549,7 @@ export type GetRecoveryPlanExecutionError =
  * Gets the details of a Recovery Plan execution.
  */
 export const getRecoveryPlanExecution: API.OperationMethod<
-  GetRecoveryPlanExecutionRequest,
+  GetRecoveryPlanExecutionRequest & RegionInput,
   GetRecoveryPlanExecutionResponse,
   GetRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2582,7 +2583,7 @@ export type GetRecoveryPlanExecutionStepError =
  * Gets the details of a step within a Recovery Plan execution.
  */
 export const getRecoveryPlanExecutionStep: API.OperationMethod<
-  GetRecoveryPlanExecutionStepRequest,
+  GetRecoveryPlanExecutionStepRequest & RegionInput,
   GetRecoveryPlanExecutionStepResponse,
   GetRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2617,7 @@ export type GetRecoveryPlanStepError =
  * Gets a Recovery Plan step by ARN.
  */
 export const getRecoveryPlanStep: API.OperationMethod<
-  GetRecoveryPlanStepRequest,
+  GetRecoveryPlanStepRequest & RegionInput,
   GetRecoveryPlanStepResponse,
   GetRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -2649,7 +2650,7 @@ export type GetReplicationConfigurationError =
  * Gets a ReplicationConfiguration, filtered by Source Server ID.
  */
 export const getReplicationConfiguration: API.OperationMethod<
-  GetReplicationConfigurationRequest,
+  GetReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   GetReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2680,7 +2681,7 @@ export type InitializeServiceError =
  * Initialize Elastic Disaster Recovery.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceRequest,
+  InitializeServiceRequest & RegionInput,
   InitializeServiceResponse,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -2711,7 +2712,7 @@ export type ListExtensibleSourceServersError =
  * Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we're reading from is not an extension of another source server.
  */
 export const listExtensibleSourceServers: API.PaginatedOperationMethod<
-  ListExtensibleSourceServersRequest,
+  ListExtensibleSourceServersRequest & RegionInput,
   ListExtensibleSourceServersResponse,
   ListExtensibleSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2750,7 +2751,7 @@ export type ListLaunchActionsError =
  * Lists resource launch actions.
  */
 export const listLaunchActions: API.PaginatedOperationMethod<
-  ListLaunchActionsRequest,
+  ListLaunchActionsRequest & RegionInput,
   ListLaunchActionsResponse,
   ListLaunchActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2789,7 +2790,7 @@ export type ListRecoveryPlanExecutionsError =
  * Lists executions of Recovery Plans, optionally filtered by plan or status.
  */
 export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
-  ListRecoveryPlanExecutionsRequest,
+  ListRecoveryPlanExecutionsRequest & RegionInput,
   ListRecoveryPlanExecutionsResponse,
   ListRecoveryPlanExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2829,7 +2830,7 @@ export type ListRecoveryPlanExecutionStepsError =
  * Lists all steps within a Recovery Plan execution.
  */
 export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
-  ListRecoveryPlanExecutionStepsRequest,
+  ListRecoveryPlanExecutionStepsRequest & RegionInput,
   ListRecoveryPlanExecutionStepsResponse,
   ListRecoveryPlanExecutionStepsError,
   Credentials | HttpClient.HttpClient,
@@ -2869,7 +2870,7 @@ export type ListRecoveryPlansError =
  * Lists all Recovery Plans in the account.
  */
 export const listRecoveryPlans: API.PaginatedOperationMethod<
-  ListRecoveryPlansRequest,
+  ListRecoveryPlansRequest & RegionInput,
   ListRecoveryPlansResponse,
   ListRecoveryPlansError,
   Credentials | HttpClient.HttpClient,
@@ -2909,7 +2910,7 @@ export type ListRecoveryPlanStepsError =
  * Lists all steps in a Recovery Plan.
  */
 export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
-  ListRecoveryPlanStepsRequest,
+  ListRecoveryPlanStepsRequest & RegionInput,
   ListRecoveryPlanStepsResponse,
   ListRecoveryPlanStepsError,
   Credentials | HttpClient.HttpClient,
@@ -2949,7 +2950,7 @@ export type ListStagingAccountsError =
  * Returns an array of staging accounts for existing extended source servers.
  */
 export const listStagingAccounts: API.PaginatedOperationMethod<
-  ListStagingAccountsRequest,
+  ListStagingAccountsRequest & RegionInput,
   ListStagingAccountsResponse,
   ListStagingAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2988,7 +2989,7 @@ export type ListTagsForResourceError =
  * List all tags for your Elastic Disaster Recovery resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3021,7 +3022,7 @@ export type PutLaunchActionError =
  * Puts a resource launch action.
  */
 export const putLaunchAction: API.OperationMethod<
-  PutLaunchActionRequest,
+  PutLaunchActionRequest & RegionInput,
   PutLaunchActionResponse,
   PutLaunchActionError,
   Credentials | HttpClient.HttpClient
@@ -3056,7 +3057,7 @@ export type ReorderRecoveryPlanStepsError =
  * Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
  */
 export const reorderRecoveryPlanSteps: API.OperationMethod<
-  ReorderRecoveryPlanStepsRequest,
+  ReorderRecoveryPlanStepsRequest & RegionInput,
   ReorderRecoveryPlanStepsResponse,
   ReorderRecoveryPlanStepsError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type RetryDataReplicationError =
  * WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
  */
 export const retryDataReplication: API.OperationMethod<
-  RetryDataReplicationRequest,
+  RetryDataReplicationRequest & RegionInput,
   SourceServer,
   RetryDataReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3124,7 +3125,7 @@ export type RetryRecoveryPlanExecutionStepError =
  * Retries a failed `SERVER` type execution step.
  */
 export const retryRecoveryPlanExecutionStep: API.OperationMethod<
-  RetryRecoveryPlanExecutionStepRequest,
+  RetryRecoveryPlanExecutionStepRequest & RegionInput,
   RetryRecoveryPlanExecutionStepResponse,
   RetryRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -3160,7 +3161,7 @@ export type ReverseReplicationError =
  * Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
  */
 export const reverseReplication: API.OperationMethod<
-  ReverseReplicationRequest,
+  ReverseReplicationRequest & RegionInput,
   ReverseReplicationResponse,
   ReverseReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type StartFailbackLaunchError =
  * Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
  */
 export const startFailbackLaunch: API.OperationMethod<
-  StartFailbackLaunchRequest,
+  StartFailbackLaunchRequest & RegionInput,
   StartFailbackLaunchResponse,
   StartFailbackLaunchError,
   Credentials | HttpClient.HttpClient
@@ -3228,7 +3229,7 @@ export type StartRecoveryError =
  * Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
  */
 export const startRecovery: API.OperationMethod<
-  StartRecoveryRequest,
+  StartRecoveryRequest & RegionInput,
   StartRecoveryResponse,
   StartRecoveryError,
   Credentials | HttpClient.HttpClient
@@ -3263,7 +3264,7 @@ export type StartRecoveryPlanExecutionError =
  * Starts executing a Recovery Plan in `DRILL` or `RECOVERY` mode. A plan cannot have more than one execution in a non-terminal status at a time.
  */
 export const startRecoveryPlanExecution: API.OperationMethod<
-  StartRecoveryPlanExecutionRequest,
+  StartRecoveryPlanExecutionRequest & RegionInput,
   StartRecoveryPlanExecutionResponse,
   StartRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3298,7 +3299,7 @@ export type StartReplicationError =
  * Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
  */
 export const startReplication: API.OperationMethod<
-  StartReplicationRequest,
+  StartReplicationRequest & RegionInput,
   StartReplicationResponse,
   StartReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type StartSourceNetworkRecoveryError =
  * Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
  */
 export const startSourceNetworkRecovery: API.OperationMethod<
-  StartSourceNetworkRecoveryRequest,
+  StartSourceNetworkRecoveryRequest & RegionInput,
   StartSourceNetworkRecoveryResponse,
   StartSourceNetworkRecoveryError,
   Credentials | HttpClient.HttpClient
@@ -3364,7 +3365,7 @@ export type StartSourceNetworkReplicationError =
  * Starts replication for a Source Network. This action would make the Source Network protected.
  */
 export const startSourceNetworkReplication: API.OperationMethod<
-  StartSourceNetworkReplicationRequest,
+  StartSourceNetworkReplicationRequest & RegionInput,
   StartSourceNetworkReplicationResponse,
   StartSourceNetworkReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3396,7 @@ export type StopFailbackError =
  * Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
  */
 export const stopFailback: API.OperationMethod<
-  StopFailbackRequest,
+  StopFailbackRequest & RegionInput,
   StopFailbackResponse,
   StopFailbackError,
   Credentials | HttpClient.HttpClient
@@ -3426,7 +3427,7 @@ export type StopReplicationError =
  * Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
  */
 export const stopReplication: API.OperationMethod<
-  StopReplicationRequest,
+  StopReplicationRequest & RegionInput,
   StopReplicationResponse,
   StopReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3459,7 +3460,7 @@ export type StopSourceNetworkReplicationError =
  * Stops replication for a Source Network. This action would make the Source Network unprotected.
  */
 export const stopSourceNetworkReplication: API.OperationMethod<
-  StopSourceNetworkReplicationRequest,
+  StopSourceNetworkReplicationRequest & RegionInput,
   StopSourceNetworkReplicationResponse,
   StopSourceNetworkReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3492,7 +3493,7 @@ export type TagResourceError =
  * Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3524,7 +3525,7 @@ export type TerminateRecoveryInstancesError =
  * Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
  */
 export const terminateRecoveryInstances: API.OperationMethod<
-  TerminateRecoveryInstancesRequest,
+  TerminateRecoveryInstancesRequest & RegionInput,
   TerminateRecoveryInstancesResponse,
   TerminateRecoveryInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3556,7 +3557,7 @@ export type UntagResourceError =
  * Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3588,7 +3589,7 @@ export type UpdateFailbackReplicationConfigurationError =
  * Allows you to update the failback replication configuration of a Recovery Instance by ID.
  */
 export const updateFailbackReplicationConfiguration: API.OperationMethod<
-  UpdateFailbackReplicationConfigurationRequest,
+  UpdateFailbackReplicationConfigurationRequest & RegionInput,
   UpdateFailbackReplicationConfigurationResponse,
   UpdateFailbackReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3621,7 +3622,7 @@ export type UpdateLaunchConfigurationError =
  * Updates a LaunchConfiguration by Source Server ID.
  */
 export const updateLaunchConfiguration: API.OperationMethod<
-  UpdateLaunchConfigurationRequest,
+  UpdateLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   UpdateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3655,7 +3656,7 @@ export type UpdateLaunchConfigurationTemplateError =
  * Updates an existing Launch Configuration Template by ID.
  */
 export const updateLaunchConfigurationTemplate: API.OperationMethod<
-  UpdateLaunchConfigurationTemplateRequest,
+  UpdateLaunchConfigurationTemplateRequest & RegionInput,
   UpdateLaunchConfigurationTemplateResponse,
   UpdateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3690,7 +3691,7 @@ export type UpdateRecoveryPlanError =
  * Updates a Recovery Plan's name or description.
  */
 export const updateRecoveryPlan: API.OperationMethod<
-  UpdateRecoveryPlanRequest,
+  UpdateRecoveryPlanRequest & RegionInput,
   UpdateRecoveryPlanResponse,
   UpdateRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -3726,7 +3727,7 @@ export type UpdateRecoveryPlanExecutionStepError =
  * Updates an execution step. Supports two actions: (1) skip a step that is in `NOT_STARTED` or `FAILED` status; (2) update the wait duration of a `WAIT` type step that is in `NOT_STARTED` status.
  */
 export const updateRecoveryPlanExecutionStep: API.OperationMethod<
-  UpdateRecoveryPlanExecutionStepRequest,
+  UpdateRecoveryPlanExecutionStepRequest & RegionInput,
   UpdateRecoveryPlanExecutionStepResponse,
   UpdateRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -3762,7 +3763,7 @@ export type UpdateRecoveryPlanStepError =
  * Updates a Recovery Plan step's name or configuration. Step type is immutable.
  */
 export const updateRecoveryPlanStep: API.OperationMethod<
-  UpdateRecoveryPlanStepRequest,
+  UpdateRecoveryPlanStepRequest & RegionInput,
   UpdateRecoveryPlanStepResponse,
   UpdateRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -3798,7 +3799,7 @@ export type UpdateReplicationConfigurationError =
  * Allows you to update a ReplicationConfiguration by Source Server ID.
  */
 export const updateReplicationConfiguration: API.OperationMethod<
-  UpdateReplicationConfigurationRequest,
+  UpdateReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   UpdateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3833,7 +3834,7 @@ export type UpdateReplicationConfigurationTemplateError =
  * Updates a ReplicationConfigurationTemplate by ID.
  */
 export const updateReplicationConfigurationTemplate: API.OperationMethod<
-  UpdateReplicationConfigurationTemplateRequest,
+  UpdateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   UpdateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient

@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2356,7 +2357,7 @@ export type AssociatePermissionError =
  * Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
  */
 export const associatePermission: API.OperationMethod<
-  AssociatePermissionRequest,
+  AssociatePermissionRequest & RegionInput,
   AssociatePermissionResponse,
   AssociatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2393,7 +2394,7 @@ export type BatchDeleteDocumentError =
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
 export const batchDeleteDocument: API.OperationMethod<
-  BatchDeleteDocumentRequest,
+  BatchDeleteDocumentRequest & RegionInput,
   BatchDeleteDocumentResponse,
   BatchDeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2438,7 +2439,7 @@ export type BatchPutDocumentError =
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
 export const batchPutDocument: API.OperationMethod<
-  BatchPutDocumentRequest,
+  BatchPutDocumentRequest & RegionInput,
   BatchPutDocumentResponse,
   BatchPutDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2472,7 +2473,7 @@ export type CancelSubscriptionError =
  * Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
  */
 export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionRequest,
+  CancelSubscriptionRequest & RegionInput,
   CancelSubscriptionResponse,
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2507,7 +2508,7 @@ export type ChatError =
  * Starts or continues a streaming Amazon Q Business conversation.
  */
 export const chat: API.OperationMethod<
-  ChatInput,
+  ChatInput & RegionInput,
   ChatOutput,
   ChatError,
   Credentials | HttpClient.HttpClient
@@ -2545,7 +2546,7 @@ export type ChatSyncError =
  * Starts or continues a non-streaming Amazon Q Business conversation.
  */
 export const chatSync: API.OperationMethod<
-  ChatSyncInput,
+  ChatSyncInput & RegionInput,
   ChatSyncOutput,
   ChatSyncError,
   Credentials | HttpClient.HttpClient
@@ -2580,7 +2581,7 @@ export type CheckDocumentAccessError =
  * Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
  */
 export const checkDocumentAccess: API.OperationMethod<
-  CheckDocumentAccessRequest,
+  CheckDocumentAccessRequest & RegionInput,
   CheckDocumentAccessResponse,
   CheckDocumentAccessError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type CreateAnonymousWebExperienceUrlError =
  * Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
  */
 export const createAnonymousWebExperienceUrl: API.OperationMethod<
-  CreateAnonymousWebExperienceUrlRequest,
+  CreateAnonymousWebExperienceUrlRequest & RegionInput,
   CreateAnonymousWebExperienceUrlResponse,
   CreateAnonymousWebExperienceUrlError,
   Credentials | HttpClient.HttpClient
@@ -2654,7 +2655,7 @@ export type CreateApplicationError =
  * When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2690,7 +2691,7 @@ export type CreateChatResponseConfigurationError =
  * Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
  */
 export const createChatResponseConfiguration: API.OperationMethod<
-  CreateChatResponseConfigurationRequest,
+  CreateChatResponseConfigurationRequest & RegionInput,
   CreateChatResponseConfigurationResponse,
   CreateChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2727,7 @@ export type CreateDataAccessorError =
  * Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
  */
 export const createDataAccessor: API.OperationMethod<
-  CreateDataAccessorRequest,
+  CreateDataAccessorRequest & RegionInput,
   CreateDataAccessorResponse,
   CreateDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -2764,7 +2765,7 @@ export type CreateDataSourceError =
  * `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2804,7 +2805,7 @@ export type CreateIndexError =
  * Once the index is active, you can index your documents using the `BatchPutDocument` API or the `CreateDataSource` API.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2840,7 +2841,7 @@ export type CreatePluginError =
  * Creates an Amazon Q Business plugin.
  */
 export const createPlugin: API.OperationMethod<
-  CreatePluginRequest,
+  CreatePluginRequest & RegionInput,
   CreatePluginResponse,
   CreatePluginError,
   Credentials | HttpClient.HttpClient
@@ -2876,7 +2877,7 @@ export type CreateRetrieverError =
  * Adds a retriever to your Amazon Q Business application.
  */
 export const createRetriever: API.OperationMethod<
-  CreateRetrieverRequest,
+  CreateRetrieverRequest & RegionInput,
   CreateRetrieverResponse,
   CreateRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -2915,7 +2916,7 @@ export type CreateSubscriptionError =
  * For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionRequest,
+  CreateSubscriptionRequest & RegionInput,
   CreateSubscriptionResponse,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2950,7 +2951,7 @@ export type CreateUserError =
  * Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2986,7 +2987,7 @@ export type CreateWebExperienceError =
  * Creates an Amazon Q Business web experience.
  */
 export const createWebExperience: API.OperationMethod<
-  CreateWebExperienceRequest,
+  CreateWebExperienceRequest & RegionInput,
   CreateWebExperienceResponse,
   CreateWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3021,7 +3022,7 @@ export type DeleteApplicationError =
  * Deletes an Amazon Q Business application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type DeleteAttachmentError =
  * Deletes an attachment associated with a specific Amazon Q Business conversation.
  */
 export const deleteAttachment: API.OperationMethod<
-  DeleteAttachmentRequest,
+  DeleteAttachmentRequest & RegionInput,
   DeleteAttachmentResponse,
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3088,7 +3089,7 @@ export type DeleteChatControlsConfigurationError =
  * Deletes chat controls configured for an existing Amazon Q Business application.
  */
 export const deleteChatControlsConfiguration: API.OperationMethod<
-  DeleteChatControlsConfigurationRequest,
+  DeleteChatControlsConfigurationRequest & RegionInput,
   DeleteChatControlsConfigurationResponse,
   DeleteChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3121,7 +3122,7 @@ export type DeleteChatResponseConfigurationError =
  * Deletes a specified chat response configuration from an Amazon Q Business application.
  */
 export const deleteChatResponseConfiguration: API.OperationMethod<
-  DeleteChatResponseConfigurationRequest,
+  DeleteChatResponseConfigurationRequest & RegionInput,
   DeleteChatResponseConfigurationResponse,
   DeleteChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3156,7 +3157,7 @@ export type DeleteConversationError =
  * Deletes an Amazon Q Business web experience conversation.
  */
 export const deleteConversation: API.OperationMethod<
-  DeleteConversationRequest,
+  DeleteConversationRequest & RegionInput,
   DeleteConversationResponse,
   DeleteConversationError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3192,7 @@ export type DeleteDataAccessorError =
  * Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
  */
 export const deleteDataAccessor: API.OperationMethod<
-  DeleteDataAccessorRequest,
+  DeleteDataAccessorRequest & RegionInput,
   DeleteDataAccessorResponse,
   DeleteDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -3225,7 +3226,7 @@ export type DeleteDataSourceError =
  * Deletes an Amazon Q Business data source connector. While the data source is being deleted, the `Status` field returned by a call to the `DescribeDataSource` API is set to `DELETING`.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3261,7 +3262,7 @@ export type DeleteGroupError =
  * If you want to delete, update, or replace users or sub groups of a group, you need to use the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -3295,7 +3296,7 @@ export type DeleteIndexError =
  * Deletes an Amazon Q Business index.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3329,7 +3330,7 @@ export type DeletePluginError =
  * Deletes an Amazon Q Business plugin.
  */
 export const deletePlugin: API.OperationMethod<
-  DeletePluginRequest,
+  DeletePluginRequest & RegionInput,
   DeletePluginResponse,
   DeletePluginError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3364,7 @@ export type DeleteRetrieverError =
  * Deletes the retriever used by an Amazon Q Business application.
  */
 export const deleteRetriever: API.OperationMethod<
-  DeleteRetrieverRequest,
+  DeleteRetrieverRequest & RegionInput,
   DeleteRetrieverResponse,
   DeleteRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -3397,7 +3398,7 @@ export type DeleteUserError =
  * Deletes a user by email id.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3431,7 +3432,7 @@ export type DeleteWebExperienceError =
  * Deletes an Amazon Q Business web experience.
  */
 export const deleteWebExperience: API.OperationMethod<
-  DeleteWebExperienceRequest,
+  DeleteWebExperienceRequest & RegionInput,
   DeleteWebExperienceResponse,
   DeleteWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3466,7 @@ export type DisassociatePermissionError =
  * Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
  */
 export const disassociatePermission: API.OperationMethod<
-  DisassociatePermissionRequest,
+  DisassociatePermissionRequest & RegionInput,
   DisassociatePermissionResponse,
   DisassociatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -3498,7 +3499,7 @@ export type GetApplicationError =
  * Gets information about an existing Amazon Q Business application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3530,7 +3531,7 @@ export type GetChatControlsConfigurationError =
  * Gets information about chat controls configured for an existing Amazon Q Business application.
  */
 export const getChatControlsConfiguration: API.PaginatedOperationMethod<
-  GetChatControlsConfigurationRequest,
+  GetChatControlsConfigurationRequest & RegionInput,
   GetChatControlsConfigurationResponse,
   GetChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -3569,7 +3570,7 @@ export type GetChatResponseConfigurationError =
  * Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
  */
 export const getChatResponseConfiguration: API.OperationMethod<
-  GetChatResponseConfigurationRequest,
+  GetChatResponseConfigurationRequest & RegionInput,
   GetChatResponseConfigurationResponse,
   GetChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3601,7 +3602,7 @@ export type GetDataAccessorError =
  * Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
  */
 export const getDataAccessor: API.OperationMethod<
-  GetDataAccessorRequest,
+  GetDataAccessorRequest & RegionInput,
   GetDataAccessorResponse,
   GetDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -3633,7 +3634,7 @@ export type GetDataSourceError =
  * Gets information about an existing Amazon Q Business data source connector.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3665,7 +3666,7 @@ export type GetDocumentContentError =
  * Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
  */
 export const getDocumentContent: API.OperationMethod<
-  GetDocumentContentRequest,
+  GetDocumentContentRequest & RegionInput,
   GetDocumentContentResponse,
   GetDocumentContentError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type GetGroupError =
  * Describes a group by group name.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3731,7 +3732,7 @@ export type GetIndexError =
  * Gets information about an existing Amazon Q Business index.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -3767,7 +3768,7 @@ export type GetMediaError =
  * For more information, see Extracting semantic meaning from images and visuals.
  */
 export const getMedia: API.OperationMethod<
-  GetMediaRequest,
+  GetMediaRequest & RegionInput,
   GetMediaResponse,
   GetMediaError,
   Credentials | HttpClient.HttpClient
@@ -3801,7 +3802,7 @@ export type GetPluginError =
  * Gets information about an existing Amazon Q Business plugin.
  */
 export const getPlugin: API.OperationMethod<
-  GetPluginRequest,
+  GetPluginRequest & RegionInput,
   GetPluginResponse,
   GetPluginError,
   Credentials | HttpClient.HttpClient
@@ -3833,7 +3834,7 @@ export type GetPolicyError =
  * Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3865,7 +3866,7 @@ export type GetRetrieverError =
  * Gets information about an existing retriever used by an Amazon Q Business application.
  */
 export const getRetriever: API.OperationMethod<
-  GetRetrieverRequest,
+  GetRetrieverRequest & RegionInput,
   GetRetrieverResponse,
   GetRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -3898,7 +3899,7 @@ export type GetUserError =
  * Describes the universally unique identifier (UUID) associated with a local user in a data source.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -3931,7 +3932,7 @@ export type GetWebExperienceError =
  * Gets information about an existing Amazon Q Business web experience.
  */
 export const getWebExperience: API.OperationMethod<
-  GetWebExperienceRequest,
+  GetWebExperienceRequest & RegionInput,
   GetWebExperienceResponse,
   GetWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3964,7 +3965,7 @@ export type ListApplicationsError =
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -4003,7 +4004,7 @@ export type ListAttachmentsError =
  * Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
  */
 export const listAttachments: API.PaginatedOperationMethod<
-  ListAttachmentsRequest,
+  ListAttachmentsRequest & RegionInput,
   ListAttachmentsResponse,
   ListAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4043,7 +4044,7 @@ export type ListChatResponseConfigurationsError =
  * Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
  */
 export const listChatResponseConfigurations: API.PaginatedOperationMethod<
-  ListChatResponseConfigurationsRequest,
+  ListChatResponseConfigurationsRequest & RegionInput,
   ListChatResponseConfigurationsResponse,
   ListChatResponseConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4083,7 +4084,7 @@ export type ListConversationsError =
  * Lists one or more Amazon Q Business conversations.
  */
 export const listConversations: API.PaginatedOperationMethod<
-  ListConversationsRequest,
+  ListConversationsRequest & RegionInput,
   ListConversationsResponse,
   ListConversationsError,
   Credentials | HttpClient.HttpClient,
@@ -4123,7 +4124,7 @@ export type ListDataAccessorsError =
  * Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
  */
 export const listDataAccessors: API.PaginatedOperationMethod<
-  ListDataAccessorsRequest,
+  ListDataAccessorsRequest & RegionInput,
   ListDataAccessorsResponse,
   ListDataAccessorsError,
   Credentials | HttpClient.HttpClient,
@@ -4162,7 +4163,7 @@ export type ListDataSourcesError =
  * Lists the Amazon Q Business data source connectors that you have created.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4202,7 +4203,7 @@ export type ListDataSourceSyncJobsError =
  * Get information about an Amazon Q Business data source connector synchronization.
  */
 export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
-  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsRequest & RegionInput,
   ListDataSourceSyncJobsResponse,
   ListDataSourceSyncJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4242,7 +4243,7 @@ export type ListDocumentsError =
  * A list of documents attached to an index.
  */
 export const listDocuments: API.PaginatedOperationMethod<
-  ListDocumentsRequest,
+  ListDocumentsRequest & RegionInput,
   ListDocumentsResponse,
   ListDocumentsError,
   Credentials | HttpClient.HttpClient,
@@ -4282,7 +4283,7 @@ export type ListGroupsError =
  * Provides a list of groups that are mapped to users.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4322,7 +4323,7 @@ export type ListIndicesError =
  * Lists the Amazon Q Business indices you have created.
  */
 export const listIndices: API.PaginatedOperationMethod<
-  ListIndicesRequest,
+  ListIndicesRequest & RegionInput,
   ListIndicesResponse,
   ListIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -4362,7 +4363,7 @@ export type ListMessagesError =
  * Gets a list of messages associated with an Amazon Q Business web experience.
  */
 export const listMessages: API.PaginatedOperationMethod<
-  ListMessagesRequest,
+  ListMessagesRequest & RegionInput,
   ListMessagesResponse,
   ListMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -4402,7 +4403,7 @@ export type ListPluginActionsError =
  * Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
  */
 export const listPluginActions: API.PaginatedOperationMethod<
-  ListPluginActionsRequest,
+  ListPluginActionsRequest & RegionInput,
   ListPluginActionsResponse,
   ListPluginActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4441,7 +4442,7 @@ export type ListPluginsError =
  * Lists configured Amazon Q Business plugins.
  */
 export const listPlugins: API.PaginatedOperationMethod<
-  ListPluginsRequest,
+  ListPluginsRequest & RegionInput,
   ListPluginsResponse,
   ListPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -4479,7 +4480,7 @@ export type ListPluginTypeActionsError =
  * Lists configured Amazon Q Business actions for any plugin type--both built-in and custom.
  */
 export const listPluginTypeActions: API.PaginatedOperationMethod<
-  ListPluginTypeActionsRequest,
+  ListPluginTypeActionsRequest & RegionInput,
   ListPluginTypeActionsResponse,
   ListPluginTypeActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4516,7 +4517,7 @@ export type ListPluginTypeMetadataError =
  * Lists metadata for all Amazon Q Business plugin types.
  */
 export const listPluginTypeMetadata: API.PaginatedOperationMethod<
-  ListPluginTypeMetadataRequest,
+  ListPluginTypeMetadataRequest & RegionInput,
   ListPluginTypeMetadataResponse,
   ListPluginTypeMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -4554,7 +4555,7 @@ export type ListRetrieversError =
  * Lists the retriever used by an Amazon Q Business application.
  */
 export const listRetrievers: API.PaginatedOperationMethod<
-  ListRetrieversRequest,
+  ListRetrieversRequest & RegionInput,
   ListRetrieversResponse,
   ListRetrieversError,
   Credentials | HttpClient.HttpClient,
@@ -4594,7 +4595,7 @@ export type ListSubscriptionsError =
  * Lists all subscriptions created in an Amazon Q Business application.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsRequest,
+  ListSubscriptionsRequest & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4634,7 +4635,7 @@ export type ListTagsForResourceError =
  * Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4666,7 +4667,7 @@ export type ListWebExperiencesError =
  * Lists one or more Amazon Q Business Web Experiences.
  */
 export const listWebExperiences: API.PaginatedOperationMethod<
-  ListWebExperiencesRequest,
+  ListWebExperiencesRequest & RegionInput,
   ListWebExperiencesResponse,
   ListWebExperiencesError,
   Credentials | HttpClient.HttpClient,
@@ -4705,7 +4706,7 @@ export type PutFeedbackError =
  * Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4743,7 +4744,7 @@ export type PutGroupError =
  * There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
  */
 export const putGroup: API.OperationMethod<
-  PutGroupRequest,
+  PutGroupRequest & RegionInput,
   PutGroupResponse,
   PutGroupError,
   Credentials | HttpClient.HttpClient
@@ -4778,7 +4779,7 @@ export type SearchRelevantContentError =
  * Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
  */
 export const searchRelevantContent: API.PaginatedOperationMethod<
-  SearchRelevantContentRequest,
+  SearchRelevantContentRequest & RegionInput,
   SearchRelevantContentResponse,
   SearchRelevantContentError,
   Credentials | HttpClient.HttpClient,
@@ -4820,7 +4821,7 @@ export type StartDataSourceSyncJobError =
  * Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a `ConflictException`.
  */
 export const startDataSourceSyncJob: API.OperationMethod<
-  StartDataSourceSyncJobRequest,
+  StartDataSourceSyncJobRequest & RegionInput,
   StartDataSourceSyncJobResponse,
   StartDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4855,7 +4856,7 @@ export type StopDataSourceSyncJobError =
  * Stops an Amazon Q Business data source connector synchronization job already in progress.
  */
 export const stopDataSourceSyncJob: API.OperationMethod<
-  StopDataSourceSyncJobRequest,
+  StopDataSourceSyncJobRequest & RegionInput,
   StopDataSourceSyncJobResponse,
   StopDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4889,7 +4890,7 @@ export type TagResourceError =
  * Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4922,7 +4923,7 @@ export type UntagResourceError =
  * Removes a tag from an Amazon Q Business application or a data source.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4959,7 +4960,7 @@ export type UpdateApplicationError =
  * An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4994,7 +4995,7 @@ export type UpdateChatControlsConfigurationError =
  * Updates a set of chat controls configured for an existing Amazon Q Business application.
  */
 export const updateChatControlsConfiguration: API.OperationMethod<
-  UpdateChatControlsConfigurationRequest,
+  UpdateChatControlsConfigurationRequest & RegionInput,
   UpdateChatControlsConfigurationResponse,
   UpdateChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5029,7 +5030,7 @@ export type UpdateChatResponseConfigurationError =
  * Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
  */
 export const updateChatResponseConfiguration: API.OperationMethod<
-  UpdateChatResponseConfigurationRequest,
+  UpdateChatResponseConfigurationRequest & RegionInput,
   UpdateChatResponseConfigurationResponse,
   UpdateChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5063,7 +5064,7 @@ export type UpdateDataAccessorError =
  * Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
  */
 export const updateDataAccessor: API.OperationMethod<
-  UpdateDataAccessorRequest,
+  UpdateDataAccessorRequest & RegionInput,
   UpdateDataAccessorResponse,
   UpdateDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -5097,7 +5098,7 @@ export type UpdateDataSourceError =
  * Updates an existing Amazon Q Business data source connector.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5132,7 +5133,7 @@ export type UpdateIndexError =
  * Updates an Amazon Q Business index.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -5168,7 +5169,7 @@ export type UpdatePluginError =
  * Updates an Amazon Q Business plugin.
  */
 export const updatePlugin: API.OperationMethod<
-  UpdatePluginRequest,
+  UpdatePluginRequest & RegionInput,
   UpdatePluginResponse,
   UpdatePluginError,
   Credentials | HttpClient.HttpClient
@@ -5204,7 +5205,7 @@ export type UpdateRetrieverError =
  * Updates the retriever used for your Amazon Q Business application.
  */
 export const updateRetriever: API.OperationMethod<
-  UpdateRetrieverRequest,
+  UpdateRetrieverRequest & RegionInput,
   UpdateRetrieverResponse,
   UpdateRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -5239,7 +5240,7 @@ export type UpdateSubscriptionError =
  * Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionRequest,
+  UpdateSubscriptionRequest & RegionInput,
   UpdateSubscriptionResponse,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5274,7 +5275,7 @@ export type UpdateUserError =
  * Updates a information associated with a user id.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -5309,7 +5310,7 @@ export type UpdateWebExperienceError =
  * Updates an Amazon Q Business web experience.
  */
 export const updateWebExperience: API.OperationMethod<
-  UpdateWebExperienceRequest,
+  UpdateWebExperienceRequest & RegionInput,
   UpdateWebExperienceResponse,
   UpdateWebExperienceError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -548,7 +549,7 @@ export type AssociateDefaultViewError =
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
 export const associateDefaultView: API.OperationMethod<
-  AssociateDefaultViewInput,
+  AssociateDefaultViewInput & RegionInput,
   AssociateDefaultViewOutput,
   AssociateDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type BatchGetViewError =
  * Retrieves details about a list of views.
  */
 export const batchGetView: API.OperationMethod<
-  BatchGetViewInput,
+  BatchGetViewInput & RegionInput,
   BatchGetViewOutput,
   BatchGetViewError,
   Credentials | HttpClient.HttpClient
@@ -632,7 +633,7 @@ export type CreateIndexError =
  * This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the service-linked role needed to index the resources in your account. Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexInput,
+  CreateIndexInput & RegionInput,
   CreateIndexOutput,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -664,7 +665,7 @@ export type CreateResourceExplorerSetupError =
  * Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
  */
 export const createResourceExplorerSetup: API.OperationMethod<
-  CreateResourceExplorerSetupInput,
+  CreateResourceExplorerSetupInput & RegionInput,
   CreateResourceExplorerSetupOutput,
   CreateResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type CreateViewError =
  * Only the principals with an IAM identity-based policy that grants `Allow` to the `Search` action on a `Resource` with the Amazon resource name (ARN) of this view can Search using views you create with this operation.
  */
 export const createView: API.OperationMethod<
-  CreateViewInput,
+  CreateViewInput & RegionInput,
   CreateViewOutput,
   CreateViewError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type DeleteIndexError =
  * If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexInput,
+  DeleteIndexInput & RegionInput,
   DeleteIndexOutput,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type DeleteResourceExplorerSetupError =
  * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
  */
 export const deleteResourceExplorerSetup: API.OperationMethod<
-  DeleteResourceExplorerSetupInput,
+  DeleteResourceExplorerSetupInput & RegionInput,
   DeleteResourceExplorerSetupOutput,
   DeleteResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
@@ -803,7 +804,7 @@ export type DeleteViewError =
  * If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation.
  */
 export const deleteView: API.OperationMethod<
-  DeleteViewInput,
+  DeleteViewInput & RegionInput,
   DeleteViewOutput,
   DeleteViewError,
   Credentials | HttpClient.HttpClient
@@ -838,7 +839,7 @@ export type DisassociateDefaultViewError =
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
 export const disassociateDefaultView: API.OperationMethod<
-  DisassociateDefaultViewRequest,
+  DisassociateDefaultViewRequest & RegionInput,
   DisassociateDefaultViewResponse,
   DisassociateDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -869,7 +870,7 @@ export type GetAccountLevelServiceConfigurationError =
  * Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
  */
 export const getAccountLevelServiceConfiguration: API.OperationMethod<
-  GetAccountLevelServiceConfigurationRequest,
+  GetAccountLevelServiceConfigurationRequest & RegionInput,
   GetAccountLevelServiceConfigurationOutput,
   GetAccountLevelServiceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -900,7 +901,7 @@ export type GetDefaultViewError =
  * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
  */
 export const getDefaultView: API.OperationMethod<
-  GetDefaultViewRequest,
+  GetDefaultViewRequest & RegionInput,
   GetDefaultViewOutput,
   GetDefaultViewError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type GetIndexError =
  * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexOutput,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -965,7 +966,7 @@ export type GetManagedViewError =
  * Retrieves details of the specified Amazon Web Services-managed view.
  */
 export const getManagedView: API.OperationMethod<
-  GetManagedViewInput,
+  GetManagedViewInput & RegionInput,
   GetManagedViewOutput,
   GetManagedViewError,
   Credentials | HttpClient.HttpClient
@@ -998,7 +999,7 @@ export type GetResourceExplorerSetupError =
  * Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
  */
 export const getResourceExplorerSetup: API.PaginatedOperationMethod<
-  GetResourceExplorerSetupInput,
+  GetResourceExplorerSetupInput & RegionInput,
   GetResourceExplorerSetupOutput,
   GetResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient,
@@ -1037,7 +1038,7 @@ export type GetServiceIndexError =
  * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
  */
 export const getServiceIndex: API.OperationMethod<
-  GetServiceIndexRequest,
+  GetServiceIndexRequest & RegionInput,
   GetServiceIndexOutput,
   GetServiceIndexError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type GetServiceViewError =
  * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
  */
 export const getServiceView: API.OperationMethod<
-  GetServiceViewInput,
+  GetServiceViewInput & RegionInput,
   GetServiceViewOutput,
   GetServiceViewError,
   Credentials | HttpClient.HttpClient
@@ -1102,7 +1103,7 @@ export type GetViewError =
  * Retrieves details of the specified view.
  */
 export const getView: API.OperationMethod<
-  GetViewInput,
+  GetViewInput & RegionInput,
   GetViewOutput,
   GetViewError,
   Credentials | HttpClient.HttpClient
@@ -1134,7 +1135,7 @@ export type ListIndexesError =
  * Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
  */
 export const listIndexes: API.PaginatedOperationMethod<
-  ListIndexesInput,
+  ListIndexesInput & RegionInput,
   ListIndexesOutput,
   ListIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -1171,7 +1172,7 @@ export type ListIndexesForMembersError =
  * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
  */
 export const listIndexesForMembers: API.PaginatedOperationMethod<
-  ListIndexesForMembersInput,
+  ListIndexesForMembersInput & RegionInput,
   ListIndexesForMembersOutput,
   ListIndexesForMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1209,7 +1210,7 @@ export type ListManagedViewsError =
  * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
  */
 export const listManagedViews: API.PaginatedOperationMethod<
-  ListManagedViewsInput,
+  ListManagedViewsInput & RegionInput,
   ListManagedViewsOutput,
   ListManagedViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1249,7 +1250,7 @@ export type ListResourcesError =
  * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don't explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesInput,
+  ListResourcesInput & RegionInput,
   ListResourcesOutput,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1288,7 +1289,7 @@ export type ListServiceIndexesError =
  * Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
  */
 export const listServiceIndexes: API.PaginatedOperationMethod<
-  ListServiceIndexesInput,
+  ListServiceIndexesInput & RegionInput,
   ListServiceIndexesOutput,
   ListServiceIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -1325,7 +1326,7 @@ export type ListServiceViewsError =
  * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
  */
 export const listServiceViews: API.PaginatedOperationMethod<
-  ListServiceViewsInput,
+  ListServiceViewsInput & RegionInput,
   ListServiceViewsOutput,
   ListServiceViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1361,7 +1362,7 @@ export type ListStreamingAccessForServicesError =
  * Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
  */
 export const listStreamingAccessForServices: API.PaginatedOperationMethod<
-  ListStreamingAccessForServicesInput,
+  ListStreamingAccessForServicesInput & RegionInput,
   ListStreamingAccessForServicesOutput,
   ListStreamingAccessForServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1393,7 +1394,7 @@ export type ListSupportedResourceTypesError =
  * Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
  */
 export const listSupportedResourceTypes: API.PaginatedOperationMethod<
-  ListSupportedResourceTypesInput,
+  ListSupportedResourceTypesInput & RegionInput,
   ListSupportedResourceTypesOutput,
   ListSupportedResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1432,7 +1433,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1466,7 +1467,7 @@ export type ListViewsError =
  * Always check the `NextToken` response parameter for a `null` value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The `NextToken` response parameter value is `null` *only* when there are no more results to display.
  */
 export const listViews: API.PaginatedOperationMethod<
-  ListViewsInput,
+  ListViewsInput & RegionInput,
   ListViewsOutput,
   ListViewsError,
   Credentials | HttpClient.HttpClient,
@@ -1511,7 +1512,7 @@ export type SearchError =
  * If your search results are empty, or are missing results that you think should be there, see Troubleshooting Resource Explorer search.
  */
 export const search: API.PaginatedOperationMethod<
-  SearchInput,
+  SearchInput & RegionInput,
   SearchOutput,
   SearchError,
   Credentials | HttpClient.HttpClient,
@@ -1552,7 +1553,7 @@ export type TagResourceError =
  * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type UntagResourceError =
  * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type UpdateIndexTypeError =
  * After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
  */
 export const updateIndexType: API.OperationMethod<
-  UpdateIndexTypeInput,
+  UpdateIndexTypeInput & RegionInput,
   UpdateIndexTypeOutput,
   UpdateIndexTypeError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type UpdateViewError =
  * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
  */
 export const updateView: API.OperationMethod<
-  UpdateViewInput,
+  UpdateViewInput & RegionInput,
   UpdateViewOutput,
   UpdateViewError,
   Credentials | HttpClient.HttpClient

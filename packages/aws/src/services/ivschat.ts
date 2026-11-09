@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -452,7 +453,7 @@ export type CreateChatTokenError =
  * application.
  */
 export const createChatToken: API.OperationMethod<
-  CreateChatTokenRequest,
+  CreateChatTokenRequest & RegionInput,
   CreateChatTokenResponse,
   CreateChatTokenError,
   Credentials | HttpClient.HttpClient
@@ -486,7 +487,7 @@ export type CreateLoggingConfigurationError =
  * messages.
  */
 export const createLoggingConfiguration: API.OperationMethod<
-  CreateLoggingConfigurationRequest,
+  CreateLoggingConfigurationRequest & RegionInput,
   CreateLoggingConfigurationResponse,
   CreateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -522,7 +523,7 @@ export type CreateRoomError =
  * Creates a room that allows clients to connect and pass messages.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -557,7 +558,7 @@ export type DeleteLoggingConfigurationError =
  * Deletes the specified logging configuration.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -593,7 +594,7 @@ export type DeleteMessageError =
  * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -625,7 +626,7 @@ export type DeleteRoomError =
  * Deletes the specified room.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -659,7 +660,7 @@ export type DisconnectUserError =
  * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const disconnectUser: API.OperationMethod<
-  DisconnectUserRequest,
+  DisconnectUserRequest & RegionInput,
   DisconnectUserResponse,
   DisconnectUserError,
   Credentials | HttpClient.HttpClient
@@ -690,7 +691,7 @@ export type GetLoggingConfigurationError =
  * Gets the specified logging configuration.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type GetRoomError =
  * Gets the specified room.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -750,7 +751,7 @@ export type ListLoggingConfigurationsError =
  * the API request is processed.
  */
 export const listLoggingConfigurations: API.PaginatedOperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -782,7 +783,7 @@ export type ListRoomsError =
  * processed. Results are sorted in descending order of `updateTime`.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -818,7 +819,7 @@ export type ListTagsForResourceError =
  * Gets information about AWS tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -851,7 +852,7 @@ export type SendEventError =
  * rendered.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -882,7 +883,7 @@ export type TagResourceError =
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +913,7 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -944,7 +945,7 @@ export type UpdateLoggingConfigurationError =
  * Updates a specified logging configuration.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -977,7 +978,7 @@ export type UpdateRoomError =
  * Updates a room's configuration.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1512,7 +1513,7 @@ export type AcceptEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const acceptEnvironmentAccountConnection: API.OperationMethod<
-  AcceptEnvironmentAccountConnectionInput,
+  AcceptEnvironmentAccountConnectionInput & RegionInput,
   AcceptEnvironmentAccountConnectionOutput,
   AcceptEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type CancelComponentDeploymentError =
  * *Proton User Guide*.
  */
 export const cancelComponentDeployment: API.OperationMethod<
-  CancelComponentDeploymentInput,
+  CancelComponentDeploymentInput & RegionInput,
   CancelComponentDeploymentOutput,
   CancelComponentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type CancelEnvironmentDeploymentError =
  * `SUCCEEDED` and the cancellation attempt has no effect.
  */
 export const cancelEnvironmentDeployment: API.OperationMethod<
-  CancelEnvironmentDeploymentInput,
+  CancelEnvironmentDeploymentInput & RegionInput,
   CancelEnvironmentDeploymentOutput,
   CancelEnvironmentDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type CancelServiceInstanceDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServiceInstanceDeployment: API.OperationMethod<
-  CancelServiceInstanceDeploymentInput,
+  CancelServiceInstanceDeploymentInput & RegionInput,
   CancelServiceInstanceDeploymentOutput,
   CancelServiceInstanceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1691,7 +1692,7 @@ export type CancelServicePipelineDeploymentError =
  * the cancellation attempt has no effect.
  */
 export const cancelServicePipelineDeployment: API.OperationMethod<
-  CancelServicePipelineDeploymentInput,
+  CancelServicePipelineDeploymentInput & RegionInput,
   CancelServicePipelineDeploymentOutput,
   CancelServicePipelineDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1730,7 +1731,7 @@ export type CreateComponentError =
  * *Proton User Guide*.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentInput,
+  CreateComponentInput & RegionInput,
   CreateComponentOutput,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -1777,7 +1778,7 @@ export type CreateEnvironmentError =
  * Guide.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1817,7 +1818,7 @@ export type CreateEnvironmentAccountConnectionError =
  * guide.
  */
 export const createEnvironmentAccountConnection: API.OperationMethod<
-  CreateEnvironmentAccountConnectionInput,
+  CreateEnvironmentAccountConnectionInput & RegionInput,
   CreateEnvironmentAccountConnectionOutput,
   CreateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1862,7 +1863,7 @@ export type CreateEnvironmentTemplateError =
  * and publish an environment template in the *Proton User Guide*.
  */
 export const createEnvironmentTemplate: API.OperationMethod<
-  CreateEnvironmentTemplateInput,
+  CreateEnvironmentTemplateInput & RegionInput,
   CreateEnvironmentTemplateOutput,
   CreateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1899,7 +1900,7 @@ export type CreateEnvironmentTemplateVersionError =
  * version.
  */
 export const createEnvironmentTemplateVersion: API.OperationMethod<
-  CreateEnvironmentTemplateVersionInput,
+  CreateEnvironmentTemplateVersionInput & RegionInput,
   CreateEnvironmentTemplateVersionOutput,
   CreateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type CreateRepositoryError =
  * User Guide.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1978,7 +1979,7 @@ export type CreateServiceError =
  * in the *Proton User Guide*.
  */
 export const createService: API.OperationMethod<
-  CreateServiceInput,
+  CreateServiceInput & RegionInput,
   CreateServiceOutput,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2013,7 +2014,7 @@ export type CreateServiceInstanceError =
  * Create a service instance.
  */
 export const createServiceInstance: API.OperationMethod<
-  CreateServiceInstanceInput,
+  CreateServiceInstanceInput & RegionInput,
   CreateServiceInstanceOutput,
   CreateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2047,7 +2048,7 @@ export type CreateServiceSyncConfigError =
  * Create the Proton Ops configuration file.
  */
 export const createServiceSyncConfig: API.OperationMethod<
-  CreateServiceSyncConfigInput,
+  CreateServiceSyncConfigInput & RegionInput,
   CreateServiceSyncConfigOutput,
   CreateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2086,7 +2087,7 @@ export type CreateServiceTemplateError =
  * information, see Proton templates in the *Proton User Guide*.
  */
 export const createServiceTemplate: API.OperationMethod<
-  CreateServiceTemplateInput,
+  CreateServiceTemplateInput & RegionInput,
   CreateServiceTemplateOutput,
   CreateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2123,7 +2124,7 @@ export type CreateServiceTemplateVersionError =
  * a service template is a version that's backward compatible within its major version.
  */
 export const createServiceTemplateVersion: API.OperationMethod<
-  CreateServiceTemplateVersionInput,
+  CreateServiceTemplateVersionInput & RegionInput,
   CreateServiceTemplateVersionOutput,
   CreateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type CreateTemplateSyncConfigError =
  * User Guide.
  */
 export const createTemplateSyncConfig: API.OperationMethod<
-  CreateTemplateSyncConfigInput,
+  CreateTemplateSyncConfigInput & RegionInput,
   CreateTemplateSyncConfigOutput,
   CreateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2201,7 +2202,7 @@ export type DeleteComponentError =
  * *Proton User Guide*.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentInput,
+  DeleteComponentInput & RegionInput,
   DeleteComponentOutput,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type DeleteDeploymentError =
  * Delete the deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type DeleteEnvironmentError =
  * Delete an environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentOutput,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2308,7 +2309,7 @@ export type DeleteEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const deleteEnvironmentAccountConnection: API.OperationMethod<
-  DeleteEnvironmentAccountConnectionInput,
+  DeleteEnvironmentAccountConnectionInput & RegionInput,
   DeleteEnvironmentAccountConnectionOutput,
   DeleteEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2343,7 @@ export type DeleteEnvironmentTemplateError =
  * If no other major or minor versions of an environment template exist, delete the environment template.
  */
 export const deleteEnvironmentTemplate: API.OperationMethod<
-  DeleteEnvironmentTemplateInput,
+  DeleteEnvironmentTemplateInput & RegionInput,
   DeleteEnvironmentTemplateOutput,
   DeleteEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2383,7 @@ export type DeleteEnvironmentTemplateVersionError =
  * environment template is a version that's backward compatible.
  */
 export const deleteEnvironmentTemplateVersion: API.OperationMethod<
-  DeleteEnvironmentTemplateVersionInput,
+  DeleteEnvironmentTemplateVersionInput & RegionInput,
   DeleteEnvironmentTemplateVersionOutput,
   DeleteEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2416,7 +2417,7 @@ export type DeleteRepositoryError =
  * De-register and unlink your repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2457,7 +2458,7 @@ export type DeleteServiceError =
  * *Proton User Guide*.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceInput,
+  DeleteServiceInput & RegionInput,
   DeleteServiceOutput,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2492,7 @@ export type DeleteServiceSyncConfigError =
  * Delete the Proton Ops file.
  */
 export const deleteServiceSyncConfig: API.OperationMethod<
-  DeleteServiceSyncConfigInput,
+  DeleteServiceSyncConfigInput & RegionInput,
   DeleteServiceSyncConfigOutput,
   DeleteServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2527,7 @@ export type DeleteServiceTemplateError =
  * template.
  */
 export const deleteServiceTemplate: API.OperationMethod<
-  DeleteServiceTemplateInput,
+  DeleteServiceTemplateInput & RegionInput,
   DeleteServiceTemplateOutput,
   DeleteServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2569,7 +2570,7 @@ export type DeleteServiceTemplateVersionError =
  * version that's backwards compatible.
  */
 export const deleteServiceTemplateVersion: API.OperationMethod<
-  DeleteServiceTemplateVersionInput,
+  DeleteServiceTemplateVersionInput & RegionInput,
   DeleteServiceTemplateVersionOutput,
   DeleteServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2603,7 +2604,7 @@ export type DeleteTemplateSyncConfigError =
  * Delete a template sync configuration.
  */
 export const deleteTemplateSyncConfig: API.OperationMethod<
-  DeleteTemplateSyncConfigInput,
+  DeleteTemplateSyncConfigInput & RegionInput,
   DeleteTemplateSyncConfigOutput,
   DeleteTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -2636,7 +2637,7 @@ export type GetAccountSettingsError =
  * Get detail data for Proton account-wide settings.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsInput,
+  GetAccountSettingsInput & RegionInput,
   GetAccountSettingsOutput,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2672,7 +2673,7 @@ export type GetComponentError =
  * *Proton User Guide*.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentInput,
+  GetComponentInput & RegionInput,
   GetComponentOutput,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -2704,7 +2705,7 @@ export type GetDeploymentError =
  * Get detailed data for a deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2736,7 +2737,7 @@ export type GetEnvironmentError =
  * Get detailed data for an environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2771,7 +2772,7 @@ export type GetEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const getEnvironmentAccountConnection: API.OperationMethod<
-  GetEnvironmentAccountConnectionInput,
+  GetEnvironmentAccountConnectionInput & RegionInput,
   GetEnvironmentAccountConnectionOutput,
   GetEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2803,7 +2804,7 @@ export type GetEnvironmentTemplateError =
  * Get detailed data for an environment template.
  */
 export const getEnvironmentTemplate: API.OperationMethod<
-  GetEnvironmentTemplateInput,
+  GetEnvironmentTemplateInput & RegionInput,
   GetEnvironmentTemplateOutput,
   GetEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type GetEnvironmentTemplateVersionError =
  * Get detailed data for a major or minor version of an environment template.
  */
 export const getEnvironmentTemplateVersion: API.OperationMethod<
-  GetEnvironmentTemplateVersionInput,
+  GetEnvironmentTemplateVersionInput & RegionInput,
   GetEnvironmentTemplateVersionOutput,
   GetEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -2867,7 +2868,7 @@ export type GetRepositoryError =
  * Get detail data for a linked repository.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2907,7 @@ export type GetRepositorySyncStatusError =
  * Guide.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -2950,7 +2951,7 @@ export type GetResourcesSummaryError =
  * *Proton User Guide*.
  */
 export const getResourcesSummary: API.OperationMethod<
-  GetResourcesSummaryInput,
+  GetResourcesSummaryInput & RegionInput,
   GetResourcesSummaryOutput,
   GetResourcesSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type GetServiceError =
  * Get detailed data for a service.
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3014,7 +3015,7 @@ export type GetServiceInstanceError =
  * service template and it runs in a specific environment.
  */
 export const getServiceInstance: API.OperationMethod<
-  GetServiceInstanceInput,
+  GetServiceInstanceInput & RegionInput,
   GetServiceInstanceOutput,
   GetServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3046,7 +3047,7 @@ export type GetServiceInstanceSyncStatusError =
  * Get the status of the synced service instance.
  */
 export const getServiceInstanceSyncStatus: API.OperationMethod<
-  GetServiceInstanceSyncStatusInput,
+  GetServiceInstanceSyncStatusInput & RegionInput,
   GetServiceInstanceSyncStatusOutput,
   GetServiceInstanceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -3078,7 +3079,7 @@ export type GetServiceSyncBlockerSummaryError =
  * Get detailed data for the service sync blocker summary.
  */
 export const getServiceSyncBlockerSummary: API.OperationMethod<
-  GetServiceSyncBlockerSummaryInput,
+  GetServiceSyncBlockerSummaryInput & RegionInput,
   GetServiceSyncBlockerSummaryOutput,
   GetServiceSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3110,7 +3111,7 @@ export type GetServiceSyncConfigError =
  * Get detailed information for the service sync configuration.
  */
 export const getServiceSyncConfig: API.OperationMethod<
-  GetServiceSyncConfigInput,
+  GetServiceSyncConfigInput & RegionInput,
   GetServiceSyncConfigOutput,
   GetServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type GetServiceTemplateError =
  * Get detailed data for a service template.
  */
 export const getServiceTemplate: API.OperationMethod<
-  GetServiceTemplateInput,
+  GetServiceTemplateInput & RegionInput,
   GetServiceTemplateOutput,
   GetServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type GetServiceTemplateVersionError =
  * Get detailed data for a major or minor version of a service template.
  */
 export const getServiceTemplateVersion: API.OperationMethod<
-  GetServiceTemplateVersionInput,
+  GetServiceTemplateVersionInput & RegionInput,
   GetServiceTemplateVersionOutput,
   GetServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -3206,7 +3207,7 @@ export type GetTemplateSyncConfigError =
  * Get detail data for a template sync configuration.
  */
 export const getTemplateSyncConfig: API.OperationMethod<
-  GetTemplateSyncConfigInput,
+  GetTemplateSyncConfigInput & RegionInput,
   GetTemplateSyncConfigOutput,
   GetTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -3238,7 +3239,7 @@ export type GetTemplateSyncStatusError =
  * Get the status of a template sync.
  */
 export const getTemplateSyncStatus: API.OperationMethod<
-  GetTemplateSyncStatusInput,
+  GetTemplateSyncStatusInput & RegionInput,
   GetTemplateSyncStatusOutput,
   GetTemplateSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type ListComponentOutputsError =
  * *Proton User Guide*.
  */
 export const listComponentOutputs: API.PaginatedOperationMethod<
-  ListComponentOutputsInput,
+  ListComponentOutputsInput & RegionInput,
   ListComponentOutputsOutput,
   ListComponentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3312,7 +3313,7 @@ export type ListComponentProvisionedResourcesError =
  * *Proton User Guide*.
  */
 export const listComponentProvisionedResources: API.PaginatedOperationMethod<
-  ListComponentProvisionedResourcesInput,
+  ListComponentProvisionedResourcesInput & RegionInput,
   ListComponentProvisionedResourcesOutput,
   ListComponentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3353,7 +3354,7 @@ export type ListComponentsError =
  * *Proton User Guide*.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsInput,
+  ListComponentsInput & RegionInput,
   ListComponentsOutput,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3391,7 +3392,7 @@ export type ListDeploymentsError =
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3432,7 +3433,7 @@ export type ListEnvironmentAccountConnectionsError =
  * connections in the *Proton User guide*.
  */
 export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
-  ListEnvironmentAccountConnectionsInput,
+  ListEnvironmentAccountConnectionsInput & RegionInput,
   ListEnvironmentAccountConnectionsOutput,
   ListEnvironmentAccountConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3470,7 +3471,7 @@ export type ListEnvironmentOutputsError =
  * List the infrastructure as code outputs for your environment.
  */
 export const listEnvironmentOutputs: API.PaginatedOperationMethod<
-  ListEnvironmentOutputsInput,
+  ListEnvironmentOutputsInput & RegionInput,
   ListEnvironmentOutputsOutput,
   ListEnvironmentOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3504,7 +3505,7 @@ export type ListEnvironmentProvisionedResourcesError =
  * List the provisioned resources for your environment.
  */
 export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
-  ListEnvironmentProvisionedResourcesInput,
+  ListEnvironmentProvisionedResourcesInput & RegionInput,
   ListEnvironmentProvisionedResourcesOutput,
   ListEnvironmentProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3542,7 +3543,7 @@ export type ListEnvironmentsError =
  * List environments with detail data summaries.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3580,7 +3581,7 @@ export type ListEnvironmentTemplatesError =
  * List environment templates.
  */
 export const listEnvironmentTemplates: API.PaginatedOperationMethod<
-  ListEnvironmentTemplatesInput,
+  ListEnvironmentTemplatesInput & RegionInput,
   ListEnvironmentTemplatesOutput,
   ListEnvironmentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3618,7 +3619,7 @@ export type ListEnvironmentTemplateVersionsError =
  * List major or minor versions of an environment template with detail data.
  */
 export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
-  ListEnvironmentTemplateVersionsInput,
+  ListEnvironmentTemplateVersionsInput & RegionInput,
   ListEnvironmentTemplateVersionsOutput,
   ListEnvironmentTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3657,7 +3658,7 @@ export type ListRepositoriesError =
  * List linked repositories with detail data.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -3695,7 +3696,7 @@ export type ListRepositorySyncDefinitionsError =
  * List repository sync definitions with detail data.
  */
 export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -3732,7 +3733,7 @@ export type ListServiceInstanceOutputsError =
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
 export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
-  ListServiceInstanceOutputsInput,
+  ListServiceInstanceOutputsInput & RegionInput,
   ListServiceInstanceOutputsOutput,
   ListServiceInstanceOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3766,7 +3767,7 @@ export type ListServiceInstanceProvisionedResourcesError =
  * List provisioned resources for a service instance with details.
  */
 export const listServiceInstanceProvisionedResources: API.PaginatedOperationMethod<
-  ListServiceInstanceProvisionedResourcesInput,
+  ListServiceInstanceProvisionedResourcesInput & RegionInput,
   ListServiceInstanceProvisionedResourcesOutput,
   ListServiceInstanceProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3805,7 +3806,7 @@ export type ListServiceInstancesError =
  * services in the Amazon Web Services account.
  */
 export const listServiceInstances: API.PaginatedOperationMethod<
-  ListServiceInstancesInput,
+  ListServiceInstancesInput & RegionInput,
   ListServiceInstancesOutput,
   ListServiceInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3844,7 +3845,7 @@ export type ListServicePipelineOutputsError =
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
 export const listServicePipelineOutputs: API.PaginatedOperationMethod<
-  ListServicePipelineOutputsInput,
+  ListServicePipelineOutputsInput & RegionInput,
   ListServicePipelineOutputsOutput,
   ListServicePipelineOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3878,7 +3879,7 @@ export type ListServicePipelineProvisionedResourcesError =
  * List provisioned resources for a service and pipeline with details.
  */
 export const listServicePipelineProvisionedResources: API.PaginatedOperationMethod<
-  ListServicePipelineProvisionedResourcesInput,
+  ListServicePipelineProvisionedResourcesInput & RegionInput,
   ListServicePipelineProvisionedResourcesOutput,
   ListServicePipelineProvisionedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3915,7 +3916,7 @@ export type ListServicesError =
  * List services with summaries of detail data.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -3952,7 +3953,7 @@ export type ListServiceTemplatesError =
  * List service templates with detail data.
  */
 export const listServiceTemplates: API.PaginatedOperationMethod<
-  ListServiceTemplatesInput,
+  ListServiceTemplatesInput & RegionInput,
   ListServiceTemplatesOutput,
   ListServiceTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3990,7 +3991,7 @@ export type ListServiceTemplateVersionsError =
  * List major or minor versions of a service template with detail data.
  */
 export const listServiceTemplateVersions: API.PaginatedOperationMethod<
-  ListServiceTemplateVersionsInput,
+  ListServiceTemplateVersionsInput & RegionInput,
   ListServiceTemplateVersionsOutput,
   ListServiceTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4030,7 +4031,7 @@ export type ListTagsForResourceError =
  * resources and tagging in the *Proton User Guide*.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4073,7 +4074,7 @@ export type NotifyResourceDeploymentStatusChangeError =
  * For more information, see Self-managed provisioning in the *Proton User Guide*.
  */
 export const notifyResourceDeploymentStatusChange: API.OperationMethod<
-  NotifyResourceDeploymentStatusChangeInput,
+  NotifyResourceDeploymentStatusChangeInput & RegionInput,
   NotifyResourceDeploymentStatusChangeOutput,
   NotifyResourceDeploymentStatusChangeError,
   Credentials | HttpClient.HttpClient
@@ -4116,7 +4117,7 @@ export type RejectEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const rejectEnvironmentAccountConnection: API.OperationMethod<
-  RejectEnvironmentAccountConnectionInput,
+  RejectEnvironmentAccountConnectionInput & RegionInput,
   RejectEnvironmentAccountConnectionOutput,
   RejectEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4153,7 +4154,7 @@ export type TagResourceError =
  * the *Proton User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4190,7 +4191,7 @@ export type UntagResourceError =
  * the *Proton User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4223,7 +4224,7 @@ export type UpdateAccountSettingsError =
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type UpdateComponentError =
  * *Proton User Guide*.
  */
 export const updateComponent: API.OperationMethod<
-  UpdateComponentInput,
+  UpdateComponentInput & RegionInput,
   UpdateComponentOutput,
   UpdateComponentError,
   Credentials | HttpClient.HttpClient
@@ -4343,7 +4344,7 @@ export type UpdateEnvironmentError =
  * by default. You can also specify a different major version that's higher than the major version in use and a minor version.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -4380,7 +4381,7 @@ export type UpdateEnvironmentAccountConnectionError =
  * connections in the *Proton User guide*.
  */
 export const updateEnvironmentAccountConnection: API.OperationMethod<
-  UpdateEnvironmentAccountConnectionInput,
+  UpdateEnvironmentAccountConnectionInput & RegionInput,
   UpdateEnvironmentAccountConnectionOutput,
   UpdateEnvironmentAccountConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4414,7 +4415,7 @@ export type UpdateEnvironmentTemplateError =
  * Update an environment template.
  */
 export const updateEnvironmentTemplate: API.OperationMethod<
-  UpdateEnvironmentTemplateInput,
+  UpdateEnvironmentTemplateInput & RegionInput,
   UpdateEnvironmentTemplateOutput,
   UpdateEnvironmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4448,7 +4449,7 @@ export type UpdateEnvironmentTemplateVersionError =
  * Update a major or minor version of an environment template.
  */
 export const updateEnvironmentTemplateVersion: API.OperationMethod<
-  UpdateEnvironmentTemplateVersionInput,
+  UpdateEnvironmentTemplateVersionInput & RegionInput,
   UpdateEnvironmentTemplateVersionOutput,
   UpdateEnvironmentTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4497,7 +4498,7 @@ export type UpdateServiceError =
  * *Proton User Guide*.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceInput,
+  UpdateServiceInput & RegionInput,
   UpdateServiceOutput,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -4542,7 +4543,7 @@ export type UpdateServiceInstanceError =
  * *Proton User Guide*.
  */
 export const updateServiceInstance: API.OperationMethod<
-  UpdateServiceInstanceInput,
+  UpdateServiceInstanceInput & RegionInput,
   UpdateServiceInstanceOutput,
   UpdateServiceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -4603,7 +4604,7 @@ export type UpdateServicePipelineError =
  * minor version.
  */
 export const updateServicePipeline: API.OperationMethod<
-  UpdateServicePipelineInput,
+  UpdateServicePipelineInput & RegionInput,
   UpdateServicePipelineOutput,
   UpdateServicePipelineError,
   Credentials | HttpClient.HttpClient
@@ -4637,7 +4638,7 @@ export type UpdateServiceSyncBlockerError =
  * Update the service sync blocker by resolving it.
  */
 export const updateServiceSyncBlocker: API.OperationMethod<
-  UpdateServiceSyncBlockerInput,
+  UpdateServiceSyncBlockerInput & RegionInput,
   UpdateServiceSyncBlockerOutput,
   UpdateServiceSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -4671,7 +4672,7 @@ export type UpdateServiceSyncConfigError =
  * Update the Proton Ops config file.
  */
 export const updateServiceSyncConfig: API.OperationMethod<
-  UpdateServiceSyncConfigInput,
+  UpdateServiceSyncConfigInput & RegionInput,
   UpdateServiceSyncConfigOutput,
   UpdateServiceSyncConfigError,
   Credentials | HttpClient.HttpClient
@@ -4705,7 +4706,7 @@ export type UpdateServiceTemplateError =
  * Update a service template.
  */
 export const updateServiceTemplate: API.OperationMethod<
-  UpdateServiceTemplateInput,
+  UpdateServiceTemplateInput & RegionInput,
   UpdateServiceTemplateOutput,
   UpdateServiceTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4739,7 +4740,7 @@ export type UpdateServiceTemplateVersionError =
  * Update a major or minor version of a service template.
  */
 export const updateServiceTemplateVersion: API.OperationMethod<
-  UpdateServiceTemplateVersionInput,
+  UpdateServiceTemplateVersionInput & RegionInput,
   UpdateServiceTemplateVersionOutput,
   UpdateServiceTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -4775,7 +4776,7 @@ export type UpdateTemplateSyncConfigError =
  * more information, see CreateRepository.
  */
 export const updateTemplateSyncConfig: API.OperationMethod<
-  UpdateTemplateSyncConfigInput,
+  UpdateTemplateSyncConfigInput & RegionInput,
   UpdateTemplateSyncConfigOutput,
   UpdateTemplateSyncConfigError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -626,7 +627,7 @@ export type AssumeRoleError =
  * produces.
  */
 export const assumeRole: API.OperationMethod<
-  AssumeRoleRequest,
+  AssumeRoleRequest & RegionInput,
   AssumeRoleResponse,
   AssumeRoleError,
   Creds | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type AssumeRoleWithSAMLError =
  * *IAM User Guide*.
  */
 export const assumeRoleWithSAML: API.OperationMethod<
-  AssumeRoleWithSAMLRequest,
+  AssumeRoleWithSAMLRequest & RegionInput,
   AssumeRoleWithSAMLResponse,
   AssumeRoleWithSAMLError,
   Creds | HttpClient.HttpClient
@@ -933,7 +934,7 @@ export type AssumeRoleWithWebIdentityError =
  * security credentials.
  */
 export const assumeRoleWithWebIdentity: API.OperationMethod<
-  AssumeRoleWithWebIdentityRequest,
+  AssumeRoleWithWebIdentityRequest & RegionInput,
   AssumeRoleWithWebIdentityResponse,
   AssumeRoleWithWebIdentityError,
   Creds | HttpClient.HttpClient
@@ -981,7 +982,7 @@ export type AssumeRootError = ExpiredTokenException | RegionDisabledException | 
  * Guide for more information on SCPs.
  */
 export const assumeRoot: API.OperationMethod<
-  AssumeRootRequest,
+  AssumeRootRequest & RegionInput,
   AssumeRootResponse,
   AssumeRootError,
   Creds | HttpClient.HttpClient
@@ -1031,7 +1032,7 @@ export type DecodeAuthorizationMessageError = InvalidAuthorizationMessageExcepti
  * - The values of condition keys in the context of the user's request.
  */
 export const decodeAuthorizationMessage: API.OperationMethod<
-  DecodeAuthorizationMessageRequest,
+  DecodeAuthorizationMessageRequest & RegionInput,
   DecodeAuthorizationMessageResponse,
   DecodeAuthorizationMessageError,
   Creds | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type GetAccessKeyInfoError = CommonErrors;
  * Providing a deleted access key might return an error that the key doesn't exist.
  */
 export const getAccessKeyInfo: API.OperationMethod<
-  GetAccessKeyInfoRequest,
+  GetAccessKeyInfoRequest & RegionInput,
   GetAccessKeyInfoResponse,
   GetAccessKeyInfoError,
   Creds | HttpClient.HttpClient
@@ -1098,7 +1099,7 @@ export type GetCallerIdentityError = CommonErrors;
  * *IAM User Guide*.
  */
 export const getCallerIdentity: API.OperationMethod<
-  GetCallerIdentityRequest,
+  GetCallerIdentityRequest & RegionInput,
   GetCallerIdentityResponse,
   GetCallerIdentityError,
   Creds | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type GetDelegatedAccessTokenError =
  * resources.
  */
 export const getDelegatedAccessToken: API.OperationMethod<
-  GetDelegatedAccessTokenRequest,
+  GetDelegatedAccessTokenRequest & RegionInput,
   GetDelegatedAccessTokenResponse,
   GetDelegatedAccessTokenError,
   Creds | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type GetFederationTokenError =
  * the request takes precedence over the user tag.
  */
 export const getFederationToken: API.OperationMethod<
-  GetFederationTokenRequest,
+  GetFederationTokenRequest & RegionInput,
   GetFederationTokenResponse,
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
@@ -1317,7 +1318,7 @@ export type GetSessionTokenError = RegionDisabledException | CommonErrors;
  * *IAM User Guide*.
  */
 export const getSessionToken: API.OperationMethod<
-  GetSessionTokenRequest,
+  GetSessionTokenRequest & RegionInput,
   GetSessionTokenResponse,
   GetSessionTokenError,
   Creds | HttpClient.HttpClient
@@ -1345,7 +1346,7 @@ export type GetWebIdentityTokenError =
  * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
 export const getWebIdentityToken: API.OperationMethod<
-  GetWebIdentityTokenRequest,
+  GetWebIdentityTokenRequest & RegionInput,
   GetWebIdentityTokenResponse,
   GetWebIdentityTokenError,
   Creds | HttpClient.HttpClient

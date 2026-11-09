@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1175,7 +1176,7 @@ export type AddRegionError =
  * - ListRegions
  */
 export const addRegion: API.OperationMethod<
-  AddRegionRequest,
+  AddRegionRequest & RegionInput,
   AddRegionResponse,
   AddRegionError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type AttachCustomerManagedPolicyReferenceToPermissionSetError =
  * Attaches the specified customer managed policy to the specified PermissionSet.
  */
 export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationMethod<
-  AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
+  AttachCustomerManagedPolicyReferenceToPermissionSetRequest & RegionInput,
   AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
   AttachCustomerManagedPolicyReferenceToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1257,7 @@ export type AttachManagedPolicyToPermissionSetError =
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this operation. Calling `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned accounts.
  */
 export const attachManagedPolicyToPermissionSet: API.OperationMethod<
-  AttachManagedPolicyToPermissionSetRequest,
+  AttachManagedPolicyToPermissionSetRequest & RegionInput,
   AttachManagedPolicyToPermissionSetResponse,
   AttachManagedPolicyToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1298,7 +1299,7 @@ export type CreateAccountAssignmentError =
  * After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe the status of an assignment creation request.
  */
 export const createAccountAssignment: API.OperationMethod<
-  CreateAccountAssignmentRequest,
+  CreateAccountAssignmentRequest & RegionInput,
   CreateAccountAssignmentResponse,
   CreateAccountAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1336,7 +1337,7 @@ export type CreateApplicationError =
  * This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1372,7 +1373,7 @@ export type CreateApplicationAssignmentError =
  * Grant application access to a user or group.
  */
 export const createApplicationAssignment: API.OperationMethod<
-  CreateApplicationAssignmentRequest,
+  CreateApplicationAssignmentRequest & RegionInput,
   CreateApplicationAssignmentResponse,
   CreateApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1413,7 +1414,7 @@ export type CreateInstanceError =
  * - An instance already exists in the same account.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1449,7 +1450,7 @@ export type CreateInstanceAccessControlAttributeConfigurationError =
  * After a successful response, call `DescribeInstanceAccessControlAttributeConfiguration` to validate that `InstanceAccessControlAttributeConfiguration` was created.
  */
 export const createInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  CreateInstanceAccessControlAttributeConfigurationRequest,
+  CreateInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   CreateInstanceAccessControlAttributeConfigurationResponse,
   CreateInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1494,7 +1495,7 @@ export type CreatePermissionSetError =
  * To grant users and groups access to Amazon Web Services account resources, use ` CreateAccountAssignment `.
  */
 export const createPermissionSet: API.OperationMethod<
-  CreatePermissionSetRequest,
+  CreatePermissionSetRequest & RegionInput,
   CreatePermissionSetResponse,
   CreatePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type CreateTrustedTokenIssuerError =
  * This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
  */
 export const createTrustedTokenIssuer: API.OperationMethod<
-  CreateTrustedTokenIssuerRequest,
+  CreateTrustedTokenIssuerRequest & RegionInput,
   CreateTrustedTokenIssuerResponse,
   CreateTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -1567,7 +1568,7 @@ export type DeleteAccountAssignmentError =
  * After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe the status of an assignment deletion request.
  */
 export const deleteAccountAssignment: API.OperationMethod<
-  DeleteAccountAssignmentRequest,
+  DeleteAccountAssignmentRequest & RegionInput,
   DeleteAccountAssignmentResponse,
   DeleteAccountAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1601,7 +1602,7 @@ export type DeleteApplicationError =
  * Deletes the association with the application. The connected service resource still exists.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1635,7 +1636,7 @@ export type DeleteApplicationAccessScopeError =
  * Deletes an IAM Identity Center access scope from an application.
  */
 export const deleteApplicationAccessScope: API.OperationMethod<
-  DeleteApplicationAccessScopeRequest,
+  DeleteApplicationAccessScopeRequest & RegionInput,
   DeleteApplicationAccessScopeResponse,
   DeleteApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -1669,7 +1670,7 @@ export type DeleteApplicationAssignmentError =
  * Revoke application access to an application by deleting application assignments for a user or group.
  */
 export const deleteApplicationAssignment: API.OperationMethod<
-  DeleteApplicationAssignmentRequest,
+  DeleteApplicationAssignmentRequest & RegionInput,
   DeleteApplicationAssignmentResponse,
   DeleteApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1703,7 +1704,7 @@ export type DeleteApplicationAuthenticationMethodError =
  * Deletes an authentication method from an application.
  */
 export const deleteApplicationAuthenticationMethod: API.OperationMethod<
-  DeleteApplicationAuthenticationMethodRequest,
+  DeleteApplicationAuthenticationMethodRequest & RegionInput,
   DeleteApplicationAuthenticationMethodResponse,
   DeleteApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -1737,7 +1738,7 @@ export type DeleteApplicationGrantError =
  * Deletes a grant from an application.
  */
 export const deleteApplicationGrant: API.OperationMethod<
-  DeleteApplicationGrantRequest,
+  DeleteApplicationGrantRequest & RegionInput,
   DeleteApplicationGrantResponse,
   DeleteApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -1771,7 +1772,7 @@ export type DeleteInlinePolicyFromPermissionSetError =
  * Deletes the inline policy from a specified permission set.
  */
 export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
-  DeleteInlinePolicyFromPermissionSetRequest,
+  DeleteInlinePolicyFromPermissionSetRequest & RegionInput,
   DeleteInlinePolicyFromPermissionSetResponse,
   DeleteInlinePolicyFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1805,7 @@ export type DeleteInstanceError =
  * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1837,7 +1838,7 @@ export type DeleteInstanceAccessControlAttributeConfigurationError =
  * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  DeleteInstanceAccessControlAttributeConfigurationRequest,
+  DeleteInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   DeleteInstanceAccessControlAttributeConfigurationResponse,
   DeleteInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1880,7 @@ export type DeletePermissionsBoundaryFromPermissionSetError =
  * Deletes the permissions boundary from a specified PermissionSet.
  */
 export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
-  DeletePermissionsBoundaryFromPermissionSetRequest,
+  DeletePermissionsBoundaryFromPermissionSetRequest & RegionInput,
   DeletePermissionsBoundaryFromPermissionSetResponse,
   DeletePermissionsBoundaryFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1913,7 +1914,7 @@ export type DeletePermissionSetError =
  * Deletes the specified permission set.
  */
 export const deletePermissionSet: API.OperationMethod<
-  DeletePermissionSetRequest,
+  DeletePermissionSetRequest & RegionInput,
   DeletePermissionSetResponse,
   DeletePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1949,7 +1950,7 @@ export type DeleteTrustedTokenIssuerError =
  * Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
 export const deleteTrustedTokenIssuer: API.OperationMethod<
-  DeleteTrustedTokenIssuerRequest,
+  DeleteTrustedTokenIssuerRequest & RegionInput,
   DeleteTrustedTokenIssuerResponse,
   DeleteTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -1982,7 +1983,7 @@ export type DescribeAccountAssignmentCreationStatusError =
  * Describes the status of the assignment creation request.
  */
 export const describeAccountAssignmentCreationStatus: API.OperationMethod<
-  DescribeAccountAssignmentCreationStatusRequest,
+  DescribeAccountAssignmentCreationStatusRequest & RegionInput,
   DescribeAccountAssignmentCreationStatusResponse,
   DescribeAccountAssignmentCreationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2014,7 +2015,7 @@ export type DescribeAccountAssignmentDeletionStatusError =
  * Describes the status of the assignment deletion request.
  */
 export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
-  DescribeAccountAssignmentDeletionStatusRequest,
+  DescribeAccountAssignmentDeletionStatusRequest & RegionInput,
   DescribeAccountAssignmentDeletionStatusResponse,
   DescribeAccountAssignmentDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2046,7 +2047,7 @@ export type DescribeApplicationError =
  * Retrieves the details of an application associated with an instance of IAM Identity Center.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2078,7 +2079,7 @@ export type DescribeApplicationAssignmentError =
  * Retrieves a direct assignment of a user or group to an application. If the user doesn't have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don't use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
  */
 export const describeApplicationAssignment: API.OperationMethod<
-  DescribeApplicationAssignmentRequest,
+  DescribeApplicationAssignmentRequest & RegionInput,
   DescribeApplicationAssignmentResponse,
   DescribeApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -2110,7 +2111,7 @@ export type DescribeApplicationProviderError =
  * Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
  */
 export const describeApplicationProvider: API.OperationMethod<
-  DescribeApplicationProviderRequest,
+  DescribeApplicationProviderRequest & RegionInput,
   DescribeApplicationProviderResponse,
   DescribeApplicationProviderError,
   Credentials | HttpClient.HttpClient
@@ -2147,7 +2148,7 @@ export type DescribeInstanceError =
  * - `ACTIVE` - The instance is active.
  */
 export const describeInstance: API.OperationMethod<
-  DescribeInstanceRequest,
+  DescribeInstanceRequest & RegionInput,
   DescribeInstanceResponse,
   DescribeInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type DescribeInstanceAccessControlAttributeConfigurationError =
  * Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const describeInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  DescribeInstanceAccessControlAttributeConfigurationRequest,
+  DescribeInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   DescribeInstanceAccessControlAttributeConfigurationResponse,
   DescribeInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2218,7 +2219,7 @@ export type DescribePermissionSetError =
  * Gets the details of the permission set.
  */
 export const describePermissionSet: API.OperationMethod<
-  DescribePermissionSetRequest,
+  DescribePermissionSetRequest & RegionInput,
   DescribePermissionSetResponse,
   DescribePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2250,7 +2251,7 @@ export type DescribePermissionSetProvisioningStatusError =
  * Describes the status for the given permission set provisioning request.
  */
 export const describePermissionSetProvisioningStatus: API.OperationMethod<
-  DescribePermissionSetProvisioningStatusRequest,
+  DescribePermissionSetProvisioningStatusRequest & RegionInput,
   DescribePermissionSetProvisioningStatusResponse,
   DescribePermissionSetProvisioningStatusError,
   Credentials | HttpClient.HttpClient
@@ -2290,7 +2291,7 @@ export type DescribeRegionError =
  * - ListRegions
  */
 export const describeRegion: API.OperationMethod<
-  DescribeRegionRequest,
+  DescribeRegionRequest & RegionInput,
   DescribeRegionResponse,
   DescribeRegionError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type DescribeTrustedTokenIssuerError =
  * Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
  */
 export const describeTrustedTokenIssuer: API.OperationMethod<
-  DescribeTrustedTokenIssuerRequest,
+  DescribeTrustedTokenIssuerRequest & RegionInput,
   DescribeTrustedTokenIssuerResponse,
   DescribeTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -2355,7 +2356,7 @@ export type DetachCustomerManagedPolicyReferenceFromPermissionSetError =
  * Detaches the specified customer managed policy from the specified PermissionSet.
  */
 export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.OperationMethod<
-  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
+  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest & RegionInput,
   DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
   DetachCustomerManagedPolicyReferenceFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2397,7 +2398,7 @@ export type DetachManagedPolicyFromPermissionSetError =
  * Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
  */
 export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
-  DetachManagedPolicyFromPermissionSetRequest,
+  DetachManagedPolicyFromPermissionSetRequest & RegionInput,
   DetachManagedPolicyFromPermissionSetResponse,
   DetachManagedPolicyFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2430,7 +2431,7 @@ export type GetApplicationAccessScopeError =
  * Retrieves the authorized targets for an IAM Identity Center access scope for an application.
  */
 export const getApplicationAccessScope: API.OperationMethod<
-  GetApplicationAccessScopeRequest,
+  GetApplicationAccessScopeRequest & RegionInput,
   GetApplicationAccessScopeResponse,
   GetApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -2462,7 +2463,7 @@ export type GetApplicationAssignmentConfigurationError =
  * Retrieves the configuration of PutApplicationAssignmentConfiguration.
  */
 export const getApplicationAssignmentConfiguration: API.OperationMethod<
-  GetApplicationAssignmentConfigurationRequest,
+  GetApplicationAssignmentConfigurationRequest & RegionInput,
   GetApplicationAssignmentConfigurationResponse,
   GetApplicationAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2494,7 +2495,7 @@ export type GetApplicationAuthenticationMethodError =
  * Retrieves details about an authentication method used by an application.
  */
 export const getApplicationAuthenticationMethod: API.OperationMethod<
-  GetApplicationAuthenticationMethodRequest,
+  GetApplicationAuthenticationMethodRequest & RegionInput,
   GetApplicationAuthenticationMethodResponse,
   GetApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2527,7 @@ export type GetApplicationGrantError =
  * Retrieves details about an application grant.
  */
 export const getApplicationGrant: API.OperationMethod<
-  GetApplicationGrantRequest,
+  GetApplicationGrantRequest & RegionInput,
   GetApplicationGrantResponse,
   GetApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -2560,7 +2561,7 @@ export type GetApplicationSessionConfigurationError =
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
 export const getApplicationSessionConfiguration: API.OperationMethod<
-  GetApplicationSessionConfigurationRequest,
+  GetApplicationSessionConfigurationRequest & RegionInput,
   GetApplicationSessionConfigurationResponse,
   GetApplicationSessionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type GetInlinePolicyForPermissionSetError =
  * Obtains the inline policy assigned to the permission set.
  */
 export const getInlinePolicyForPermissionSet: API.OperationMethod<
-  GetInlinePolicyForPermissionSetRequest,
+  GetInlinePolicyForPermissionSetRequest & RegionInput,
   GetInlinePolicyForPermissionSetResponse,
   GetInlinePolicyForPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2624,7 +2625,7 @@ export type GetPermissionsBoundaryForPermissionSetError =
  * Obtains the permissions boundary for a specified PermissionSet.
  */
 export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
-  GetPermissionsBoundaryForPermissionSetRequest,
+  GetPermissionsBoundaryForPermissionSetRequest & RegionInput,
   GetPermissionsBoundaryForPermissionSetResponse,
   GetPermissionsBoundaryForPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2656,7 +2657,7 @@ export type ListAccountAssignmentCreationStatusError =
  * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentCreationStatus: API.PaginatedOperationMethod<
-  ListAccountAssignmentCreationStatusRequest,
+  ListAccountAssignmentCreationStatusRequest & RegionInput,
   ListAccountAssignmentCreationStatusResponse,
   ListAccountAssignmentCreationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2695,7 +2696,7 @@ export type ListAccountAssignmentDeletionStatusError =
  * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentDeletionStatus: API.PaginatedOperationMethod<
-  ListAccountAssignmentDeletionStatusRequest,
+  ListAccountAssignmentDeletionStatusRequest & RegionInput,
   ListAccountAssignmentDeletionStatusResponse,
   ListAccountAssignmentDeletionStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2734,7 +2735,7 @@ export type ListAccountAssignmentsError =
  * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
  */
 export const listAccountAssignments: API.PaginatedOperationMethod<
-  ListAccountAssignmentsRequest,
+  ListAccountAssignmentsRequest & RegionInput,
   ListAccountAssignmentsResponse,
   ListAccountAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2773,7 +2774,7 @@ export type ListAccountAssignmentsForPrincipalError =
  * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
  */
 export const listAccountAssignmentsForPrincipal: API.PaginatedOperationMethod<
-  ListAccountAssignmentsForPrincipalRequest,
+  ListAccountAssignmentsForPrincipalRequest & RegionInput,
   ListAccountAssignmentsForPrincipalResponse,
   ListAccountAssignmentsForPrincipalError,
   Credentials | HttpClient.HttpClient,
@@ -2812,7 +2813,7 @@ export type ListAccountsForProvisionedPermissionSetError =
  * Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
  */
 export const listAccountsForProvisionedPermissionSet: API.PaginatedOperationMethod<
-  ListAccountsForProvisionedPermissionSetRequest,
+  ListAccountsForProvisionedPermissionSetRequest & RegionInput,
   ListAccountsForProvisionedPermissionSetResponse,
   ListAccountsForProvisionedPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -2851,7 +2852,7 @@ export type ListApplicationAccessScopesError =
  * Lists the access scopes and authorized targets associated with an application.
  */
 export const listApplicationAccessScopes: API.PaginatedOperationMethod<
-  ListApplicationAccessScopesRequest,
+  ListApplicationAccessScopesRequest & RegionInput,
   ListApplicationAccessScopesResponse,
   ListApplicationAccessScopesError,
   Credentials | HttpClient.HttpClient,
@@ -2890,7 +2891,7 @@ export type ListApplicationAssignmentsError =
  * Lists Amazon Web Services account users that are assigned to an application.
  */
 export const listApplicationAssignments: API.PaginatedOperationMethod<
-  ListApplicationAssignmentsRequest,
+  ListApplicationAssignmentsRequest & RegionInput,
   ListApplicationAssignmentsResponse,
   ListApplicationAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2929,7 +2930,7 @@ export type ListApplicationAssignmentsForPrincipalError =
  * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
  */
 export const listApplicationAssignmentsForPrincipal: API.PaginatedOperationMethod<
-  ListApplicationAssignmentsForPrincipalRequest,
+  ListApplicationAssignmentsForPrincipalRequest & RegionInput,
   ListApplicationAssignmentsForPrincipalResponse,
   ListApplicationAssignmentsForPrincipalError,
   Credentials | HttpClient.HttpClient,
@@ -2968,7 +2969,7 @@ export type ListApplicationAuthenticationMethodsError =
  * Lists all of the authentication methods supported by the specified application.
  */
 export const listApplicationAuthenticationMethods: API.PaginatedOperationMethod<
-  ListApplicationAuthenticationMethodsRequest,
+  ListApplicationAuthenticationMethodsRequest & RegionInput,
   ListApplicationAuthenticationMethodsResponse,
   ListApplicationAuthenticationMethodsError,
   Credentials | HttpClient.HttpClient,
@@ -3006,7 +3007,7 @@ export type ListApplicationGrantsError =
  * List the grants associated with an application.
  */
 export const listApplicationGrants: API.PaginatedOperationMethod<
-  ListApplicationGrantsRequest,
+  ListApplicationGrantsRequest & RegionInput,
   ListApplicationGrantsResponse,
   ListApplicationGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -3039,7 +3040,7 @@ export type ListApplicationProvidersError =
  * Lists the application providers configured in the IAM Identity Center identity store.
  */
 export const listApplicationProviders: API.PaginatedOperationMethod<
-  ListApplicationProvidersRequest,
+  ListApplicationProvidersRequest & RegionInput,
   ListApplicationProvidersResponse,
   ListApplicationProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -3076,7 +3077,7 @@ export type ListApplicationsError =
  * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3114,7 +3115,7 @@ export type ListCustomerManagedPolicyReferencesInPermissionSetError =
  * Lists all customer managed policies attached to a specified PermissionSet.
  */
 export const listCustomerManagedPolicyReferencesInPermissionSet: API.PaginatedOperationMethod<
-  ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+  ListCustomerManagedPolicyReferencesInPermissionSetRequest & RegionInput,
   ListCustomerManagedPolicyReferencesInPermissionSetResponse,
   ListCustomerManagedPolicyReferencesInPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -3160,7 +3161,7 @@ export type ListInstancesError =
  * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3198,7 +3199,7 @@ export type ListManagedPoliciesInPermissionSetError =
  * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
  */
 export const listManagedPoliciesInPermissionSet: API.PaginatedOperationMethod<
-  ListManagedPoliciesInPermissionSetRequest,
+  ListManagedPoliciesInPermissionSetRequest & RegionInput,
   ListManagedPoliciesInPermissionSetResponse,
   ListManagedPoliciesInPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -3237,7 +3238,7 @@ export type ListPermissionSetProvisioningStatusError =
  * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
  */
 export const listPermissionSetProvisioningStatus: API.PaginatedOperationMethod<
-  ListPermissionSetProvisioningStatusRequest,
+  ListPermissionSetProvisioningStatusRequest & RegionInput,
   ListPermissionSetProvisioningStatusResponse,
   ListPermissionSetProvisioningStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3276,7 +3277,7 @@ export type ListPermissionSetsError =
  * Lists the PermissionSets in an IAM Identity Center instance.
  */
 export const listPermissionSets: API.PaginatedOperationMethod<
-  ListPermissionSetsRequest,
+  ListPermissionSetsRequest & RegionInput,
   ListPermissionSetsResponse,
   ListPermissionSetsError,
   Credentials | HttpClient.HttpClient,
@@ -3315,7 +3316,7 @@ export type ListPermissionSetsProvisionedToAccountError =
  * Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
  */
 export const listPermissionSetsProvisionedToAccount: API.PaginatedOperationMethod<
-  ListPermissionSetsProvisionedToAccountRequest,
+  ListPermissionSetsProvisionedToAccountRequest & RegionInput,
   ListPermissionSetsProvisionedToAccountResponse,
   ListPermissionSetsProvisionedToAccountError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3362,7 @@ export type ListRegionsError =
  * - DescribeRegion
  */
 export const listRegions: API.PaginatedOperationMethod<
-  ListRegionsRequest,
+  ListRegionsRequest & RegionInput,
   ListRegionsResponse,
   ListRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -3399,7 +3400,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to a specified resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3432,7 +3433,7 @@ export type ListTrustedTokenIssuersError =
  * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
  */
 export const listTrustedTokenIssuers: API.PaginatedOperationMethod<
-  ListTrustedTokenIssuersRequest,
+  ListTrustedTokenIssuersRequest & RegionInput,
   ListTrustedTokenIssuersResponse,
   ListTrustedTokenIssuersError,
   Credentials | HttpClient.HttpClient,
@@ -3471,7 +3472,7 @@ export type ProvisionPermissionSetError =
  * The process by which a specified permission set is provisioned to the specified target.
  */
 export const provisionPermissionSet: API.OperationMethod<
-  ProvisionPermissionSetRequest,
+  ProvisionPermissionSetRequest & RegionInput,
   ProvisionPermissionSetResponse,
   ProvisionPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3505,7 +3506,7 @@ export type PutApplicationAccessScopeError =
  * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
  */
 export const putApplicationAccessScope: API.OperationMethod<
-  PutApplicationAccessScopeRequest,
+  PutApplicationAccessScopeRequest & RegionInput,
   PutApplicationAccessScopeResponse,
   PutApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -3539,7 +3540,7 @@ export type PutApplicationAssignmentConfigurationError =
  * Configure how users gain access to an application. If `AssignmentsRequired` is `true` (default value), users don't have access to the application unless an assignment is created using the CreateApplicationAssignment API. If `false`, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if `AssignmentsRequired` is set to `true`.
  */
 export const putApplicationAssignmentConfiguration: API.OperationMethod<
-  PutApplicationAssignmentConfigurationRequest,
+  PutApplicationAssignmentConfigurationRequest & RegionInput,
   PutApplicationAssignmentConfigurationResponse,
   PutApplicationAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type PutApplicationAuthenticationMethodError =
  * Adds or updates an authentication method for an application.
  */
 export const putApplicationAuthenticationMethod: API.OperationMethod<
-  PutApplicationAuthenticationMethodRequest,
+  PutApplicationAuthenticationMethodRequest & RegionInput,
   PutApplicationAuthenticationMethodResponse,
   PutApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -3632,7 +3633,7 @@ export type PutApplicationGrantError =
  * - Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
  */
 export const putApplicationGrant: API.OperationMethod<
-  PutApplicationGrantRequest,
+  PutApplicationGrantRequest & RegionInput,
   PutApplicationGrantResponse,
   PutApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -3668,7 +3669,7 @@ export type PutApplicationSessionConfigurationError =
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
 export const putApplicationSessionConfiguration: API.OperationMethod<
-  PutApplicationSessionConfigurationRequest,
+  PutApplicationSessionConfigurationRequest & RegionInput,
   PutApplicationSessionConfigurationResponse,
   PutApplicationSessionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3705,7 +3706,7 @@ export type PutInlinePolicyToPermissionSetError =
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this action to apply the corresponding IAM policy updates to all assigned accounts.
  */
 export const putInlinePolicyToPermissionSet: API.OperationMethod<
-  PutInlinePolicyToPermissionSetRequest,
+  PutInlinePolicyToPermissionSetRequest & RegionInput,
   PutInlinePolicyToPermissionSetResponse,
   PutInlinePolicyToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3740,7 +3741,7 @@ export type PutPermissionsBoundaryToPermissionSetError =
  * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
  */
 export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
-  PutPermissionsBoundaryToPermissionSetRequest,
+  PutPermissionsBoundaryToPermissionSetRequest & RegionInput,
   PutPermissionsBoundaryToPermissionSetResponse,
   PutPermissionsBoundaryToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3782,7 +3783,7 @@ export type RemoveRegionError =
  * - ListRegions
  */
 export const removeRegion: API.OperationMethod<
-  RemoveRegionRequest,
+  RemoveRegionRequest & RegionInput,
   RemoveRegionResponse,
   RemoveRegionError,
   Credentials | HttpClient.HttpClient
@@ -3817,7 +3818,7 @@ export type TagResourceError =
  * Associates a set of tags with a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3852,7 +3853,7 @@ export type UntagResourceError =
  * Disassociates a set of tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3886,7 +3887,7 @@ export type UpdateApplicationError =
  * Updates application properties.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3928,7 +3929,7 @@ export type UpdateInstanceError =
  * A request that specifies both `EncryptionConfiguration` and `PermissionSetsEnabled` returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. The two calls can be made in parallel.
  */
 export const updateInstance: API.OperationMethod<
-  UpdateInstanceRequest,
+  UpdateInstanceRequest & RegionInput,
   UpdateInstanceResponse,
   UpdateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3962,7 +3963,7 @@ export type UpdateInstanceAccessControlAttributeConfigurationError =
  * Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const updateInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  UpdateInstanceAccessControlAttributeConfigurationRequest,
+  UpdateInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   UpdateInstanceAccessControlAttributeConfigurationResponse,
   UpdateInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4004,7 +4005,7 @@ export type UpdatePermissionSetError =
  * Updates an existing permission set.
  */
 export const updatePermissionSet: API.OperationMethod<
-  UpdatePermissionSetRequest,
+  UpdatePermissionSetRequest & RegionInput,
   UpdatePermissionSetResponse,
   UpdatePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -4040,7 +4041,7 @@ export type UpdateTrustedTokenIssuerError =
  * Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
 export const updateTrustedTokenIssuer: API.OperationMethod<
-  UpdateTrustedTokenIssuerRequest,
+  UpdateTrustedTokenIssuerRequest & RegionInput,
   UpdateTrustedTokenIssuerResponse,
   UpdateTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient

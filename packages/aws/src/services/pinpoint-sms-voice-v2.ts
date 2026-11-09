@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2385,7 +2386,7 @@ export type AssociateOriginationIdentityError =
  * If the origination identity configuration doesn't match the pool's configuration, an error is returned.
  */
 export const associateOriginationIdentity: API.OperationMethod<
-  AssociateOriginationIdentityRequest,
+  AssociateOriginationIdentityRequest & RegionInput,
   AssociateOriginationIdentityResult,
   AssociateOriginationIdentityError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type AssociateProtectConfigurationError =
  * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
  */
 export const associateProtectConfiguration: API.OperationMethod<
-  AssociateProtectConfigurationRequest,
+  AssociateProtectConfigurationRequest & RegionInput,
   AssociateProtectConfigurationResult,
   AssociateProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2453,7 +2454,7 @@ export type CarrierLookupError =
  * Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
  */
 export const carrierLookup: API.OperationMethod<
-  CarrierLookupRequest,
+  CarrierLookupRequest & RegionInput,
   CarrierLookupResult,
   CarrierLookupError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type CreateConfigurationSetError =
  * When you send a message, you can optionally specify a single configuration set.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResult,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -2531,7 +2532,7 @@ export type CreateEventDestinationError =
  * Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
  */
 export const createEventDestination: API.OperationMethod<
-  CreateEventDestinationRequest,
+  CreateEventDestinationRequest & RegionInput,
   CreateEventDestinationResult,
   CreateEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2567,7 +2568,7 @@ export type CreateNotifyConfigurationError =
  * Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries.
  */
 export const createNotifyConfiguration: API.OperationMethod<
-  CreateNotifyConfigurationRequest,
+  CreateNotifyConfigurationRequest & RegionInput,
   CreateNotifyConfigurationResult,
   CreateNotifyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2606,7 +2607,7 @@ export type CreateOptOutListError =
  * An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see SMS opt out in the End User Messaging SMS User Guide.
  */
 export const createOptOutList: API.OperationMethod<
-  CreateOptOutListRequest,
+  CreateOptOutListRequest & RegionInput,
   CreateOptOutListResult,
   CreateOptOutListError,
   Credentials | HttpClient.HttpClient
@@ -2645,7 +2646,7 @@ export type CreatePoolError =
  * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
  */
 export const createPool: API.OperationMethod<
-  CreatePoolRequest,
+  CreatePoolRequest & RegionInput,
   CreatePoolResult,
   CreatePoolError,
   Credentials | HttpClient.HttpClient
@@ -2680,7 +2681,7 @@ export type CreateProtectConfigurationError =
  * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
  */
 export const createProtectConfiguration: API.OperationMethod<
-  CreateProtectConfigurationRequest,
+  CreateProtectConfigurationRequest & RegionInput,
   CreateProtectConfigurationResult,
   CreateProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2715,7 +2716,7 @@ export type CreateRcsAgentError =
  * Creates a new RCS agent for sending rich messages through the RCS channel. The RCS agent serves as an origination identity for sending RCS messages to your recipients.
  */
 export const createRcsAgent: API.OperationMethod<
-  CreateRcsAgentRequest,
+  CreateRcsAgentRequest & RegionInput,
   CreateRcsAgentResult,
   CreateRcsAgentError,
   Credentials | HttpClient.HttpClient
@@ -2750,7 +2751,7 @@ export type CreateRegistrationError =
  * Creates a new registration based on the **RegistrationType** field.
  */
 export const createRegistration: API.OperationMethod<
-  CreateRegistrationRequest,
+  CreateRegistrationRequest & RegionInput,
   CreateRegistrationResult,
   CreateRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -2785,7 +2786,7 @@ export type CreateRegistrationAssociationError =
  * Associate the registration with an origination identity such as a phone number or sender ID.
  */
 export const createRegistrationAssociation: API.OperationMethod<
-  CreateRegistrationAssociationRequest,
+  CreateRegistrationAssociationRequest & RegionInput,
   CreateRegistrationAssociationResult,
   CreateRegistrationAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2823,7 @@ export type CreateRegistrationAttachmentError =
  * Use either `AttachmentUrl` or `AttachmentBody` to upload your attachment. If both are specified then an exception is returned.
  */
 export const createRegistrationAttachment: API.OperationMethod<
-  CreateRegistrationAttachmentRequest,
+  CreateRegistrationAttachmentRequest & RegionInput,
   CreateRegistrationAttachmentResult,
   CreateRegistrationAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2857,7 +2858,7 @@ export type CreateRegistrationVersionError =
  * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
  */
 export const createRegistrationVersion: API.OperationMethod<
-  CreateRegistrationVersionRequest,
+  CreateRegistrationVersionRequest & RegionInput,
   CreateRegistrationVersionResult,
   CreateRegistrationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2894,7 @@ export type CreateVerifiedDestinationNumberError =
  * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
  */
 export const createVerifiedDestinationNumber: API.OperationMethod<
-  CreateVerifiedDestinationNumberRequest,
+  CreateVerifiedDestinationNumberRequest & RegionInput,
   CreateVerifiedDestinationNumberResult,
   CreateVerifiedDestinationNumberError,
   Credentials | HttpClient.HttpClient
@@ -2927,7 +2928,7 @@ export type DeleteAccountDefaultProtectConfigurationError =
  * Removes the current account default protect configuration.
  */
 export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
-  DeleteAccountDefaultProtectConfigurationRequest,
+  DeleteAccountDefaultProtectConfigurationRequest & RegionInput,
   DeleteAccountDefaultProtectConfigurationResult,
   DeleteAccountDefaultProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2961,7 +2962,7 @@ export type DeleteConfigurationSetError =
  * A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResult,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -2995,7 +2996,7 @@ export type DeleteDefaultMessageTypeError =
  * A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
  */
 export const deleteDefaultMessageType: API.OperationMethod<
-  DeleteDefaultMessageTypeRequest,
+  DeleteDefaultMessageTypeRequest & RegionInput,
   DeleteDefaultMessageTypeResult,
   DeleteDefaultMessageTypeError,
   Credentials | HttpClient.HttpClient
@@ -3029,7 +3030,7 @@ export type DeleteDefaultSenderIdError =
  * A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region.
  */
 export const deleteDefaultSenderId: API.OperationMethod<
-  DeleteDefaultSenderIdRequest,
+  DeleteDefaultSenderIdRequest & RegionInput,
   DeleteDefaultSenderIdResult,
   DeleteDefaultSenderIdError,
   Credentials | HttpClient.HttpClient
@@ -3063,7 +3064,7 @@ export type DeleteEventDestinationError =
  * An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
  */
 export const deleteEventDestination: API.OperationMethod<
-  DeleteEventDestinationRequest,
+  DeleteEventDestinationRequest & RegionInput,
   DeleteEventDestinationResult,
   DeleteEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3100,7 +3101,7 @@ export type DeleteKeywordError =
  * Keywords "HELP" and "STOP" can't be deleted or modified.
  */
 export const deleteKeyword: API.OperationMethod<
-  DeleteKeywordRequest,
+  DeleteKeywordRequest & RegionInput,
   DeleteKeywordResult,
   DeleteKeywordError,
   Credentials | HttpClient.HttpClient
@@ -3132,7 +3133,7 @@ export type DeleteMediaMessageSpendLimitOverrideError =
  * Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the *Server Migration Service User Guide*.
  */
 export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
-  DeleteMediaMessageSpendLimitOverrideRequest,
+  DeleteMediaMessageSpendLimitOverrideRequest & RegionInput,
   DeleteMediaMessageSpendLimitOverrideResult,
   DeleteMediaMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3166,7 +3167,7 @@ export type DeleteNotifyConfigurationError =
  * If deletion protection is enabled, an error is returned.
  */
 export const deleteNotifyConfiguration: API.OperationMethod<
-  DeleteNotifyConfigurationRequest,
+  DeleteNotifyConfigurationRequest & RegionInput,
   DeleteNotifyConfigurationResult,
   DeleteNotifyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3198,7 +3199,7 @@ export type DeleteNotifyMessageSpendLimitOverrideError =
  * Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const deleteNotifyMessageSpendLimitOverride: API.OperationMethod<
-  DeleteNotifyMessageSpendLimitOverrideRequest,
+  DeleteNotifyMessageSpendLimitOverrideRequest & RegionInput,
   DeleteNotifyMessageSpendLimitOverrideResult,
   DeleteNotifyMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3234,7 +3235,7 @@ export type DeleteOptedOutNumberError =
  * If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned.
  */
 export const deleteOptedOutNumber: API.OperationMethod<
-  DeleteOptedOutNumberRequest,
+  DeleteOptedOutNumberRequest & RegionInput,
   DeleteOptedOutNumberResult,
   DeleteOptedOutNumberError,
   Credentials | HttpClient.HttpClient
@@ -3270,7 +3271,7 @@ export type DeleteOptOutListError =
  * If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
  */
 export const deleteOptOutList: API.OperationMethod<
-  DeleteOptOutListRequest,
+  DeleteOptOutListRequest & RegionInput,
   DeleteOptOutListResult,
   DeleteOptOutListError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type DeletePoolError =
  * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
  */
 export const deletePool: API.OperationMethod<
-  DeletePoolRequest,
+  DeletePoolRequest & RegionInput,
   DeletePoolResult,
   DeletePoolError,
   Credentials | HttpClient.HttpClient
@@ -3342,7 +3343,7 @@ export type DeleteProtectConfigurationError =
  * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
  */
 export const deleteProtectConfiguration: API.OperationMethod<
-  DeleteProtectConfigurationRequest,
+  DeleteProtectConfigurationRequest & RegionInput,
   DeleteProtectConfigurationResult,
   DeleteProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3375,7 +3376,7 @@ export type DeleteProtectConfigurationRuleSetNumberOverrideError =
  * Permanently delete the protect configuration rule set number override.
  */
 export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
-  DeleteProtectConfigurationRuleSetNumberOverrideRequest,
+  DeleteProtectConfigurationRuleSetNumberOverrideRequest & RegionInput,
   DeleteProtectConfigurationRuleSetNumberOverrideResult,
   DeleteProtectConfigurationRuleSetNumberOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3416,7 +3417,7 @@ export type DeleteRcsAgentError =
  * Deletes an existing RCS agent. If deletion protection is enabled, an error is returned.
  */
 export const deleteRcsAgent: API.OperationMethod<
-  DeleteRcsAgentRequest,
+  DeleteRcsAgentRequest & RegionInput,
   DeleteRcsAgentResult,
   DeleteRcsAgentError,
   Credentials | HttpClient.HttpClient
@@ -3448,7 +3449,7 @@ export type DeleteRcsMessageSpendLimitOverrideError =
  * Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the `EnforcedLimit` to equal the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const deleteRcsMessageSpendLimitOverride: API.OperationMethod<
-  DeleteRcsMessageSpendLimitOverrideRequest,
+  DeleteRcsMessageSpendLimitOverrideRequest & RegionInput,
   DeleteRcsMessageSpendLimitOverrideResult,
   DeleteRcsMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3480,7 +3481,7 @@ export type DeleteRegistrationError =
  * Permanently delete an existing registration from your account.
  */
 export const deleteRegistration: API.OperationMethod<
-  DeleteRegistrationRequest,
+  DeleteRegistrationRequest & RegionInput,
   DeleteRegistrationResult,
   DeleteRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3515,7 @@ export type DeleteRegistrationAttachmentError =
  * Permanently delete the specified registration attachment.
  */
 export const deleteRegistrationAttachment: API.OperationMethod<
-  DeleteRegistrationAttachmentRequest,
+  DeleteRegistrationAttachmentRequest & RegionInput,
   DeleteRegistrationAttachmentResult,
   DeleteRegistrationAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3548,7 +3549,7 @@ export type DeleteRegistrationFieldValueError =
  * Delete the value in a registration form field.
  */
 export const deleteRegistrationFieldValue: API.OperationMethod<
-  DeleteRegistrationFieldValueRequest,
+  DeleteRegistrationFieldValueRequest & RegionInput,
   DeleteRegistrationFieldValueResult,
   DeleteRegistrationFieldValueError,
   Credentials | HttpClient.HttpClient
@@ -3581,7 +3582,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResult,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3612,7 +3613,7 @@ export type DeleteTextMessageSpendLimitOverrideError =
  * Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const deleteTextMessageSpendLimitOverride: API.OperationMethod<
-  DeleteTextMessageSpendLimitOverrideRequest,
+  DeleteTextMessageSpendLimitOverrideRequest & RegionInput,
   DeleteTextMessageSpendLimitOverrideResult,
   DeleteTextMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3644,7 +3645,7 @@ export type DeleteVerifiedDestinationNumberError =
  * Delete a verified destination phone number.
  */
 export const deleteVerifiedDestinationNumber: API.OperationMethod<
-  DeleteVerifiedDestinationNumberRequest,
+  DeleteVerifiedDestinationNumberRequest & RegionInput,
   DeleteVerifiedDestinationNumberResult,
   DeleteVerifiedDestinationNumberError,
   Credentials | HttpClient.HttpClient
@@ -3676,7 +3677,7 @@ export type DeleteVoiceMessageSpendLimitOverrideError =
  * Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
-  DeleteVoiceMessageSpendLimitOverrideRequest,
+  DeleteVoiceMessageSpendLimitOverrideRequest & RegionInput,
   DeleteVoiceMessageSpendLimitOverrideResult,
   DeleteVoiceMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -3708,7 +3709,7 @@ export type DescribeAccountAttributesError =
  * New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.
  */
 export const describeAccountAttributes: API.PaginatedOperationMethod<
-  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesRequest & RegionInput,
   DescribeAccountAttributesResult,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3747,7 +3748,7 @@ export type DescribeAccountLimitsError =
  * When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the *End User Messaging SMS User Guide*.
  */
 export const describeAccountLimits: API.PaginatedOperationMethod<
-  DescribeAccountLimitsRequest,
+  DescribeAccountLimitsRequest & RegionInput,
   DescribeAccountLimitsResult,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -3789,7 +3790,7 @@ export type DescribeConfigurationSetsError =
  * If you specify a configuration set name that isn't valid, an error is returned.
  */
 export const describeConfigurationSets: API.PaginatedOperationMethod<
-  DescribeConfigurationSetsRequest,
+  DescribeConfigurationSetsRequest & RegionInput,
   DescribeConfigurationSetsResult,
   DescribeConfigurationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -3832,7 +3833,7 @@ export type DescribeKeywordsError =
  * If you specify a keyword that isn't valid, an error is returned.
  */
 export const describeKeywords: API.PaginatedOperationMethod<
-  DescribeKeywordsRequest,
+  DescribeKeywordsRequest & RegionInput,
   DescribeKeywordsResult,
   DescribeKeywordsError,
   Credentials | HttpClient.HttpClient,
@@ -3875,7 +3876,7 @@ export type DescribeNotifyConfigurationsError =
  * If you specify a notify configuration ID that isn't valid, an error is returned.
  */
 export const describeNotifyConfigurations: API.PaginatedOperationMethod<
-  DescribeNotifyConfigurationsRequest,
+  DescribeNotifyConfigurationsRequest & RegionInput,
   DescribeNotifyConfigurationsResult,
   DescribeNotifyConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3918,7 +3919,7 @@ export type DescribeNotifyTemplatesError =
  * If you specify a template ID that isn't valid, an error is returned.
  */
 export const describeNotifyTemplates: API.PaginatedOperationMethod<
-  DescribeNotifyTemplatesRequest,
+  DescribeNotifyTemplatesRequest & RegionInput,
   DescribeNotifyTemplatesResult,
   DescribeNotifyTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3961,7 +3962,7 @@ export type DescribeOptedOutNumbersError =
  * If you specify an opted out number that isn't valid, an exception is returned.
  */
 export const describeOptedOutNumbers: API.PaginatedOperationMethod<
-  DescribeOptedOutNumbersRequest,
+  DescribeOptedOutNumbersRequest & RegionInput,
   DescribeOptedOutNumbersResult,
   DescribeOptedOutNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -4004,7 +4005,7 @@ export type DescribeOptOutListsError =
  * If you specify an opt-out list name that isn't valid, an error is returned.
  */
 export const describeOptOutLists: API.PaginatedOperationMethod<
-  DescribeOptOutListsRequest,
+  DescribeOptOutListsRequest & RegionInput,
   DescribeOptOutListsResult,
   DescribeOptOutListsError,
   Credentials | HttpClient.HttpClient,
@@ -4047,7 +4048,7 @@ export type DescribePhoneNumbersError =
  * If you specify a phone number ID that isn't valid, an error is returned.
  */
 export const describePhoneNumbers: API.PaginatedOperationMethod<
-  DescribePhoneNumbersRequest,
+  DescribePhoneNumbersRequest & RegionInput,
   DescribePhoneNumbersResult,
   DescribePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -4092,7 +4093,7 @@ export type DescribePoolsError =
  * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
  */
 export const describePools: API.PaginatedOperationMethod<
-  DescribePoolsRequest,
+  DescribePoolsRequest & RegionInput,
   DescribePoolsResult,
   DescribePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -4131,7 +4132,7 @@ export type DescribeProtectConfigurationsError =
  * Retrieves the protect configurations that match any of filters. If a filter isn't provided then all protect configurations are returned.
  */
 export const describeProtectConfigurations: API.PaginatedOperationMethod<
-  DescribeProtectConfigurationsRequest,
+  DescribeProtectConfigurationsRequest & RegionInput,
   DescribeProtectConfigurationsResult,
   DescribeProtectConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4170,7 +4171,7 @@ export type DescribeRcsAgentCountryLaunchStatusError =
  * Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country.
  */
 export const describeRcsAgentCountryLaunchStatus: API.PaginatedOperationMethod<
-  DescribeRcsAgentCountryLaunchStatusRequest,
+  DescribeRcsAgentCountryLaunchStatusRequest & RegionInput,
   DescribeRcsAgentCountryLaunchStatusResult,
   DescribeRcsAgentCountryLaunchStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4211,7 +4212,7 @@ export type DescribeRcsAgentsError =
  * If you specify RCS agent IDs, the output includes information for only the specified RCS agents. If you specify filters, the output includes information for only those RCS agents that meet the filter criteria. If you don't specify RCS agent IDs or filters, the output includes information for all RCS agents.
  */
 export const describeRcsAgents: API.PaginatedOperationMethod<
-  DescribeRcsAgentsRequest,
+  DescribeRcsAgentsRequest & RegionInput,
   DescribeRcsAgentsResult,
   DescribeRcsAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -4250,7 +4251,7 @@ export type DescribeRegistrationAttachmentsError =
  * Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
  */
 export const describeRegistrationAttachments: API.PaginatedOperationMethod<
-  DescribeRegistrationAttachmentsRequest,
+  DescribeRegistrationAttachmentsRequest & RegionInput,
   DescribeRegistrationAttachmentsResult,
   DescribeRegistrationAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4288,7 +4289,7 @@ export type DescribeRegistrationFieldDefinitionsError =
  * Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationFieldDefinitions: API.PaginatedOperationMethod<
-  DescribeRegistrationFieldDefinitionsRequest,
+  DescribeRegistrationFieldDefinitionsRequest & RegionInput,
   DescribeRegistrationFieldDefinitionsResult,
   DescribeRegistrationFieldDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -4326,7 +4327,7 @@ export type DescribeRegistrationFieldValuesError =
  * Retrieves the specified registration field values.
  */
 export const describeRegistrationFieldValues: API.PaginatedOperationMethod<
-  DescribeRegistrationFieldValuesRequest,
+  DescribeRegistrationFieldValuesRequest & RegionInput,
   DescribeRegistrationFieldValuesResult,
   DescribeRegistrationFieldValuesError,
   Credentials | HttpClient.HttpClient,
@@ -4365,7 +4366,7 @@ export type DescribeRegistrationsError =
  * Retrieves the specified registrations.
  */
 export const describeRegistrations: API.PaginatedOperationMethod<
-  DescribeRegistrationsRequest,
+  DescribeRegistrationsRequest & RegionInput,
   DescribeRegistrationsResult,
   DescribeRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4403,7 +4404,7 @@ export type DescribeRegistrationSectionDefinitionsError =
  * Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationSectionDefinitions: API.PaginatedOperationMethod<
-  DescribeRegistrationSectionDefinitionsRequest,
+  DescribeRegistrationSectionDefinitionsRequest & RegionInput,
   DescribeRegistrationSectionDefinitionsResult,
   DescribeRegistrationSectionDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -4440,7 +4441,7 @@ export type DescribeRegistrationTypeDefinitionsError =
  * Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
 export const describeRegistrationTypeDefinitions: API.PaginatedOperationMethod<
-  DescribeRegistrationTypeDefinitionsRequest,
+  DescribeRegistrationTypeDefinitionsRequest & RegionInput,
   DescribeRegistrationTypeDefinitionsResult,
   DescribeRegistrationTypeDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -4478,7 +4479,7 @@ export type DescribeRegistrationVersionsError =
  * Retrieves the specified registration version.
  */
 export const describeRegistrationVersions: API.PaginatedOperationMethod<
-  DescribeRegistrationVersionsRequest,
+  DescribeRegistrationVersionsRequest & RegionInput,
   DescribeRegistrationVersionsResult,
   DescribeRegistrationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4521,7 +4522,7 @@ export type DescribeSenderIdsError =
  * f you specify a sender ID that isn't valid, an error is returned.
  */
 export const describeSenderIds: API.PaginatedOperationMethod<
-  DescribeSenderIdsRequest,
+  DescribeSenderIdsRequest & RegionInput,
   DescribeSenderIdsResult,
   DescribeSenderIdsError,
   Credentials | HttpClient.HttpClient,
@@ -4561,7 +4562,7 @@ export type DescribeSpendLimitsError =
  * When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the *End User Messaging SMS User Guide*.
  */
 export const describeSpendLimits: API.PaginatedOperationMethod<
-  DescribeSpendLimitsRequest,
+  DescribeSpendLimitsRequest & RegionInput,
   DescribeSpendLimitsResult,
   DescribeSpendLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -4599,7 +4600,7 @@ export type DescribeVerifiedDestinationNumbersError =
  * Retrieves the specified verified destination numbers.
  */
 export const describeVerifiedDestinationNumbers: API.PaginatedOperationMethod<
-  DescribeVerifiedDestinationNumbersRequest,
+  DescribeVerifiedDestinationNumbersRequest & RegionInput,
   DescribeVerifiedDestinationNumbersResult,
   DescribeVerifiedDestinationNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -4641,7 +4642,7 @@ export type DisassociateOriginationIdentityError =
  * If the origination identity isn't associated with the specified pool, an error is returned.
  */
 export const disassociateOriginationIdentity: API.OperationMethod<
-  DisassociateOriginationIdentityRequest,
+  DisassociateOriginationIdentityRequest & RegionInput,
   DisassociateOriginationIdentityResult,
   DisassociateOriginationIdentityError,
   Credentials | HttpClient.HttpClient
@@ -4675,7 +4676,7 @@ export type DisassociateProtectConfigurationError =
  * Disassociate a protect configuration from a configuration set.
  */
 export const disassociateProtectConfiguration: API.OperationMethod<
-  DisassociateProtectConfigurationRequest,
+  DisassociateProtectConfigurationRequest & RegionInput,
   DisassociateProtectConfigurationResult,
   DisassociateProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4709,7 +4710,7 @@ export type DiscardRegistrationVersionError =
  * Discard the current version of the registration.
  */
 export const discardRegistrationVersion: API.OperationMethod<
-  DiscardRegistrationVersionRequest,
+  DiscardRegistrationVersionRequest & RegionInput,
   DiscardRegistrationVersionResult,
   DiscardRegistrationVersionError,
   Credentials | HttpClient.HttpClient
@@ -4742,7 +4743,7 @@ export type GetProtectConfigurationCountryRuleSetError =
  * Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
  */
 export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
-  GetProtectConfigurationCountryRuleSetRequest,
+  GetProtectConfigurationCountryRuleSetRequest & RegionInput,
   GetProtectConfigurationCountryRuleSetResult,
   GetProtectConfigurationCountryRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -4774,7 +4775,7 @@ export type GetResourcePolicyError =
  * Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4809,7 +4810,7 @@ export type ListAvailablePhoneNumbersError =
  * If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only `TEN_DLC` number types in the `US`.
  */
 export const listAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  ListAvailablePhoneNumbersRequest,
+  ListAvailablePhoneNumbersRequest & RegionInput,
   ListAvailablePhoneNumbersResult,
   ListAvailablePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -4848,7 +4849,7 @@ export type ListNotifyCountriesError =
  * Lists countries that support notify messaging. You can optionally filter by channel, use case, or tier.
  */
 export const listNotifyCountries: API.PaginatedOperationMethod<
-  ListNotifyCountriesRequest,
+  ListNotifyCountriesRequest & RegionInput,
   ListNotifyCountriesResult,
   ListNotifyCountriesError,
   Credentials | HttpClient.HttpClient,
@@ -4888,7 +4889,7 @@ export type ListPoolOriginationIdentitiesError =
  * If you specify filters, the output includes information for only those origination identities that meet the filter criteria.
  */
 export const listPoolOriginationIdentities: API.PaginatedOperationMethod<
-  ListPoolOriginationIdentitiesRequest,
+  ListPoolOriginationIdentitiesRequest & RegionInput,
   ListPoolOriginationIdentitiesResult,
   ListPoolOriginationIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -4927,7 +4928,7 @@ export type ListProtectConfigurationRuleSetNumberOverridesError =
  * Retrieve all of the protect configuration rule set number overrides that match the filters.
  */
 export const listProtectConfigurationRuleSetNumberOverrides: API.PaginatedOperationMethod<
-  ListProtectConfigurationRuleSetNumberOverridesRequest,
+  ListProtectConfigurationRuleSetNumberOverridesRequest & RegionInput,
   ListProtectConfigurationRuleSetNumberOverridesResult,
   ListProtectConfigurationRuleSetNumberOverridesError,
   Credentials | HttpClient.HttpClient,
@@ -4974,7 +4975,7 @@ export type ListRegistrationAssociationsError =
  * Retrieve all of the origination identities that are associated with a registration.
  */
 export const listRegistrationAssociations: API.PaginatedOperationMethod<
-  ListRegistrationAssociationsRequest,
+  ListRegistrationAssociationsRequest & RegionInput,
   ListRegistrationAssociationsResult,
   ListRegistrationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5013,7 +5014,7 @@ export type ListTagsForResourceError =
  * List all tags associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5051,7 +5052,7 @@ export type PutKeywordError =
  * If you specify a keyword that isn't valid, an error is returned.
  */
 export const putKeyword: API.OperationMethod<
-  PutKeywordRequest,
+  PutKeywordRequest & RegionInput,
   PutKeywordResult,
   PutKeywordError,
   Credentials | HttpClient.HttpClient
@@ -5087,7 +5088,7 @@ export type PutMessageFeedbackError =
  * If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use `PutMessageFeedback` to set the message feedback record as `RECEIVED`; Otherwise, an hour after the message feedback record is set to `FAILED`.
  */
 export const putMessageFeedback: API.OperationMethod<
-  PutMessageFeedbackRequest,
+  PutMessageFeedbackRequest & RegionInput,
   PutMessageFeedbackResult,
   PutMessageFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -5121,7 +5122,7 @@ export type PutOptedOutNumberError =
  * If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
  */
 export const putOptedOutNumber: API.OperationMethod<
-  PutOptedOutNumberRequest,
+  PutOptedOutNumberRequest & RegionInput,
   PutOptedOutNumberResult,
   PutOptedOutNumberError,
   Credentials | HttpClient.HttpClient
@@ -5155,7 +5156,7 @@ export type PutProtectConfigurationRuleSetNumberOverrideError =
  * Create or update a phone number rule override and associate it with a protect configuration.
  */
 export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
-  PutProtectConfigurationRuleSetNumberOverrideRequest,
+  PutProtectConfigurationRuleSetNumberOverrideRequest & RegionInput,
   PutProtectConfigurationRuleSetNumberOverrideResult,
   PutProtectConfigurationRuleSetNumberOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5198,7 +5199,7 @@ export type PutRegistrationFieldValueError =
  * Creates or updates a field value for a registration.
  */
 export const putRegistrationFieldValue: API.OperationMethod<
-  PutRegistrationFieldValueRequest,
+  PutRegistrationFieldValueRequest & RegionInput,
   PutRegistrationFieldValueResult,
   PutRegistrationFieldValueError,
   Credentials | HttpClient.HttpClient
@@ -5231,7 +5232,7 @@ export type PutResourcePolicyError =
  * Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the *End User Messaging SMS User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5266,7 +5267,7 @@ export type ReleasePhoneNumberError =
  * If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
  */
 export const releasePhoneNumber: API.OperationMethod<
-  ReleasePhoneNumberRequest,
+  ReleasePhoneNumberRequest & RegionInput,
   ReleasePhoneNumberResult,
   ReleasePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -5300,7 +5301,7 @@ export type ReleaseSenderIdError =
  * Releases an existing sender ID in your account.
  */
 export const releaseSenderId: API.OperationMethod<
-  ReleaseSenderIdRequest,
+  ReleaseSenderIdRequest & RegionInput,
   ReleaseSenderIdResult,
   ReleaseSenderIdError,
   Credentials | HttpClient.HttpClient
@@ -5335,7 +5336,7 @@ export type RequestPhoneNumberError =
  * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
  */
 export const requestPhoneNumber: API.OperationMethod<
-  RequestPhoneNumberRequest,
+  RequestPhoneNumberRequest & RegionInput,
   RequestPhoneNumberResult,
   RequestPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -5370,7 +5371,7 @@ export type RequestSenderIdError =
  * Request a new sender ID that doesn't require registration.
  */
 export const requestSenderId: API.OperationMethod<
-  RequestSenderIdRequest,
+  RequestSenderIdRequest & RegionInput,
   RequestSenderIdResult,
   RequestSenderIdError,
   Credentials | HttpClient.HttpClient
@@ -5405,7 +5406,7 @@ export type SendDestinationNumberVerificationCodeError =
  * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
  */
 export const sendDestinationNumberVerificationCode: API.OperationMethod<
-  SendDestinationNumberVerificationCodeRequest,
+  SendDestinationNumberVerificationCodeRequest & RegionInput,
   SendDestinationNumberVerificationCodeResult,
   SendDestinationNumberVerificationCodeError,
   Credentials | HttpClient.HttpClient
@@ -5441,7 +5442,7 @@ export type SendMediaMessageError =
  * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
  */
 export const sendMediaMessage: API.OperationMethod<
-  SendMediaMessageRequest,
+  SendMediaMessageRequest & RegionInput,
   SendMediaMessageResult,
   SendMediaMessageError,
   Credentials | HttpClient.HttpClient
@@ -5477,7 +5478,7 @@ export type SendNotifyTextMessageError =
  * Sends a templated text message through a notify configuration to a recipient's phone number.
  */
 export const sendNotifyTextMessage: API.OperationMethod<
-  SendNotifyTextMessageRequest,
+  SendNotifyTextMessageRequest & RegionInput,
   SendNotifyTextMessageResult,
   SendNotifyTextMessageError,
   Credentials | HttpClient.HttpClient
@@ -5513,7 +5514,7 @@ export type SendNotifyVoiceMessageError =
  * Sends a templated voice message through a notify configuration to a recipient's phone number.
  */
 export const sendNotifyVoiceMessage: API.OperationMethod<
-  SendNotifyVoiceMessageRequest,
+  SendNotifyVoiceMessageRequest & RegionInput,
   SendNotifyVoiceMessageResult,
   SendNotifyVoiceMessageError,
   Credentials | HttpClient.HttpClient
@@ -5549,7 +5550,7 @@ export type SendRcsMessageError =
  * Creates a new RCS message and sends it to a recipient's phone number. RCS messages support rich content including text, files, rich cards, and carousels with interactive suggested actions.
  */
 export const sendRcsMessage: API.OperationMethod<
-  SendRcsMessageRequest,
+  SendRcsMessageRequest & RegionInput,
   SendRcsMessageResult,
   SendRcsMessageError,
   Credentials | HttpClient.HttpClient
@@ -5587,7 +5588,7 @@ export type SendTextMessageError =
  * SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the *End User Messaging SMS User Guide*.
  */
 export const sendTextMessage: API.OperationMethod<
-  SendTextMessageRequest,
+  SendTextMessageRequest & RegionInput,
   SendTextMessageResult,
   SendTextMessageError,
   Credentials | HttpClient.HttpClient
@@ -5623,7 +5624,7 @@ export type SendVoiceMessageError =
  * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
  */
 export const sendVoiceMessage: API.OperationMethod<
-  SendVoiceMessageRequest,
+  SendVoiceMessageRequest & RegionInput,
   SendVoiceMessageResult,
   SendVoiceMessageError,
   Credentials | HttpClient.HttpClient
@@ -5657,7 +5658,7 @@ export type SetAccountDefaultProtectConfigurationError =
  * Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
  */
 export const setAccountDefaultProtectConfiguration: API.OperationMethod<
-  SetAccountDefaultProtectConfigurationRequest,
+  SetAccountDefaultProtectConfigurationRequest & RegionInput,
   SetAccountDefaultProtectConfigurationResult,
   SetAccountDefaultProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5689,7 +5690,7 @@ export type SetDefaultMessageFeedbackEnabledError =
  * Sets a configuration set's default for message feedback.
  */
 export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
-  SetDefaultMessageFeedbackEnabledRequest,
+  SetDefaultMessageFeedbackEnabledRequest & RegionInput,
   SetDefaultMessageFeedbackEnabledResult,
   SetDefaultMessageFeedbackEnabledError,
   Credentials | HttpClient.HttpClient
@@ -5723,7 +5724,7 @@ export type SetDefaultMessageTypeError =
  * Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
  */
 export const setDefaultMessageType: API.OperationMethod<
-  SetDefaultMessageTypeRequest,
+  SetDefaultMessageTypeRequest & RegionInput,
   SetDefaultMessageTypeResult,
   SetDefaultMessageTypeError,
   Credentials | HttpClient.HttpClient
@@ -5757,7 +5758,7 @@ export type SetDefaultSenderIdError =
  * When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account.
  */
 export const setDefaultSenderId: API.OperationMethod<
-  SetDefaultSenderIdRequest,
+  SetDefaultSenderIdRequest & RegionInput,
   SetDefaultSenderIdResult,
   SetDefaultSenderIdError,
   Credentials | HttpClient.HttpClient
@@ -5788,7 +5789,7 @@ export type SetMediaMessageSpendLimitOverrideError =
  * Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setMediaMessageSpendLimitOverride: API.OperationMethod<
-  SetMediaMessageSpendLimitOverrideRequest,
+  SetMediaMessageSpendLimitOverrideRequest & RegionInput,
   SetMediaMessageSpendLimitOverrideResult,
   SetMediaMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5818,7 +5819,7 @@ export type SetNotifyMessageSpendLimitOverrideError =
  * Sets an account level monthly spend limit override for sending notify messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setNotifyMessageSpendLimitOverride: API.OperationMethod<
-  SetNotifyMessageSpendLimitOverrideRequest,
+  SetNotifyMessageSpendLimitOverrideRequest & RegionInput,
   SetNotifyMessageSpendLimitOverrideResult,
   SetNotifyMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5848,7 +5849,7 @@ export type SetRcsMessageSpendLimitOverrideError =
  * Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setRcsMessageSpendLimitOverride: API.OperationMethod<
-  SetRcsMessageSpendLimitOverrideRequest,
+  SetRcsMessageSpendLimitOverrideRequest & RegionInput,
   SetRcsMessageSpendLimitOverrideResult,
   SetRcsMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5878,7 +5879,7 @@ export type SetTextMessageSpendLimitOverrideError =
  * Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setTextMessageSpendLimitOverride: API.OperationMethod<
-  SetTextMessageSpendLimitOverrideRequest,
+  SetTextMessageSpendLimitOverrideRequest & RegionInput,
   SetTextMessageSpendLimitOverrideResult,
   SetTextMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5908,7 +5909,7 @@ export type SetVoiceMessageSpendLimitOverrideError =
  * Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
 export const setVoiceMessageSpendLimitOverride: API.OperationMethod<
-  SetVoiceMessageSpendLimitOverrideRequest,
+  SetVoiceMessageSpendLimitOverrideRequest & RegionInput,
   SetVoiceMessageSpendLimitOverrideResult,
   SetVoiceMessageSpendLimitOverrideError,
   Credentials | HttpClient.HttpClient
@@ -5940,7 +5941,7 @@ export type SubmitRegistrationVersionError =
  * Submit the specified registration for review and approval.
  */
 export const submitRegistrationVersion: API.OperationMethod<
-  SubmitRegistrationVersionRequest,
+  SubmitRegistrationVersionRequest & RegionInput,
   SubmitRegistrationVersionResult,
   SubmitRegistrationVersionError,
   Credentials | HttpClient.HttpClient
@@ -5974,7 +5975,7 @@ export type TagResourceError =
  * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6007,7 +6008,7 @@ export type UntagResourceError =
  * Removes the association of the specified tags from a resource. For more information on tags see Tags in the *End User Messaging SMS User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6042,7 +6043,7 @@ export type UpdateEventDestinationError =
  * You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
  */
 export const updateEventDestination: API.OperationMethod<
-  UpdateEventDestinationRequest,
+  UpdateEventDestinationRequest & RegionInput,
   UpdateEventDestinationResult,
   UpdateEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -6076,7 +6077,7 @@ export type UpdateNotifyConfigurationError =
  * Updates an existing notify configuration. You can update the default template, pool association, enabled channels, enabled countries, and deletion protection settings.
  */
 export const updateNotifyConfiguration: API.OperationMethod<
-  UpdateNotifyConfigurationRequest,
+  UpdateNotifyConfigurationRequest & RegionInput,
   UpdateNotifyConfigurationResult,
   UpdateNotifyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6112,7 +6113,7 @@ export type UpdatePhoneNumberError =
  * If the origination phone number is associated with a pool, an error is returned.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResult,
   UpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -6146,7 +6147,7 @@ export type UpdatePoolError =
  * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
  */
 export const updatePool: API.OperationMethod<
-  UpdatePoolRequest,
+  UpdatePoolRequest & RegionInput,
   UpdatePoolResult,
   UpdatePoolError,
   Credentials | HttpClient.HttpClient
@@ -6179,7 +6180,7 @@ export type UpdateProtectConfigurationError =
  * Update the setting for an existing protect configuration.
  */
 export const updateProtectConfiguration: API.OperationMethod<
-  UpdateProtectConfigurationRequest,
+  UpdateProtectConfigurationRequest & RegionInput,
   UpdateProtectConfigurationResult,
   UpdateProtectConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6211,7 +6212,7 @@ export type UpdateProtectConfigurationCountryRuleSetError =
  * Update a country rule set to `ALLOW`, `BLOCK`, `MONITOR`, or `FILTER` messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
  */
 export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
-  UpdateProtectConfigurationCountryRuleSetRequest,
+  UpdateProtectConfigurationCountryRuleSetRequest & RegionInput,
   UpdateProtectConfigurationCountryRuleSetResult,
   UpdateProtectConfigurationCountryRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -6244,7 +6245,7 @@ export type UpdateRcsAgentError =
  * Updates the configuration of an existing RCS agent. You can update the opt-out list, deletion protection, two-way messaging settings, and self-managed opt-outs configuration.
  */
 export const updateRcsAgent: API.OperationMethod<
-  UpdateRcsAgentRequest,
+  UpdateRcsAgentRequest & RegionInput,
   UpdateRcsAgentResult,
   UpdateRcsAgentError,
   Credentials | HttpClient.HttpClient
@@ -6277,7 +6278,7 @@ export type UpdateSenderIdError =
  * Updates the configuration of an existing sender ID.
  */
 export const updateSenderId: API.OperationMethod<
-  UpdateSenderIdRequest,
+  UpdateSenderIdRequest & RegionInput,
   UpdateSenderIdResult,
   UpdateSenderIdError,
   Credentials | HttpClient.HttpClient
@@ -6310,7 +6311,7 @@ export type VerifyDestinationNumberError =
  * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
  */
 export const verifyDestinationNumber: API.OperationMethod<
-  VerifyDestinationNumberRequest,
+  VerifyDestinationNumberRequest & RegionInput,
   VerifyDestinationNumberResult,
   VerifyDestinationNumberError,
   Credentials | HttpClient.HttpClient

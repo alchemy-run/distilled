@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -193,7 +194,7 @@ export type GetDeploymentsError = InternalServiceException | CommonErrors;
  * Use to get the active deployments from a device.
  */
 export const getDeployments: API.OperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   GetDeploymentsResult,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -213,7 +214,7 @@ export type GetDeviceRegistrationError = InternalServiceException | CommonErrors
  * Use to check if a device is registered with SageMaker Edge Manager.
  */
 export const getDeviceRegistration: API.OperationMethod<
-  GetDeviceRegistrationRequest,
+  GetDeviceRegistrationRequest & RegionInput,
   GetDeviceRegistrationResult,
   GetDeviceRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -233,7 +234,7 @@ export type SendHeartbeatError = InternalServiceException | CommonErrors;
  * Use to get the current status of devices registered on SageMaker Edge Manager.
  */
 export const sendHeartbeat: API.OperationMethod<
-  SendHeartbeatRequest,
+  SendHeartbeatRequest & RegionInput,
   SendHeartbeatResponse,
   SendHeartbeatError,
   Credentials | HttpClient.HttpClient

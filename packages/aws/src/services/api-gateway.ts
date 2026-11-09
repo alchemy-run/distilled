@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1471,7 +1472,7 @@ export type CreateApiKeyError =
  * Create an ApiKey resource.
  */
 export const createApiKey: API.OperationMethod<
-  CreateApiKeyRequest,
+  CreateApiKeyRequest & RegionInput,
   ApiKey,
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -1505,7 +1506,7 @@ export type CreateAuthorizerError =
  * Adds a new Authorizer resource to an existing RestApi resource.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   Authorizer,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type CreateBasePathMappingError =
  * Creates a new BasePathMapping resource.
  */
 export const createBasePathMapping: API.OperationMethod<
-  CreateBasePathMappingRequest,
+  CreateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   CreateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -1574,7 +1575,7 @@ export type CreateDeploymentError =
  * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   Deployment,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1609,7 +1610,7 @@ export type CreateDocumentationPartError =
  * Creates a documentation part.
  */
 export const createDocumentationPart: API.OperationMethod<
-  CreateDocumentationPartRequest,
+  CreateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   CreateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type CreateDocumentationVersionError =
  * Creates a documentation version
  */
 export const createDocumentationVersion: API.OperationMethod<
-  CreateDocumentationVersionRequest,
+  CreateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   CreateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1676,7 +1677,7 @@ export type CreateDomainNameError =
  * Creates a new domain name.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   DomainName,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -1709,7 +1710,7 @@ export type CreateDomainNameAccessAssociationError =
  * domain name.
  */
 export const createDomainNameAccessAssociation: API.OperationMethod<
-  CreateDomainNameAccessAssociationRequest,
+  CreateDomainNameAccessAssociationRequest & RegionInput,
   DomainNameAccessAssociation,
   CreateDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1742,7 +1743,7 @@ export type CreateModelError =
  * Adds a new Model resource to an existing RestApi resource.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   Model,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -1776,7 +1777,7 @@ export type CreateRequestValidatorError =
  * Creates a RequestValidator of a given RestApi.
  */
 export const createRequestValidator: API.OperationMethod<
-  CreateRequestValidatorRequest,
+  CreateRequestValidatorRequest & RegionInput,
   RequestValidator,
   CreateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -1810,7 +1811,7 @@ export type CreateResourceError =
  * Creates a Resource resource.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceRequest,
+  CreateResourceRequest & RegionInput,
   Resource,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -1843,7 +1844,7 @@ export type CreateRestApiError =
  * Creates a new RestApi resource.
  */
 export const createRestApi: API.OperationMethod<
-  CreateRestApiRequest,
+  CreateRestApiRequest & RegionInput,
   RestApi,
   CreateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -1876,7 +1877,7 @@ export type CreateStageError =
  * Creates a new Stage resource that references a pre-existing Deployment for the API.
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   Stage,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1911,7 @@ export type CreateUsagePlanError =
  * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
 export const createUsagePlan: API.OperationMethod<
-  CreateUsagePlanRequest,
+  CreateUsagePlanRequest & RegionInput,
   UsagePlan,
   CreateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type CreateUsagePlanKeyError =
  * Creates a usage plan key for adding an existing API key to a usage plan.
  */
 export const createUsagePlanKey: API.OperationMethod<
-  CreateUsagePlanKeyRequest,
+  CreateUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   CreateUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type CreateVpcLinkError =
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
 export const createVpcLink: API.OperationMethod<
-  CreateVpcLinkRequest,
+  CreateVpcLinkRequest & RegionInput,
   VpcLink,
   CreateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2009,7 +2010,7 @@ export type DeleteApiKeyError =
  * Deletes the ApiKey resource.
  */
 export const deleteApiKey: API.OperationMethod<
-  DeleteApiKeyRequest,
+  DeleteApiKeyRequest & RegionInput,
   DeleteApiKeyResponse,
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DeleteAuthorizerError =
  * Deletes an existing Authorizer resource.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2074,7 @@ export type DeleteBasePathMappingError =
  * Deletes the BasePathMapping resource.
  */
 export const deleteBasePathMapping: API.OperationMethod<
-  DeleteBasePathMappingRequest,
+  DeleteBasePathMappingRequest & RegionInput,
   DeleteBasePathMappingResponse,
   DeleteBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2106,7 @@ export type DeleteClientCertificateError =
  * Deletes the ClientCertificate resource.
  */
 export const deleteClientCertificate: API.OperationMethod<
-  DeleteClientCertificateRequest,
+  DeleteClientCertificateRequest & RegionInput,
   DeleteClientCertificateResponse,
   DeleteClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2138,7 +2139,7 @@ export type DeleteDeploymentError =
  * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2171,7 +2172,7 @@ export type DeleteDocumentationPartError =
  * Deletes a documentation part
  */
 export const deleteDocumentationPart: API.OperationMethod<
-  DeleteDocumentationPartRequest,
+  DeleteDocumentationPartRequest & RegionInput,
   DeleteDocumentationPartResponse,
   DeleteDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -2203,7 +2204,7 @@ export type DeleteDocumentationVersionError =
  * Deletes a documentation version.
  */
 export const deleteDocumentationVersion: API.OperationMethod<
-  DeleteDocumentationVersionRequest,
+  DeleteDocumentationVersionRequest & RegionInput,
   DeleteDocumentationVersionResponse,
   DeleteDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2235,7 +2236,7 @@ export type DeleteDomainNameError =
  * Deletes the DomainName resource.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2269,7 +2270,7 @@ export type DeleteDomainNameAccessAssociationError =
  * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
 export const deleteDomainNameAccessAssociation: API.OperationMethod<
-  DeleteDomainNameAccessAssociationRequest,
+  DeleteDomainNameAccessAssociationRequest & RegionInput,
   DeleteDomainNameAccessAssociationResponse,
   DeleteDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2301,7 +2302,7 @@ export type DeleteGatewayResponseError =
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
 export const deleteGatewayResponse: API.OperationMethod<
-  DeleteGatewayResponseRequest,
+  DeleteGatewayResponseRequest & RegionInput,
   DeleteGatewayResponseResponse,
   DeleteGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -2333,7 +2334,7 @@ export type DeleteIntegrationError =
  * Represents a delete integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2365,7 +2366,7 @@ export type DeleteIntegrationResponseError =
  * Represents a delete integration response.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
-  DeleteIntegrationResponseRequest,
+  DeleteIntegrationResponseRequest & RegionInput,
   DeleteIntegrationResponseResponse,
   DeleteIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2396,7 +2397,7 @@ export type DeleteMethodError =
  * Deletes an existing Method resource.
  */
 export const deleteMethod: API.OperationMethod<
-  DeleteMethodRequest,
+  DeleteMethodRequest & RegionInput,
   DeleteMethodResponse,
   DeleteMethodError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2423,7 @@ export type DeleteMethodResponseError =
  * Deletes an existing MethodResponse resource.
  */
 export const deleteMethodResponse: API.OperationMethod<
-  DeleteMethodResponseRequest,
+  DeleteMethodResponseRequest & RegionInput,
   DeleteMethodResponseResponse,
   DeleteMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type DeleteModelError =
  * Deletes a model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2486,7 +2487,7 @@ export type DeleteRequestValidatorError =
  * Deletes a RequestValidator of a given RestApi.
  */
 export const deleteRequestValidator: API.OperationMethod<
-  DeleteRequestValidatorRequest,
+  DeleteRequestValidatorRequest & RegionInput,
   DeleteRequestValidatorResponse,
   DeleteRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -2518,7 +2519,7 @@ export type DeleteResourceError =
  * Deletes a Resource resource.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceRequest,
+  DeleteResourceRequest & RegionInput,
   DeleteResourceResponse,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -2550,7 +2551,7 @@ export type DeleteRestApiError =
  * Deletes the specified API.
  */
 export const deleteRestApi: API.OperationMethod<
-  DeleteRestApiRequest,
+  DeleteRestApiRequest & RegionInput,
   DeleteRestApiResponse,
   DeleteRestApiError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type DeleteStageError =
  * Deletes a Stage resource.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2617,7 @@ export type DeleteUsagePlanError =
  * Deletes a usage plan of a given plan Id.
  */
 export const deleteUsagePlan: API.OperationMethod<
-  DeleteUsagePlanRequest,
+  DeleteUsagePlanRequest & RegionInput,
   DeleteUsagePlanResponse,
   DeleteUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2649,7 @@ export type DeleteUsagePlanKeyError =
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
 export const deleteUsagePlanKey: API.OperationMethod<
-  DeleteUsagePlanKeyRequest,
+  DeleteUsagePlanKeyRequest & RegionInput,
   DeleteUsagePlanKeyResponse,
   DeleteUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -2680,7 +2681,7 @@ export type DeleteVpcLinkError =
  * Deletes an existing VpcLink of a specified identifier.
  */
 export const deleteVpcLink: API.OperationMethod<
-  DeleteVpcLinkRequest,
+  DeleteVpcLinkRequest & RegionInput,
   DeleteVpcLinkResponse,
   DeleteVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2713,7 +2714,7 @@ export type FlushStageAuthorizersCacheError =
  * Flushes all authorizer cache entries on a stage.
  */
 export const flushStageAuthorizersCache: API.OperationMethod<
-  FlushStageAuthorizersCacheRequest,
+  FlushStageAuthorizersCacheRequest & RegionInput,
   FlushStageAuthorizersCacheResponse,
   FlushStageAuthorizersCacheError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type FlushStageCacheError =
  * Flushes a stage's cache.
  */
 export const flushStageCache: API.OperationMethod<
-  FlushStageCacheRequest,
+  FlushStageCacheRequest & RegionInput,
   FlushStageCacheResponse,
   FlushStageCacheError,
   Credentials | HttpClient.HttpClient
@@ -2780,7 +2781,7 @@ export type GenerateClientCertificateError =
  * Generates a ClientCertificate resource.
  */
 export const generateClientCertificate: API.OperationMethod<
-  GenerateClientCertificateRequest,
+  GenerateClientCertificateRequest & RegionInput,
   ClientCertificate,
   GenerateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2811,7 +2812,7 @@ export type GetAccountError =
  * Gets information about the current Account resource.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   Account,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -2836,7 +2837,7 @@ export type GetApiKeyError =
  * Gets information about the current ApiKey resource.
  */
 export const getApiKey: API.OperationMethod<
-  GetApiKeyRequest,
+  GetApiKeyRequest & RegionInput,
   ApiKey,
   GetApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -2861,7 +2862,7 @@ export type GetApiKeysError =
  * Gets information about the current ApiKeys resource.
  */
 export const getApiKeys: API.PaginatedOperationMethod<
-  GetApiKeysRequest,
+  GetApiKeysRequest & RegionInput,
   ApiKeys,
   GetApiKeysError,
   Credentials | HttpClient.HttpClient,
@@ -2893,7 +2894,7 @@ export type GetAuthorizerError =
  * Describe an existing Authorizer resource.
  */
 export const getAuthorizer: API.OperationMethod<
-  GetAuthorizerRequest,
+  GetAuthorizerRequest & RegionInput,
   Authorizer,
   GetAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2918,7 +2919,7 @@ export type GetAuthorizersError =
  * Describe an existing Authorizers resource.
  */
 export const getAuthorizers: API.OperationMethod<
-  GetAuthorizersRequest,
+  GetAuthorizersRequest & RegionInput,
   Authorizers,
   GetAuthorizersError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2944,7 @@ export type GetBasePathMappingError =
  * Describe a BasePathMapping resource.
  */
 export const getBasePathMapping: API.OperationMethod<
-  GetBasePathMappingRequest,
+  GetBasePathMappingRequest & RegionInput,
   BasePathMapping,
   GetBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -2968,7 +2969,7 @@ export type GetBasePathMappingsError =
  * Represents a collection of BasePathMapping resources.
  */
 export const getBasePathMappings: API.PaginatedOperationMethod<
-  GetBasePathMappingsRequest,
+  GetBasePathMappingsRequest & RegionInput,
   BasePathMappings,
   GetBasePathMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -3000,7 +3001,7 @@ export type GetClientCertificateError =
  * Gets information about the current ClientCertificate resource.
  */
 export const getClientCertificate: API.OperationMethod<
-  GetClientCertificateRequest,
+  GetClientCertificateRequest & RegionInput,
   ClientCertificate,
   GetClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3026,7 @@ export type GetClientCertificatesError =
  * Gets a collection of ClientCertificate resources.
  */
 export const getClientCertificates: API.PaginatedOperationMethod<
-  GetClientCertificatesRequest,
+  GetClientCertificatesRequest & RegionInput,
   ClientCertificates,
   GetClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3058,7 +3059,7 @@ export type GetDeploymentError =
  * Gets information about a Deployment resource.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type GetDeploymentsError =
  * Gets information about a Deployments collection.
  */
 export const getDeployments: API.PaginatedOperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   Deployments,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3128,7 +3129,7 @@ export type GetDocumentationPartError =
  * Gets a documentation part.
  */
 export const getDocumentationPart: API.OperationMethod<
-  GetDocumentationPartRequest,
+  GetDocumentationPartRequest & RegionInput,
   DocumentationPart,
   GetDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -3153,7 +3154,7 @@ export type GetDocumentationPartsError =
  * Gets documentation parts.
  */
 export const getDocumentationParts: API.OperationMethod<
-  GetDocumentationPartsRequest,
+  GetDocumentationPartsRequest & RegionInput,
   DocumentationParts,
   GetDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -3177,7 +3178,7 @@ export type GetDocumentationVersionError =
  * Gets a documentation version.
  */
 export const getDocumentationVersion: API.OperationMethod<
-  GetDocumentationVersionRequest,
+  GetDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   GetDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -3202,7 +3203,7 @@ export type GetDocumentationVersionsError =
  * Gets documentation versions.
  */
 export const getDocumentationVersions: API.OperationMethod<
-  GetDocumentationVersionsRequest,
+  GetDocumentationVersionsRequest & RegionInput,
   DocumentationVersions,
   GetDocumentationVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3227,7 +3228,7 @@ export type GetDomainNameError =
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   DomainName,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3252,7 +3253,7 @@ export type GetDomainNameAccessAssociationsError =
  * Represents a collection on DomainNameAccessAssociations resources.
  */
 export const getDomainNameAccessAssociations: API.OperationMethod<
-  GetDomainNameAccessAssociationsRequest,
+  GetDomainNameAccessAssociationsRequest & RegionInput,
   DomainNameAccessAssociations,
   GetDomainNameAccessAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -3277,7 +3278,7 @@ export type GetDomainNamesError =
  * Represents a collection of DomainName resources.
  */
 export const getDomainNames: API.PaginatedOperationMethod<
-  GetDomainNamesRequest,
+  GetDomainNamesRequest & RegionInput,
   DomainNames,
   GetDomainNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3311,7 +3312,7 @@ export type GetExportError =
  * Exports a deployed version of a RestApi in a specified format.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   ExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -3343,7 +3344,7 @@ export type GetGatewayResponseError =
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
 export const getGatewayResponse: API.OperationMethod<
-  GetGatewayResponseRequest,
+  GetGatewayResponseRequest & RegionInput,
   GatewayResponse,
   GetGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -3368,7 +3369,7 @@ export type GetGatewayResponsesError =
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
 export const getGatewayResponses: API.OperationMethod<
-  GetGatewayResponsesRequest,
+  GetGatewayResponsesRequest & RegionInput,
   GatewayResponses,
   GetGatewayResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type GetIntegrationError =
  * Get the integration settings.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   Integration,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3418,7 +3419,7 @@ export type GetIntegrationResponseError =
  * Represents a get integration response.
  */
 export const getIntegrationResponse: API.OperationMethod<
-  GetIntegrationResponseRequest,
+  GetIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   GetIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -3442,7 +3443,7 @@ export type GetMethodError =
  * Describe an existing Method resource.
  */
 export const getMethod: API.OperationMethod<
-  GetMethodRequest,
+  GetMethodRequest & RegionInput,
   Method,
   GetMethodError,
   Credentials | HttpClient.HttpClient
@@ -3466,7 +3467,7 @@ export type GetMethodResponseError =
  * Describes a MethodResponse resource.
  */
 export const getMethodResponse: API.OperationMethod<
-  GetMethodResponseRequest,
+  GetMethodResponseRequest & RegionInput,
   MethodResponse,
   GetMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -3491,7 +3492,7 @@ export type GetModelError =
  * Describes an existing model defined for a RestApi resource.
  */
 export const getModel: API.OperationMethod<
-  GetModelRequest,
+  GetModelRequest & RegionInput,
   Model,
   GetModelError,
   Credentials | HttpClient.HttpClient
@@ -3516,7 +3517,7 @@ export type GetModelsError =
  * Describes existing Models defined for a RestApi resource.
  */
 export const getModels: API.PaginatedOperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   Models,
   GetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -3548,7 +3549,7 @@ export type GetModelTemplateError =
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
 export const getModelTemplate: API.OperationMethod<
-  GetModelTemplateRequest,
+  GetModelTemplateRequest & RegionInput,
   Template,
   GetModelTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type GetRequestValidatorError =
  * Gets a RequestValidator of a given RestApi.
  */
 export const getRequestValidator: API.OperationMethod<
-  GetRequestValidatorRequest,
+  GetRequestValidatorRequest & RegionInput,
   RequestValidator,
   GetRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -3598,7 +3599,7 @@ export type GetRequestValidatorsError =
  * Gets the RequestValidators collection of a given RestApi.
  */
 export const getRequestValidators: API.OperationMethod<
-  GetRequestValidatorsRequest,
+  GetRequestValidatorsRequest & RegionInput,
   RequestValidators,
   GetRequestValidatorsError,
   Credentials | HttpClient.HttpClient
@@ -3622,7 +3623,7 @@ export type GetResourceError =
  * Lists information about a resource.
  */
 export const getResource: API.OperationMethod<
-  GetResourceRequest,
+  GetResourceRequest & RegionInput,
   Resource,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -3647,7 +3648,7 @@ export type GetResourcesError =
  * Lists information about a collection of Resource resources.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesRequest,
+  GetResourcesRequest & RegionInput,
   Resources,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3679,7 +3680,7 @@ export type GetRestApiError =
  * Lists the RestApi resource in the collection.
  */
 export const getRestApi: API.OperationMethod<
-  GetRestApiRequest,
+  GetRestApiRequest & RegionInput,
   RestApi,
   GetRestApiError,
   Credentials | HttpClient.HttpClient
@@ -3704,7 +3705,7 @@ export type GetRestApisError =
  * Lists the RestApis resources for your collection.
  */
 export const getRestApis: API.PaginatedOperationMethod<
-  GetRestApisRequest,
+  GetRestApisRequest & RegionInput,
   RestApis,
   GetRestApisError,
   Credentials | HttpClient.HttpClient,
@@ -3738,7 +3739,7 @@ export type GetSdkError =
  * Generates a client SDK for a RestApi and Stage.
  */
 export const getSdk: API.OperationMethod<
-  GetSdkRequest,
+  GetSdkRequest & RegionInput,
   SdkResponse,
   GetSdkError,
   Credentials | HttpClient.HttpClient
@@ -3770,7 +3771,7 @@ export type GetSdkTypeError =
  * Gets an SDK type.
  */
 export const getSdkType: API.OperationMethod<
-  GetSdkTypeRequest,
+  GetSdkTypeRequest & RegionInput,
   SdkType,
   GetSdkTypeError,
   Credentials | HttpClient.HttpClient
@@ -3795,7 +3796,7 @@ export type GetSdkTypesError =
  * Gets SDK types
  */
 export const getSdkTypes: API.OperationMethod<
-  GetSdkTypesRequest,
+  GetSdkTypesRequest & RegionInput,
   SdkTypes,
   GetSdkTypesError,
   Credentials | HttpClient.HttpClient
@@ -3822,7 +3823,7 @@ export type GetStageError =
  * Gets information about a Stage resource.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   Stage,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -3856,7 +3857,7 @@ export type GetStagesError =
  * Gets information about one or more Stage resources.
  */
 export const getStages: API.OperationMethod<
-  GetStagesRequest,
+  GetStagesRequest & RegionInput,
   Stages,
   GetStagesError,
   Credentials | HttpClient.HttpClient
@@ -3888,7 +3889,7 @@ export type GetTagsError =
  * Gets the Tags collection for a given resource.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   Tags,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3914,7 @@ export type GetUsageError =
  * Gets the usage data of a usage plan in a specified time interval.
  */
 export const getUsage: API.PaginatedOperationMethod<
-  GetUsageRequest,
+  GetUsageRequest & RegionInput,
   Usage,
   GetUsageError,
   Credentials | HttpClient.HttpClient,
@@ -3945,7 +3946,7 @@ export type GetUsagePlanError =
  * Gets a usage plan of a given plan identifier.
  */
 export const getUsagePlan: API.OperationMethod<
-  GetUsagePlanRequest,
+  GetUsagePlanRequest & RegionInput,
   UsagePlan,
   GetUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +3971,7 @@ export type GetUsagePlanKeyError =
  * Gets a usage plan key of a given key identifier.
  */
 export const getUsagePlanKey: API.OperationMethod<
-  GetUsagePlanKeyRequest,
+  GetUsagePlanKeyRequest & RegionInput,
   UsagePlanKey,
   GetUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
@@ -3995,7 +3996,7 @@ export type GetUsagePlanKeysError =
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
 export const getUsagePlanKeys: API.PaginatedOperationMethod<
-  GetUsagePlanKeysRequest,
+  GetUsagePlanKeysRequest & RegionInput,
   UsagePlanKeys,
   GetUsagePlanKeysError,
   Credentials | HttpClient.HttpClient,
@@ -4027,7 +4028,7 @@ export type GetUsagePlansError =
  * Gets all the usage plans of the caller's account.
  */
 export const getUsagePlans: API.PaginatedOperationMethod<
-  GetUsagePlansRequest,
+  GetUsagePlansRequest & RegionInput,
   UsagePlans,
   GetUsagePlansError,
   Credentials | HttpClient.HttpClient,
@@ -4059,7 +4060,7 @@ export type GetVpcLinkError =
  * Gets a specified VPC link under the caller's account in a region.
  */
 export const getVpcLink: API.OperationMethod<
-  GetVpcLinkRequest,
+  GetVpcLinkRequest & RegionInput,
   VpcLink,
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -4084,7 +4085,7 @@ export type GetVpcLinksError =
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
 export const getVpcLinks: API.PaginatedOperationMethod<
-  GetVpcLinksRequest,
+  GetVpcLinksRequest & RegionInput,
   VpcLinks,
   GetVpcLinksError,
   Credentials | HttpClient.HttpClient,
@@ -4118,7 +4119,7 @@ export type ImportApiKeysError =
  * Import API keys from an external source, such as a CSV-formatted file.
  */
 export const importApiKeys: API.OperationMethod<
-  ImportApiKeysRequest,
+  ImportApiKeysRequest & RegionInput,
   ApiKeyIds,
   ImportApiKeysError,
   Credentials | HttpClient.HttpClient
@@ -4152,7 +4153,7 @@ export type ImportDocumentationPartsError =
  * Imports documentation parts
  */
 export const importDocumentationParts: API.OperationMethod<
-  ImportDocumentationPartsRequest,
+  ImportDocumentationPartsRequest & RegionInput,
   DocumentationPartIds,
   ImportDocumentationPartsError,
   Credentials | HttpClient.HttpClient
@@ -4186,7 +4187,7 @@ export type ImportRestApiError =
  * A feature of the API Gateway control service for creating a new API from an external API definition file.
  */
 export const importRestApi: API.OperationMethod<
-  ImportRestApiRequest,
+  ImportRestApiRequest & RegionInput,
   RestApi,
   ImportRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4220,7 +4221,7 @@ export type PutGatewayResponseError =
  * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
  */
 export const putGatewayResponse: API.OperationMethod<
-  PutGatewayResponseRequest,
+  PutGatewayResponseRequest & RegionInput,
   GatewayResponse,
   PutGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4254,7 +4255,7 @@ export type PutIntegrationError =
  * Sets up a method's integration.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   Integration,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4288,7 +4289,7 @@ export type PutIntegrationResponseError =
  * Represents a put integration.
  */
 export const putIntegrationResponse: API.OperationMethod<
-  PutIntegrationResponseRequest,
+  PutIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   PutIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4322,7 +4323,7 @@ export type PutMethodError =
  * Add a method to an existing Resource resource.
  */
 export const putMethod: API.OperationMethod<
-  PutMethodRequest,
+  PutMethodRequest & RegionInput,
   Method,
   PutMethodError,
   Credentials | HttpClient.HttpClient
@@ -4356,7 +4357,7 @@ export type PutMethodResponseError =
  * Adds a MethodResponse to an existing Method resource.
  */
 export const putMethodResponse: API.OperationMethod<
-  PutMethodResponseRequest,
+  PutMethodResponseRequest & RegionInput,
   MethodResponse,
   PutMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -4391,7 +4392,7 @@ export type PutRestApiError =
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
  */
 export const putRestApi: API.OperationMethod<
-  PutRestApiRequest,
+  PutRestApiRequest & RegionInput,
   RestApi,
   PutRestApiError,
   Credentials | HttpClient.HttpClient
@@ -4426,7 +4427,7 @@ export type RejectDomainNameAccessAssociationError =
  * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
 export const rejectDomainNameAccessAssociation: API.OperationMethod<
-  RejectDomainNameAccessAssociationRequest,
+  RejectDomainNameAccessAssociationRequest & RegionInput,
   RejectDomainNameAccessAssociationResponse,
   RejectDomainNameAccessAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4459,7 +4460,7 @@ export type TagResourceError =
  * Adds or updates a tag on a given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4491,7 +4492,7 @@ export type TestInvokeAuthorizerError =
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeAuthorizer: API.OperationMethod<
-  TestInvokeAuthorizerRequest,
+  TestInvokeAuthorizerRequest & RegionInput,
   TestInvokeAuthorizerResponse,
   TestInvokeAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4516,7 +4517,7 @@ export type TestInvokeMethodError =
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
 export const testInvokeMethod: API.OperationMethod<
-  TestInvokeMethodRequest,
+  TestInvokeMethodRequest & RegionInput,
   TestInvokeMethodResponse,
   TestInvokeMethodError,
   Credentials | HttpClient.HttpClient
@@ -4543,7 +4544,7 @@ export type UntagResourceError =
  * Removes a tag from a given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4577,7 +4578,7 @@ export type UpdateAccountError =
  * Changes information about the current Account resource.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   Account,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4612,7 @@ export type UpdateApiKeyError =
  * Changes information about an ApiKey resource.
  */
 export const updateApiKey: API.OperationMethod<
-  UpdateApiKeyRequest,
+  UpdateApiKeyRequest & RegionInput,
   ApiKey,
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -4645,7 +4646,7 @@ export type UpdateAuthorizerError =
  * Updates an existing Authorizer resource.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   Authorizer,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4679,7 +4680,7 @@ export type UpdateBasePathMappingError =
  * Changes information about the BasePathMapping resource.
  */
 export const updateBasePathMapping: API.OperationMethod<
-  UpdateBasePathMappingRequest,
+  UpdateBasePathMappingRequest & RegionInput,
   BasePathMapping,
   UpdateBasePathMappingError,
   Credentials | HttpClient.HttpClient
@@ -4713,7 +4714,7 @@ export type UpdateClientCertificateError =
  * Changes information about an ClientCertificate resource.
  */
 export const updateClientCertificate: API.OperationMethod<
-  UpdateClientCertificateRequest,
+  UpdateClientCertificateRequest & RegionInput,
   ClientCertificate,
   UpdateClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4748,7 +4749,7 @@ export type UpdateDeploymentError =
  * Changes information about a Deployment resource.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
+  UpdateDeploymentRequest & RegionInput,
   Deployment,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4783,7 +4784,7 @@ export type UpdateDocumentationPartError =
  * Updates a documentation part.
  */
 export const updateDocumentationPart: API.OperationMethod<
-  UpdateDocumentationPartRequest,
+  UpdateDocumentationPartRequest & RegionInput,
   DocumentationPart,
   UpdateDocumentationPartError,
   Credentials | HttpClient.HttpClient
@@ -4817,7 +4818,7 @@ export type UpdateDocumentationVersionError =
  * Updates a documentation version.
  */
 export const updateDocumentationVersion: API.OperationMethod<
-  UpdateDocumentationVersionRequest,
+  UpdateDocumentationVersionRequest & RegionInput,
   DocumentationVersion,
   UpdateDocumentationVersionError,
   Credentials | HttpClient.HttpClient
@@ -4851,7 +4852,7 @@ export type UpdateDomainNameError =
  * Changes information about the DomainName resource.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   DomainName,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -4885,7 +4886,7 @@ export type UpdateGatewayResponseError =
  * Updates a GatewayResponse of a specified response type on the given RestApi.
  */
 export const updateGatewayResponse: API.OperationMethod<
-  UpdateGatewayResponseRequest,
+  UpdateGatewayResponseRequest & RegionInput,
   GatewayResponse,
   UpdateGatewayResponseError,
   Credentials | HttpClient.HttpClient
@@ -4919,7 +4920,7 @@ export type UpdateIntegrationError =
  * Represents an update integration.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
+  UpdateIntegrationRequest & RegionInput,
   Integration,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4953,7 +4954,7 @@ export type UpdateIntegrationResponseError =
  * Represents an update integration response.
  */
 export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
+  UpdateIntegrationResponseRequest & RegionInput,
   IntegrationResponse,
   UpdateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4986,7 +4987,7 @@ export type UpdateMethodError =
  * Updates an existing Method resource.
  */
 export const updateMethod: API.OperationMethod<
-  UpdateMethodRequest,
+  UpdateMethodRequest & RegionInput,
   Method,
   UpdateMethodError,
   Credentials | HttpClient.HttpClient
@@ -5019,7 +5020,7 @@ export type UpdateMethodResponseError =
  * Updates an existing MethodResponse resource.
  */
 export const updateMethodResponse: API.OperationMethod<
-  UpdateMethodResponseRequest,
+  UpdateMethodResponseRequest & RegionInput,
   MethodResponse,
   UpdateMethodResponseError,
   Credentials | HttpClient.HttpClient
@@ -5053,7 +5054,7 @@ export type UpdateModelError =
  * Changes information about a model. The maximum size of the model is 400 KB.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   Model,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -5087,7 +5088,7 @@ export type UpdateRequestValidatorError =
  * Updates a RequestValidator of a given RestApi.
  */
 export const updateRequestValidator: API.OperationMethod<
-  UpdateRequestValidatorRequest,
+  UpdateRequestValidatorRequest & RegionInput,
   RequestValidator,
   UpdateRequestValidatorError,
   Credentials | HttpClient.HttpClient
@@ -5120,7 +5121,7 @@ export type UpdateResourceError =
  * Changes information about a Resource resource.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   Resource,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -5153,7 +5154,7 @@ export type UpdateRestApiError =
  * Changes information about the specified API.
  */
 export const updateRestApi: API.OperationMethod<
-  UpdateRestApiRequest,
+  UpdateRestApiRequest & RegionInput,
   RestApi,
   UpdateRestApiError,
   Credentials | HttpClient.HttpClient
@@ -5187,7 +5188,7 @@ export type UpdateStageError =
  * Changes information about a Stage resource.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   Stage,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -5221,7 +5222,7 @@ export type UpdateUsageError =
  * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
  */
 export const updateUsage: API.OperationMethod<
-  UpdateUsageRequest,
+  UpdateUsageRequest & RegionInput,
   Usage,
   UpdateUsageError,
   Credentials | HttpClient.HttpClient
@@ -5255,7 +5256,7 @@ export type UpdateUsagePlanError =
  * Updates a usage plan of a given plan Id.
  */
 export const updateUsagePlan: API.OperationMethod<
-  UpdateUsagePlanRequest,
+  UpdateUsagePlanRequest & RegionInput,
   UsagePlan,
   UpdateUsagePlanError,
   Credentials | HttpClient.HttpClient
@@ -5289,7 +5290,7 @@ export type UpdateVpcLinkError =
  * Updates an existing VpcLink of a specified identifier.
  */
 export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
+  UpdateVpcLinkRequest & RegionInput,
   VpcLink,
   UpdateVpcLinkError,
   Credentials | HttpClient.HttpClient

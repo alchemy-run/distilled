@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -437,7 +438,7 @@ export type CreateScheduleError =
  * Creates the specified schedule.
  */
 export const createSchedule: API.OperationMethod<
-  CreateScheduleInput,
+  CreateScheduleInput & RegionInput,
   CreateScheduleOutput,
   CreateScheduleError,
   Credentials | HttpClient.HttpClient
@@ -471,7 +472,7 @@ export type CreateScheduleGroupError =
  * Creates the specified schedule group.
  */
 export const createScheduleGroup: API.OperationMethod<
-  CreateScheduleGroupInput,
+  CreateScheduleGroupInput & RegionInput,
   CreateScheduleGroupOutput,
   CreateScheduleGroupError,
   Credentials | HttpClient.HttpClient
@@ -503,7 +504,7 @@ export type DeleteScheduleError =
  * Deletes the specified schedule.
  */
 export const deleteSchedule: API.OperationMethod<
-  DeleteScheduleInput,
+  DeleteScheduleInput & RegionInput,
   DeleteScheduleOutput,
   DeleteScheduleError,
   Credentials | HttpClient.HttpClient
@@ -540,7 +541,7 @@ export type DeleteScheduleGroupError =
  * This operation is eventually consistent.
  */
 export const deleteScheduleGroup: API.OperationMethod<
-  DeleteScheduleGroupInput,
+  DeleteScheduleGroupInput & RegionInput,
   DeleteScheduleGroupOutput,
   DeleteScheduleGroupError,
   Credentials | HttpClient.HttpClient
@@ -571,7 +572,7 @@ export type GetScheduleError =
  * Retrieves the specified schedule.
  */
 export const getSchedule: API.OperationMethod<
-  GetScheduleInput,
+  GetScheduleInput & RegionInput,
   GetScheduleOutput,
   GetScheduleError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +602,7 @@ export type GetScheduleGroupError =
  * Retrieves the specified schedule group.
  */
 export const getScheduleGroup: API.OperationMethod<
-  GetScheduleGroupInput,
+  GetScheduleGroupInput & RegionInput,
   GetScheduleGroupOutput,
   GetScheduleGroupError,
   Credentials | HttpClient.HttpClient
@@ -630,7 +631,7 @@ export type ListScheduleGroupsError =
  * Returns a paginated list of your schedule groups.
  */
 export const listScheduleGroups: API.PaginatedOperationMethod<
-  ListScheduleGroupsInput,
+  ListScheduleGroupsInput & RegionInput,
   ListScheduleGroupsOutput,
   ListScheduleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -662,7 +663,7 @@ export type ListSchedulesError =
  * Returns a paginated list of your EventBridge Scheduler schedules.
  */
 export const listSchedules: API.PaginatedOperationMethod<
-  ListSchedulesInput,
+  ListSchedulesInput & RegionInput,
   ListSchedulesOutput,
   ListSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -699,7 +700,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the Scheduler resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -762,7 +763,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified EventBridge Scheduler schedule group.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type UpdateScheduleError =
  * for your `UpdateSchedule` call.
  */
 export const updateSchedule: API.OperationMethod<
-  UpdateScheduleInput,
+  UpdateScheduleInput & RegionInput,
   UpdateScheduleOutput,
   UpdateScheduleError,
   Credentials | HttpClient.HttpClient

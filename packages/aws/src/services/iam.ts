@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2802,7 +2803,7 @@ export type AcceptDelegationRequestError =
  * An accepted request may be rejected before the exchange token is sent to the partner.
  */
 export const acceptDelegationRequest: API.OperationMethod<
-  AcceptDelegationRequestRequest,
+  AcceptDelegationRequestRequest & RegionInput,
   AcceptDelegationRequestResponse,
   AcceptDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2842,7 @@ export type AcquireRoleError =
  * creation.
  */
 export const acquireRole: API.OperationMethod<
-  AcquireRoleRequest,
+  AcquireRoleRequest & RegionInput,
   AcquireRoleResponse,
   AcquireRoleError,
   Credentials | HttpClient.HttpClient
@@ -2882,7 +2883,7 @@ export type AddClientIDToOpenIDConnectProviderError =
  * existing client ID to the provider.
  */
 export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
-  AddClientIDToOpenIDConnectProviderRequest,
+  AddClientIDToOpenIDConnectProviderRequest & RegionInput,
   AddClientIDToOpenIDConnectProviderResponse,
   AddClientIDToOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2934,7 @@ export type AddRoleToInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const addRoleToInstanceProfile: API.OperationMethod<
-  AddRoleToInstanceProfileRequest,
+  AddRoleToInstanceProfileRequest & RegionInput,
   AddRoleToInstanceProfileResponse,
   AddRoleToInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -2963,7 +2964,7 @@ export type AddUserToGroupError =
  * Adds the specified user to the specified group.
  */
 export const addUserToGroup: API.OperationMethod<
-  AddUserToGroupRequest,
+  AddUserToGroupRequest & RegionInput,
   AddUserToGroupResponse,
   AddUserToGroupError,
   Credentials | HttpClient.HttpClient
@@ -3007,7 +3008,7 @@ export type AssociateDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const associateDelegationRequest: API.OperationMethod<
-  AssociateDelegationRequestRequest,
+  AssociateDelegationRequestRequest & RegionInput,
   AssociateDelegationRequestResponse,
   AssociateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3050,7 +3051,7 @@ export type AttachGroupPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const attachGroupPolicy: API.OperationMethod<
-  AttachGroupPolicyRequest,
+  AttachGroupPolicyRequest & RegionInput,
   AttachGroupPolicyResponse,
   AttachGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3104,7 +3105,7 @@ export type AttachRolePolicyError =
  * in the *IAM User Guide*.
  */
 export const attachRolePolicy: API.OperationMethod<
-  AttachRolePolicyRequest,
+  AttachRolePolicyRequest & RegionInput,
   AttachRolePolicyResponse,
   AttachRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3150,7 @@ export type AttachUserPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const attachUserPolicy: API.OperationMethod<
-  AttachUserPolicyRequest,
+  AttachUserPolicyRequest & RegionInput,
   AttachUserPolicyResponse,
   AttachUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3191,7 +3192,7 @@ export type ChangePasswordError =
  * *IAM User Guide*.
  */
 export const changePassword: API.OperationMethod<
-  ChangePasswordRequest,
+  ChangePasswordRequest & RegionInput,
   ChangePasswordResponse,
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
@@ -3236,7 +3237,7 @@ export type CreateAccessKeyError =
  * delete the access keys for the associated user and then create new keys.
  */
 export const createAccessKey: API.OperationMethod<
-  CreateAccessKeyRequest,
+  CreateAccessKeyRequest & RegionInput,
   CreateAccessKeyResponse,
   CreateAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3264,7 +3265,7 @@ export type CreateAccountAliasError =
  * Guide.
  */
 export const createAccountAlias: API.OperationMethod<
-  CreateAccountAliasRequest,
+  CreateAccountAliasRequest & RegionInput,
   CreateAccountAliasResponse,
   CreateAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3300,7 @@ export type CreateDelegationRequestError =
  * partner onboarding documentation.
  */
 export const createDelegationRequest: API.OperationMethod<
-  CreateDelegationRequestRequest,
+  CreateDelegationRequestRequest & RegionInput,
   CreateDelegationRequestResponse,
   CreateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3333,7 +3334,7 @@ export type CreateGroupError =
  * quotas in the *IAM User Guide*.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -3369,7 +3370,7 @@ export type CreateInstanceProfileError =
  * quotas in the *IAM User Guide*.
  */
 export const createInstanceProfile: API.OperationMethod<
-  CreateInstanceProfileRequest,
+  CreateInstanceProfileRequest & RegionInput,
   CreateInstanceProfileResponse,
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3408,7 +3409,7 @@ export type CreateLoginProfileError =
  * *IAM User Guide*.
  */
 export const createLoginProfile: API.OperationMethod<
-  CreateLoginProfileRequest,
+  CreateLoginProfileRequest & RegionInput,
   CreateLoginProfileResponse,
   CreateLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -3477,7 +3478,7 @@ export type CreateOpenIDConnectProviderError =
  * users.
  */
 export const createOpenIDConnectProvider: API.OperationMethod<
-  CreateOpenIDConnectProviderRequest,
+  CreateOpenIDConnectProviderRequest & RegionInput,
   CreateOpenIDConnectProviderResponse,
   CreateOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -3524,7 +3525,7 @@ export type CreatePolicyError =
  * *IAM User Guide*.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyRequest,
+  CreatePolicyRequest & RegionInput,
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3566,7 +3567,7 @@ export type CreatePolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const createPolicyVersion: API.OperationMethod<
-  CreatePolicyVersionRequest,
+  CreatePolicyVersionRequest & RegionInput,
   CreatePolicyVersionResponse,
   CreatePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -3604,7 +3605,7 @@ export type CreateRoleError =
  * *IAM User Guide*.
  */
 export const createRole: API.OperationMethod<
-  CreateRoleRequest,
+  CreateRoleRequest & RegionInput,
   CreateRoleResponse,
   CreateRoleError,
   Credentials | HttpClient.HttpClient
@@ -3656,7 +3657,7 @@ export type CreateSAMLProviderError =
  * federation in the *IAM User Guide*.
  */
 export const createSAMLProvider: API.OperationMethod<
-  CreateSAMLProviderRequest,
+  CreateSAMLProviderRequest & RegionInput,
   CreateSAMLProviderResponse,
   CreateSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -3696,7 +3697,7 @@ export type CreateServiceLinkedRoleError =
  * Amazon Web Services service that depends on this role.
  */
 export const createServiceLinkedRole: API.OperationMethod<
-  CreateServiceLinkedRoleRequest,
+  CreateServiceLinkedRoleRequest & RegionInput,
   CreateServiceLinkedRoleResponse,
   CreateServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3747,7 @@ export type CreateServiceSpecificCredentialError =
  * *IAM User Guide*.
  */
 export const createServiceSpecificCredential: API.OperationMethod<
-  CreateServiceSpecificCredentialRequest,
+  CreateServiceSpecificCredentialRequest & RegionInput,
   CreateServiceSpecificCredentialResponse,
   CreateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3777,7 @@ export type CreateUserError =
  * quotas in the *IAM User Guide*.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -3822,7 +3823,7 @@ export type CreateVirtualMFADeviceError =
  * following secure procedures.
  */
 export const createVirtualMFADevice: API.OperationMethod<
-  CreateVirtualMFADeviceRequest,
+  CreateVirtualMFADeviceRequest & RegionInput,
   CreateVirtualMFADeviceResponse,
   CreateVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -3859,7 +3860,7 @@ export type DeactivateMFADeviceError =
  * *IAM User Guide*.
  */
 export const deactivateMFADevice: API.OperationMethod<
-  DeactivateMFADeviceRequest,
+  DeactivateMFADeviceRequest & RegionInput,
   DeactivateMFADeviceResponse,
   DeactivateMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -3894,7 +3895,7 @@ export type DeleteAccessKeyError =
  * user credentials even if the Amazon Web Services account has no associated users.
  */
 export const deleteAccessKey: API.OperationMethod<
-  DeleteAccessKeyRequest,
+  DeleteAccessKeyRequest & RegionInput,
   DeleteAccessKeyResponse,
   DeleteAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -3922,7 +3923,7 @@ export type DeleteAccountAliasError =
  * Guide.
  */
 export const deleteAccountAlias: API.OperationMethod<
-  DeleteAccountAliasRequest,
+  DeleteAccountAliasRequest & RegionInput,
   DeleteAccountAliasResponse,
   DeleteAccountAliasError,
   Credentials | HttpClient.HttpClient
@@ -3951,7 +3952,7 @@ export type DeleteAccountPasswordPolicyError =
  * Deletes the password policy for the Amazon Web Services account. There are no parameters.
  */
 export const deleteAccountPasswordPolicy: API.OperationMethod<
-  DeleteAccountPasswordPolicyRequest,
+  DeleteAccountPasswordPolicyRequest & RegionInput,
   DeleteAccountPasswordPolicyResponse,
   DeleteAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3977,7 +3978,7 @@ export type DeleteGroupError =
  * attached policies.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -4012,7 +4013,7 @@ export type DeleteGroupPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteGroupPolicy: API.OperationMethod<
-  DeleteGroupPolicyRequest,
+  DeleteGroupPolicyRequest & RegionInput,
   DeleteGroupPolicyResponse,
   DeleteGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4046,7 +4047,7 @@ export type DeleteInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const deleteInstanceProfile: API.OperationMethod<
-  DeleteInstanceProfileRequest,
+  DeleteInstanceProfileRequest & RegionInput,
   DeleteInstanceProfileResponse,
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4089,7 +4090,7 @@ export type DeleteLoginProfileError =
  * and DeleteAccessKey.
  */
 export const deleteLoginProfile: API.OperationMethod<
-  DeleteLoginProfileRequest,
+  DeleteLoginProfileRequest & RegionInput,
   DeleteLoginProfileResponse,
   DeleteLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -4125,7 +4126,7 @@ export type DeleteOpenIDConnectProviderError =
  * operation for a provider that does not exist.
  */
 export const deleteOpenIDConnectProvider: API.OperationMethod<
-  DeleteOpenIDConnectProviderRequest,
+  DeleteOpenIDConnectProviderRequest & RegionInput,
   DeleteOpenIDConnectProviderResponse,
   DeleteOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -4170,7 +4171,7 @@ export type DeletePolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyRequest,
+  DeletePolicyRequest & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4209,7 +4210,7 @@ export type DeletePolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const deletePolicyVersion: API.OperationMethod<
-  DeletePolicyVersionRequest,
+  DeletePolicyVersionRequest & RegionInput,
   DeletePolicyVersionResponse,
   DeletePolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4258,7 +4259,7 @@ export type DeleteRoleError =
  * running instance will break any applications running on the instance.
  */
 export const deleteRole: API.OperationMethod<
-  DeleteRoleRequest,
+  DeleteRoleRequest & RegionInput,
   DeleteRoleResponse,
   DeleteRoleError,
   Credentials | HttpClient.HttpClient
@@ -4295,7 +4296,7 @@ export type DeleteRolePermissionsBoundaryError =
  * granted in its permissions policies.
  */
 export const deleteRolePermissionsBoundary: API.OperationMethod<
-  DeleteRolePermissionsBoundaryRequest,
+  DeleteRolePermissionsBoundaryRequest & RegionInput,
   DeleteRolePermissionsBoundaryResponse,
   DeleteRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -4326,7 +4327,7 @@ export type DeleteRolePolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteRolePolicy: API.OperationMethod<
-  DeleteRolePolicyRequest,
+  DeleteRolePolicyRequest & RegionInput,
   DeleteRolePolicyResponse,
   DeleteRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4362,7 +4363,7 @@ export type DeleteSAMLProviderError =
  * This operation requires Signature Version 4.
  */
 export const deleteSAMLProvider: API.OperationMethod<
-  DeleteSAMLProviderRequest,
+  DeleteSAMLProviderRequest & RegionInput,
   DeleteSAMLProviderResponse,
   DeleteSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -4406,7 +4407,7 @@ export type DeleteServerCertificateError =
  * Reference.
  */
 export const deleteServerCertificate: API.OperationMethod<
-  DeleteServerCertificateRequest,
+  DeleteServerCertificateRequest & RegionInput,
   DeleteServerCertificateResponse,
   DeleteServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4454,7 @@ export type DeleteServiceLinkedRoleError =
  * *IAM User Guide*.
  */
 export const deleteServiceLinkedRole: API.OperationMethod<
-  DeleteServiceLinkedRoleRequest,
+  DeleteServiceLinkedRoleRequest & RegionInput,
   DeleteServiceLinkedRoleResponse,
   DeleteServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
@@ -4473,7 +4474,7 @@ export type DeleteServiceSpecificCredentialError = NoSuchEntityException | Commo
  * Deletes the specified service-specific credential.
  */
 export const deleteServiceSpecificCredential: API.OperationMethod<
-  DeleteServiceSpecificCredentialRequest,
+  DeleteServiceSpecificCredentialRequest & RegionInput,
   DeleteServiceSpecificCredentialResponse,
   DeleteServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -4503,7 +4504,7 @@ export type DeleteSigningCertificateError =
  * user credentials even if the Amazon Web Services account has no associated IAM users.
  */
 export const deleteSigningCertificate: API.OperationMethod<
-  DeleteSigningCertificateRequest,
+  DeleteSigningCertificateRequest & RegionInput,
   DeleteSigningCertificateResponse,
   DeleteSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4533,7 +4534,7 @@ export type DeleteSSHPublicKeyError = NoSuchEntityException | CommonErrors;
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const deleteSSHPublicKey: API.OperationMethod<
-  DeleteSSHPublicKeyRequest,
+  DeleteSSHPublicKeyRequest & RegionInput,
   DeleteSSHPublicKeyResponse,
   DeleteSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4580,7 +4581,7 @@ export type DeleteUserError =
  * - Group memberships (RemoveUserFromGroup)
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -4612,7 +4613,7 @@ export type DeleteUserPermissionsBoundaryError =
  * allowing the user to perform all the actions granted in its permissions policies.
  */
 export const deleteUserPermissionsBoundary: API.OperationMethod<
-  DeleteUserPermissionsBoundaryRequest,
+  DeleteUserPermissionsBoundaryRequest & RegionInput,
   DeleteUserPermissionsBoundaryResponse,
   DeleteUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -4642,7 +4643,7 @@ export type DeleteUserPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const deleteUserPolicy: API.OperationMethod<
-  DeleteUserPolicyRequest,
+  DeleteUserPolicyRequest & RegionInput,
   DeleteUserPolicyResponse,
   DeleteUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4671,7 +4672,7 @@ export type DeleteVirtualMFADeviceError =
  * information about deactivating MFA devices, see DeactivateMFADevice.
  */
 export const deleteVirtualMFADevice: API.OperationMethod<
-  DeleteVirtualMFADeviceRequest,
+  DeleteVirtualMFADeviceRequest & RegionInput,
   DeleteVirtualMFADeviceResponse,
   DeleteVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -4707,7 +4708,7 @@ export type DetachGroupPolicyError =
  * *IAM User Guide*.
  */
 export const detachGroupPolicy: API.OperationMethod<
-  DetachGroupPolicyRequest,
+  DetachGroupPolicyRequest & RegionInput,
   DetachGroupPolicyResponse,
   DetachGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4743,7 +4744,7 @@ export type DetachRolePolicyError =
  * *IAM User Guide*.
  */
 export const detachRolePolicy: API.OperationMethod<
-  DetachRolePolicyRequest,
+  DetachRolePolicyRequest & RegionInput,
   DetachRolePolicyResponse,
   DetachRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4779,7 +4780,7 @@ export type DetachUserPolicyError =
  * *IAM User Guide*.
  */
 export const detachUserPolicy: API.OperationMethod<
-  DetachUserPolicyRequest,
+  DetachUserPolicyRequest & RegionInput,
   DetachUserPolicyResponse,
   DetachUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4812,7 +4813,7 @@ export type DisableOrganizationsRootCredentialsManagementError =
  * accounts in your organization.
  */
 export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
-  DisableOrganizationsRootCredentialsManagementRequest,
+  DisableOrganizationsRootCredentialsManagementRequest & RegionInput,
   DisableOrganizationsRootCredentialsManagementResponse,
   DisableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
@@ -4853,7 +4854,7 @@ export type DisableOrganizationsRootSessionsError =
  * your organization.
  */
 export const disableOrganizationsRootSessions: API.OperationMethod<
-  DisableOrganizationsRootSessionsRequest,
+  DisableOrganizationsRootSessionsRequest & RegionInput,
   DisableOrganizationsRootSessionsResponse,
   DisableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4880,7 +4881,7 @@ export type DisableOutboundWebIdentityFederationError = FeatureDisabledException
  * does not affect tokens that were issued before the feature was disabled.
  */
 export const disableOutboundWebIdentityFederation: API.OperationMethod<
-  DisableOutboundWebIdentityFederationRequest,
+  DisableOutboundWebIdentityFederationRequest & RegionInput,
   DisableOutboundWebIdentityFederationResponse,
   DisableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
@@ -4910,7 +4911,7 @@ export type EnableMFADeviceError =
  * associated with the device.
  */
 export const enableMFADevice: API.OperationMethod<
-  EnableMFADeviceRequest,
+  EnableMFADeviceRequest & RegionInput,
   EnableMFADeviceResponse,
   EnableMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -4956,7 +4957,7 @@ export type EnableOrganizationsRootCredentialsManagementError =
  * Guide.
  */
 export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
-  EnableOrganizationsRootCredentialsManagementRequest,
+  EnableOrganizationsRootCredentialsManagementRequest & RegionInput,
   EnableOrganizationsRootCredentialsManagementResponse,
   EnableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
@@ -5007,7 +5008,7 @@ export type EnableOrganizationsRootSessionsError =
  * Guide.
  */
 export const enableOrganizationsRootSessions: API.OperationMethod<
-  EnableOrganizationsRootSessionsRequest,
+  EnableOrganizationsRootSessionsRequest & RegionInput,
   EnableOrganizationsRootSessionsResponse,
   EnableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
@@ -5035,7 +5036,7 @@ export type EnableOutboundWebIdentityFederationError = FeatureEnabledException |
  * This operation also generates a unique issuer URL for your Amazon Web Services account.
  */
 export const enableOutboundWebIdentityFederation: API.OperationMethod<
-  EnableOutboundWebIdentityFederationRequest,
+  EnableOutboundWebIdentityFederationRequest & RegionInput,
   EnableOutboundWebIdentityFederationResponse,
   EnableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5061,7 @@ export type GenerateCredentialReportError =
  * the *IAM User Guide*.
  */
 export const generateCredentialReport: API.OperationMethod<
-  GenerateCredentialReportRequest,
+  GenerateCredentialReportRequest & RegionInput,
   GenerateCredentialReportResponse,
   GenerateCredentialReportError,
   Credentials | HttpClient.HttpClient
@@ -5198,7 +5199,7 @@ export type GenerateOrganizationsAccessReportError =
  * viewing user activity in the *IAM User Guide*.
  */
 export const generateOrganizationsAccessReport: API.OperationMethod<
-  GenerateOrganizationsAccessReportRequest,
+  GenerateOrganizationsAccessReportRequest & RegionInput,
   GenerateOrganizationsAccessReportResponse,
   GenerateOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
@@ -5272,7 +5273,7 @@ export type GenerateServiceLastAccessedDetailsError =
  * *IAM User Guide*.
  */
 export const generateServiceLastAccessedDetails: API.OperationMethod<
-  GenerateServiceLastAccessedDetailsRequest,
+  GenerateServiceLastAccessedDetailsRequest & RegionInput,
   GenerateServiceLastAccessedDetailsResponse,
   GenerateServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
@@ -5294,7 +5295,7 @@ export type GetAccessKeyLastUsedError = CommonErrors;
  * Region that were specified in the last request made with that key.
  */
 export const getAccessKeyLastUsed: API.OperationMethod<
-  GetAccessKeyLastUsedRequest,
+  GetAccessKeyLastUsedRequest & RegionInput,
   GetAccessKeyLastUsedResponse,
   GetAccessKeyLastUsedError,
   Credentials | HttpClient.HttpClient
@@ -5328,7 +5329,7 @@ export type GetAccountAuthorizationDetailsError = ServiceFailureException | Comm
  * parameters.
  */
 export const getAccountAuthorizationDetails: API.PaginatedOperationMethod<
-  GetAccountAuthorizationDetailsRequest,
+  GetAccountAuthorizationDetailsRequest & RegionInput,
   GetAccountAuthorizationDetailsResponse,
   GetAccountAuthorizationDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -5356,7 +5357,7 @@ export type GetAccountPasswordPolicyError =
  * policy.
  */
 export const getAccountPasswordPolicy: API.OperationMethod<
-  GetAccountPasswordPolicyRequest,
+  GetAccountPasswordPolicyRequest & RegionInput,
   GetAccountPasswordPolicyResponse,
   GetAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5385,7 +5386,7 @@ export type GetAccountPropertiesError =
  * configuration settings. Use PutAccountProperties to modify these properties.
  */
 export const getAccountProperties: API.OperationMethod<
-  GetAccountPropertiesRequest,
+  GetAccountPropertiesRequest & RegionInput,
   GetAccountPropertiesResponse,
   GetAccountPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -5409,7 +5410,7 @@ export type GetAccountSummaryError = ServiceFailureException | CommonErrors;
  * *IAM User Guide*.
  */
 export const getAccountSummary: API.OperationMethod<
-  GetAccountSummaryRequest,
+  GetAccountSummaryRequest & RegionInput,
   GetAccountSummaryResponse,
   GetAccountSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5439,7 +5440,7 @@ export type GetContextKeysForCustomPolicyError = InvalidInputException | CommonE
  * request.
  */
 export const getContextKeysForCustomPolicy: API.OperationMethod<
-  GetContextKeysForCustomPolicyRequest,
+  GetContextKeysForCustomPolicyRequest & RegionInput,
   GetContextKeysForPolicyResponse,
   GetContextKeysForCustomPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5481,7 +5482,7 @@ export type GetContextKeysForPrincipalPolicyError =
  * that you provide, are included.
  */
 export const getContextKeysForPrincipalPolicy: API.OperationMethod<
-  GetContextKeysForPrincipalPolicyRequest,
+  GetContextKeysForPrincipalPolicyRequest & RegionInput,
   GetContextKeysForPolicyResponse,
   GetContextKeysForPrincipalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5508,7 +5509,7 @@ export type GetCredentialReportError =
  * the *IAM User Guide*.
  */
 export const getCredentialReport: API.OperationMethod<
-  GetCredentialReportRequest,
+  GetCredentialReportRequest & RegionInput,
   GetCredentialReportResponse,
   GetCredentialReportError,
   Credentials | HttpClient.HttpClient
@@ -5544,7 +5545,7 @@ export type GetDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const getDelegationRequest: API.OperationMethod<
-  GetDelegationRequestRequest,
+  GetDelegationRequestRequest & RegionInput,
   GetDelegationRequestResponse,
   GetDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5566,7 @@ export type GetGroupError = NoSuchEntityException | ServiceFailureException | Co
  * the results using the `MaxItems` and `Marker` parameters.
  */
 export const getGroup: API.PaginatedOperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient,
@@ -5608,7 +5609,7 @@ export type GetGroupPolicyError = NoSuchEntityException | ServiceFailureExceptio
  * policies in the *IAM User Guide*.
  */
 export const getGroupPolicy: API.OperationMethod<
-  GetGroupPolicyRequest,
+  GetGroupPolicyRequest & RegionInput,
   GetGroupPolicyResponse,
   GetGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5647,7 +5648,7 @@ export type GetHumanReadableSummaryError =
  * for a given delegation request will always be able to retrieve the human readable summary for that request.
  */
 export const getHumanReadableSummary: API.OperationMethod<
-  GetHumanReadableSummaryRequest,
+  GetHumanReadableSummaryRequest & RegionInput,
   GetHumanReadableSummaryResponse,
   GetHumanReadableSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5673,7 +5674,7 @@ export type GetInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const getInstanceProfile: API.OperationMethod<
-  GetInstanceProfileRequest,
+  GetInstanceProfileRequest & RegionInput,
   GetInstanceProfileResponse,
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5704,7 +5705,7 @@ export type GetLoginProfileError = NoSuchEntityException | ServiceFailureExcepti
  * unless you create a password for the user to access the Amazon Web Services Management Console.
  */
 export const getLoginProfile: API.OperationMethod<
-  GetLoginProfileRequest,
+  GetLoginProfileRequest & RegionInput,
   GetLoginProfileResponse,
   GetLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -5724,7 +5725,7 @@ export type GetMFADeviceError = NoSuchEntityException | ServiceFailureException 
  * Retrieves information about an MFA device for a specified user.
  */
 export const getMFADevice: API.OperationMethod<
-  GetMFADeviceRequest,
+  GetMFADeviceRequest & RegionInput,
   GetMFADeviceResponse,
   GetMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -5749,7 +5750,7 @@ export type GetOpenIDConnectProviderError =
  * in IAM.
  */
 export const getOpenIDConnectProvider: API.OperationMethod<
-  GetOpenIDConnectProviderRequest,
+  GetOpenIDConnectProviderRequest & RegionInput,
   GetOpenIDConnectProviderResponse,
   GetOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -5790,7 +5791,7 @@ export type GetOrganizationsAccessReportError = NoSuchEntityException | CommonEr
  * By default, the list is sorted by service namespace.
  */
 export const getOrganizationsAccessReport: API.OperationMethod<
-  GetOrganizationsAccessReportRequest,
+  GetOrganizationsAccessReportRequest & RegionInput,
   GetOrganizationsAccessReportResponse,
   GetOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
@@ -5811,7 +5812,7 @@ export type GetOutboundWebIdentityFederationInfoError = FeatureDisabledException
  * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
  */
 export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
-  GetOutboundWebIdentityFederationInfoRequest,
+  GetOutboundWebIdentityFederationInfoRequest & RegionInput,
   GetOutboundWebIdentityFederationInfoResponse,
   GetOutboundWebIdentityFederationInfoError,
   Credentials | HttpClient.HttpClient
@@ -5846,7 +5847,7 @@ export type GetPolicyError =
  * policies in the *IAM User Guide*.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5890,7 +5891,7 @@ export type GetPolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const getPolicyVersion: API.OperationMethod<
-  GetPolicyVersionRequest,
+  GetPolicyVersionRequest & RegionInput,
   GetPolicyVersionResponse,
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -5920,7 +5921,7 @@ export type GetRoleError = NoSuchEntityException | ServiceFailureException | Com
  * automatically.
  */
 export const getRole: API.OperationMethod<
-  GetRoleRequest,
+  GetRoleRequest & RegionInput,
   GetRoleResponse,
   GetRoleError,
   Credentials | HttpClient.HttpClient
@@ -5959,7 +5960,7 @@ export type GetRolePolicyError = NoSuchEntityException | ServiceFailureException
  * *IAM User Guide*.
  */
 export const getRolePolicy: API.OperationMethod<
-  GetRolePolicyRequest,
+  GetRolePolicyRequest & RegionInput,
   GetRolePolicyResponse,
   GetRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5989,7 +5990,7 @@ export type GetRoleTemplateVersionError =
  * minor version.
  */
 export const getRoleTemplateVersion: API.OperationMethod<
-  GetRoleTemplateVersionRequest,
+  GetRoleTemplateVersionRequest & RegionInput,
   GetRoleTemplateVersionResponse,
   GetRoleTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -6016,7 +6017,7 @@ export type GetSAMLProviderError =
  * This operation requires Signature Version 4.
  */
 export const getSAMLProvider: API.OperationMethod<
-  GetSAMLProviderRequest,
+  GetSAMLProviderRequest & RegionInput,
   GetSAMLProviderResponse,
   GetSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -6044,7 +6045,7 @@ export type GetServerCertificateError =
  * manage with IAM.
  */
 export const getServerCertificate: API.OperationMethod<
-  GetServerCertificateRequest,
+  GetServerCertificateRequest & RegionInput,
   GetServerCertificateResponse,
   GetServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -6112,7 +6113,7 @@ export type GetServiceLastAccessedDetailsError =
  * *IAM User Guide*.
  */
 export const getServiceLastAccessedDetails: API.OperationMethod<
-  GetServiceLastAccessedDetailsRequest,
+  GetServiceLastAccessedDetailsRequest & RegionInput,
   GetServiceLastAccessedDetailsResponse,
   GetServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6157,7 +6158,7 @@ export type GetServiceLastAccessedDetailsWithEntitiesError =
  * access listed first.
  */
 export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
-  GetServiceLastAccessedDetailsWithEntitiesRequest,
+  GetServiceLastAccessedDetailsWithEntitiesRequest & RegionInput,
   GetServiceLastAccessedDetailsWithEntitiesResponse,
   GetServiceLastAccessedDetailsWithEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -6185,7 +6186,7 @@ export type GetServiceLinkedRoleDeletionStatusError =
  * information is returned by the service.
  */
 export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
-  GetServiceLinkedRoleDeletionStatusRequest,
+  GetServiceLinkedRoleDeletionStatusRequest & RegionInput,
   GetServiceLinkedRoleDeletionStatusResponse,
   GetServiceLinkedRoleDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -6213,7 +6214,7 @@ export type GetSSHPublicKeyError =
  * connections in the *CodeCommit User Guide*.
  */
 export const getSSHPublicKey: API.OperationMethod<
-  GetSSHPublicKeyRequest,
+  GetSSHPublicKeyRequest & RegionInput,
   GetSSHPublicKeyResponse,
   GetSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -6237,7 +6238,7 @@ export type GetUserError = NoSuchEntityException | ServiceFailureException | Com
  * the Amazon Web Services access key ID used to sign the request to this operation.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -6273,7 +6274,7 @@ export type GetUserPolicyError = NoSuchEntityException | ServiceFailureException
  * policies in the *IAM User Guide*.
  */
 export const getUserPolicy: API.OperationMethod<
-  GetUserPolicyRequest,
+  GetUserPolicyRequest & RegionInput,
   GetUserPolicyResponse,
   GetUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6309,7 +6310,7 @@ export type ListAccessKeysError = NoSuchEntityException | ServiceFailureExceptio
  * only during key and user creation.
  */
 export const listAccessKeys: API.PaginatedOperationMethod<
-  ListAccessKeysRequest,
+  ListAccessKeysRequest & RegionInput,
   ListAccessKeysResponse,
   ListAccessKeysError,
   Credentials | HttpClient.HttpClient,
@@ -6339,7 +6340,7 @@ export type ListAccountAliasesError = ServiceFailureException | CommonErrors;
  * *IAM User Guide*.
  */
 export const listAccountAliases: API.PaginatedOperationMethod<
-  ListAccountAliasesRequest,
+  ListAccountAliasesRequest & RegionInput,
   ListAccountAliasesResponse,
   ListAccountAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -6381,7 +6382,7 @@ export type ListAttachedGroupPoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedGroupPolicies: API.PaginatedOperationMethod<
-  ListAttachedGroupPoliciesRequest,
+  ListAttachedGroupPoliciesRequest & RegionInput,
   ListAttachedGroupPoliciesResponse,
   ListAttachedGroupPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6423,7 +6424,7 @@ export type ListAttachedRolePoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedRolePolicies: API.PaginatedOperationMethod<
-  ListAttachedRolePoliciesRequest,
+  ListAttachedRolePoliciesRequest & RegionInput,
   ListAttachedRolePoliciesResponse,
   ListAttachedRolePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6465,7 +6466,7 @@ export type ListAttachedUserPoliciesError =
  * operation returns an empty list.
  */
 export const listAttachedUserPolicies: API.PaginatedOperationMethod<
-  ListAttachedUserPoliciesRequest,
+  ListAttachedUserPoliciesRequest & RegionInput,
   ListAttachedUserPoliciesResponse,
   ListAttachedUserPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6503,7 +6504,7 @@ export type ListDelegationRequestsError =
  * Managing Permissions for Delegation Requests.
  */
 export const listDelegationRequests: API.OperationMethod<
-  ListDelegationRequestsRequest,
+  ListDelegationRequestsRequest & RegionInput,
   ListDelegationRequestsResponse,
   ListDelegationRequestsError,
   Credentials | HttpClient.HttpClient
@@ -6536,7 +6537,7 @@ export type ListEntitiesForPolicyError =
  * parameters.
  */
 export const listEntitiesForPolicy: API.PaginatedOperationMethod<
-  ListEntitiesForPolicyRequest,
+  ListEntitiesForPolicyRequest & RegionInput,
   ListEntitiesForPolicyResponse,
   ListEntitiesForPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -6568,7 +6569,7 @@ export type ListGroupPoliciesError = NoSuchEntityException | ServiceFailureExcep
  * operation returns an empty list.
  */
 export const listGroupPolicies: API.PaginatedOperationMethod<
-  ListGroupPoliciesRequest,
+  ListGroupPoliciesRequest & RegionInput,
   ListGroupPoliciesResponse,
   ListGroupPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6598,7 +6599,7 @@ export type ListGroupsError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -6628,7 +6629,7 @@ export type ListGroupsForUserError = NoSuchEntityException | ServiceFailureExcep
  * parameters.
  */
 export const listGroupsForUser: API.PaginatedOperationMethod<
-  ListGroupsForUserRequest,
+  ListGroupsForUserRequest & RegionInput,
   ListGroupsForUserResponse,
   ListGroupsForUserError,
   Credentials | HttpClient.HttpClient,
@@ -6665,7 +6666,7 @@ export type ListInstanceProfilesError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listInstanceProfiles: API.PaginatedOperationMethod<
-  ListInstanceProfilesRequest,
+  ListInstanceProfilesRequest & RegionInput,
   ListInstanceProfilesResponse,
   ListInstanceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6701,7 +6702,7 @@ export type ListInstanceProfilesForRoleError =
  * parameters.
  */
 export const listInstanceProfilesForRole: API.PaginatedOperationMethod<
-  ListInstanceProfilesForRoleRequest,
+  ListInstanceProfilesForRoleRequest & RegionInput,
   ListInstanceProfilesForRoleResponse,
   ListInstanceProfilesForRoleError,
   Credentials | HttpClient.HttpClient,
@@ -6733,7 +6734,7 @@ export type ListInstanceProfileTagsError =
  * *IAM User Guide*.
  */
 export const listInstanceProfileTags: API.PaginatedOperationMethod<
-  ListInstanceProfileTagsRequest,
+  ListInstanceProfileTagsRequest & RegionInput,
   ListInstanceProfileTagsResponse,
   ListInstanceProfileTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6766,7 +6767,7 @@ export type ListMFADevicesError = NoSuchEntityException | ServiceFailureExceptio
  * parameters.
  */
 export const listMFADevices: API.PaginatedOperationMethod<
-  ListMFADevicesRequest,
+  ListMFADevicesRequest & RegionInput,
   ListMFADevicesResponse,
   ListMFADevicesError,
   Credentials | HttpClient.HttpClient,
@@ -6799,7 +6800,7 @@ export type ListMFADeviceTagsError =
  * *IAM User Guide*.
  */
 export const listMFADeviceTags: API.PaginatedOperationMethod<
-  ListMFADeviceTagsRequest,
+  ListMFADeviceTagsRequest & RegionInput,
   ListMFADeviceTagsResponse,
   ListMFADeviceTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6830,7 +6831,7 @@ export type ListOpenIDConnectProvidersError = ServiceFailureException | CommonEr
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
  */
 export const listOpenIDConnectProviders: API.OperationMethod<
-  ListOpenIDConnectProvidersRequest,
+  ListOpenIDConnectProvidersRequest & RegionInput,
   ListOpenIDConnectProvidersResponse,
   ListOpenIDConnectProvidersError,
   Credentials | HttpClient.HttpClient
@@ -6859,7 +6860,7 @@ export type ListOpenIDConnectProviderTagsError =
  * *IAM User Guide*.
  */
 export const listOpenIDConnectProviderTags: API.PaginatedOperationMethod<
-  ListOpenIDConnectProviderTagsRequest,
+  ListOpenIDConnectProviderTagsRequest & RegionInput,
   ListOpenIDConnectProviderTagsResponse,
   ListOpenIDConnectProviderTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6892,7 +6893,7 @@ export type ListOrganizationsFeaturesError =
  * information, see Centrally manage root access for member accounts.
  */
 export const listOrganizationsFeatures: API.OperationMethod<
-  ListOrganizationsFeaturesRequest,
+  ListOrganizationsFeaturesRequest & RegionInput,
   ListOrganizationsFeaturesResponse,
   ListOrganizationsFeaturesError,
   Credentials | HttpClient.HttpClient
@@ -6934,7 +6935,7 @@ export type ListPoliciesError = ServiceFailureException | CommonErrors;
  * GetPolicy.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6997,7 +6998,7 @@ export type ListPoliciesGrantingServiceAccessError =
  * operations.
  */
 export const listPoliciesGrantingServiceAccess: API.OperationMethod<
-  ListPoliciesGrantingServiceAccessRequest,
+  ListPoliciesGrantingServiceAccessRequest & RegionInput,
   ListPoliciesGrantingServiceAccessResponse,
   ListPoliciesGrantingServiceAccessError,
   Credentials | HttpClient.HttpClient
@@ -7023,7 +7024,7 @@ export type ListPolicyTagsError =
  * *IAM User Guide*.
  */
 export const listPolicyTags: API.PaginatedOperationMethod<
-  ListPolicyTagsRequest,
+  ListPolicyTagsRequest & RegionInput,
   ListPolicyTagsResponse,
   ListPolicyTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7058,7 +7059,7 @@ export type ListPolicyVersionsError =
  * policies in the *IAM User Guide*.
  */
 export const listPolicyVersions: API.PaginatedOperationMethod<
-  ListPolicyVersionsRequest,
+  ListPolicyVersionsRequest & RegionInput,
   ListPolicyVersionsResponse,
   ListPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -7095,7 +7096,7 @@ export type ListRolePoliciesError = NoSuchEntityException | ServiceFailureExcept
  * operation returns an empty list.
  */
 export const listRolePolicies: API.PaginatedOperationMethod<
-  ListRolePoliciesRequest,
+  ListRolePoliciesRequest & RegionInput,
   ListRolePoliciesResponse,
   ListRolePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -7138,7 +7139,7 @@ export type ListRolesError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listRoles: API.PaginatedOperationMethod<
-  ListRolesRequest,
+  ListRolesRequest & RegionInput,
   ListRolesResponse,
   ListRolesError,
   Credentials | HttpClient.HttpClient,
@@ -7167,7 +7168,7 @@ export type ListRoleTagsError = NoSuchEntityException | ServiceFailureException 
  * *IAM User Guide*.
  */
 export const listRoleTags: API.PaginatedOperationMethod<
-  ListRoleTagsRequest,
+  ListRoleTagsRequest & RegionInput,
   ListRoleTagsResponse,
   ListRoleTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7198,7 +7199,7 @@ export type ListSAMLProvidersError = ServiceFailureException | CommonErrors;
  * This operation requires Signature Version 4.
  */
 export const listSAMLProviders: API.OperationMethod<
-  ListSAMLProvidersRequest,
+  ListSAMLProvidersRequest & RegionInput,
   ListSAMLProvidersResponse,
   ListSAMLProvidersError,
   Credentials | HttpClient.HttpClient
@@ -7227,7 +7228,7 @@ export type ListSAMLProviderTagsError =
  * *IAM User Guide*.
  */
 export const listSAMLProviderTags: API.PaginatedOperationMethod<
-  ListSAMLProviderTagsRequest,
+  ListSAMLProviderTagsRequest & RegionInput,
   ListSAMLProviderTagsResponse,
   ListSAMLProviderTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7267,7 +7268,7 @@ export type ListServerCertificatesError = ServiceFailureException | CommonErrors
  * GetServerCertificate.
  */
 export const listServerCertificates: API.PaginatedOperationMethod<
-  ListServerCertificatesRequest,
+  ListServerCertificatesRequest & RegionInput,
   ListServerCertificatesResponse,
   ListServerCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -7305,7 +7306,7 @@ export type ListServerCertificateTagsError =
  * certificates in the *IAM User Guide*.
  */
 export const listServerCertificateTags: API.PaginatedOperationMethod<
-  ListServerCertificateTagsRequest,
+  ListServerCertificateTagsRequest & RegionInput,
   ListServerCertificateTagsResponse,
   ListServerCertificateTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7352,7 +7353,7 @@ export type ListServiceSpecificCredentialsError =
  * *IAM User Guide*.
  */
 export const listServiceSpecificCredentials: API.OperationMethod<
-  ListServiceSpecificCredentialsRequest,
+  ListServiceSpecificCredentialsRequest & RegionInput,
   ListServiceSpecificCredentialsResponse,
   ListServiceSpecificCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7386,7 +7387,7 @@ export type ListSigningCertificatesError =
  * associated users.
  */
 export const listSigningCertificates: API.PaginatedOperationMethod<
-  ListSigningCertificatesRequest,
+  ListSigningCertificatesRequest & RegionInput,
   ListSigningCertificatesResponse,
   ListSigningCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -7422,7 +7423,7 @@ export type ListSSHPublicKeysError = NoSuchEntityException | CommonErrors;
  * results using the `MaxItems` and `Marker` parameters.
  */
 export const listSSHPublicKeys: API.PaginatedOperationMethod<
-  ListSSHPublicKeysRequest,
+  ListSSHPublicKeysRequest & RegionInput,
   ListSSHPublicKeysResponse,
   ListSSHPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -7458,7 +7459,7 @@ export type ListUserPoliciesError = NoSuchEntityException | ServiceFailureExcept
  * operation returns an empty list.
  */
 export const listUserPolicies: API.PaginatedOperationMethod<
-  ListUserPoliciesRequest,
+  ListUserPoliciesRequest & RegionInput,
   ListUserPoliciesResponse,
   ListUserPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -7499,7 +7500,7 @@ export type ListUsersError = ServiceFailureException | CommonErrors;
  * parameters.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -7527,7 +7528,7 @@ export type ListUserTagsError = NoSuchEntityException | ServiceFailureException 
  * *IAM User Guide*.
  */
 export const listUserTags: API.PaginatedOperationMethod<
-  ListUserTagsRequest,
+  ListUserTagsRequest & RegionInput,
   ListUserTagsResponse,
   ListUserTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7563,7 +7564,7 @@ export type ListVirtualMFADevicesError = CommonErrors;
  * parameters.
  */
 export const listVirtualMFADevices: API.PaginatedOperationMethod<
-  ListVirtualMFADevicesRequest,
+  ListVirtualMFADevicesRequest & RegionInput,
   ListVirtualMFADevicesResponse,
   ListVirtualMFADevicesError,
   Credentials | HttpClient.HttpClient,
@@ -7600,7 +7601,7 @@ export type PutAccountPropertiesError =
  * belong to the same namespace. Use GetAccountProperties to view the current properties.
  */
 export const putAccountProperties: API.OperationMethod<
-  PutAccountPropertiesRequest,
+  PutAccountPropertiesRequest & RegionInput,
   PutAccountPropertiesResponse,
   PutAccountPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -7644,7 +7645,7 @@ export type PutGroupPolicyError =
  * *IAM User Guide*.
  */
 export const putGroupPolicy: API.OperationMethod<
-  PutGroupPolicyRequest,
+  PutGroupPolicyRequest & RegionInput,
   PutGroupPolicyResponse,
   PutGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7686,7 +7687,7 @@ export type PutRolePermissionsBoundaryError =
  * evaluation logic in the IAM User Guide.
  */
 export const putRolePermissionsBoundary: API.OperationMethod<
-  PutRolePermissionsBoundaryRequest,
+  PutRolePermissionsBoundaryRequest & RegionInput,
   PutRolePermissionsBoundaryResponse,
   PutRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -7748,7 +7749,7 @@ export type PutRolePolicyError =
  * *IAM User Guide*.
  */
 export const putRolePolicy: API.OperationMethod<
-  PutRolePolicyRequest,
+  PutRolePolicyRequest & RegionInput,
   PutRolePolicyResponse,
   PutRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7788,7 +7789,7 @@ export type PutUserPermissionsBoundaryError =
  * evaluation logic in the IAM User Guide.
  */
 export const putUserPermissionsBoundary: API.OperationMethod<
-  PutUserPermissionsBoundaryRequest,
+  PutUserPermissionsBoundaryRequest & RegionInput,
   PutUserPermissionsBoundaryResponse,
   PutUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
@@ -7837,7 +7838,7 @@ export type PutUserPolicyError =
  * *IAM User Guide*.
  */
 export const putUserPolicy: API.OperationMethod<
-  PutUserPolicyRequest,
+  PutUserPolicyRequest & RegionInput,
   PutUserPolicyResponse,
   PutUserPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7875,7 +7876,7 @@ export type RejectDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const rejectDelegationRequest: API.OperationMethod<
-  RejectDelegationRequestRequest,
+  RejectDelegationRequestRequest & RegionInput,
   RejectDelegationRequestResponse,
   RejectDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -7910,7 +7911,7 @@ export type RemoveClientIDFromOpenIDConnectProviderError =
  * a client ID that does not exist.
  */
 export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
-  RemoveClientIDFromOpenIDConnectProviderRequest,
+  RemoveClientIDFromOpenIDConnectProviderRequest & RegionInput,
   RemoveClientIDFromOpenIDConnectProviderResponse,
   RemoveClientIDFromOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -7950,7 +7951,7 @@ export type RemoveRoleFromInstanceProfileError =
  * instance profiles in the *IAM User Guide*.
  */
 export const removeRoleFromInstanceProfile: API.OperationMethod<
-  RemoveRoleFromInstanceProfileRequest,
+  RemoveRoleFromInstanceProfileRequest & RegionInput,
   RemoveRoleFromInstanceProfileResponse,
   RemoveRoleFromInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -7979,7 +7980,7 @@ export type RemoveUserFromGroupError =
  * Removes the specified user from the specified group.
  */
 export const removeUserFromGroup: API.OperationMethod<
-  RemoveUserFromGroupRequest,
+  RemoveUserFromGroupRequest & RegionInput,
   RemoveUserFromGroupResponse,
   RemoveUserFromGroupError,
   Credentials | HttpClient.HttpClient
@@ -8002,7 +8003,7 @@ export type ResetServiceSpecificCredentialError = NoSuchEntityException | Common
  * user.
  */
 export const resetServiceSpecificCredential: API.OperationMethod<
-  ResetServiceSpecificCredentialRequest,
+  ResetServiceSpecificCredentialRequest & RegionInput,
   ResetServiceSpecificCredentialResponse,
   ResetServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -8032,7 +8033,7 @@ export type ResyncMFADeviceError =
  * device in the *IAM User Guide*.
  */
 export const resyncMFADevice: API.OperationMethod<
-  ResyncMFADeviceRequest,
+  ResyncMFADeviceRequest & RegionInput,
   ResyncMFADeviceResponse,
   ResyncMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8074,7 +8075,7 @@ export type SendDelegationTokenError =
  * Managing Permissions for Delegation Requests.
  */
 export const sendDelegationToken: API.OperationMethod<
-  SendDelegationTokenRequest,
+  SendDelegationTokenRequest & RegionInput,
   SendDelegationTokenResponse,
   SendDelegationTokenError,
   Credentials | HttpClient.HttpClient
@@ -8111,7 +8112,7 @@ export type SetDefaultPolicyVersionError =
  * policies in the *IAM User Guide*.
  */
 export const setDefaultPolicyVersion: API.OperationMethod<
-  SetDefaultPolicyVersionRequest,
+  SetDefaultPolicyVersionRequest & RegionInput,
   SetDefaultPolicyVersionResponse,
   SetDefaultPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -8157,7 +8158,7 @@ export type SetSecurityTokenServicePreferencesError = ServiceFailureException | 
  * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
  */
 export const setSecurityTokenServicePreferences: API.OperationMethod<
-  SetSecurityTokenServicePreferencesRequest,
+  SetSecurityTokenServicePreferencesRequest & RegionInput,
   SetSecurityTokenServicePreferencesResponse,
   SetSecurityTokenServicePreferencesError,
   Credentials | HttpClient.HttpClient
@@ -8207,7 +8208,7 @@ export type SimulateCustomPolicyError =
  * *IAM User Guide*.
  */
 export const simulateCustomPolicy: API.PaginatedOperationMethod<
-  SimulateCustomPolicyRequest,
+  SimulateCustomPolicyRequest & RegionInput,
   SimulatePolicyResponse,
   SimulateCustomPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -8279,7 +8280,7 @@ export type SimulatePrincipalPolicyError =
  * *IAM User Guide*.
  */
 export const simulatePrincipalPolicy: API.PaginatedOperationMethod<
-  SimulatePrincipalPolicyRequest,
+  SimulatePrincipalPolicyRequest & RegionInput,
   SimulatePolicyResponse,
   SimulatePrincipalPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -8336,7 +8337,7 @@ export type TagInstanceProfileError =
  * must interpret the value in your code.
  */
 export const tagInstanceProfile: API.OperationMethod<
-  TagInstanceProfileRequest,
+  TagInstanceProfileRequest & RegionInput,
   TagInstanceProfileResponse,
   TagInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -8393,7 +8394,7 @@ export type TagMFADeviceError =
  * must interpret the value in your code.
  */
 export const tagMFADevice: API.OperationMethod<
-  TagMFADeviceRequest,
+  TagMFADeviceRequest & RegionInput,
   TagMFADeviceResponse,
   TagMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8451,7 +8452,7 @@ export type TagOpenIDConnectProviderError =
  * must interpret the value in your code.
  */
 export const tagOpenIDConnectProvider: API.OperationMethod<
-  TagOpenIDConnectProviderRequest,
+  TagOpenIDConnectProviderRequest & RegionInput,
   TagOpenIDConnectProviderResponse,
   TagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -8507,7 +8508,7 @@ export type TagPolicyError =
  * must interpret the value in your code.
  */
 export const tagPolicy: API.OperationMethod<
-  TagPolicyRequest,
+  TagPolicyRequest & RegionInput,
   TagPolicyResponse,
   TagPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8571,7 +8572,7 @@ export type TagRoleError =
  * *IAM User Guide*.
  */
 export const tagRole: API.OperationMethod<
-  TagRoleRequest,
+  TagRoleRequest & RegionInput,
   TagRoleResponse,
   TagRoleError,
   Credentials | HttpClient.HttpClient
@@ -8629,7 +8630,7 @@ export type TagSAMLProviderError =
  * must interpret the value in your code.
  */
 export const tagSAMLProvider: API.OperationMethod<
-  TagSAMLProviderRequest,
+  TagSAMLProviderRequest & RegionInput,
   TagSAMLProviderResponse,
   TagSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -8694,7 +8695,7 @@ export type TagServerCertificateError =
  * must interpret the value in your code.
  */
 export const tagServerCertificate: API.OperationMethod<
-  TagServerCertificateRequest,
+  TagServerCertificateRequest & RegionInput,
   TagServerCertificateResponse,
   TagServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -8757,7 +8758,7 @@ export type TagUserError =
  * *IAM User Guide*.
  */
 export const tagUser: API.OperationMethod<
-  TagUserRequest,
+  TagUserRequest & RegionInput,
   TagUserResponse,
   TagUserError,
   Credentials | HttpClient.HttpClient
@@ -8789,7 +8790,7 @@ export type UntagInstanceProfileError =
  * *IAM User Guide*.
  */
 export const untagInstanceProfile: API.OperationMethod<
-  UntagInstanceProfileRequest,
+  UntagInstanceProfileRequest & RegionInput,
   UntagInstanceProfileResponse,
   UntagInstanceProfileError,
   Credentials | HttpClient.HttpClient
@@ -8821,7 +8822,7 @@ export type UntagMFADeviceError =
  * *IAM User Guide*.
  */
 export const untagMFADevice: API.OperationMethod<
-  UntagMFADeviceRequest,
+  UntagMFADeviceRequest & RegionInput,
   UntagMFADeviceResponse,
   UntagMFADeviceError,
   Credentials | HttpClient.HttpClient
@@ -8854,7 +8855,7 @@ export type UntagOpenIDConnectProviderError =
  * *IAM User Guide*.
  */
 export const untagOpenIDConnectProvider: API.OperationMethod<
-  UntagOpenIDConnectProviderRequest,
+  UntagOpenIDConnectProviderRequest & RegionInput,
   UntagOpenIDConnectProviderResponse,
   UntagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
@@ -8885,7 +8886,7 @@ export type UntagPolicyError =
  * *IAM User Guide*.
  */
 export const untagPolicy: API.OperationMethod<
-  UntagPolicyRequest,
+  UntagPolicyRequest & RegionInput,
   UntagPolicyResponse,
   UntagPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8915,7 +8916,7 @@ export type UntagRoleError =
  * *IAM User Guide*.
  */
 export const untagRole: API.OperationMethod<
-  UntagRoleRequest,
+  UntagRoleRequest & RegionInput,
   UntagRoleResponse,
   UntagRoleError,
   Credentials | HttpClient.HttpClient
@@ -8943,7 +8944,7 @@ export type UntagSAMLProviderError =
  * *IAM User Guide*.
  */
 export const untagSAMLProvider: API.OperationMethod<
-  UntagSAMLProviderRequest,
+  UntagSAMLProviderRequest & RegionInput,
   UntagSAMLProviderResponse,
   UntagSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -8981,7 +8982,7 @@ export type UntagServerCertificateError =
  * certificates in the *IAM User Guide*.
  */
 export const untagServerCertificate: API.OperationMethod<
-  UntagServerCertificateRequest,
+  UntagServerCertificateRequest & RegionInput,
   UntagServerCertificateResponse,
   UntagServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9011,7 +9012,7 @@ export type UntagUserError =
  * *IAM User Guide*.
  */
 export const untagUser: API.OperationMethod<
-  UntagUserRequest,
+  UntagUserRequest & RegionInput,
   UntagUserResponse,
   UntagUserError,
   Credentials | HttpClient.HttpClient
@@ -9048,7 +9049,7 @@ export type UpdateAccessKeyError =
  * in the *IAM User Guide*.
  */
 export const updateAccessKey: API.OperationMethod<
-  UpdateAccessKeyRequest,
+  UpdateAccessKeyRequest & RegionInput,
   UpdateAccessKeyResponse,
   UpdateAccessKeyError,
   Credentials | HttpClient.HttpClient
@@ -9088,7 +9089,7 @@ export type UpdateAccountPasswordPolicyError =
  * policy in the *IAM User Guide*.
  */
 export const updateAccountPasswordPolicy: API.OperationMethod<
-  UpdateAccountPasswordPolicyRequest,
+  UpdateAccountPasswordPolicyRequest & RegionInput,
   UpdateAccountPasswordPolicyResponse,
   UpdateAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9122,7 +9123,7 @@ export type UpdateAssumeRolePolicyError =
  * delegate permissions and federate identities.
  */
 export const updateAssumeRolePolicy: API.OperationMethod<
-  UpdateAssumeRolePolicyRequest,
+  UpdateAssumeRolePolicyRequest & RegionInput,
   UpdateAssumeRolePolicyResponse,
   UpdateAssumeRolePolicyError,
   Credentials | HttpClient.HttpClient
@@ -9159,7 +9160,7 @@ export type UpdateDelegationRequestError =
  * Managing Permissions for Delegation Requests.
  */
 export const updateDelegationRequest: API.OperationMethod<
-  UpdateDelegationRequestRequest,
+  UpdateDelegationRequestRequest & RegionInput,
   UpdateDelegationRequestResponse,
   UpdateDelegationRequestError,
   Credentials | HttpClient.HttpClient
@@ -9200,7 +9201,7 @@ export type UpdateGroupError =
  * update fails. For more information about permissions, see Access management.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -9238,7 +9239,7 @@ export type UpdateLoginProfileError =
  * *IAM User Guide*.
  */
 export const updateLoginProfile: API.OperationMethod<
-  UpdateLoginProfileRequest,
+  UpdateLoginProfileRequest & RegionInput,
   UpdateLoginProfileResponse,
   UpdateLoginProfileError,
   Credentials | HttpClient.HttpClient
@@ -9290,7 +9291,7 @@ export type UpdateOpenIDConnectProviderThumbprintError =
  * privileged users.
  */
 export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
-  UpdateOpenIDConnectProviderThumbprintRequest,
+  UpdateOpenIDConnectProviderThumbprintRequest & RegionInput,
   UpdateOpenIDConnectProviderThumbprintResponse,
   UpdateOpenIDConnectProviderThumbprintError,
   Credentials | HttpClient.HttpClient
@@ -9319,7 +9320,7 @@ export type UpdateRoleError =
  * Updates the description or maximum session duration setting of a role.
  */
 export const updateRole: API.OperationMethod<
-  UpdateRoleRequest,
+  UpdateRoleRequest & RegionInput,
   UpdateRoleResponse,
   UpdateRoleError,
   Credentials | HttpClient.HttpClient
@@ -9346,7 +9347,7 @@ export type UpdateRoleDescriptionError =
  * the `Description` parameter in the `UpdateRole` operation.
  */
 export const updateRoleDescription: API.OperationMethod<
-  UpdateRoleDescriptionRequest,
+  UpdateRoleDescriptionRequest & RegionInput,
   UpdateRoleDescriptionResponse,
   UpdateRoleDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -9374,7 +9375,7 @@ export type UpdateSAMLProviderError =
  * the old key in a separate request.
  */
 export const updateSAMLProvider: API.OperationMethod<
-  UpdateSAMLProviderRequest,
+  UpdateSAMLProviderRequest & RegionInput,
   UpdateSAMLProviderResponse,
   UpdateSAMLProviderError,
   Credentials | HttpClient.HttpClient
@@ -9423,7 +9424,7 @@ export type UpdateServerCertificateError =
  * about permissions, see Access management in the *IAM User Guide*.
  */
 export const updateServerCertificate: API.OperationMethod<
-  UpdateServerCertificateRequest,
+  UpdateServerCertificateRequest & RegionInput,
   UpdateServerCertificateResponse,
   UpdateServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9451,7 +9452,7 @@ export type UpdateServiceSpecificCredentialError = NoSuchEntityException | Commo
  * service-specific credential as part of a credential rotation work flow.
  */
 export const updateServiceSpecificCredential: API.OperationMethod<
-  UpdateServiceSpecificCredentialRequest,
+  UpdateServiceSpecificCredentialRequest & RegionInput,
   UpdateServiceSpecificCredentialResponse,
   UpdateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
@@ -9484,7 +9485,7 @@ export type UpdateSigningCertificateError =
  * users.
  */
 export const updateSigningCertificate: API.OperationMethod<
-  UpdateSigningCertificateRequest,
+  UpdateSigningCertificateRequest & RegionInput,
   UpdateSigningCertificateResponse,
   UpdateSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9516,7 +9517,7 @@ export type UpdateSSHPublicKeyError = InvalidInputException | NoSuchEntityExcept
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const updateSSHPublicKey: API.OperationMethod<
-  UpdateSSHPublicKeyRequest,
+  UpdateSSHPublicKeyRequest & RegionInput,
   UpdateSSHPublicKeyResponse,
   UpdateSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -9553,7 +9554,7 @@ export type UpdateUserError =
  * permission on all (*). For more information about permissions, see Permissions and policies.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -9613,7 +9614,7 @@ export type UploadServerCertificateError =
  * requests in the *IAM User Guide*.
  */
 export const uploadServerCertificate: API.OperationMethod<
-  UploadServerCertificateRequest,
+  UploadServerCertificateRequest & RegionInput,
   UploadServerCertificateResponse,
   UploadServerCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9670,7 +9671,7 @@ export type UploadSigningCertificateError =
  * requests in the *IAM User Guide*.
  */
 export const uploadSigningCertificate: API.OperationMethod<
-  UploadSigningCertificateRequest,
+  UploadSigningCertificateRequest & RegionInput,
   UploadSigningCertificateResponse,
   UploadSigningCertificateError,
   Credentials | HttpClient.HttpClient
@@ -9710,7 +9711,7 @@ export type UploadSSHPublicKeyError =
  * SSH connections in the *CodeCommit User Guide*.
  */
 export const uploadSSHPublicKey: API.OperationMethod<
-  UploadSSHPublicKeyRequest,
+  UploadSSHPublicKeyRequest & RegionInput,
   UploadSSHPublicKeyResponse,
   UploadSSHPublicKeyError,
   Credentials | HttpClient.HttpClient

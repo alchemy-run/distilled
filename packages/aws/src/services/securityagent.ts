@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2721,7 +2722,7 @@ export type AddArtifactError =
  * Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files.
  */
 export const addArtifact: API.OperationMethod<
-  AddArtifactInput,
+  AddArtifactInput & RegionInput,
   AddArtifactOutput,
   AddArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2755,7 +2756,7 @@ export type BatchCreateSecurityRequirementsError =
  * Batch creates security requirements in a customer managed pack.
  */
 export const batchCreateSecurityRequirements: API.OperationMethod<
-  BatchCreateSecurityRequirementsInput,
+  BatchCreateSecurityRequirementsInput & RegionInput,
   BatchCreateSecurityRequirementsOutput,
   BatchCreateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -2783,7 +2784,7 @@ export type BatchDeleteCodeReviewsError = CommonErrors;
  * Deletes one or more code reviews from an agent space.
  */
 export const batchDeleteCodeReviews: API.OperationMethod<
-  BatchDeleteCodeReviewsInput,
+  BatchDeleteCodeReviewsInput & RegionInput,
   BatchDeleteCodeReviewsOutput,
   BatchDeleteCodeReviewsError,
   Credentials | HttpClient.HttpClient
@@ -2803,7 +2804,7 @@ export type BatchDeletePentestsError = CommonErrors;
  * Deletes one or more pentests from an agent space.
  */
 export const batchDeletePentests: API.OperationMethod<
-  BatchDeletePentestsInput,
+  BatchDeletePentestsInput & RegionInput,
   BatchDeletePentestsOutput,
   BatchDeletePentestsError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type BatchDeleteSecurityRequirementsError =
  * Batch deletes security requirements from a customer managed pack.
  */
 export const batchDeleteSecurityRequirements: API.OperationMethod<
-  BatchDeleteSecurityRequirementsInput,
+  BatchDeleteSecurityRequirementsInput & RegionInput,
   BatchDeleteSecurityRequirementsOutput,
   BatchDeleteSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -2857,7 +2858,7 @@ export type BatchDeleteThreatModelsError = CommonErrors;
  * Deletes one or more threat models from an agent space.
  */
 export const batchDeleteThreatModels: API.OperationMethod<
-  BatchDeleteThreatModelsInput,
+  BatchDeleteThreatModelsInput & RegionInput,
   BatchDeleteThreatModelsOutput,
   BatchDeleteThreatModelsError,
   Credentials | HttpClient.HttpClient
@@ -2949,7 +2950,7 @@ export type BatchGetAgentSpacesError = CommonErrors;
  * Retrieves information about one or more agent spaces.
  */
 export const batchGetAgentSpaces: API.OperationMethod<
-  BatchGetAgentSpacesInput,
+  BatchGetAgentSpacesInput & RegionInput,
   BatchGetAgentSpacesOutput,
   BatchGetAgentSpacesError,
   Credentials | HttpClient.HttpClient
@@ -2975,7 +2976,7 @@ export type BatchGetArtifactMetadataError =
  * Retrieves metadata for one or more artifacts in an agent space.
  */
 export const batchGetArtifactMetadata: API.OperationMethod<
-  BatchGetArtifactMetadataInput,
+  BatchGetArtifactMetadataInput & RegionInput,
   BatchGetArtifactMetadataOutput,
   BatchGetArtifactMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3001,7 +3002,7 @@ export type BatchGetCodeReviewJobsError = CommonErrors;
  * Retrieves information about one or more code review jobs in an agent space.
  */
 export const batchGetCodeReviewJobs: API.OperationMethod<
-  BatchGetCodeReviewJobsInput,
+  BatchGetCodeReviewJobsInput & RegionInput,
   BatchGetCodeReviewJobsOutput,
   BatchGetCodeReviewJobsError,
   Credentials | HttpClient.HttpClient
@@ -3021,7 +3022,7 @@ export type BatchGetCodeReviewJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a code review job.
  */
 export const batchGetCodeReviewJobTasks: API.OperationMethod<
-  BatchGetCodeReviewJobTasksInput,
+  BatchGetCodeReviewJobTasksInput & RegionInput,
   BatchGetCodeReviewJobTasksOutput,
   BatchGetCodeReviewJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -3041,7 +3042,7 @@ export type BatchGetCodeReviewsError = CommonErrors;
  * Retrieves information about one or more code reviews in an agent space.
  */
 export const batchGetCodeReviews: API.OperationMethod<
-  BatchGetCodeReviewsInput,
+  BatchGetCodeReviewsInput & RegionInput,
   BatchGetCodeReviewsOutput,
   BatchGetCodeReviewsError,
   Credentials | HttpClient.HttpClient
@@ -3061,7 +3062,7 @@ export type BatchGetFindingsError = CommonErrors;
  * Retrieves information about one or more security findings in an agent space.
  */
 export const batchGetFindings: API.OperationMethod<
-  BatchGetFindingsInput,
+  BatchGetFindingsInput & RegionInput,
   BatchGetFindingsOutput,
   BatchGetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3081,7 +3082,7 @@ export type BatchGetPentestJobsError = CommonErrors;
  * Retrieves information about one or more pentest jobs in an agent space.
  */
 export const batchGetPentestJobs: API.OperationMethod<
-  BatchGetPentestJobsInput,
+  BatchGetPentestJobsInput & RegionInput,
   BatchGetPentestJobsOutput,
   BatchGetPentestJobsError,
   Credentials | HttpClient.HttpClient
@@ -3101,7 +3102,7 @@ export type BatchGetPentestJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a pentest job.
  */
 export const batchGetPentestJobTasks: API.OperationMethod<
-  BatchGetPentestJobTasksInput,
+  BatchGetPentestJobTasksInput & RegionInput,
   BatchGetPentestJobTasksOutput,
   BatchGetPentestJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -3121,7 +3122,7 @@ export type BatchGetPentestsError = CommonErrors;
  * Retrieves information about one or more pentests in an agent space.
  */
 export const batchGetPentests: API.OperationMethod<
-  BatchGetPentestsInput,
+  BatchGetPentestsInput & RegionInput,
   BatchGetPentestsOutput,
   BatchGetPentestsError,
   Credentials | HttpClient.HttpClient
@@ -3147,7 +3148,7 @@ export type BatchGetSecurityRequirementsError =
  * Batch retrieves security requirements from a pack.
  */
 export const batchGetSecurityRequirements: API.OperationMethod<
-  BatchGetSecurityRequirementsInput,
+  BatchGetSecurityRequirementsInput & RegionInput,
   BatchGetSecurityRequirementsOutput,
   BatchGetSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -3173,7 +3174,7 @@ export type BatchGetTargetDomainsError = CommonErrors;
  * Retrieves information about one or more target domains.
  */
 export const batchGetTargetDomains: API.OperationMethod<
-  BatchGetTargetDomainsInput,
+  BatchGetTargetDomainsInput & RegionInput,
   BatchGetTargetDomainsOutput,
   BatchGetTargetDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3193,7 +3194,7 @@ export type BatchGetThreatModelJobsError = CommonErrors;
  * Retrieves information about one or more threat model jobs in an agent space.
  */
 export const batchGetThreatModelJobs: API.OperationMethod<
-  BatchGetThreatModelJobsInput,
+  BatchGetThreatModelJobsInput & RegionInput,
   BatchGetThreatModelJobsOutput,
   BatchGetThreatModelJobsError,
   Credentials | HttpClient.HttpClient
@@ -3213,7 +3214,7 @@ export type BatchGetThreatModelJobTasksError = CommonErrors;
  * Retrieves information about one or more tasks within a threat model job.
  */
 export const batchGetThreatModelJobTasks: API.OperationMethod<
-  BatchGetThreatModelJobTasksInput,
+  BatchGetThreatModelJobTasksInput & RegionInput,
   BatchGetThreatModelJobTasksOutput,
   BatchGetThreatModelJobTasksError,
   Credentials | HttpClient.HttpClient
@@ -3233,7 +3234,7 @@ export type BatchGetThreatModelsError = CommonErrors;
  * Retrieves information about one or more threat models in an agent space.
  */
 export const batchGetThreatModels: API.OperationMethod<
-  BatchGetThreatModelsInput,
+  BatchGetThreatModelsInput & RegionInput,
   BatchGetThreatModelsOutput,
   BatchGetThreatModelsError,
   Credentials | HttpClient.HttpClient
@@ -3253,7 +3254,7 @@ export type BatchGetThreatsError = CommonErrors;
  * Retrieves information about one or more threats.
  */
 export const batchGetThreats: API.OperationMethod<
-  BatchGetThreatsInput,
+  BatchGetThreatsInput & RegionInput,
   BatchGetThreatsOutput,
   BatchGetThreatsError,
   Credentials | HttpClient.HttpClient
@@ -3280,7 +3281,7 @@ export type BatchUpdateSecurityRequirementsError =
  * Batch updates security requirements within a customer managed pack.
  */
 export const batchUpdateSecurityRequirements: API.OperationMethod<
-  BatchUpdateSecurityRequirementsInput,
+  BatchUpdateSecurityRequirementsInput & RegionInput,
   BatchUpdateSecurityRequirementsOutput,
   BatchUpdateSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -3307,7 +3308,7 @@ export type CreateAgentSpaceError = CommonErrors;
  * Creates a new agent space. An agent space is a dedicated workspace for securing a specific application.
  */
 export const createAgentSpace: API.OperationMethod<
-  CreateAgentSpaceInput,
+  CreateAgentSpaceInput & RegionInput,
   CreateAgentSpaceOutput,
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3327,7 +3328,7 @@ export type CreateApplicationError = CommonErrors;
  * Creates a new application. An application is the top-level organizational unit that supports IAM Identity Center integration.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3347,7 +3348,7 @@ export type CreateCodeReviewError = CommonErrors;
  * Creates a new code review configuration in an agent space. A code review defines the parameters for automated security-focused code analysis.
  */
 export const createCodeReview: API.OperationMethod<
-  CreateCodeReviewInput,
+  CreateCodeReviewInput & RegionInput,
   CreateCodeReviewOutput,
   CreateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -3374,7 +3375,7 @@ export type CreateIntegrationError =
  * Creates a new integration with a third-party provider, such as GitHub, for code review and remediation.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationInput,
+  CreateIntegrationInput & RegionInput,
   CreateIntegrationOutput,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3401,7 +3402,7 @@ export type CreateMembershipError = CommonErrors;
  * Creates a new membership, granting a user access to an agent space within an application.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipRequest,
+  CreateMembershipRequest & RegionInput,
   CreateMembershipResponse,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3421,7 +3422,7 @@ export type CreatePentestError = CommonErrors;
  * Creates a new pentest configuration in an agent space. A pentest defines the security test parameters, including target assets, risk type exclusions, and logging configuration.
  */
 export const createPentest: API.OperationMethod<
-  CreatePentestInput,
+  CreatePentestInput & RegionInput,
   CreatePentestOutput,
   CreatePentestError,
   Credentials | HttpClient.HttpClient
@@ -3448,7 +3449,7 @@ export type CreatePrivateConnectionError =
  * Creates a private connection for reaching a self-hosted provider instance over private networking using Amazon VPC Lattice.
  */
 export const createPrivateConnection: API.OperationMethod<
-  CreatePrivateConnectionInput,
+  CreatePrivateConnectionInput & RegionInput,
   CreatePrivateConnectionOutput,
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3482,7 +3483,7 @@ export type CreateSecurityRequirementPackError =
  * Creates a customer managed security requirement pack.
  */
 export const createSecurityRequirementPack: API.OperationMethod<
-  CreateSecurityRequirementPackInput,
+  CreateSecurityRequirementPackInput & RegionInput,
   CreateSecurityRequirementPackOutput,
   CreateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3509,7 +3510,7 @@ export type CreateTargetDomainError = CommonErrors;
  * Creates a new target domain for penetration testing. A target domain is a web domain that must be registered and verified before it can be tested.
  */
 export const createTargetDomain: API.OperationMethod<
-  CreateTargetDomainInput,
+  CreateTargetDomainInput & RegionInput,
   CreateTargetDomainOutput,
   CreateTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -3529,7 +3530,7 @@ export type CreateThreatError = CommonErrors;
  * Creates a new threat under a threat model job.
  */
 export const createThreat: API.OperationMethod<
-  CreateThreatInput,
+  CreateThreatInput & RegionInput,
   CreateThreatOutput,
   CreateThreatError,
   Credentials | HttpClient.HttpClient
@@ -3549,7 +3550,7 @@ export type CreateThreatModelError = CommonErrors;
  * Creates a new threat model configuration in an agent space. A threat model defines the parameters for automated threat analysis.
  */
 export const createThreatModel: API.OperationMethod<
-  CreateThreatModelInput,
+  CreateThreatModelInput & RegionInput,
   CreateThreatModelOutput,
   CreateThreatModelError,
   Credentials | HttpClient.HttpClient
@@ -3569,7 +3570,7 @@ export type DeleteAgentSpaceError = CommonErrors;
  * Deletes an agent space and all of its associated resources, including pentests, findings, and artifacts.
  */
 export const deleteAgentSpace: API.OperationMethod<
-  DeleteAgentSpaceInput,
+  DeleteAgentSpaceInput & RegionInput,
   DeleteAgentSpaceOutput,
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3589,7 +3590,7 @@ export type DeleteApplicationError = CommonErrors;
  * Deletes an application and its associated configuration, including IAM Identity Center settings.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3615,7 +3616,7 @@ export type DeleteArtifactError =
  * Deletes an artifact from an agent space.
  */
 export const deleteArtifact: API.OperationMethod<
-  DeleteArtifactInput,
+  DeleteArtifactInput & RegionInput,
   DeleteArtifactOutput,
   DeleteArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3648,7 +3649,7 @@ export type DeleteIntegrationError =
  * Deletes an integration with a third-party provider.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationInput,
+  DeleteIntegrationInput & RegionInput,
   DeleteIntegrationOutput,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3675,7 +3676,7 @@ export type DeleteMembershipError = CommonErrors;
  * Deletes a membership, revoking a user's access to an agent space.
  */
 export const deleteMembership: API.OperationMethod<
-  DeleteMembershipRequest,
+  DeleteMembershipRequest & RegionInput,
   DeleteMembershipResponse,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3702,7 +3703,7 @@ export type DeletePrivateConnectionError =
  * Deletes a private connection.
  */
 export const deletePrivateConnection: API.OperationMethod<
-  DeletePrivateConnectionInput,
+  DeletePrivateConnectionInput & RegionInput,
   DeletePrivateConnectionOutput,
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3736,7 +3737,7 @@ export type DeleteSecurityRequirementPackError =
  * Deletes a customer managed security requirement pack and all its associated security requirements.
  */
 export const deleteSecurityRequirementPack: API.OperationMethod<
-  DeleteSecurityRequirementPackInput,
+  DeleteSecurityRequirementPackInput & RegionInput,
   DeleteSecurityRequirementPackOutput,
   DeleteSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3763,7 +3764,7 @@ export type DeleteTargetDomainError = CommonErrors;
  * Deletes a target domain registration. After deletion, the domain can no longer be used for penetration testing.
  */
 export const deleteTargetDomain: API.OperationMethod<
-  DeleteTargetDomainInput,
+  DeleteTargetDomainInput & RegionInput,
   DeleteTargetDomainOutput,
   DeleteTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -3789,7 +3790,7 @@ export type DescribePrivateConnectionError =
  * Retrieves the details of a private connection.
  */
 export const describePrivateConnection: API.OperationMethod<
-  DescribePrivateConnectionInput,
+  DescribePrivateConnectionInput & RegionInput,
   DescribePrivateConnectionOutput,
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3815,7 +3816,7 @@ export type GetApplicationError = CommonErrors;
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3841,7 +3842,7 @@ export type GetArtifactError =
  * Retrieves an artifact from an agent space.
  */
 export const getArtifact: API.OperationMethod<
-  GetArtifactInput,
+  GetArtifactInput & RegionInput,
   GetArtifactOutput,
   GetArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3873,7 +3874,7 @@ export type GetIntegrationError =
  * Retrieves information about an integration.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationInput,
+  GetIntegrationInput & RegionInput,
   GetIntegrationOutput,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3905,7 +3906,7 @@ export type GetSecurityRequirementPackError =
  * Retrieves information about a security requirement pack.
  */
 export const getSecurityRequirementPack: API.OperationMethod<
-  GetSecurityRequirementPackInput,
+  GetSecurityRequirementPackInput & RegionInput,
   GetSecurityRequirementPackOutput,
   GetSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -3939,7 +3940,7 @@ export type ImportSecurityRequirementsError =
  * Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the provided source files.
  */
 export const importSecurityRequirements: API.OperationMethod<
-  ImportSecurityRequirementsInput,
+  ImportSecurityRequirementsInput & RegionInput,
   ImportSecurityRequirementsOutput,
   ImportSecurityRequirementsError,
   Credentials | HttpClient.HttpClient
@@ -3974,7 +3975,7 @@ export type InitiateProviderRegistrationError =
  * Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization.
  */
 export const initiateProviderRegistration: API.OperationMethod<
-  InitiateProviderRegistrationInput,
+  InitiateProviderRegistrationInput & RegionInput,
   InitiateProviderRegistrationOutput,
   InitiateProviderRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -4001,7 +4002,7 @@ export type ListActorMessagesError = CommonErrors;
  * Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.
  */
 export const listActorMessages: API.PaginatedOperationMethod<
-  ListActorMessagesInput,
+  ListActorMessagesInput & RegionInput,
   ListActorMessagesOutput,
   ListActorMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -4028,7 +4029,7 @@ export type ListAgentSpacesError = CommonErrors;
  * Returns a paginated list of agent space summaries in your account.
  */
 export const listAgentSpaces: API.PaginatedOperationMethod<
-  ListAgentSpacesInput,
+  ListAgentSpacesInput & RegionInput,
   ListAgentSpacesOutput,
   ListAgentSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -4055,7 +4056,7 @@ export type ListApplicationsError = CommonErrors;
  * Returns a paginated list of application summaries in your account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -4088,7 +4089,7 @@ export type ListArtifactsError =
  * Returns a paginated list of artifact summaries for the specified agent space.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsInput,
+  ListArtifactsInput & RegionInput,
   ListArtifactsOutput,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -4121,7 +4122,7 @@ export type ListCodeReviewJobsForCodeReviewError = CommonErrors;
  * Returns a paginated list of code review job summaries for the specified code review configuration.
  */
 export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
-  ListCodeReviewJobsForCodeReviewInput,
+  ListCodeReviewJobsForCodeReviewInput & RegionInput,
   ListCodeReviewJobsForCodeReviewOutput,
   ListCodeReviewJobsForCodeReviewError,
   Credentials | HttpClient.HttpClient,
@@ -4148,7 +4149,7 @@ export type ListCodeReviewJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified code review job, optionally filtered by step name or category.
  */
 export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
-  ListCodeReviewJobTasksInput,
+  ListCodeReviewJobTasksInput & RegionInput,
   ListCodeReviewJobTasksOutput,
   ListCodeReviewJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4175,7 +4176,7 @@ export type ListCodeReviewsError = CommonErrors;
  * Returns a paginated list of code review summaries for the specified agent space.
  */
 export const listCodeReviews: API.PaginatedOperationMethod<
-  ListCodeReviewsInput,
+  ListCodeReviewsInput & RegionInput,
   ListCodeReviewsOutput,
   ListCodeReviewsError,
   Credentials | HttpClient.HttpClient,
@@ -4202,7 +4203,7 @@ export type ListDiscoveredEndpointsError = CommonErrors;
  * Returns a paginated list of endpoints discovered during a pentest job execution.
  */
 export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
-  ListDiscoveredEndpointsInput,
+  ListDiscoveredEndpointsInput & RegionInput,
   ListDiscoveredEndpointsOutput,
   ListDiscoveredEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -4229,7 +4230,7 @@ export type ListFindingsError = CommonErrors;
  * Lists the security findings for a pentest job.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsInput,
+  ListFindingsInput & RegionInput,
   ListFindingsOutput,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -4262,7 +4263,7 @@ export type ListIntegratedResourcesError =
  * Lists the integrated resources for an agent space, optionally filtered by integration or resource type.
  */
 export const listIntegratedResources: API.PaginatedOperationMethod<
-  ListIntegratedResourcesInput,
+  ListIntegratedResourcesInput & RegionInput,
   ListIntegratedResourcesOutput,
   ListIntegratedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4301,7 +4302,7 @@ export type ListIntegrationsError =
  * Lists the integrations in your account, optionally filtered by provider or provider type.
  */
 export const listIntegrations: API.PaginatedOperationMethod<
-  ListIntegrationsInput,
+  ListIntegrationsInput & RegionInput,
   ListIntegrationsOutput,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4334,7 +4335,7 @@ export type ListMembershipsError = CommonErrors;
  * Returns a paginated list of membership summaries for the specified agent space within an application.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsRequest,
+  ListMembershipsRequest & RegionInput,
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -4361,7 +4362,7 @@ export type ListPentestJobsForPentestError = CommonErrors;
  * Returns a paginated list of pentest job summaries for the specified pentest configuration.
  */
 export const listPentestJobsForPentest: API.PaginatedOperationMethod<
-  ListPentestJobsForPentestInput,
+  ListPentestJobsForPentestInput & RegionInput,
   ListPentestJobsForPentestOutput,
   ListPentestJobsForPentestError,
   Credentials | HttpClient.HttpClient,
@@ -4388,7 +4389,7 @@ export type ListPentestJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified pentest job, optionally filtered by step name or category.
  */
 export const listPentestJobTasks: API.PaginatedOperationMethod<
-  ListPentestJobTasksInput,
+  ListPentestJobTasksInput & RegionInput,
   ListPentestJobTasksOutput,
   ListPentestJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4415,7 +4416,7 @@ export type ListPentestsError = CommonErrors;
  * Returns a paginated list of pentest summaries for the specified agent space.
  */
 export const listPentests: API.PaginatedOperationMethod<
-  ListPentestsInput,
+  ListPentestsInput & RegionInput,
   ListPentestsOutput,
   ListPentestsError,
   Credentials | HttpClient.HttpClient,
@@ -4447,7 +4448,7 @@ export type ListPrivateConnectionsError =
  * Lists the private connections in your account.
  */
 export const listPrivateConnections: API.PaginatedOperationMethod<
-  ListPrivateConnectionsInput,
+  ListPrivateConnectionsInput & RegionInput,
   ListPrivateConnectionsOutput,
   ListPrivateConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4484,7 +4485,7 @@ export type ListSecurityRequirementPacksError =
  * Lists all security requirement packs in the caller's account.
  */
 export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
-  ListSecurityRequirementPacksInput,
+  ListSecurityRequirementPacksInput & RegionInput,
   ListSecurityRequirementPacksOutput,
   ListSecurityRequirementPacksError,
   Credentials | HttpClient.HttpClient,
@@ -4522,7 +4523,7 @@ export type ListSecurityRequirementsError =
  * Lists security requirements within a pack.
  */
 export const listSecurityRequirements: API.PaginatedOperationMethod<
-  ListSecurityRequirementsInput,
+  ListSecurityRequirementsInput & RegionInput,
   ListSecurityRequirementsOutput,
   ListSecurityRequirementsError,
   Credentials | HttpClient.HttpClient,
@@ -4555,7 +4556,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Returns the tags associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4575,7 +4576,7 @@ export type ListTargetDomainsError = CommonErrors;
  * Returns a paginated list of target domain summaries in your account.
  */
 export const listTargetDomains: API.PaginatedOperationMethod<
-  ListTargetDomainsInput,
+  ListTargetDomainsInput & RegionInput,
   ListTargetDomainsOutput,
   ListTargetDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -4602,7 +4603,7 @@ export type ListThreatModelJobsError = CommonErrors;
  * Returns a paginated list of threat model job summaries for the specified threat model.
  */
 export const listThreatModelJobs: API.PaginatedOperationMethod<
-  ListThreatModelJobsInput,
+  ListThreatModelJobsInput & RegionInput,
   ListThreatModelJobsOutput,
   ListThreatModelJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4629,7 +4630,7 @@ export type ListThreatModelJobTasksError = CommonErrors;
  * Returns a paginated list of task summaries for the specified threat model job.
  */
 export const listThreatModelJobTasks: API.PaginatedOperationMethod<
-  ListThreatModelJobTasksInput,
+  ListThreatModelJobTasksInput & RegionInput,
   ListThreatModelJobTasksOutput,
   ListThreatModelJobTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4656,7 +4657,7 @@ export type ListThreatModelsError = CommonErrors;
  * Returns a paginated list of threat model summaries for the specified agent space.
  */
 export const listThreatModels: API.PaginatedOperationMethod<
-  ListThreatModelsInput,
+  ListThreatModelsInput & RegionInput,
   ListThreatModelsOutput,
   ListThreatModelsError,
   Credentials | HttpClient.HttpClient,
@@ -4683,7 +4684,7 @@ export type ListThreatsError = CommonErrors;
  * Returns a paginated list of threats for a threat model job.
  */
 export const listThreats: API.PaginatedOperationMethod<
-  ListThreatsInput,
+  ListThreatsInput & RegionInput,
   ListThreatsOutput,
   ListThreatsError,
   Credentials | HttpClient.HttpClient,
@@ -4710,7 +4711,7 @@ export type StartCodeRemediationError = CommonErrors;
  * Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities.
  */
 export const startCodeRemediation: API.OperationMethod<
-  StartCodeRemediationInput,
+  StartCodeRemediationInput & RegionInput,
   StartCodeRemediationOutput,
   StartCodeRemediationError,
   Credentials | HttpClient.HttpClient
@@ -4730,7 +4731,7 @@ export type StartCodeReviewJobError = CommonErrors;
  * Starts a new code review job for a code review configuration. The job executes the security-focused code analysis defined in the code review.
  */
 export const startCodeReviewJob: API.OperationMethod<
-  StartCodeReviewJobInput,
+  StartCodeReviewJobInput & RegionInput,
   StartCodeReviewJobOutput,
   StartCodeReviewJobError,
   Credentials | HttpClient.HttpClient
@@ -4750,7 +4751,7 @@ export type StartPentestJobError = CommonErrors;
  * Starts a new pentest job for a pentest configuration. The job executes the security tests defined in the pentest.
  */
 export const startPentestJob: API.OperationMethod<
-  StartPentestJobInput,
+  StartPentestJobInput & RegionInput,
   StartPentestJobOutput,
   StartPentestJobError,
   Credentials | HttpClient.HttpClient
@@ -4770,7 +4771,7 @@ export type StartThreatModelJobError = CommonErrors;
  * Starts a new threat model job for a threat model configuration.
  */
 export const startThreatModelJob: API.OperationMethod<
-  StartThreatModelJobInput,
+  StartThreatModelJobInput & RegionInput,
   StartThreatModelJobOutput,
   StartThreatModelJobError,
   Credentials | HttpClient.HttpClient
@@ -4790,7 +4791,7 @@ export type StopCodeReviewJobError = CommonErrors;
  * Stops a running code review job. The job transitions to a stopping state and then to stopped after cleanup completes.
  */
 export const stopCodeReviewJob: API.OperationMethod<
-  StopCodeReviewJobInput,
+  StopCodeReviewJobInput & RegionInput,
   StopCodeReviewJobOutput,
   StopCodeReviewJobError,
   Credentials | HttpClient.HttpClient
@@ -4810,7 +4811,7 @@ export type StopPentestJobError = CommonErrors;
  * Stops a running pentest job. The job transitions to a stopping state and then to stopped after cleanup completes.
  */
 export const stopPentestJob: API.OperationMethod<
-  StopPentestJobInput,
+  StopPentestJobInput & RegionInput,
   StopPentestJobOutput,
   StopPentestJobError,
   Credentials | HttpClient.HttpClient
@@ -4830,7 +4831,7 @@ export type StopThreatModelJobError = CommonErrors;
  * Stops a running threat model job.
  */
 export const stopThreatModelJob: API.OperationMethod<
-  StopThreatModelJobInput,
+  StopThreatModelJobInput & RegionInput,
   StopThreatModelJobOutput,
   StopThreatModelJobError,
   Credentials | HttpClient.HttpClient
@@ -4850,7 +4851,7 @@ export type TagResourceError = CommonErrors;
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4870,7 +4871,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4890,7 +4891,7 @@ export type UpdateAgentSpaceError = CommonErrors;
  * Updates the configuration of an existing agent space, including its name, description, AWS resources, target domains, and code review settings.
  */
 export const updateAgentSpace: API.OperationMethod<
-  UpdateAgentSpaceInput,
+  UpdateAgentSpaceInput & RegionInput,
   UpdateAgentSpaceOutput,
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -4910,7 +4911,7 @@ export type UpdateApplicationError = CommonErrors;
  * Updates the configuration of an existing application, including the IAM role and default KMS key.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4930,7 +4931,7 @@ export type UpdateCodeReviewError = CommonErrors;
  * Updates an existing code review configuration.
  */
 export const updateCodeReview: API.OperationMethod<
-  UpdateCodeReviewInput,
+  UpdateCodeReviewInput & RegionInput,
   UpdateCodeReviewOutput,
   UpdateCodeReviewError,
   Credentials | HttpClient.HttpClient
@@ -4950,7 +4951,7 @@ export type UpdateFindingError = CommonErrors;
  * Updates the status or risk level of a security finding.
  */
 export const updateFinding: API.OperationMethod<
-  UpdateFindingInput,
+  UpdateFindingInput & RegionInput,
   UpdateFindingOutput,
   UpdateFindingError,
   Credentials | HttpClient.HttpClient
@@ -4977,7 +4978,7 @@ export type UpdateIntegratedResourcesError =
  * Updates the integrated resources for an agent space, including their capabilities.
  */
 export const updateIntegratedResources: API.OperationMethod<
-  UpdateIntegratedResourcesInput,
+  UpdateIntegratedResourcesInput & RegionInput,
   UpdateIntegratedResourcesOutput,
   UpdateIntegratedResourcesError,
   Credentials | HttpClient.HttpClient
@@ -5011,7 +5012,7 @@ export type UpdateIntegrationError =
  * Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationInput,
+  UpdateIntegrationInput & RegionInput,
   UpdateIntegrationOutput,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5038,7 +5039,7 @@ export type UpdatePentestError = CommonErrors;
  * Updates an existing pentest configuration.
  */
 export const updatePentest: API.OperationMethod<
-  UpdatePentestInput,
+  UpdatePentestInput & RegionInput,
   UpdatePentestOutput,
   UpdatePentestError,
   Credentials | HttpClient.HttpClient
@@ -5065,7 +5066,7 @@ export type UpdatePrivateConnectionCertificateError =
  * Updates the certificate associated with a private connection. Certificates can be added or replaced but not removed.
  */
 export const updatePrivateConnectionCertificate: API.OperationMethod<
-  UpdatePrivateConnectionCertificateInput,
+  UpdatePrivateConnectionCertificateInput & RegionInput,
   UpdatePrivateConnectionCertificateOutput,
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5099,7 +5100,7 @@ export type UpdateSecurityRequirementPackError =
  * Updates a security requirement pack. For customer managed packs, both metadata and status can be updated. For AWS managed packs, only status can be updated.
  */
 export const updateSecurityRequirementPack: API.OperationMethod<
-  UpdateSecurityRequirementPackInput,
+  UpdateSecurityRequirementPackInput & RegionInput,
   UpdateSecurityRequirementPackOutput,
   UpdateSecurityRequirementPackError,
   Credentials | HttpClient.HttpClient
@@ -5126,7 +5127,7 @@ export type UpdateTargetDomainError = CommonErrors;
  * Updates the verification method for a target domain.
  */
 export const updateTargetDomain: API.OperationMethod<
-  UpdateTargetDomainInput,
+  UpdateTargetDomainInput & RegionInput,
   UpdateTargetDomainOutput,
   UpdateTargetDomainError,
   Credentials | HttpClient.HttpClient
@@ -5146,7 +5147,7 @@ export type UpdateThreatError = CommonErrors;
  * Updates a threat.
  */
 export const updateThreat: API.OperationMethod<
-  UpdateThreatInput,
+  UpdateThreatInput & RegionInput,
   UpdateThreatOutput,
   UpdateThreatError,
   Credentials | HttpClient.HttpClient
@@ -5166,7 +5167,7 @@ export type UpdateThreatModelError = CommonErrors;
  * Updates an existing threat model configuration.
  */
 export const updateThreatModel: API.OperationMethod<
-  UpdateThreatModelInput,
+  UpdateThreatModelInput & RegionInput,
   UpdateThreatModelOutput,
   UpdateThreatModelError,
   Credentials | HttpClient.HttpClient
@@ -5186,7 +5187,7 @@ export type VerifyTargetDomainError = CommonErrors;
  * Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured.
  */
 export const verifyTargetDomain: API.OperationMethod<
-  VerifyTargetDomainInput,
+  VerifyTargetDomainInput & RegionInput,
   VerifyTargetDomainOutput,
   VerifyTargetDomainError,
   Credentials | HttpClient.HttpClient

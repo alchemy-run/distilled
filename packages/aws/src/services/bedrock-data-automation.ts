@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -912,7 +913,7 @@ export type CopyBlueprintStageError =
  * Copies a Blueprint from one stage to another
  */
 export const copyBlueprintStage: API.OperationMethod<
-  CopyBlueprintStageRequest,
+  CopyBlueprintStageRequest & RegionInput,
   CopyBlueprintStageResponse,
   CopyBlueprintStageError,
   Credentials | HttpClient.HttpClient
@@ -945,7 +946,7 @@ export type CreateBlueprintError =
  * Creates an Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprint: API.OperationMethod<
-  CreateBlueprintRequest,
+  CreateBlueprintRequest & RegionInput,
   CreateBlueprintResponse,
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type CreateBlueprintVersionError =
  * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprintVersion: API.OperationMethod<
-  CreateBlueprintVersionRequest,
+  CreateBlueprintVersionRequest & RegionInput,
   CreateBlueprintVersionResponse,
   CreateBlueprintVersionError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type CreateDataAutomationLibraryError =
  * Creates an Amazon Bedrock Data Automation Library
  */
 export const createDataAutomationLibrary: API.OperationMethod<
-  CreateDataAutomationLibraryRequest,
+  CreateDataAutomationLibraryRequest & RegionInput,
   CreateDataAutomationLibraryResponse,
   CreateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1048,7 @@ export type CreateDataAutomationProjectError =
  * Creates an Amazon Bedrock Data Automation Project
  */
 export const createDataAutomationProject: API.OperationMethod<
-  CreateDataAutomationProjectRequest,
+  CreateDataAutomationProjectRequest & RegionInput,
   CreateDataAutomationProjectResponse,
   CreateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type DeleteBlueprintError =
  * Deletes an existing Amazon Bedrock Data Automation Blueprint
  */
 export const deleteBlueprint: API.OperationMethod<
-  DeleteBlueprintRequest,
+  DeleteBlueprintRequest & RegionInput,
   DeleteBlueprintResponse,
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1113,7 +1114,7 @@ export type DeleteDataAutomationLibraryError =
  * Deletes an existing Amazon Bedrock Data Automation Library
  */
 export const deleteDataAutomationLibrary: API.OperationMethod<
-  DeleteDataAutomationLibraryRequest,
+  DeleteDataAutomationLibraryRequest & RegionInput,
   DeleteDataAutomationLibraryResponse,
   DeleteDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type DeleteDataAutomationProjectError =
  * Deletes an existing Amazon Bedrock Data Automation Project
  */
 export const deleteDataAutomationProject: API.OperationMethod<
-  DeleteDataAutomationProjectRequest,
+  DeleteDataAutomationProjectRequest & RegionInput,
   DeleteDataAutomationProjectResponse,
   DeleteDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type GetBlueprintError =
  * Gets an existing Amazon Bedrock Data Automation Blueprint
  */
 export const getBlueprint: API.OperationMethod<
-  GetBlueprintRequest,
+  GetBlueprintRequest & RegionInput,
   GetBlueprintResponse,
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type GetBlueprintOptimizationStatusError =
  * API used to get blueprint optimization status.
  */
 export const getBlueprintOptimizationStatus: API.OperationMethod<
-  GetBlueprintOptimizationStatusRequest,
+  GetBlueprintOptimizationStatusRequest & RegionInput,
   GetBlueprintOptimizationStatusResponse,
   GetBlueprintOptimizationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1242,7 +1243,7 @@ export type GetDataAutomationLibraryError =
  * Gets an existing Amazon Bedrock Data Automation Library
  */
 export const getDataAutomationLibrary: API.OperationMethod<
-  GetDataAutomationLibraryRequest,
+  GetDataAutomationLibraryRequest & RegionInput,
   GetDataAutomationLibraryResponse,
   GetDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetDataAutomationLibraryEntityError =
  * Gets an existing entity based on entity type from the library
  */
 export const getDataAutomationLibraryEntity: API.OperationMethod<
-  GetDataAutomationLibraryEntityRequest,
+  GetDataAutomationLibraryEntityRequest & RegionInput,
   GetDataAutomationLibraryEntityResponse,
   GetDataAutomationLibraryEntityError,
   Credentials | HttpClient.HttpClient
@@ -1306,7 +1307,7 @@ export type GetDataAutomationLibraryIngestionJobError =
  * API used to get status of data automation library ingestion job
  */
 export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
-  GetDataAutomationLibraryIngestionJobRequest,
+  GetDataAutomationLibraryIngestionJobRequest & RegionInput,
   GetDataAutomationLibraryIngestionJobResponse,
   GetDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type GetDataAutomationProjectError =
  * Gets an existing Amazon Bedrock Data Automation Project
  */
 export const getDataAutomationProject: API.OperationMethod<
-  GetDataAutomationProjectRequest,
+  GetDataAutomationProjectRequest & RegionInput,
   GetDataAutomationProjectResponse,
   GetDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type InvokeBlueprintOptimizationAsyncError =
  * Invoke an async job to perform Blueprint Optimization
  */
 export const invokeBlueprintOptimizationAsync: API.OperationMethod<
-  InvokeBlueprintOptimizationAsyncRequest,
+  InvokeBlueprintOptimizationAsyncRequest & RegionInput,
   InvokeBlueprintOptimizationAsyncResponse,
   InvokeBlueprintOptimizationAsyncError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type InvokeDataAutomationLibraryIngestionJobError =
  * Async API: Invoke data automation library ingestion job
  */
 export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
-  InvokeDataAutomationLibraryIngestionJobRequest,
+  InvokeDataAutomationLibraryIngestionJobRequest & RegionInput,
   InvokeDataAutomationLibraryIngestionJobResponse,
   InvokeDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1440,7 +1441,7 @@ export type ListBlueprintsError =
  * Lists all existing Amazon Bedrock Data Automation Blueprints
  */
 export const listBlueprints: API.PaginatedOperationMethod<
-  ListBlueprintsRequest,
+  ListBlueprintsRequest & RegionInput,
   ListBlueprintsResponse,
   ListBlueprintsError,
   Credentials | HttpClient.HttpClient,
@@ -1478,7 +1479,7 @@ export type ListDataAutomationLibrariesError =
  * Lists all existing Amazon Bedrock Data Automation Libraries
  */
 export const listDataAutomationLibraries: API.PaginatedOperationMethod<
-  ListDataAutomationLibrariesRequest,
+  ListDataAutomationLibrariesRequest & RegionInput,
   ListDataAutomationLibrariesResponse,
   ListDataAutomationLibrariesError,
   Credentials | HttpClient.HttpClient,
@@ -1516,7 +1517,7 @@ export type ListDataAutomationLibraryEntitiesError =
  * Lists all stored entities in the library
  */
 export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryEntitiesRequest,
+  ListDataAutomationLibraryEntitiesRequest & RegionInput,
   ListDataAutomationLibraryEntitiesResponse,
   ListDataAutomationLibraryEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1555,7 +1556,7 @@ export type ListDataAutomationLibraryIngestionJobsError =
  * Lists all data automation library ingestion jobs
  */
 export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryIngestionJobsRequest,
+  ListDataAutomationLibraryIngestionJobsRequest & RegionInput,
   ListDataAutomationLibraryIngestionJobsResponse,
   ListDataAutomationLibraryIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1594,7 +1595,7 @@ export type ListDataAutomationProjectsError =
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
 export const listDataAutomationProjects: API.PaginatedOperationMethod<
-  ListDataAutomationProjectsRequest,
+  ListDataAutomationProjectsRequest & RegionInput,
   ListDataAutomationProjectsResponse,
   ListDataAutomationProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1633,7 +1634,7 @@ export type ListTagsForResourceError =
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type TagResourceError =
  * Tag an Amazon Bedrock Data Automation resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1699,7 +1700,7 @@ export type UntagResourceError =
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1732,7 +1733,7 @@ export type UpdateBlueprintError =
  * Updates an existing Amazon Bedrock Data Automation Blueprint
  */
 export const updateBlueprint: API.OperationMethod<
-  UpdateBlueprintRequest,
+  UpdateBlueprintRequest & RegionInput,
   UpdateBlueprintResponse,
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1766,7 +1767,7 @@ export type UpdateDataAutomationLibraryError =
  * Updates an existing Amazon Bedrock Data Automation Library
  */
 export const updateDataAutomationLibrary: API.OperationMethod<
-  UpdateDataAutomationLibraryRequest,
+  UpdateDataAutomationLibraryRequest & RegionInput,
   UpdateDataAutomationLibraryResponse,
   UpdateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1801,7 +1802,7 @@ export type UpdateDataAutomationProjectError =
  * Updates an existing Amazon Bedrock Data Automation Project
  */
 export const updateDataAutomationProject: API.OperationMethod<
-  UpdateDataAutomationProjectRequest,
+  UpdateDataAutomationProjectRequest & RegionInput,
   UpdateDataAutomationProjectResponse,
   UpdateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient

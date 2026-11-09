@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -391,7 +392,7 @@ export type GetSearchJobError = ResourceNotFoundException | CommonErrors;
  * This operation retrieves metadata of a search job, including its progress.
  */
 export const getSearchJob: API.OperationMethod<
-  GetSearchJobInput,
+  GetSearchJobInput & RegionInput,
   GetSearchJobOutput,
   GetSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type GetSearchResultExportJobError = ResourceNotFoundException | CommonEr
  * An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
  */
 export const getSearchResultExportJob: API.OperationMethod<
-  GetSearchResultExportJobInput,
+  GetSearchResultExportJobInput & RegionInput,
   GetSearchResultExportJobOutput,
   GetSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
@@ -439,7 +440,7 @@ export type ListSearchJobBackupsError = ResourceNotFoundException | CommonErrors
  * Only recovery points with a backup index that has a status of `ACTIVE` will be included in search results. If the index has any other status, its status will be displayed along with a status message.
  */
 export const listSearchJobBackups: API.PaginatedOperationMethod<
-  ListSearchJobBackupsInput,
+  ListSearchJobBackupsInput & RegionInput,
   ListSearchJobBackupsOutput,
   ListSearchJobBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -466,7 +467,7 @@ export type ListSearchJobResultsError = ResourceNotFoundException | CommonErrors
  * This operation returns a list of a specified search job.
  */
 export const listSearchJobResults: API.PaginatedOperationMethod<
-  ListSearchJobResultsInput,
+  ListSearchJobResultsInput & RegionInput,
   ListSearchJobResultsOutput,
   ListSearchJobResultsError,
   Credentials | HttpClient.HttpClient,
@@ -493,7 +494,7 @@ export type ListSearchJobsError = CommonErrors;
  * This operation returns a list of search jobs belonging to an account.
  */
 export const listSearchJobs: API.PaginatedOperationMethod<
-  ListSearchJobsInput,
+  ListSearchJobsInput & RegionInput,
   ListSearchJobsOutput,
   ListSearchJobsError,
   Credentials | HttpClient.HttpClient,
@@ -523,7 +524,7 @@ export type ListSearchResultExportJobsError =
  * This operation exports search results of a search job to a specified destination S3 bucket.
  */
 export const listSearchResultExportJobs: API.PaginatedOperationMethod<
-  ListSearchResultExportJobsInput,
+  ListSearchResultExportJobsInput & RegionInput,
   ListSearchResultExportJobsOutput,
   ListSearchResultExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -550,7 +551,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * This operation returns the tags for a resource type.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -576,7 +577,7 @@ export type StartSearchJobError =
  * You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
  */
 export const startSearchJob: API.OperationMethod<
-  StartSearchJobInput,
+  StartSearchJobInput & RegionInput,
   StartSearchJobOutput,
   StartSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -600,7 +601,7 @@ export type StartSearchResultExportJobError =
  * This operations starts a job to export the results of search job to a designated S3 bucket.
  */
 export const startSearchResultExportJob: API.OperationMethod<
-  StartSearchResultExportJobInput,
+  StartSearchResultExportJobInput & RegionInput,
   StartSearchResultExportJobOutput,
   StartSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
@@ -622,7 +623,7 @@ export type StopSearchJobError = ConflictException | ResourceNotFoundException |
  * Only a search job with a status of `RUNNING` can be stopped.
  */
 export const stopSearchJob: API.OperationMethod<
-  StopSearchJobInput,
+  StopSearchJobInput & RegionInput,
   StopSearchJobOutput,
   StopSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * This operation puts tags on the resource you indicate.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * This operation removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

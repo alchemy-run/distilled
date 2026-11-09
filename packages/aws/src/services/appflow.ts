@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1799,7 +1800,7 @@ export type CancelFlowExecutionsError =
  * charges for Amazon AppFlow apply. For the pricing information, see Amazon AppFlow pricing.
  */
 export const cancelFlowExecutions: API.OperationMethod<
-  CancelFlowExecutionsRequest,
+  CancelFlowExecutionsRequest & RegionInput,
   CancelFlowExecutionsResponse,
   CancelFlowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1837,7 @@ export type CreateConnectorProfileError =
  * create, you can provide the credentials and properties for only one connector.
  */
 export const createConnectorProfile: API.OperationMethod<
-  CreateConnectorProfileRequest,
+  CreateConnectorProfileRequest & RegionInput,
   CreateConnectorProfileResponse,
   CreateConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -1876,7 +1877,7 @@ export type CreateFlowError =
  * once.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type DeleteConnectorProfileError =
  * Enables you to delete an existing connector profile.
  */
 export const deleteConnectorProfile: API.OperationMethod<
-  DeleteConnectorProfileRequest,
+  DeleteConnectorProfileRequest & RegionInput,
   DeleteConnectorProfileResponse,
   DeleteConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -1934,7 +1935,7 @@ export type DeleteFlowError =
  * delete flows one at a time.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -1960,7 +1961,7 @@ export type DescribeConnectorError =
  * authored connectors.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1987,7 +1988,7 @@ export type DescribeConnectorEntityError =
  * data model for each field in that entity.
  */
 export const describeConnectorEntity: API.OperationMethod<
-  DescribeConnectorEntityRequest,
+  DescribeConnectorEntityRequest & RegionInput,
   DescribeConnectorEntityResponse,
   DescribeConnectorEntityError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type DescribeConnectorProfilesError =
  * in a paginated form. If there is no match, this operation returns an empty list.
  */
 export const describeConnectorProfiles: API.PaginatedOperationMethod<
-  DescribeConnectorProfilesRequest,
+  DescribeConnectorProfilesRequest & RegionInput,
   DescribeConnectorProfilesResponse,
   DescribeConnectorProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -2050,7 +2051,7 @@ export type DescribeConnectorsError = InternalServerException | ValidationExcept
  * `DescribeConnectors` API operation to retrieve the next page.
  */
 export const describeConnectors: API.PaginatedOperationMethod<
-  DescribeConnectorsRequest,
+  DescribeConnectorsRequest & RegionInput,
   DescribeConnectorsResponse,
   DescribeConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2076,7 +2077,7 @@ export type DescribeFlowError = InternalServerException | ResourceNotFoundExcept
  * Provides a description of the specified flow.
  */
 export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
+  DescribeFlowRequest & RegionInput,
   DescribeFlowResponse,
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
@@ -2100,7 +2101,7 @@ export type DescribeFlowExecutionRecordsError =
  * Fetches the execution history of the flow.
  */
 export const describeFlowExecutionRecords: API.PaginatedOperationMethod<
-  DescribeFlowExecutionRecordsRequest,
+  DescribeFlowExecutionRecordsRequest & RegionInput,
   DescribeFlowExecutionRecordsResponse,
   DescribeFlowExecutionRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -2135,7 +2136,7 @@ export type ListConnectorEntitiesError =
  * *Incident* entity.
  */
 export const listConnectorEntities: API.OperationMethod<
-  ListConnectorEntitiesRequest,
+  ListConnectorEntitiesRequest & RegionInput,
   ListConnectorEntitiesResponse,
   ListConnectorEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type ListConnectorsError = InternalServerException | ValidationException 
  * authored connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2189,7 +2190,7 @@ export type ListFlowsError = InternalServerException | ValidationException | Com
  * Lists all of the flows associated with your account.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsRequest,
+  ListFlowsRequest & RegionInput,
   ListFlowsResponse,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -2219,7 +2220,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags that are associated with a specified flow.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2251,7 +2252,7 @@ export type RegisterConnectorError =
  * account.
  */
 export const registerConnector: API.OperationMethod<
-  RegisterConnectorRequest,
+  RegisterConnectorRequest & RegionInput,
   RegisterConnectorResponse,
   RegisterConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2293,7 +2294,7 @@ export type ResetConnectorMetadataCacheError =
  * but you can use this action when you want to get the latest metadata right away.
  */
 export const resetConnectorMetadataCache: API.OperationMethod<
-  ResetConnectorMetadataCacheRequest,
+  ResetConnectorMetadataCacheRequest & RegionInput,
   ResetConnectorMetadataCacheResponse,
   ResetConnectorMetadataCacheError,
   Credentials | HttpClient.HttpClient
@@ -2324,7 +2325,7 @@ export type StartFlowError =
  * immediately. For schedule and event-triggered flows, this operation activates the flow.
  */
 export const startFlow: API.OperationMethod<
-  StartFlowRequest,
+  StartFlowRequest & RegionInput,
   StartFlowResponse,
   StartFlowError,
   Credentials | HttpClient.HttpClient
@@ -2356,7 +2357,7 @@ export type StopFlowError =
  * flows, this operation deactivates the flow.
  */
 export const stopFlow: API.OperationMethod<
-  StopFlowRequest,
+  StopFlowRequest & RegionInput,
   StopFlowResponse,
   StopFlowError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type TagResourceError =
  * Applies a tag to the specified flow.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2410,7 +2411,7 @@ export type UnregisterConnectorError =
  * label provided in the request.
  */
 export const unregisterConnector: API.OperationMethod<
-  UnregisterConnectorRequest,
+  UnregisterConnectorRequest & RegionInput,
   UnregisterConnectorResponse,
   UnregisterConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type UntagResourceError =
  * Removes a tag from the specified flow.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2461,7 +2462,7 @@ export type UpdateConnectorProfileError =
  * Updates a given connector profile associated with your account.
  */
 export const updateConnectorProfile: API.OperationMethod<
-  UpdateConnectorProfileRequest,
+  UpdateConnectorProfileRequest & RegionInput,
   UpdateConnectorProfileResponse,
   UpdateConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -2503,7 +2504,7 @@ export type UpdateConnectorRegistrationError =
  * - A new AWS Lambda function that you specify
  */
 export const updateConnectorRegistration: API.OperationMethod<
-  UpdateConnectorRegistrationRequest,
+  UpdateConnectorRegistrationRequest & RegionInput,
   UpdateConnectorRegistrationResponse,
   UpdateConnectorRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -2542,7 +2543,7 @@ export type UpdateFlowError =
  * Updates an existing flow.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient

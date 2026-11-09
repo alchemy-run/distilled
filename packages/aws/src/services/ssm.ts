@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -5337,7 +5338,7 @@ export type AddTagsToResourceError =
  * resources in the *Amazon EC2 User Guide*.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResult,
   AddTagsToResourceError,
   Creds | HttpClient.HttpClient
@@ -5372,7 +5373,7 @@ export type AssociateOpsItemRelatedItemError =
  * Amazon Web Services Systems Manager.
  */
 export const associateOpsItemRelatedItem: API.OperationMethod<
-  AssociateOpsItemRelatedItemRequest,
+  AssociateOpsItemRelatedItemRequest & RegionInput,
   AssociateOpsItemRelatedItemResponse,
   AssociateOpsItemRelatedItemError,
   Creds | HttpClient.HttpClient
@@ -5405,7 +5406,7 @@ export type CancelCommandError =
  * command will be terminated and the underlying process stopped.
  */
 export const cancelCommand: API.OperationMethod<
-  CancelCommandRequest,
+  CancelCommandRequest & RegionInput,
   CancelCommandResult,
   CancelCommandError,
   Creds | HttpClient.HttpClient
@@ -5430,7 +5431,7 @@ export type CancelMaintenanceWindowExecutionError =
  * completion.
  */
 export const cancelMaintenanceWindowExecution: API.OperationMethod<
-  CancelMaintenanceWindowExecutionRequest,
+  CancelMaintenanceWindowExecutionRequest & RegionInput,
   CancelMaintenanceWindowExecutionResult,
   CancelMaintenanceWindowExecutionError,
   Creds | HttpClient.HttpClient
@@ -5458,7 +5459,7 @@ export type CreateActivationError = InternalServerError | InvalidParameters | Co
  * configured for Systems Manager are all called *managed nodes*.
  */
 export const createActivation: API.OperationMethod<
-  CreateActivationRequest,
+  CreateActivationRequest & RegionInput,
   CreateActivationResult,
   CreateActivationError,
   Creds | HttpClient.HttpClient
@@ -5501,7 +5502,7 @@ export type CreateAssociationError =
  * might instruct State Manager to start the service.
  */
 export const createAssociation: API.OperationMethod<
-  CreateAssociationRequest,
+  CreateAssociationRequest & RegionInput,
   CreateAssociationResult,
   CreateAssociationError,
   Creds | HttpClient.HttpClient
@@ -5556,7 +5557,7 @@ export type CreateAssociationBatchError =
  * system returns the AssociationAlreadyExists exception.
  */
 export const createAssociationBatch: API.OperationMethod<
-  CreateAssociationBatchRequest,
+  CreateAssociationBatchRequest & RegionInput,
   CreateAssociationBatchResult,
   CreateAssociationBatchError,
   Creds | HttpClient.HttpClient
@@ -5594,7 +5595,7 @@ export type CreateCloudConnectorError =
  * cloud environment.
  */
 export const createCloudConnector: API.OperationMethod<
-  CreateCloudConnectorRequest,
+  CreateCloudConnectorRequest & RegionInput,
   CreateCloudConnectorResult,
   CreateCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -5626,7 +5627,7 @@ export type CreateDocumentError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const createDocument: API.OperationMethod<
-  CreateDocumentRequest,
+  CreateDocumentRequest & RegionInput,
   CreateDocumentResult,
   CreateDocumentError,
   Creds | HttpClient.HttpClient
@@ -5666,7 +5667,7 @@ export type CreateMaintenanceWindowError =
  * after 5 PM.
  */
 export const createMaintenanceWindow: API.OperationMethod<
-  CreateMaintenanceWindowRequest,
+  CreateMaintenanceWindowRequest & RegionInput,
   CreateMaintenanceWindowResult,
   CreateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -5698,7 +5699,7 @@ export type CreateOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const createOpsItem: API.OperationMethod<
-  CreateOpsItemRequest,
+  CreateOpsItemRequest & RegionInput,
   CreateOpsItemResponse,
   CreateOpsItemError,
   Creds | HttpClient.HttpClient
@@ -5731,7 +5732,7 @@ export type CreateOpsMetadataError =
  * information about the new application, including the application type.
  */
 export const createOpsMetadata: API.OperationMethod<
-  CreateOpsMetadataRequest,
+  CreateOpsMetadataRequest & RegionInput,
   CreateOpsMetadataResult,
   CreateOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -5764,7 +5765,7 @@ export type CreatePatchBaselineError =
  * operating system type, see PatchFilter.
  */
 export const createPatchBaseline: API.OperationMethod<
-  CreatePatchBaselineRequest,
+  CreatePatchBaselineRequest & RegionInput,
   CreatePatchBaselineResult,
   CreatePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -5811,7 +5812,7 @@ export type CreateResourceDataSyncError =
  * secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
  */
 export const createResourceDataSync: API.OperationMethod<
-  CreateResourceDataSyncRequest,
+  CreateResourceDataSyncRequest & RegionInput,
   CreateResourceDataSyncResult,
   CreateResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -5843,7 +5844,7 @@ export type DeleteActivationError =
  * doesn't de-register managed nodes. You must manually de-register managed nodes.
  */
 export const deleteActivation: API.OperationMethod<
-  DeleteActivationRequest,
+  DeleteActivationRequest & RegionInput,
   DeleteActivationResult,
   DeleteActivationError,
   Creds | HttpClient.HttpClient
@@ -5876,7 +5877,7 @@ export type DeleteAssociationError =
  * node.
  */
 export const deleteAssociation: API.OperationMethod<
-  DeleteAssociationRequest,
+  DeleteAssociationRequest & RegionInput,
   DeleteAssociationResult,
   DeleteAssociationError,
   Creds | HttpClient.HttpClient
@@ -5906,7 +5907,7 @@ export type DeleteCloudConnectorError =
  * Deletes a cloud connector.
  */
 export const deleteCloudConnector: API.OperationMethod<
-  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorRequest & RegionInput,
   DeleteCloudConnectorResult,
   DeleteCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -5935,7 +5936,7 @@ export type DeleteDocumentError =
  * Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
  */
 export const deleteDocument: API.OperationMethod<
-  DeleteDocumentRequest,
+  DeleteDocumentRequest & RegionInput,
   DeleteDocumentResult,
   DeleteDocumentError,
   Creds | HttpClient.HttpClient
@@ -5968,7 +5969,7 @@ export type DeleteInventoryError =
  * a custom inventory type is also referred to as deleting a custom inventory schema.
  */
 export const deleteInventory: API.OperationMethod<
-  DeleteInventoryRequest,
+  DeleteInventoryRequest & RegionInput,
   DeleteInventoryResult,
   DeleteInventoryError,
   Creds | HttpClient.HttpClient
@@ -5994,7 +5995,7 @@ export type DeleteMaintenanceWindowError = InternalServerError | CommonErrors;
  * Deletes a maintenance window.
  */
 export const deleteMaintenanceWindow: API.OperationMethod<
-  DeleteMaintenanceWindowRequest,
+  DeleteMaintenanceWindowRequest & RegionInput,
   DeleteMaintenanceWindowResult,
   DeleteMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -6037,7 +6038,7 @@ export type DeleteOpsItemError =
  * OpsCenter to centrally manage OpsItems across accounts in the *Systems Manager User Guide*.
  */
 export const deleteOpsItem: API.OperationMethod<
-  DeleteOpsItemRequest,
+  DeleteOpsItemRequest & RegionInput,
   DeleteOpsItemResponse,
   DeleteOpsItemError,
   Creds | HttpClient.HttpClient
@@ -6061,7 +6062,7 @@ export type DeleteOpsMetadataError =
  * Delete OpsMetadata related to an application.
  */
 export const deleteOpsMetadata: API.OperationMethod<
-  DeleteOpsMetadataRequest,
+  DeleteOpsMetadataRequest & RegionInput,
   DeleteOpsMetadataResult,
   DeleteOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -6082,7 +6083,7 @@ export type DeleteParameterError = InternalServerError | ParameterNotFound | Com
  * to create a parameter with the same name.
  */
 export const deleteParameter: API.OperationMethod<
-  DeleteParameterRequest,
+  DeleteParameterRequest & RegionInput,
   DeleteParameterResult,
   DeleteParameterError,
   Creds | HttpClient.HttpClient
@@ -6103,7 +6104,7 @@ export type DeleteParametersError = InternalServerError | CommonErrors;
  * create a parameter with the same name.
  */
 export const deleteParameters: API.OperationMethod<
-  DeleteParametersRequest,
+  DeleteParametersRequest & RegionInput,
   DeleteParametersResult,
   DeleteParametersError,
   Creds | HttpClient.HttpClient
@@ -6123,7 +6124,7 @@ export type DeletePatchBaselineError = InternalServerError | ResourceInUseExcept
  * Deletes a patch baseline.
  */
 export const deletePatchBaseline: API.OperationMethod<
-  DeletePatchBaselineRequest,
+  DeletePatchBaselineRequest & RegionInput,
   DeletePatchBaselineResult,
   DeletePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -6149,7 +6150,7 @@ export type DeleteResourceDataSyncError =
  * doesn't delete data.
  */
 export const deleteResourceDataSync: API.OperationMethod<
-  DeleteResourceDataSyncRequest,
+  DeleteResourceDataSyncRequest & RegionInput,
   DeleteResourceDataSyncResult,
   DeleteResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -6192,7 +6193,7 @@ export type DeleteResourcePolicyError =
  * Systems Manager documents in the *Amazon Web Services Systems Manager User Guide*.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -6226,7 +6227,7 @@ export type DeregisterManagedInstanceError = InternalServerError | InvalidInstan
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const deregisterManagedInstance: API.OperationMethod<
-  DeregisterManagedInstanceRequest,
+  DeregisterManagedInstanceRequest & RegionInput,
   DeregisterManagedInstanceResult,
   DeregisterManagedInstanceError,
   Creds | HttpClient.HttpClient
@@ -6249,7 +6250,7 @@ export type DeregisterPatchBaselineForPatchGroupError =
  * Removes a patch group from a patch baseline.
  */
 export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
-  DeregisterPatchBaselineForPatchGroupRequest,
+  DeregisterPatchBaselineForPatchGroupRequest & RegionInput,
   DeregisterPatchBaselineForPatchGroupResult,
   DeregisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -6273,7 +6274,7 @@ export type DeregisterTargetFromMaintenanceWindowError =
  * Removes a target from a maintenance window.
  */
 export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
-  DeregisterTargetFromMaintenanceWindowRequest,
+  DeregisterTargetFromMaintenanceWindowRequest & RegionInput,
   DeregisterTargetFromMaintenanceWindowResult,
   DeregisterTargetFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -6296,7 +6297,7 @@ export type DeregisterTaskFromMaintenanceWindowError =
  * Removes a task from a maintenance window.
  */
 export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
-  DeregisterTaskFromMaintenanceWindowRequest,
+  DeregisterTaskFromMaintenanceWindowRequest & RegionInput,
   DeregisterTaskFromMaintenanceWindowResult,
   DeregisterTaskFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -6323,7 +6324,7 @@ export type DescribeActivationsError =
  * activation.
  */
 export const describeActivations: API.PaginatedOperationMethod<
-  DescribeActivationsRequest,
+  DescribeActivationsRequest & RegionInput,
   DescribeActivationsResult,
   DescribeActivationsError,
   Creds | HttpClient.HttpClient,
@@ -6358,7 +6359,7 @@ export type DescribeAssociationError =
  * by using the association ID.
  */
 export const describeAssociation: API.OperationMethod<
-  DescribeAssociationRequest,
+  DescribeAssociationRequest & RegionInput,
   DescribeAssociationResult,
   DescribeAssociationError,
   Creds | HttpClient.HttpClient
@@ -6388,7 +6389,7 @@ export type DescribeAssociationExecutionsError =
  * Views all executions for a specific association ID.
  */
 export const describeAssociationExecutions: API.PaginatedOperationMethod<
-  DescribeAssociationExecutionsRequest,
+  DescribeAssociationExecutionsRequest & RegionInput,
   DescribeAssociationExecutionsResult,
   DescribeAssociationExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6420,7 +6421,7 @@ export type DescribeAssociationExecutionTargetsError =
  * Views information about a specific execution of a specific association.
  */
 export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
-  DescribeAssociationExecutionTargetsRequest,
+  DescribeAssociationExecutionTargetsRequest & RegionInput,
   DescribeAssociationExecutionTargetsResult,
   DescribeAssociationExecutionTargetsError,
   Creds | HttpClient.HttpClient,
@@ -6457,7 +6458,7 @@ export type DescribeAutomationExecutionsError =
  * Provides details about all active and terminated Automation executions.
  */
 export const describeAutomationExecutions: API.PaginatedOperationMethod<
-  DescribeAutomationExecutionsRequest,
+  DescribeAutomationExecutionsRequest & RegionInput,
   DescribeAutomationExecutionsResult,
   DescribeAutomationExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6491,7 +6492,7 @@ export type DescribeAutomationStepExecutionsError =
  * workflow.
  */
 export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
-  DescribeAutomationStepExecutionsRequest,
+  DescribeAutomationStepExecutionsRequest & RegionInput,
   DescribeAutomationStepExecutionsResult,
   DescribeAutomationStepExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6527,7 +6528,7 @@ export type DescribeAvailablePatchesError = InternalServerError | CommonErrors;
  * Linux 2, and Windows Server operating systems.
  */
 export const describeAvailablePatches: API.PaginatedOperationMethod<
-  DescribeAvailablePatchesRequest,
+  DescribeAvailablePatchesRequest & RegionInput,
   DescribeAvailablePatchesResult,
   DescribeAvailablePatchesError,
   Creds | HttpClient.HttpClient,
@@ -6558,7 +6559,7 @@ export type DescribeDocumentError =
  * Describes the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const describeDocument: API.OperationMethod<
-  DescribeDocumentRequest,
+  DescribeDocumentRequest & RegionInput,
   DescribeDocumentResult,
   DescribeDocumentError,
   Creds | HttpClient.HttpClient
@@ -6586,7 +6587,7 @@ export type DescribeDocumentPermissionError =
  * specifying a user's Amazon Web Services account ID) or publicly (*All*).
  */
 export const describeDocumentPermission: API.OperationMethod<
-  DescribeDocumentPermissionRequest,
+  DescribeDocumentPermissionRequest & RegionInput,
   DescribeDocumentPermissionResponse,
   DescribeDocumentPermissionError,
   Creds | HttpClient.HttpClient
@@ -6616,7 +6617,7 @@ export type DescribeEffectiveInstanceAssociationsError =
  * All associations for the managed nodes.
  */
 export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod<
-  DescribeEffectiveInstanceAssociationsRequest,
+  DescribeEffectiveInstanceAssociationsRequest & RegionInput,
   DescribeEffectiveInstanceAssociationsResult,
   DescribeEffectiveInstanceAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -6649,7 +6650,7 @@ export type DescribeEffectivePatchesForPatchBaselineError =
  * patch baseline. Applies to patch baselines for Windows only.
  */
 export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMethod<
-  DescribeEffectivePatchesForPatchBaselineRequest,
+  DescribeEffectivePatchesForPatchBaselineRequest & RegionInput,
   DescribeEffectivePatchesForPatchBaselineResult,
   DescribeEffectivePatchesForPatchBaselineError,
   Creds | HttpClient.HttpClient,
@@ -6685,7 +6686,7 @@ export type DescribeInstanceAssociationsStatusError =
  * The status of the associations for the managed nodes.
  */
 export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
-  DescribeInstanceAssociationsStatusRequest,
+  DescribeInstanceAssociationsStatusRequest & RegionInput,
   DescribeInstanceAssociationsStatusResult,
   DescribeInstanceAssociationsStatusError,
   Creds | HttpClient.HttpClient,
@@ -6728,7 +6729,7 @@ export type DescribeInstanceInformationError =
  * the role assigned to an on-premises managed node.
  */
 export const describeInstanceInformation: API.PaginatedOperationMethod<
-  DescribeInstanceInformationRequest,
+  DescribeInstanceInformationRequest & RegionInput,
   DescribeInstanceInformationResult,
   DescribeInstanceInformationError,
   Creds | HttpClient.HttpClient,
@@ -6767,7 +6768,7 @@ export type DescribeInstancePatchesError =
  * relative to the patch baseline being used for the node.
  */
 export const describeInstancePatches: API.PaginatedOperationMethod<
-  DescribeInstancePatchesRequest,
+  DescribeInstancePatchesRequest & RegionInput,
   DescribeInstancePatchesResult,
   DescribeInstancePatchesError,
   Creds | HttpClient.HttpClient,
@@ -6797,7 +6798,7 @@ export type DescribeInstancePatchStatesError =
  * Retrieves the high-level patch state of one or more managed nodes.
  */
 export const describeInstancePatchStates: API.PaginatedOperationMethod<
-  DescribeInstancePatchStatesRequest,
+  DescribeInstancePatchStatesRequest & RegionInput,
   DescribeInstancePatchStatesResult,
   DescribeInstancePatchStatesError,
   Creds | HttpClient.HttpClient,
@@ -6829,7 +6830,7 @@ export type DescribeInstancePatchStatesForPatchGroupError =
  * group.
  */
 export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMethod<
-  DescribeInstancePatchStatesForPatchGroupRequest,
+  DescribeInstancePatchStatesForPatchGroupRequest & RegionInput,
   DescribeInstancePatchStatesForPatchGroupResult,
   DescribeInstancePatchStatesForPatchGroupError,
   Creds | HttpClient.HttpClient,
@@ -6865,7 +6866,7 @@ export type DescribeInstancePropertiesError =
  * nodes.
  */
 export const describeInstanceProperties: API.PaginatedOperationMethod<
-  DescribeInstancePropertiesRequest,
+  DescribeInstancePropertiesRequest & RegionInput,
   DescribeInstancePropertiesResult,
   DescribeInstancePropertiesError,
   Creds | HttpClient.HttpClient,
@@ -6904,7 +6905,7 @@ export type DescribeInventoryDeletionsError =
  * Describes a specific delete inventory operation.
  */
 export const describeInventoryDeletions: API.PaginatedOperationMethod<
-  DescribeInventoryDeletionsRequest,
+  DescribeInventoryDeletionsRequest & RegionInput,
   DescribeInventoryDeletionsResult,
   DescribeInventoryDeletionsError,
   Creds | HttpClient.HttpClient,
@@ -6933,7 +6934,7 @@ export type DescribeMaintenanceWindowExecutionsError = InternalServerError | Com
  * with the maintenance window.
  */
 export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionsRequest,
+  DescribeMaintenanceWindowExecutionsRequest & RegionInput,
   DescribeMaintenanceWindowExecutionsResult,
   DescribeMaintenanceWindowExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -6964,7 +6965,7 @@ export type DescribeMaintenanceWindowExecutionTaskInvocationsError =
  * of a maintenance window execution.
  */
 export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
+  DescribeMaintenanceWindowExecutionTaskInvocationsRequest & RegionInput,
   DescribeMaintenanceWindowExecutionTaskInvocationsResult,
   DescribeMaintenanceWindowExecutionTaskInvocationsError,
   Creds | HttpClient.HttpClient,
@@ -7002,7 +7003,7 @@ export type DescribeMaintenanceWindowExecutionTasksError =
  * For a given maintenance window execution, lists the tasks that were run.
  */
 export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowExecutionTasksRequest,
+  DescribeMaintenanceWindowExecutionTasksRequest & RegionInput,
   DescribeMaintenanceWindowExecutionTasksResult,
   DescribeMaintenanceWindowExecutionTasksError,
   Creds | HttpClient.HttpClient,
@@ -7029,7 +7030,7 @@ export type DescribeMaintenanceWindowsError = InternalServerError | CommonErrors
  * Retrieves the maintenance windows in an Amazon Web Services account.
  */
 export const describeMaintenanceWindows: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowsRequest,
+  DescribeMaintenanceWindowsRequest & RegionInput,
   DescribeMaintenanceWindowsResult,
   DescribeMaintenanceWindowsError,
   Creds | HttpClient.HttpClient,
@@ -7059,7 +7060,7 @@ export type DescribeMaintenanceWindowScheduleError =
  * Retrieves information about upcoming executions of a maintenance window.
  */
 export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowScheduleRequest,
+  DescribeMaintenanceWindowScheduleRequest & RegionInput,
   DescribeMaintenanceWindowScheduleResult,
   DescribeMaintenanceWindowScheduleError,
   Creds | HttpClient.HttpClient,
@@ -7087,7 +7088,7 @@ export type DescribeMaintenanceWindowsForTargetError = InternalServerError | Com
  * associated with.
  */
 export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowsForTargetRequest,
+  DescribeMaintenanceWindowsForTargetRequest & RegionInput,
   DescribeMaintenanceWindowsForTargetResult,
   DescribeMaintenanceWindowsForTargetError,
   Creds | HttpClient.HttpClient,
@@ -7117,7 +7118,7 @@ export type DescribeMaintenanceWindowTargetsError =
  * Lists the targets registered with the maintenance window.
  */
 export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowTargetsRequest,
+  DescribeMaintenanceWindowTargetsRequest & RegionInput,
   DescribeMaintenanceWindowTargetsResult,
   DescribeMaintenanceWindowTargetsError,
   Creds | HttpClient.HttpClient,
@@ -7152,7 +7153,7 @@ export type DescribeMaintenanceWindowTasksError =
  * These values don't affect the running of your task and can be ignored.
  */
 export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
-  DescribeMaintenanceWindowTasksRequest,
+  DescribeMaintenanceWindowTasksRequest & RegionInput,
   DescribeMaintenanceWindowTasksResult,
   DescribeMaintenanceWindowTasksError,
   Creds | HttpClient.HttpClient,
@@ -7185,7 +7186,7 @@ export type DescribeOpsItemsError = InternalServerError | CommonErrors;
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const describeOpsItems: API.PaginatedOperationMethod<
-  DescribeOpsItemsRequest,
+  DescribeOpsItemsRequest & RegionInput,
   DescribeOpsItemsResponse,
   DescribeOpsItemsError,
   Creds | HttpClient.HttpClient,
@@ -7235,7 +7236,7 @@ export type DescribeParametersError =
  * referencing.
  */
 export const describeParameters: API.PaginatedOperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResult,
   DescribeParametersError,
   Creds | HttpClient.HttpClient,
@@ -7267,7 +7268,7 @@ export type DescribePatchBaselinesError = InternalServerError | CommonErrors;
  * Lists the patch baselines in your Amazon Web Services account.
  */
 export const describePatchBaselines: API.PaginatedOperationMethod<
-  DescribePatchBaselinesRequest,
+  DescribePatchBaselinesRequest & RegionInput,
   DescribePatchBaselinesResult,
   DescribePatchBaselinesError,
   Creds | HttpClient.HttpClient,
@@ -7294,7 +7295,7 @@ export type DescribePatchGroupsError = InternalServerError | CommonErrors;
  * Lists all patch groups that have been registered with patch baselines.
  */
 export const describePatchGroups: API.PaginatedOperationMethod<
-  DescribePatchGroupsRequest,
+  DescribePatchGroupsRequest & RegionInput,
   DescribePatchGroupsResult,
   DescribePatchGroupsError,
   Creds | HttpClient.HttpClient,
@@ -7321,7 +7322,7 @@ export type DescribePatchGroupStateError = InternalServerError | InvalidNextToke
  * Returns high-level aggregated patch compliance state information for a patch group.
  */
 export const describePatchGroupState: API.OperationMethod<
-  DescribePatchGroupStateRequest,
+  DescribePatchGroupStateRequest & RegionInput,
   DescribePatchGroupStateResult,
   DescribePatchGroupStateError,
   Creds | HttpClient.HttpClient
@@ -7398,7 +7399,7 @@ export type DescribePatchPropertiesError = InternalServerError | CommonErrors;
  * `CLASSIFICATION` | `MSRC_SEVERITY`
  */
 export const describePatchProperties: API.PaginatedOperationMethod<
-  DescribePatchPropertiesRequest,
+  DescribePatchPropertiesRequest & RegionInput,
   DescribePatchPropertiesResult,
   DescribePatchPropertiesError,
   Creds | HttpClient.HttpClient,
@@ -7430,7 +7431,7 @@ export type DescribeSessionsError =
  * sessions from the past 30 days.
  */
 export const describeSessions: API.PaginatedOperationMethod<
-  DescribeSessionsRequest,
+  DescribeSessionsRequest & RegionInput,
   DescribeSessionsResponse,
   DescribeSessionsError,
   Creds | HttpClient.HttpClient,
@@ -7465,7 +7466,7 @@ export type DisassociateOpsItemRelatedItemError =
  * Amazon Web Services Systems Manager.
  */
 export const disassociateOpsItemRelatedItem: API.OperationMethod<
-  DisassociateOpsItemRelatedItemRequest,
+  DisassociateOpsItemRelatedItemRequest & RegionInput,
   DisassociateOpsItemRelatedItemResponse,
   DisassociateOpsItemRelatedItemError,
   Creds | HttpClient.HttpClient
@@ -7497,7 +7498,7 @@ export type GetAccessTokenError =
  * Returns a credentials set to be used with just-in-time node access.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenRequest,
+  GetAccessTokenRequest & RegionInput,
   GetAccessTokenResponse,
   GetAccessTokenError,
   Creds | HttpClient.HttpClient
@@ -7526,7 +7527,7 @@ export type GetAutomationExecutionError =
  * Get detailed information about a particular Automation execution.
  */
 export const getAutomationExecution: API.OperationMethod<
-  GetAutomationExecutionRequest,
+  GetAutomationExecutionRequest & RegionInput,
   GetAutomationExecutionResult,
   GetAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -7561,7 +7562,7 @@ export type GetCalendarStateError =
  * For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see Amazon Web Services Systems Manager Change Calendar in the *Amazon Web Services Systems Manager User Guide*.
  */
 export const getCalendarState: API.OperationMethod<
-  GetCalendarStateRequest,
+  GetCalendarStateRequest & RegionInput,
   GetCalendarStateResponse,
   GetCalendarStateError,
   Creds | HttpClient.HttpClient
@@ -7581,7 +7582,7 @@ export type GetCloudConnectorError = InternalServerError | ResourceNotFoundExcep
  * Returns detailed information about a cloud connector.
  */
 export const getCloudConnector: API.OperationMethod<
-  GetCloudConnectorRequest,
+  GetCloudConnectorRequest & RegionInput,
   GetCloudConnectorResult,
   GetCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -7616,7 +7617,7 @@ export type GetCommandInvocationError =
  * use ListCommands.
  */
 export const getCommandInvocation: API.OperationMethod<
-  GetCommandInvocationRequest,
+  GetCommandInvocationRequest & RegionInput,
   GetCommandInvocationResult,
   GetCommandInvocationError,
   Creds | HttpClient.HttpClient
@@ -7643,7 +7644,7 @@ export type GetConnectionStatusError = InternalServerError | CommonErrors;
  * and ready to receive Session Manager connections.
  */
 export const getConnectionStatus: API.OperationMethod<
-  GetConnectionStatusRequest,
+  GetConnectionStatusRequest & RegionInput,
   GetConnectionStatusResponse,
   GetConnectionStatusError,
   Creds | HttpClient.HttpClient
@@ -7667,7 +7668,7 @@ export type GetDefaultPatchBaselineError = InternalServerError | CommonErrors;
  * returned.
  */
 export const getDefaultPatchBaseline: API.OperationMethod<
-  GetDefaultPatchBaselineRequest,
+  GetDefaultPatchBaselineRequest & RegionInput,
   GetDefaultPatchBaselineResult,
   GetDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -7698,7 +7699,7 @@ export type GetDeployablePatchSnapshotForInstanceError =
  * `AWS-RunPowerShellScript` document.
  */
 export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
-  GetDeployablePatchSnapshotForInstanceRequest,
+  GetDeployablePatchSnapshotForInstanceRequest & RegionInput,
   GetDeployablePatchSnapshotForInstanceResult,
   GetDeployablePatchSnapshotForInstanceError,
   Creds | HttpClient.HttpClient
@@ -7722,7 +7723,7 @@ export type GetDocumentError =
  * Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
  */
 export const getDocument: API.OperationMethod<
-  GetDocumentRequest,
+  GetDocumentRequest & RegionInput,
   GetDocumentResult,
   GetDocumentError,
   Creds | HttpClient.HttpClient
@@ -7746,7 +7747,7 @@ export type GetExecutionPreviewError =
  * a specified Automation runbook would have on the targeted resources.
  */
 export const getExecutionPreview: API.OperationMethod<
-  GetExecutionPreviewRequest,
+  GetExecutionPreviewRequest & RegionInput,
   GetExecutionPreviewResponse,
   GetExecutionPreviewError,
   Creds | HttpClient.HttpClient
@@ -7775,7 +7776,7 @@ export type GetInventoryError =
  * or `Terminated`.
  */
 export const getInventory: API.PaginatedOperationMethod<
-  GetInventoryRequest,
+  GetInventoryRequest & RegionInput,
   GetInventoryResult,
   GetInventoryError,
   Creds | HttpClient.HttpClient,
@@ -7815,7 +7816,7 @@ export type GetInventorySchemaError =
  * for a specific Inventory item type.
  */
 export const getInventorySchema: API.PaginatedOperationMethod<
-  GetInventorySchemaRequest,
+  GetInventorySchemaRequest & RegionInput,
   GetInventorySchemaResult,
   GetInventorySchemaError,
   Creds | HttpClient.HttpClient,
@@ -7842,7 +7843,7 @@ export type GetMaintenanceWindowError = DoesNotExistException | InternalServerEr
  * Retrieves a maintenance window.
  */
 export const getMaintenanceWindow: API.OperationMethod<
-  GetMaintenanceWindowRequest,
+  GetMaintenanceWindowRequest & RegionInput,
   GetMaintenanceWindowResult,
   GetMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -7865,7 +7866,7 @@ export type GetMaintenanceWindowExecutionError =
  * Retrieves details about a specific a maintenance window execution.
  */
 export const getMaintenanceWindowExecution: API.OperationMethod<
-  GetMaintenanceWindowExecutionRequest,
+  GetMaintenanceWindowExecutionRequest & RegionInput,
   GetMaintenanceWindowExecutionResult,
   GetMaintenanceWindowExecutionError,
   Creds | HttpClient.HttpClient
@@ -7889,7 +7890,7 @@ export type GetMaintenanceWindowExecutionTaskError =
  * execution.
  */
 export const getMaintenanceWindowExecutionTask: API.OperationMethod<
-  GetMaintenanceWindowExecutionTaskRequest,
+  GetMaintenanceWindowExecutionTaskRequest & RegionInput,
   GetMaintenanceWindowExecutionTaskResult,
   GetMaintenanceWindowExecutionTaskError,
   Creds | HttpClient.HttpClient
@@ -7912,7 +7913,7 @@ export type GetMaintenanceWindowExecutionTaskInvocationError =
  * Retrieves information about a specific task running on a specific target.
  */
 export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
-  GetMaintenanceWindowExecutionTaskInvocationRequest,
+  GetMaintenanceWindowExecutionTaskInvocationRequest & RegionInput,
   GetMaintenanceWindowExecutionTaskInvocationResult,
   GetMaintenanceWindowExecutionTaskInvocationError,
   Creds | HttpClient.HttpClient
@@ -7950,7 +7951,7 @@ export type GetMaintenanceWindowTaskError =
  * To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
  */
 export const getMaintenanceWindowTask: API.OperationMethod<
-  GetMaintenanceWindowTaskRequest,
+  GetMaintenanceWindowTaskRequest & RegionInput,
   GetMaintenanceWindowTaskResult,
   GetMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
@@ -7981,7 +7982,7 @@ export type GetOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const getOpsItem: API.OperationMethod<
-  GetOpsItemRequest,
+  GetOpsItemRequest & RegionInput,
   GetOpsItemResponse,
   GetOpsItemError,
   Creds | HttpClient.HttpClient
@@ -8005,7 +8006,7 @@ export type GetOpsMetadataError =
  * View operational metadata related to an application in Application Manager.
  */
 export const getOpsMetadata: API.OperationMethod<
-  GetOpsMetadataRequest,
+  GetOpsMetadataRequest & RegionInput,
   GetOpsMetadataResult,
   GetOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -8035,7 +8036,7 @@ export type GetOpsSummaryError =
  * Explorer.
  */
 export const getOpsSummary: API.PaginatedOperationMethod<
-  GetOpsSummaryRequest,
+  GetOpsSummaryRequest & RegionInput,
   GetOpsSummaryResult,
   GetOpsSummaryError,
   Creds | HttpClient.HttpClient,
@@ -8094,7 +8095,7 @@ export type GetParameterError =
  * throughput.
  */
 export const getParameter: API.OperationMethod<
-  GetParameterRequest,
+  GetParameterRequest & RegionInput,
   GetParameterResult,
   GetParameterError,
   Creds | HttpClient.HttpClient
@@ -8128,7 +8129,7 @@ export type GetParameterHistoryError =
  * referencing.
  */
 export const getParameterHistory: API.PaginatedOperationMethod<
-  GetParameterHistoryRequest,
+  GetParameterHistoryRequest & RegionInput,
   GetParameterHistoryResult,
   GetParameterHistoryError,
   Creds | HttpClient.HttpClient,
@@ -8175,7 +8176,7 @@ export type GetParametersError = InternalServerError | InvalidKeyId | CommonErro
  * throughput.
  */
 export const getParameters: API.OperationMethod<
-  GetParametersRequest,
+  GetParametersRequest & RegionInput,
   GetParametersResult,
   GetParametersError,
   Creds | HttpClient.HttpClient
@@ -8213,7 +8214,7 @@ export type GetParametersByPathError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const getParametersByPath: API.PaginatedOperationMethod<
-  GetParametersByPathRequest,
+  GetParametersByPathRequest & RegionInput,
   GetParametersByPathResult,
   GetParametersByPathError,
   Creds | HttpClient.HttpClient,
@@ -8250,7 +8251,7 @@ export type GetPatchBaselineError =
  * Retrieves information about a patch baseline.
  */
 export const getPatchBaseline: API.OperationMethod<
-  GetPatchBaselineRequest,
+  GetPatchBaselineRequest & RegionInput,
   GetPatchBaselineResult,
   GetPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -8270,7 +8271,7 @@ export type GetPatchBaselineForPatchGroupError = InternalServerError | CommonErr
  * Retrieves the patch baseline that should be used for the specified patch group.
  */
 export const getPatchBaselineForPatchGroup: API.OperationMethod<
-  GetPatchBaselineForPatchGroupRequest,
+  GetPatchBaselineForPatchGroupRequest & RegionInput,
   GetPatchBaselineForPatchGroupResult,
   GetPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -8294,7 +8295,7 @@ export type GetResourcePoliciesError =
  * Returns an array of the `Policy` object.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesRequest,
+  GetResourcePoliciesRequest & RegionInput,
   GetResourcePoliciesResponse,
   GetResourcePoliciesError,
   Creds | HttpClient.HttpClient,
@@ -8335,7 +8336,7 @@ export type GetServiceSettingError = InternalServerError | ServiceSettingNotFoun
  * Query the current service setting for the Amazon Web Services account.
  */
 export const getServiceSetting: API.OperationMethod<
-  GetServiceSettingRequest,
+  GetServiceSettingRequest & RegionInput,
   GetServiceSettingResult,
   GetServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -8392,7 +8393,7 @@ export type LabelParameterVersionError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const labelParameterVersion: API.OperationMethod<
-  LabelParameterVersionRequest,
+  LabelParameterVersionRequest & RegionInput,
   LabelParameterVersionResult,
   LabelParameterVersionError,
   Creds | HttpClient.HttpClient
@@ -8420,7 +8421,7 @@ export type ListAssociationsError = InternalServerError | InvalidNextToken | Com
  * specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResult,
   ListAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -8451,7 +8452,7 @@ export type ListAssociationVersionsError =
  * Retrieves all versions of an association for a specific association ID.
  */
 export const listAssociationVersions: API.PaginatedOperationMethod<
-  ListAssociationVersionsRequest,
+  ListAssociationVersionsRequest & RegionInput,
   ListAssociationVersionsResult,
   ListAssociationVersionsError,
   Creds | HttpClient.HttpClient,
@@ -8478,7 +8479,7 @@ export type ListCloudConnectorsError = InternalServerError | CommonErrors;
  * Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
  */
 export const listCloudConnectors: API.PaginatedOperationMethod<
-  ListCloudConnectorsRequest,
+  ListCloudConnectorsRequest & RegionInput,
   ListCloudConnectorsResult,
   ListCloudConnectorsError,
   Creds | HttpClient.HttpClient,
@@ -8515,7 +8516,7 @@ export type ListCommandInvocationsError =
  * about command execution.
  */
 export const listCommandInvocations: API.PaginatedOperationMethod<
-  ListCommandInvocationsRequest,
+  ListCommandInvocationsRequest & RegionInput,
   ListCommandInvocationsResult,
   ListCommandInvocationsError,
   Creds | HttpClient.HttpClient,
@@ -8554,7 +8555,7 @@ export type ListCommandsError =
  * Lists the commands requested by users of the Amazon Web Services account.
  */
 export const listCommands: API.PaginatedOperationMethod<
-  ListCommandsRequest,
+  ListCommandsRequest & RegionInput,
   ListCommandsResult,
   ListCommandsError,
   Creds | HttpClient.HttpClient,
@@ -8595,7 +8596,7 @@ export type ListComplianceItemsError =
  * depend on the criteria specified in the filter.
  */
 export const listComplianceItems: API.PaginatedOperationMethod<
-  ListComplianceItemsRequest,
+  ListComplianceItemsRequest & RegionInput,
   ListComplianceItemsResult,
   ListComplianceItemsError,
   Creds | HttpClient.HttpClient,
@@ -8634,7 +8635,7 @@ export type ListComplianceSummariesError =
  * according to the filter criteria that you specify.
  */
 export const listComplianceSummaries: API.PaginatedOperationMethod<
-  ListComplianceSummariesRequest,
+  ListComplianceSummariesRequest & RegionInput,
   ListComplianceSummariesResult,
   ListComplianceSummariesError,
   Creds | HttpClient.HttpClient,
@@ -8670,7 +8671,7 @@ export type ListDocumentMetadataHistoryError =
  * Information about approval reviews for a version of a change template in Change Manager.
  */
 export const listDocumentMetadataHistory: API.OperationMethod<
-  ListDocumentMetadataHistoryRequest,
+  ListDocumentMetadataHistoryRequest & RegionInput,
   ListDocumentMetadataHistoryResponse,
   ListDocumentMetadataHistoryError,
   Creds | HttpClient.HttpClient
@@ -8695,7 +8696,7 @@ export type ListDocumentsError =
  * limit the results of this request by using a filter.
  */
 export const listDocuments: API.PaginatedOperationMethod<
-  ListDocumentsRequest,
+  ListDocumentsRequest & RegionInput,
   ListDocumentsResult,
   ListDocumentsError,
   Creds | HttpClient.HttpClient,
@@ -8726,7 +8727,7 @@ export type ListDocumentVersionsError =
  * List all versions for a document.
  */
 export const listDocumentVersions: API.PaginatedOperationMethod<
-  ListDocumentVersionsRequest,
+  ListDocumentVersionsRequest & RegionInput,
   ListDocumentVersionsResult,
   ListDocumentVersionsError,
   Creds | HttpClient.HttpClient,
@@ -8759,7 +8760,7 @@ export type ListInventoryEntriesError =
  * A list of inventory items returned by the request.
  */
 export const listInventoryEntries: API.OperationMethod<
-  ListInventoryEntriesRequest,
+  ListInventoryEntriesRequest & RegionInput,
   ListInventoryEntriesResult,
   ListInventoryEntriesError,
   Creds | HttpClient.HttpClient
@@ -8791,7 +8792,7 @@ export type ListNodesError =
  * Takes in filters and returns a list of managed nodes matching the filter criteria.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesRequest,
+  ListNodesRequest & RegionInput,
   ListNodesResult,
   ListNodesError,
   Creds | HttpClient.HttpClient,
@@ -8832,7 +8833,7 @@ export type ListNodesSummaryError =
  * you specify. Results are grouped by the input aggregator you specify.
  */
 export const listNodesSummary: API.PaginatedOperationMethod<
-  ListNodesSummaryRequest,
+  ListNodesSummaryRequest & RegionInput,
   ListNodesSummaryResult,
   ListNodesSummaryError,
   Creds | HttpClient.HttpClient,
@@ -8872,7 +8873,7 @@ export type ListOpsItemEventsError =
  * limit the results to events associated with specific OpsItems by specifying a filter.
  */
 export const listOpsItemEvents: API.PaginatedOperationMethod<
-  ListOpsItemEventsRequest,
+  ListOpsItemEventsRequest & RegionInput,
   ListOpsItemEventsResponse,
   ListOpsItemEventsError,
   Creds | HttpClient.HttpClient,
@@ -8908,7 +8909,7 @@ export type ListOpsItemRelatedItemsError =
  * tool in Amazon Web Services Systems Manager.
  */
 export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
-  ListOpsItemRelatedItemsRequest,
+  ListOpsItemRelatedItemsRequest & RegionInput,
   ListOpsItemRelatedItemsResponse,
   ListOpsItemRelatedItemsError,
   Creds | HttpClient.HttpClient,
@@ -8939,7 +8940,7 @@ export type ListOpsMetadataError =
  * blobs.
  */
 export const listOpsMetadata: API.PaginatedOperationMethod<
-  ListOpsMetadataRequest,
+  ListOpsMetadataRequest & RegionInput,
   ListOpsMetadataResult,
   ListOpsMetadataError,
   Creds | HttpClient.HttpClient,
@@ -8972,7 +8973,7 @@ export type ListResourceComplianceSummariesError =
  * criteria you specify.
  */
 export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
-  ListResourceComplianceSummariesRequest,
+  ListResourceComplianceSummariesRequest & RegionInput,
   ListResourceComplianceSummariesResult,
   ListResourceComplianceSummariesError,
   Creds | HttpClient.HttpClient,
@@ -9012,7 +9013,7 @@ export type ListResourceDataSyncError =
  * returned in the call to the parameter of a subsequent call.
  */
 export const listResourceDataSync: API.PaginatedOperationMethod<
-  ListResourceDataSyncRequest,
+  ListResourceDataSyncRequest & RegionInput,
   ListResourceDataSyncResult,
   ListResourceDataSyncError,
   Creds | HttpClient.HttpClient,
@@ -9045,7 +9046,7 @@ export type ListTagsForResourceError =
  * For information about the ID format for each supported resource type, see AddTagsToResource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -9074,7 +9075,7 @@ export type ModifyDocumentPermissionError =
  * ID.
  */
 export const modifyDocumentPermission: API.OperationMethod<
-  ModifyDocumentPermissionRequest,
+  ModifyDocumentPermissionRequest & RegionInput,
   ModifyDocumentPermissionResponse,
   ModifyDocumentPermissionError,
   Creds | HttpClient.HttpClient
@@ -9154,7 +9155,7 @@ export type PutComplianceItemsError =
  * `yyyy-MM-dd'T'HH:mm:ss'Z'`
  */
 export const putComplianceItems: API.OperationMethod<
-  PutComplianceItemsRequest,
+  PutComplianceItemsRequest & RegionInput,
   PutComplianceItemsResult,
   PutComplianceItemsError,
   Creds | HttpClient.HttpClient
@@ -9197,7 +9198,7 @@ export type PutInventoryError =
  * exist.
  */
 export const putInventory: API.OperationMethod<
-  PutInventoryRequest,
+  PutInventoryRequest & RegionInput,
   PutInventoryResult,
   PutInventoryError,
   Creds | HttpClient.HttpClient
@@ -9260,7 +9261,7 @@ export type PutParameterError =
  * throughput.
  */
 export const putParameter: API.OperationMethod<
-  PutParameterRequest,
+  PutParameterRequest & RegionInput,
   PutParameterResult,
   PutParameterError,
   Creds | HttpClient.HttpClient
@@ -9339,7 +9340,7 @@ export type PutResourcePolicyError =
  * documents. The Amazon Web Services Config PutRemediationConfigurations API operation also can't use the document.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Creds | HttpClient.HttpClient
@@ -9376,7 +9377,7 @@ export type RegisterDefaultPatchBaselineError =
  * `pb-0574b43a65ea646ed`.
  */
 export const registerDefaultPatchBaseline: API.OperationMethod<
-  RegisterDefaultPatchBaselineRequest,
+  RegisterDefaultPatchBaselineRequest & RegionInput,
   RegisterDefaultPatchBaselineResult,
   RegisterDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -9402,7 +9403,7 @@ export type RegisterPatchBaselineForPatchGroupError =
  * Registers a patch baseline for a patch group.
  */
 export const registerPatchBaselineForPatchGroup: API.OperationMethod<
-  RegisterPatchBaselineForPatchGroupRequest,
+  RegisterPatchBaselineForPatchGroupRequest & RegionInput,
   RegisterPatchBaselineForPatchGroupResult,
   RegisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
@@ -9433,7 +9434,7 @@ export type RegisterTargetWithMaintenanceWindowError =
  * Registers a target with a maintenance window.
  */
 export const registerTargetWithMaintenanceWindow: API.OperationMethod<
-  RegisterTargetWithMaintenanceWindowRequest,
+  RegisterTargetWithMaintenanceWindowRequest & RegionInput,
   RegisterTargetWithMaintenanceWindowResult,
   RegisterTargetWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -9464,7 +9465,7 @@ export type RegisterTaskWithMaintenanceWindowError =
  * Adds a new task to a maintenance window.
  */
 export const registerTaskWithMaintenanceWindow: API.OperationMethod<
-  RegisterTaskWithMaintenanceWindowRequest,
+  RegisterTaskWithMaintenanceWindowRequest & RegionInput,
   RegisterTaskWithMaintenanceWindowResult,
   RegisterTaskWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -9495,7 +9496,7 @@ export type RemoveTagsFromResourceError =
  * Removes tag keys from the specified resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResult,
   RemoveTagsFromResourceError,
   Creds | HttpClient.HttpClient
@@ -9534,7 +9535,7 @@ export type ResetServiceSettingError =
  * service team.
  */
 export const resetServiceSetting: API.OperationMethod<
-  ResetServiceSettingRequest,
+  ResetServiceSettingRequest & RegionInput,
   ResetServiceSettingResult,
   ResetServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -9558,7 +9559,7 @@ export type ResumeSessionError = DoesNotExistException | InternalServerError | C
  * intermittent network issues. It isn't intended for any other use.
  */
 export const resumeSession: API.OperationMethod<
-  ResumeSessionRequest,
+  ResumeSessionRequest & RegionInput,
   ResumeSessionResponse,
   ResumeSessionError,
   Creds | HttpClient.HttpClient
@@ -9584,7 +9585,7 @@ export type SendAutomationSignalError =
  * execution.
  */
 export const sendAutomationSignal: API.OperationMethod<
-  SendAutomationSignalRequest,
+  SendAutomationSignalRequest & RegionInput,
   SendAutomationSignalResult,
   SendAutomationSignalError,
   Creds | HttpClient.HttpClient
@@ -9621,7 +9622,7 @@ export type SendCommandError =
  * Runs commands on one or more managed nodes.
  */
 export const sendCommand: API.OperationMethod<
-  SendCommandRequest,
+  SendCommandRequest & RegionInput,
   SendCommandResult,
   SendCommandError,
   Creds | HttpClient.HttpClient
@@ -9660,7 +9661,7 @@ export type StartAccessRequestError =
  * Starts the workflow for just-in-time node access sessions.
  */
 export const startAccessRequest: API.OperationMethod<
-  StartAccessRequestRequest,
+  StartAccessRequestRequest & RegionInput,
   StartAccessRequestResponse,
   StartAccessRequestError,
   Creds | HttpClient.HttpClient
@@ -9691,7 +9692,7 @@ export type StartAssociationsOnceError =
  * troubleshooting associations.
  */
 export const startAssociationsOnce: API.OperationMethod<
-  StartAssociationsOnceRequest,
+  StartAssociationsOnceRequest & RegionInput,
   StartAssociationsOnceResult,
   StartAssociationsOnceError,
   Creds | HttpClient.HttpClient
@@ -9719,7 +9720,7 @@ export type StartAutomationExecutionError =
  * Initiates execution of an Automation runbook.
  */
 export const startAutomationExecution: API.OperationMethod<
-  StartAutomationExecutionRequest,
+  StartAutomationExecutionRequest & RegionInput,
   StartAutomationExecutionResult,
   StartAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -9762,7 +9763,7 @@ export type StartChangeRequestExecutionError =
  * received.
  */
 export const startChangeRequestExecution: API.OperationMethod<
-  StartChangeRequestExecutionRequest,
+  StartChangeRequestExecutionRequest & RegionInput,
   StartChangeRequestExecutionResult,
   StartChangeRequestExecutionError,
   Creds | HttpClient.HttpClient
@@ -9792,7 +9793,7 @@ export type StartExecutionPreviewError = InternalServerError | ValidationExcepti
  * Automation runbook would have on the targeted resources.
  */
 export const startExecutionPreview: API.OperationMethod<
-  StartExecutionPreviewRequest,
+  StartExecutionPreviewRequest & RegionInput,
   StartExecutionPreviewResponse,
   StartExecutionPreviewError,
   Creds | HttpClient.HttpClient
@@ -9825,7 +9826,7 @@ export type StartSessionError =
  * for PowerShell on Windows local machines.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Creds | HttpClient.HttpClient
@@ -9849,7 +9850,7 @@ export type StopAutomationExecutionError =
  * Stop an Automation that is currently running.
  */
 export const stopAutomationExecution: API.OperationMethod<
-  StopAutomationExecutionRequest,
+  StopAutomationExecutionRequest & RegionInput,
   StopAutomationExecutionResult,
   StopAutomationExecutionError,
   Creds | HttpClient.HttpClient
@@ -9874,7 +9875,7 @@ export type TerminateSessionError = InternalServerError | CommonErrors;
  * SSM Agent on the managed node. A terminated session can't be resumed.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Creds | HttpClient.HttpClient
@@ -9903,7 +9904,7 @@ export type UnlabelParameterVersionError =
  * between characters, the request fails with a `ValidationException` error.
  */
 export const unlabelParameterVersion: API.OperationMethod<
-  UnlabelParameterVersionRequest,
+  UnlabelParameterVersionRequest & RegionInput,
   UnlabelParameterVersionResult,
   UnlabelParameterVersionError,
   Creds | HttpClient.HttpClient
@@ -9954,7 +9955,7 @@ export type UpdateAssociationError =
  * during the next schedule run.
  */
 export const updateAssociation: API.OperationMethod<
-  UpdateAssociationRequest,
+  UpdateAssociationRequest & RegionInput,
   UpdateAssociationResult,
   UpdateAssociationError,
   Creds | HttpClient.HttpClient
@@ -10000,7 +10001,7 @@ export type UpdateAssociationStatusError =
  * `InstanceId` legacy parameter.
  */
 export const updateAssociationStatus: API.OperationMethod<
-  UpdateAssociationStatusRequest,
+  UpdateAssociationStatusRequest & RegionInput,
   UpdateAssociationStatusResult,
   UpdateAssociationStatusError,
   Creds | HttpClient.HttpClient
@@ -10031,7 +10032,7 @@ export type UpdateCloudConnectorError =
  * Updates an existing cloud connector with new configuration details.
  */
 export const updateCloudConnector: API.OperationMethod<
-  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorRequest & RegionInput,
   UpdateCloudConnectorResult,
   UpdateCloudConnectorError,
   Creds | HttpClient.HttpClient
@@ -10062,7 +10063,7 @@ export type UpdateDocumentError =
  * Updates one or more values for an SSM document.
  */
 export const updateDocument: API.OperationMethod<
-  UpdateDocumentRequest,
+  UpdateDocumentRequest & RegionInput,
   UpdateDocumentResult,
   UpdateDocumentError,
   Creds | HttpClient.HttpClient
@@ -10102,7 +10103,7 @@ export type UpdateDocumentDefaultVersionError =
  * parameter.
  */
 export const updateDocumentDefaultVersion: API.OperationMethod<
-  UpdateDocumentDefaultVersionRequest,
+  UpdateDocumentDefaultVersionRequest & RegionInput,
   UpdateDocumentDefaultVersionResult,
   UpdateDocumentDefaultVersionError,
   Creds | HttpClient.HttpClient
@@ -10138,7 +10139,7 @@ export type UpdateDocumentMetadataError =
  * in Change Manager.
  */
 export const updateDocumentMetadata: API.OperationMethod<
-  UpdateDocumentMetadataRequest,
+  UpdateDocumentMetadataRequest & RegionInput,
   UpdateDocumentMetadataResponse,
   UpdateDocumentMetadataError,
   Creds | HttpClient.HttpClient
@@ -10174,7 +10175,7 @@ export type UpdateMaintenanceWindowError =
  * after 5 PM.
  */
 export const updateMaintenanceWindow: API.OperationMethod<
-  UpdateMaintenanceWindowRequest,
+  UpdateMaintenanceWindowRequest & RegionInput,
   UpdateMaintenanceWindowResult,
   UpdateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
@@ -10213,7 +10214,7 @@ export type UpdateMaintenanceWindowTargetError =
  * If a parameter is null, then the corresponding field isn't modified.
  */
 export const updateMaintenanceWindowTarget: API.OperationMethod<
-  UpdateMaintenanceWindowTargetRequest,
+  UpdateMaintenanceWindowTargetRequest & RegionInput,
   UpdateMaintenanceWindowTargetResult,
   UpdateMaintenanceWindowTargetError,
   Creds | HttpClient.HttpClient
@@ -10271,7 +10272,7 @@ export type UpdateMaintenanceWindowTaskError =
  * values for `Comment` and `NotificationConfig` are removed.
  */
 export const updateMaintenanceWindowTask: API.OperationMethod<
-  UpdateMaintenanceWindowTaskRequest,
+  UpdateMaintenanceWindowTaskRequest & RegionInput,
   UpdateMaintenanceWindowTaskResult,
   UpdateMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
@@ -10293,7 +10294,7 @@ export type UpdateManagedInstanceRoleError = InternalServerError | InvalidInstan
  * assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
  */
 export const updateManagedInstanceRole: API.OperationMethod<
-  UpdateManagedInstanceRoleRequest,
+  UpdateManagedInstanceRoleRequest & RegionInput,
   UpdateManagedInstanceRoleResult,
   UpdateManagedInstanceRoleError,
   Creds | HttpClient.HttpClient
@@ -10327,7 +10328,7 @@ export type UpdateOpsItemError =
  * *Amazon Web Services Systems Manager User Guide*.
  */
 export const updateOpsItem: API.OperationMethod<
-  UpdateOpsItemRequest,
+  UpdateOpsItemRequest & RegionInput,
   UpdateOpsItemResponse,
   UpdateOpsItemError,
   Creds | HttpClient.HttpClient
@@ -10361,7 +10362,7 @@ export type UpdateOpsMetadataError =
  * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
  */
 export const updateOpsMetadata: API.OperationMethod<
-  UpdateOpsMetadataRequest,
+  UpdateOpsMetadataRequest & RegionInput,
   UpdateOpsMetadataResult,
   UpdateOpsMetadataError,
   Creds | HttpClient.HttpClient
@@ -10391,7 +10392,7 @@ export type UpdatePatchBaselineError = DoesNotExistException | InternalServerErr
  * operating system type, see PatchFilter.
  */
 export const updatePatchBaseline: API.OperationMethod<
-  UpdatePatchBaselineRequest,
+  UpdatePatchBaselineRequest & RegionInput,
   UpdatePatchBaselineResult,
   UpdatePatchBaselineError,
   Creds | HttpClient.HttpClient
@@ -10424,7 +10425,7 @@ export type UpdateResourceDataSyncError =
  * SyncFromSource `SyncType`.
  */
 export const updateResourceDataSync: API.OperationMethod<
-  UpdateResourceDataSyncRequest,
+  UpdateResourceDataSyncRequest & RegionInput,
   UpdateResourceDataSyncResult,
   UpdateResourceDataSyncError,
   Creds | HttpClient.HttpClient
@@ -10467,7 +10468,7 @@ export type UpdateServiceSettingError =
  * Update the service setting for the account.
  */
 export const updateServiceSetting: API.OperationMethod<
-  UpdateServiceSettingRequest,
+  UpdateServiceSettingRequest & RegionInput,
   UpdateServiceSettingResult,
   UpdateServiceSettingError,
   Creds | HttpClient.HttpClient
@@ -10490,7 +10491,7 @@ export type ValidateCloudConnectorError =
  * Validates the configuration and connectivity of a cloud connector.
  */
 export const validateCloudConnector: API.PaginatedOperationMethod<
-  ValidateCloudConnectorRequest,
+  ValidateCloudConnectorRequest & RegionInput,
   ValidateCloudConnectorResult,
   ValidateCloudConnectorError,
   Creds | HttpClient.HttpClient,

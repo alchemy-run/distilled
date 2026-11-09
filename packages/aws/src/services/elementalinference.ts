@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -530,7 +531,7 @@ export type AssociateFeedError =
  * Also note that you can't change the feed name with AssociateFeed. Instead, use UpdateFeed.
  */
 export const associateFeed: API.OperationMethod<
-  AssociateFeedRequest,
+  AssociateFeedRequest & RegionInput,
   AssociateFeedResponse,
   AssociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -565,7 +566,7 @@ export type CreateDictionaryError =
  * Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output.
  */
 export const createDictionary: API.OperationMethod<
-  CreateDictionaryRequest,
+  CreateDictionaryRequest & RegionInput,
   CreateDictionaryResponse,
   CreateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +602,7 @@ export type CreateFeedError =
  * The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
  */
 export const createFeed: API.OperationMethod<
-  CreateFeedRequest,
+  CreateFeedRequest & RegionInput,
   CreateFeedResponse,
   CreateFeedError,
   Credentials | HttpClient.HttpClient
@@ -635,7 +636,7 @@ export type DeleteDictionaryError =
  * Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
  */
 export const deleteDictionary: API.OperationMethod<
-  DeleteDictionaryRequest,
+  DeleteDictionaryRequest & RegionInput,
   DeleteDictionaryResponse,
   DeleteDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -669,7 +670,7 @@ export type DeleteFeedError =
  * Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide.
  */
 export const deleteFeed: API.OperationMethod<
-  DeleteFeedRequest,
+  DeleteFeedRequest & RegionInput,
   DeleteFeedResponse,
   DeleteFeedError,
   Credentials | HttpClient.HttpClient
@@ -702,7 +703,7 @@ export type DeleteFeedPolicyError =
  * Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted.
  */
 export const deleteFeedPolicy: API.OperationMethod<
-  DeleteFeedPolicyRequest,
+  DeleteFeedPolicyRequest & RegionInput,
   DeleteFeedPolicyResponse,
   DeleteFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -735,7 +736,7 @@ export type DisassociateFeedError =
  * Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
  */
 export const disassociateFeed: API.OperationMethod<
-  DisassociateFeedRequest,
+  DisassociateFeedRequest & RegionInput,
   DisassociateFeedResponse,
   DisassociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +769,7 @@ export type ExportDictionaryEntriesError =
  * Exports the entries from the specified dictionary.
  */
 export const exportDictionaryEntries: API.OperationMethod<
-  ExportDictionaryEntriesRequest,
+  ExportDictionaryEntriesRequest & RegionInput,
   ExportDictionaryEntriesResponse,
   ExportDictionaryEntriesError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type GetDictionaryError =
  * Retrieves information about the specified dictionary.
  */
 export const getDictionary: API.OperationMethod<
-  GetDictionaryRequest,
+  GetDictionaryRequest & RegionInput,
   GetDictionaryResponse,
   GetDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +832,7 @@ export type GetFeedError =
  * Retrieves information about the specified feed.
  */
 export const getFeed: API.OperationMethod<
-  GetFeedRequest,
+  GetFeedRequest & RegionInput,
   GetFeedResponse,
   GetFeedError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +863,7 @@ export type GetFeedPolicyError =
  * Retrieves the resource-based policy attached to the specified feed.
  */
 export const getFeedPolicy: API.OperationMethod<
-  GetFeedPolicyRequest,
+  GetFeedPolicyRequest & RegionInput,
   GetFeedPolicyResponse,
   GetFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type GetFixtureError =
  * Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
  */
 export const getFixture: API.OperationMethod<
-  GetFixtureRequest,
+  GetFixtureRequest & RegionInput,
   GetFixtureResponse,
   GetFixtureError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +930,7 @@ export type ListDictionariesError =
  * Lists the dictionaries in your account.
  */
 export const listDictionaries: API.PaginatedOperationMethod<
-  ListDictionariesRequest,
+  ListDictionariesRequest & RegionInput,
   ListDictionariesResponse,
   ListDictionariesError,
   Credentials | HttpClient.HttpClient,
@@ -967,7 +968,7 @@ export type ListFeedsError =
  * Displays a list of feeds that belong to this AWS account.
  */
 export const listFeeds: API.PaginatedOperationMethod<
-  ListFeedsRequest,
+  ListFeedsRequest & RegionInput,
   ListFeedsResponse,
   ListFeedsError,
   Credentials | HttpClient.HttpClient,
@@ -1006,7 +1007,7 @@ export type ListTagsForResourceError =
  * List all tags that are on an Elemental Inference resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1039,7 +1040,7 @@ export type PutFeedPolicyError =
  * Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed.
  */
 export const putFeedPolicy: API.OperationMethod<
-  PutFeedPolicyRequest,
+  PutFeedPolicyRequest & RegionInput,
   PutFeedPolicyResponse,
   PutFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type SearchFixturesError =
  * Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
  */
 export const searchFixtures: API.PaginatedOperationMethod<
-  SearchFixturesRequest,
+  SearchFixturesRequest & RegionInput,
   SearchFixturesResponse,
   SearchFixturesError,
   Credentials | HttpClient.HttpClient,
@@ -1114,7 +1115,7 @@ export type TagResourceError =
  * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1148,7 +1149,7 @@ export type UntagResourceError =
  * Deletes specified tags from the specified resource in the current region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1182,7 +1183,7 @@ export type UpdateDictionaryError =
  * Updates the specified dictionary.
  */
 export const updateDictionary: API.OperationMethod<
-  UpdateDictionaryRequest,
+  UpdateDictionaryRequest & RegionInput,
   UpdateDictionaryResponse,
   UpdateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -1223,7 +1224,7 @@ export type UpdateFeedError =
  * If you want to patch the array of outputs to make selective additions, use AssociateFeed.
  */
 export const updateFeed: API.OperationMethod<
-  UpdateFeedRequest,
+  UpdateFeedRequest & RegionInput,
   UpdateFeedResponse,
   UpdateFeedError,
   Credentials | HttpClient.HttpClient

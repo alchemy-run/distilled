@@ -71,15 +71,15 @@ export interface ListNamespaceObjectsRequest {
   /** ID of the namespace. */
   id: string;
   /** Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure. */
-  cursor?: string | undefined;
+  cursor?: string;
   /** The number of objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number | undefined;
+  limit?: number;
 }
 export interface NamespacesObjectsListResultItem {
   /** ID of the Durable Object. */
-  id?: string | null | undefined;
+  id?: string | null;
   /** Whether the Durable Object has stored data. */
-  hasStoredData?: boolean | null | undefined;
+  hasStoredData?: boolean | null;
 }
 export type NamespacesObjectsListResultList = Array<NamespacesObjectsListResultItem>;
 export interface ListNamespaceObjectsResponse {
@@ -92,18 +92,28 @@ export interface ListNamespacesRequest {
   /** Identifier. */
   accountId: string;
   /** Current page. */
-  page?: number | undefined;
+  page?: number;
   /** Items per-page. */
-  perPage?: number | undefined;
+  perPage?: number;
+}
+export interface NamespacesListResultItemPreview {
+  /** The Preview's id. */
+  id: string;
+  /** The Preview's DNS-safe slug. */
+  slug?: string | null;
+  /** The Preview's name. */
+  name?: string | null;
 }
 export interface NamespacesListResultItem {
-  id?: string | null | undefined;
-  class?: string | null | undefined;
-  name?: string | null | undefined;
-  script?: string | null | undefined;
-  useSqlite?: boolean | null | undefined;
+  id?: string | null;
+  class?: string | null;
+  name?: string | null;
+  script?: string | null;
+  useSqlite?: boolean | null;
   /** Workers for Platforms dispatch namespace of the script that owns this namespace; absent for account-level scripts. */
-  dispatchNamespace?: string | null | undefined;
+  dispatchNamespace?: string | null;
+  /** The Worker Preview this namespace belongs to; absent for the script's own namespaces. `script` names the Preview's parent Worker. */
+  preview?: NamespacesListResultItemPreview | null;
 }
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export interface ListNamespacesResponse {
@@ -159,8 +169,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   NamespacesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4, __c1, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(7, __c1, 3) as any as S.Schema<ListNamespacesResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(12, __c1, 4) as any as S.Schema<ListNamespacesResponse>,
     errors: [InvalidIdentifier, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -236,20 +246,29 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          slug: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "NamespacesListResultItemPreview" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.NullOr(S.String)),
           class: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           script: S.optional(S.NullOr(S.String)),
           useSqlite: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_sqlite"))),
           dispatchNamespace: S.optional(S.NullOr(S.String).pipe(T.Body("dispatch_namespace"))),
+          preview: S.optional(S.NullOr(__S(9, __c1, 1))),
         }),
       ).annotate({ identifier: "NamespacesListResultItem" });
-    case 2:
-      return S.Array(__S(5, __c1, 1));
     case 3:
+      return S.Array(__S(10, __c1, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(6, __c1, 2).pipe(T.EnvelopePayload()),
+          result: __S(11, __c1, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListNamespacesResponse" });

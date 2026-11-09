@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1534,7 +1535,7 @@ export type CreateAddonInstanceError =
  * Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
  */
 export const createAddonInstance: API.OperationMethod<
-  CreateAddonInstanceRequest,
+  CreateAddonInstanceRequest & RegionInput,
   CreateAddonInstanceResponse,
   CreateAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1565,7 @@ export type CreateAddonSubscriptionError =
  * Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
  */
 export const createAddonSubscription: API.OperationMethod<
-  CreateAddonSubscriptionRequest,
+  CreateAddonSubscriptionRequest & RegionInput,
   CreateAddonSubscriptionResponse,
   CreateAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1596,7 @@ export type CreateAddressListError =
  * Creates a new address list.
  */
 export const createAddressList: API.OperationMethod<
-  CreateAddressListRequest,
+  CreateAddressListRequest & RegionInput,
   CreateAddressListResponse,
   CreateAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type CreateAddressListImportJobError =
  * Creates an import job for an address list.
  */
 export const createAddressListImportJob: API.OperationMethod<
-  CreateAddressListImportJobRequest,
+  CreateAddressListImportJobRequest & RegionInput,
   CreateAddressListImportJobResponse,
   CreateAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1657,7 +1658,7 @@ export type CreateArchiveError =
  * Creates a new email archive resource for storing and retaining emails.
  */
 export const createArchive: API.OperationMethod<
-  CreateArchiveRequest,
+  CreateArchiveRequest & RegionInput,
   CreateArchiveResponse,
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1687,7 +1688,7 @@ export type CreateIngressPointError =
  * Provision a new ingress endpoint resource.
  */
 export const createIngressPoint: API.OperationMethod<
-  CreateIngressPointRequest,
+  CreateIngressPointRequest & RegionInput,
   CreateIngressPointResponse,
   CreateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type CreateRelayError =
  * Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
  */
 export const createRelay: API.OperationMethod<
-  CreateRelayRequest,
+  CreateRelayRequest & RegionInput,
   CreateRelayResponse,
   CreateRelayError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1736,7 @@ export type CreateRuleSetError =
  * Provision a new rule set.
  */
 export const createRuleSet: API.OperationMethod<
-  CreateRuleSetRequest,
+  CreateRuleSetRequest & RegionInput,
   CreateRuleSetResponse,
   CreateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1759,7 +1760,7 @@ export type CreateTrafficPolicyError =
  * Provision a new traffic policy resource.
  */
 export const createTrafficPolicy: API.OperationMethod<
-  CreateTrafficPolicyRequest,
+  CreateTrafficPolicyRequest & RegionInput,
   CreateTrafficPolicyResponse,
   CreateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1780,7 @@ export type DeleteAddonInstanceError = ConflictException | ValidationException |
  * Deletes an Add On instance.
  */
 export const deleteAddonInstance: API.OperationMethod<
-  DeleteAddonInstanceRequest,
+  DeleteAddonInstanceRequest & RegionInput,
   DeleteAddonInstanceResponse,
   DeleteAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1799,7 +1800,7 @@ export type DeleteAddonSubscriptionError = ConflictException | ValidationExcepti
  * Deletes an Add On subscription.
  */
 export const deleteAddonSubscription: API.OperationMethod<
-  DeleteAddonSubscriptionRequest,
+  DeleteAddonSubscriptionRequest & RegionInput,
   DeleteAddonSubscriptionResponse,
   DeleteAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type DeleteAddressListError =
  * Deletes an address list.
  */
 export const deleteAddressList: API.OperationMethod<
-  DeleteAddressListRequest,
+  DeleteAddressListRequest & RegionInput,
   DeleteAddressListResponse,
   DeleteAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1850,7 @@ export type DeleteArchiveError =
  * Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveRequest,
+  DeleteArchiveRequest & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1874,7 @@ export type DeleteIngressPointError =
  * Delete an ingress endpoint resource.
  */
 export const deleteIngressPoint: API.OperationMethod<
-  DeleteIngressPointRequest,
+  DeleteIngressPointRequest & RegionInput,
   DeleteIngressPointResponse,
   DeleteIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1897,7 +1898,7 @@ export type DeleteRelayError =
  * Deletes an existing relay resource.
  */
 export const deleteRelay: API.OperationMethod<
-  DeleteRelayRequest,
+  DeleteRelayRequest & RegionInput,
   DeleteRelayResponse,
   DeleteRelayError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type DeleteRuleSetError = ConflictException | ValidationException | Commo
  * Delete a rule set.
  */
 export const deleteRuleSet: API.OperationMethod<
-  DeleteRuleSetRequest,
+  DeleteRuleSetRequest & RegionInput,
   DeleteRuleSetResponse,
   DeleteRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DeleteTrafficPolicyError =
  * Delete a traffic policy resource.
  */
 export const deleteTrafficPolicy: API.OperationMethod<
-  DeleteTrafficPolicyRequest,
+  DeleteTrafficPolicyRequest & RegionInput,
   DeleteTrafficPolicyResponse,
   DeleteTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1968,7 @@ export type DeregisterMemberFromAddressListError =
  * Removes a member from an address list.
  */
 export const deregisterMemberFromAddressList: API.OperationMethod<
-  DeregisterMemberFromAddressListRequest,
+  DeregisterMemberFromAddressListRequest & RegionInput,
   DeregisterMemberFromAddressListResponse,
   DeregisterMemberFromAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1993,7 +1994,7 @@ export type GetAddonInstanceError = ResourceNotFoundException | ValidationExcept
  * Gets detailed information about an Add On instance.
  */
 export const getAddonInstance: API.OperationMethod<
-  GetAddonInstanceRequest,
+  GetAddonInstanceRequest & RegionInput,
   GetAddonInstanceResponse,
   GetAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2016,7 +2017,7 @@ export type GetAddonSubscriptionError =
  * Gets detailed information about an Add On subscription.
  */
 export const getAddonSubscription: API.OperationMethod<
-  GetAddonSubscriptionRequest,
+  GetAddonSubscriptionRequest & RegionInput,
   GetAddonSubscriptionResponse,
   GetAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type GetAddressListError =
  * Fetch attributes of an address list.
  */
 export const getAddressList: API.OperationMethod<
-  GetAddressListRequest,
+  GetAddressListRequest & RegionInput,
   GetAddressListResponse,
   GetAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2071,7 +2072,7 @@ export type GetAddressListImportJobError =
  * Fetch attributes of an import job.
  */
 export const getAddressListImportJob: API.OperationMethod<
-  GetAddressListImportJobRequest,
+  GetAddressListImportJobRequest & RegionInput,
   GetAddressListImportJobResponse,
   GetAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2101,7 +2102,7 @@ export type GetArchiveError =
  * Retrieves the full details and current state of a specified email archive.
  */
 export const getArchive: API.OperationMethod<
-  GetArchiveRequest,
+  GetArchiveRequest & RegionInput,
   GetArchiveResponse,
   GetArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2131,7 @@ export type GetArchiveExportError =
  * Retrieves the details and current status of a specific email archive export job.
  */
 export const getArchiveExport: API.OperationMethod<
-  GetArchiveExportRequest,
+  GetArchiveExportRequest & RegionInput,
   GetArchiveExportResponse,
   GetArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type GetArchiveMessageError =
  * Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
  */
 export const getArchiveMessage: API.OperationMethod<
-  GetArchiveMessageRequest,
+  GetArchiveMessageRequest & RegionInput,
   GetArchiveMessageResponse,
   GetArchiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type GetArchiveMessageContentError =
  * Returns the textual content of a specific email message stored in the archive. Attachments are not included.
  */
 export const getArchiveMessageContent: API.OperationMethod<
-  GetArchiveMessageContentRequest,
+  GetArchiveMessageContentRequest & RegionInput,
   GetArchiveMessageContentResponse,
   GetArchiveMessageContentError,
   Credentials | HttpClient.HttpClient
@@ -2202,7 +2203,7 @@ export type GetArchiveSearchError =
  * Retrieves the details and current status of a specific email archive search job.
  */
 export const getArchiveSearch: API.OperationMethod<
-  GetArchiveSearchRequest,
+  GetArchiveSearchRequest & RegionInput,
   GetArchiveSearchResponse,
   GetArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2227,7 +2228,7 @@ export type GetArchiveSearchResultsError =
  * Returns the results of a completed email archive search job.
  */
 export const getArchiveSearchResults: API.OperationMethod<
-  GetArchiveSearchResultsRequest,
+  GetArchiveSearchResultsRequest & RegionInput,
   GetArchiveSearchResultsResponse,
   GetArchiveSearchResultsError,
   Credentials | HttpClient.HttpClient
@@ -2247,7 +2248,7 @@ export type GetIngressPointError = ResourceNotFoundException | ValidationExcepti
  * Fetch ingress endpoint resource attributes.
  */
 export const getIngressPoint: API.OperationMethod<
-  GetIngressPointRequest,
+  GetIngressPointRequest & RegionInput,
   GetIngressPointResponse,
   GetIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -2272,7 +2273,7 @@ export type GetMemberOfAddressListError =
  * Fetch attributes of a member in an address list.
  */
 export const getMemberOfAddressList: API.OperationMethod<
-  GetMemberOfAddressListRequest,
+  GetMemberOfAddressListRequest & RegionInput,
   GetMemberOfAddressListResponse,
   GetMemberOfAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2297,7 +2298,7 @@ export type GetRelayError = ResourceNotFoundException | ValidationException | Co
  * Fetch the relay resource and it's attributes.
  */
 export const getRelay: API.OperationMethod<
-  GetRelayRequest,
+  GetRelayRequest & RegionInput,
   GetRelayResponse,
   GetRelayError,
   Credentials | HttpClient.HttpClient
@@ -2317,7 +2318,7 @@ export type GetRuleSetError = ResourceNotFoundException | ValidationException | 
  * Fetch attributes of a rule set.
  */
 export const getRuleSet: API.OperationMethod<
-  GetRuleSetRequest,
+  GetRuleSetRequest & RegionInput,
   GetRuleSetResponse,
   GetRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2337,7 +2338,7 @@ export type GetTrafficPolicyError = ResourceNotFoundException | ValidationExcept
  * Fetch attributes of a traffic policy resource.
  */
 export const getTrafficPolicy: API.OperationMethod<
-  GetTrafficPolicyRequest,
+  GetTrafficPolicyRequest & RegionInput,
   GetTrafficPolicyResponse,
   GetTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2357,7 +2358,7 @@ export type ListAddonInstancesError = ValidationException | CommonErrors;
  * Lists all Add On instances in your account.
  */
 export const listAddonInstances: API.PaginatedOperationMethod<
-  ListAddonInstancesRequest,
+  ListAddonInstancesRequest & RegionInput,
   ListAddonInstancesResponse,
   ListAddonInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2384,7 +2385,7 @@ export type ListAddonSubscriptionsError = ValidationException | CommonErrors;
  * Lists all Add On subscriptions in your account.
  */
 export const listAddonSubscriptions: API.PaginatedOperationMethod<
-  ListAddonSubscriptionsRequest,
+  ListAddonSubscriptionsRequest & RegionInput,
   ListAddonSubscriptionsResponse,
   ListAddonSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2416,7 +2417,7 @@ export type ListAddressListImportJobsError =
  * Lists jobs for an address list.
  */
 export const listAddressListImportJobs: API.PaginatedOperationMethod<
-  ListAddressListImportJobsRequest,
+  ListAddressListImportJobsRequest & RegionInput,
   ListAddressListImportJobsResponse,
   ListAddressListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2452,7 +2453,7 @@ export type ListAddressListsError =
  * Lists address lists for this account.
  */
 export const listAddressLists: API.PaginatedOperationMethod<
-  ListAddressListsRequest,
+  ListAddressListsRequest & RegionInput,
   ListAddressListsResponse,
   ListAddressListsError,
   Credentials | HttpClient.HttpClient,
@@ -2484,7 +2485,7 @@ export type ListArchiveExportsError =
  * Returns a list of email archive export jobs.
  */
 export const listArchiveExports: API.PaginatedOperationMethod<
-  ListArchiveExportsRequest,
+  ListArchiveExportsRequest & RegionInput,
   ListArchiveExportsResponse,
   ListArchiveExportsError,
   Credentials | HttpClient.HttpClient,
@@ -2520,7 +2521,7 @@ export type ListArchivesError =
  * Returns a list of all email archives in your account.
  */
 export const listArchives: API.PaginatedOperationMethod<
-  ListArchivesRequest,
+  ListArchivesRequest & RegionInput,
   ListArchivesResponse,
   ListArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2552,7 +2553,7 @@ export type ListArchiveSearchesError =
  * Returns a list of email archive search jobs.
  */
 export const listArchiveSearches: API.PaginatedOperationMethod<
-  ListArchiveSearchesRequest,
+  ListArchiveSearchesRequest & RegionInput,
   ListArchiveSearchesResponse,
   ListArchiveSearchesError,
   Credentials | HttpClient.HttpClient,
@@ -2584,7 +2585,7 @@ export type ListIngressPointsError = ValidationException | CommonErrors;
  * List all ingress endpoint resources.
  */
 export const listIngressPoints: API.PaginatedOperationMethod<
-  ListIngressPointsRequest,
+  ListIngressPointsRequest & RegionInput,
   ListIngressPointsResponse,
   ListIngressPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2616,7 +2617,7 @@ export type ListMembersOfAddressListError =
  * Lists members of an address list.
  */
 export const listMembersOfAddressList: API.PaginatedOperationMethod<
-  ListMembersOfAddressListRequest,
+  ListMembersOfAddressListRequest & RegionInput,
   ListMembersOfAddressListResponse,
   ListMembersOfAddressListError,
   Credentials | HttpClient.HttpClient,
@@ -2648,7 +2649,7 @@ export type ListRelaysError = ValidationException | CommonErrors;
  * Lists all the existing relay resources.
  */
 export const listRelays: API.PaginatedOperationMethod<
-  ListRelaysRequest,
+  ListRelaysRequest & RegionInput,
   ListRelaysResponse,
   ListRelaysError,
   Credentials | HttpClient.HttpClient,
@@ -2675,7 +2676,7 @@ export type ListRuleSetsError = ValidationException | CommonErrors;
  * List rule sets for this account.
  */
 export const listRuleSets: API.PaginatedOperationMethod<
-  ListRuleSetsRequest,
+  ListRuleSetsRequest & RegionInput,
   ListRuleSetsResponse,
   ListRuleSetsError,
   Credentials | HttpClient.HttpClient,
@@ -2705,7 +2706,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags (keys and values) assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2726,7 @@ export type ListTrafficPoliciesError = ValidationException | CommonErrors;
  * List traffic policy resources.
  */
 export const listTrafficPolicies: API.PaginatedOperationMethod<
-  ListTrafficPoliciesRequest,
+  ListTrafficPoliciesRequest & RegionInput,
   ListTrafficPoliciesResponse,
   ListTrafficPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2759,7 +2760,7 @@ export type RegisterMemberToAddressListError =
  * Adds a member to an address list.
  */
 export const registerMemberToAddressList: API.OperationMethod<
-  RegisterMemberToAddressListRequest,
+  RegisterMemberToAddressListRequest & RegionInput,
   RegisterMemberToAddressListResponse,
   RegisterMemberToAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2793,7 +2794,7 @@ export type StartAddressListImportJobError =
  * Starts an import job for an address list.
  */
 export const startAddressListImportJob: API.OperationMethod<
-  StartAddressListImportJobRequest,
+  StartAddressListImportJobRequest & RegionInput,
   StartAddressListImportJobResponse,
   StartAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2826,7 +2827,7 @@ export type StartArchiveExportError =
  * Initiates an export of emails from the specified archive.
  */
 export const startArchiveExport: API.OperationMethod<
-  StartArchiveExportRequest,
+  StartArchiveExportRequest & RegionInput,
   StartArchiveExportResponse,
   StartArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2860,7 @@ export type StartArchiveSearchError =
  * Initiates a search across emails in the specified archive.
  */
 export const startArchiveSearch: API.OperationMethod<
-  StartArchiveSearchRequest,
+  StartArchiveSearchRequest & RegionInput,
   StartArchiveSearchResponse,
   StartArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type StopAddressListImportJobError =
  * Stops an ongoing import job for an address list.
  */
 export const stopAddressListImportJob: API.OperationMethod<
-  StopAddressListImportJobRequest,
+  StopAddressListImportJobRequest & RegionInput,
   StopAddressListImportJobResponse,
   StopAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2923,7 @@ export type StopArchiveExportError =
  * Stops an in-progress export of emails from an archive.
  */
 export const stopArchiveExport: API.OperationMethod<
-  StopArchiveExportRequest,
+  StopArchiveExportRequest & RegionInput,
   StopArchiveExportResponse,
   StopArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2946,7 +2947,7 @@ export type StopArchiveSearchError =
  * Stops an in-progress archive search job.
  */
 export const stopArchiveSearch: API.OperationMethod<
-  StopArchiveSearchRequest,
+  StopArchiveSearchRequest & RegionInput,
   StopArchiveSearchResponse,
   StopArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2971,7 +2972,7 @@ export type TagResourceError =
  * Adds one or more tags (keys and values) to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3000,7 +3001,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3027,7 +3028,7 @@ export type UpdateArchiveError =
  * Updates the attributes of an existing email archive.
  */
 export const updateArchive: API.OperationMethod<
-  UpdateArchiveRequest,
+  UpdateArchiveRequest & RegionInput,
   UpdateArchiveResponse,
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3058,7 +3059,7 @@ export type UpdateIngressPointError =
  * Update attributes of a provisioned ingress endpoint resource.
  */
 export const updateIngressPoint: API.OperationMethod<
-  UpdateIngressPointRequest,
+  UpdateIngressPointRequest & RegionInput,
   UpdateIngressPointResponse,
   UpdateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3083,7 @@ export type UpdateRelayError =
  * Updates the attributes of an existing relay resource.
  */
 export const updateRelay: API.OperationMethod<
-  UpdateRelayRequest,
+  UpdateRelayRequest & RegionInput,
   UpdateRelayResponse,
   UpdateRelayError,
   Credentials | HttpClient.HttpClient
@@ -3106,7 +3107,7 @@ export type UpdateRuleSetError =
  * Update attributes of an already provisioned rule set.
  */
 export const updateRuleSet: API.OperationMethod<
-  UpdateRuleSetRequest,
+  UpdateRuleSetRequest & RegionInput,
   UpdateRuleSetResponse,
   UpdateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type UpdateTrafficPolicyError =
  * Update attributes of an already provisioned traffic policy resource.
  */
 export const updateTrafficPolicy: API.OperationMethod<
-  UpdateTrafficPolicyRequest,
+  UpdateTrafficPolicyRequest & RegionInput,
   UpdateTrafficPolicyResponse,
   UpdateTrafficPolicyError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3230,7 +3231,7 @@ export type AssociateFileSystemAliasesError =
  * associating with the file system.
  */
 export const associateFileSystemAliases: API.OperationMethod<
-  AssociateFileSystemAliasesRequest,
+  AssociateFileSystemAliasesRequest & RegionInput,
   AssociateFileSystemAliasesResponse,
   AssociateFileSystemAliasesError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3268,7 @@ export type CancelDataRepositoryTaskError =
  * have already been released will remain in the released state.
  */
 export const cancelDataRepositoryTask: API.OperationMethod<
-  CancelDataRepositoryTaskRequest,
+  CancelDataRepositoryTaskRequest & RegionInput,
   CancelDataRepositoryTaskResponse,
   CancelDataRepositoryTaskError,
   Credentials | HttpClient.HttpClient
@@ -3329,7 +3330,7 @@ export type CopyBackupError =
  * Guide.
  */
 export const copyBackup: API.OperationMethod<
-  CopyBackupRequest,
+  CopyBackupRequest & RegionInput,
   CopyBackupResponse,
   CopyBackupError,
   Credentials | HttpClient.HttpClient
@@ -3368,7 +3369,7 @@ export type CopySnapshotAndUpdateVolumeError =
  * Guide.
  */
 export const copySnapshotAndUpdateVolume: API.OperationMethod<
-  CopySnapshotAndUpdateVolumeRequest,
+  CopySnapshotAndUpdateVolumeRequest & RegionInput,
   CopySnapshotAndUpdateVolumeResponse,
   CopySnapshotAndUpdateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -3425,7 +3426,7 @@ export type CreateAndAttachS3AccessPointError =
  * - DetachAndDeleteS3AccessPoint
  */
 export const createAndAttachS3AccessPoint: API.OperationMethod<
-  CreateAndAttachS3AccessPointRequest,
+  CreateAndAttachS3AccessPointRequest & RegionInput,
   CreateAndAttachS3AccessPointResponse,
   CreateAndAttachS3AccessPointError,
   Credentials | HttpClient.HttpClient
@@ -3510,7 +3511,7 @@ export type CreateBackupError =
  * information.
  */
 export const createBackup: API.OperationMethod<
-  CreateBackupRequest,
+  CreateBackupRequest & RegionInput,
   CreateBackupResponse,
   CreateBackupError,
   Credentials | HttpClient.HttpClient
@@ -3562,7 +3563,7 @@ export type CreateDataRepositoryAssociationError =
  * use the `CreateFileCache` operation.
  */
 export const createDataRepositoryAssociation: API.OperationMethod<
-  CreateDataRepositoryAssociationRequest,
+  CreateDataRepositoryAssociationRequest & RegionInput,
   CreateDataRepositoryAssociationResponse,
   CreateDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3614,7 +3615,7 @@ export type CreateDataRepositoryTaskError =
  * Linking your file system to an S3 bucket.
  */
 export const createDataRepositoryTask: API.OperationMethod<
-  CreateDataRepositoryTaskRequest,
+  CreateDataRepositoryTaskRequest & RegionInput,
   CreateDataRepositoryTaskResponse,
   CreateDataRepositoryTaskError,
   Credentials | HttpClient.HttpClient
@@ -3669,7 +3670,7 @@ export type CreateFileCacheError =
  * along with other information.
  */
 export const createFileCache: API.OperationMethod<
-  CreateFileCacheRequest,
+  CreateFileCacheRequest & RegionInput,
   CreateFileCacheResponse,
   CreateFileCacheError,
   Credentials | HttpClient.HttpClient
@@ -3744,7 +3745,7 @@ export type CreateFileSystemError =
  * along with other information.
  */
 export const createFileSystem: API.OperationMethod<
-  CreateFileSystemRequest,
+  CreateFileSystemRequest & RegionInput,
   CreateFileSystemResponse,
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -3815,7 +3816,7 @@ export type CreateFileSystemFromBackupError =
  * with other information.
  */
 export const createFileSystemFromBackup: API.OperationMethod<
-  CreateFileSystemFromBackupRequest,
+  CreateFileSystemFromBackupRequest & RegionInput,
   CreateFileSystemFromBackupResponse,
   CreateFileSystemFromBackupError,
   Credentials | HttpClient.HttpClient
@@ -3877,7 +3878,7 @@ export type CreateSnapshotError =
  * other information.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3911,7 +3912,7 @@ export type CreateStorageVirtualMachineError =
  * Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
  */
 export const createStorageVirtualMachine: API.OperationMethod<
-  CreateStorageVirtualMachineRequest,
+  CreateStorageVirtualMachineRequest & RegionInput,
   CreateStorageVirtualMachineResponse,
   CreateStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -3948,7 +3949,7 @@ export type CreateVolumeError =
  * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
  */
 export const createVolume: API.OperationMethod<
-  CreateVolumeRequest,
+  CreateVolumeRequest & RegionInput,
   CreateVolumeResponse,
   CreateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -3987,7 +3988,7 @@ export type CreateVolumeFromBackupError =
  * existing Amazon FSx volume backup.
  */
 export const createVolumeFromBackup: API.OperationMethod<
-  CreateVolumeFromBackupRequest,
+  CreateVolumeFromBackupRequest & RegionInput,
   CreateVolumeFromBackupResponse,
   CreateVolumeFromBackupError,
   Credentials | HttpClient.HttpClient
@@ -4031,7 +4032,7 @@ export type DeleteBackupError =
  * means.
  */
 export const deleteBackup: API.OperationMethod<
-  DeleteBackupRequest,
+  DeleteBackupRequest & RegionInput,
   DeleteBackupResponse,
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
@@ -4071,7 +4072,7 @@ export type DeleteDataRepositoryAssociationError =
  * systems, excluding `scratch_1` deployment type.
  */
 export const deleteDataRepositoryAssociation: API.OperationMethod<
-  DeleteDataRepositoryAssociationRequest,
+  DeleteDataRepositoryAssociationRequest & RegionInput,
   DeleteDataRepositoryAssociationResponse,
   DeleteDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4114,7 +4115,7 @@ export type DeleteFileCacheError =
  * any means.
  */
 export const deleteFileCache: API.OperationMethod<
-  DeleteFileCacheRequest,
+  DeleteFileCacheRequest & RegionInput,
   DeleteFileCacheResponse,
   DeleteFileCacheError,
   Credentials | HttpClient.HttpClient
@@ -4191,7 +4192,7 @@ export type DeleteFileSystemError =
  * any means.
  */
 export const deleteFileSystem: API.OperationMethod<
-  DeleteFileSystemRequest,
+  DeleteFileSystemRequest & RegionInput,
   DeleteFileSystemResponse,
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -4226,7 +4227,7 @@ export type DeleteSnapshotError =
  * the lifecycle status of `DELETING` until the deletion is complete.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4252,7 +4253,7 @@ export type DeleteStorageVirtualMachineError =
  * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
  */
 export const deleteStorageVirtualMachine: API.OperationMethod<
-  DeleteStorageVirtualMachineRequest,
+  DeleteStorageVirtualMachineRequest & RegionInput,
   DeleteStorageVirtualMachineResponse,
   DeleteStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -4284,7 +4285,7 @@ export type DeleteVolumeError =
  * volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -4340,7 +4341,7 @@ export type DescribeBackupsError =
  * across the responses of a multi-call iteration is unspecified.
  */
 export const describeBackups: API.PaginatedOperationMethod<
-  DescribeBackupsRequest,
+  DescribeBackupsRequest & RegionInput,
   DescribeBackupsResponse,
   DescribeBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -4392,7 +4393,7 @@ export type DescribeDataRepositoryAssociationsError =
  * `NextToken` from the last response.
  */
 export const describeDataRepositoryAssociations: API.PaginatedOperationMethod<
-  DescribeDataRepositoryAssociationsRequest,
+  DescribeDataRepositoryAssociationsRequest & RegionInput,
   DescribeDataRepositoryAssociationsResponse,
   DescribeDataRepositoryAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4439,7 +4440,7 @@ export type DescribeDataRepositoryTasksError =
  * `NextToken` from the last response.
  */
 export const describeDataRepositoryTasks: API.PaginatedOperationMethod<
-  DescribeDataRepositoryTasksRequest,
+  DescribeDataRepositoryTasksRequest & RegionInput,
   DescribeDataRepositoryTasksResponse,
   DescribeDataRepositoryTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4495,7 +4496,7 @@ export type DescribeFileCachesError =
  * across the responses of a multicall iteration is unspecified.
  */
 export const describeFileCaches: API.PaginatedOperationMethod<
-  DescribeFileCachesRequest,
+  DescribeFileCachesRequest & RegionInput,
   DescribeFileCachesResponse,
   DescribeFileCachesError,
   Credentials | HttpClient.HttpClient,
@@ -4527,7 +4528,7 @@ export type DescribeFileSystemAliasesError =
  * provided in the DescribeFileSystems operation response.
  */
 export const describeFileSystemAliases: API.PaginatedOperationMethod<
-  DescribeFileSystemAliasesRequest,
+  DescribeFileSystemAliasesRequest & RegionInput,
   DescribeFileSystemAliasesResponse,
   DescribeFileSystemAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -4583,7 +4584,7 @@ export type DescribeFileSystemsError =
  * across the responses of a multicall iteration is unspecified.
  */
 export const describeFileSystems: API.PaginatedOperationMethod<
-  DescribeFileSystemsRequest,
+  DescribeFileSystemsRequest & RegionInput,
   DescribeFileSystemsResponse,
   DescribeFileSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -4618,7 +4619,7 @@ export type DescribeS3AccessPointAttachmentsError =
  * - `fsx:DescribeS3AccessPointAttachments`
  */
 export const describeS3AccessPointAttachments: API.PaginatedOperationMethod<
-  DescribeS3AccessPointAttachmentsRequest,
+  DescribeS3AccessPointAttachmentsRequest & RegionInput,
   DescribeS3AccessPointAttachmentsResponse,
   DescribeS3AccessPointAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4646,7 +4647,7 @@ export type DescribeSharedVpcConfigurationError = BadRequest | InternalServerErr
  * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
  */
 export const describeSharedVpcConfiguration: API.OperationMethod<
-  DescribeSharedVpcConfigurationRequest,
+  DescribeSharedVpcConfigurationRequest & RegionInput,
   DescribeSharedVpcConfigurationResponse,
   DescribeSharedVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4695,7 +4696,7 @@ export type DescribeSnapshotsError =
  * the responses of a multi-call iteration is unspecified.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResponse,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -4726,7 +4727,7 @@ export type DescribeStorageVirtualMachinesError =
  * Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
  */
 export const describeStorageVirtualMachines: API.PaginatedOperationMethod<
-  DescribeStorageVirtualMachinesRequest,
+  DescribeStorageVirtualMachinesRequest & RegionInput,
   DescribeStorageVirtualMachinesResponse,
   DescribeStorageVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -4754,7 +4755,7 @@ export type DescribeVolumesError = BadRequest | InternalServerError | VolumeNotF
  * OpenZFS volumes.
  */
 export const describeVolumes: API.PaginatedOperationMethod<
-  DescribeVolumesRequest,
+  DescribeVolumesRequest & RegionInput,
   DescribeVolumesResponse,
   DescribeVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -4793,7 +4794,7 @@ export type DetachAndDeleteS3AccessPointError =
  * - `s3:DeleteAccessPoint`
  */
 export const detachAndDeleteS3AccessPoint: API.OperationMethod<
-  DetachAndDeleteS3AccessPointRequest,
+  DetachAndDeleteS3AccessPointRequest & RegionInput,
   DetachAndDeleteS3AccessPointResponse,
   DetachAndDeleteS3AccessPointError,
   Credentials | HttpClient.HttpClient
@@ -4832,7 +4833,7 @@ export type DisassociateFileSystemAliasesError =
  * disassociating with the file system.
  */
 export const disassociateFileSystemAliases: API.OperationMethod<
-  DisassociateFileSystemAliasesRequest,
+  DisassociateFileSystemAliasesRequest & RegionInput,
   DisassociateFileSystemAliasesResponse,
   DisassociateFileSystemAliasesError,
   Credentials | HttpClient.HttpClient
@@ -4880,7 +4881,7 @@ export type ListTagsForResourceError =
  * the responses of a multi-call iteration is unspecified.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4919,7 +4920,7 @@ export type ReleaseFileSystemNfsV3LocksError =
  * system.
  */
 export const releaseFileSystemNfsV3Locks: API.OperationMethod<
-  ReleaseFileSystemNfsV3LocksRequest,
+  ReleaseFileSystemNfsV3LocksRequest & RegionInput,
   ReleaseFileSystemNfsV3LocksResponse,
   ReleaseFileSystemNfsV3LocksError,
   Credentials | HttpClient.HttpClient
@@ -4951,7 +4952,7 @@ export type RestoreVolumeFromSnapshotError =
  * snapshot.
  */
 export const restoreVolumeFromSnapshot: API.OperationMethod<
-  RestoreVolumeFromSnapshotRequest,
+  RestoreVolumeFromSnapshotRequest & RegionInput,
   RestoreVolumeFromSnapshotResponse,
   RestoreVolumeFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4976,7 +4977,7 @@ export type StartMisconfiguredStateRecoveryError =
  * initiate the process of Amazon FSx attempting to reconnect to the file system.
  */
 export const startMisconfiguredStateRecovery: API.OperationMethod<
-  StartMisconfiguredStateRecoveryRequest,
+  StartMisconfiguredStateRecoveryRequest & RegionInput,
   StartMisconfiguredStateRecoveryResponse,
   StartMisconfiguredStateRecoveryError,
   Credentials | HttpClient.HttpClient
@@ -5002,7 +5003,7 @@ export type TagResourceError =
  * Tags an Amazon FSx resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5034,7 +5035,7 @@ export type UntagResourceError =
  * This action removes a tag from an Amazon FSx resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5069,7 +5070,7 @@ export type UpdateDataRepositoryAssociationError =
  * excluding `scratch_1` deployment type.
  */
 export const updateDataRepositoryAssociation: API.OperationMethod<
-  UpdateDataRepositoryAssociationRequest,
+  UpdateDataRepositoryAssociationRequest & RegionInput,
   UpdateDataRepositoryAssociationResponse,
   UpdateDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5104,7 +5105,7 @@ export type UpdateFileCacheError =
  * You can update multiple properties in a single request.
  */
 export const updateFileCache: API.OperationMethod<
-  UpdateFileCacheRequest,
+  UpdateFileCacheRequest & RegionInput,
   UpdateFileCacheResponse,
   UpdateFileCacheError,
   Credentials | HttpClient.HttpClient
@@ -5246,7 +5247,7 @@ export type UpdateFileSystemError =
  * - `WeeklyMaintenanceStartTime`
  */
 export const updateFileSystem: API.OperationMethod<
-  UpdateFileSystemRequest,
+  UpdateFileSystemRequest & RegionInput,
   UpdateFileSystemResponse,
   UpdateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -5287,7 +5288,7 @@ export type UpdateSharedVpcConfigurationError =
  * systems.
  */
 export const updateSharedVpcConfiguration: API.OperationMethod<
-  UpdateSharedVpcConfigurationRequest,
+  UpdateSharedVpcConfigurationRequest & RegionInput,
   UpdateSharedVpcConfigurationResponse,
   UpdateSharedVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5312,7 +5313,7 @@ export type UpdateSnapshotError =
  * Updates the name of an Amazon FSx for OpenZFS snapshot.
  */
 export const updateSnapshot: API.OperationMethod<
-  UpdateSnapshotRequest,
+  UpdateSnapshotRequest & RegionInput,
   UpdateSnapshotResponse,
   UpdateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5338,7 +5339,7 @@ export type UpdateStorageVirtualMachineError =
  * Updates an FSx for ONTAP storage virtual machine (SVM).
  */
 export const updateStorageVirtualMachine: API.OperationMethod<
-  UpdateStorageVirtualMachineRequest,
+  UpdateStorageVirtualMachineRequest & RegionInput,
   UpdateStorageVirtualMachineResponse,
   UpdateStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -5370,7 +5371,7 @@ export type UpdateVolumeError =
  * Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
  */
 export const updateVolume: API.OperationMethod<
-  UpdateVolumeRequest,
+  UpdateVolumeRequest & RegionInput,
   UpdateVolumeResponse,
   UpdateVolumeError,
   Credentials | HttpClient.HttpClient

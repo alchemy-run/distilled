@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -519,7 +520,7 @@ export type BatchUpdateRecommendationResourceExclusionError =
  * Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
  */
 export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
-  BatchUpdateRecommendationResourceExclusionRequest,
+  BatchUpdateRecommendationResourceExclusionRequest & RegionInput,
   BatchUpdateRecommendationResourceExclusionResponse,
   BatchUpdateRecommendationResourceExclusionError,
   Credentials | HttpClient.HttpClient
@@ -551,7 +552,7 @@ export type GetOrganizationRecommendationError =
  * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getOrganizationRecommendation: API.OperationMethod<
-  GetOrganizationRecommendationRequest,
+  GetOrganizationRecommendationRequest & RegionInput,
   GetOrganizationRecommendationResponse,
   GetOrganizationRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -583,7 +584,7 @@ export type GetRecommendationError =
  * Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -614,7 +615,7 @@ export type ListChecksError =
  * List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listChecks: API.PaginatedOperationMethod<
-  ListChecksRequest,
+  ListChecksRequest & RegionInput,
   ListChecksResponse,
   ListChecksError,
   Credentials | HttpClient.HttpClient,
@@ -652,7 +653,7 @@ export type ListOrganizationRecommendationAccountsError =
  * Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationAccounts: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationAccountsRequest,
+  ListOrganizationRecommendationAccountsRequest & RegionInput,
   ListOrganizationRecommendationAccountsResponse,
   ListOrganizationRecommendationAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -691,7 +692,7 @@ export type ListOrganizationRecommendationResourcesError =
  * List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationResources: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationResourcesRequest,
+  ListOrganizationRecommendationResourcesRequest & RegionInput,
   ListOrganizationRecommendationResourcesResponse,
   ListOrganizationRecommendationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -729,7 +730,7 @@ export type ListOrganizationRecommendationsError =
  * List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendations: API.PaginatedOperationMethod<
-  ListOrganizationRecommendationsRequest,
+  ListOrganizationRecommendationsRequest & RegionInput,
   ListOrganizationRecommendationsResponse,
   ListOrganizationRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -767,7 +768,7 @@ export type ListRecommendationResourcesError =
  * List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendationResources: API.PaginatedOperationMethod<
-  ListRecommendationResourcesRequest,
+  ListRecommendationResourcesRequest & RegionInput,
   ListRecommendationResourcesResponse,
   ListRecommendationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -805,7 +806,7 @@ export type ListRecommendationsError =
  * List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -842,7 +843,7 @@ export type ListRecommendationsForResourceError =
  * List all Trusted Advisor recommendations for a given AWS resource ARN.
  */
 export const listRecommendationsForResource: API.PaginatedOperationMethod<
-  ListRecommendationsForResourceRequest,
+  ListRecommendationsForResourceRequest & RegionInput,
   ListRecommendationsForResourceResponse,
   ListRecommendationsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -881,7 +882,7 @@ export type UpdateOrganizationRecommendationLifecycleError =
  * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
-  UpdateOrganizationRecommendationLifecycleRequest,
+  UpdateOrganizationRecommendationLifecycleRequest & RegionInput,
   UpdateOrganizationRecommendationLifecycleResponse,
   UpdateOrganizationRecommendationLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -915,7 +916,7 @@ export type UpdateRecommendationLifecycleError =
  * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateRecommendationLifecycle: API.OperationMethod<
-  UpdateRecommendationLifecycleRequest,
+  UpdateRecommendationLifecycleRequest & RegionInput,
   UpdateRecommendationLifecycleResponse,
   UpdateRecommendationLifecycleError,
   Credentials | HttpClient.HttpClient

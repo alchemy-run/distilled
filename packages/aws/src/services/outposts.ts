@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1192,7 +1193,7 @@ export type CancelCapacityTaskError =
  * Cancels the capacity task.
  */
 export const cancelCapacityTask: API.OperationMethod<
-  CancelCapacityTaskInput,
+  CancelCapacityTaskInput & RegionInput,
   CancelCapacityTaskOutput,
   CancelCapacityTaskError,
   Credentials | HttpClient.HttpClient
@@ -1224,7 +1225,7 @@ export type CancelOrderError =
  * Cancels the specified order for an Outpost.
  */
 export const cancelOrder: API.OperationMethod<
-  CancelOrderInput,
+  CancelOrderInput & RegionInput,
   CancelOrderOutput,
   CancelOrderError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1258,7 @@ export type CreateOrderError =
  * Creates an order for an Outpost.
  */
 export const createOrder: API.OperationMethod<
-  CreateOrderInput,
+  CreateOrderInput & RegionInput,
   CreateOrderOutput,
   CreateOrderError,
   Credentials | HttpClient.HttpClient
@@ -1293,7 +1294,7 @@ export type CreateOutpostError =
  * You can specify either an Availability one or an AZ ID.
  */
 export const createOutpost: API.OperationMethod<
-  CreateOutpostInput,
+  CreateOutpostInput & RegionInput,
   CreateOutpostOutput,
   CreateOutpostError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1330,7 @@ export type CreatePrivateConnectivityConfigError =
  * to flow through your VPC and minimizes public internet exposure.
  */
 export const createPrivateConnectivityConfig: API.OperationMethod<
-  CreatePrivateConnectivityConfigInput,
+  CreatePrivateConnectivityConfigInput & RegionInput,
   CreatePrivateConnectivityConfigOutput,
   CreatePrivateConnectivityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1362,7 +1363,7 @@ export type CreateQuoteError =
  * create a standalone quote by specifying only the country code and requested capacities.
  */
 export const createQuote: API.OperationMethod<
-  CreateQuoteInput,
+  CreateQuoteInput & RegionInput,
   CreateQuoteOutput,
   CreateQuoteError,
   Credentials | HttpClient.HttpClient
@@ -1387,7 +1388,7 @@ export type CreateRenewalError =
  * Creates a renewal contract for the specified Outpost.
  */
 export const createRenewal: API.OperationMethod<
-  CreateRenewalInput,
+  CreateRenewalInput & RegionInput,
   CreateRenewalOutput,
   CreateRenewalError,
   Credentials | HttpClient.HttpClient
@@ -1413,7 +1414,7 @@ export type CreateSiteError =
  * Creates a site for an Outpost.
  */
 export const createSite: API.OperationMethod<
-  CreateSiteInput,
+  CreateSiteInput & RegionInput,
   CreateSiteOutput,
   CreateSiteError,
   Credentials | HttpClient.HttpClient
@@ -1445,7 +1446,7 @@ export type DeleteOutpostError =
  * Deletes the specified Outpost.
  */
 export const deleteOutpost: API.OperationMethod<
-  DeleteOutpostInput,
+  DeleteOutpostInput & RegionInput,
   DeleteOutpostOutput,
   DeleteOutpostError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type DeleteQuoteError =
  * Deletes the specified quote.
  */
 export const deleteQuote: API.OperationMethod<
-  DeleteQuoteInput,
+  DeleteQuoteInput & RegionInput,
   DeleteQuoteOutput,
   DeleteQuoteError,
   Credentials | HttpClient.HttpClient
@@ -1502,7 +1503,7 @@ export type DeleteSiteError =
  * Deletes the specified site.
  */
 export const deleteSite: API.OperationMethod<
-  DeleteSiteInput,
+  DeleteSiteInput & RegionInput,
   DeleteSiteOutput,
   DeleteSiteError,
   Credentials | HttpClient.HttpClient
@@ -1533,7 +1534,7 @@ export type GetCapacityTaskError =
  * Gets details of the specified capacity task.
  */
 export const getCapacityTask: API.OperationMethod<
-  GetCapacityTaskInput,
+  GetCapacityTaskInput & RegionInput,
   GetCapacityTaskOutput,
   GetCapacityTaskError,
   Credentials | HttpClient.HttpClient
@@ -1558,7 +1559,7 @@ export type GetCatalogItemError =
  * Gets information about the specified catalog item.
  */
 export const getCatalogItem: API.OperationMethod<
-  GetCatalogItemInput,
+  GetCatalogItemInput & RegionInput,
   GetCatalogItemOutput,
   GetCatalogItemError,
   Credentials | HttpClient.HttpClient
@@ -1590,7 +1591,7 @@ export type GetConnectionError =
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1614,7 +1615,7 @@ export type GetOrderError =
  * Gets information about the specified order.
  */
 export const getOrder: API.OperationMethod<
-  GetOrderInput,
+  GetOrderInput & RegionInput,
   GetOrderOutput,
   GetOrderError,
   Credentials | HttpClient.HttpClient
@@ -1639,7 +1640,7 @@ export type GetOutpostError =
  * Gets information about the specified Outpost.
  */
 export const getOutpost: API.OperationMethod<
-  GetOutpostInput,
+  GetOutpostInput & RegionInput,
   GetOutpostOutput,
   GetOutpostError,
   Credentials | HttpClient.HttpClient
@@ -1663,7 +1664,7 @@ export type GetOutpostBillingInformationError =
  * Gets current and historical billing information about the specified Outpost.
  */
 export const getOutpostBillingInformation: API.PaginatedOperationMethod<
-  GetOutpostBillingInformationInput,
+  GetOutpostBillingInformationInput & RegionInput,
   GetOutpostBillingInformationOutput,
   GetOutpostBillingInformationError,
   Credentials | HttpClient.HttpClient,
@@ -1695,7 +1696,7 @@ export type GetOutpostInstanceTypesError =
  * Gets the instance types for the specified Outpost.
  */
 export const getOutpostInstanceTypes: API.PaginatedOperationMethod<
-  GetOutpostInstanceTypesInput,
+  GetOutpostInstanceTypesInput & RegionInput,
   GetOutpostInstanceTypesOutput,
   GetOutpostInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1729,7 +1730,7 @@ export type GetOutpostSupportedInstanceTypesError =
  * cannot be launched with the current Outpost capacity configuration.
  */
 export const getOutpostSupportedInstanceTypes: API.PaginatedOperationMethod<
-  GetOutpostSupportedInstanceTypesInput,
+  GetOutpostSupportedInstanceTypesInput & RegionInput,
   GetOutpostSupportedInstanceTypesOutput,
   GetOutpostSupportedInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1761,7 +1762,7 @@ export type GetPrivateConnectivityConfigError =
  * Gets the private connectivity configuration for the specified Outpost.
  */
 export const getPrivateConnectivityConfig: API.OperationMethod<
-  GetPrivateConnectivityConfigInput,
+  GetPrivateConnectivityConfigInput & RegionInput,
   GetPrivateConnectivityConfigOutput,
   GetPrivateConnectivityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1786,7 +1787,7 @@ export type GetQuoteError =
  * Gets information about the specified quote.
  */
 export const getQuote: API.OperationMethod<
-  GetQuoteInput,
+  GetQuoteInput & RegionInput,
   GetQuoteOutput,
   GetQuoteError,
   Credentials | HttpClient.HttpClient
@@ -1811,7 +1812,7 @@ export type GetRenewalPricingError =
  * Gets all available renewal pricing options for the specified Outpost.
  */
 export const getRenewalPricing: API.OperationMethod<
-  GetRenewalPricingInput,
+  GetRenewalPricingInput & RegionInput,
   GetRenewalPricingOutput,
   GetRenewalPricingError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1837,7 @@ export type GetSiteError =
  * Gets information about the specified Outpost site.
  */
 export const getSite: API.OperationMethod<
-  GetSiteInput,
+  GetSiteInput & RegionInput,
   GetSiteOutput,
   GetSiteError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type GetSiteAddressError =
  * Gets the site address of the specified site.
  */
 export const getSiteAddress: API.OperationMethod<
-  GetSiteAddressInput,
+  GetSiteAddressInput & RegionInput,
   GetSiteAddressOutput,
   GetSiteAddressError,
   Credentials | HttpClient.HttpClient
@@ -1887,7 +1888,7 @@ export type ListAssetInstancesError =
  * Does not include Amazon EBS or Amazon S3 instances.
  */
 export const listAssetInstances: API.PaginatedOperationMethod<
-  ListAssetInstancesInput,
+  ListAssetInstancesInput & RegionInput,
   ListAssetInstancesOutput,
   ListAssetInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1923,7 +1924,7 @@ export type ListAssetsError =
  * items that match any of the values that you specify for the filter.
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsInput,
+  ListAssetsInput & RegionInput,
   ListAssetsOutput,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1957,7 +1958,7 @@ export type ListBlockingInstancesForCapacityTaskError =
  * capacity to run the capacity task.
  */
 export const listBlockingInstancesForCapacityTask: API.PaginatedOperationMethod<
-  ListBlockingInstancesForCapacityTaskInput,
+  ListBlockingInstancesForCapacityTaskInput & RegionInput,
   ListBlockingInstancesForCapacityTaskOutput,
   ListBlockingInstancesForCapacityTaskError,
   Credentials | HttpClient.HttpClient,
@@ -1993,7 +1994,7 @@ export type ListCapacityTasksError =
  * items that match any of the values that you specify for the filter.
  */
 export const listCapacityTasks: API.PaginatedOperationMethod<
-  ListCapacityTasksInput,
+  ListCapacityTasksInput & RegionInput,
   ListCapacityTasksOutput,
   ListCapacityTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2029,7 +2030,7 @@ export type ListCatalogItemsError =
  * items that match any of the values that you specify for the filter.
  */
 export const listCatalogItems: API.PaginatedOperationMethod<
-  ListCatalogItemsInput,
+  ListCatalogItemsInput & RegionInput,
   ListCatalogItemsOutput,
   ListCatalogItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2062,7 +2063,7 @@ export type ListOrderableInstanceTypesError =
  * by Outpost generation.
  */
 export const listOrderableInstanceTypes: API.PaginatedOperationMethod<
-  ListOrderableInstanceTypesInput,
+  ListOrderableInstanceTypesInput & RegionInput,
   ListOrderableInstanceTypesOutput,
   ListOrderableInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2094,7 +2095,7 @@ export type ListOrdersError =
  * Lists the Outpost orders for your Amazon Web Services account.
  */
 export const listOrders: API.PaginatedOperationMethod<
-  ListOrdersInput,
+  ListOrdersInput & RegionInput,
   ListOrdersOutput,
   ListOrdersError,
   Credentials | HttpClient.HttpClient,
@@ -2129,7 +2130,7 @@ export type ListOutpostsError =
  * items that match any of the values that you specify for the filter.
  */
 export const listOutposts: API.PaginatedOperationMethod<
-  ListOutpostsInput,
+  ListOutpostsInput & RegionInput,
   ListOutpostsOutput,
   ListOutpostsError,
   Credentials | HttpClient.HttpClient,
@@ -2156,7 +2157,7 @@ export type ListQuotesError = AccessDeniedException | InternalServerException | 
  * Lists the quotes for your Amazon Web Services account.
  */
 export const listQuotes: API.PaginatedOperationMethod<
-  ListQuotesInput,
+  ListQuotesInput & RegionInput,
   ListQuotesOutput,
   ListQuotesError,
   Credentials | HttpClient.HttpClient,
@@ -2192,7 +2193,7 @@ export type ListSitesError =
  * items that match any of the values that you specify for the filter.
  */
 export const listSites: API.PaginatedOperationMethod<
-  ListSitesInput,
+  ListSitesInput & RegionInput,
   ListSitesOutput,
   ListSitesError,
   Credentials | HttpClient.HttpClient,
@@ -2223,7 +2224,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2250,7 +2251,7 @@ export type StartCapacityTaskError =
  * and each Outpost.
  */
 export const startCapacityTask: API.OperationMethod<
-  StartCapacityTaskInput,
+  StartCapacityTaskInput & RegionInput,
   StartCapacityTaskOutput,
   StartCapacityTaskError,
   Credentials | HttpClient.HttpClient
@@ -2288,7 +2289,7 @@ export type StartConnectionError =
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
 export const startConnection: API.OperationMethod<
-  StartConnectionRequest,
+  StartConnectionRequest & RegionInput,
   StartConnectionResponse,
   StartConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2314,7 +2315,7 @@ export type StartOutpostDecommissionError =
  * Starts the decommission process to return the Outposts racks or servers.
  */
 export const startOutpostDecommission: API.OperationMethod<
-  StartOutpostDecommissionInput,
+  StartOutpostDecommissionInput & RegionInput,
   StartOutpostDecommissionOutput,
   StartOutpostDecommissionError,
   Credentials | HttpClient.HttpClient
@@ -2344,7 +2345,7 @@ export type TagResourceError =
  * Adds tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2368,7 +2369,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2394,7 +2395,7 @@ export type UpdateOutpostError =
  * Updates an Outpost.
  */
 export const updateOutpost: API.OperationMethod<
-  UpdateOutpostInput,
+  UpdateOutpostInput & RegionInput,
   UpdateOutpostOutput,
   UpdateOutpostError,
   Credentials | HttpClient.HttpClient
@@ -2426,7 +2427,7 @@ export type UpdateQuoteError =
  * payment options, payment terms, or Outpost association.
  */
 export const updateQuote: API.OperationMethod<
-  UpdateQuoteInput,
+  UpdateQuoteInput & RegionInput,
   UpdateQuoteOutput,
   UpdateQuoteError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type UpdateSiteError =
  * Updates the specified site.
  */
 export const updateSite: API.OperationMethod<
-  UpdateSiteInput,
+  UpdateSiteInput & RegionInput,
   UpdateSiteOutput,
   UpdateSiteError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type UpdateSiteAddressError =
  * Outposts that belong to the site have been deactivated.
  */
 export const updateSiteAddress: API.OperationMethod<
-  UpdateSiteAddressInput,
+  UpdateSiteAddressInput & RegionInput,
   UpdateSiteAddressOutput,
   UpdateSiteAddressError,
   Credentials | HttpClient.HttpClient
@@ -2527,7 +2528,7 @@ export type UpdateSiteRackPhysicalPropertiesError =
  * the order to complete or cancel the order.
  */
 export const updateSiteRackPhysicalProperties: API.OperationMethod<
-  UpdateSiteRackPhysicalPropertiesInput,
+  UpdateSiteRackPhysicalPropertiesInput & RegionInput,
   UpdateSiteRackPhysicalPropertiesOutput,
   UpdateSiteRackPhysicalPropertiesError,
   Credentials | HttpClient.HttpClient

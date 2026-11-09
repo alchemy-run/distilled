@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -605,7 +606,7 @@ export type CreateConnectionError =
  * the third-party connection handshake is completed from the console.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionInput,
+  CreateConnectionInput & RegionInput,
   CreateConnectionOutput,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -631,7 +632,7 @@ export type CreateHostError = LimitExceededException | CommonErrors;
  * default. You can make its status `AVAILABLE` by setting up the host in the console.
  */
 export const createHost: API.OperationMethod<
-  CreateHostInput,
+  CreateHostInput & RegionInput,
   CreateHostOutput,
   CreateHostError,
   Credentials | HttpClient.HttpClient
@@ -659,7 +660,7 @@ export type CreateRepositoryLinkError =
  * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
  */
 export const createRepositoryLink: API.OperationMethod<
-  CreateRepositoryLinkInput,
+  CreateRepositoryLinkInput & RegionInput,
   CreateRepositoryLinkOutput,
   CreateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type CreateSyncConfigurationError =
  * configuration are determined by the sync type.
  */
 export const createSyncConfiguration: API.OperationMethod<
-  CreateSyncConfigurationInput,
+  CreateSyncConfigurationInput & RegionInput,
   CreateSyncConfigurationOutput,
   CreateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
  * The connection to be deleted.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionInput,
+  DeleteConnectionInput & RegionInput,
   DeleteConnectionOutput,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -750,7 +751,7 @@ export type DeleteHostError =
  * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
  */
 export const deleteHost: API.OperationMethod<
-  DeleteHostInput,
+  DeleteHostInput & RegionInput,
   DeleteHostOutput,
   DeleteHostError,
   Credentials | HttpClient.HttpClient
@@ -779,7 +780,7 @@ export type DeleteRepositoryLinkError =
  * Deletes the association between your connection and a specified external Git repository.
  */
 export const deleteRepositoryLink: API.OperationMethod<
-  DeleteRepositoryLinkInput,
+  DeleteRepositoryLinkInput & RegionInput,
   DeleteRepositoryLinkOutput,
   DeleteRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DeleteSyncConfigurationError =
  * Deletes the sync configuration for a specified repository and connection.
  */
 export const deleteSyncConfiguration: API.OperationMethod<
-  DeleteSyncConfigurationInput,
+  DeleteSyncConfigurationInput & RegionInput,
   DeleteSyncConfigurationOutput,
   DeleteSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type GetConnectionError =
  * Returns the connection ARN and details such as status, owner, and provider type.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionInput,
+  GetConnectionInput & RegionInput,
   GetConnectionOutput,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -866,7 +867,7 @@ export type GetHostError = ResourceNotFoundException | ResourceUnavailableExcept
  * applicable, the VPC configuration.
  */
 export const getHost: API.OperationMethod<
-  GetHostInput,
+  GetHostInput & RegionInput,
   GetHostOutput,
   GetHostError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +895,7 @@ export type GetRepositoryLinkError =
  * and sync changes from files in a specified Git repository.
  */
 export const getRepositoryLink: API.OperationMethod<
-  GetRepositoryLinkInput,
+  GetRepositoryLinkInput & RegionInput,
   GetRepositoryLinkOutput,
   GetRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type GetRepositorySyncStatusError =
  * to push and pull changes from your remote repository.
  */
 export const getRepositorySyncStatus: API.OperationMethod<
-  GetRepositorySyncStatusInput,
+  GetRepositorySyncStatusInput & RegionInput,
   GetRepositorySyncStatusOutput,
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -961,7 +962,7 @@ export type GetResourceSyncStatusError =
  * resource.
  */
 export const getResourceSyncStatus: API.OperationMethod<
-  GetResourceSyncStatusInput,
+  GetResourceSyncStatusInput & RegionInput,
   GetResourceSyncStatusOutput,
   GetResourceSyncStatusError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +994,7 @@ export type GetSyncBlockerSummaryError =
  * Returns a list of the most recent sync blockers.
  */
 export const getSyncBlockerSummary: API.OperationMethod<
-  GetSyncBlockerSummaryInput,
+  GetSyncBlockerSummaryInput & RegionInput,
   GetSyncBlockerSummaryOutput,
   GetSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type GetSyncConfigurationError =
  * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
  */
 export const getSyncConfiguration: API.OperationMethod<
-  GetSyncConfigurationInput,
+  GetSyncConfigurationInput & RegionInput,
   GetSyncConfigurationOutput,
   GetSyncConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
  * Lists the connections associated with your account.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsInput,
+  ListConnectionsInput & RegionInput,
   ListConnectionsOutput,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1077,7 +1078,7 @@ export type ListHostsError = CommonErrors;
  * Lists the hosts associated with your account.
  */
 export const listHosts: API.PaginatedOperationMethod<
-  ListHostsInput,
+  ListHostsInput & RegionInput,
   ListHostsOutput,
   ListHostsError,
   Credentials | HttpClient.HttpClient,
@@ -1110,7 +1111,7 @@ export type ListRepositoryLinksError =
  * Lists the repository links created for connections in your account.
  */
 export const listRepositoryLinks: API.PaginatedOperationMethod<
-  ListRepositoryLinksInput,
+  ListRepositoryLinksInput & RegionInput,
   ListRepositoryLinksOutput,
   ListRepositoryLinksError,
   Credentials | HttpClient.HttpClient,
@@ -1149,7 +1150,7 @@ export type ListRepositorySyncDefinitionsError =
  * Lists the repository sync definitions for repository links in your account.
  */
 export const listRepositorySyncDefinitions: API.OperationMethod<
-  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsInput & RegionInput,
   ListRepositorySyncDefinitionsOutput,
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1182,7 @@ export type ListSyncConfigurationsError =
  * Returns a list of sync configurations for a specified repository.
  */
 export const listSyncConfigurations: API.PaginatedOperationMethod<
-  ListSyncConfigurationsInput,
+  ListSyncConfigurationsInput & RegionInput,
   ListSyncConfigurationsOutput,
   ListSyncConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1213,7 +1214,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type TagResourceError = LimitExceededException | ResourceNotFoundExceptio
  * to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1279,7 +1280,7 @@ export type UpdateHostError =
  * Updates a specified host with the provided configurations.
  */
 export const updateHost: API.OperationMethod<
-  UpdateHostInput,
+  UpdateHostInput & RegionInput,
   UpdateHostOutput,
   UpdateHostError,
   Credentials | HttpClient.HttpClient
@@ -1314,7 +1315,7 @@ export type UpdateRepositoryLinkError =
  * repository.
  */
 export const updateRepositoryLink: API.OperationMethod<
-  UpdateRepositoryLinkInput,
+  UpdateRepositoryLinkInput & RegionInput,
   UpdateRepositoryLinkOutput,
   UpdateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1351,7 @@ export type UpdateSyncBlockerError =
  * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
  */
 export const updateSyncBlocker: API.OperationMethod<
-  UpdateSyncBlockerInput,
+  UpdateSyncBlockerInput & RegionInput,
   UpdateSyncBlockerOutput,
   UpdateSyncBlockerError,
   Credentials | HttpClient.HttpClient
@@ -1386,7 +1387,7 @@ export type UpdateSyncConfigurationError =
  * Updates the sync configuration for your connection and a specified external Git repository.
  */
 export const updateSyncConfiguration: API.OperationMethod<
-  UpdateSyncConfigurationInput,
+  UpdateSyncConfigurationInput & RegionInput,
   UpdateSyncConfigurationOutput,
   UpdateSyncConfigurationError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -623,7 +624,7 @@ export type AddApplicationCloudWatchLoggingOptionError =
  * CloudWatch Logs.
  */
 export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
-  AddApplicationCloudWatchLoggingOptionRequest,
+  AddApplicationCloudWatchLoggingOptionRequest & RegionInput,
   AddApplicationCloudWatchLoggingOptionResponse,
   AddApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -671,7 +672,7 @@ export type AddApplicationInputError =
  * `kinesisanalytics:AddApplicationInput` action.
  */
 export const addApplicationInput: API.OperationMethod<
-  AddApplicationInputRequest,
+  AddApplicationInputRequest & RegionInput,
   AddApplicationInputResponse,
   AddApplicationInputError,
   Credentials | HttpClient.HttpClient
@@ -708,7 +709,7 @@ export type AddApplicationInputProcessingConfigurationError =
  * AWS Lambda.
  */
 export const addApplicationInputProcessingConfiguration: API.OperationMethod<
-  AddApplicationInputProcessingConfigurationRequest,
+  AddApplicationInputProcessingConfigurationRequest & RegionInput,
   AddApplicationInputProcessingConfigurationResponse,
   AddApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -763,7 +764,7 @@ export type AddApplicationOutputError =
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
 export const addApplicationOutput: API.OperationMethod<
-  AddApplicationOutputRequest,
+  AddApplicationOutputRequest & RegionInput,
   AddApplicationOutputResponse,
   AddApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +807,7 @@ export type AddApplicationReferenceDataSourceError =
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
 export const addApplicationReferenceDataSource: API.OperationMethod<
-  AddApplicationReferenceDataSourceRequest,
+  AddApplicationReferenceDataSourceRequest & RegionInput,
   AddApplicationReferenceDataSourceResponse,
   AddApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +862,7 @@ export type CreateApplicationError =
  * Getting Started.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DeleteApplicationError =
  * This operation requires permissions to perform the `kinesisanalytics:DeleteApplication` action.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -932,7 +933,7 @@ export type DeleteApplicationCloudWatchLoggingOptionError =
  * Working with Amazon CloudWatch Logs.
  */
 export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
-  DeleteApplicationCloudWatchLoggingOptionRequest,
+  DeleteApplicationCloudWatchLoggingOptionRequest & RegionInput,
   DeleteApplicationCloudWatchLoggingOptionResponse,
   DeleteApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
@@ -966,7 +967,7 @@ export type DeleteApplicationInputProcessingConfigurationError =
  * Deletes an InputProcessingConfiguration from an input.
  */
 export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
-  DeleteApplicationInputProcessingConfigurationRequest,
+  DeleteApplicationInputProcessingConfigurationRequest & RegionInput,
   DeleteApplicationInputProcessingConfigurationResponse,
   DeleteApplicationInputProcessingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type DeleteApplicationOutputError =
  * `kinesisanalytics:DeleteApplicationOutput` action.
  */
 export const deleteApplicationOutput: API.OperationMethod<
-  DeleteApplicationOutputRequest,
+  DeleteApplicationOutputRequest & RegionInput,
   DeleteApplicationOutputResponse,
   DeleteApplicationOutputError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type DeleteApplicationReferenceDataSourceError =
  * action.
  */
 export const deleteApplicationReferenceDataSource: API.OperationMethod<
-  DeleteApplicationReferenceDataSourceRequest,
+  DeleteApplicationReferenceDataSourceRequest & RegionInput,
   DeleteApplicationReferenceDataSourceResponse,
   DeleteApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -1089,7 +1090,7 @@ export type DescribeApplicationError =
  * operations such as `Update`.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type DiscoverInputSchemaError =
  * `kinesisanalytics:DiscoverInputSchema` action.
  */
 export const discoverInputSchema: API.OperationMethod<
-  DiscoverInputSchemaRequest,
+  DiscoverInputSchemaRequest & RegionInput,
   DiscoverInputSchemaResponse,
   DiscoverInputSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1167,7 @@ export type ListApplicationsError = CommonErrors;
  * `kinesisanalytics:ListApplications` action.
  */
 export const listApplications: API.OperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1229,7 +1230,7 @@ export type StartApplicationError =
  * `kinesisanalytics:StartApplication` action.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationRequest,
+  StartApplicationRequest & RegionInput,
   StartApplicationResponse,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1270,7 @@ export type StopApplicationError =
  * `kinesisanalytics:StopApplication` action.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationRequest,
+  StopApplicationRequest & RegionInput,
   StopApplicationResponse,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1297,7 @@ export type TagResourceError =
  * For more information, see Using Tagging.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1328,7 +1329,7 @@ export type UntagResourceError =
  * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type UpdateApplicationError =
  * `kinesisanalytics:UpdateApplication` action.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -266,7 +267,7 @@ export type DeregisterSubscriptionProviderError =
  * registered to your account.
  */
 export const deregisterSubscriptionProvider: API.OperationMethod<
-  DeregisterSubscriptionProviderRequest,
+  DeregisterSubscriptionProviderRequest & RegionInput,
   DeregisterSubscriptionProviderResponse,
   DeregisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -296,7 +297,7 @@ export type GetRegisteredSubscriptionProviderError =
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
 export const getRegisteredSubscriptionProvider: API.OperationMethod<
-  GetRegisteredSubscriptionProviderRequest,
+  GetRegisteredSubscriptionProviderRequest & RegionInput,
   GetRegisteredSubscriptionProviderResponse,
   GetRegisteredSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -325,7 +326,7 @@ export type GetServiceSettingsError =
  * Lists the Linux subscriptions service settings for your account.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsResponse,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -350,7 +351,7 @@ export type ListLinuxSubscriptionInstancesError =
  * subscriptions.
  */
 export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionInstancesRequest,
+  ListLinuxSubscriptionInstancesRequest & RegionInput,
   ListLinuxSubscriptionInstancesResponse,
   ListLinuxSubscriptionInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -383,7 +384,7 @@ export type ListLinuxSubscriptionsError =
  * Organizations.
  */
 export const listLinuxSubscriptions: API.PaginatedOperationMethod<
-  ListLinuxSubscriptionsRequest,
+  ListLinuxSubscriptionsRequest & RegionInput,
   ListLinuxSubscriptionsResponse,
   ListLinuxSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -414,7 +415,7 @@ export type ListRegisteredSubscriptionProvidersError =
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
 export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
-  ListRegisteredSubscriptionProvidersRequest,
+  ListRegisteredSubscriptionProvidersRequest & RegionInput,
   ListRegisteredSubscriptionProvidersResponse,
   ListRegisteredSubscriptionProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -446,7 +447,7 @@ export type ListTagsForResourceError =
  * specified Amazon Web Services resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -470,7 +471,7 @@ export type RegisterSubscriptionProviderError =
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
 export const registerSubscriptionProvider: API.OperationMethod<
-  RegisterSubscriptionProviderRequest,
+  RegisterSubscriptionProviderRequest & RegionInput,
   RegisterSubscriptionProviderResponse,
   RegisterSubscriptionProviderError,
   Credentials | HttpClient.HttpClient
@@ -494,7 +495,7 @@ export type TagResourceError =
  * Add metadata tags to the specified Amazon Web Services resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -514,7 +515,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -538,7 +539,7 @@ export type UpdateServiceSettingsError =
  * Updates the service settings for Linux subscriptions.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsRequest & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient

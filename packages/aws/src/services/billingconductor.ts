@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1023,7 +1024,7 @@ export type AssociateAccountsError =
  * Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
  */
 export const associateAccounts: API.OperationMethod<
-  AssociateAccountsInput,
+  AssociateAccountsInput & RegionInput,
   AssociateAccountsOutput,
   AssociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type AssociatePricingRulesError =
  * Connects an array of `PricingRuleArns` to a defined `PricingPlan`. The maximum number `PricingRuleArn` that can be associated in one call is 30.
  */
 export const associatePricingRules: API.OperationMethod<
-  AssociatePricingRulesInput,
+  AssociatePricingRulesInput & RegionInput,
   AssociatePricingRulesOutput,
   AssociatePricingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1095,7 +1096,7 @@ export type BatchAssociateResourcesToCustomLineItemError =
  * Associates a batch of resources to a percentage custom line item.
  */
 export const batchAssociateResourcesToCustomLineItem: API.OperationMethod<
-  BatchAssociateResourcesToCustomLineItemInput,
+  BatchAssociateResourcesToCustomLineItemInput & RegionInput,
   BatchAssociateResourcesToCustomLineItemOutput,
   BatchAssociateResourcesToCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type BatchDisassociateResourcesFromCustomLineItemError =
  * Disassociates a batch of resources from a percentage custom line item.
  */
 export const batchDisassociateResourcesFromCustomLineItem: API.OperationMethod<
-  BatchDisassociateResourcesFromCustomLineItemInput,
+  BatchDisassociateResourcesFromCustomLineItemInput & RegionInput,
   BatchDisassociateResourcesFromCustomLineItemOutput,
   BatchDisassociateResourcesFromCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type CreateBillingGroupError =
  * Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
  */
 export const createBillingGroup: API.OperationMethod<
-  CreateBillingGroupInput,
+  CreateBillingGroupInput & RegionInput,
   CreateBillingGroupOutput,
   CreateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1198,7 +1199,7 @@ export type CreateCustomLineItemError =
  * Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
  */
 export const createCustomLineItem: API.OperationMethod<
-  CreateCustomLineItemInput,
+  CreateCustomLineItemInput & RegionInput,
   CreateCustomLineItemOutput,
   CreateCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type CreatePricingPlanError =
  * Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
  */
 export const createPricingPlan: API.OperationMethod<
-  CreatePricingPlanInput,
+  CreatePricingPlanInput & RegionInput,
   CreatePricingPlanOutput,
   CreatePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type CreatePricingRuleError =
  * Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
  */
 export const createPricingRule: API.OperationMethod<
-  CreatePricingRuleInput,
+  CreatePricingRuleInput & RegionInput,
   CreatePricingRuleOutput,
   CreatePricingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type DeleteBillingGroupError =
  * Deletes a billing group.
  */
 export const deleteBillingGroup: API.OperationMethod<
-  DeleteBillingGroupInput,
+  DeleteBillingGroupInput & RegionInput,
   DeleteBillingGroupOutput,
   DeleteBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1331,7 +1332,7 @@ export type DeleteCustomLineItemError =
  * Deletes the custom line item identified by the given ARN in the current, or previous billing period.
  */
 export const deleteCustomLineItem: API.OperationMethod<
-  DeleteCustomLineItemInput,
+  DeleteCustomLineItemInput & RegionInput,
   DeleteCustomLineItemOutput,
   DeleteCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type DeletePricingPlanError =
  * Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
  */
 export const deletePricingPlan: API.OperationMethod<
-  DeletePricingPlanInput,
+  DeletePricingPlanInput & RegionInput,
   DeletePricingPlanOutput,
   DeletePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type DeletePricingRuleError =
  * Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
  */
 export const deletePricingRule: API.OperationMethod<
-  DeletePricingRuleInput,
+  DeletePricingRuleInput & RegionInput,
   DeletePricingRuleOutput,
   DeletePricingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type DisassociateAccountsError =
  * Removes the specified list of account IDs from the given billing group.
  */
 export const disassociateAccounts: API.OperationMethod<
-  DisassociateAccountsInput,
+  DisassociateAccountsInput & RegionInput,
   DisassociateAccountsOutput,
   DisassociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type DisassociatePricingRulesError =
  * Disassociates a list of pricing rules from a pricing plan.
  */
 export const disassociatePricingRules: API.OperationMethod<
-  DisassociatePricingRulesInput,
+  DisassociatePricingRulesInput & RegionInput,
   DisassociatePricingRulesOutput,
   DisassociatePricingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type GetBillingGroupCostReportError =
  * Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
  */
 export const getBillingGroupCostReport: API.PaginatedOperationMethod<
-  GetBillingGroupCostReportInput,
+  GetBillingGroupCostReportInput & RegionInput,
   GetBillingGroupCostReportOutput,
   GetBillingGroupCostReportError,
   Credentials | HttpClient.HttpClient,
@@ -1534,7 +1535,7 @@ export type GetBillingTransferPreferenceError =
  * Retrieves the auto billing group creation preference for a billing transfer.
  */
 export const getBillingTransferPreference: API.OperationMethod<
-  GetBillingTransferPreferenceInput,
+  GetBillingTransferPreferenceInput & RegionInput,
   GetBillingTransferPreferenceOutput,
   GetBillingTransferPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type ListAccountAssociationsError =
  * This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
  */
 export const listAccountAssociations: API.PaginatedOperationMethod<
-  ListAccountAssociationsInput,
+  ListAccountAssociationsInput & RegionInput,
   ListAccountAssociationsOutput,
   ListAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1604,7 +1605,7 @@ export type ListBillingGroupCostReportsError =
  * A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
  */
 export const listBillingGroupCostReports: API.PaginatedOperationMethod<
-  ListBillingGroupCostReportsInput,
+  ListBillingGroupCostReportsInput & RegionInput,
   ListBillingGroupCostReportsOutput,
   ListBillingGroupCostReportsError,
   Credentials | HttpClient.HttpClient,
@@ -1643,7 +1644,7 @@ export type ListBillingGroupsError =
  * A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
  */
 export const listBillingGroups: API.PaginatedOperationMethod<
-  ListBillingGroupsInput,
+  ListBillingGroupsInput & RegionInput,
   ListBillingGroupsOutput,
   ListBillingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1682,7 +1683,7 @@ export type ListCustomLineItemsError =
  * A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
 export const listCustomLineItems: API.PaginatedOperationMethod<
-  ListCustomLineItemsInput,
+  ListCustomLineItemsInput & RegionInput,
   ListCustomLineItemsOutput,
   ListCustomLineItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1720,7 +1721,7 @@ export type ListCustomLineItemVersionsError =
  * A paginated call to get a list of all custom line item versions.
  */
 export const listCustomLineItemVersions: API.PaginatedOperationMethod<
-  ListCustomLineItemVersionsInput,
+  ListCustomLineItemVersionsInput & RegionInput,
   ListCustomLineItemVersionsOutput,
   ListCustomLineItemVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1757,7 +1758,7 @@ export type ListPricingPlansError =
  * A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
 export const listPricingPlans: API.PaginatedOperationMethod<
-  ListPricingPlansInput,
+  ListPricingPlansInput & RegionInput,
   ListPricingPlansOutput,
   ListPricingPlansError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListPricingPlansAssociatedWithPricingRuleError =
  * A list of the pricing plans that are associated with a pricing rule.
  */
 export const listPricingPlansAssociatedWithPricingRule: API.PaginatedOperationMethod<
-  ListPricingPlansAssociatedWithPricingRuleInput,
+  ListPricingPlansAssociatedWithPricingRuleInput & RegionInput,
   ListPricingPlansAssociatedWithPricingRuleOutput,
   ListPricingPlansAssociatedWithPricingRuleError,
   Credentials | HttpClient.HttpClient,
@@ -1833,7 +1834,7 @@ export type ListPricingRulesError =
  * Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
  */
 export const listPricingRules: API.PaginatedOperationMethod<
-  ListPricingRulesInput,
+  ListPricingRulesInput & RegionInput,
   ListPricingRulesOutput,
   ListPricingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1871,7 +1872,7 @@ export type ListPricingRulesAssociatedToPricingPlanError =
  * Lists the pricing rules that are associated with a pricing plan.
  */
 export const listPricingRulesAssociatedToPricingPlan: API.PaginatedOperationMethod<
-  ListPricingRulesAssociatedToPricingPlanInput,
+  ListPricingRulesAssociatedToPricingPlanInput & RegionInput,
   ListPricingRulesAssociatedToPricingPlanOutput,
   ListPricingRulesAssociatedToPricingPlanError,
   Credentials | HttpClient.HttpClient,
@@ -1910,7 +1911,7 @@ export type ListResourcesAssociatedToCustomLineItemError =
  * List the resources that are associated to a custom line item.
  */
 export const listResourcesAssociatedToCustomLineItem: API.PaginatedOperationMethod<
-  ListResourcesAssociatedToCustomLineItemInput,
+  ListResourcesAssociatedToCustomLineItemInput & RegionInput,
   ListResourcesAssociatedToCustomLineItemOutput,
   ListResourcesAssociatedToCustomLineItemError,
   Credentials | HttpClient.HttpClient,
@@ -1949,7 +1950,7 @@ export type ListTagsForResourceError =
  * A list the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1981,7 +1982,7 @@ export type TagResourceError =
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2013,7 +2014,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2046,7 +2047,7 @@ export type UpdateBillingGroupError =
  * This updates an existing billing group.
  */
 export const updateBillingGroup: API.OperationMethod<
-  UpdateBillingGroupInput,
+  UpdateBillingGroupInput & RegionInput,
   UpdateBillingGroupOutput,
   UpdateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2082,7 +2083,7 @@ export type UpdateBillingTransferPreferenceError =
  * Enabling the preference requires the `iam:CreateServiceLinkedRole` permission. While a pricing plan is specified in an enabled preference, you can't delete that pricing plan.
  */
 export const updateBillingTransferPreference: API.OperationMethod<
-  UpdateBillingTransferPreferenceInput,
+  UpdateBillingTransferPreferenceInput & RegionInput,
   UpdateBillingTransferPreferenceOutput,
   UpdateBillingTransferPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type UpdateCustomLineItemError =
  * Update an existing custom line item in the current or previous billing period.
  */
 export const updateCustomLineItem: API.OperationMethod<
-  UpdateCustomLineItemInput,
+  UpdateCustomLineItemInput & RegionInput,
   UpdateCustomLineItemOutput,
   UpdateCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2151,7 @@ export type UpdatePricingPlanError =
  * This updates an existing pricing plan.
  */
 export const updatePricingPlan: API.OperationMethod<
-  UpdatePricingPlanInput,
+  UpdatePricingPlanInput & RegionInput,
   UpdatePricingPlanOutput,
   UpdatePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -2184,7 +2185,7 @@ export type UpdatePricingRuleError =
  * Updates an existing pricing rule.
  */
 export const updatePricingRule: API.OperationMethod<
-  UpdatePricingRuleInput,
+  UpdatePricingRuleInput & RegionInput,
   UpdatePricingRuleOutput,
   UpdatePricingRuleError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -747,7 +748,7 @@ export type BatchDeleteTaxRegistrationError =
  * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
  */
 export const batchDeleteTaxRegistration: API.OperationMethod<
-  BatchDeleteTaxRegistrationRequest,
+  BatchDeleteTaxRegistrationRequest & RegionInput,
   BatchDeleteTaxRegistrationResponse,
   BatchDeleteTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type BatchGetTaxExemptionsError =
  * Get the active tax exemptions for a given list of accounts. The IAM action is `tax:GetExemptions`.
  */
 export const batchGetTaxExemptions: API.OperationMethod<
-  BatchGetTaxExemptionsRequest,
+  BatchGetTaxExemptionsRequest & RegionInput,
   BatchGetTaxExemptionsResponse,
   BatchGetTaxExemptionsError,
   Credentials | HttpClient.HttpClient
@@ -935,7 +936,7 @@ export type BatchPutTaxRegistrationError =
  * - You can optionally specify the `taxRegistrationNumberType` in the `polandAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `EUTaxRegistrationNumber`, `LocalTaxRegistrationNumber`, or `LocalRegistrationNumber`.
  */
 export const batchPutTaxRegistration: API.OperationMethod<
-  BatchPutTaxRegistrationRequest,
+  BatchPutTaxRegistrationRequest & RegionInput,
   BatchPutTaxRegistrationResponse,
   BatchPutTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type DeleteSupplementalTaxRegistrationError =
  * Deletes a supplemental tax registration for a single account.
  */
 export const deleteSupplementalTaxRegistration: API.OperationMethod<
-  DeleteSupplementalTaxRegistrationRequest,
+  DeleteSupplementalTaxRegistrationRequest & RegionInput,
   DeleteSupplementalTaxRegistrationResponse,
   DeleteSupplementalTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +993,7 @@ export type DeleteTaxRegistrationError =
  * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
  */
 export const deleteTaxRegistration: API.OperationMethod<
-  DeleteTaxRegistrationRequest,
+  DeleteTaxRegistrationRequest & RegionInput,
   DeleteTaxRegistrationResponse,
   DeleteTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1021,7 +1022,7 @@ export type GetTaxExemptionTypesError =
  * Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
  */
 export const getTaxExemptionTypes: API.OperationMethod<
-  GetTaxExemptionTypesRequest,
+  GetTaxExemptionTypesRequest & RegionInput,
   GetTaxExemptionTypesResponse,
   GetTaxExemptionTypesError,
   Credentials | HttpClient.HttpClient
@@ -1045,7 +1046,7 @@ export type GetTaxInheritanceError =
  * The get account tax inheritance status.
  */
 export const getTaxInheritance: API.OperationMethod<
-  GetTaxInheritanceRequest,
+  GetTaxInheritanceRequest & RegionInput,
   GetTaxInheritanceResponse,
   GetTaxInheritanceError,
   Credentials | HttpClient.HttpClient
@@ -1069,7 +1070,7 @@ export type GetTaxRegistrationError =
  * Retrieves tax registration for a single account.
  */
 export const getTaxRegistration: API.OperationMethod<
-  GetTaxRegistrationRequest,
+  GetTaxRegistrationRequest & RegionInput,
   GetTaxRegistrationResponse,
   GetTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type GetTaxRegistrationDocumentError =
  * Downloads your tax documents to the Amazon S3 bucket that you specify in your request.
  */
 export const getTaxRegistrationDocument: API.OperationMethod<
-  GetTaxRegistrationDocumentRequest,
+  GetTaxRegistrationDocumentRequest & RegionInput,
   GetTaxRegistrationDocumentResponse,
   GetTaxRegistrationDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1116,7 +1117,7 @@ export type ListSupplementalTaxRegistrationsError =
  * Retrieves supplemental tax registrations for a single account.
  */
 export const listSupplementalTaxRegistrations: API.PaginatedOperationMethod<
-  ListSupplementalTaxRegistrationsRequest,
+  ListSupplementalTaxRegistrationsRequest & RegionInput,
   ListSupplementalTaxRegistrationsResponse,
   ListSupplementalTaxRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1147,7 +1148,7 @@ export type ListTaxExemptionsError =
  * Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is `tax:GetExemptions`.
  */
 export const listTaxExemptions: API.PaginatedOperationMethod<
-  ListTaxExemptionsRequest,
+  ListTaxExemptionsRequest & RegionInput,
   ListTaxExemptionsResponse,
   ListTaxExemptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1178,7 +1179,7 @@ export type ListTaxRegistrationsError =
  * Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
  */
 export const listTaxRegistrations: API.PaginatedOperationMethod<
-  ListTaxRegistrationsRequest,
+  ListTaxRegistrationsRequest & RegionInput,
   ListTaxRegistrationsResponse,
   ListTaxRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1209,7 +1210,7 @@ export type PutSupplementalTaxRegistrationError =
  * Stores supplemental tax registration for a single account.
  */
 export const putSupplementalTaxRegistration: API.OperationMethod<
-  PutSupplementalTaxRegistrationRequest,
+  PutSupplementalTaxRegistrationRequest & RegionInput,
   PutSupplementalTaxRegistrationResponse,
   PutSupplementalTaxRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type PutTaxExemptionError =
  * Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is `tax:UpdateExemptions`.
  */
 export const putTaxExemption: API.OperationMethod<
-  PutTaxExemptionRequest,
+  PutTaxExemptionRequest & RegionInput,
   PutTaxExemptionResponse,
   PutTaxExemptionError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type PutTaxInheritanceError =
  * The updated tax inheritance status.
  */
 export const putTaxInheritance: API.OperationMethod<
-  PutTaxInheritanceRequest,
+  PutTaxInheritanceRequest & RegionInput,
   PutTaxInheritanceResponse,
   PutTaxInheritanceError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type PutTaxRegistrationError =
  * - You can optionally specify the `taxRegistrationNumberType` in the `polandAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `EUTaxRegistrationNumber`, `LocalTaxRegistrationNumber`, or `LocalRegistrationNumber`.
  */
 export const putTaxRegistration: API.OperationMethod<
-  PutTaxRegistrationRequest,
+  PutTaxRegistrationRequest & RegionInput,
   PutTaxRegistrationResponse,
   PutTaxRegistrationError,
   Credentials | HttpClient.HttpClient

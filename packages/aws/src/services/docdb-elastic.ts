@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -414,7 +415,7 @@ export type ApplyPendingMaintenanceActionError =
  * The type of pending maintenance action to be applied to the resource.
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionInput,
+  ApplyPendingMaintenanceActionInput & RegionInput,
   ApplyPendingMaintenanceActionOutput,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type CopyClusterSnapshotError =
  * Copies a snapshot of an elastic cluster.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotInput,
+  CopyClusterSnapshotInput & RegionInput,
   CopyClusterSnapshotOutput,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -484,7 +485,7 @@ export type CreateClusterError =
  * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -519,7 +520,7 @@ export type CreateClusterSnapshotError =
  * Creates a snapshot of an elastic cluster.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotInput,
+  CreateClusterSnapshotInput & RegionInput,
   CreateClusterSnapshotOutput,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -554,7 +555,7 @@ export type DeleteClusterError =
  * Delete an elastic cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -588,7 +589,7 @@ export type DeleteClusterSnapshotError =
  * Delete an elastic cluster snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotInput,
+  DeleteClusterSnapshotInput & RegionInput,
   DeleteClusterSnapshotOutput,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -621,7 +622,7 @@ export type GetClusterError =
  * Returns information about a specific elastic cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -653,7 +654,7 @@ export type GetClusterSnapshotError =
  * Returns information about a specific elastic cluster snapshot
  */
 export const getClusterSnapshot: API.OperationMethod<
-  GetClusterSnapshotInput,
+  GetClusterSnapshotInput & RegionInput,
   GetClusterSnapshotOutput,
   GetClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type GetPendingMaintenanceActionError =
  * Retrieves all maintenance actions that are pending.
  */
 export const getPendingMaintenanceAction: API.OperationMethod<
-  GetPendingMaintenanceActionInput,
+  GetPendingMaintenanceActionInput & RegionInput,
   GetPendingMaintenanceActionOutput,
   GetPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type ListClustersError =
  * Returns information about provisioned Amazon DocumentDB elastic clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -755,7 +756,7 @@ export type ListClusterSnapshotsError =
  * Returns information about snapshots for a specified elastic cluster.
  */
 export const listClusterSnapshots: API.PaginatedOperationMethod<
-  ListClusterSnapshotsInput,
+  ListClusterSnapshotsInput & RegionInput,
   ListClusterSnapshotsOutput,
   ListClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -792,7 +793,7 @@ export type ListPendingMaintenanceActionsError =
  * Retrieves a list of all maintenance actions that are pending.
  */
 export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
-  ListPendingMaintenanceActionsInput,
+  ListPendingMaintenanceActionsInput & RegionInput,
   ListPendingMaintenanceActionsOutput,
   ListPendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -829,7 +830,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a elastic cluster resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +863,7 @@ export type RestoreClusterFromSnapshotError =
  * Restores an elastic cluster from a snapshot.
  */
 export const restoreClusterFromSnapshot: API.OperationMethod<
-  RestoreClusterFromSnapshotInput,
+  RestoreClusterFromSnapshotInput & RegionInput,
   RestoreClusterFromSnapshotOutput,
   RestoreClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type StartClusterError =
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
 export const startCluster: API.OperationMethod<
-  StartClusterInput,
+  StartClusterInput & RegionInput,
   StartClusterOutput,
   StartClusterError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +930,7 @@ export type StopClusterError =
  * The elastic cluster must be in the *available* state.
  */
 export const stopCluster: API.OperationMethod<
-  StopClusterInput,
+  StopClusterInput & RegionInput,
   StopClusterOutput,
   StopClusterError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +961,7 @@ export type TagResourceError =
  * Adds metadata tags to an elastic cluster resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type UntagResourceError =
  * Removes metadata tags from an elastic cluster resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1023,7 +1024,7 @@ export type UpdateClusterError =
  * upgrading the API version, and setting up a backup window and maintenance window
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient

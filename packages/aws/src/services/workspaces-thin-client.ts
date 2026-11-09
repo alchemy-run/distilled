@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -492,7 +493,7 @@ export type CreateEnvironmentError =
  * Creates an environment for your thin client devices.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -528,7 +529,7 @@ export type DeleteDeviceError =
  * Deletes a thin client device.
  */
 export const deleteDevice: API.OperationMethod<
-  DeleteDeviceRequest,
+  DeleteDeviceRequest & RegionInput,
   DeleteDeviceResponse,
   DeleteDeviceError,
   Credentials | HttpClient.HttpClient
@@ -563,7 +564,7 @@ export type DeleteEnvironmentError =
  * Deletes an environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -598,7 +599,7 @@ export type DeregisterDeviceError =
  * Deregisters a thin client device.
  */
 export const deregisterDevice: API.OperationMethod<
-  DeregisterDeviceRequest,
+  DeregisterDeviceRequest & RegionInput,
   DeregisterDeviceResponse,
   DeregisterDeviceError,
   Credentials | HttpClient.HttpClient
@@ -632,7 +633,7 @@ export type GetDeviceError =
  * Returns information for a thin client device.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResponse,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -665,7 +666,7 @@ export type GetEnvironmentError =
  * Returns information for an environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type GetSoftwareSetError =
  * Returns information for a software set.
  */
 export const getSoftwareSet: API.OperationMethod<
-  GetSoftwareSetRequest,
+  GetSoftwareSetRequest & RegionInput,
   GetSoftwareSetResponse,
   GetSoftwareSetError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type ListDevicesError =
  * Returns a list of thin client devices.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -768,7 +769,7 @@ export type ListEnvironmentsError =
  * Returns a list of environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -806,7 +807,7 @@ export type ListSoftwareSetsError =
  * Returns a list of software sets.
  */
 export const listSoftwareSets: API.PaginatedOperationMethod<
-  ListSoftwareSetsRequest,
+  ListSoftwareSetsRequest & RegionInput,
   ListSoftwareSetsResponse,
   ListSoftwareSetsError,
   Credentials | HttpClient.HttpClient,
@@ -845,7 +846,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -879,7 +880,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -914,7 +915,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -948,7 +949,7 @@ export type UpdateDeviceError =
  * Updates a thin client device.
  */
 export const updateDevice: API.OperationMethod<
-  UpdateDeviceRequest,
+  UpdateDeviceRequest & RegionInput,
   UpdateDeviceResponse,
   UpdateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -982,7 +983,7 @@ export type UpdateEnvironmentError =
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1016,7 +1017,7 @@ export type UpdateSoftwareSetError =
  * Updates a software set.
  */
 export const updateSoftwareSet: API.OperationMethod<
-  UpdateSoftwareSetRequest,
+  UpdateSoftwareSetRequest & RegionInput,
   UpdateSoftwareSetResponse,
   UpdateSoftwareSetError,
   Credentials | HttpClient.HttpClient

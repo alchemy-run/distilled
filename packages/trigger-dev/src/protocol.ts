@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TriggerDevProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type TriggerDevOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | TriggerDevParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Trigger.dev operation. */
 export type TriggerDevOpContext = Credentials | HttpClient.HttpClient;

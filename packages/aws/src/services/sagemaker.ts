@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -17257,7 +17258,7 @@ export type AddAssociationError = ResourceLimitExceeded | ResourceNotFound | Com
  * Creates an *association* between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
 export const addAssociation: API.OperationMethod<
-  AddAssociationRequest,
+  AddAssociationRequest & RegionInput,
   AddAssociationResponse,
   AddAssociationError,
   Credentials | HttpClient.HttpClient
@@ -17283,7 +17284,7 @@ export type AddTagsError = CommonErrors;
  * Tags that you add to a SageMaker Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the `Tags` parameter of CreateDomain or CreateUserProfile.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -17303,7 +17304,7 @@ export type AssociateTrialComponentError = ResourceLimitExceeded | ResourceNotFo
  * Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
 export const associateTrialComponent: API.OperationMethod<
-  AssociateTrialComponentRequest,
+  AssociateTrialComponentRequest & RegionInput,
   AssociateTrialComponentResponse,
   AssociateTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -17328,7 +17329,7 @@ export type AttachClusterNodeNetworkInterfaceError =
  * To use this operation, you must have the `sagemaker:AttachClusterNodeNetworkInterface` permission.
  */
 export const attachClusterNodeNetworkInterface: API.OperationMethod<
-  AttachClusterNodeNetworkInterfaceRequest,
+  AttachClusterNodeNetworkInterfaceRequest & RegionInput,
   AttachClusterNodeNetworkInterfaceResponse,
   AttachClusterNodeNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -17350,7 +17351,7 @@ export type AttachClusterNodeVolumeError = ResourceNotFound | CommonErrors;
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
 export const attachClusterNodeVolume: API.OperationMethod<
-  AttachClusterNodeVolumeRequest,
+  AttachClusterNodeVolumeRequest & RegionInput,
   AttachClusterNodeVolumeResponse,
   AttachClusterNodeVolumeError,
   Credentials | HttpClient.HttpClient
@@ -17372,7 +17373,7 @@ export type BatchAddClusterNodesError = ResourceLimitExceeded | ResourceNotFound
  * This API is only supported for clusters using `Continuous` as the `NodeProvisioningMode`.
  */
 export const batchAddClusterNodes: API.OperationMethod<
-  BatchAddClusterNodesRequest,
+  BatchAddClusterNodesRequest & RegionInput,
   BatchAddClusterNodesResponse,
   BatchAddClusterNodesError,
   Credentials | HttpClient.HttpClient
@@ -17396,7 +17397,7 @@ export type BatchDeleteClusterNodesError = ResourceNotFound | CommonErrors;
  * - If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
  */
 export const batchDeleteClusterNodes: API.OperationMethod<
-  BatchDeleteClusterNodesRequest,
+  BatchDeleteClusterNodesRequest & RegionInput,
   BatchDeleteClusterNodesResponse,
   BatchDeleteClusterNodesError,
   Credentials | HttpClient.HttpClient
@@ -17416,7 +17417,7 @@ export type BatchDescribeModelPackageError = CommonErrors;
  * This action batch describes a list of versioned model packages
  */
 export const batchDescribeModelPackage: API.OperationMethod<
-  BatchDescribeModelPackageInput,
+  BatchDescribeModelPackageInput & RegionInput,
   BatchDescribeModelPackageOutput,
   BatchDescribeModelPackageError,
   Credentials | HttpClient.HttpClient
@@ -17444,7 +17445,7 @@ export type BatchRebootClusterNodesError = ResourceNotFound | CommonErrors;
  * - For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
  */
 export const batchRebootClusterNodes: API.OperationMethod<
-  BatchRebootClusterNodesRequest,
+  BatchRebootClusterNodesRequest & RegionInput,
   BatchRebootClusterNodesResponse,
   BatchRebootClusterNodesError,
   Credentials | HttpClient.HttpClient
@@ -17474,7 +17475,7 @@ export type BatchReplaceClusterNodesError = ResourceNotFound | CommonErrors;
  * - You can replace up to 25 nodes in a single request.
  */
 export const batchReplaceClusterNodes: API.OperationMethod<
-  BatchReplaceClusterNodesRequest,
+  BatchReplaceClusterNodesRequest & RegionInput,
   BatchReplaceClusterNodesResponse,
   BatchReplaceClusterNodesError,
   Credentials | HttpClient.HttpClient
@@ -17494,7 +17495,7 @@ export type CreateActionError = ResourceLimitExceeded | CommonErrors;
  * Creates an *action*. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
 export const createAction: API.OperationMethod<
-  CreateActionRequest,
+  CreateActionRequest & RegionInput,
   CreateActionResponse,
   CreateActionError,
   Credentials | HttpClient.HttpClient
@@ -17518,7 +17519,7 @@ export type CreateAIBenchmarkJobError =
  * Creates a benchmark job that runs performance benchmarks against inference infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints.
  */
 export const createAIBenchmarkJob: API.OperationMethod<
-  CreateAIBenchmarkJobRequest,
+  CreateAIBenchmarkJobRequest & RegionInput,
   CreateAIBenchmarkJobResponse,
   CreateAIBenchmarkJobError,
   Credentials | HttpClient.HttpClient
@@ -17542,7 +17543,7 @@ export type CreateAIRecommendationJobError =
  * Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job analyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configurations.
  */
 export const createAIRecommendationJob: API.OperationMethod<
-  CreateAIRecommendationJobRequest,
+  CreateAIRecommendationJobRequest & RegionInput,
   CreateAIRecommendationJobResponse,
   CreateAIRecommendationJobError,
   Credentials | HttpClient.HttpClient
@@ -17562,7 +17563,7 @@ export type CreateAIWorkloadConfigError = ResourceInUse | ResourceLimitExceeded 
  * Creates a reusable AI workload configuration that defines datasets, data sources, and benchmark tool settings for consistent performance testing of generative AI inference deployments on Amazon SageMaker AI.
  */
 export const createAIWorkloadConfig: API.OperationMethod<
-  CreateAIWorkloadConfigRequest,
+  CreateAIWorkloadConfigRequest & RegionInput,
   CreateAIWorkloadConfigResponse,
   CreateAIWorkloadConfigError,
   Credentials | HttpClient.HttpClient
@@ -17582,7 +17583,7 @@ export type CreateAlgorithmError = CommonErrors;
  * Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace.
  */
 export const createAlgorithm: API.OperationMethod<
-  CreateAlgorithmInput,
+  CreateAlgorithmInput & RegionInput,
   CreateAlgorithmOutput,
   CreateAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -17602,7 +17603,7 @@ export type CreateAppError = ResourceInUse | ResourceLimitExceeded | CommonError
  * Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -17622,7 +17623,7 @@ export type CreateAppImageConfigError = ResourceInUse | CommonErrors;
  * Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
  */
 export const createAppImageConfig: API.OperationMethod<
-  CreateAppImageConfigRequest,
+  CreateAppImageConfigRequest & RegionInput,
   CreateAppImageConfigResponse,
   CreateAppImageConfigError,
   Credentials | HttpClient.HttpClient
@@ -17642,7 +17643,7 @@ export type CreateArtifactError = ResourceLimitExceeded | CommonErrors;
  * Creates an *artifact*. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
 export const createArtifact: API.OperationMethod<
-  CreateArtifactRequest,
+  CreateArtifactRequest & RegionInput,
   CreateArtifactResponse,
   CreateArtifactError,
   Credentials | HttpClient.HttpClient
@@ -17674,7 +17675,7 @@ export type CreateAutoMLJobError = ResourceInUse | ResourceLimitExceeded | Commo
  * You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
  */
 export const createAutoMLJob: API.OperationMethod<
-  CreateAutoMLJobRequest,
+  CreateAutoMLJobRequest & RegionInput,
   CreateAutoMLJobResponse,
   CreateAutoMLJobError,
   Credentials | HttpClient.HttpClient
@@ -17710,7 +17711,7 @@ export type CreateAutoMLJobV2Error = ResourceInUse | ResourceLimitExceeded | Com
  * You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
  */
 export const createAutoMLJobV2: API.OperationMethod<
-  CreateAutoMLJobV2Request,
+  CreateAutoMLJobV2Request & RegionInput,
   CreateAutoMLJobV2Response,
   CreateAutoMLJobV2Error,
   Credentials | HttpClient.HttpClient
@@ -17730,7 +17731,7 @@ export type CreateClusterError = ResourceInUse | ResourceLimitExceeded | CommonE
  * Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the *Amazon SageMaker Developer Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -17753,7 +17754,7 @@ export type CreateClusterSchedulerConfigError =
  * Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
  */
 export const createClusterSchedulerConfig: API.OperationMethod<
-  CreateClusterSchedulerConfigRequest,
+  CreateClusterSchedulerConfigRequest & RegionInput,
   CreateClusterSchedulerConfigResponse,
   CreateClusterSchedulerConfigError,
   Credentials | HttpClient.HttpClient
@@ -17775,7 +17776,7 @@ export type CreateCodeRepositoryError = CommonErrors;
  * The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
  */
 export const createCodeRepository: API.OperationMethod<
-  CreateCodeRepositoryInput,
+  CreateCodeRepositoryInput & RegionInput,
   CreateCodeRepositoryOutput,
   CreateCodeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -17811,7 +17812,7 @@ export type CreateCompilationJobError = ResourceInUse | ResourceLimitExceeded | 
  * To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
 export const createCompilationJob: API.OperationMethod<
-  CreateCompilationJobRequest,
+  CreateCompilationJobRequest & RegionInput,
   CreateCompilationJobResponse,
   CreateCompilationJobError,
   Credentials | HttpClient.HttpClient
@@ -17831,7 +17832,7 @@ export type CreateComputeQuotaError = ConflictException | ResourceLimitExceeded 
  * Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
  */
 export const createComputeQuota: API.OperationMethod<
-  CreateComputeQuotaRequest,
+  CreateComputeQuotaRequest & RegionInput,
   CreateComputeQuotaResponse,
   CreateComputeQuotaError,
   Credentials | HttpClient.HttpClient
@@ -17851,7 +17852,7 @@ export type CreateContextError = ResourceLimitExceeded | CommonErrors;
  * Creates a *context*. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
 export const createContext: API.OperationMethod<
-  CreateContextRequest,
+  CreateContextRequest & RegionInput,
   CreateContextResponse,
   CreateContextError,
   Credentials | HttpClient.HttpClient
@@ -17874,7 +17875,7 @@ export type CreateDataQualityJobDefinitionError =
  * Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
 export const createDataQualityJobDefinition: API.OperationMethod<
-  CreateDataQualityJobDefinitionRequest,
+  CreateDataQualityJobDefinitionRequest & RegionInput,
   CreateDataQualityJobDefinitionResponse,
   CreateDataQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -17894,7 +17895,7 @@ export type CreateDeviceFleetError = ResourceInUse | ResourceLimitExceeded | Com
  * Creates a device fleet.
  */
 export const createDeviceFleet: API.OperationMethod<
-  CreateDeviceFleetRequest,
+  CreateDeviceFleetRequest & RegionInput,
   CreateDeviceFleetResponse,
   CreateDeviceFleetError,
   Credentials | HttpClient.HttpClient
@@ -17934,7 +17935,7 @@ export type CreateDomainError = ResourceInUse | ResourceLimitExceeded | CommonEr
  * For more information, see Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -17954,7 +17955,7 @@ export type CreateEdgeDeploymentPlanError = ResourceLimitExceeded | CommonErrors
  * Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices.
  */
 export const createEdgeDeploymentPlan: API.OperationMethod<
-  CreateEdgeDeploymentPlanRequest,
+  CreateEdgeDeploymentPlanRequest & RegionInput,
   CreateEdgeDeploymentPlanResponse,
   CreateEdgeDeploymentPlanError,
   Credentials | HttpClient.HttpClient
@@ -17974,7 +17975,7 @@ export type CreateEdgeDeploymentStageError = ResourceLimitExceeded | CommonError
  * Creates a new stage in an existing edge deployment plan.
  */
 export const createEdgeDeploymentStage: API.OperationMethod<
-  CreateEdgeDeploymentStageRequest,
+  CreateEdgeDeploymentStageRequest & RegionInput,
   CreateEdgeDeploymentStageResponse,
   CreateEdgeDeploymentStageError,
   Credentials | HttpClient.HttpClient
@@ -17994,7 +17995,7 @@ export type CreateEdgePackagingJobError = ResourceLimitExceeded | CommonErrors;
  * Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
  */
 export const createEdgePackagingJob: API.OperationMethod<
-  CreateEdgePackagingJobRequest,
+  CreateEdgePackagingJobRequest & RegionInput,
   CreateEdgePackagingJobResponse,
   CreateEdgePackagingJobError,
   Credentials | HttpClient.HttpClient
@@ -18050,7 +18051,7 @@ export type CreateEndpointError =
  * For more information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointInput,
+  CreateEndpointInput & RegionInput,
   CreateEndpointOutput,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -18081,7 +18082,7 @@ export type CreateEndpointConfigError =
  * When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting `Eventually Consistent Reads` , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.
  */
 export const createEndpointConfig: API.OperationMethod<
-  CreateEndpointConfigInput,
+  CreateEndpointConfigInput & RegionInput,
   CreateEndpointConfigOutput,
   CreateEndpointConfigError,
   Credentials | HttpClient.HttpClient
@@ -18113,7 +18114,7 @@ export type CreateExperimentError = ResourceLimitExceeded | CommonErrors;
  * To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
  */
 export const createExperiment: API.OperationMethod<
-  CreateExperimentRequest,
+  CreateExperimentRequest & RegionInput,
   CreateExperimentResponse,
   CreateExperimentError,
   Credentials | HttpClient.HttpClient
@@ -18139,7 +18140,7 @@ export type CreateFeatureGroupError = ResourceInUse | ResourceLimitExceeded | Co
  * You must include at least one of `OnlineStoreConfig` and `OfflineStoreConfig` to create a `FeatureGroup`.
  */
 export const createFeatureGroup: API.OperationMethod<
-  CreateFeatureGroupRequest,
+  CreateFeatureGroupRequest & RegionInput,
   CreateFeatureGroupResponse,
   CreateFeatureGroupError,
   Credentials | HttpClient.HttpClient
@@ -18159,7 +18160,7 @@ export type CreateFlowDefinitionError = ResourceInUse | ResourceLimitExceeded | 
  * Creates a flow definition.
  */
 export const createFlowDefinition: API.OperationMethod<
-  CreateFlowDefinitionRequest,
+  CreateFlowDefinitionRequest & RegionInput,
   CreateFlowDefinitionResponse,
   CreateFlowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -18179,7 +18180,7 @@ export type CreateHubError = ResourceInUse | ResourceLimitExceeded | CommonError
  * Create a hub.
  */
 export const createHub: API.OperationMethod<
-  CreateHubRequest,
+  CreateHubRequest & RegionInput,
   CreateHubResponse,
   CreateHubError,
   Credentials | HttpClient.HttpClient
@@ -18199,7 +18200,7 @@ export type CreateHubContentPresignedUrlsError = CommonErrors;
  * Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
  */
 export const createHubContentPresignedUrls: API.PaginatedOperationMethod<
-  CreateHubContentPresignedUrlsRequest,
+  CreateHubContentPresignedUrlsRequest & RegionInput,
   CreateHubContentPresignedUrlsResponse,
   CreateHubContentPresignedUrlsError,
   Credentials | HttpClient.HttpClient,
@@ -18230,7 +18231,7 @@ export type CreateHubContentReferenceError =
  * Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
  */
 export const createHubContentReference: API.OperationMethod<
-  CreateHubContentReferenceRequest,
+  CreateHubContentReferenceRequest & RegionInput,
   CreateHubContentReferenceResponse,
   CreateHubContentReferenceError,
   Credentials | HttpClient.HttpClient
@@ -18250,7 +18251,7 @@ export type CreateHumanTaskUiError = ResourceInUse | ResourceLimitExceeded | Com
  * Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
  */
 export const createHumanTaskUi: API.OperationMethod<
-  CreateHumanTaskUiRequest,
+  CreateHumanTaskUiRequest & RegionInput,
   CreateHumanTaskUiResponse,
   CreateHumanTaskUiError,
   Credentials | HttpClient.HttpClient
@@ -18277,7 +18278,7 @@ export type CreateHyperParameterTuningJobError =
  * Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields..
  */
 export const createHyperParameterTuningJob: API.OperationMethod<
-  CreateHyperParameterTuningJobRequest,
+  CreateHyperParameterTuningJobRequest & RegionInput,
   CreateHyperParameterTuningJobResponse,
   CreateHyperParameterTuningJobError,
   Credentials | HttpClient.HttpClient
@@ -18297,7 +18298,7 @@ export type CreateImageError = ResourceInUse | ResourceLimitExceeded | CommonErr
  * Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
  */
 export const createImage: API.OperationMethod<
-  CreateImageRequest,
+  CreateImageRequest & RegionInput,
   CreateImageResponse,
   CreateImageError,
   Credentials | HttpClient.HttpClient
@@ -18321,7 +18322,7 @@ export type CreateImageVersionError =
  * Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
  */
 export const createImageVersion: API.OperationMethod<
-  CreateImageVersionRequest,
+  CreateImageVersionRequest & RegionInput,
   CreateImageVersionResponse,
   CreateImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -18341,7 +18342,7 @@ export type CreateInferenceComponentError = ResourceLimitExceeded | CommonErrors
  * Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
  */
 export const createInferenceComponent: API.OperationMethod<
-  CreateInferenceComponentInput,
+  CreateInferenceComponentInput & RegionInput,
   CreateInferenceComponentOutput,
   CreateInferenceComponentError,
   Credentials | HttpClient.HttpClient
@@ -18367,7 +18368,7 @@ export type CreateInferenceExperimentError = ResourceInUse | ResourceLimitExceed
  * While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see View, monitor, and edit shadow tests.
  */
 export const createInferenceExperiment: API.OperationMethod<
-  CreateInferenceExperimentRequest,
+  CreateInferenceExperimentRequest & RegionInput,
   CreateInferenceExperimentResponse,
   CreateInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -18390,7 +18391,7 @@ export type CreateInferenceRecommendationsJobError =
  * Starts a recommendation job. You can create either an instance recommendation or load test job.
  */
 export const createInferenceRecommendationsJob: API.OperationMethod<
-  CreateInferenceRecommendationsJobRequest,
+  CreateInferenceRecommendationsJobRequest & RegionInput,
   CreateInferenceRecommendationsJobResponse,
   CreateInferenceRecommendationsJobError,
   Credentials | HttpClient.HttpClient
@@ -18432,7 +18433,7 @@ export type CreateJobError =
  * - `DescribeJobSchemaVersion`
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -18468,7 +18469,7 @@ export type CreateLabelingJobError = ResourceInUse | ResourceLimitExceeded | Com
  * You can use this operation to create a static labeling job or a streaming labeling job. A static labeling job stops if all data objects in the input manifest file identified in `ManifestS3Uri` have been labeled. A streaming labeling job runs perpetually until it is manually stopped, or remains idle for 10 days. You can send new data objects to an active (`InProgress`) streaming labeling job in real time. To learn how to create a static labeling job, see Create a Labeling Job (API) in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see Create a Streaming Labeling Job.
  */
 export const createLabelingJob: API.OperationMethod<
-  CreateLabelingJobRequest,
+  CreateLabelingJobRequest & RegionInput,
   CreateLabelingJobResponse,
   CreateLabelingJobError,
   Credentials | HttpClient.HttpClient
@@ -18488,7 +18489,7 @@ export type CreateMlflowAppError = ResourceLimitExceeded | CommonErrors;
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
  */
 export const createMlflowApp: API.OperationMethod<
-  CreateMlflowAppRequest,
+  CreateMlflowAppRequest & RegionInput,
   CreateMlflowAppResponse,
   CreateMlflowAppError,
   Credentials | HttpClient.HttpClient
@@ -18508,7 +18509,7 @@ export type CreateMlflowTrackingServerError = ResourceLimitExceeded | CommonErro
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server.
  */
 export const createMlflowTrackingServer: API.OperationMethod<
-  CreateMlflowTrackingServerRequest,
+  CreateMlflowTrackingServerRequest & RegionInput,
   CreateMlflowTrackingServerResponse,
   CreateMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -18536,7 +18537,7 @@ export type CreateModelError = ResourceLimitExceeded | ModelAlreadyExists | Comm
  * In the request, you also provide an IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other Amazon Web Services resources, you grant necessary permissions via this role.
  */
 export const createModel: API.OperationMethod<
-  CreateModelInput,
+  CreateModelInput & RegionInput,
   CreateModelOutput,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -18559,7 +18560,7 @@ export type CreateModelBiasJobDefinitionError =
  * Creates the definition for a model bias job.
  */
 export const createModelBiasJobDefinition: API.OperationMethod<
-  CreateModelBiasJobDefinitionRequest,
+  CreateModelBiasJobDefinitionRequest & RegionInput,
   CreateModelBiasJobDefinitionResponse,
   CreateModelBiasJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -18581,7 +18582,7 @@ export type CreateModelCardError = ConflictException | ResourceLimitExceeded | C
  * For information about how to use model cards, see Amazon SageMaker Model Card.
  */
 export const createModelCard: API.OperationMethod<
-  CreateModelCardRequest,
+  CreateModelCardRequest & RegionInput,
   CreateModelCardResponse,
   CreateModelCardError,
   Credentials | HttpClient.HttpClient
@@ -18605,7 +18606,7 @@ export type CreateModelCardExportJobError =
  * Creates an Amazon SageMaker Model Card export job.
  */
 export const createModelCardExportJob: API.OperationMethod<
-  CreateModelCardExportJobRequest,
+  CreateModelCardExportJobRequest & RegionInput,
   CreateModelCardExportJobResponse,
   CreateModelCardExportJobError,
   Credentials | HttpClient.HttpClient
@@ -18628,7 +18629,7 @@ export type CreateModelExplainabilityJobDefinitionError =
  * Creates the definition for a model explainability job.
  */
 export const createModelExplainabilityJobDefinition: API.OperationMethod<
-  CreateModelExplainabilityJobDefinitionRequest,
+  CreateModelExplainabilityJobDefinitionRequest & RegionInput,
   CreateModelExplainabilityJobDefinitionResponse,
   CreateModelExplainabilityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -18656,7 +18657,7 @@ export type CreateModelPackageError = ConflictException | ResourceLimitExceeded 
  * - Unversioned - a model package that is not part of a model group.
  */
 export const createModelPackage: API.OperationMethod<
-  CreateModelPackageInput,
+  CreateModelPackageInput & RegionInput,
   CreateModelPackageOutput,
   CreateModelPackageError,
   Credentials | HttpClient.HttpClient
@@ -18676,7 +18677,7 @@ export type CreateModelPackageGroupError = ResourceLimitExceeded | CommonErrors;
  * Creates a model group. A model group contains a group of model versions.
  */
 export const createModelPackageGroup: API.OperationMethod<
-  CreateModelPackageGroupInput,
+  CreateModelPackageGroupInput & RegionInput,
   CreateModelPackageGroupOutput,
   CreateModelPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -18699,7 +18700,7 @@ export type CreateModelQualityJobDefinitionError =
  * Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
 export const createModelQualityJobDefinition: API.OperationMethod<
-  CreateModelQualityJobDefinitionRequest,
+  CreateModelQualityJobDefinitionRequest & RegionInput,
   CreateModelQualityJobDefinitionResponse,
   CreateModelQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -18719,7 +18720,7 @@ export type CreateMonitoringScheduleError = ResourceInUse | ResourceLimitExceede
  * Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
  */
 export const createMonitoringSchedule: API.OperationMethod<
-  CreateMonitoringScheduleRequest,
+  CreateMonitoringScheduleRequest & RegionInput,
   CreateMonitoringScheduleResponse,
   CreateMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -18757,7 +18758,7 @@ export type CreateNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
  * For more information, see How It Works.
  */
 export const createNotebookInstance: API.OperationMethod<
-  CreateNotebookInstanceInput,
+  CreateNotebookInstanceInput & RegionInput,
   CreateNotebookInstanceOutput,
   CreateNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -18789,7 +18790,7 @@ export type CreateNotebookInstanceLifecycleConfigError = ResourceLimitExceeded |
  * Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const createNotebookInstanceLifecycleConfig: API.OperationMethod<
-  CreateNotebookInstanceLifecycleConfigInput,
+  CreateNotebookInstanceLifecycleConfigInput & RegionInput,
   CreateNotebookInstanceLifecycleConfigOutput,
   CreateNotebookInstanceLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -18811,7 +18812,7 @@ export type CreateOptimizationJobError = ResourceInUse | ResourceLimitExceeded |
  * For more information about how to use this action, and about the supported optimization techniques, see Optimize model inference with Amazon SageMaker.
  */
 export const createOptimizationJob: API.OperationMethod<
-  CreateOptimizationJobRequest,
+  CreateOptimizationJobRequest & RegionInput,
   CreateOptimizationJobResponse,
   CreateOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -18831,7 +18832,7 @@ export type CreatePartnerAppError = ConflictException | ResourceLimitExceeded | 
  * Creates an Amazon SageMaker Partner AI App.
  */
 export const createPartnerApp: API.OperationMethod<
-  CreatePartnerAppRequest,
+  CreatePartnerAppRequest & RegionInput,
   CreatePartnerAppResponse,
   CreatePartnerAppError,
   Credentials | HttpClient.HttpClient
@@ -18851,7 +18852,7 @@ export type CreatePartnerAppPresignedUrlError = ResourceNotFound | CommonErrors;
  * Creates a presigned URL to access an Amazon SageMaker Partner AI App.
  */
 export const createPartnerAppPresignedUrl: API.OperationMethod<
-  CreatePartnerAppPresignedUrlRequest,
+  CreatePartnerAppPresignedUrlRequest & RegionInput,
   CreatePartnerAppPresignedUrlResponse,
   CreatePartnerAppPresignedUrlError,
   Credentials | HttpClient.HttpClient
@@ -18875,7 +18876,7 @@ export type CreatePipelineError =
  * Creates a pipeline using a JSON pipeline definition.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
+  CreatePipelineRequest & RegionInput,
   CreatePipelineResponse,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -18903,7 +18904,7 @@ export type CreatePresignedDomainUrlError = ResourceNotFound | CommonErrors;
  * - The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
  */
 export const createPresignedDomainUrl: API.OperationMethod<
-  CreatePresignedDomainUrlRequest,
+  CreatePresignedDomainUrlRequest & RegionInput,
   CreatePresignedDomainUrlResponse,
   CreatePresignedDomainUrlError,
   Credentials | HttpClient.HttpClient
@@ -18923,7 +18924,7 @@ export type CreatePresignedMlflowAppUrlError = ResourceNotFound | CommonErrors;
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
  */
 export const createPresignedMlflowAppUrl: API.OperationMethod<
-  CreatePresignedMlflowAppUrlRequest,
+  CreatePresignedMlflowAppUrlRequest & RegionInput,
   CreatePresignedMlflowAppUrlResponse,
   CreatePresignedMlflowAppUrlError,
   Credentials | HttpClient.HttpClient
@@ -18943,7 +18944,7 @@ export type CreatePresignedMlflowTrackingServerUrlError = ResourceNotFound | Com
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
  */
 export const createPresignedMlflowTrackingServerUrl: API.OperationMethod<
-  CreatePresignedMlflowTrackingServerUrlRequest,
+  CreatePresignedMlflowTrackingServerUrlRequest & RegionInput,
   CreatePresignedMlflowTrackingServerUrlResponse,
   CreatePresignedMlflowTrackingServerUrlError,
   Credentials | HttpClient.HttpClient
@@ -18969,7 +18970,7 @@ export type CreatePresignedNotebookInstanceUrlError = CommonErrors;
  * The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
  */
 export const createPresignedNotebookInstanceUrl: API.OperationMethod<
-  CreatePresignedNotebookInstanceUrlInput,
+  CreatePresignedNotebookInstanceUrlInput & RegionInput,
   CreatePresignedNotebookInstanceUrlOutput,
   CreatePresignedNotebookInstanceUrlError,
   Credentials | HttpClient.HttpClient
@@ -18993,7 +18994,7 @@ export type CreateProcessingJobError =
  * Creates a processing job.
  */
 export const createProcessingJob: API.OperationMethod<
-  CreateProcessingJobRequest,
+  CreateProcessingJobRequest & RegionInput,
   CreateProcessingJobResponse,
   CreateProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -19013,7 +19014,7 @@ export type CreateProjectError = ResourceLimitExceeded | CommonErrors;
  * Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectInput,
+  CreateProjectInput & RegionInput,
   CreateProjectOutput,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -19033,7 +19034,7 @@ export type CreateSpaceError = ResourceInUse | ResourceLimitExceeded | CommonErr
  * Creates a private space or a space used for real time collaboration in a domain.
  */
 export const createSpace: API.OperationMethod<
-  CreateSpaceRequest,
+  CreateSpaceRequest & RegionInput,
   CreateSpaceResponse,
   CreateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -19053,7 +19054,7 @@ export type CreateStudioLifecycleConfigError = ResourceInUse | CommonErrors;
  * Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
  */
 export const createStudioLifecycleConfig: API.OperationMethod<
-  CreateStudioLifecycleConfigRequest,
+  CreateStudioLifecycleConfigRequest & RegionInput,
   CreateStudioLifecycleConfigResponse,
   CreateStudioLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -19107,7 +19108,7 @@ export type CreateTrainingJobError =
  * For more information about SageMaker, see How It Works.
  */
 export const createTrainingJob: API.OperationMethod<
-  CreateTrainingJobRequest,
+  CreateTrainingJobRequest & RegionInput,
   CreateTrainingJobResponse,
   CreateTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -19161,7 +19162,7 @@ export type CreateTrainingPlanError =
  * A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see ` ReservedCapacitySummary `.
  */
 export const createTrainingPlan: API.OperationMethod<
-  CreateTrainingPlanRequest,
+  CreateTrainingPlanRequest & RegionInput,
   CreateTrainingPlanResponse,
   CreateTrainingPlanError,
   Credentials | HttpClient.HttpClient
@@ -19235,7 +19236,7 @@ export type CreateTransformJobError =
  * For more information about how batch transformation works, see Batch Transform.
  */
 export const createTransformJob: API.OperationMethod<
-  CreateTransformJobRequest,
+  CreateTransformJobRequest & RegionInput,
   CreateTransformJobResponse,
   CreateTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -19261,7 +19262,7 @@ export type CreateTrialError = ResourceLimitExceeded | ResourceNotFound | Common
  * To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
  */
 export const createTrial: API.OperationMethod<
-  CreateTrialRequest,
+  CreateTrialRequest & RegionInput,
   CreateTrialResponse,
   CreateTrialError,
   Credentials | HttpClient.HttpClient
@@ -19287,7 +19288,7 @@ export type CreateTrialComponentError = ResourceLimitExceeded | CommonErrors;
  * You can add tags to a trial component and then use the Search API to search for the tags.
  */
 export const createTrialComponent: API.OperationMethod<
-  CreateTrialComponentRequest,
+  CreateTrialComponentRequest & RegionInput,
   CreateTrialComponentResponse,
   CreateTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -19307,7 +19308,7 @@ export type CreateUserProfileError = ResourceInUse | ResourceLimitExceeded | Com
  * Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
  */
 export const createUserProfile: API.OperationMethod<
-  CreateUserProfileRequest,
+  CreateUserProfileRequest & RegionInput,
   CreateUserProfileResponse,
   CreateUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -19333,7 +19334,7 @@ export type CreateWorkforceError = CommonErrors;
  * To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in `OidcConfig`. Your OIDC IdP must support *groups* because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see Create a Private Workforce (OIDC IdP).
  */
 export const createWorkforce: API.OperationMethod<
-  CreateWorkforceRequest,
+  CreateWorkforceRequest & RegionInput,
   CreateWorkforceResponse,
   CreateWorkforceError,
   Credentials | HttpClient.HttpClient
@@ -19355,7 +19356,7 @@ export type CreateWorkteamError = ResourceInUse | ResourceLimitExceeded | Common
  * You cannot create more than 25 work teams in an account and region.
  */
 export const createWorkteam: API.OperationMethod<
-  CreateWorkteamRequest,
+  CreateWorkteamRequest & RegionInput,
   CreateWorkteamResponse,
   CreateWorkteamError,
   Credentials | HttpClient.HttpClient
@@ -19375,7 +19376,7 @@ export type DeleteActionError = ResourceNotFound | CommonErrors;
  * Deletes an action.
  */
 export const deleteAction: API.OperationMethod<
-  DeleteActionRequest,
+  DeleteActionRequest & RegionInput,
   DeleteActionResponse,
   DeleteActionError,
   Credentials | HttpClient.HttpClient
@@ -19395,7 +19396,7 @@ export type DeleteAIBenchmarkJobError = ResourceNotFound | CommonErrors;
  * Deletes the specified AI benchmark job.
  */
 export const deleteAIBenchmarkJob: API.OperationMethod<
-  DeleteAIBenchmarkJobRequest,
+  DeleteAIBenchmarkJobRequest & RegionInput,
   DeleteAIBenchmarkJobResponse,
   DeleteAIBenchmarkJobError,
   Credentials | HttpClient.HttpClient
@@ -19415,7 +19416,7 @@ export type DeleteAIRecommendationJobError = ResourceNotFound | CommonErrors;
  * Deletes the specified AI recommendation job.
  */
 export const deleteAIRecommendationJob: API.OperationMethod<
-  DeleteAIRecommendationJobRequest,
+  DeleteAIRecommendationJobRequest & RegionInput,
   DeleteAIRecommendationJobResponse,
   DeleteAIRecommendationJobError,
   Credentials | HttpClient.HttpClient
@@ -19435,7 +19436,7 @@ export type DeleteAIWorkloadConfigError = ResourceInUse | ResourceNotFound | Com
  * Deletes the specified AI workload configuration. You cannot delete a configuration that is referenced by an active benchmark job.
  */
 export const deleteAIWorkloadConfig: API.OperationMethod<
-  DeleteAIWorkloadConfigRequest,
+  DeleteAIWorkloadConfigRequest & RegionInput,
   DeleteAIWorkloadConfigResponse,
   DeleteAIWorkloadConfigError,
   Credentials | HttpClient.HttpClient
@@ -19455,7 +19456,7 @@ export type DeleteAlgorithmError = ConflictException | CommonErrors;
  * Removes the specified algorithm from your account.
  */
 export const deleteAlgorithm: API.OperationMethod<
-  DeleteAlgorithmInput,
+  DeleteAlgorithmInput & RegionInput,
   DeleteAlgorithmResponse,
   DeleteAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -19475,7 +19476,7 @@ export type DeleteAppError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Used to stop and delete an app.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -19495,7 +19496,7 @@ export type DeleteAppImageConfigError = ResourceNotFound | CommonErrors;
  * Deletes an AppImageConfig.
  */
 export const deleteAppImageConfig: API.OperationMethod<
-  DeleteAppImageConfigRequest,
+  DeleteAppImageConfigRequest & RegionInput,
   DeleteAppImageConfigResponse,
   DeleteAppImageConfigError,
   Credentials | HttpClient.HttpClient
@@ -19515,7 +19516,7 @@ export type DeleteArtifactError = ResourceNotFound | CommonErrors;
  * Deletes an artifact. Either `ArtifactArn` or `Source` must be specified.
  */
 export const deleteArtifact: API.OperationMethod<
-  DeleteArtifactRequest,
+  DeleteArtifactRequest & RegionInput,
   DeleteArtifactResponse,
   DeleteArtifactError,
   Credentials | HttpClient.HttpClient
@@ -19535,7 +19536,7 @@ export type DeleteAssociationError = ResourceNotFound | CommonErrors;
  * Deletes an association.
  */
 export const deleteAssociation: API.OperationMethod<
-  DeleteAssociationRequest,
+  DeleteAssociationRequest & RegionInput,
   DeleteAssociationResponse,
   DeleteAssociationError,
   Credentials | HttpClient.HttpClient
@@ -19555,7 +19556,7 @@ export type DeleteClusterError = ConflictException | ResourceNotFound | CommonEr
  * Delete a SageMaker HyperPod cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -19575,7 +19576,7 @@ export type DeleteClusterSchedulerConfigError = ResourceNotFound | CommonErrors;
  * Deletes the cluster policy of the cluster.
  */
 export const deleteClusterSchedulerConfig: API.OperationMethod<
-  DeleteClusterSchedulerConfigRequest,
+  DeleteClusterSchedulerConfigRequest & RegionInput,
   DeleteClusterSchedulerConfigResponse,
   DeleteClusterSchedulerConfigError,
   Credentials | HttpClient.HttpClient
@@ -19595,7 +19596,7 @@ export type DeleteCodeRepositoryError = CommonErrors;
  * Deletes the specified Git repository from your account.
  */
 export const deleteCodeRepository: API.OperationMethod<
-  DeleteCodeRepositoryInput,
+  DeleteCodeRepositoryInput & RegionInput,
   DeleteCodeRepositoryResponse,
   DeleteCodeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -19617,7 +19618,7 @@ export type DeleteCompilationJobError = ResourceNotFound | CommonErrors;
  * You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it after its status becomes `STOPPED`.
  */
 export const deleteCompilationJob: API.OperationMethod<
-  DeleteCompilationJobRequest,
+  DeleteCompilationJobRequest & RegionInput,
   DeleteCompilationJobResponse,
   DeleteCompilationJobError,
   Credentials | HttpClient.HttpClient
@@ -19637,7 +19638,7 @@ export type DeleteComputeQuotaError = ResourceNotFound | CommonErrors;
  * Deletes the compute allocation from the cluster.
  */
 export const deleteComputeQuota: API.OperationMethod<
-  DeleteComputeQuotaRequest,
+  DeleteComputeQuotaRequest & RegionInput,
   DeleteComputeQuotaResponse,
   DeleteComputeQuotaError,
   Credentials | HttpClient.HttpClient
@@ -19657,7 +19658,7 @@ export type DeleteContextError = ResourceNotFound | CommonErrors;
  * Deletes an context.
  */
 export const deleteContext: API.OperationMethod<
-  DeleteContextRequest,
+  DeleteContextRequest & RegionInput,
   DeleteContextResponse,
   DeleteContextError,
   Credentials | HttpClient.HttpClient
@@ -19677,7 +19678,7 @@ export type DeleteDataQualityJobDefinitionError = ResourceNotFound | CommonError
  * Deletes a data quality monitoring job definition.
  */
 export const deleteDataQualityJobDefinition: API.OperationMethod<
-  DeleteDataQualityJobDefinitionRequest,
+  DeleteDataQualityJobDefinitionRequest & RegionInput,
   DeleteDataQualityJobDefinitionResponse,
   DeleteDataQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -19697,7 +19698,7 @@ export type DeleteDeviceFleetError = ResourceInUse | CommonErrors;
  * Deletes a fleet.
  */
 export const deleteDeviceFleet: API.OperationMethod<
-  DeleteDeviceFleetRequest,
+  DeleteDeviceFleetRequest & RegionInput,
   DeleteDeviceFleetResponse,
   DeleteDeviceFleetError,
   Credentials | HttpClient.HttpClient
@@ -19717,7 +19718,7 @@ export type DeleteDomainError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -19737,7 +19738,7 @@ export type DeleteEdgeDeploymentPlanError = ResourceInUse | CommonErrors;
  * Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
  */
 export const deleteEdgeDeploymentPlan: API.OperationMethod<
-  DeleteEdgeDeploymentPlanRequest,
+  DeleteEdgeDeploymentPlanRequest & RegionInput,
   DeleteEdgeDeploymentPlanResponse,
   DeleteEdgeDeploymentPlanError,
   Credentials | HttpClient.HttpClient
@@ -19757,7 +19758,7 @@ export type DeleteEdgeDeploymentStageError = ResourceInUse | CommonErrors;
  * Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
  */
 export const deleteEdgeDeploymentStage: API.OperationMethod<
-  DeleteEdgeDeploymentStageRequest,
+  DeleteEdgeDeploymentStageRequest & RegionInput,
   DeleteEdgeDeploymentStageResponse,
   DeleteEdgeDeploymentStageError,
   Credentials | HttpClient.HttpClient
@@ -19781,7 +19782,7 @@ export type DeleteEndpointError = EndpointNotFound | CommonErrors;
  * When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions for your ` ExecutionRoleArn `, otherwise SageMaker cannot delete these resources.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointInput,
+  DeleteEndpointInput & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -19803,7 +19804,7 @@ export type DeleteEndpointConfigError = EndpointConfigNotFound | CommonErrors;
  * You must not delete an `EndpointConfig` in use by an endpoint that is live or while the `UpdateEndpoint` or `CreateEndpoint` operations are being performed on the endpoint. If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
 export const deleteEndpointConfig: API.OperationMethod<
-  DeleteEndpointConfigInput,
+  DeleteEndpointConfigInput & RegionInput,
   DeleteEndpointConfigResponse,
   DeleteEndpointConfigError,
   Credentials | HttpClient.HttpClient
@@ -19823,7 +19824,7 @@ export type DeleteExperimentError = ResourceNotFound | CommonErrors;
  * Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment.
  */
 export const deleteExperiment: API.OperationMethod<
-  DeleteExperimentRequest,
+  DeleteExperimentRequest & RegionInput,
   DeleteExperimentResponse,
   DeleteExperimentError,
   Credentials | HttpClient.HttpClient
@@ -19847,7 +19848,7 @@ export type DeleteFeatureGroupError = ResourceNotFound | CommonErrors;
  * Note that it can take approximately 10-15 minutes to delete an `OnlineStore` `FeatureGroup` with the `InMemory` `StorageType`.
  */
 export const deleteFeatureGroup: API.OperationMethod<
-  DeleteFeatureGroupRequest,
+  DeleteFeatureGroupRequest & RegionInput,
   DeleteFeatureGroupResponse,
   DeleteFeatureGroupError,
   Credentials | HttpClient.HttpClient
@@ -19867,7 +19868,7 @@ export type DeleteFlowDefinitionError = ResourceInUse | ResourceNotFound | Commo
  * Deletes the specified flow definition.
  */
 export const deleteFlowDefinition: API.OperationMethod<
-  DeleteFlowDefinitionRequest,
+  DeleteFlowDefinitionRequest & RegionInput,
   DeleteFlowDefinitionResponse,
   DeleteFlowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -19887,7 +19888,7 @@ export type DeleteHubError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Delete a hub.
  */
 export const deleteHub: API.OperationMethod<
-  DeleteHubRequest,
+  DeleteHubRequest & RegionInput,
   DeleteHubResponse,
   DeleteHubError,
   Credentials | HttpClient.HttpClient
@@ -19907,7 +19908,7 @@ export type DeleteHubContentError = ResourceInUse | ResourceNotFound | CommonErr
  * Delete the contents of a hub.
  */
 export const deleteHubContent: API.OperationMethod<
-  DeleteHubContentRequest,
+  DeleteHubContentRequest & RegionInput,
   DeleteHubContentResponse,
   DeleteHubContentError,
   Credentials | HttpClient.HttpClient
@@ -19927,7 +19928,7 @@ export type DeleteHubContentReferenceError = ResourceNotFound | CommonErrors;
  * Delete a hub content reference in order to remove a model from a private hub.
  */
 export const deleteHubContentReference: API.OperationMethod<
-  DeleteHubContentReferenceRequest,
+  DeleteHubContentReferenceRequest & RegionInput,
   DeleteHubContentReferenceResponse,
   DeleteHubContentReferenceError,
   Credentials | HttpClient.HttpClient
@@ -19949,7 +19950,7 @@ export type DeleteHumanTaskUiError = ResourceNotFound | CommonErrors;
  * To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis. When you delete a worker task template, it no longer appears when you call `ListHumanTaskUis`.
  */
 export const deleteHumanTaskUi: API.OperationMethod<
-  DeleteHumanTaskUiRequest,
+  DeleteHumanTaskUiRequest & RegionInput,
   DeleteHumanTaskUiResponse,
   DeleteHumanTaskUiError,
   Credentials | HttpClient.HttpClient
@@ -19969,7 +19970,7 @@ export type DeleteHyperParameterTuningJobError = CommonErrors;
  * Deletes a hyperparameter tuning job. The `DeleteHyperParameterTuningJob` API deletes only the tuning job entry that was created in SageMaker when you called the `CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model.
  */
 export const deleteHyperParameterTuningJob: API.OperationMethod<
-  DeleteHyperParameterTuningJobRequest,
+  DeleteHyperParameterTuningJobRequest & RegionInput,
   DeleteHyperParameterTuningJobResponse,
   DeleteHyperParameterTuningJobError,
   Credentials | HttpClient.HttpClient
@@ -19989,7 +19990,7 @@ export type DeleteImageError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResponse,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -20009,7 +20010,7 @@ export type DeleteImageVersionError = ResourceInUse | ResourceNotFound | CommonE
  * Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
  */
 export const deleteImageVersion: API.OperationMethod<
-  DeleteImageVersionRequest,
+  DeleteImageVersionRequest & RegionInput,
   DeleteImageVersionResponse,
   DeleteImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -20029,7 +20030,7 @@ export type DeleteInferenceComponentError = CommonErrors;
  * Deletes an inference component.
  */
 export const deleteInferenceComponent: API.OperationMethod<
-  DeleteInferenceComponentInput,
+  DeleteInferenceComponentInput & RegionInput,
   DeleteInferenceComponentResponse,
   DeleteInferenceComponentError,
   Credentials | HttpClient.HttpClient
@@ -20051,7 +20052,7 @@ export type DeleteInferenceExperimentError = ConflictException | ResourceNotFoun
  * This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
  */
 export const deleteInferenceExperiment: API.OperationMethod<
-  DeleteInferenceExperimentRequest,
+  DeleteInferenceExperimentRequest & RegionInput,
   DeleteInferenceExperimentResponse,
   DeleteInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -20079,7 +20080,7 @@ export type DeleteJobError = ResourceInUse | ResourceNotFound | CommonErrors;
  * - `DescribeJob`
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -20099,7 +20100,7 @@ export type DeleteMlflowAppError = ResourceNotFound | CommonErrors;
  * Deletes an MLflow App.
  */
 export const deleteMlflowApp: API.OperationMethod<
-  DeleteMlflowAppRequest,
+  DeleteMlflowAppRequest & RegionInput,
   DeleteMlflowAppResponse,
   DeleteMlflowAppError,
   Credentials | HttpClient.HttpClient
@@ -20119,7 +20120,7 @@ export type DeleteMlflowTrackingServerError = ResourceNotFound | CommonErrors;
  * Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources.
  */
 export const deleteMlflowTrackingServer: API.OperationMethod<
-  DeleteMlflowTrackingServerRequest,
+  DeleteMlflowTrackingServerRequest & RegionInput,
   DeleteMlflowTrackingServerResponse,
   DeleteMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -20139,7 +20140,7 @@ export type DeleteModelError = ModelNotFound | CommonErrors;
  * Deletes a model. The `DeleteModel` API deletes only the model entry that was created in SageMaker when you called the `CreateModel` API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelInput,
+  DeleteModelInput & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -20159,7 +20160,7 @@ export type DeleteModelBiasJobDefinitionError = ResourceNotFound | CommonErrors;
  * Deletes an Amazon SageMaker AI model bias job definition.
  */
 export const deleteModelBiasJobDefinition: API.OperationMethod<
-  DeleteModelBiasJobDefinitionRequest,
+  DeleteModelBiasJobDefinitionRequest & RegionInput,
   DeleteModelBiasJobDefinitionResponse,
   DeleteModelBiasJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -20179,7 +20180,7 @@ export type DeleteModelCardError = ConflictException | ResourceNotFound | Common
  * Deletes an Amazon SageMaker Model Card.
  */
 export const deleteModelCard: API.OperationMethod<
-  DeleteModelCardRequest,
+  DeleteModelCardRequest & RegionInput,
   DeleteModelCardResponse,
   DeleteModelCardError,
   Credentials | HttpClient.HttpClient
@@ -20199,7 +20200,7 @@ export type DeleteModelExplainabilityJobDefinitionError = ResourceNotFound | Com
  * Deletes an Amazon SageMaker AI model explainability job definition.
  */
 export const deleteModelExplainabilityJobDefinition: API.OperationMethod<
-  DeleteModelExplainabilityJobDefinitionRequest,
+  DeleteModelExplainabilityJobDefinitionRequest & RegionInput,
   DeleteModelExplainabilityJobDefinitionResponse,
   DeleteModelExplainabilityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -20221,7 +20222,7 @@ export type DeleteModelPackageError = ConflictException | CommonErrors;
  * A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
  */
 export const deleteModelPackage: API.OperationMethod<
-  DeleteModelPackageInput,
+  DeleteModelPackageInput & RegionInput,
   DeleteModelPackageResponse,
   DeleteModelPackageError,
   Credentials | HttpClient.HttpClient
@@ -20241,7 +20242,7 @@ export type DeleteModelPackageGroupError = ConflictException | CommonErrors;
  * Deletes the specified model group.
  */
 export const deleteModelPackageGroup: API.OperationMethod<
-  DeleteModelPackageGroupInput,
+  DeleteModelPackageGroupInput & RegionInput,
   DeleteModelPackageGroupResponse,
   DeleteModelPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -20261,7 +20262,7 @@ export type DeleteModelPackageGroupPolicyError = CommonErrors;
  * Deletes a model group resource policy.
  */
 export const deleteModelPackageGroupPolicy: API.OperationMethod<
-  DeleteModelPackageGroupPolicyInput,
+  DeleteModelPackageGroupPolicyInput & RegionInput,
   DeleteModelPackageGroupPolicyResponse,
   DeleteModelPackageGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -20281,7 +20282,7 @@ export type DeleteModelQualityJobDefinitionError = ResourceNotFound | CommonErro
  * Deletes the secified model quality monitoring job definition.
  */
 export const deleteModelQualityJobDefinition: API.OperationMethod<
-  DeleteModelQualityJobDefinitionRequest,
+  DeleteModelQualityJobDefinitionRequest & RegionInput,
   DeleteModelQualityJobDefinitionResponse,
   DeleteModelQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -20301,7 +20302,7 @@ export type DeleteMonitoringScheduleError = ResourceNotFound | CommonErrors;
  * Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
  */
 export const deleteMonitoringSchedule: API.OperationMethod<
-  DeleteMonitoringScheduleRequest,
+  DeleteMonitoringScheduleRequest & RegionInput,
   DeleteMonitoringScheduleResponse,
   DeleteMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -20323,7 +20324,7 @@ export type DeleteNotebookInstanceError = CommonErrors;
  * When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
  */
 export const deleteNotebookInstance: API.OperationMethod<
-  DeleteNotebookInstanceInput,
+  DeleteNotebookInstanceInput & RegionInput,
   DeleteNotebookInstanceResponse,
   DeleteNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -20343,7 +20344,7 @@ export type DeleteNotebookInstanceLifecycleConfigError = CommonErrors;
  * Deletes a notebook instance lifecycle configuration.
  */
 export const deleteNotebookInstanceLifecycleConfig: API.OperationMethod<
-  DeleteNotebookInstanceLifecycleConfigInput,
+  DeleteNotebookInstanceLifecycleConfigInput & RegionInput,
   DeleteNotebookInstanceLifecycleConfigResponse,
   DeleteNotebookInstanceLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -20363,7 +20364,7 @@ export type DeleteOptimizationJobError = ResourceNotFound | CommonErrors;
  * Deletes an optimization job.
  */
 export const deleteOptimizationJob: API.OperationMethod<
-  DeleteOptimizationJobRequest,
+  DeleteOptimizationJobRequest & RegionInput,
   DeleteOptimizationJobResponse,
   DeleteOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -20383,7 +20384,7 @@ export type DeletePartnerAppError = ConflictException | ResourceNotFound | Commo
  * Deletes a SageMaker Partner AI App.
  */
 export const deletePartnerApp: API.OperationMethod<
-  DeletePartnerAppRequest,
+  DeletePartnerAppRequest & RegionInput,
   DeletePartnerAppResponse,
   DeletePartnerAppError,
   Credentials | HttpClient.HttpClient
@@ -20403,7 +20404,7 @@ export type DeletePipelineError = ConflictException | ResourceNotFound | CommonE
  * Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the `StopPipelineExecution` API. When you delete a pipeline, all instances of the pipeline are deleted.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineRequest,
+  DeletePipelineRequest & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -20423,7 +20424,7 @@ export type DeleteProcessingJobError = ResourceInUse | ResourceNotFound | Common
  * Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another processing job.
  */
 export const deleteProcessingJob: API.OperationMethod<
-  DeleteProcessingJobRequest,
+  DeleteProcessingJobRequest & RegionInput,
   DeleteProcessingJobResponse,
   DeleteProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -20443,7 +20444,7 @@ export type DeleteProjectError = ConflictException | CommonErrors;
  * Delete the specified project.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectInput,
+  DeleteProjectInput & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -20463,7 +20464,7 @@ export type DeleteSpaceError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Used to delete a space.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceRequest,
+  DeleteSpaceRequest & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -20483,7 +20484,7 @@ export type DeleteStudioLifecycleConfigError = ResourceInUse | ResourceNotFound 
  * Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
  */
 export const deleteStudioLifecycleConfig: API.OperationMethod<
-  DeleteStudioLifecycleConfigRequest,
+  DeleteStudioLifecycleConfigRequest & RegionInput,
   DeleteStudioLifecycleConfigResponse,
   DeleteStudioLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -20509,7 +20510,7 @@ export type DeleteTagsError = CommonErrors;
  * When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you called this API.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsInput,
+  DeleteTagsInput & RegionInput,
   DeleteTagsOutput,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -20529,7 +20530,7 @@ export type DeleteTrainingJobError = ResourceInUse | ResourceNotFound | CommonEr
  * Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` managed warm pool. You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another training job.
  */
 export const deleteTrainingJob: API.OperationMethod<
-  DeleteTrainingJobRequest,
+  DeleteTrainingJobRequest & RegionInput,
   DeleteTrainingJobResponse,
   DeleteTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -20577,7 +20578,7 @@ export type DeleteTrialError = ResourceNotFound | CommonErrors;
  * Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
  */
 export const deleteTrial: API.OperationMethod<
-  DeleteTrialRequest,
+  DeleteTrialRequest & RegionInput,
   DeleteTrialResponse,
   DeleteTrialError,
   Credentials | HttpClient.HttpClient
@@ -20597,7 +20598,7 @@ export type DeleteTrialComponentError = ResourceNotFound | CommonErrors;
  * Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
 export const deleteTrialComponent: API.OperationMethod<
-  DeleteTrialComponentRequest,
+  DeleteTrialComponentRequest & RegionInput,
   DeleteTrialComponentResponse,
   DeleteTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -20617,7 +20618,7 @@ export type DeleteUserProfileError = ResourceInUse | ResourceNotFound | CommonEr
  * Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
  */
 export const deleteUserProfile: API.OperationMethod<
-  DeleteUserProfileRequest,
+  DeleteUserProfileRequest & RegionInput,
   DeleteUserProfileResponse,
   DeleteUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -20641,7 +20642,7 @@ export type DeleteWorkforceError = CommonErrors;
  * If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will receive a `ResourceInUse` error.
  */
 export const deleteWorkforce: API.OperationMethod<
-  DeleteWorkforceRequest,
+  DeleteWorkforceRequest & RegionInput,
   DeleteWorkforceResponse,
   DeleteWorkforceError,
   Credentials | HttpClient.HttpClient
@@ -20661,7 +20662,7 @@ export type DeleteWorkteamError = ResourceLimitExceeded | CommonErrors;
  * Deletes an existing work team. This operation can't be undone.
  */
 export const deleteWorkteam: API.OperationMethod<
-  DeleteWorkteamRequest,
+  DeleteWorkteamRequest & RegionInput,
   DeleteWorkteamResponse,
   DeleteWorkteamError,
   Credentials | HttpClient.HttpClient
@@ -20681,7 +20682,7 @@ export type DeregisterDevicesError = CommonErrors;
  * Deregisters the specified devices. After you deregister a device, you will need to re-register the devices.
  */
 export const deregisterDevices: API.OperationMethod<
-  DeregisterDevicesRequest,
+  DeregisterDevicesRequest & RegionInput,
   DeregisterDevicesResponse,
   DeregisterDevicesError,
   Credentials | HttpClient.HttpClient
@@ -20701,7 +20702,7 @@ export type DescribeActionError = ResourceNotFound | CommonErrors;
  * Describes an action.
  */
 export const describeAction: API.OperationMethod<
-  DescribeActionRequest,
+  DescribeActionRequest & RegionInput,
   DescribeActionResponse,
   DescribeActionError,
   Credentials | HttpClient.HttpClient
@@ -20721,7 +20722,7 @@ export type DescribeAIBenchmarkJobError = ResourceNotFound | CommonErrors;
  * Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information.
  */
 export const describeAIBenchmarkJob: API.OperationMethod<
-  DescribeAIBenchmarkJobRequest,
+  DescribeAIBenchmarkJobRequest & RegionInput,
   DescribeAIBenchmarkJobResponse,
   DescribeAIBenchmarkJobError,
   Credentials | HttpClient.HttpClient
@@ -20741,7 +20742,7 @@ export type DescribeAIRecommendationJobError = ResourceNotFound | CommonErrors;
  * Returns details of an AI recommendation job, including its status, model source, performance targets, optimization recommendations, and deployment configurations.
  */
 export const describeAIRecommendationJob: API.OperationMethod<
-  DescribeAIRecommendationJobRequest,
+  DescribeAIRecommendationJobRequest & RegionInput,
   DescribeAIRecommendationJobResponse,
   DescribeAIRecommendationJobError,
   Credentials | HttpClient.HttpClient
@@ -20761,7 +20762,7 @@ export type DescribeAIWorkloadConfigError = ResourceNotFound | CommonErrors;
  * Returns details of an AI workload configuration, including the dataset configuration, benchmark tool settings, tags, and creation time.
  */
 export const describeAIWorkloadConfig: API.OperationMethod<
-  DescribeAIWorkloadConfigRequest,
+  DescribeAIWorkloadConfigRequest & RegionInput,
   DescribeAIWorkloadConfigResponse,
   DescribeAIWorkloadConfigError,
   Credentials | HttpClient.HttpClient
@@ -20781,7 +20782,7 @@ export type DescribeAlgorithmError = CommonErrors;
  * Returns a description of the specified algorithm that is in your account.
  */
 export const describeAlgorithm: API.OperationMethod<
-  DescribeAlgorithmInput,
+  DescribeAlgorithmInput & RegionInput,
   DescribeAlgorithmOutput,
   DescribeAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -20801,7 +20802,7 @@ export type DescribeAppError = ResourceNotFound | CommonErrors;
  * Describes the app.
  */
 export const describeApp: API.OperationMethod<
-  DescribeAppRequest,
+  DescribeAppRequest & RegionInput,
   DescribeAppResponse,
   DescribeAppError,
   Credentials | HttpClient.HttpClient
@@ -20821,7 +20822,7 @@ export type DescribeAppImageConfigError = ResourceNotFound | CommonErrors;
  * Describes an AppImageConfig.
  */
 export const describeAppImageConfig: API.OperationMethod<
-  DescribeAppImageConfigRequest,
+  DescribeAppImageConfigRequest & RegionInput,
   DescribeAppImageConfigResponse,
   DescribeAppImageConfigError,
   Credentials | HttpClient.HttpClient
@@ -20841,7 +20842,7 @@ export type DescribeArtifactError = ResourceNotFound | CommonErrors;
  * Describes an artifact.
  */
 export const describeArtifact: API.OperationMethod<
-  DescribeArtifactRequest,
+  DescribeArtifactRequest & RegionInput,
   DescribeArtifactResponse,
   DescribeArtifactError,
   Credentials | HttpClient.HttpClient
@@ -20863,7 +20864,7 @@ export type DescribeAutoMLJobError = ResourceNotFound | CommonErrors;
  * AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by `DescribeAutoMLJob`.
  */
 export const describeAutoMLJob: API.OperationMethod<
-  DescribeAutoMLJobRequest,
+  DescribeAutoMLJobRequest & RegionInput,
   DescribeAutoMLJobResponse,
   DescribeAutoMLJobError,
   Credentials | HttpClient.HttpClient
@@ -20883,7 +20884,7 @@ export type DescribeAutoMLJobV2Error = ResourceNotFound | CommonErrors;
  * Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob.
  */
 export const describeAutoMLJobV2: API.OperationMethod<
-  DescribeAutoMLJobV2Request,
+  DescribeAutoMLJobV2Request & RegionInput,
   DescribeAutoMLJobV2Response,
   DescribeAutoMLJobV2Error,
   Credentials | HttpClient.HttpClient
@@ -20903,7 +20904,7 @@ export type DescribeClusterError = ResourceNotFound | CommonErrors;
  * Retrieves information of a SageMaker HyperPod cluster.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -20923,7 +20924,7 @@ export type DescribeClusterEventError = ResourceNotFound | CommonErrors;
  * Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
 export const describeClusterEvent: API.OperationMethod<
-  DescribeClusterEventRequest,
+  DescribeClusterEventRequest & RegionInput,
   DescribeClusterEventResponse,
   DescribeClusterEventError,
   Credentials | HttpClient.HttpClient
@@ -20943,7 +20944,7 @@ export type DescribeClusterNodeError = ResourceNotFound | CommonErrors;
  * Retrieves information of a node (also called a *instance* interchangeably) of a SageMaker HyperPod cluster.
  */
 export const describeClusterNode: API.OperationMethod<
-  DescribeClusterNodeRequest,
+  DescribeClusterNodeRequest & RegionInput,
   DescribeClusterNodeResponse,
   DescribeClusterNodeError,
   Credentials | HttpClient.HttpClient
@@ -20963,7 +20964,7 @@ export type DescribeClusterSchedulerConfigError = ResourceNotFound | CommonError
  * Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
  */
 export const describeClusterSchedulerConfig: API.OperationMethod<
-  DescribeClusterSchedulerConfigRequest,
+  DescribeClusterSchedulerConfigRequest & RegionInput,
   DescribeClusterSchedulerConfigResponse,
   DescribeClusterSchedulerConfigError,
   Credentials | HttpClient.HttpClient
@@ -20983,7 +20984,7 @@ export type DescribeCodeRepositoryError = CommonErrors;
  * Gets details about the specified Git repository.
  */
 export const describeCodeRepository: API.OperationMethod<
-  DescribeCodeRepositoryInput,
+  DescribeCodeRepositoryInput & RegionInput,
   DescribeCodeRepositoryOutput,
   DescribeCodeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -21005,7 +21006,7 @@ export type DescribeCompilationJobError = ResourceNotFound | CommonErrors;
  * To create a model compilation job, use CreateCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
 export const describeCompilationJob: API.OperationMethod<
-  DescribeCompilationJobRequest,
+  DescribeCompilationJobRequest & RegionInput,
   DescribeCompilationJobResponse,
   DescribeCompilationJobError,
   Credentials | HttpClient.HttpClient
@@ -21025,7 +21026,7 @@ export type DescribeComputeQuotaError = ResourceNotFound | CommonErrors;
  * Description of the compute allocation definition.
  */
 export const describeComputeQuota: API.OperationMethod<
-  DescribeComputeQuotaRequest,
+  DescribeComputeQuotaRequest & RegionInput,
   DescribeComputeQuotaResponse,
   DescribeComputeQuotaError,
   Credentials | HttpClient.HttpClient
@@ -21045,7 +21046,7 @@ export type DescribeContextError = ResourceNotFound | CommonErrors;
  * Describes a context.
  */
 export const describeContext: API.OperationMethod<
-  DescribeContextRequest,
+  DescribeContextRequest & RegionInput,
   DescribeContextResponse,
   DescribeContextError,
   Credentials | HttpClient.HttpClient
@@ -21065,7 +21066,7 @@ export type DescribeDataQualityJobDefinitionError = ResourceNotFound | CommonErr
  * Gets the details of a data quality monitoring job definition.
  */
 export const describeDataQualityJobDefinition: API.OperationMethod<
-  DescribeDataQualityJobDefinitionRequest,
+  DescribeDataQualityJobDefinitionRequest & RegionInput,
   DescribeDataQualityJobDefinitionResponse,
   DescribeDataQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -21085,7 +21086,7 @@ export type DescribeDeviceError = ResourceNotFound | CommonErrors;
  * Describes the device.
  */
 export const describeDevice: API.OperationMethod<
-  DescribeDeviceRequest,
+  DescribeDeviceRequest & RegionInput,
   DescribeDeviceResponse,
   DescribeDeviceError,
   Credentials | HttpClient.HttpClient
@@ -21105,7 +21106,7 @@ export type DescribeDeviceFleetError = ResourceNotFound | CommonErrors;
  * A description of the fleet the device belongs to.
  */
 export const describeDeviceFleet: API.OperationMethod<
-  DescribeDeviceFleetRequest,
+  DescribeDeviceFleetRequest & RegionInput,
   DescribeDeviceFleetResponse,
   DescribeDeviceFleetError,
   Credentials | HttpClient.HttpClient
@@ -21125,7 +21126,7 @@ export type DescribeDomainError = ResourceNotFound | CommonErrors;
  * The description of the domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -21145,7 +21146,7 @@ export type DescribeEdgeDeploymentPlanError = ResourceNotFound | CommonErrors;
  * Describes an edge deployment plan with deployment status per stage.
  */
 export const describeEdgeDeploymentPlan: API.OperationMethod<
-  DescribeEdgeDeploymentPlanRequest,
+  DescribeEdgeDeploymentPlanRequest & RegionInput,
   DescribeEdgeDeploymentPlanResponse,
   DescribeEdgeDeploymentPlanError,
   Credentials | HttpClient.HttpClient
@@ -21165,7 +21166,7 @@ export type DescribeEdgePackagingJobError = ResourceNotFound | CommonErrors;
  * A description of edge packaging jobs.
  */
 export const describeEdgePackagingJob: API.OperationMethod<
-  DescribeEdgePackagingJobRequest,
+  DescribeEdgePackagingJobRequest & RegionInput,
   DescribeEdgePackagingJobResponse,
   DescribeEdgePackagingJobError,
   Credentials | HttpClient.HttpClient
@@ -21185,7 +21186,7 @@ export type DescribeEndpointError = EndpointNotFound | CommonErrors;
  * Returns the description of an endpoint.
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointInput,
+  DescribeEndpointInput & RegionInput,
   DescribeEndpointOutput,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -21205,7 +21206,7 @@ export type DescribeEndpointConfigError = EndpointConfigNotFound | CommonErrors;
  * Returns the description of an endpoint configuration created using the `CreateEndpointConfig` API.
  */
 export const describeEndpointConfig: API.OperationMethod<
-  DescribeEndpointConfigInput,
+  DescribeEndpointConfigInput & RegionInput,
   DescribeEndpointConfigOutput,
   DescribeEndpointConfigError,
   Credentials | HttpClient.HttpClient
@@ -21225,7 +21226,7 @@ export type DescribeExperimentError = ResourceNotFound | CommonErrors;
  * Provides a list of an experiment's properties.
  */
 export const describeExperiment: API.OperationMethod<
-  DescribeExperimentRequest,
+  DescribeExperimentRequest & RegionInput,
   DescribeExperimentResponse,
   DescribeExperimentError,
   Credentials | HttpClient.HttpClient
@@ -21245,7 +21246,7 @@ export type DescribeFeatureGroupError = ResourceNotFound | CommonErrors;
  * Use this operation to describe a `FeatureGroup`. The response includes information on the creation time, `FeatureGroup` name, the unique identifier for each `FeatureGroup`, and more.
  */
 export const describeFeatureGroup: API.OperationMethod<
-  DescribeFeatureGroupRequest,
+  DescribeFeatureGroupRequest & RegionInput,
   DescribeFeatureGroupResponse,
   DescribeFeatureGroupError,
   Credentials | HttpClient.HttpClient
@@ -21265,7 +21266,7 @@ export type DescribeFeatureMetadataError = ResourceNotFound | CommonErrors;
  * Shows the metadata for a feature within a feature group.
  */
 export const describeFeatureMetadata: API.OperationMethod<
-  DescribeFeatureMetadataRequest,
+  DescribeFeatureMetadataRequest & RegionInput,
   DescribeFeatureMetadataResponse,
   DescribeFeatureMetadataError,
   Credentials | HttpClient.HttpClient
@@ -21285,7 +21286,7 @@ export type DescribeFlowDefinitionError = ResourceNotFound | CommonErrors;
  * Returns information about the specified flow definition.
  */
 export const describeFlowDefinition: API.OperationMethod<
-  DescribeFlowDefinitionRequest,
+  DescribeFlowDefinitionRequest & RegionInput,
   DescribeFlowDefinitionResponse,
   DescribeFlowDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -21305,7 +21306,7 @@ export type DescribeHubError = ResourceNotFound | CommonErrors;
  * Describes a hub.
  */
 export const describeHub: API.OperationMethod<
-  DescribeHubRequest,
+  DescribeHubRequest & RegionInput,
   DescribeHubResponse,
   DescribeHubError,
   Credentials | HttpClient.HttpClient
@@ -21325,7 +21326,7 @@ export type DescribeHubContentError = ResourceNotFound | CommonErrors;
  * Describe the content of a hub.
  */
 export const describeHubContent: API.OperationMethod<
-  DescribeHubContentRequest,
+  DescribeHubContentRequest & RegionInput,
   DescribeHubContentResponse,
   DescribeHubContentError,
   Credentials | HttpClient.HttpClient
@@ -21345,7 +21346,7 @@ export type DescribeHumanTaskUiError = ResourceNotFound | CommonErrors;
  * Returns information about the requested human task user interface (worker task template).
  */
 export const describeHumanTaskUi: API.OperationMethod<
-  DescribeHumanTaskUiRequest,
+  DescribeHumanTaskUiRequest & RegionInput,
   DescribeHumanTaskUiResponse,
   DescribeHumanTaskUiError,
   Credentials | HttpClient.HttpClient
@@ -21365,7 +21366,7 @@ export type DescribeHyperParameterTuningJobError = ResourceNotFound | CommonErro
  * Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
  */
 export const describeHyperParameterTuningJob: API.OperationMethod<
-  DescribeHyperParameterTuningJobRequest,
+  DescribeHyperParameterTuningJobRequest & RegionInput,
   DescribeHyperParameterTuningJobResponse,
   DescribeHyperParameterTuningJobError,
   Credentials | HttpClient.HttpClient
@@ -21385,7 +21386,7 @@ export type DescribeImageError = ResourceNotFound | CommonErrors;
  * Describes a SageMaker AI image.
  */
 export const describeImage: API.OperationMethod<
-  DescribeImageRequest,
+  DescribeImageRequest & RegionInput,
   DescribeImageResponse,
   DescribeImageError,
   Credentials | HttpClient.HttpClient
@@ -21405,7 +21406,7 @@ export type DescribeImageVersionError = ResourceNotFound | CommonErrors;
  * Describes a version of a SageMaker AI image.
  */
 export const describeImageVersion: API.OperationMethod<
-  DescribeImageVersionRequest,
+  DescribeImageVersionRequest & RegionInput,
   DescribeImageVersionResponse,
   DescribeImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -21425,7 +21426,7 @@ export type DescribeInferenceComponentError = CommonErrors;
  * Returns information about an inference component.
  */
 export const describeInferenceComponent: API.OperationMethod<
-  DescribeInferenceComponentInput,
+  DescribeInferenceComponentInput & RegionInput,
   DescribeInferenceComponentOutput,
   DescribeInferenceComponentError,
   Credentials | HttpClient.HttpClient
@@ -21445,7 +21446,7 @@ export type DescribeInferenceExperimentError = ResourceNotFound | CommonErrors;
  * Returns details about an inference experiment.
  */
 export const describeInferenceExperiment: API.OperationMethod<
-  DescribeInferenceExperimentRequest,
+  DescribeInferenceExperimentRequest & RegionInput,
   DescribeInferenceExperimentResponse,
   DescribeInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -21465,7 +21466,7 @@ export type DescribeInferenceRecommendationsJobError = ResourceNotFound | Common
  * Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
  */
 export const describeInferenceRecommendationsJob: API.OperationMethod<
-  DescribeInferenceRecommendationsJobRequest,
+  DescribeInferenceRecommendationsJobRequest & RegionInput,
   DescribeInferenceRecommendationsJobResponse,
   DescribeInferenceRecommendationsJobError,
   Credentials | HttpClient.HttpClient
@@ -21495,7 +21496,7 @@ export type DescribeJobError = ResourceNotFound | CommonErrors;
  * - `DeleteJob`
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResponse,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -21521,7 +21522,7 @@ export type DescribeJobSchemaVersionError = ResourceNotFound | CommonErrors;
  * - `CreateJob`
  */
 export const describeJobSchemaVersion: API.OperationMethod<
-  DescribeJobSchemaVersionRequest,
+  DescribeJobSchemaVersionRequest & RegionInput,
   DescribeJobSchemaVersionResponse,
   DescribeJobSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -21541,7 +21542,7 @@ export type DescribeLabelingJobError = ResourceNotFound | CommonErrors;
  * Gets information about a labeling job.
  */
 export const describeLabelingJob: API.OperationMethod<
-  DescribeLabelingJobRequest,
+  DescribeLabelingJobRequest & RegionInput,
   DescribeLabelingJobResponse,
   DescribeLabelingJobError,
   Credentials | HttpClient.HttpClient
@@ -21561,7 +21562,7 @@ export type DescribeLineageGroupError = ResourceNotFound | CommonErrors;
  * Provides a list of properties for the requested lineage group. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
 export const describeLineageGroup: API.OperationMethod<
-  DescribeLineageGroupRequest,
+  DescribeLineageGroupRequest & RegionInput,
   DescribeLineageGroupResponse,
   DescribeLineageGroupError,
   Credentials | HttpClient.HttpClient
@@ -21581,7 +21582,7 @@ export type DescribeMlflowAppError = ResourceNotFound | CommonErrors;
  * Returns information about an MLflow App.
  */
 export const describeMlflowApp: API.OperationMethod<
-  DescribeMlflowAppRequest,
+  DescribeMlflowAppRequest & RegionInput,
   DescribeMlflowAppResponse,
   DescribeMlflowAppError,
   Credentials | HttpClient.HttpClient
@@ -21601,7 +21602,7 @@ export type DescribeMlflowTrackingServerError = ResourceNotFound | CommonErrors;
  * Returns information about an MLflow Tracking Server.
  */
 export const describeMlflowTrackingServer: API.OperationMethod<
-  DescribeMlflowTrackingServerRequest,
+  DescribeMlflowTrackingServerRequest & RegionInput,
   DescribeMlflowTrackingServerResponse,
   DescribeMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -21621,7 +21622,7 @@ export type DescribeModelError = ModelNotFound | CommonErrors;
  * Describes a model that you created using the `CreateModel` API.
  */
 export const describeModel: API.OperationMethod<
-  DescribeModelInput,
+  DescribeModelInput & RegionInput,
   DescribeModelOutput,
   DescribeModelError,
   Credentials | HttpClient.HttpClient
@@ -21641,7 +21642,7 @@ export type DescribeModelBiasJobDefinitionError = ResourceNotFound | CommonError
  * Returns a description of a model bias job definition.
  */
 export const describeModelBiasJobDefinition: API.OperationMethod<
-  DescribeModelBiasJobDefinitionRequest,
+  DescribeModelBiasJobDefinitionRequest & RegionInput,
   DescribeModelBiasJobDefinitionResponse,
   DescribeModelBiasJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -21663,7 +21664,7 @@ export type DescribeModelCardError = ResourceNotFound | CommonErrors;
  * To retrieve only metadata about a model card without requiring `kms:Decrypt` permission on the associated customer-managed Amazon Web Services KMS key, set `IncludedData` to `MetadataOnly`. The default is `AllData`, which returns the full model card `Content` and requires `kms:Decrypt` permission when a customer-managed key is configured.
  */
 export const describeModelCard: API.OperationMethod<
-  DescribeModelCardRequest,
+  DescribeModelCardRequest & RegionInput,
   DescribeModelCardResponse,
   DescribeModelCardError,
   Credentials | HttpClient.HttpClient
@@ -21683,7 +21684,7 @@ export type DescribeModelCardExportJobError = ResourceNotFound | CommonErrors;
  * Describes an Amazon SageMaker Model Card export job.
  */
 export const describeModelCardExportJob: API.OperationMethod<
-  DescribeModelCardExportJobRequest,
+  DescribeModelCardExportJobRequest & RegionInput,
   DescribeModelCardExportJobResponse,
   DescribeModelCardExportJobError,
   Credentials | HttpClient.HttpClient
@@ -21703,7 +21704,7 @@ export type DescribeModelExplainabilityJobDefinitionError = ResourceNotFound | C
  * Returns a description of a model explainability job definition.
  */
 export const describeModelExplainabilityJobDefinition: API.OperationMethod<
-  DescribeModelExplainabilityJobDefinitionRequest,
+  DescribeModelExplainabilityJobDefinitionRequest & RegionInput,
   DescribeModelExplainabilityJobDefinitionResponse,
   DescribeModelExplainabilityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -21727,7 +21728,7 @@ export type DescribeModelPackageError = CommonErrors;
  * To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
  */
 export const describeModelPackage: API.OperationMethod<
-  DescribeModelPackageInput,
+  DescribeModelPackageInput & RegionInput,
   DescribeModelPackageOutput,
   DescribeModelPackageError,
   Credentials | HttpClient.HttpClient
@@ -21747,7 +21748,7 @@ export type DescribeModelPackageGroupError = CommonErrors;
  * Gets a description for the specified model group.
  */
 export const describeModelPackageGroup: API.OperationMethod<
-  DescribeModelPackageGroupInput,
+  DescribeModelPackageGroupInput & RegionInput,
   DescribeModelPackageGroupOutput,
   DescribeModelPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -21767,7 +21768,7 @@ export type DescribeModelQualityJobDefinitionError = ResourceNotFound | CommonEr
  * Returns a description of a model quality job definition.
  */
 export const describeModelQualityJobDefinition: API.OperationMethod<
-  DescribeModelQualityJobDefinitionRequest,
+  DescribeModelQualityJobDefinitionRequest & RegionInput,
   DescribeModelQualityJobDefinitionResponse,
   DescribeModelQualityJobDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -21787,7 +21788,7 @@ export type DescribeMonitoringScheduleError = ResourceNotFound | CommonErrors;
  * Describes the schedule for a monitoring job.
  */
 export const describeMonitoringSchedule: API.OperationMethod<
-  DescribeMonitoringScheduleRequest,
+  DescribeMonitoringScheduleRequest & RegionInput,
   DescribeMonitoringScheduleResponse,
   DescribeMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -21807,7 +21808,7 @@ export type DescribeNotebookInstanceError = CommonErrors;
  * Returns information about a notebook instance.
  */
 export const describeNotebookInstance: API.OperationMethod<
-  DescribeNotebookInstanceInput,
+  DescribeNotebookInstanceInput & RegionInput,
   DescribeNotebookInstanceOutput,
   DescribeNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -21829,7 +21830,7 @@ export type DescribeNotebookInstanceLifecycleConfigError = CommonErrors;
  * For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
  */
 export const describeNotebookInstanceLifecycleConfig: API.OperationMethod<
-  DescribeNotebookInstanceLifecycleConfigInput,
+  DescribeNotebookInstanceLifecycleConfigInput & RegionInput,
   DescribeNotebookInstanceLifecycleConfigOutput,
   DescribeNotebookInstanceLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -21849,7 +21850,7 @@ export type DescribeOptimizationJobError = ResourceNotFound | CommonErrors;
  * Provides the properties of the specified optimization job.
  */
 export const describeOptimizationJob: API.OperationMethod<
-  DescribeOptimizationJobRequest,
+  DescribeOptimizationJobRequest & RegionInput,
   DescribeOptimizationJobResponse,
   DescribeOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -21869,7 +21870,7 @@ export type DescribePartnerAppError = ResourceNotFound | CommonErrors;
  * Gets information about a SageMaker Partner AI App.
  */
 export const describePartnerApp: API.OperationMethod<
-  DescribePartnerAppRequest,
+  DescribePartnerAppRequest & RegionInput,
   DescribePartnerAppResponse,
   DescribePartnerAppError,
   Credentials | HttpClient.HttpClient
@@ -21889,7 +21890,7 @@ export type DescribePipelineError = ResourceNotFound | CommonErrors;
  * Describes the details of a pipeline.
  */
 export const describePipeline: API.OperationMethod<
-  DescribePipelineRequest,
+  DescribePipelineRequest & RegionInput,
   DescribePipelineResponse,
   DescribePipelineError,
   Credentials | HttpClient.HttpClient
@@ -21909,7 +21910,7 @@ export type DescribePipelineDefinitionForExecutionError = ResourceNotFound | Com
  * Describes the details of an execution's pipeline definition.
  */
 export const describePipelineDefinitionForExecution: API.OperationMethod<
-  DescribePipelineDefinitionForExecutionRequest,
+  DescribePipelineDefinitionForExecutionRequest & RegionInput,
   DescribePipelineDefinitionForExecutionResponse,
   DescribePipelineDefinitionForExecutionError,
   Credentials | HttpClient.HttpClient
@@ -21929,7 +21930,7 @@ export type DescribePipelineExecutionError = ResourceNotFound | CommonErrors;
  * Describes the details of a pipeline execution.
  */
 export const describePipelineExecution: API.OperationMethod<
-  DescribePipelineExecutionRequest,
+  DescribePipelineExecutionRequest & RegionInput,
   DescribePipelineExecutionResponse,
   DescribePipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -21949,7 +21950,7 @@ export type DescribeProcessingJobError = ResourceNotFound | CommonErrors;
  * Returns a description of a processing job.
  */
 export const describeProcessingJob: API.OperationMethod<
-  DescribeProcessingJobRequest,
+  DescribeProcessingJobRequest & RegionInput,
   DescribeProcessingJobResponse,
   DescribeProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -21969,7 +21970,7 @@ export type DescribeProjectError = CommonErrors;
  * Describes the details of a project.
  */
 export const describeProject: API.OperationMethod<
-  DescribeProjectInput,
+  DescribeProjectInput & RegionInput,
   DescribeProjectOutput,
   DescribeProjectError,
   Credentials | HttpClient.HttpClient
@@ -21989,7 +21990,7 @@ export type DescribeReservedCapacityError = ResourceNotFound | CommonErrors;
  * Retrieves details about a reserved capacity.
  */
 export const describeReservedCapacity: API.OperationMethod<
-  DescribeReservedCapacityRequest,
+  DescribeReservedCapacityRequest & RegionInput,
   DescribeReservedCapacityResponse,
   DescribeReservedCapacityError,
   Credentials | HttpClient.HttpClient
@@ -22009,7 +22010,7 @@ export type DescribeSpaceError = ResourceNotFound | CommonErrors;
  * Describes the space.
  */
 export const describeSpace: API.OperationMethod<
-  DescribeSpaceRequest,
+  DescribeSpaceRequest & RegionInput,
   DescribeSpaceResponse,
   DescribeSpaceError,
   Credentials | HttpClient.HttpClient
@@ -22029,7 +22030,7 @@ export type DescribeStudioLifecycleConfigError = ResourceNotFound | CommonErrors
  * Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
  */
 export const describeStudioLifecycleConfig: API.OperationMethod<
-  DescribeStudioLifecycleConfigRequest,
+  DescribeStudioLifecycleConfigRequest & RegionInput,
   DescribeStudioLifecycleConfigResponse,
   DescribeStudioLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -22049,7 +22050,7 @@ export type DescribeSubscribedWorkteamError = CommonErrors;
  * Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
  */
 export const describeSubscribedWorkteam: API.OperationMethod<
-  DescribeSubscribedWorkteamRequest,
+  DescribeSubscribedWorkteamRequest & RegionInput,
   DescribeSubscribedWorkteamResponse,
   DescribeSubscribedWorkteamError,
   Credentials | HttpClient.HttpClient
@@ -22071,7 +22072,7 @@ export type DescribeTrainingJobError = ResourceNotFound | CommonErrors;
  * Some of the attributes below only appear if the training job successfully starts. If the training job fails, `TrainingJobStatus` is `Failed` and, depending on the `FailureReason`, attributes like `TrainingStartTime`, `TrainingTimeInSeconds`, `TrainingEndTime`, and `BillableTimeInSeconds` may not be present in the response.
  */
 export const describeTrainingJob: API.OperationMethod<
-  DescribeTrainingJobRequest,
+  DescribeTrainingJobRequest & RegionInput,
   DescribeTrainingJobResponse,
   DescribeTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -22091,7 +22092,7 @@ export type DescribeTrainingPlanError = ResourceNotFound | CommonErrors;
  * Retrieves detailed information about a specific training plan.
  */
 export const describeTrainingPlan: API.OperationMethod<
-  DescribeTrainingPlanRequest,
+  DescribeTrainingPlanRequest & RegionInput,
   DescribeTrainingPlanResponse,
   DescribeTrainingPlanError,
   Credentials | HttpClient.HttpClient
@@ -22111,7 +22112,7 @@ export type DescribeTrainingPlanExtensionHistoryError = ResourceNotFound | Commo
  * Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information.
  */
 export const describeTrainingPlanExtensionHistory: API.PaginatedOperationMethod<
-  DescribeTrainingPlanExtensionHistoryRequest,
+  DescribeTrainingPlanExtensionHistoryRequest & RegionInput,
   DescribeTrainingPlanExtensionHistoryResponse,
   DescribeTrainingPlanExtensionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -22168,7 +22169,7 @@ export type DescribeTransformJobError = ResourceNotFound | CommonErrors;
  * Returns information about a transform job.
  */
 export const describeTransformJob: API.OperationMethod<
-  DescribeTransformJobRequest,
+  DescribeTransformJobRequest & RegionInput,
   DescribeTransformJobResponse,
   DescribeTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -22188,7 +22189,7 @@ export type DescribeTrialError = ResourceNotFound | CommonErrors;
  * Provides a list of a trial's properties.
  */
 export const describeTrial: API.OperationMethod<
-  DescribeTrialRequest,
+  DescribeTrialRequest & RegionInput,
   DescribeTrialResponse,
   DescribeTrialError,
   Credentials | HttpClient.HttpClient
@@ -22208,7 +22209,7 @@ export type DescribeTrialComponentError = ResourceNotFound | CommonErrors;
  * Provides a list of a trials component's properties.
  */
 export const describeTrialComponent: API.OperationMethod<
-  DescribeTrialComponentRequest,
+  DescribeTrialComponentRequest & RegionInput,
   DescribeTrialComponentResponse,
   DescribeTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -22228,7 +22229,7 @@ export type DescribeUserProfileError = ResourceLimitExceeded | ResourceNotFound 
  * Describes a user profile. For more information, see `CreateUserProfile`.
  */
 export const describeUserProfile: API.OperationMethod<
-  DescribeUserProfileRequest,
+  DescribeUserProfileRequest & RegionInput,
   DescribeUserProfileResponse,
   DescribeUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -22250,7 +22251,7 @@ export type DescribeWorkforceError = CommonErrors;
  * This operation applies only to private workforces.
  */
 export const describeWorkforce: API.OperationMethod<
-  DescribeWorkforceRequest,
+  DescribeWorkforceRequest & RegionInput,
   DescribeWorkforceResponse,
   DescribeWorkforceError,
   Credentials | HttpClient.HttpClient
@@ -22270,7 +22271,7 @@ export type DescribeWorkteamError = CommonErrors;
  * Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
  */
 export const describeWorkteam: API.OperationMethod<
-  DescribeWorkteamRequest,
+  DescribeWorkteamRequest & RegionInput,
   DescribeWorkteamResponse,
   DescribeWorkteamError,
   Credentials | HttpClient.HttpClient
@@ -22292,7 +22293,7 @@ export type DetachClusterNodeVolumeError = ResourceNotFound | CommonErrors;
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
 export const detachClusterNodeVolume: API.OperationMethod<
-  DetachClusterNodeVolumeRequest,
+  DetachClusterNodeVolumeRequest & RegionInput,
   DetachClusterNodeVolumeResponse,
   DetachClusterNodeVolumeError,
   Credentials | HttpClient.HttpClient
@@ -22312,7 +22313,7 @@ export type DisableSagemakerServicecatalogPortfolioError = CommonErrors;
  * Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
 export const disableSagemakerServicecatalogPortfolio: API.OperationMethod<
-  DisableSagemakerServicecatalogPortfolioInput,
+  DisableSagemakerServicecatalogPortfolioInput & RegionInput,
   DisableSagemakerServicecatalogPortfolioOutput,
   DisableSagemakerServicecatalogPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -22334,7 +22335,7 @@ export type DisassociateTrialComponentError = ResourceNotFound | CommonErrors;
  * To get a list of the trials a component is associated with, use the Search API. Specify `ExperimentTrialComponent` for the `Resource` parameter. The list appears in the response under `Results.TrialComponent.Parents`.
  */
 export const disassociateTrialComponent: API.OperationMethod<
-  DisassociateTrialComponentRequest,
+  DisassociateTrialComponentRequest & RegionInput,
   DisassociateTrialComponentResponse,
   DisassociateTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -22354,7 +22355,7 @@ export type EnableSagemakerServicecatalogPortfolioError = CommonErrors;
  * Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
 export const enableSagemakerServicecatalogPortfolio: API.OperationMethod<
-  EnableSagemakerServicecatalogPortfolioInput,
+  EnableSagemakerServicecatalogPortfolioInput & RegionInput,
   EnableSagemakerServicecatalogPortfolioOutput,
   EnableSagemakerServicecatalogPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -22378,7 +22379,7 @@ export type ExtendTrainingPlanError = ResourceNotFound | CommonErrors;
  * To view the history of extensions for a training plan, use the ` DescribeTrainingPlanExtensionHistory ` API.
  */
 export const extendTrainingPlan: API.OperationMethod<
-  ExtendTrainingPlanRequest,
+  ExtendTrainingPlanRequest & RegionInput,
   ExtendTrainingPlanResponse,
   ExtendTrainingPlanError,
   Credentials | HttpClient.HttpClient
@@ -22398,7 +22399,7 @@ export type GetDeviceFleetReportError = CommonErrors;
  * Describes a fleet.
  */
 export const getDeviceFleetReport: API.OperationMethod<
-  GetDeviceFleetReportRequest,
+  GetDeviceFleetReportRequest & RegionInput,
   GetDeviceFleetReportResponse,
   GetDeviceFleetReportError,
   Credentials | HttpClient.HttpClient
@@ -22418,7 +22419,7 @@ export type GetLineageGroupPolicyError = ResourceNotFound | CommonErrors;
  * The resource policy for the lineage group.
  */
 export const getLineageGroupPolicy: API.OperationMethod<
-  GetLineageGroupPolicyRequest,
+  GetLineageGroupPolicyRequest & RegionInput,
   GetLineageGroupPolicyResponse,
   GetLineageGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -22438,7 +22439,7 @@ export type GetModelPackageGroupPolicyError = CommonErrors;
  * Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
 export const getModelPackageGroupPolicy: API.OperationMethod<
-  GetModelPackageGroupPolicyInput,
+  GetModelPackageGroupPolicyInput & RegionInput,
   GetModelPackageGroupPolicyOutput,
   GetModelPackageGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -22458,7 +22459,7 @@ export type GetSagemakerServicecatalogPortfolioStatusError = CommonErrors;
  * Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
 export const getSagemakerServicecatalogPortfolioStatus: API.OperationMethod<
-  GetSagemakerServicecatalogPortfolioStatusInput,
+  GetSagemakerServicecatalogPortfolioStatusInput & RegionInput,
   GetSagemakerServicecatalogPortfolioStatusOutput,
   GetSagemakerServicecatalogPortfolioStatusError,
   Credentials | HttpClient.HttpClient
@@ -22478,7 +22479,7 @@ export type GetScalingConfigurationRecommendationError = ResourceNotFound | Comm
  * Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
  */
 export const getScalingConfigurationRecommendation: API.OperationMethod<
-  GetScalingConfigurationRecommendationRequest,
+  GetScalingConfigurationRecommendationRequest & RegionInput,
   GetScalingConfigurationRecommendationResponse,
   GetScalingConfigurationRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -22498,7 +22499,7 @@ export type GetSearchSuggestionsError = CommonErrors;
  * An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in `Search` queries. Provides suggestions for `HyperParameters`, `Tags`, and `Metrics`.
  */
 export const getSearchSuggestions: API.OperationMethod<
-  GetSearchSuggestionsRequest,
+  GetSearchSuggestionsRequest & RegionInput,
   GetSearchSuggestionsResponse,
   GetSearchSuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -22522,7 +22523,7 @@ export type ImportHubContentError =
  * Import hub content.
  */
 export const importHubContent: API.OperationMethod<
-  ImportHubContentRequest,
+  ImportHubContentRequest & RegionInput,
   ImportHubContentResponse,
   ImportHubContentError,
   Credentials | HttpClient.HttpClient
@@ -22542,7 +22543,7 @@ export type ListActionsError = ResourceNotFound | CommonErrors;
  * Lists the actions in your account and their properties.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsRequest,
+  ListActionsRequest & RegionInput,
   ListActionsResponse,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -22569,7 +22570,7 @@ export type ListAIBenchmarkJobsError = CommonErrors;
  * Returns a list of AI benchmark jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
  */
 export const listAIBenchmarkJobs: API.PaginatedOperationMethod<
-  ListAIBenchmarkJobsRequest,
+  ListAIBenchmarkJobsRequest & RegionInput,
   ListAIBenchmarkJobsResponse,
   ListAIBenchmarkJobsError,
   Credentials | HttpClient.HttpClient,
@@ -22596,7 +22597,7 @@ export type ListAIRecommendationJobsError = CommonErrors;
  * Returns a list of AI recommendation jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
  */
 export const listAIRecommendationJobs: API.PaginatedOperationMethod<
-  ListAIRecommendationJobsRequest,
+  ListAIRecommendationJobsRequest & RegionInput,
   ListAIRecommendationJobsResponse,
   ListAIRecommendationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -22623,7 +22624,7 @@ export type ListAIWorkloadConfigsError = CommonErrors;
  * Returns a list of AI workload configurations in your account. You can filter the results by name and creation time, and sort the results. The response is paginated.
  */
 export const listAIWorkloadConfigs: API.PaginatedOperationMethod<
-  ListAIWorkloadConfigsRequest,
+  ListAIWorkloadConfigsRequest & RegionInput,
   ListAIWorkloadConfigsResponse,
   ListAIWorkloadConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -22650,7 +22651,7 @@ export type ListAlgorithmsError = CommonErrors;
  * Lists the machine learning algorithms that have been created.
  */
 export const listAlgorithms: API.PaginatedOperationMethod<
-  ListAlgorithmsInput,
+  ListAlgorithmsInput & RegionInput,
   ListAlgorithmsOutput,
   ListAlgorithmsError,
   Credentials | HttpClient.HttpClient,
@@ -22677,7 +22678,7 @@ export type ListAliasesError = ResourceNotFound | CommonErrors;
  * Lists the aliases of a specified image or image version.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -22704,7 +22705,7 @@ export type ListAppImageConfigsError = CommonErrors;
  * Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
  */
 export const listAppImageConfigs: API.PaginatedOperationMethod<
-  ListAppImageConfigsRequest,
+  ListAppImageConfigsRequest & RegionInput,
   ListAppImageConfigsResponse,
   ListAppImageConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -22731,7 +22732,7 @@ export type ListAppsError = CommonErrors;
  * Lists apps.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -22758,7 +22759,7 @@ export type ListArtifactsError = ResourceNotFound | CommonErrors;
  * Lists the artifacts in your account and their properties.
  */
 export const listArtifacts: API.PaginatedOperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResponse,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -22785,7 +22786,7 @@ export type ListAssociationsError = ResourceNotFound | CommonErrors;
  * Lists the associations in your account and their properties.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResponse,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -22812,7 +22813,7 @@ export type ListAutoMLJobsError = CommonErrors;
  * Request a list of jobs.
  */
 export const listAutoMLJobs: API.PaginatedOperationMethod<
-  ListAutoMLJobsRequest,
+  ListAutoMLJobsRequest & RegionInput,
   ListAutoMLJobsResponse,
   ListAutoMLJobsError,
   Credentials | HttpClient.HttpClient,
@@ -22839,7 +22840,7 @@ export type ListCandidatesForAutoMLJobError = ResourceNotFound | CommonErrors;
  * List the candidates created for the job.
  */
 export const listCandidatesForAutoMLJob: API.PaginatedOperationMethod<
-  ListCandidatesForAutoMLJobRequest,
+  ListCandidatesForAutoMLJobRequest & RegionInput,
   ListCandidatesForAutoMLJobResponse,
   ListCandidatesForAutoMLJobError,
   Credentials | HttpClient.HttpClient,
@@ -22866,7 +22867,7 @@ export type ListClusterEventsError = ResourceNotFound | CommonErrors;
  * Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
 export const listClusterEvents: API.PaginatedOperationMethod<
-  ListClusterEventsRequest,
+  ListClusterEventsRequest & RegionInput,
   ListClusterEventsResponse,
   ListClusterEventsError,
   Credentials | HttpClient.HttpClient,
@@ -22893,7 +22894,7 @@ export type ListClusterNodesError = ResourceNotFound | CommonErrors;
  * Retrieves the list of instances (also called *nodes* interchangeably) in a SageMaker HyperPod cluster.
  */
 export const listClusterNodes: API.PaginatedOperationMethod<
-  ListClusterNodesRequest,
+  ListClusterNodesRequest & RegionInput,
   ListClusterNodesResponse,
   ListClusterNodesError,
   Credentials | HttpClient.HttpClient,
@@ -22920,7 +22921,7 @@ export type ListClustersError = CommonErrors;
  * Retrieves the list of SageMaker HyperPod clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -22947,7 +22948,7 @@ export type ListClusterSchedulerConfigsError = CommonErrors;
  * List the cluster policy configurations.
  */
 export const listClusterSchedulerConfigs: API.PaginatedOperationMethod<
-  ListClusterSchedulerConfigsRequest,
+  ListClusterSchedulerConfigsRequest & RegionInput,
   ListClusterSchedulerConfigsResponse,
   ListClusterSchedulerConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -22974,7 +22975,7 @@ export type ListCodeRepositoriesError = CommonErrors;
  * Gets a list of the Git repositories in your account.
  */
 export const listCodeRepositories: API.PaginatedOperationMethod<
-  ListCodeRepositoriesInput,
+  ListCodeRepositoriesInput & RegionInput,
   ListCodeRepositoriesOutput,
   ListCodeRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -23003,7 +23004,7 @@ export type ListCompilationJobsError = CommonErrors;
  * To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
  */
 export const listCompilationJobs: API.PaginatedOperationMethod<
-  ListCompilationJobsRequest,
+  ListCompilationJobsRequest & RegionInput,
   ListCompilationJobsResponse,
   ListCompilationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23030,7 +23031,7 @@ export type ListComputeQuotasError = CommonErrors;
  * List the resource allocation definitions.
  */
 export const listComputeQuotas: API.PaginatedOperationMethod<
-  ListComputeQuotasRequest,
+  ListComputeQuotasRequest & RegionInput,
   ListComputeQuotasResponse,
   ListComputeQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -23057,7 +23058,7 @@ export type ListContextsError = ResourceNotFound | CommonErrors;
  * Lists the contexts in your account and their properties.
  */
 export const listContexts: API.PaginatedOperationMethod<
-  ListContextsRequest,
+  ListContextsRequest & RegionInput,
   ListContextsResponse,
   ListContextsError,
   Credentials | HttpClient.HttpClient,
@@ -23084,7 +23085,7 @@ export type ListDataQualityJobDefinitionsError = CommonErrors;
  * Lists the data quality job definitions in your account.
  */
 export const listDataQualityJobDefinitions: API.PaginatedOperationMethod<
-  ListDataQualityJobDefinitionsRequest,
+  ListDataQualityJobDefinitionsRequest & RegionInput,
   ListDataQualityJobDefinitionsResponse,
   ListDataQualityJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -23111,7 +23112,7 @@ export type ListDeviceFleetsError = CommonErrors;
  * Returns a list of devices in the fleet.
  */
 export const listDeviceFleets: API.PaginatedOperationMethod<
-  ListDeviceFleetsRequest,
+  ListDeviceFleetsRequest & RegionInput,
   ListDeviceFleetsResponse,
   ListDeviceFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -23138,7 +23139,7 @@ export type ListDevicesError = CommonErrors;
  * A list of devices.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -23165,7 +23166,7 @@ export type ListDomainsError = CommonErrors;
  * Lists the domains.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -23192,7 +23193,7 @@ export type ListEdgeDeploymentPlansError = CommonErrors;
  * Lists all edge deployment plans.
  */
 export const listEdgeDeploymentPlans: API.PaginatedOperationMethod<
-  ListEdgeDeploymentPlansRequest,
+  ListEdgeDeploymentPlansRequest & RegionInput,
   ListEdgeDeploymentPlansResponse,
   ListEdgeDeploymentPlansError,
   Credentials | HttpClient.HttpClient,
@@ -23219,7 +23220,7 @@ export type ListEdgePackagingJobsError = CommonErrors;
  * Returns a list of edge packaging jobs.
  */
 export const listEdgePackagingJobs: API.PaginatedOperationMethod<
-  ListEdgePackagingJobsRequest,
+  ListEdgePackagingJobsRequest & RegionInput,
   ListEdgePackagingJobsResponse,
   ListEdgePackagingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23246,7 +23247,7 @@ export type ListEndpointConfigsError = CommonErrors;
  * Lists endpoint configurations.
  */
 export const listEndpointConfigs: API.PaginatedOperationMethod<
-  ListEndpointConfigsInput,
+  ListEndpointConfigsInput & RegionInput,
   ListEndpointConfigsOutput,
   ListEndpointConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -23273,7 +23274,7 @@ export type ListEndpointsError = CommonErrors;
  * Lists endpoints.
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsInput,
+  ListEndpointsInput & RegionInput,
   ListEndpointsOutput,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -23300,7 +23301,7 @@ export type ListExperimentsError = CommonErrors;
  * Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
  */
 export const listExperiments: API.PaginatedOperationMethod<
-  ListExperimentsRequest,
+  ListExperimentsRequest & RegionInput,
   ListExperimentsResponse,
   ListExperimentsError,
   Credentials | HttpClient.HttpClient,
@@ -23327,7 +23328,7 @@ export type ListFeatureGroupsError = CommonErrors;
  * List `FeatureGroup`s based on given filter and order.
  */
 export const listFeatureGroups: API.PaginatedOperationMethod<
-  ListFeatureGroupsRequest,
+  ListFeatureGroupsRequest & RegionInput,
   ListFeatureGroupsResponse,
   ListFeatureGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -23354,7 +23355,7 @@ export type ListFlowDefinitionsError = CommonErrors;
  * Returns information about the flow definitions in your account.
  */
 export const listFlowDefinitions: API.PaginatedOperationMethod<
-  ListFlowDefinitionsRequest,
+  ListFlowDefinitionsRequest & RegionInput,
   ListFlowDefinitionsResponse,
   ListFlowDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -23381,7 +23382,7 @@ export type ListHubContentsError = ResourceNotFound | CommonErrors;
  * List the contents of a hub.
  */
 export const listHubContents: API.OperationMethod<
-  ListHubContentsRequest,
+  ListHubContentsRequest & RegionInput,
   ListHubContentsResponse,
   ListHubContentsError,
   Credentials | HttpClient.HttpClient
@@ -23401,7 +23402,7 @@ export type ListHubContentVersionsError = ResourceNotFound | CommonErrors;
  * List hub content versions.
  */
 export const listHubContentVersions: API.OperationMethod<
-  ListHubContentVersionsRequest,
+  ListHubContentVersionsRequest & RegionInput,
   ListHubContentVersionsResponse,
   ListHubContentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -23421,7 +23422,7 @@ export type ListHubsError = CommonErrors;
  * List all existing hubs.
  */
 export const listHubs: API.OperationMethod<
-  ListHubsRequest,
+  ListHubsRequest & RegionInput,
   ListHubsResponse,
   ListHubsError,
   Credentials | HttpClient.HttpClient
@@ -23441,7 +23442,7 @@ export type ListHumanTaskUisError = CommonErrors;
  * Returns information about the human task user interfaces in your account.
  */
 export const listHumanTaskUis: API.PaginatedOperationMethod<
-  ListHumanTaskUisRequest,
+  ListHumanTaskUisRequest & RegionInput,
   ListHumanTaskUisResponse,
   ListHumanTaskUisError,
   Credentials | HttpClient.HttpClient,
@@ -23468,7 +23469,7 @@ export type ListHyperParameterTuningJobsError = CommonErrors;
  * Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
  */
 export const listHyperParameterTuningJobs: API.PaginatedOperationMethod<
-  ListHyperParameterTuningJobsRequest,
+  ListHyperParameterTuningJobsRequest & RegionInput,
   ListHyperParameterTuningJobsResponse,
   ListHyperParameterTuningJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23495,7 +23496,7 @@ export type ListImagesError = CommonErrors;
  * Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -23522,7 +23523,7 @@ export type ListImageVersionsError = ResourceNotFound | CommonErrors;
  * Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
  */
 export const listImageVersions: API.PaginatedOperationMethod<
-  ListImageVersionsRequest,
+  ListImageVersionsRequest & RegionInput,
   ListImageVersionsResponse,
   ListImageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -23549,7 +23550,7 @@ export type ListInferenceComponentsError = CommonErrors;
  * Lists the inference components in your account and their properties.
  */
 export const listInferenceComponents: API.PaginatedOperationMethod<
-  ListInferenceComponentsInput,
+  ListInferenceComponentsInput & RegionInput,
   ListInferenceComponentsOutput,
   ListInferenceComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -23576,7 +23577,7 @@ export type ListInferenceExperimentsError = CommonErrors;
  * Returns the list of all inference experiments.
  */
 export const listInferenceExperiments: API.PaginatedOperationMethod<
-  ListInferenceExperimentsRequest,
+  ListInferenceExperimentsRequest & RegionInput,
   ListInferenceExperimentsResponse,
   ListInferenceExperimentsError,
   Credentials | HttpClient.HttpClient,
@@ -23603,7 +23604,7 @@ export type ListInferenceRecommendationsJobsError = CommonErrors;
  * Lists recommendation jobs that satisfy various filters.
  */
 export const listInferenceRecommendationsJobs: API.PaginatedOperationMethod<
-  ListInferenceRecommendationsJobsRequest,
+  ListInferenceRecommendationsJobsRequest & RegionInput,
   ListInferenceRecommendationsJobsResponse,
   ListInferenceRecommendationsJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23632,7 +23633,7 @@ export type ListInferenceRecommendationsJobStepsError = ResourceNotFound | Commo
  * The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
  */
 export const listInferenceRecommendationsJobSteps: API.PaginatedOperationMethod<
-  ListInferenceRecommendationsJobStepsRequest,
+  ListInferenceRecommendationsJobStepsRequest & RegionInput,
   ListInferenceRecommendationsJobStepsResponse,
   ListInferenceRecommendationsJobStepsError,
   Credentials | HttpClient.HttpClient,
@@ -23665,7 +23666,7 @@ export type ListJobsError = CommonErrors;
  * - `DescribeJob`
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23698,7 +23699,7 @@ export type ListJobSchemaVersionsError = ResourceNotFound | CommonErrors;
  * - `CreateJob`
  */
 export const listJobSchemaVersions: API.PaginatedOperationMethod<
-  ListJobSchemaVersionsRequest,
+  ListJobSchemaVersionsRequest & RegionInput,
   ListJobSchemaVersionsResponse,
   ListJobSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -23725,7 +23726,7 @@ export type ListLabelingJobsError = CommonErrors;
  * Gets a list of labeling jobs.
  */
 export const listLabelingJobs: API.PaginatedOperationMethod<
-  ListLabelingJobsRequest,
+  ListLabelingJobsRequest & RegionInput,
   ListLabelingJobsResponse,
   ListLabelingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23752,7 +23753,7 @@ export type ListLabelingJobsForWorkteamError = ResourceNotFound | CommonErrors;
  * Gets a list of labeling jobs assigned to a specified work team.
  */
 export const listLabelingJobsForWorkteam: API.PaginatedOperationMethod<
-  ListLabelingJobsForWorkteamRequest,
+  ListLabelingJobsForWorkteamRequest & RegionInput,
   ListLabelingJobsForWorkteamResponse,
   ListLabelingJobsForWorkteamError,
   Credentials | HttpClient.HttpClient,
@@ -23779,7 +23780,7 @@ export type ListLineageGroupsError = CommonErrors;
  * A list of lineage groups shared with your Amazon Web Services account. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
 export const listLineageGroups: API.PaginatedOperationMethod<
-  ListLineageGroupsRequest,
+  ListLineageGroupsRequest & RegionInput,
   ListLineageGroupsResponse,
   ListLineageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -23806,7 +23807,7 @@ export type ListMlflowAppsError = CommonErrors;
  * Lists all MLflow Apps
  */
 export const listMlflowApps: API.PaginatedOperationMethod<
-  ListMlflowAppsRequest,
+  ListMlflowAppsRequest & RegionInput,
   ListMlflowAppsResponse,
   ListMlflowAppsError,
   Credentials | HttpClient.HttpClient,
@@ -23833,7 +23834,7 @@ export type ListMlflowTrackingServersError = CommonErrors;
  * Lists all MLflow Tracking Servers.
  */
 export const listMlflowTrackingServers: API.PaginatedOperationMethod<
-  ListMlflowTrackingServersRequest,
+  ListMlflowTrackingServersRequest & RegionInput,
   ListMlflowTrackingServersResponse,
   ListMlflowTrackingServersError,
   Credentials | HttpClient.HttpClient,
@@ -23860,7 +23861,7 @@ export type ListModelBiasJobDefinitionsError = CommonErrors;
  * Lists model bias jobs definitions that satisfy various filters.
  */
 export const listModelBiasJobDefinitions: API.PaginatedOperationMethod<
-  ListModelBiasJobDefinitionsRequest,
+  ListModelBiasJobDefinitionsRequest & RegionInput,
   ListModelBiasJobDefinitionsResponse,
   ListModelBiasJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -23887,7 +23888,7 @@ export type ListModelCardExportJobsError = CommonErrors;
  * List the export jobs for the Amazon SageMaker Model Card.
  */
 export const listModelCardExportJobs: API.PaginatedOperationMethod<
-  ListModelCardExportJobsRequest,
+  ListModelCardExportJobsRequest & RegionInput,
   ListModelCardExportJobsResponse,
   ListModelCardExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -23914,7 +23915,7 @@ export type ListModelCardsError = CommonErrors;
  * List existing model cards.
  */
 export const listModelCards: API.PaginatedOperationMethod<
-  ListModelCardsRequest,
+  ListModelCardsRequest & RegionInput,
   ListModelCardsResponse,
   ListModelCardsError,
   Credentials | HttpClient.HttpClient,
@@ -23941,7 +23942,7 @@ export type ListModelCardVersionsError = ResourceNotFound | CommonErrors;
  * List existing versions of an Amazon SageMaker Model Card.
  */
 export const listModelCardVersions: API.PaginatedOperationMethod<
-  ListModelCardVersionsRequest,
+  ListModelCardVersionsRequest & RegionInput,
   ListModelCardVersionsResponse,
   ListModelCardVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -23968,7 +23969,7 @@ export type ListModelExplainabilityJobDefinitionsError = CommonErrors;
  * Lists model explainability job definitions that satisfy various filters.
  */
 export const listModelExplainabilityJobDefinitions: API.PaginatedOperationMethod<
-  ListModelExplainabilityJobDefinitionsRequest,
+  ListModelExplainabilityJobDefinitionsRequest & RegionInput,
   ListModelExplainabilityJobDefinitionsResponse,
   ListModelExplainabilityJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -23995,7 +23996,7 @@ export type ListModelMetadataError = CommonErrors;
  * Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
  */
 export const listModelMetadata: API.PaginatedOperationMethod<
-  ListModelMetadataRequest,
+  ListModelMetadataRequest & RegionInput,
   ListModelMetadataResponse,
   ListModelMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -24022,7 +24023,7 @@ export type ListModelPackageGroupsError = CommonErrors;
  * Gets a list of the model groups in your Amazon Web Services account.
  */
 export const listModelPackageGroups: API.PaginatedOperationMethod<
-  ListModelPackageGroupsInput,
+  ListModelPackageGroupsInput & RegionInput,
   ListModelPackageGroupsOutput,
   ListModelPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -24049,7 +24050,7 @@ export type ListModelPackagesError = CommonErrors;
  * Lists the model packages that have been created.
  */
 export const listModelPackages: API.PaginatedOperationMethod<
-  ListModelPackagesInput,
+  ListModelPackagesInput & RegionInput,
   ListModelPackagesOutput,
   ListModelPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -24076,7 +24077,7 @@ export type ListModelQualityJobDefinitionsError = CommonErrors;
  * Gets a list of model quality monitoring job definitions in your account.
  */
 export const listModelQualityJobDefinitions: API.PaginatedOperationMethod<
-  ListModelQualityJobDefinitionsRequest,
+  ListModelQualityJobDefinitionsRequest & RegionInput,
   ListModelQualityJobDefinitionsResponse,
   ListModelQualityJobDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -24103,7 +24104,7 @@ export type ListModelsError = CommonErrors;
  * Lists models created with the `CreateModel` API.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsInput,
+  ListModelsInput & RegionInput,
   ListModelsOutput,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -24130,7 +24131,7 @@ export type ListMonitoringAlertHistoryError = ResourceNotFound | CommonErrors;
  * Gets a list of past alerts in a model monitoring schedule.
  */
 export const listMonitoringAlertHistory: API.PaginatedOperationMethod<
-  ListMonitoringAlertHistoryRequest,
+  ListMonitoringAlertHistoryRequest & RegionInput,
   ListMonitoringAlertHistoryResponse,
   ListMonitoringAlertHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -24157,7 +24158,7 @@ export type ListMonitoringAlertsError = ResourceNotFound | CommonErrors;
  * Gets the alerts for a single monitoring schedule.
  */
 export const listMonitoringAlerts: API.PaginatedOperationMethod<
-  ListMonitoringAlertsRequest,
+  ListMonitoringAlertsRequest & RegionInput,
   ListMonitoringAlertsResponse,
   ListMonitoringAlertsError,
   Credentials | HttpClient.HttpClient,
@@ -24184,7 +24185,7 @@ export type ListMonitoringExecutionsError = CommonErrors;
  * Returns list of all monitoring job executions.
  */
 export const listMonitoringExecutions: API.PaginatedOperationMethod<
-  ListMonitoringExecutionsRequest,
+  ListMonitoringExecutionsRequest & RegionInput,
   ListMonitoringExecutionsResponse,
   ListMonitoringExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -24211,7 +24212,7 @@ export type ListMonitoringSchedulesError = CommonErrors;
  * Returns list of all monitoring schedules.
  */
 export const listMonitoringSchedules: API.PaginatedOperationMethod<
-  ListMonitoringSchedulesRequest,
+  ListMonitoringSchedulesRequest & RegionInput,
   ListMonitoringSchedulesResponse,
   ListMonitoringSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -24238,7 +24239,7 @@ export type ListNotebookInstanceLifecycleConfigsError = CommonErrors;
  * Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
  */
 export const listNotebookInstanceLifecycleConfigs: API.PaginatedOperationMethod<
-  ListNotebookInstanceLifecycleConfigsInput,
+  ListNotebookInstanceLifecycleConfigsInput & RegionInput,
   ListNotebookInstanceLifecycleConfigsOutput,
   ListNotebookInstanceLifecycleConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -24265,7 +24266,7 @@ export type ListNotebookInstancesError = CommonErrors;
  * Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
  */
 export const listNotebookInstances: API.PaginatedOperationMethod<
-  ListNotebookInstancesInput,
+  ListNotebookInstancesInput & RegionInput,
   ListNotebookInstancesOutput,
   ListNotebookInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -24292,7 +24293,7 @@ export type ListOptimizationJobsError = CommonErrors;
  * Lists the optimization jobs in your account and their properties.
  */
 export const listOptimizationJobs: API.PaginatedOperationMethod<
-  ListOptimizationJobsRequest,
+  ListOptimizationJobsRequest & RegionInput,
   ListOptimizationJobsResponse,
   ListOptimizationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -24319,7 +24320,7 @@ export type ListPartnerAppsError = CommonErrors;
  * Lists all of the SageMaker Partner AI Apps in an account.
  */
 export const listPartnerApps: API.PaginatedOperationMethod<
-  ListPartnerAppsRequest,
+  ListPartnerAppsRequest & RegionInput,
   ListPartnerAppsResponse,
   ListPartnerAppsError,
   Credentials | HttpClient.HttpClient,
@@ -24346,7 +24347,7 @@ export type ListPipelineExecutionsError = ResourceNotFound | CommonErrors;
  * Gets a list of the pipeline executions.
  */
 export const listPipelineExecutions: API.PaginatedOperationMethod<
-  ListPipelineExecutionsRequest,
+  ListPipelineExecutionsRequest & RegionInput,
   ListPipelineExecutionsResponse,
   ListPipelineExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -24373,7 +24374,7 @@ export type ListPipelineExecutionStepsError = ResourceNotFound | CommonErrors;
  * Gets a list of `PipeLineExecutionStep` objects.
  */
 export const listPipelineExecutionSteps: API.PaginatedOperationMethod<
-  ListPipelineExecutionStepsRequest,
+  ListPipelineExecutionStepsRequest & RegionInput,
   ListPipelineExecutionStepsResponse,
   ListPipelineExecutionStepsError,
   Credentials | HttpClient.HttpClient,
@@ -24400,7 +24401,7 @@ export type ListPipelineParametersForExecutionError = ResourceNotFound | CommonE
  * Gets a list of parameters for a pipeline execution.
  */
 export const listPipelineParametersForExecution: API.PaginatedOperationMethod<
-  ListPipelineParametersForExecutionRequest,
+  ListPipelineParametersForExecutionRequest & RegionInput,
   ListPipelineParametersForExecutionResponse,
   ListPipelineParametersForExecutionError,
   Credentials | HttpClient.HttpClient,
@@ -24427,7 +24428,7 @@ export type ListPipelinesError = CommonErrors;
  * Gets a list of pipelines.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesRequest,
+  ListPipelinesRequest & RegionInput,
   ListPipelinesResponse,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -24454,7 +24455,7 @@ export type ListPipelineVersionsError = ResourceNotFound | CommonErrors;
  * Gets a list of all versions of the pipeline.
  */
 export const listPipelineVersions: API.PaginatedOperationMethod<
-  ListPipelineVersionsRequest,
+  ListPipelineVersionsRequest & RegionInput,
   ListPipelineVersionsResponse,
   ListPipelineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -24481,7 +24482,7 @@ export type ListProcessingJobsError = CommonErrors;
  * Lists processing jobs that satisfy various filters.
  */
 export const listProcessingJobs: API.PaginatedOperationMethod<
-  ListProcessingJobsRequest,
+  ListProcessingJobsRequest & RegionInput,
   ListProcessingJobsResponse,
   ListProcessingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -24508,7 +24509,7 @@ export type ListProjectsError = CommonErrors;
  * Gets a list of the projects in an Amazon Web Services account.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsInput,
+  ListProjectsInput & RegionInput,
   ListProjectsOutput,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -24534,7 +24535,7 @@ export type ListResourceCatalogsError = CommonErrors;
  * Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of `ResourceCatalog`s viewable is 1000.
  */
 export const listResourceCatalogs: API.PaginatedOperationMethod<
-  ListResourceCatalogsRequest,
+  ListResourceCatalogsRequest & RegionInput,
   ListResourceCatalogsResponse,
   ListResourceCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -24561,7 +24562,7 @@ export type ListSpacesError = CommonErrors;
  * Lists spaces.
  */
 export const listSpaces: API.PaginatedOperationMethod<
-  ListSpacesRequest,
+  ListSpacesRequest & RegionInput,
   ListSpacesResponse,
   ListSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -24588,7 +24589,7 @@ export type ListStageDevicesError = CommonErrors;
  * Lists devices allocated to the stage, containing detailed device information and deployment status.
  */
 export const listStageDevices: API.PaginatedOperationMethod<
-  ListStageDevicesRequest,
+  ListStageDevicesRequest & RegionInput,
   ListStageDevicesResponse,
   ListStageDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -24615,7 +24616,7 @@ export type ListStudioLifecycleConfigsError = ResourceInUse | CommonErrors;
  * Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
  */
 export const listStudioLifecycleConfigs: API.PaginatedOperationMethod<
-  ListStudioLifecycleConfigsRequest,
+  ListStudioLifecycleConfigsRequest & RegionInput,
   ListStudioLifecycleConfigsResponse,
   ListStudioLifecycleConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -24642,7 +24643,7 @@ export type ListSubscribedWorkteamsError = CommonErrors;
  * Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
 export const listSubscribedWorkteams: API.PaginatedOperationMethod<
-  ListSubscribedWorkteamsRequest,
+  ListSubscribedWorkteamsRequest & RegionInput,
   ListSubscribedWorkteamsResponse,
   ListSubscribedWorkteamsError,
   Credentials | HttpClient.HttpClient,
@@ -24669,7 +24670,7 @@ export type ListTagsError = CommonErrors;
  * Returns the tags for the specified SageMaker resource.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsInput,
+  ListTagsInput & RegionInput,
   ListTagsOutput,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -24708,7 +24709,7 @@ export type ListTrainingJobsError = CommonErrors;
  * `aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress`
  */
 export const listTrainingJobs: API.PaginatedOperationMethod<
-  ListTrainingJobsRequest,
+  ListTrainingJobsRequest & RegionInput,
   ListTrainingJobsResponse,
   ListTrainingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -24735,7 +24736,7 @@ export type ListTrainingJobsForHyperParameterTuningJobError = ResourceNotFound |
  * Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
  */
 export const listTrainingJobsForHyperParameterTuningJob: API.PaginatedOperationMethod<
-  ListTrainingJobsForHyperParameterTuningJobRequest,
+  ListTrainingJobsForHyperParameterTuningJobRequest & RegionInput,
   ListTrainingJobsForHyperParameterTuningJobResponse,
   ListTrainingJobsForHyperParameterTuningJobError,
   Credentials | HttpClient.HttpClient,
@@ -24770,7 +24771,7 @@ export type ListTrainingPlansError = CommonErrors;
  * Retrieves a list of training plans for the current account.
  */
 export const listTrainingPlans: API.PaginatedOperationMethod<
-  ListTrainingPlansRequest,
+  ListTrainingPlansRequest & RegionInput,
   ListTrainingPlansResponse,
   ListTrainingPlansError,
   Credentials | HttpClient.HttpClient,
@@ -24830,7 +24831,7 @@ export type ListTransformJobsError = CommonErrors;
  * Lists transform jobs.
  */
 export const listTransformJobs: API.PaginatedOperationMethod<
-  ListTransformJobsRequest,
+  ListTransformJobsRequest & RegionInput,
   ListTransformJobsResponse,
   ListTransformJobsError,
   Credentials | HttpClient.HttpClient,
@@ -24863,7 +24864,7 @@ export type ListTrialComponentsError = ResourceNotFound | CommonErrors;
  * - `TrialName`
  */
 export const listTrialComponents: API.PaginatedOperationMethod<
-  ListTrialComponentsRequest,
+  ListTrialComponentsRequest & RegionInput,
   ListTrialComponentsResponse,
   ListTrialComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -24890,7 +24891,7 @@ export type ListTrialsError = ResourceNotFound | CommonErrors;
  * Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
  */
 export const listTrials: API.PaginatedOperationMethod<
-  ListTrialsRequest,
+  ListTrialsRequest & RegionInput,
   ListTrialsResponse,
   ListTrialsError,
   Credentials | HttpClient.HttpClient,
@@ -24917,7 +24918,7 @@ export type ListUltraServersByReservedCapacityError = ResourceNotFound | CommonE
  * Lists all UltraServers that are part of a specified reserved capacity.
  */
 export const listUltraServersByReservedCapacity: API.PaginatedOperationMethod<
-  ListUltraServersByReservedCapacityRequest,
+  ListUltraServersByReservedCapacityRequest & RegionInput,
   ListUltraServersByReservedCapacityResponse,
   ListUltraServersByReservedCapacityError,
   Credentials | HttpClient.HttpClient,
@@ -24944,7 +24945,7 @@ export type ListUserProfilesError = CommonErrors;
  * Lists user profiles.
  */
 export const listUserProfiles: API.PaginatedOperationMethod<
-  ListUserProfilesRequest,
+  ListUserProfilesRequest & RegionInput,
   ListUserProfilesResponse,
   ListUserProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -24971,7 +24972,7 @@ export type ListWorkforcesError = CommonErrors;
  * Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
  */
 export const listWorkforces: API.PaginatedOperationMethod<
-  ListWorkforcesRequest,
+  ListWorkforcesRequest & RegionInput,
   ListWorkforcesResponse,
   ListWorkforcesError,
   Credentials | HttpClient.HttpClient,
@@ -24998,7 +24999,7 @@ export type ListWorkteamsError = CommonErrors;
  * Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
 export const listWorkteams: API.PaginatedOperationMethod<
-  ListWorkteamsRequest,
+  ListWorkteamsRequest & RegionInput,
   ListWorkteamsResponse,
   ListWorkteamsError,
   Credentials | HttpClient.HttpClient,
@@ -25025,7 +25026,7 @@ export type PutModelPackageGroupPolicyError = ConflictException | CommonErrors;
  * Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
 export const putModelPackageGroupPolicy: API.OperationMethod<
-  PutModelPackageGroupPolicyInput,
+  PutModelPackageGroupPolicyInput & RegionInput,
   PutModelPackageGroupPolicyOutput,
   PutModelPackageGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -25045,7 +25046,7 @@ export type QueryLineageError = ResourceNotFound | CommonErrors;
  * Use this action to inspect your lineage and discover relationships between entities. For more information, see Querying Lineage Entities in the *Amazon SageMaker Developer Guide*.
  */
 export const queryLineage: API.PaginatedOperationMethod<
-  QueryLineageRequest,
+  QueryLineageRequest & RegionInput,
   QueryLineageResponse,
   QueryLineageError,
   Credentials | HttpClient.HttpClient,
@@ -25071,7 +25072,7 @@ export type RegisterDevicesError = ResourceLimitExceeded | CommonErrors;
  * Register devices.
  */
 export const registerDevices: API.OperationMethod<
-  RegisterDevicesRequest,
+  RegisterDevicesRequest & RegionInput,
   RegisterDevicesResponse,
   RegisterDevicesError,
   Credentials | HttpClient.HttpClient
@@ -25091,7 +25092,7 @@ export type RenderUiTemplateError = ResourceNotFound | CommonErrors;
  * Renders the UI template so that you can preview the worker's experience.
  */
 export const renderUiTemplate: API.OperationMethod<
-  RenderUiTemplateRequest,
+  RenderUiTemplateRequest & RegionInput,
   RenderUiTemplateResponse,
   RenderUiTemplateError,
   Credentials | HttpClient.HttpClient
@@ -25115,7 +25116,7 @@ export type RetryPipelineExecutionError =
  * Retry the execution of the pipeline.
  */
 export const retryPipelineExecution: API.OperationMethod<
-  RetryPipelineExecutionRequest,
+  RetryPipelineExecutionRequest & RegionInput,
   RetryPipelineExecutionResponse,
   RetryPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -25139,7 +25140,7 @@ export type SearchError = CommonErrors;
  * The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information.
  */
 export const search: API.PaginatedOperationMethod<
-  SearchRequest,
+  SearchRequest & RegionInput,
   SearchResponse,
   SearchError,
   Credentials | HttpClient.HttpClient,
@@ -25172,7 +25173,7 @@ export type SearchTrainingPlanOfferingsError = ResourceLimitExceeded | CommonErr
  * For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see ` CreateTrainingPlan `.
  */
 export const searchTrainingPlanOfferings: API.OperationMethod<
-  SearchTrainingPlanOfferingsRequest,
+  SearchTrainingPlanOfferingsRequest & RegionInput,
   SearchTrainingPlanOfferingsResponse,
   SearchTrainingPlanOfferingsError,
   Credentials | HttpClient.HttpClient
@@ -25196,7 +25197,7 @@ export type SendPipelineExecutionStepFailureError =
  * Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
 export const sendPipelineExecutionStepFailure: API.OperationMethod<
-  SendPipelineExecutionStepFailureRequest,
+  SendPipelineExecutionStepFailureRequest & RegionInput,
   SendPipelineExecutionStepFailureResponse,
   SendPipelineExecutionStepFailureError,
   Credentials | HttpClient.HttpClient
@@ -25220,7 +25221,7 @@ export type SendPipelineExecutionStepSuccessError =
  * Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
 export const sendPipelineExecutionStepSuccess: API.OperationMethod<
-  SendPipelineExecutionStepSuccessRequest,
+  SendPipelineExecutionStepSuccessRequest & RegionInput,
   SendPipelineExecutionStepSuccessResponse,
   SendPipelineExecutionStepSuccessError,
   Credentials | HttpClient.HttpClient
@@ -25240,7 +25241,7 @@ export type StartClusterHealthCheckError = ResourceNotFound | CommonErrors;
  * Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for details.
  */
 export const startClusterHealthCheck: API.OperationMethod<
-  StartClusterHealthCheckRequest,
+  StartClusterHealthCheckRequest & RegionInput,
   StartClusterHealthCheckResponse,
   StartClusterHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -25260,7 +25261,7 @@ export type StartEdgeDeploymentStageError = CommonErrors;
  * Starts a stage in an edge deployment plan.
  */
 export const startEdgeDeploymentStage: API.OperationMethod<
-  StartEdgeDeploymentStageRequest,
+  StartEdgeDeploymentStageRequest & RegionInput,
   StartEdgeDeploymentStageResponse,
   StartEdgeDeploymentStageError,
   Credentials | HttpClient.HttpClient
@@ -25280,7 +25281,7 @@ export type StartInferenceExperimentError = ConflictException | ResourceNotFound
  * Starts an inference experiment.
  */
 export const startInferenceExperiment: API.OperationMethod<
-  StartInferenceExperimentRequest,
+  StartInferenceExperimentRequest & RegionInput,
   StartInferenceExperimentResponse,
   StartInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -25300,7 +25301,7 @@ export type StartMlflowTrackingServerError = ConflictException | ResourceNotFoun
  * Programmatically start an MLflow Tracking Server.
  */
 export const startMlflowTrackingServer: API.OperationMethod<
-  StartMlflowTrackingServerRequest,
+  StartMlflowTrackingServerRequest & RegionInput,
   StartMlflowTrackingServerResponse,
   StartMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -25322,7 +25323,7 @@ export type StartMonitoringScheduleError = ResourceNotFound | CommonErrors;
  * By default, when you successfully create a new schedule, the status of a monitoring schedule is `scheduled`.
  */
 export const startMonitoringSchedule: API.OperationMethod<
-  StartMonitoringScheduleRequest,
+  StartMonitoringScheduleRequest & RegionInput,
   StartMonitoringScheduleResponse,
   StartMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -25342,7 +25343,7 @@ export type StartNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
  * Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to `InService`. A notebook instance's status must be `InService` before you can connect to your Jupyter notebook.
  */
 export const startNotebookInstance: API.OperationMethod<
-  StartNotebookInstanceInput,
+  StartNotebookInstanceInput & RegionInput,
   StartNotebookInstanceResponse,
   StartNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -25366,7 +25367,7 @@ export type StartPipelineExecutionError =
  * Starts a pipeline execution.
  */
 export const startPipelineExecution: API.OperationMethod<
-  StartPipelineExecutionRequest,
+  StartPipelineExecutionRequest & RegionInput,
   StartPipelineExecutionResponse,
   StartPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -25386,7 +25387,7 @@ export type StartSessionError = ResourceLimitExceeded | ResourceNotFound | Commo
  * Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -25406,7 +25407,7 @@ export type StopAIBenchmarkJobError = ResourceNotFound | CommonErrors;
  * Stops a running AI benchmark job.
  */
 export const stopAIBenchmarkJob: API.OperationMethod<
-  StopAIBenchmarkJobRequest,
+  StopAIBenchmarkJobRequest & RegionInput,
   StopAIBenchmarkJobResponse,
   StopAIBenchmarkJobError,
   Credentials | HttpClient.HttpClient
@@ -25426,7 +25427,7 @@ export type StopAIRecommendationJobError = ResourceNotFound | CommonErrors;
  * Stops a running AI recommendation job.
  */
 export const stopAIRecommendationJob: API.OperationMethod<
-  StopAIRecommendationJobRequest,
+  StopAIRecommendationJobRequest & RegionInput,
   StopAIRecommendationJobResponse,
   StopAIRecommendationJobError,
   Credentials | HttpClient.HttpClient
@@ -25446,7 +25447,7 @@ export type StopAutoMLJobError = ResourceNotFound | CommonErrors;
  * A method for forcing a running job to shut down.
  */
 export const stopAutoMLJob: API.OperationMethod<
-  StopAutoMLJobRequest,
+  StopAutoMLJobRequest & RegionInput,
   StopAutoMLJobResponse,
   StopAutoMLJobError,
   Credentials | HttpClient.HttpClient
@@ -25470,7 +25471,7 @@ export type StopCompilationJobError = ResourceNotFound | CommonErrors;
  * When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it sets the `CompilationJobStatus` to `Stopped`.
  */
 export const stopCompilationJob: API.OperationMethod<
-  StopCompilationJobRequest,
+  StopCompilationJobRequest & RegionInput,
   StopCompilationJobResponse,
   StopCompilationJobError,
   Credentials | HttpClient.HttpClient
@@ -25490,7 +25491,7 @@ export type StopEdgeDeploymentStageError = CommonErrors;
  * Stops a stage in an edge deployment plan.
  */
 export const stopEdgeDeploymentStage: API.OperationMethod<
-  StopEdgeDeploymentStageRequest,
+  StopEdgeDeploymentStageRequest & RegionInput,
   StopEdgeDeploymentStageResponse,
   StopEdgeDeploymentStageError,
   Credentials | HttpClient.HttpClient
@@ -25510,7 +25511,7 @@ export type StopEdgePackagingJobError = CommonErrors;
  * Request to stop an edge packaging job.
  */
 export const stopEdgePackagingJob: API.OperationMethod<
-  StopEdgePackagingJobRequest,
+  StopEdgePackagingJobRequest & RegionInput,
   StopEdgePackagingJobResponse,
   StopEdgePackagingJobError,
   Credentials | HttpClient.HttpClient
@@ -25532,7 +25533,7 @@ export type StopHyperParameterTuningJobError = ResourceNotFound | CommonErrors;
  * All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the `Stopped` state, it releases all reserved resources for the tuning job.
  */
 export const stopHyperParameterTuningJob: API.OperationMethod<
-  StopHyperParameterTuningJobRequest,
+  StopHyperParameterTuningJobRequest & RegionInput,
   StopHyperParameterTuningJobResponse,
   StopHyperParameterTuningJobError,
   Credentials | HttpClient.HttpClient
@@ -25552,7 +25553,7 @@ export type StopInferenceExperimentError = ConflictException | ResourceNotFound 
  * Stops an inference experiment.
  */
 export const stopInferenceExperiment: API.OperationMethod<
-  StopInferenceExperimentRequest,
+  StopInferenceExperimentRequest & RegionInput,
   StopInferenceExperimentResponse,
   StopInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -25572,7 +25573,7 @@ export type StopInferenceRecommendationsJobError = ResourceNotFound | CommonErro
  * Stops an Inference Recommender job.
  */
 export const stopInferenceRecommendationsJob: API.OperationMethod<
-  StopInferenceRecommendationsJobRequest,
+  StopInferenceRecommendationsJobRequest & RegionInput,
   StopInferenceRecommendationsJobResponse,
   StopInferenceRecommendationsJobError,
   Credentials | HttpClient.HttpClient
@@ -25600,7 +25601,7 @@ export type StopJobError = ResourceNotFound | CommonErrors;
  * - `DeleteJob`
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResponse,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -25620,7 +25621,7 @@ export type StopLabelingJobError = ResourceNotFound | CommonErrors;
  * Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
  */
 export const stopLabelingJob: API.OperationMethod<
-  StopLabelingJobRequest,
+  StopLabelingJobRequest & RegionInput,
   StopLabelingJobResponse,
   StopLabelingJobError,
   Credentials | HttpClient.HttpClient
@@ -25640,7 +25641,7 @@ export type StopMlflowTrackingServerError = ConflictException | ResourceNotFound
  * Programmatically stop an MLflow Tracking Server.
  */
 export const stopMlflowTrackingServer: API.OperationMethod<
-  StopMlflowTrackingServerRequest,
+  StopMlflowTrackingServerRequest & RegionInput,
   StopMlflowTrackingServerResponse,
   StopMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -25660,7 +25661,7 @@ export type StopMonitoringScheduleError = ResourceNotFound | CommonErrors;
  * Stops a previously started monitoring schedule.
  */
 export const stopMonitoringSchedule: API.OperationMethod<
-  StopMonitoringScheduleRequest,
+  StopMonitoringScheduleRequest & RegionInput,
   StopMonitoringScheduleResponse,
   StopMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -25682,7 +25683,7 @@ export type StopNotebookInstanceError = CommonErrors;
  * To access data on the ML storage volume for a notebook instance that has been terminated, call the `StartNotebookInstance` API. `StartNotebookInstance` launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
  */
 export const stopNotebookInstance: API.OperationMethod<
-  StopNotebookInstanceInput,
+  StopNotebookInstanceInput & RegionInput,
   StopNotebookInstanceResponse,
   StopNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -25702,7 +25703,7 @@ export type StopOptimizationJobError = ResourceNotFound | CommonErrors;
  * Ends a running inference optimization job.
  */
 export const stopOptimizationJob: API.OperationMethod<
-  StopOptimizationJobRequest,
+  StopOptimizationJobRequest & RegionInput,
   StopOptimizationJobResponse,
   StopOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -25734,7 +25735,7 @@ export type StopPipelineExecutionError = ConflictException | ResourceNotFound | 
  * A pipeline execution can't be stopped while a lambda step is running because the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the execution while the Lambda function is running, the pipeline waits for the Lambda function to finish or until the timeout is hit, whichever occurs first, and then stops. If the Lambda function finishes, the pipeline execution status is `Stopped`. If the timeout is hit the pipeline execution status is `Failed`.
  */
 export const stopPipelineExecution: API.OperationMethod<
-  StopPipelineExecutionRequest,
+  StopPipelineExecutionRequest & RegionInput,
   StopPipelineExecutionResponse,
   StopPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -25754,7 +25755,7 @@ export type StopProcessingJobError = ResourceNotFound | CommonErrors;
  * Stops a processing job.
  */
 export const stopProcessingJob: API.OperationMethod<
-  StopProcessingJobRequest,
+  StopProcessingJobRequest & RegionInput,
   StopProcessingJobResponse,
   StopProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -25776,7 +25777,7 @@ export type StopTrainingJobError = ResourceNotFound | CommonErrors;
  * When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
  */
 export const stopTrainingJob: API.OperationMethod<
-  StopTrainingJobRequest,
+  StopTrainingJobRequest & RegionInput,
   StopTrainingJobResponse,
   StopTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -25826,7 +25827,7 @@ export type StopTransformJobError = ResourceNotFound | CommonErrors;
  * When Amazon SageMaker receives a `StopTransformJob` request, the status of the job changes to `Stopping`. After Amazon SageMaker stops the job, the status is set to `Stopped`. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
  */
 export const stopTransformJob: API.OperationMethod<
-  StopTransformJobRequest,
+  StopTransformJobRequest & RegionInput,
   StopTransformJobResponse,
   StopTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -25846,7 +25847,7 @@ export type UpdateActionError = ConflictException | ResourceNotFound | CommonErr
  * Updates an action.
  */
 export const updateAction: API.OperationMethod<
-  UpdateActionRequest,
+  UpdateActionRequest & RegionInput,
   UpdateActionResponse,
   UpdateActionError,
   Credentials | HttpClient.HttpClient
@@ -25866,7 +25867,7 @@ export type UpdateAppImageConfigError = ResourceNotFound | CommonErrors;
  * Updates the properties of an AppImageConfig.
  */
 export const updateAppImageConfig: API.OperationMethod<
-  UpdateAppImageConfigRequest,
+  UpdateAppImageConfigRequest & RegionInput,
   UpdateAppImageConfigResponse,
   UpdateAppImageConfigError,
   Credentials | HttpClient.HttpClient
@@ -25886,7 +25887,7 @@ export type UpdateArtifactError = ConflictException | ResourceNotFound | CommonE
  * Updates an artifact.
  */
 export const updateArtifact: API.OperationMethod<
-  UpdateArtifactRequest,
+  UpdateArtifactRequest & RegionInput,
   UpdateArtifactResponse,
   UpdateArtifactError,
   Credentials | HttpClient.HttpClient
@@ -25910,7 +25911,7 @@ export type UpdateClusterError =
  * Updates a SageMaker HyperPod cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -25934,7 +25935,7 @@ export type UpdateClusterSchedulerConfigError =
  * Update the cluster policy configuration.
  */
 export const updateClusterSchedulerConfig: API.OperationMethod<
-  UpdateClusterSchedulerConfigRequest,
+  UpdateClusterSchedulerConfigRequest & RegionInput,
   UpdateClusterSchedulerConfigResponse,
   UpdateClusterSchedulerConfigError,
   Credentials | HttpClient.HttpClient
@@ -25956,7 +25957,7 @@ export type UpdateClusterSoftwareError = ConflictException | ResourceNotFound | 
  * The `UpgradeClusterSoftware` API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
  */
 export const updateClusterSoftware: API.OperationMethod<
-  UpdateClusterSoftwareRequest,
+  UpdateClusterSoftwareRequest & RegionInput,
   UpdateClusterSoftwareResponse,
   UpdateClusterSoftwareError,
   Credentials | HttpClient.HttpClient
@@ -25976,7 +25977,7 @@ export type UpdateCodeRepositoryError = ConflictException | CommonErrors;
  * Updates the specified Git repository with the specified values.
  */
 export const updateCodeRepository: API.OperationMethod<
-  UpdateCodeRepositoryInput,
+  UpdateCodeRepositoryInput & RegionInput,
   UpdateCodeRepositoryOutput,
   UpdateCodeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -26000,7 +26001,7 @@ export type UpdateComputeQuotaError =
  * Update the compute allocation definition.
  */
 export const updateComputeQuota: API.OperationMethod<
-  UpdateComputeQuotaRequest,
+  UpdateComputeQuotaRequest & RegionInput,
   UpdateComputeQuotaResponse,
   UpdateComputeQuotaError,
   Credentials | HttpClient.HttpClient
@@ -26020,7 +26021,7 @@ export type UpdateContextError = ConflictException | ResourceNotFound | CommonEr
  * Updates a context.
  */
 export const updateContext: API.OperationMethod<
-  UpdateContextRequest,
+  UpdateContextRequest & RegionInput,
   UpdateContextResponse,
   UpdateContextError,
   Credentials | HttpClient.HttpClient
@@ -26040,7 +26041,7 @@ export type UpdateDeviceFleetError = ResourceInUse | CommonErrors;
  * Updates a fleet of devices.
  */
 export const updateDeviceFleet: API.OperationMethod<
-  UpdateDeviceFleetRequest,
+  UpdateDeviceFleetRequest & RegionInput,
   UpdateDeviceFleetResponse,
   UpdateDeviceFleetError,
   Credentials | HttpClient.HttpClient
@@ -26060,7 +26061,7 @@ export type UpdateDevicesError = CommonErrors;
  * Updates one or more devices in a fleet.
  */
 export const updateDevices: API.OperationMethod<
-  UpdateDevicesRequest,
+  UpdateDevicesRequest & RegionInput,
   UpdateDevicesResponse,
   UpdateDevicesError,
   Credentials | HttpClient.HttpClient
@@ -26084,7 +26085,7 @@ export type UpdateDomainError =
  * Updates the default settings for new user profiles in the domain.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -26114,7 +26115,7 @@ export type UpdateEndpointError =
  * If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointInput,
+  UpdateEndpointInput & RegionInput,
   UpdateEndpointOutput,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -26134,7 +26135,7 @@ export type UpdateEndpointWeightsAndCapacitiesError = ResourceLimitExceeded | Co
  * Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to `Updating`. After updating the endpoint, it sets the status to `InService`. To check the status of an endpoint, use the DescribeEndpoint API.
  */
 export const updateEndpointWeightsAndCapacities: API.OperationMethod<
-  UpdateEndpointWeightsAndCapacitiesInput,
+  UpdateEndpointWeightsAndCapacitiesInput & RegionInput,
   UpdateEndpointWeightsAndCapacitiesOutput,
   UpdateEndpointWeightsAndCapacitiesError,
   Credentials | HttpClient.HttpClient
@@ -26154,7 +26155,7 @@ export type UpdateExperimentError = ConflictException | ResourceNotFound | Commo
  * Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
  */
 export const updateExperiment: API.OperationMethod<
-  UpdateExperimentRequest,
+  UpdateExperimentRequest & RegionInput,
   UpdateExperimentResponse,
   UpdateExperimentError,
   Credentials | HttpClient.HttpClient
@@ -26178,7 +26179,7 @@ export type UpdateFeatureGroupError = ResourceLimitExceeded | ResourceNotFound |
  * You can update the online store configuration by using the `OnlineStoreConfig` request parameter. If a `TtlDuration` is specified, the default `TtlDuration` applies for all records added to the feature group *after the feature group is updated*. If a record level `TtlDuration` exists from using the `PutRecord` API, the record level `TtlDuration` applies to that record instead of the default `TtlDuration`. To remove the default `TtlDuration` from an existing feature group, use the `UpdateFeatureGroup` API and set the `TtlDuration` `Unit` and `Value` to `null`.
  */
 export const updateFeatureGroup: API.OperationMethod<
-  UpdateFeatureGroupRequest,
+  UpdateFeatureGroupRequest & RegionInput,
   UpdateFeatureGroupResponse,
   UpdateFeatureGroupError,
   Credentials | HttpClient.HttpClient
@@ -26198,7 +26199,7 @@ export type UpdateFeatureMetadataError = ResourceNotFound | CommonErrors;
  * Updates the description and parameters of the feature group.
  */
 export const updateFeatureMetadata: API.OperationMethod<
-  UpdateFeatureMetadataRequest,
+  UpdateFeatureMetadataRequest & RegionInput,
   UpdateFeatureMetadataResponse,
   UpdateFeatureMetadataError,
   Credentials | HttpClient.HttpClient
@@ -26218,7 +26219,7 @@ export type UpdateHubError = ResourceNotFound | CommonErrors;
  * Update a hub.
  */
 export const updateHub: API.OperationMethod<
-  UpdateHubRequest,
+  UpdateHubRequest & RegionInput,
   UpdateHubResponse,
   UpdateHubError,
   Credentials | HttpClient.HttpClient
@@ -26254,7 +26255,7 @@ export type UpdateHubContentError = ResourceInUse | ResourceNotFound | CommonErr
  * If you want to update a `ModelReference` resource in your hub, use the `UpdateHubContentResource` API instead.
  */
 export const updateHubContent: API.OperationMethod<
-  UpdateHubContentRequest,
+  UpdateHubContentRequest & RegionInput,
   UpdateHubContentResponse,
   UpdateHubContentError,
   Credentials | HttpClient.HttpClient
@@ -26280,7 +26281,7 @@ export type UpdateHubContentReferenceError = ResourceInUse | ResourceNotFound | 
  * For more information about adding model references to your hub, see Add models to a private hub.
  */
 export const updateHubContentReference: API.OperationMethod<
-  UpdateHubContentReferenceRequest,
+  UpdateHubContentReferenceRequest & RegionInput,
   UpdateHubContentReferenceResponse,
   UpdateHubContentReferenceError,
   Credentials | HttpClient.HttpClient
@@ -26300,7 +26301,7 @@ export type UpdateImageError = ResourceInUse | ResourceNotFound | CommonErrors;
  * Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs.
  */
 export const updateImage: API.OperationMethod<
-  UpdateImageRequest,
+  UpdateImageRequest & RegionInput,
   UpdateImageResponse,
   UpdateImageError,
   Credentials | HttpClient.HttpClient
@@ -26320,7 +26321,7 @@ export type UpdateImageVersionError = ResourceInUse | ResourceNotFound | CommonE
  * Updates the properties of a SageMaker AI image version.
  */
 export const updateImageVersion: API.OperationMethod<
-  UpdateImageVersionRequest,
+  UpdateImageVersionRequest & RegionInput,
   UpdateImageVersionResponse,
   UpdateImageVersionError,
   Credentials | HttpClient.HttpClient
@@ -26340,7 +26341,7 @@ export type UpdateInferenceComponentError = ResourceLimitExceeded | CommonErrors
  * Updates an inference component.
  */
 export const updateInferenceComponent: API.OperationMethod<
-  UpdateInferenceComponentInput,
+  UpdateInferenceComponentInput & RegionInput,
   UpdateInferenceComponentOutput,
   UpdateInferenceComponentError,
   Credentials | HttpClient.HttpClient
@@ -26360,7 +26361,7 @@ export type UpdateInferenceComponentRuntimeConfigError = ResourceLimitExceeded |
  * Runtime settings for a model that is deployed with an inference component.
  */
 export const updateInferenceComponentRuntimeConfig: API.OperationMethod<
-  UpdateInferenceComponentRuntimeConfigInput,
+  UpdateInferenceComponentRuntimeConfigInput & RegionInput,
   UpdateInferenceComponentRuntimeConfigOutput,
   UpdateInferenceComponentRuntimeConfigError,
   Credentials | HttpClient.HttpClient
@@ -26380,7 +26381,7 @@ export type UpdateInferenceExperimentError = ConflictException | ResourceNotFoun
  * Updates an inference experiment that you created. The status of the inference experiment has to be either `Created`, `Running`. For more information on the status of an inference experiment, see DescribeInferenceExperiment.
  */
 export const updateInferenceExperiment: API.OperationMethod<
-  UpdateInferenceExperimentRequest,
+  UpdateInferenceExperimentRequest & RegionInput,
   UpdateInferenceExperimentResponse,
   UpdateInferenceExperimentError,
   Credentials | HttpClient.HttpClient
@@ -26400,7 +26401,7 @@ export type UpdateMlflowAppError = ConflictException | ResourceNotFound | Common
  * Updates an MLflow App.
  */
 export const updateMlflowApp: API.OperationMethod<
-  UpdateMlflowAppRequest,
+  UpdateMlflowAppRequest & RegionInput,
   UpdateMlflowAppResponse,
   UpdateMlflowAppError,
   Credentials | HttpClient.HttpClient
@@ -26424,7 +26425,7 @@ export type UpdateMlflowTrackingServerError =
  * Updates properties of an existing MLflow Tracking Server.
  */
 export const updateMlflowTrackingServer: API.OperationMethod<
-  UpdateMlflowTrackingServerRequest,
+  UpdateMlflowTrackingServerRequest & RegionInput,
   UpdateMlflowTrackingServerResponse,
   UpdateMlflowTrackingServerError,
   Credentials | HttpClient.HttpClient
@@ -26450,7 +26451,7 @@ export type UpdateModelCardError =
  * You cannot update both model card content and model card status in a single call.
  */
 export const updateModelCard: API.OperationMethod<
-  UpdateModelCardRequest,
+  UpdateModelCardRequest & RegionInput,
   UpdateModelCardResponse,
   UpdateModelCardError,
   Credentials | HttpClient.HttpClient
@@ -26470,7 +26471,7 @@ export type UpdateModelPackageError = ConflictException | CommonErrors;
  * Updates a versioned model.
  */
 export const updateModelPackage: API.OperationMethod<
-  UpdateModelPackageInput,
+  UpdateModelPackageInput & RegionInput,
   UpdateModelPackageOutput,
   UpdateModelPackageError,
   Credentials | HttpClient.HttpClient
@@ -26490,7 +26491,7 @@ export type UpdateMonitoringAlertError = ResourceLimitExceeded | ResourceNotFoun
  * Update the parameters of a model monitor alert.
  */
 export const updateMonitoringAlert: API.OperationMethod<
-  UpdateMonitoringAlertRequest,
+  UpdateMonitoringAlertRequest & RegionInput,
   UpdateMonitoringAlertResponse,
   UpdateMonitoringAlertError,
   Credentials | HttpClient.HttpClient
@@ -26510,7 +26511,7 @@ export type UpdateMonitoringScheduleError = ResourceLimitExceeded | ResourceNotF
  * Updates a previously created schedule.
  */
 export const updateMonitoringSchedule: API.OperationMethod<
-  UpdateMonitoringScheduleRequest,
+  UpdateMonitoringScheduleRequest & RegionInput,
   UpdateMonitoringScheduleResponse,
   UpdateMonitoringScheduleError,
   Credentials | HttpClient.HttpClient
@@ -26532,7 +26533,7 @@ export type UpdateNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
  * This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's credentials. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const updateNotebookInstance: API.OperationMethod<
-  UpdateNotebookInstanceInput,
+  UpdateNotebookInstanceInput & RegionInput,
   UpdateNotebookInstanceOutput,
   UpdateNotebookInstanceError,
   Credentials | HttpClient.HttpClient
@@ -26554,7 +26555,7 @@ export type UpdateNotebookInstanceLifecycleConfigError = ResourceLimitExceeded |
  * Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const updateNotebookInstanceLifecycleConfig: API.OperationMethod<
-  UpdateNotebookInstanceLifecycleConfigInput,
+  UpdateNotebookInstanceLifecycleConfigInput & RegionInput,
   UpdateNotebookInstanceLifecycleConfigOutput,
   UpdateNotebookInstanceLifecycleConfigError,
   Credentials | HttpClient.HttpClient
@@ -26574,7 +26575,7 @@ export type UpdatePartnerAppError = ConflictException | ResourceNotFound | Commo
  * Updates all of the SageMaker Partner AI Apps in an account.
  */
 export const updatePartnerApp: API.OperationMethod<
-  UpdatePartnerAppRequest,
+  UpdatePartnerAppRequest & RegionInput,
   UpdatePartnerAppResponse,
   UpdatePartnerAppError,
   Credentials | HttpClient.HttpClient
@@ -26594,7 +26595,7 @@ export type UpdatePipelineError = ConflictException | ResourceNotFound | CommonE
  * Updates a pipeline.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineRequest,
+  UpdatePipelineRequest & RegionInput,
   UpdatePipelineResponse,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -26614,7 +26615,7 @@ export type UpdatePipelineExecutionError = ConflictException | ResourceNotFound 
  * Updates a pipeline execution.
  */
 export const updatePipelineExecution: API.OperationMethod<
-  UpdatePipelineExecutionRequest,
+  UpdatePipelineExecutionRequest & RegionInput,
   UpdatePipelineExecutionResponse,
   UpdatePipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -26634,7 +26635,7 @@ export type UpdatePipelineVersionError = ConflictException | ResourceNotFound | 
  * Updates a pipeline version.
  */
 export const updatePipelineVersion: API.OperationMethod<
-  UpdatePipelineVersionRequest,
+  UpdatePipelineVersionRequest & RegionInput,
   UpdatePipelineVersionResponse,
   UpdatePipelineVersionError,
   Credentials | HttpClient.HttpClient
@@ -26656,7 +26657,7 @@ export type UpdateProjectError = ConflictException | CommonErrors;
  * You must not update a project that is in use. If you update the `ServiceCatalogProvisioningUpdateDetails` of a project that is active or being created, or updated, you may lose resources already created by the project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
+  UpdateProjectInput & RegionInput,
   UpdateProjectOutput,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -26682,7 +26683,7 @@ export type UpdateSpaceError =
  * You can't edit the app type of a space in the `SpaceSettings`.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceRequest,
+  UpdateSpaceRequest & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -26702,7 +26703,7 @@ export type UpdateTrainingJobError = ResourceLimitExceeded | ResourceNotFound | 
  * Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
  */
 export const updateTrainingJob: API.OperationMethod<
-  UpdateTrainingJobRequest,
+  UpdateTrainingJobRequest & RegionInput,
   UpdateTrainingJobResponse,
   UpdateTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -26722,7 +26723,7 @@ export type UpdateTrialError = ConflictException | ResourceNotFound | CommonErro
  * Updates the display name of a trial.
  */
 export const updateTrial: API.OperationMethod<
-  UpdateTrialRequest,
+  UpdateTrialRequest & RegionInput,
   UpdateTrialResponse,
   UpdateTrialError,
   Credentials | HttpClient.HttpClient
@@ -26742,7 +26743,7 @@ export type UpdateTrialComponentError = ConflictException | ResourceNotFound | C
  * Updates one or more properties of a trial component.
  */
 export const updateTrialComponent: API.OperationMethod<
-  UpdateTrialComponentRequest,
+  UpdateTrialComponentRequest & RegionInput,
   UpdateTrialComponentResponse,
   UpdateTrialComponentError,
   Credentials | HttpClient.HttpClient
@@ -26766,7 +26767,7 @@ export type UpdateUserProfileError =
  * Updates a user profile.
  */
 export const updateUserProfile: API.OperationMethod<
-  UpdateUserProfileRequest,
+  UpdateUserProfileRequest & RegionInput,
   UpdateUserProfileResponse,
   UpdateUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -26802,7 +26803,7 @@ export type UpdateWorkforceError = ConflictException | CommonErrors;
  * This operation only applies to private workforces.
  */
 export const updateWorkforce: API.OperationMethod<
-  UpdateWorkforceRequest,
+  UpdateWorkforceRequest & RegionInput,
   UpdateWorkforceResponse,
   UpdateWorkforceError,
   Credentials | HttpClient.HttpClient
@@ -26822,7 +26823,7 @@ export type UpdateWorkteamError = ResourceLimitExceeded | CommonErrors;
  * Updates an existing work team with new member definitions or description.
  */
 export const updateWorkteam: API.OperationMethod<
-  UpdateWorkteamRequest,
+  UpdateWorkteamRequest & RegionInput,
   UpdateWorkteamResponse,
   UpdateWorkteamError,
   Credentials | HttpClient.HttpClient

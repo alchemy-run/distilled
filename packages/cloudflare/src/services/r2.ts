@@ -258,10 +258,10 @@ export interface CreateBucketRequest {
   /** Name of the bucket. */
   name: string;
   /** Location of the bucket. */
-  locationHint?: BucketsCreateRequestLocationHint | (string & {}) | undefined;
+  locationHint?: BucketsCreateRequestLocationHint | (string & {});
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsCreateRequestStorageClass | (string & {}) | undefined;
-  jurisdiction?: BucketsCreateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  storageClass?: BucketsCreateRequestStorageClass | (string & {});
+  jurisdiction?: BucketsCreateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsCreateResponseJurisdiction =
   | "default"
@@ -274,15 +274,15 @@ export type BucketsCreateResponseStorageClass = "Standard" | "InfrequentAccess";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string | null | undefined;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: BucketsCreateResponseJurisdiction | null | undefined;
+  jurisdiction?: BucketsCreateResponseJurisdiction | null;
   /** Location of the bucket. */
-  location?: BucketsCreateResponseLocation | null | undefined;
+  location?: BucketsCreateResponseLocation | null;
   /** Name of the bucket. */
-  name?: string | null | undefined;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsCreateResponseStorageClass | null | undefined;
+  storageClass?: BucketsCreateResponseStorageClass | null;
 }
 export type BucketsDomainsCustomCreateRequestCiphersList = Array<string>;
 export type BucketsDomainsCustomCreateRequestMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -304,10 +304,10 @@ export interface CreateBucketDomainCustomRequest {
   /** Zone ID of the custom domain. */
   zoneId: string;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomCreateRequestCiphersList | undefined;
+  ciphers?: BucketsDomainsCustomCreateRequestCiphersList;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: BucketsDomainsCustomCreateRequestMinTLS | (string & {}) | undefined;
-  jurisdiction?: BucketsDomainsCustomCreateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  minTLS?: BucketsDomainsCustomCreateRequestMinTLS | (string & {});
+  jurisdiction?: BucketsDomainsCustomCreateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomCreateResponseCiphersList = Array<string>;
 export type BucketsDomainsCustomCreateResponseMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -320,34 +320,31 @@ export interface CreateBucketDomainCustomResponse {
   /** Zone ID of the custom domain. */
   zoneId: string;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomCreateResponseCiphersList | null | undefined;
+  ciphers?: BucketsDomainsCustomCreateResponseCiphersList | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: BucketsDomainsCustomCreateResponseMinTLS | null | undefined;
+  minTLS?: BucketsDomainsCustomCreateResponseMinTLS | null;
 }
+export type CreateBucketsJobRequestJobType = "prefixDelete" | "storageClassMigration";
+export type CreateBucketsJobRequestDestinationStorageClass = "Standard" | "InfrequentAccess";
+export type CreateBucketsJobRequestSourceStorageClass = "Standard" | "InfrequentAccess";
 export type CreateBucketsJobRequestCfR2Jurisdiction =
   | "default"
   | "eu"
   | "us"
   | "fedramp"
   | "fedramp-high";
-export type CreateBucketsJobRequestJobType = "prefixDelete" | "storageClassMigration";
-export type CreateBucketsJobRequestDestinationStorageClass = "Standard" | "InfrequentAccess";
-export type CreateBucketsJobRequestSourceStorageClass = "Standard" | "InfrequentAccess";
 export interface CreateBucketsJobRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2DataCatalogCheck?: string | undefined;
-  cfR2Jurisdiction?: CreateBucketsJobRequestCfR2Jurisdiction | (string & {}) | undefined;
+  cfR2DataCatalogCheck?: string;
   jobType: CreateBucketsJobRequestJobType | (string & {});
   /** Prefix matched against object keys. A non-empty value must end in `/`. An empty string empties the entire bucket. */
-  prefix?: string | undefined;
-  destinationStorageClass?:
-    | CreateBucketsJobRequestDestinationStorageClass
-    | (string & {})
-    | undefined;
-  sourceStorageClass?: CreateBucketsJobRequestSourceStorageClass | (string & {}) | undefined;
+  prefix?: string;
+  destinationStorageClass?: CreateBucketsJobRequestDestinationStorageClass | (string & {});
+  sourceStorageClass?: CreateBucketsJobRequestSourceStorageClass | (string & {});
+  jurisdiction?: CreateBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type CreateBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export interface CreateBucketsJobResultPrefixDeletePrefixDelete {
@@ -356,7 +353,7 @@ export interface CreateBucketsJobResultPrefixDeletePrefixDelete {
   /** The prefix matched against object keys. An empty string means the entire bucket. */
   prefix: string;
   /** True when the job was created to clear the entire bucket. This field can be absent on jobs created before Empty Bucket job tracking was introduced. */
-  isBucketClear?: boolean | null | undefined;
+  isBucketClear?: boolean | null;
 }
 export type CreateBucketsJobResultPrefixDeleteStatus =
   | "ENQUEUED"
@@ -376,7 +373,7 @@ export interface CreateBucketsJobResultPrefixDelete {
   /** Lifecycle status of a bucket background job. */
   status: CreateBucketsJobResultPrefixDeleteStatus;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type CreateBucketsJobResultStorageClassMigrationJobType = "storageClassMigration";
 export type CreateBucketsJobResultStorageClassMigrationStatus =
@@ -399,17 +396,17 @@ export interface CreateBucketsJobResultStorageClassMigrationStorageClassMigratio
   /** The storage class objects are migrated from. */
   sourceStorageClass: CreateBucketsJobResultStorageClassMigrationStorageClassMigrationSourceStorageClass;
   /** Payload bytes belonging to failed object versions. */
-  failedBytes?: number | null | undefined;
+  failedBytes?: number | null;
   /** Number of object versions that failed migration. */
-  failedObjects?: number | null | undefined;
+  failedObjects?: number | null;
   /** Object payload bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedBytes?: number | null | undefined;
+  migratedBytes?: number | null;
   /** Object metadata bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedMetadataBytes?: number | null | undefined;
+  migratedMetadataBytes?: number | null;
   /** Payload bytes belonging to skipped object versions. */
-  skippedBytes?: number | null | undefined;
+  skippedBytes?: number | null;
   /** Number of object versions skipped. */
-  skippedObjects?: number | null | undefined;
+  skippedObjects?: number | null;
 }
 export interface CreateBucketsJobResultStorageClassMigration {
   /** Unique identifier used to poll the job. */
@@ -422,7 +419,7 @@ export interface CreateBucketsJobResultStorageClassMigration {
   status: CreateBucketsJobResultStorageClassMigrationStatus;
   storageClassMigration: CreateBucketsJobResultStorageClassMigrationStorageClassMigration;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type CreateBucketsJobResult =
   | CreateBucketsJobResultPrefixDelete
@@ -439,10 +436,10 @@ export interface SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchema {
   secret: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
   vendor: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaVendor;
   /** Custom S3-compatible endpoint that must use https://. */
-  endpoint?: string | undefined;
-  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaKeysList | undefined;
-  pathPrefix?: string | undefined;
-  region?: string | undefined;
+  endpoint?: string;
+  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaKeysList;
+  pathPrefix?: string;
+  region?: string;
 }
 export interface SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchemaSecret {
   clientEmail: string;
@@ -454,8 +451,8 @@ export interface SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchema {
   bucket: string;
   secret: SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchemaSecret;
   vendor: SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchemaVendor;
-  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchemaKeysList | undefined;
-  pathPrefix?: string | undefined;
+  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperGcsSourceSchemaKeysList;
+  pathPrefix?: string;
 }
 export type SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaSecret =
   SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
@@ -472,10 +469,9 @@ export interface SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchema {
   vendor: SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaVendor;
   jurisdiction?:
     | SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaJurisdiction
-    | (string & {})
-    | undefined;
-  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaKeysList | undefined;
-  pathPrefix?: string | undefined;
+    | (string & {});
+  keys?: SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaKeysList;
+  pathPrefix?: string;
 }
 export type SuperSlurperJobsCreateRequestSource =
   | SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchema
@@ -489,17 +485,17 @@ export interface SuperSlurperJobsCreateRequestTarget {
   bucket: string;
   secret: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
   vendor: SuperSlurperJobsCreateRequestTargetVendor | (string & {});
-  jurisdiction?: SuperSlurperJobsCreateRequestTargetJurisdiction | (string & {}) | undefined;
+  jurisdiction?: SuperSlurperJobsCreateRequestTargetJurisdiction | (string & {});
 }
 export interface CreateSuperSlurperJobRequest {
   accountId: string;
-  overwrite?: boolean | undefined;
-  source?: SuperSlurperJobsCreateRequestSource | undefined;
-  target?: SuperSlurperJobsCreateRequestTarget | undefined;
+  overwrite?: boolean;
+  source?: SuperSlurperJobsCreateRequestSource;
+  target?: SuperSlurperJobsCreateRequestTarget;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSuperSlurperJobResponse {
-  id?: string | null | undefined;
+  id?: string | null;
 }
 export type TemporaryCredentialsCreateRequestPermission =
   | "admin-read-write"
@@ -520,18 +516,18 @@ export interface CreateTemporaryCredentialRequest {
   /** Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days). */
   ttlSeconds: number;
   /** Optional object paths to scope the credentials to. */
-  objects?: TemporaryCredentialsCreateRequestObjectsList | undefined;
+  objects?: TemporaryCredentialsCreateRequestObjectsList;
   /** Optional prefix paths to scope the credentials to. */
-  prefixes?: TemporaryCredentialsCreateRequestPrefixesList | undefined;
+  prefixes?: TemporaryCredentialsCreateRequestPrefixesList;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTemporaryCredentialResponse {
   /** ID for new access key. */
-  accessKeyId?: string | null | undefined;
+  accessKeyId?: string | null;
   /** Secret access key. */
-  secretAccessKey?: string | null | undefined;
+  secretAccessKey?: string | null;
   /** Security token. */
-  sessionToken?: string | null | undefined;
+  sessionToken?: string | null;
 }
 export type BucketsDeleteRequestCfR2Jurisdiction =
   | "default"
@@ -544,7 +540,7 @@ export interface DeleteBucketRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketResponse = unknown;
 export type BucketsCorsDeleteRequestCfR2Jurisdiction =
@@ -558,7 +554,7 @@ export interface DeleteBucketCorsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsCorsDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsCorsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketCorsResponse = unknown;
 export type BucketsDomainsCustomDeleteRequestCfR2Jurisdiction =
@@ -574,7 +570,7 @@ export interface DeleteBucketDomainCustomRequest {
   bucketName: string;
   /** Name of the custom domain. */
   domain: string;
-  jurisdiction?: BucketsDomainsCustomDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDomainsCustomDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketDomainCustomResponse {
@@ -594,7 +590,7 @@ export interface DeleteBucketEventNotificationRequest {
   bucketName: string;
   /** ID of the Cloudflare Queue that receives notifications for matching R2 object events. */
   queueId: string;
-  jurisdiction?: BucketsEventNotificationsDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsEventNotificationsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 export type DeleteBucketEventNotificationResponse = unknown;
 export type BucketsObjectsDeleteRequestCfR2Jurisdiction =
@@ -608,14 +604,14 @@ export interface DeleteBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
   /** The key (name) of the object to delete. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketObjectResponse {
   /** The key (name) of the deleted object. */
-  key?: string | null | undefined;
+  key?: string | null;
 }
 export type BucketsSippyDeleteRequestCfR2Jurisdiction =
   | "default"
@@ -628,11 +624,11 @@ export interface DeleteBucketSippyRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsSippyDeleteRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsSippyDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketSippyResponse {
-  enabled?: boolean | null | undefined;
+  enabled?: boolean | null;
 }
 export type DeleteObjectsKeyList = Array<string>;
 export interface DeleteObjectsRequest {
@@ -640,9 +636,9 @@ export interface DeleteObjectsRequest {
   accountId: string;
   /** Name of the R2 bucket. */
   bucketName: string;
-  prefix?: string | undefined;
-  body?: DeleteObjectsKeyList | undefined;
-  cfR2Jurisdiction?: string | undefined;
+  prefix?: string;
+  body?: DeleteObjectsKeyList;
+  jurisdiction?: string;
 }
 export type DeleteObjectsResponse = unknown;
 export type BucketsGetRequestCfR2Jurisdiction =
@@ -656,7 +652,7 @@ export interface GetBucketRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsGetResponseJurisdiction = "default" | "eu" | "us" | "fedramp" | "fedramp-high";
 export type BucketsGetResponseLocation = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
@@ -664,15 +660,15 @@ export type BucketsGetResponseStorageClass = "Standard" | "InfrequentAccess";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string | null | undefined;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: BucketsGetResponseJurisdiction | null | undefined;
+  jurisdiction?: BucketsGetResponseJurisdiction | null;
   /** Location of the bucket. */
-  location?: BucketsGetResponseLocation | null | undefined;
+  location?: BucketsGetResponseLocation | null;
   /** Name of the bucket. */
-  name?: string | null | undefined;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsGetResponseStorageClass | null | undefined;
+  storageClass?: BucketsGetResponseStorageClass | null;
 }
 export type BucketsCorsGetRequestCfR2Jurisdiction =
   | "default"
@@ -685,7 +681,7 @@ export interface GetBucketCorsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsCorsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsCorsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsCorsGetResponseRulesItemAllowedMethodsItem =
   | "GET"
@@ -703,23 +699,23 @@ export interface BucketsCorsGetResponseRulesItemAllowed {
   /** Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser. */
   origins: BucketsCorsGetResponseRulesItemAllowedOriginsList;
   /** Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders. */
-  headers?: BucketsCorsGetResponseRulesItemAllowedHeadersList | null | undefined;
+  headers?: BucketsCorsGetResponseRulesItemAllowedHeadersList | null;
 }
 export type BucketsCorsGetResponseRulesItemExposeHeadersList = Array<string>;
 export interface BucketsCorsGetResponseRulesItem {
   /** Object specifying allowed origins, methods and headers for this CORS rule. */
   allowed: BucketsCorsGetResponseRulesItemAllowed;
   /** Identifier for this rule. */
-  id?: string | null | undefined;
+  id?: string | null;
   /** Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here. */
-  exposeHeaders?: BucketsCorsGetResponseRulesItemExposeHeadersList | null | undefined;
+  exposeHeaders?: BucketsCorsGetResponseRulesItemExposeHeadersList | null;
   /** Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified. */
-  maxAgeSeconds?: number | null | undefined;
+  maxAgeSeconds?: number | null;
 }
 export type BucketsCorsGetResponseRulesList = Array<BucketsCorsGetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketCorsResponse {
-  rules?: BucketsCorsGetResponseRulesList | null | undefined;
+  rules?: BucketsCorsGetResponseRulesList | null;
 }
 export type BucketsDomainsCustomGetRequestCfR2Jurisdiction =
   | "default"
@@ -734,7 +730,7 @@ export interface GetBucketDomainCustomRequest {
   bucketName: string;
   /** Name of the custom domain. */
   domain: string;
-  jurisdiction?: BucketsDomainsCustomGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDomainsCustomGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomGetResponseStatusOwnership =
   | "pending"
@@ -766,13 +762,13 @@ export interface GetBucketDomainCustomResponse {
   enabled: boolean;
   status: BucketsDomainsCustomGetResponseStatus;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomGetResponseCiphersList | null | undefined;
+  ciphers?: BucketsDomainsCustomGetResponseCiphersList | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: BucketsDomainsCustomGetResponseMinTLS | null | undefined;
+  minTLS?: BucketsDomainsCustomGetResponseMinTLS | null;
   /** Zone ID of the custom domain resides in. */
-  zoneId?: string | null | undefined;
+  zoneId?: string | null;
   /** Zone that the custom domain resides in. */
-  zoneName?: string | null | undefined;
+  zoneName?: string | null;
 }
 export type BucketsEventNotificationsGetRequestCfR2Jurisdiction =
   | "default"
@@ -787,7 +783,7 @@ export interface GetBucketEventNotificationRequest {
   bucketName: string;
   /** ID of the Cloudflare Queue that receives notifications for matching R2 object events. */
   queueId: string;
-  jurisdiction?: BucketsEventNotificationsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsEventNotificationsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEventNotificationsGetResponseRulesItemActionsItem =
   | "PutObject"
@@ -801,25 +797,25 @@ export interface BucketsEventNotificationsGetResponseRulesItem {
   /** Array of R2 object actions that will trigger notifications. */
   actions: BucketsEventNotificationsGetResponseRulesItemActionsList;
   /** Timestamp when the rule was created. */
-  createdAt?: string | null | undefined;
+  createdAt?: string | null;
   /** A description that can be used to identify the event notification rule after creation. */
-  description?: string | null | undefined;
+  description?: string | null;
   /** Notifications will be sent only for objects with this prefix. */
-  prefix?: string | null | undefined;
+  prefix?: string | null;
   /** Rule ID. */
-  ruleId?: string | null | undefined;
+  ruleId?: string | null;
   /** Notifications will be sent only for objects with this suffix. */
-  suffix?: string | null | undefined;
+  suffix?: string | null;
 }
 export type BucketsEventNotificationsGetResponseRulesList =
   Array<BucketsEventNotificationsGetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketEventNotificationResponse {
   /** Queue ID. */
-  queueId?: string | null | undefined;
+  queueId?: string | null;
   /** Name of the queue. */
-  queueName?: string | null | undefined;
-  rules?: BucketsEventNotificationsGetResponseRulesList | null | undefined;
+  queueName?: string | null;
+  rules?: BucketsEventNotificationsGetResponseRulesList | null;
 }
 export type BucketsLifecycleGetRequestCfR2Jurisdiction =
   | "default"
@@ -832,7 +828,7 @@ export interface GetBucketLifecycleRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsLifecycleGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsLifecycleGetRequestCfR2Jurisdiction | (string & {});
 }
 export interface BucketsLifecycleGetResponseRulesItemConditions {
   /** Transitions will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads. */
@@ -846,10 +842,7 @@ export interface BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransi
 }
 export interface BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransition {
   /** Condition for lifecycle transitions to apply after an object reaches an age in seconds. */
-  condition?:
-    | BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransitionCondition
-    | null
-    | undefined;
+  condition?: BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransitionCondition | null;
 }
 export type BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionConditionR2LifecycleAgeConditionType =
   "Age";
@@ -868,10 +861,7 @@ export type BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionCondition
   | BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionConditionR2LifecycleDateCondition;
 export interface BucketsLifecycleGetResponseRulesItemDeleteObjectsTransition {
   /** Condition for lifecycle transitions to apply after an object reaches an age in seconds. */
-  condition?:
-    | BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionCondition
-    | null
-    | undefined;
+  condition?: BucketsLifecycleGetResponseRulesItemDeleteObjectsTransitionCondition | null;
 }
 export type BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItemConditionR2LifecycleAgeConditionType =
   "Age";
@@ -905,25 +895,16 @@ export interface BucketsLifecycleGetResponseRulesItem {
   /** Whether or not this rule is in effect. */
   enabled: boolean;
   /** Transition to abort ongoing multipart uploads. */
-  abortMultipartUploadsTransition?:
-    | BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransition
-    | null
-    | undefined;
+  abortMultipartUploadsTransition?: BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransition | null;
   /** Transition to delete objects. */
-  deleteObjectsTransition?:
-    | BucketsLifecycleGetResponseRulesItemDeleteObjectsTransition
-    | null
-    | undefined;
+  deleteObjectsTransition?: BucketsLifecycleGetResponseRulesItemDeleteObjectsTransition | null;
   /** Transitions to change the storage class of objects. */
-  storageClassTransitions?:
-    | BucketsLifecycleGetResponseRulesItemStorageClassTransitionsList
-    | null
-    | undefined;
+  storageClassTransitions?: BucketsLifecycleGetResponseRulesItemStorageClassTransitionsList | null;
 }
 export type BucketsLifecycleGetResponseRulesList = Array<BucketsLifecycleGetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketLifecycleResponse {
-  rules?: BucketsLifecycleGetResponseRulesList | null | undefined;
+  rules?: BucketsLifecycleGetResponseRulesList | null;
 }
 export interface GetBucketLocalUploadsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
@@ -947,7 +928,7 @@ export interface GetBucketLockRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsLocksGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsLocksGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsLocksGetResponseRulesItemConditionR2LockRuleAgeConditionType = "Age";
 export interface BucketsLocksGetResponseRulesItemConditionR2LockRuleAgeCondition {
@@ -976,12 +957,12 @@ export interface BucketsLocksGetResponseRulesItem {
   /** Whether or not this rule is in effect. */
   enabled: boolean;
   /** Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads. */
-  prefix?: string | null | undefined;
+  prefix?: string | null;
 }
 export type BucketsLocksGetResponseRulesList = Array<BucketsLocksGetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketLockResponse {
-  rules?: BucketsLocksGetResponseRulesList | null | undefined;
+  rules?: BucketsLocksGetResponseRulesList | null;
 }
 export type BucketsObjectsGetRequestCfR2Jurisdiction =
   | "default"
@@ -994,40 +975,40 @@ export interface GetBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
   /** Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`. */
-  ifModifiedSince?: string | undefined;
+  ifModifiedSince?: string;
   /** Returns the object only if its ETag does not match the given value. */
-  ifNoneMatch?: string | undefined;
+  ifNoneMatch?: string;
   /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketObjectResponseCfR2StorageClass = "Standard" | "InfrequentAccess";
 export interface GetBucketObjectResponse {
   /** Raw object body as an Effect Stream. */
   body: T.BinaryResponseBody;
   /** Entity tag of the object (raw hex digest). */
-  etag?: string | undefined;
+  etag?: string;
   /** MIME type of the object. */
-  contentType?: string | undefined;
+  contentType?: string;
   /** Object size in bytes. */
-  contentLength?: number | undefined;
+  contentLength?: number;
   /** Content encoding of the object (e.g. `gzip`). */
-  contentEncoding?: string | undefined;
+  contentEncoding?: string;
   /** Content disposition header for the object. */
-  contentDisposition?: string | undefined;
+  contentDisposition?: string;
   /** Content language of the object. */
-  contentLanguage?: string | undefined;
+  contentLanguage?: string;
   /** Byte range returned (set when the request used `Range`). */
-  contentRange?: string | undefined;
+  contentRange?: string;
   /** Cache-Control directives associated with the object. */
-  cacheControl?: string | undefined;
+  cacheControl?: string;
   /** Expiration date of the object. */
-  expires?: string | undefined;
+  expires?: string;
   /** When the object was last modified (RFC 7231 date). */
-  lastModified?: string | undefined;
+  lastModified?: string;
   /** Storage class of the object (`Standard` or `InfrequentAccess`). */
-  cfR2StorageClass?: GetBucketObjectResponseCfR2StorageClass | undefined;
+  cfR2StorageClass?: GetBucketObjectResponseCfR2StorageClass;
 }
 export type BucketsSippyGetRequestCfR2Jurisdiction =
   | "default"
@@ -1040,37 +1021,37 @@ export interface GetBucketSippyRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsSippyGetRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsSippyGetRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsSippyGetResponseDestinationProvider = "r2";
 export interface BucketsSippyGetResponseDestination {
   /** ID of the Cloudflare API token used when writing objects to this bucket. */
-  accessKeyId?: string | null | undefined;
-  account?: string | null | undefined;
+  accessKeyId?: string | null;
+  account?: string | null;
   /** Name of the bucket on the provider. */
-  bucket?: string | null | undefined;
-  provider?: BucketsSippyGetResponseDestinationProvider | null | undefined;
+  bucket?: string | null;
+  provider?: BucketsSippyGetResponseDestinationProvider | null;
 }
 export type BucketsSippyGetResponseSourceProvider = "aws" | "gcs" | "s3" | "azure";
 export interface BucketsSippyGetResponseSource {
   /** Name of the bucket on the provider (AWS, GCS only). */
-  bucket?: string | null | undefined;
+  bucket?: string | null;
   /** S3-compatible URL (Generic S3-compatible providers only). */
-  bucketUrl?: string | null | undefined;
+  bucketUrl?: string | null;
   /** Name of the Azure Blob Storage container (Azure only). */
-  container?: string | null | undefined;
-  provider?: BucketsSippyGetResponseSourceProvider | null | undefined;
+  container?: string | null;
+  provider?: BucketsSippyGetResponseSourceProvider | null;
   /** Region where the bucket resides (AWS only). */
-  region?: string | null | undefined;
+  region?: string | null;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBucketSippyResponse {
   /** Details about the configured destination bucket. */
-  destination?: BucketsSippyGetResponseDestination | null | undefined;
+  destination?: BucketsSippyGetResponseDestination | null;
   /** State of Sippy for this bucket. */
-  enabled?: boolean | null | undefined;
+  enabled?: boolean | null;
   /** Details about the configured source bucket. */
-  source?: BucketsSippyGetResponseSource | null | undefined;
+  source?: BucketsSippyGetResponseSource | null;
 }
 export type GetBucketsJobRequestCfR2Jurisdiction =
   | "default"
@@ -1084,7 +1065,7 @@ export interface GetBucketsJobRequest {
   /** Name of the bucket. */
   bucketName: string;
   jobId: string;
-  cfR2Jurisdiction?: GetBucketsJobRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: GetBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export type GetBucketsJobResultPrefixDeletePrefixDelete =
@@ -1107,7 +1088,7 @@ export interface GetBucketsJobResultPrefixDelete {
   /** Lifecycle status of a bucket background job. */
   status: GetBucketsJobResultPrefixDeleteStatus;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type GetBucketsJobResultStorageClassMigrationJobType = "storageClassMigration";
 export type GetBucketsJobResultStorageClassMigrationStatus =
@@ -1130,17 +1111,17 @@ export interface GetBucketsJobResultStorageClassMigrationStorageClassMigration {
   /** The storage class objects are migrated from. */
   sourceStorageClass: GetBucketsJobResultStorageClassMigrationStorageClassMigrationSourceStorageClass;
   /** Payload bytes belonging to failed object versions. */
-  failedBytes?: number | null | undefined;
+  failedBytes?: number | null;
   /** Number of object versions that failed migration. */
-  failedObjects?: number | null | undefined;
+  failedObjects?: number | null;
   /** Object payload bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedBytes?: number | null | undefined;
+  migratedBytes?: number | null;
   /** Object metadata bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedMetadataBytes?: number | null | undefined;
+  migratedMetadataBytes?: number | null;
   /** Payload bytes belonging to skipped object versions. */
-  skippedBytes?: number | null | undefined;
+  skippedBytes?: number | null;
   /** Number of object versions skipped. */
-  skippedObjects?: number | null | undefined;
+  skippedObjects?: number | null;
 }
 export interface GetBucketsJobResultStorageClassMigration {
   /** Unique identifier used to poll the job. */
@@ -1153,7 +1134,7 @@ export interface GetBucketsJobResultStorageClassMigration {
   status: GetBucketsJobResultStorageClassMigrationStatus;
   storageClassMigration: GetBucketsJobResultStorageClassMigrationStorageClassMigration;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type GetBucketsJobResult =
   | GetBucketsJobResultPrefixDelete
@@ -1166,19 +1147,19 @@ export interface GetSuperSlurperJobRequest {
 export type SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaVendor = "s3";
 export interface SuperSlurperJobsGetResponseSourceS3SourceResponseSchema {
-  bucket?: string | null | undefined;
-  endpoint?: string | null | undefined;
-  keys?: SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  endpoint?: string | null;
+  keys?: SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsGetResponseSourceS3SourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaVendor = "gcs";
 export interface SuperSlurperJobsGetResponseSourceGcsSourceResponseSchema {
-  bucket?: string | null | undefined;
-  keys?: SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  keys?: SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsGetResponseSourceGcsSourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction =
   | "default"
@@ -1188,14 +1169,11 @@ export type SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction 
 export type SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor = "r2";
 export interface SuperSlurperJobsGetResponseSourceR2SourceResponseSchema {
-  bucket?: string | null | undefined;
-  jurisdiction?:
-    | SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction
-    | null
-    | undefined;
-  keys?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  jurisdiction?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaJurisdiction | null;
+  keys?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsGetResponseSource =
   | SuperSlurperJobsGetResponseSourceS3SourceResponseSchema
@@ -1205,19 +1183,19 @@ export type SuperSlurperJobsGetResponseStatus = "running" | "paused" | "aborted"
 export type SuperSlurperJobsGetResponseTargetJurisdiction = "default" | "eu" | "us" | "fedramp";
 export type SuperSlurperJobsGetResponseTargetVendor = "r2";
 export interface SuperSlurperJobsGetResponseTarget {
-  bucket?: string | null | undefined;
-  jurisdiction?: SuperSlurperJobsGetResponseTargetJurisdiction | null | undefined;
-  vendor?: SuperSlurperJobsGetResponseTargetVendor | null | undefined;
+  bucket?: string | null;
+  jurisdiction?: SuperSlurperJobsGetResponseTargetJurisdiction | null;
+  vendor?: SuperSlurperJobsGetResponseTargetVendor | null;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSuperSlurperJobResponse {
-  id?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  finishedAt?: string | null | undefined;
-  overwrite?: boolean | null | undefined;
-  source?: SuperSlurperJobsGetResponseSource | null | undefined;
-  status?: SuperSlurperJobsGetResponseStatus | null | undefined;
-  target?: SuperSlurperJobsGetResponseTarget | null | undefined;
+  id?: string | null;
+  createdAt?: string | null;
+  finishedAt?: string | null;
+  overwrite?: boolean | null;
+  source?: SuperSlurperJobsGetResponseSource | null;
+  status?: SuperSlurperJobsGetResponseStatus | null;
+  target?: SuperSlurperJobsGetResponseTarget | null;
 }
 export type BucketsDomainsCustomListRequestCfR2Jurisdiction =
   | "default"
@@ -1230,7 +1208,7 @@ export interface ListBucketDomainCustomsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsDomainsCustomListRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDomainsCustomListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomListResponseDomainsItemStatusOwnership =
   | "pending"
@@ -1261,13 +1239,13 @@ export interface BucketsDomainsCustomListResponseDomainsItem {
   enabled: boolean;
   status: BucketsDomainsCustomListResponseDomainsItemStatus;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomListResponseDomainsItemCiphersList | null | undefined;
+  ciphers?: BucketsDomainsCustomListResponseDomainsItemCiphersList | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: BucketsDomainsCustomListResponseDomainsItemMinTLS | null | undefined;
+  minTLS?: BucketsDomainsCustomListResponseDomainsItemMinTLS | null;
   /** Zone ID of the custom domain resides in. */
-  zoneId?: string | null | undefined;
+  zoneId?: string | null;
   /** Zone that the custom domain resides in. */
-  zoneName?: string | null | undefined;
+  zoneName?: string | null;
 }
 export type BucketsDomainsCustomListResponseDomainsList =
   Array<BucketsDomainsCustomListResponseDomainsItem>;
@@ -1286,7 +1264,7 @@ export interface ListBucketDomainManagedsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsDomainsManagedListRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDomainsManagedListRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListBucketDomainManagedsResponse {
@@ -1308,7 +1286,7 @@ export interface ListBucketEventNotificationsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  jurisdiction?: BucketsEventNotificationsListRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsEventNotificationsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEventNotificationsListResponseQueuesItemRulesItemActionsItem =
   | "PutObject"
@@ -1322,33 +1300,33 @@ export interface BucketsEventNotificationsListResponseQueuesItemRulesItem {
   /** Array of R2 object actions that will trigger notifications. */
   actions: BucketsEventNotificationsListResponseQueuesItemRulesItemActionsList;
   /** Timestamp when the rule was created. */
-  createdAt?: string | null | undefined;
+  createdAt?: string | null;
   /** A description that can be used to identify the event notification rule after creation. */
-  description?: string | null | undefined;
+  description?: string | null;
   /** Notifications will be sent only for objects with this prefix. */
-  prefix?: string | null | undefined;
+  prefix?: string | null;
   /** Rule ID. */
-  ruleId?: string | null | undefined;
+  ruleId?: string | null;
   /** Notifications will be sent only for objects with this suffix. */
-  suffix?: string | null | undefined;
+  suffix?: string | null;
 }
 export type BucketsEventNotificationsListResponseQueuesItemRulesList =
   Array<BucketsEventNotificationsListResponseQueuesItemRulesItem>;
 export interface BucketsEventNotificationsListResponseQueuesItem {
   /** Queue ID. */
-  queueId?: string | null | undefined;
+  queueId?: string | null;
   /** Name of the queue. */
-  queueName?: string | null | undefined;
-  rules?: BucketsEventNotificationsListResponseQueuesItemRulesList | null | undefined;
+  queueName?: string | null;
+  rules?: BucketsEventNotificationsListResponseQueuesItemRulesList | null;
 }
 export type BucketsEventNotificationsListResponseQueuesList =
   Array<BucketsEventNotificationsListResponseQueuesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListBucketEventNotificationsResponse {
   /** Name of the bucket. */
-  bucketName?: string | null | undefined;
+  bucketName?: string | null;
   /** List of queues associated with the bucket. */
-  queues?: BucketsEventNotificationsListResponseQueuesList | null | undefined;
+  queues?: BucketsEventNotificationsListResponseQueuesList | null;
 }
 export interface ListBucketMetricsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
@@ -1356,19 +1334,19 @@ export interface ListBucketMetricsRequest {
 }
 export interface BucketsMetricsListResponseInfrequentAccessPublished {
   /** Amount of. */
-  metadataSize?: number | null | undefined;
+  metadataSize?: number | null;
   /** Number of objects stored. */
-  objects?: number | null | undefined;
+  objects?: number | null;
   /** Amount of storage used by object data. */
-  payloadSize?: number | null | undefined;
+  payloadSize?: number | null;
 }
 export type BucketsMetricsListResponseInfrequentAccessUploaded =
   BucketsMetricsListResponseInfrequentAccessPublished;
 export interface BucketsMetricsListResponseInfrequentAccess {
   /** Metrics on number of objects/amount of storage used. */
-  published?: BucketsMetricsListResponseInfrequentAccessPublished | null | undefined;
+  published?: BucketsMetricsListResponseInfrequentAccessPublished | null;
   /** Metrics on number of objects/amount of storage used. */
-  uploaded?: BucketsMetricsListResponseInfrequentAccessPublished | null | undefined;
+  uploaded?: BucketsMetricsListResponseInfrequentAccessPublished | null;
 }
 export type BucketsMetricsListResponseStandardPublished =
   BucketsMetricsListResponseInfrequentAccessPublished;
@@ -1378,9 +1356,9 @@ export type BucketsMetricsListResponseStandard = BucketsMetricsListResponseInfre
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListBucketMetricsResponse {
   /** Metrics based on what state they are in(uploaded or published). */
-  infrequentAccess?: BucketsMetricsListResponseInfrequentAccess | null | undefined;
+  infrequentAccess?: BucketsMetricsListResponseInfrequentAccess | null;
   /** Metrics based on what state they are in(uploaded or published). */
-  standard?: BucketsMetricsListResponseInfrequentAccess | null | undefined;
+  standard?: BucketsMetricsListResponseInfrequentAccess | null;
 }
 export type BucketsObjectsListRequestCfR2Jurisdiction =
   | "default"
@@ -1394,50 +1372,50 @@ export interface ListBucketObjectsRequest {
   /** Name of the bucket. */
   bucketName: string;
   /** Pagination cursor received from a previous List Objects call. Used to retrieve the next page of results. */
-  cursor?: string | undefined;
+  cursor?: string;
   /** A single character used to group keys. All keys that contain the delimiter between the prefix and the first occurrence of the delimiter after the prefix are grouped under a single result element. */
-  delimiter?: string | undefined;
+  delimiter?: string;
   /** Maximum number of objects to return per page. */
-  perPage?: number | undefined;
+  perPage?: number;
   /** Restricts results to only those objects whose keys begin with the specified prefix. */
-  prefix?: string | undefined;
+  prefix?: string;
   /** Returns objects with keys that come after the specified key in lexicographic order. */
-  startAfter?: string | undefined;
-  cfR2Jurisdiction?: BucketsObjectsListRequestCfR2Jurisdiction | (string & {}) | undefined;
+  startAfter?: string;
+  jurisdiction?: BucketsObjectsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsObjectsListResultItemCustomMetadataMap = { [key: string]: string | undefined };
 export interface BucketsObjectsListResultItemHttpMetadata {
   /** Specifies caching behavior for the object. */
-  cacheControl?: string | null | undefined;
+  cacheControl?: string | null;
   /** The date and time at which the object's cache entry expires. */
-  cacheExpiry?: string | null | undefined;
+  cacheExpiry?: string | null;
   /** Specifies presentational information for the object. */
-  contentDisposition?: string | null | undefined;
+  contentDisposition?: string | null;
   /** Specifies the content encoding applied to the object. */
-  contentEncoding?: string | null | undefined;
+  contentEncoding?: string | null;
   /** The language of the object content. */
-  contentLanguage?: string | null | undefined;
+  contentLanguage?: string | null;
   /** The MIME type of the object. */
-  contentType?: string | null | undefined;
+  contentType?: string | null;
 }
 export type BucketsObjectsListResultItemStorageClass = "Standard" | "InfrequentAccess";
 export interface BucketsObjectsListResultItem {
   /** Custom metadata key-value pairs associated with the object. */
-  customMetadata?: BucketsObjectsListResultItemCustomMetadataMap | null | undefined;
+  customMetadata?: BucketsObjectsListResultItemCustomMetadataMap | null;
   /** The entity tag for the object. In JSON list/get responses this is the raw hex digest (without surrounding quotes). The HTTP `ETag` response header on Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes. */
-  etag?: string | null | undefined;
+  etag?: string | null;
   /** HTTP metadata associated with an R2 object. */
-  httpMetadata?: BucketsObjectsListResultItemHttpMetadata | null | undefined;
+  httpMetadata?: BucketsObjectsListResultItemHttpMetadata | null;
   /** The object key (name). */
-  key?: string | null | undefined;
+  key?: string | null;
   /** The date and time the object was last modified. */
-  lastModified?: string | null | undefined;
+  lastModified?: string | null;
   /** The size of the object in bytes. */
-  size?: number | null | undefined;
+  size?: number | null;
   /** Whether the object is encrypted with a customer-supplied encryption key. */
-  ssec?: boolean | null | undefined;
+  ssec?: boolean | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsObjectsListResultItemStorageClass | null | undefined;
+  storageClass?: BucketsObjectsListResultItemStorageClass | null;
 }
 export type BucketsObjectsListResultList = Array<BucketsObjectsListResultItem>;
 export interface ListBucketObjectsResponse {
@@ -1458,18 +1436,18 @@ export interface ListBucketsRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Pagination cursor received during the last List Buckets call. R2 buckets are paginated using cursors instead of page numbers. */
-  cursor?: string | undefined;
+  cursor?: string;
   /** Direction to order buckets. */
-  direction?: BucketsListRequestDirection | (string & {}) | undefined;
+  direction?: BucketsListRequestDirection | (string & {});
   /** Bucket names to filter by. Only buckets with this phrase in their name will be returned. */
-  nameContains?: string | undefined;
+  nameContains?: string;
   /** Field to order buckets by. */
-  order?: BucketsListRequestOrder | (string & {}) | undefined;
+  order?: BucketsListRequestOrder | (string & {});
   /** Maximum number of buckets to return in a single call. */
-  perPage?: number | undefined;
+  perPage?: number;
   /** Bucket name to start searching after. Buckets are ordered lexicographically. */
-  startAfter?: string | undefined;
-  jurisdiction?: BucketsListRequestCfR2Jurisdiction | (string & {}) | undefined;
+  startAfter?: string;
+  jurisdiction?: BucketsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsListResponseBucketsItemJurisdiction =
   | "default"
@@ -1487,15 +1465,15 @@ export type BucketsListResponseBucketsItemLocation =
 export type BucketsListResponseBucketsItemStorageClass = "Standard" | "InfrequentAccess";
 export interface BucketsListResponseBucketsItem {
   /** Creation timestamp. */
-  creationDate?: string | null | undefined;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: BucketsListResponseBucketsItemJurisdiction | null | undefined;
+  jurisdiction?: BucketsListResponseBucketsItemJurisdiction | null;
   /** Location of the bucket. */
-  location?: BucketsListResponseBucketsItemLocation | null | undefined;
+  location?: BucketsListResponseBucketsItemLocation | null;
   /** Name of the bucket. */
-  name?: string | null | undefined;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsListResponseBucketsItemStorageClass | null | undefined;
+  storageClass?: BucketsListResponseBucketsItemStorageClass | null;
 }
 export type BucketsListResponseBucketsList = Array<BucketsListResponseBucketsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1521,14 +1499,14 @@ export interface ListBucketsJobsRequest {
   /** Name of the bucket. */
   bucketName: string;
   /** Pagination token received as `nextContinuationToken` in the previous response. */
-  continuationToken?: string | undefined;
+  continuationToken?: string;
   /** Restricts results to jobs of the specified type. */
-  jobType?: ListBucketsJobsRequestJobType | (string & {}) | undefined;
+  jobType?: ListBucketsJobsRequestJobType | (string & {});
   /** Maximum number of jobs to return. */
-  maxKeys?: number | undefined;
+  maxKeys?: number;
   /** Restricts results to jobs with the specified status. `jobType` is required when this parameter is provided. */
-  status?: ListBucketsJobsRequestStatus | (string & {}) | undefined;
-  cfR2Jurisdiction?: ListBucketsJobsRequestCfR2Jurisdiction | (string & {}) | undefined;
+  status?: ListBucketsJobsRequestStatus | (string & {});
+  jurisdiction?: ListBucketsJobsRequestCfR2Jurisdiction | (string & {});
 }
 export type ListBucketsJobsResponseJobsItemPrefixDeleteJobType = "prefixDelete";
 export type ListBucketsJobsResponseJobsItemPrefixDeletePrefixDelete =
@@ -1551,7 +1529,7 @@ export interface ListBucketsJobsResponseJobsItemPrefixDelete {
   /** Lifecycle status of a bucket background job. */
   status: ListBucketsJobsResponseJobsItemPrefixDeleteStatus;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type ListBucketsJobsResponseJobsItemStorageClassMigrationJobType = "storageClassMigration";
 export type ListBucketsJobsResponseJobsItemStorageClassMigrationStatus =
@@ -1574,17 +1552,17 @@ export interface ListBucketsJobsResponseJobsItemStorageClassMigrationStorageClas
   /** The storage class objects are migrated from. */
   sourceStorageClass: ListBucketsJobsResponseJobsItemStorageClassMigrationStorageClassMigrationSourceStorageClass;
   /** Payload bytes belonging to failed object versions. */
-  failedBytes?: number | null | undefined;
+  failedBytes?: number | null;
   /** Number of object versions that failed migration. */
-  failedObjects?: number | null | undefined;
+  failedObjects?: number | null;
   /** Object payload bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedBytes?: number | null | undefined;
+  migratedBytes?: number | null;
   /** Object metadata bytes migrated successfully. Present for Metadata Worker jobs. */
-  migratedMetadataBytes?: number | null | undefined;
+  migratedMetadataBytes?: number | null;
   /** Payload bytes belonging to skipped object versions. */
-  skippedBytes?: number | null | undefined;
+  skippedBytes?: number | null;
   /** Number of object versions skipped. */
-  skippedObjects?: number | null | undefined;
+  skippedObjects?: number | null;
 }
 export interface ListBucketsJobsResponseJobsItemStorageClassMigration {
   /** Unique identifier used to poll the job. */
@@ -1597,7 +1575,7 @@ export interface ListBucketsJobsResponseJobsItemStorageClassMigration {
   status: ListBucketsJobsResponseJobsItemStorageClassMigrationStatus;
   storageClassMigration: ListBucketsJobsResponseJobsItemStorageClassMigrationStorageClassMigration;
   /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
-  endTime?: string | null | undefined;
+  endTime?: string | null;
 }
 export type ListBucketsJobsResponseJobsItem =
   | ListBucketsJobsResponseJobsItemPrefixDelete
@@ -1608,13 +1586,13 @@ export interface ListBucketsJobsResponse {
   /** Bucket jobs in the current page. */
   jobs: ListBucketsJobsResponseJobsList;
   /** Token to pass as `continuationToken` to retrieve the next page. */
-  nextContinuationToken?: string | null | undefined;
+  nextContinuationToken?: string | null;
 }
 export interface ListSuperSlurperJobLogsRequest {
   accountId: string;
   jobId: string;
-  limit?: number | undefined;
-  offset?: number | undefined;
+  limit?: number;
+  offset?: number;
 }
 export type SuperSlurperJobsLogsListResultItemLogType =
   | "migrationStart"
@@ -1633,11 +1611,11 @@ export type SuperSlurperJobsLogsListResultItemLogType =
   | "importSkippedInvalidMedia"
   | "importSkippedRequiresRetrieval";
 export interface SuperSlurperJobsLogsListResultItem {
-  createdAt?: string | null | undefined;
-  job?: string | null | undefined;
-  logType?: SuperSlurperJobsLogsListResultItemLogType | null | undefined;
-  message?: string | null | undefined;
-  objectKey?: string | null | undefined;
+  createdAt?: string | null;
+  job?: string | null;
+  logType?: SuperSlurperJobsLogsListResultItemLogType | null;
+  message?: string | null;
+  objectKey?: string | null;
 }
 export type SuperSlurperJobsLogsListResultList = Array<SuperSlurperJobsLogsListResultItem>;
 export interface ListSuperSlurperJobLogsResponse {
@@ -1648,25 +1626,25 @@ export interface ListSuperSlurperJobLogsResponse {
 }
 export interface ListSuperSlurperJobsRequest {
   accountId: string;
-  limit?: number | undefined;
-  offset?: number | undefined;
+  limit?: number;
+  offset?: number;
 }
 export type SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaVendor = "s3";
 export interface SuperSlurperJobsListResultItemSourceS3SourceResponseSchema {
-  bucket?: string | null | undefined;
-  endpoint?: string | null | undefined;
-  keys?: SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  endpoint?: string | null;
+  keys?: SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsListResultItemSourceS3SourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaVendor = "gcs";
 export interface SuperSlurperJobsListResultItemSourceGcsSourceResponseSchema {
-  bucket?: string | null | undefined;
-  keys?: SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  keys?: SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsListResultItemSourceGcsSourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdiction =
   | "default"
@@ -1676,14 +1654,11 @@ export type SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdicti
 export type SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaKeysList = Array<string>;
 export type SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor = "r2";
 export interface SuperSlurperJobsListResultItemSourceR2SourceResponseSchema {
-  bucket?: string | null | undefined;
-  jurisdiction?:
-    | SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdiction
-    | null
-    | undefined;
-  keys?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaKeysList | null | undefined;
-  pathPrefix?: string | null | undefined;
-  vendor?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor | null | undefined;
+  bucket?: string | null;
+  jurisdiction?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaJurisdiction | null;
+  keys?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaKeysList | null;
+  pathPrefix?: string | null;
+  vendor?: SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor | null;
 }
 export type SuperSlurperJobsListResultItemSource =
   | SuperSlurperJobsListResultItemSourceS3SourceResponseSchema
@@ -1693,18 +1668,18 @@ export type SuperSlurperJobsListResultItemStatus = "running" | "paused" | "abort
 export type SuperSlurperJobsListResultItemTargetJurisdiction = "default" | "eu" | "us" | "fedramp";
 export type SuperSlurperJobsListResultItemTargetVendor = "r2";
 export interface SuperSlurperJobsListResultItemTarget {
-  bucket?: string | null | undefined;
-  jurisdiction?: SuperSlurperJobsListResultItemTargetJurisdiction | null | undefined;
-  vendor?: SuperSlurperJobsListResultItemTargetVendor | null | undefined;
+  bucket?: string | null;
+  jurisdiction?: SuperSlurperJobsListResultItemTargetJurisdiction | null;
+  vendor?: SuperSlurperJobsListResultItemTargetVendor | null;
 }
 export interface SuperSlurperJobsListResultItem {
-  id?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  finishedAt?: string | null | undefined;
-  overwrite?: boolean | null | undefined;
-  source?: SuperSlurperJobsListResultItemSource | null | undefined;
-  status?: SuperSlurperJobsListResultItemStatus | null | undefined;
-  target?: SuperSlurperJobsListResultItemTarget | null | undefined;
+  id?: string | null;
+  createdAt?: string | null;
+  finishedAt?: string | null;
+  overwrite?: boolean | null;
+  source?: SuperSlurperJobsListResultItemSource | null;
+  status?: SuperSlurperJobsListResultItemStatus | null;
+  target?: SuperSlurperJobsListResultItemTarget | null;
 }
 export type SuperSlurperJobsListResultList = Array<SuperSlurperJobsListResultItem>;
 export interface ListSuperSlurperJobsResponse {
@@ -1727,7 +1702,7 @@ export interface PatchBucketRequest {
   bucketName: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
   storageClass: BucketsEditRequestCfR2StorageClass | (string & {});
-  jurisdiction?: BucketsEditRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsEditRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsEditResponseJurisdiction = "default" | "eu" | "us" | "fedramp" | "fedramp-high";
 export type BucketsEditResponseLocation = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
@@ -1735,15 +1710,15 @@ export type BucketsEditResponseStorageClass = "Standard" | "InfrequentAccess";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string | null | undefined;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: BucketsEditResponseJurisdiction | null | undefined;
+  jurisdiction?: BucketsEditResponseJurisdiction | null;
   /** Location of the bucket. */
-  location?: BucketsEditResponseLocation | null | undefined;
+  location?: BucketsEditResponseLocation | null;
   /** Name of the bucket. */
-  name?: string | null | undefined;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsEditResponseStorageClass | null | undefined;
+  storageClass?: BucketsEditResponseStorageClass | null;
 }
 export interface PauseSuperSlurperJobRequest {
   accountId: string;
@@ -1757,13 +1732,13 @@ export interface ProgressSuperSlurperJobRequest {
 export type SuperSlurperJobsProgressResponseStatus = "running" | "paused" | "aborted" | "completed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ProgressSuperSlurperJobResponse {
-  id?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  failedObjects?: number | null | undefined;
-  objects?: number | null | undefined;
-  skippedObjects?: number | null | undefined;
-  status?: SuperSlurperJobsProgressResponseStatus | null | undefined;
-  transferredObjects?: number | null | undefined;
+  id?: string | null;
+  createdAt?: string | null;
+  failedObjects?: number | null;
+  objects?: number | null;
+  skippedObjects?: number | null;
+  status?: SuperSlurperJobsProgressResponseStatus | null;
+  transferredObjects?: number | null;
 }
 export type BucketsCorsUpdateRequestRulesItemAllowedMethodsItem =
   | "GET"
@@ -1782,18 +1757,18 @@ export interface BucketsCorsUpdateRequestRulesItemAllowed {
   /** Specifies the value for the Access-Control-Allow-Origin header R2 sets when requesting objects in a bucket from a browser. */
   origins: BucketsCorsUpdateRequestRulesItemAllowedOriginsList;
   /** Specifies the value for the Access-Control-Allow-Headers header R2 sets when requesting objects in this bucket from a browser. Cross-origin requests that include custom headers (e.g. x-user-id) should specify these headers as AllowedHeaders. */
-  headers?: BucketsCorsUpdateRequestRulesItemAllowedHeadersList | undefined;
+  headers?: BucketsCorsUpdateRequestRulesItemAllowedHeadersList;
 }
 export type BucketsCorsUpdateRequestRulesItemExposeHeadersList = Array<string>;
 export interface BucketsCorsUpdateRequestRulesItem {
   /** Object specifying allowed origins, methods and headers for this CORS rule. */
   allowed: BucketsCorsUpdateRequestRulesItemAllowed;
   /** Identifier for this rule. */
-  id?: string | undefined;
+  id?: string;
   /** Specifies the headers that can be exposed back, and accessed by, the JavaScript making the cross-origin request. If you need to access headers beyond the safelisted response headers, such as Content-Encoding or cf-cache-status, you must specify it here. */
-  exposeHeaders?: BucketsCorsUpdateRequestRulesItemExposeHeadersList | undefined;
+  exposeHeaders?: BucketsCorsUpdateRequestRulesItemExposeHeadersList;
   /** Specifies the amount of time (in seconds) browsers are allowed to cache CORS preflight responses. Browsers may limit this to 2 hours or less, even if the maximum value (86400) is specified. */
-  maxAgeSeconds?: number | undefined;
+  maxAgeSeconds?: number;
 }
 export type BucketsCorsUpdateRequestRulesList = Array<BucketsCorsUpdateRequestRulesItem>;
 export type BucketsCorsUpdateRequestCfR2Jurisdiction =
@@ -1807,8 +1782,8 @@ export interface PutBucketCorsRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  rules?: BucketsCorsUpdateRequestRulesList | undefined;
-  jurisdiction?: BucketsCorsUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  rules?: BucketsCorsUpdateRequestRulesList;
+  jurisdiction?: BucketsCorsUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketCorsResponse = unknown;
 export type BucketsDomainsManagedUpdateRequestCfR2Jurisdiction =
@@ -1824,7 +1799,7 @@ export interface PutBucketDomainManagedRequest {
   bucketName: string;
   /** Whether to enable public bucket access at the r2.dev domain. */
   enabled: boolean;
-  jurisdiction?: BucketsDomainsManagedUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsDomainsManagedUpdateRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutBucketDomainManagedResponse {
@@ -1848,11 +1823,11 @@ export interface BucketsEventNotificationsUpdateRequestRulesItem {
   /** Array of R2 object actions that will trigger notifications. */
   actions: BucketsEventNotificationsUpdateRequestRulesItemActionsList;
   /** A description that can be used to identify the event notification rule after creation. */
-  description?: string | undefined;
+  description?: string;
   /** Notifications will be sent only for objects with this prefix. */
-  prefix?: string | undefined;
+  prefix?: string;
   /** Notifications will be sent only for objects with this suffix. */
-  suffix?: string | undefined;
+  suffix?: string;
 }
 export type BucketsEventNotificationsUpdateRequestRulesList =
   Array<BucketsEventNotificationsUpdateRequestRulesItem>;
@@ -1871,7 +1846,7 @@ export interface PutBucketEventNotificationRequest {
   queueId: string;
   /** Array of rules to drive notifications. */
   rules: BucketsEventNotificationsUpdateRequestRulesList;
-  jurisdiction?: BucketsEventNotificationsUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  jurisdiction?: BucketsEventNotificationsUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketEventNotificationResponse = unknown;
 export type BucketsLifecycleUpdateRequestRulesItemConditions =
@@ -1886,9 +1861,7 @@ export interface BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTran
 }
 export interface BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransition {
   /** Condition for lifecycle transitions to apply after an object reaches an age in seconds. */
-  condition?:
-    | BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransitionCondition
-    | undefined;
+  condition?: BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransitionCondition;
 }
 export type BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionConditionR2LifecycleAgeConditionType =
   "Age";
@@ -1907,7 +1880,7 @@ export type BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionConditi
   | BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionConditionR2LifecycleDateCondition;
 export interface BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransition {
   /** Condition for lifecycle transitions to apply after an object reaches an age in seconds. */
-  condition?: BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionCondition | undefined;
+  condition?: BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransitionCondition;
 }
 export type BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItemConditionR2LifecycleAgeConditionType =
   "Age";
@@ -1943,17 +1916,11 @@ export interface BucketsLifecycleUpdateRequestRulesItem {
   /** Whether or not this rule is in effect. */
   enabled: boolean;
   /** Transition to abort ongoing multipart uploads. */
-  abortMultipartUploadsTransition?:
-    | BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransition
-    | undefined;
+  abortMultipartUploadsTransition?: BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransition;
   /** Transition to delete objects. */
-  deleteObjectsTransition?:
-    | BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransition
-    | undefined;
+  deleteObjectsTransition?: BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransition;
   /** Transitions to change the storage class of objects. */
-  storageClassTransitions?:
-    | BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsList
-    | undefined;
+  storageClassTransitions?: BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsList;
 }
 export type BucketsLifecycleUpdateRequestRulesList = Array<BucketsLifecycleUpdateRequestRulesItem>;
 export type BucketsLifecycleUpdateRequestCfR2Jurisdiction =
@@ -1967,8 +1934,8 @@ export interface PutBucketLifecycleRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  rules?: BucketsLifecycleUpdateRequestRulesList | undefined;
-  jurisdiction?: BucketsLifecycleUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  rules?: BucketsLifecycleUpdateRequestRulesList;
+  jurisdiction?: BucketsLifecycleUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketLifecycleResponse = unknown;
 export interface PutBucketLocalUploadsRequest {
@@ -1982,7 +1949,7 @@ export interface PutBucketLocalUploadsRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutBucketLocalUploadsResponse {
   /** Whether Local Uploads is enabled for the bucket. The live API omits it from the PUT response (observed 2026-10-22); read it back with getBucketLocalUploads. */
-  enabled?: boolean | null | undefined;
+  enabled?: boolean | null;
 }
 export type BucketsLocksUpdateRequestRulesItemConditionR2LockRuleAgeConditionType = "Age";
 export interface BucketsLocksUpdateRequestRulesItemConditionR2LockRuleAgeCondition {
@@ -2011,7 +1978,7 @@ export interface BucketsLocksUpdateRequestRulesItem {
   /** Whether or not this rule is in effect. */
   enabled: boolean;
   /** Rule will only apply to objects/uploads in the bucket that start with the given prefix, an empty prefix can be provided to scope rule to all objects/uploads. */
-  prefix?: string | undefined;
+  prefix?: string;
 }
 export type BucketsLocksUpdateRequestRulesList = Array<BucketsLocksUpdateRequestRulesItem>;
 export type BucketsLocksUpdateRequestCfR2Jurisdiction =
@@ -2025,61 +1992,61 @@ export interface PutBucketLockRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  rules?: BucketsLocksUpdateRequestRulesList | undefined;
-  jurisdiction?: BucketsLocksUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  rules?: BucketsLocksUpdateRequestRulesList;
+  jurisdiction?: BucketsLocksUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type PutBucketLockResponse = unknown;
 export type BucketsSippyUpdateRequestDestinationProvider = "r2";
 export interface BucketsSippyUpdateRequestDestination {
   /** ID of a Cloudflare API token. This is the value labelled "Access Key ID" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens). */
-  accessKeyId?: string | undefined;
-  provider?: BucketsSippyUpdateRequestDestinationProvider | (string & {}) | undefined;
+  accessKeyId?: string;
+  provider?: BucketsSippyUpdateRequestDestinationProvider | (string & {});
   /** Value of a Cloudflare API token. This is the value labelled "Secret Access Key" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens). */
-  secretAccessKey?: string | undefined;
+  secretAccessKey?: string;
 }
 export type BucketsSippyUpdateRequestSourceR2EnableSippyAwsProvider = "aws";
 export interface BucketsSippyUpdateRequestSourceR2EnableSippyAws {
   /** Access Key ID of an IAM credential (ideally scoped to a single S3 bucket). */
-  accessKeyId?: string | undefined;
+  accessKeyId?: string;
   /** Name of the AWS S3 bucket. */
-  bucket?: string | undefined;
-  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyAwsProvider | (string & {}) | undefined;
+  bucket?: string;
+  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyAwsProvider | (string & {});
   /** AWS region containing the source S3 bucket. */
-  region?: string | undefined;
+  region?: string;
   /** Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket). */
-  secretAccessKey?: string | undefined;
+  secretAccessKey?: string;
 }
 export type BucketsSippyUpdateRequestSourceR2EnableSippyGcsProvider = "gcs";
 export interface BucketsSippyUpdateRequestSourceR2EnableSippyGcs {
   /** Name of the GCS bucket. */
-  bucket?: string | undefined;
+  bucket?: string;
   /** Client email of an IAM credential (ideally scoped to a single GCS bucket). */
-  clientEmail?: string | undefined;
+  clientEmail?: string;
   /** Private Key of an IAM credential (ideally scoped to a single GCS bucket). */
-  privateKey?: string | undefined;
-  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyGcsProvider | (string & {}) | undefined;
+  privateKey?: string;
+  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyGcsProvider | (string & {});
 }
 export type BucketsSippyUpdateRequestSourceR2EnableSippyS3Provider = "s3";
 export interface BucketsSippyUpdateRequestSourceR2EnableSippyS3 {
   /** Access Key ID of an IAM credential (ideally scoped to a single S3 bucket). */
-  accessKeyId?: string | undefined;
+  accessKeyId?: string;
   /** URL to the S3-compatible API of the bucket. */
-  bucketUrl?: string | undefined;
-  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyS3Provider | (string & {}) | undefined;
+  bucketUrl?: string;
+  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyS3Provider | (string & {});
   /** Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket). */
-  secretAccessKey?: string | undefined;
+  secretAccessKey?: string;
 }
 export type BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider = "azure";
 export interface BucketsSippyUpdateRequestSourceR2EnableSippyAzure {
   /** Access key for the Azure Storage account. Mutually exclusive with sasToken. */
-  accountKey?: string | undefined;
+  accountKey?: string;
   /** Name of the Azure Storage account. */
-  accountName?: string | undefined;
+  accountName?: string;
   /** Name of the Azure Blob Storage container. */
-  container?: string | undefined;
-  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider | (string & {}) | undefined;
+  container?: string;
+  provider?: BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider | (string & {});
   /** Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey. */
-  sasToken?: string | undefined;
+  sasToken?: string;
 }
 export type BucketsSippyUpdateRequestSource =
   | BucketsSippyUpdateRequestSourceR2EnableSippyAws
@@ -2098,40 +2065,40 @@ export interface PutBucketSippyRequest {
   /** Name of the bucket. */
   bucketName: string;
   /** R2 bucket to copy objects to. */
-  destination?: BucketsSippyUpdateRequestDestination | undefined;
+  destination?: BucketsSippyUpdateRequestDestination;
   /** AWS S3 bucket to copy objects from. */
-  source?: BucketsSippyUpdateRequestSource | undefined;
-  jurisdiction?: BucketsSippyUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  source?: BucketsSippyUpdateRequestSource;
+  jurisdiction?: BucketsSippyUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsSippyUpdateResponseDestinationProvider = "r2";
 export interface BucketsSippyUpdateResponseDestination {
   /** ID of the Cloudflare API token used when writing objects to this bucket. */
-  accessKeyId?: string | null | undefined;
-  account?: string | null | undefined;
+  accessKeyId?: string | null;
+  account?: string | null;
   /** Name of the bucket on the provider. */
-  bucket?: string | null | undefined;
-  provider?: BucketsSippyUpdateResponseDestinationProvider | null | undefined;
+  bucket?: string | null;
+  provider?: BucketsSippyUpdateResponseDestinationProvider | null;
 }
 export type BucketsSippyUpdateResponseSourceProvider = "aws" | "gcs" | "s3" | "azure";
 export interface BucketsSippyUpdateResponseSource {
   /** Name of the bucket on the provider (AWS, GCS only). */
-  bucket?: string | null | undefined;
+  bucket?: string | null;
   /** S3-compatible URL (Generic S3-compatible providers only). */
-  bucketUrl?: string | null | undefined;
+  bucketUrl?: string | null;
   /** Name of the Azure Blob Storage container (Azure only). */
-  container?: string | null | undefined;
-  provider?: BucketsSippyUpdateResponseSourceProvider | null | undefined;
+  container?: string | null;
+  provider?: BucketsSippyUpdateResponseSourceProvider | null;
   /** Region where the bucket resides (AWS only). */
-  region?: string | null | undefined;
+  region?: string | null;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutBucketSippyResponse {
   /** Details about the configured destination bucket. */
-  destination?: BucketsSippyUpdateResponseDestination | null | undefined;
+  destination?: BucketsSippyUpdateResponseDestination | null;
   /** State of Sippy for this bucket. */
-  enabled?: boolean | null | undefined;
+  enabled?: boolean | null;
   /** Details about the configured source bucket. */
-  source?: BucketsSippyUpdateResponseSource | null | undefined;
+  source?: BucketsSippyUpdateResponseSource | null;
 }
 export interface ResumeSuperSlurperJobRequest {
   accountId: string;
@@ -2158,22 +2125,16 @@ export interface SourceSuperSlurperConnectivityPrecheckRequest {
   secret: SuperSlurperConnectivityPrecheckSourceRequestSecret;
   vendor: SuperSlurperConnectivityPrecheckSourceRequestVendor | (string & {});
   /** Custom S3-compatible endpoint that must use https://. */
-  endpoint?: string | undefined;
-  keys?: SuperSlurperConnectivityPrecheckSourceRequestKeysList | undefined;
-  pathPrefix?: string | undefined;
-  region?: string | undefined;
-  jurisdiction?:
-    | SuperSlurperConnectivityPrecheckSourceRequestJurisdiction
-    | (string & {})
-    | undefined;
+  endpoint?: string;
+  keys?: SuperSlurperConnectivityPrecheckSourceRequestKeysList;
+  pathPrefix?: string;
+  region?: string;
+  jurisdiction?: SuperSlurperConnectivityPrecheckSourceRequestJurisdiction | (string & {});
 }
 export type SuperSlurperConnectivityPrecheckSourceResponseConnectivityStatus = "success" | "error";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SourceSuperSlurperConnectivityPrecheckResponse {
-  connectivityStatus?:
-    | SuperSlurperConnectivityPrecheckSourceResponseConnectivityStatus
-    | null
-    | undefined;
+  connectivityStatus?: SuperSlurperConnectivityPrecheckSourceResponseConnectivityStatus | null;
 }
 export type SuperSlurperConnectivityPrecheckTargetRequestSecret =
   SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
@@ -2188,18 +2149,12 @@ export interface TargetSuperSlurperConnectivityPrecheckRequest {
   bucket: string;
   secret: SuperSlurperJobsCreateRequestSourceR2SlurperS3SourceSchemaSecret;
   vendor: SuperSlurperConnectivityPrecheckTargetRequestVendor | (string & {});
-  jurisdiction?:
-    | SuperSlurperConnectivityPrecheckTargetRequestJurisdiction
-    | (string & {})
-    | undefined;
+  jurisdiction?: SuperSlurperConnectivityPrecheckTargetRequestJurisdiction | (string & {});
 }
 export type SuperSlurperConnectivityPrecheckTargetResponseConnectivityStatus = "success" | "error";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TargetSuperSlurperConnectivityPrecheckResponse {
-  connectivityStatus?:
-    | SuperSlurperConnectivityPrecheckTargetResponseConnectivityStatus
-    | null
-    | undefined;
+  connectivityStatus?: SuperSlurperConnectivityPrecheckTargetResponseConnectivityStatus | null;
 }
 export type BucketsDomainsCustomUpdateRequestCiphersList = Array<string>;
 export type BucketsDomainsCustomUpdateRequestMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -2217,12 +2172,12 @@ export interface UpdateBucketDomainCustomRequest {
   /** Name of the custom domain. */
   domain: string;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomUpdateRequestCiphersList | undefined;
+  ciphers?: BucketsDomainsCustomUpdateRequestCiphersList;
   /** Whether to enable public bucket access at the specified custom domain. */
-  enabled?: boolean | undefined;
+  enabled?: boolean;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value. */
-  minTLS?: BucketsDomainsCustomUpdateRequestMinTLS | (string & {}) | undefined;
-  jurisdiction?: BucketsDomainsCustomUpdateRequestCfR2Jurisdiction | (string & {}) | undefined;
+  minTLS?: BucketsDomainsCustomUpdateRequestMinTLS | (string & {});
+  jurisdiction?: BucketsDomainsCustomUpdateRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsDomainsCustomUpdateResponseCiphersList = Array<string>;
 export type BucketsDomainsCustomUpdateResponseMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
@@ -2231,61 +2186,61 @@ export interface UpdateBucketDomainCustomResponse {
   /** Domain name of the affected custom domain. */
   domain: string;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: BucketsDomainsCustomUpdateResponseCiphersList | null | undefined;
+  ciphers?: BucketsDomainsCustomUpdateResponseCiphersList | null;
   /** Whether this bucket is publicly accessible at the specified custom domain. */
-  enabled?: boolean | null | undefined;
+  enabled?: boolean | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: BucketsDomainsCustomUpdateResponseMinTLS | null | undefined;
+  minTLS?: BucketsDomainsCustomUpdateResponseMinTLS | null;
 }
+export type BucketsObjectsUploadRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
 export type BucketsObjectsUploadRequestCfR2Jurisdiction =
   | "default"
   | "eu"
   | "us"
   | "fedramp"
   | "fedramp-high";
-export type BucketsObjectsUploadRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
 export interface UploadBucketObjectRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsUploadRequestCfR2Jurisdiction | (string & {}) | undefined;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  cfR2StorageClass?: BucketsObjectsUploadRequestCfR2StorageClass | (string & {}) | undefined;
+  cfR2StorageClass?: BucketsObjectsUploadRequestCfR2StorageClass | (string & {});
   /** The key (name) to assign to the object. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsUploadRequestCfR2Jurisdiction | (string & {});
   /** The object content -- sent verbatim as the request body. */
-  body?: Blob | Uint8Array | ArrayBuffer | string | undefined;
+  body?: Blob | Uint8Array | ArrayBuffer | string;
   /** MIME type stored with the object. */
-  contentType?: string | undefined;
+  contentType?: string;
   /** Content disposition of the object. */
-  contentDisposition?: string | undefined;
+  contentDisposition?: string;
   /** Content encoding of the object. */
-  contentEncoding?: string | undefined;
+  contentEncoding?: string;
   /** Content language of the object. */
-  contentLanguage?: string | undefined;
+  contentLanguage?: string;
   /** Content length of the object in bytes. */
-  contentLength?: string | undefined;
+  contentLength?: string;
   /** Cache control directives for the object. */
-  cacheControl?: string | undefined;
+  cacheControl?: string;
   /** Expiration date of the object. */
-  expires?: string | undefined;
+  expires?: string;
 }
 export type BucketsObjectsUploadResponseStorageClass = "Standard" | "InfrequentAccess";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UploadBucketObjectResponse {
   /** The entity tag for the uploaded object. */
-  etag?: string | null | undefined;
+  etag?: string | null;
   /** The key (name) of the uploaded object. */
-  key?: string | null | undefined;
+  key?: string | null;
   /** The size of the uploaded object in bytes (as a string). */
-  size?: string | null | undefined;
+  size?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: BucketsObjectsUploadResponseStorageClass | null | undefined;
+  storageClass?: BucketsObjectsUploadResponseStorageClass | null;
   /** The date and time the object was uploaded. */
-  uploaded?: string | null | undefined;
+  uploaded?: string | null;
   /** The version UUID of the uploaded object. */
-  version?: string | null | undefined;
+  version?: string | null;
 }
 export type AbortAllSuperSlurperJobError = CloudflareOpError;
 /** Cancels all running R2 Super Slurper migration jobs for the account. Any objects in the middle of a transfer will finish, but no new objects will start transferring. */
@@ -3427,6 +3382,7 @@ function __c3(j: number): any {
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketRequest" });
   }
@@ -3466,6 +3422,7 @@ function __c5(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketDomainCustomRequest" });
     case 1:
@@ -3494,11 +3451,11 @@ function __c7(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           cfR2DataCatalogCheck: S.optional(S.String.pipe(T.Header("cf-r2-data-catalog-check"))),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           jobType: S.String,
           prefix: S.optional(S.String),
           destinationStorageClass: S.optional(S.String),
           sourceStorageClass: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3507,6 +3464,7 @@ function __c7(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketsJobRequest" });
     case 1:
@@ -3627,6 +3585,7 @@ function __c11(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
@@ -3655,6 +3614,7 @@ function __c13(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketCorsRequest" });
   }
@@ -3676,6 +3636,7 @@ function __c14(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketDomainCustomRequest" });
     case 1:
@@ -3703,6 +3664,7 @@ function __c15(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketEventNotificationRequest" });
   }
@@ -3714,8 +3676,8 @@ function __c16(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3724,6 +3686,7 @@ function __c16(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketObjectRequest" });
     case 1:
@@ -3750,6 +3713,7 @@ function __c17(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketSippyRequest" });
   }
@@ -3773,7 +3737,7 @@ function __c19(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           prefix: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3782,6 +3746,7 @@ function __c19(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteObjectsRequest" });
   }
@@ -3802,6 +3767,7 @@ function __c20(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketRequest" });
   }
@@ -3822,6 +3788,7 @@ function __c21(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketCorsRequest" });
     case 1:
@@ -3874,6 +3841,7 @@ function __c23(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketDomainCustomRequest" });
     case 1:
@@ -3918,6 +3886,7 @@ function __c25(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketEventNotificationRequest" });
     case 1:
@@ -3963,6 +3932,7 @@ function __c27(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLifecycleRequest" });
     case 1:
@@ -4089,6 +4059,7 @@ function __c30(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLockRequest" });
     case 1:
@@ -4124,10 +4095,10 @@ function __c31(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4136,6 +4107,7 @@ function __c31(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketObjectRequest" });
     case 1:
@@ -4173,6 +4145,7 @@ function __c32(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketSippyRequest" });
   }
@@ -4216,7 +4189,7 @@ function __c34(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           jobId: S.String.pipe(T.Label("job_id")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4225,6 +4198,7 @@ function __c34(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketsJobRequest" });
     case 1:
@@ -4313,6 +4287,7 @@ function __c37(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketDomainCustomsRequest" });
     case 1:
@@ -4353,6 +4328,7 @@ function __c38(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketDomainManagedsRequest" });
   }
@@ -4385,6 +4361,7 @@ function __c40(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketEventNotificationsRequest" });
     case 1:
@@ -4452,7 +4429,7 @@ function __c42(j: number): any {
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           prefix: S.optional(S.String.pipe(T.Query())),
           startAfter: S.optional(S.String.pipe(T.Query("start_after"))),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4461,6 +4438,7 @@ function __c42(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketObjectsRequest" });
     case 1:
@@ -4515,6 +4493,7 @@ function __c43(j: number): any {
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsRequest" });
     case 1:
@@ -4548,7 +4527,7 @@ function __c44(j: number): any {
           jobType: S.optional(S.String.pipe(T.Query())),
           maxKeys: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4557,6 +4536,7 @@ function __c44(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsJobsRequest" });
     case 1:
@@ -4683,6 +4663,7 @@ function __c47(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchBucketRequest" });
   }
@@ -4773,6 +4754,7 @@ function __c50(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketCorsRequest" });
   }
@@ -4794,6 +4776,7 @@ function __c51(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketDomainManagedRequest" });
   }
@@ -4827,6 +4810,7 @@ function __c52(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketEventNotificationRequest" });
   }
@@ -4906,6 +4890,7 @@ function __c53(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketLifecycleRequest" });
   }
@@ -4965,6 +4950,7 @@ function __c55(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketLockRequest" });
   }
@@ -5007,6 +4993,7 @@ function __c56(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketSippyRequest" });
   }
@@ -5115,6 +5102,7 @@ function __c61(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateBucketDomainCustomRequest" });
     case 1:
@@ -5135,9 +5123,9 @@ function __c62(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           cfR2StorageClass: S.optional(S.String.pipe(T.Header("cf-r2-storage-class"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
           contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
           contentDisposition: S.optional(S.String.pipe(T.Header("Content-Disposition"))),
@@ -5155,6 +5143,7 @@ function __c62(j: number): any {
               bodyMediaType: "application/octet-stream",
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UploadBucketObjectRequest" });
     case 1:
@@ -5174,3 +5163,5 @@ function __c62(j: number): any {
 function __S(i: number, f: (j: number) => unknown, j: number): any {
   return (__s[i] ??= __L.at(f, j));
 }
+
+export { layerS3, S3CredentialsError } from "../layer-s3.ts";

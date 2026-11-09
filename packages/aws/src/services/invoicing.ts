@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -753,7 +754,7 @@ export type BatchGetInvoiceProfileError =
  * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
  */
 export const batchGetInvoiceProfile: API.OperationMethod<
-  BatchGetInvoiceProfileRequest,
+  BatchGetInvoiceProfileRequest & RegionInput,
   BatchGetInvoiceProfileResponse,
   BatchGetInvoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -784,7 +785,7 @@ export type CreateInvoiceUnitError =
  * This creates a new invoice unit with the provided definition.
  */
 export const createInvoiceUnit: API.OperationMethod<
-  CreateInvoiceUnitRequest,
+  CreateInvoiceUnitRequest & RegionInput,
   CreateInvoiceUnitResponse,
   CreateInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type CreateProcurementPortalPreferenceError =
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
  */
 export const createProcurementPortalPreference: API.OperationMethod<
-  CreateProcurementPortalPreferenceRequest,
+  CreateProcurementPortalPreferenceRequest & RegionInput,
   CreateProcurementPortalPreferenceResponse,
   CreateProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -851,7 +852,7 @@ export type DeleteInvoiceUnitError =
  * This deletes an invoice unit with the provided invoice unit ARN.
  */
 export const deleteInvoiceUnit: API.OperationMethod<
-  DeleteInvoiceUnitRequest,
+  DeleteInvoiceUnitRequest & RegionInput,
   DeleteInvoiceUnitResponse,
   DeleteInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -887,7 +888,7 @@ export type DeleteProcurementPortalPreferenceError =
  * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
  */
 export const deleteProcurementPortalPreference: API.OperationMethod<
-  DeleteProcurementPortalPreferenceRequest,
+  DeleteProcurementPortalPreferenceRequest & RegionInput,
   DeleteProcurementPortalPreferenceResponse,
   DeleteProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type GetInvoicePDFError =
  * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
  */
 export const getInvoicePDF: API.OperationMethod<
-  GetInvoicePDFRequest,
+  GetInvoicePDFRequest & RegionInput,
   GetInvoicePDFResponse,
   GetInvoicePDFError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type GetInvoiceUnitError =
  * This retrieves the invoice unit definition.
  */
 export const getInvoiceUnit: API.OperationMethod<
-  GetInvoiceUnitRequest,
+  GetInvoiceUnitRequest & RegionInput,
   GetInvoiceUnitResponse,
   GetInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -989,7 +990,7 @@ export type GetProcurementPortalPreferenceError =
  * Retrieves the details of a specific procurement portal preference configuration.
  */
 export const getProcurementPortalPreference: API.OperationMethod<
-  GetProcurementPortalPreferenceRequest,
+  GetProcurementPortalPreferenceRequest & RegionInput,
   GetProcurementPortalPreferenceResponse,
   GetProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -1023,7 +1024,7 @@ export type ListInvoiceSummariesError =
  * Retrieves your invoice details programmatically, without line item details.
  */
 export const listInvoiceSummaries: API.PaginatedOperationMethod<
-  ListInvoiceSummariesRequest,
+  ListInvoiceSummariesRequest & RegionInput,
   ListInvoiceSummariesResponse,
   ListInvoiceSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1061,7 +1062,7 @@ export type ListInvoiceUnitsError =
  * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
  */
 export const listInvoiceUnits: API.PaginatedOperationMethod<
-  ListInvoiceUnitsRequest,
+  ListInvoiceUnitsRequest & RegionInput,
   ListInvoiceUnitsResponse,
   ListInvoiceUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -1102,7 +1103,7 @@ export type ListProcurementPortalPreferencesError =
  * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
  */
 export const listProcurementPortalPreferences: API.PaginatedOperationMethod<
-  ListProcurementPortalPreferencesRequest,
+  ListProcurementPortalPreferencesRequest & RegionInput,
   ListProcurementPortalPreferencesResponse,
   ListProcurementPortalPreferencesError,
   Credentials | HttpClient.HttpClient,
@@ -1141,7 +1142,7 @@ export type ListProcurementPortalsError =
  * Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination.
  */
 export const listProcurementPortals: API.PaginatedOperationMethod<
-  ListProcurementPortalsRequest,
+  ListProcurementPortalsRequest & RegionInput,
   ListProcurementPortalsResponse,
   ListProcurementPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -1179,7 +1180,7 @@ export type ListProcurementPortalSuppliersError =
  * Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination.
  */
 export const listProcurementPortalSuppliers: API.PaginatedOperationMethod<
-  ListProcurementPortalSuppliersRequest,
+  ListProcurementPortalSuppliersRequest & RegionInput,
   ListProcurementPortalSuppliersResponse,
   ListProcurementPortalSuppliersError,
   Credentials | HttpClient.HttpClient,
@@ -1218,7 +1219,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type PutProcurementPortalPreferenceError =
  * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
  */
 export const putProcurementPortalPreference: API.OperationMethod<
-  PutProcurementPortalPreferenceRequest,
+  PutProcurementPortalPreferenceRequest & RegionInput,
   PutProcurementPortalPreferenceResponse,
   PutProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -1290,7 +1291,7 @@ export type SendProcurementPortalValidationError =
  * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use `VerifyProcurementPortalValidation` to submit the received code and complete validation.
  */
 export const sendProcurementPortalValidation: API.OperationMethod<
-  SendProcurementPortalValidationRequest,
+  SendProcurementPortalValidationRequest & RegionInput,
   SendProcurementPortalValidationResponse,
   SendProcurementPortalValidationError,
   Credentials | HttpClient.HttpClient
@@ -1323,7 +1324,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1356,7 +1357,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1389,7 @@ export type UpdateInvoiceUnitError =
  * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
  */
 export const updateInvoiceUnit: API.OperationMethod<
-  UpdateInvoiceUnitRequest,
+  UpdateInvoiceUnitRequest & RegionInput,
   UpdateInvoiceUnitResponse,
   UpdateInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1425,7 @@ export type UpdateProcurementPortalPreferenceStatusError =
  * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
  */
 export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
-  UpdateProcurementPortalPreferenceStatusRequest,
+  UpdateProcurementPortalPreferenceStatusRequest & RegionInput,
   UpdateProcurementPortalPreferenceStatusResponse,
   UpdateProcurementPortalPreferenceStatusError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type VerifyProcurementPortalValidationError =
  * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling `SendProcurementPortalValidation` to confirm ownership and connectivity of the configured procurement portal endpoint.
  */
 export const verifyProcurementPortalValidation: API.OperationMethod<
-  VerifyProcurementPortalValidationRequest,
+  VerifyProcurementPortalValidationRequest & RegionInput,
   VerifyProcurementPortalValidationResponse,
   VerifyProcurementPortalValidationError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1240,7 +1241,7 @@ export type CreateActivityError =
  * even if they are different.
  */
 export const createActivity: API.OperationMethod<
-  CreateActivityInput,
+  CreateActivityInput & RegionInput,
   CreateActivityOutput,
   CreateActivityError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type CreateStateMachineError =
  * `tags` will not be updated, even if they are different.
  */
 export const createStateMachine: API.OperationMethod<
-  CreateStateMachineInput,
+  CreateStateMachineInput & RegionInput,
   CreateStateMachineOutput,
   CreateStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1377,7 +1378,7 @@ export type CreateStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const createStateMachineAlias: API.OperationMethod<
-  CreateStateMachineAliasInput,
+  CreateStateMachineAliasInput & RegionInput,
   CreateStateMachineAliasOutput,
   CreateStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type DeleteActivityError = InvalidArn | CommonErrors;
  * Deletes an activity.
  */
 export const deleteActivity: API.OperationMethod<
-  DeleteActivityInput,
+  DeleteActivityInput & RegionInput,
   DeleteActivityOutput,
   DeleteActivityError,
   Credentials | HttpClient.HttpClient
@@ -1449,7 +1450,7 @@ export type DeleteStateMachineError = InvalidArn | ValidationException | CommonE
  * API is called.
  */
 export const deleteStateMachine: API.OperationMethod<
-  DeleteStateMachineInput,
+  DeleteStateMachineInput & RegionInput,
   DeleteStateMachineOutput,
   DeleteStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1492,7 @@ export type DeleteStateMachineAliasError =
  * - UpdateStateMachineAlias
  */
 export const deleteStateMachineAlias: API.OperationMethod<
-  DeleteStateMachineAliasInput,
+  DeleteStateMachineAliasInput & RegionInput,
   DeleteStateMachineAliasOutput,
   DeleteStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1527,7 +1528,7 @@ export type DeleteStateMachineVersionError =
  * - ListStateMachineVersions
  */
 export const deleteStateMachineVersion: API.OperationMethod<
-  DeleteStateMachineVersionInput,
+  DeleteStateMachineVersionInput & RegionInput,
   DeleteStateMachineVersionOutput,
   DeleteStateMachineVersionError,
   Credentials | HttpClient.HttpClient
@@ -1549,7 +1550,7 @@ export type DescribeActivityError = ActivityDoesNotExist | InvalidArn | CommonEr
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const describeActivity: API.OperationMethod<
-  DescribeActivityInput,
+  DescribeActivityInput & RegionInput,
   DescribeActivityOutput,
   DescribeActivityError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1586,7 @@ export type DescribeExecutionError =
  * Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a Map Run dispatched them.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionInput,
+  DescribeExecutionInput & RegionInput,
   DescribeExecutionOutput,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1611,7 +1612,7 @@ export type DescribeMapRunError = InvalidArn | ResourceNotFound | CommonErrors;
  * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
  */
 export const describeMapRun: API.OperationMethod<
-  DescribeMapRunInput,
+  DescribeMapRunInput & RegionInput,
   DescribeMapRunOutput,
   DescribeMapRunError,
   Credentials | HttpClient.HttpClient
@@ -1662,7 +1663,7 @@ export type DescribeStateMachineError =
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const describeStateMachine: API.OperationMethod<
-  DescribeStateMachineInput,
+  DescribeStateMachineInput & RegionInput,
   DescribeStateMachineOutput,
   DescribeStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1705,7 +1706,7 @@ export type DescribeStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const describeStateMachineAlias: API.OperationMethod<
-  DescribeStateMachineAliasInput,
+  DescribeStateMachineAliasInput & RegionInput,
   DescribeStateMachineAliasOutput,
   DescribeStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1738,7 +1739,7 @@ export type DescribeStateMachineForExecutionError =
  * This API action is not supported by `EXPRESS` state machines.
  */
 export const describeStateMachineForExecution: API.OperationMethod<
-  DescribeStateMachineForExecutionInput,
+  DescribeStateMachineForExecutionInput & RegionInput,
   DescribeStateMachineForExecutionOutput,
   DescribeStateMachineForExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type GetActivityTaskError =
  * Latency When Polling for Activity Tasks in the Step Functions Developer Guide.
  */
 export const getActivityTask: API.OperationMethod<
-  GetActivityTaskInput,
+  GetActivityTaskInput & RegionInput,
   GetActivityTaskOutput,
   GetActivityTaskError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetExecutionHistoryError =
  * This API action is not supported by `EXPRESS` state machines.
  */
 export const getExecutionHistory: API.PaginatedOperationMethod<
-  GetExecutionHistoryInput,
+  GetExecutionHistoryInput & RegionInput,
   GetExecutionHistoryOutput,
   GetExecutionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1866,7 +1867,7 @@ export type ListActivitiesError = InvalidToken | CommonErrors;
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const listActivities: API.PaginatedOperationMethod<
-  ListActivitiesInput,
+  ListActivitiesInput & RegionInput,
   ListActivitiesOutput,
   ListActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1911,7 +1912,7 @@ export type ListExecutionsError =
  * This API action is not supported by `EXPRESS` state machines. However, you may list `EXPRESS` children started by a map run using the `mapRunArn` parameter.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsInput,
+  ListExecutionsInput & RegionInput,
   ListExecutionsOutput,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1948,7 +1949,7 @@ export type ListMapRunsError = ExecutionDoesNotExist | InvalidArn | InvalidToken
  * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
  */
 export const listMapRuns: API.PaginatedOperationMethod<
-  ListMapRunsInput,
+  ListMapRunsInput & RegionInput,
   ListMapRunsOutput,
   ListMapRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1996,7 +1997,7 @@ export type ListStateMachineAliasesError =
  * - DeleteStateMachineAlias
  */
 export const listStateMachineAliases: API.OperationMethod<
-  ListStateMachineAliasesInput,
+  ListStateMachineAliasesInput & RegionInput,
   ListStateMachineAliasesOutput,
   ListStateMachineAliasesError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2031,7 @@ export type ListStateMachinesError = InvalidToken | CommonErrors;
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const listStateMachines: API.PaginatedOperationMethod<
-  ListStateMachinesInput,
+  ListStateMachinesInput & RegionInput,
   ListStateMachinesOutput,
   ListStateMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -2072,7 +2073,7 @@ export type ListStateMachineVersionsError =
  * - DeleteStateMachineVersion
  */
 export const listStateMachineVersions: API.OperationMethod<
-  ListStateMachineVersionsInput,
+  ListStateMachineVersionsInput & RegionInput,
   ListStateMachineVersionsOutput,
   ListStateMachineVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2098,7 @@ export type ListTagsForResourceError = InvalidArn | ResourceNotFound | CommonErr
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2142,7 +2143,7 @@ export type PublishStateMachineVersionError =
  * - ListStateMachineVersions
  */
 export const publishStateMachineVersion: API.OperationMethod<
-  PublishStateMachineVersionInput,
+  PublishStateMachineVersionInput & RegionInput,
   PublishStateMachineVersionOutput,
   PublishStateMachineVersionError,
   Credentials | HttpClient.HttpClient
@@ -2196,7 +2197,7 @@ export type RedriveExecutionError =
  * - The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the `ExecutionRedriven` history event and at least one other history event.
  */
 export const redriveExecution: API.OperationMethod<
-  RedriveExecutionInput,
+  RedriveExecutionInput & RegionInput,
   RedriveExecutionOutput,
   RedriveExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type SendTaskFailureError =
  * A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
 export const sendTaskFailure: API.OperationMethod<
-  SendTaskFailureInput,
+  SendTaskFailureInput & RegionInput,
   SendTaskFailureOutput,
   SendTaskFailureError,
   Credentials | HttpClient.HttpClient
@@ -2274,7 +2275,7 @@ export type SendTaskHeartbeatError = InvalidToken | TaskDoesNotExist | TaskTimed
  * for heartbeats.
  */
 export const sendTaskHeartbeat: API.OperationMethod<
-  SendTaskHeartbeatInput,
+  SendTaskHeartbeatInput & RegionInput,
   SendTaskHeartbeatOutput,
   SendTaskHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type SendTaskSuccessError =
  * successfully.
  */
 export const sendTaskSuccess: API.OperationMethod<
-  SendTaskSuccessInput,
+  SendTaskSuccessInput & RegionInput,
   SendTaskSuccessOutput,
   SendTaskSuccessError,
   Credentials | HttpClient.HttpClient
@@ -2377,7 +2378,7 @@ export type StartExecutionError =
  * `StartExecution` isn't idempotent for `EXPRESS` workflows.
  */
 export const startExecution: API.OperationMethod<
-  StartExecutionInput,
+  StartExecutionInput & RegionInput,
   StartExecutionOutput,
   StartExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2429,7 +2430,7 @@ export type StartSyncExecutionError =
  * configuration.
  */
 export const startSyncExecution: API.OperationMethod<
-  StartSyncExecutionInput,
+  StartSyncExecutionInput & RegionInput,
   StartSyncExecutionOutput,
   StartSyncExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2476,7 +2477,7 @@ export type StopExecutionError =
  * A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
 export const stopExecution: API.OperationMethod<
-  StopExecutionInput,
+  StopExecutionInput & RegionInput,
   StopExecutionOutput,
   StopExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2510,7 +2511,7 @@ export type TagResourceError = InvalidArn | ResourceNotFound | TooManyTags | Com
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2562,7 +2563,7 @@ export type TestStateError =
  * service integration patterns, Parallel, or Map states.
  */
 export const testState: API.OperationMethod<
-  TestStateInput,
+  TestStateInput & RegionInput,
   TestStateOutput,
   TestStateError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type UntagResourceError = InvalidArn | ResourceNotFound | CommonErrors;
  * Remove a tag from a Step Functions resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2603,7 +2604,7 @@ export type UpdateMapRunError = InvalidArn | ResourceNotFound | ValidationExcept
  * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
  */
 export const updateMapRun: API.OperationMethod<
-  UpdateMapRunInput,
+  UpdateMapRunInput & RegionInput,
   UpdateMapRunOutput,
   UpdateMapRunError,
   Credentials | HttpClient.HttpClient
@@ -2674,7 +2675,7 @@ export type UpdateStateMachineError =
  * `definition` and `roleArn`.
  */
 export const updateStateMachine: API.OperationMethod<
-  UpdateStateMachineInput,
+  UpdateStateMachineInput & RegionInput,
   UpdateStateMachineOutput,
   UpdateStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -2739,7 +2740,7 @@ export type UpdateStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const updateStateMachineAlias: API.OperationMethod<
-  UpdateStateMachineAliasInput,
+  UpdateStateMachineAliasInput & RegionInput,
   UpdateStateMachineAliasOutput,
   UpdateStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -2796,7 +2797,7 @@ export type ValidateStateMachineDefinitionError = ValidationException | CommonEr
  * wording of diagnostic messages.
  */
 export const validateStateMachineDefinition: API.OperationMethod<
-  ValidateStateMachineDefinitionInput,
+  ValidateStateMachineDefinitionInput & RegionInput,
   ValidateStateMachineDefinitionOutput,
   ValidateStateMachineDefinitionError,
   Credentials | HttpClient.HttpClient

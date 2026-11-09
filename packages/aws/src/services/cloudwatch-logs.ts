@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2456,7 +2457,7 @@ export type AssociateKmsKeyError =
  * `InvalidParameterException` error.
  */
 export const associateKmsKey: API.OperationMethod<
-  AssociateKmsKeyRequest,
+  AssociateKmsKeyRequest & RegionInput,
   AssociateKmsKeyResponse,
   AssociateKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -2489,7 +2490,7 @@ export type AssociateSourceToS3TableIntegrationError =
  * Amazon Athena, Amazon Redshift, and Apache Spark.
  */
 export const associateSourceToS3TableIntegration: API.OperationMethod<
-  AssociateSourceToS3TableIntegrationRequest,
+  AssociateSourceToS3TableIntegrationRequest & RegionInput,
   AssociateSourceToS3TableIntegrationResponse,
   AssociateSourceToS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2522,7 +2523,7 @@ export type CancelExportTaskError =
  * The task must be in the `PENDING` or `RUNNING` state.
  */
 export const cancelExportTask: API.OperationMethod<
-  CancelExportTaskRequest,
+  CancelExportTaskRequest & RegionInput,
   CancelExportTaskResponse,
   CancelExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2554,7 @@ export type CancelImportTaskError =
  * Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store.
  */
 export const cancelImportTask: API.OperationMethod<
-  CancelImportTaskRequest,
+  CancelImportTaskRequest & RegionInput,
   CancelImportTaskResponse,
   CancelImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2617,7 @@ export type CreateDeliveryError =
  * To update an existing delivery configuration, use UpdateDeliveryConfiguration.
  */
 export const createDelivery: API.OperationMethod<
-  CreateDeliveryRequest,
+  CreateDeliveryRequest & RegionInput,
   CreateDeliveryResponse,
   CreateDeliveryError,
   Credentials | HttpClient.HttpClient
@@ -2678,7 +2679,7 @@ export type CreateExportTaskError =
  * can sort the exported log field data by using Linux utilities.
  */
 export const createExportTask: API.OperationMethod<
-  CreateExportTaskRequest,
+  CreateExportTaskRequest & RegionInput,
   CreateExportTaskResponse,
   CreateExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type CreateImportTaskError =
  * - The data being imported must be within the specified source's retention period.
  */
 export const createImportTask: API.OperationMethod<
-  CreateImportTaskRequest,
+  CreateImportTaskRequest & RegionInput,
   CreateImportTaskResponse,
   CreateImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2808,7 +2809,7 @@ export type CreateLogAnomalyDetectorError =
  * data with masking.
  */
 export const createLogAnomalyDetector: API.OperationMethod<
-  CreateLogAnomalyDetectorRequest,
+  CreateLogAnomalyDetectorRequest & RegionInput,
   CreateLogAnomalyDetectorResponse,
   CreateLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -2870,7 +2871,7 @@ export type CreateLogGroupError =
  * Symmetric and Asymmetric Keys.
  */
 export const createLogGroup: API.OperationMethod<
-  CreateLogGroupRequest,
+  CreateLogGroupRequest & RegionInput,
   CreateLogGroupResponse,
   CreateLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -2915,7 +2916,7 @@ export type CreateLogStreamError =
  * - Don't use ':' (colon) or '*' (asterisk) characters.
  */
 export const createLogStream: API.OperationMethod<
-  CreateLogStreamRequest,
+  CreateLogStreamRequest & RegionInput,
   CreateLogStreamResponse,
   CreateLogStreamError,
   Credentials | HttpClient.HttpClient
@@ -2954,7 +2955,7 @@ export type CreateLookupTableError =
  * UTF-8 encoding, and not exceed 10 MB.
  */
 export const createLookupTable: API.OperationMethod<
-  CreateLookupTableRequest,
+  CreateLookupTableRequest & RegionInput,
   CreateLookupTableResponse,
   CreateLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -2992,7 +2993,7 @@ export type CreateScheduledQueryError =
  * or further processing.
  */
 export const createScheduledQuery: API.OperationMethod<
-  CreateScheduledQueryRequest,
+  CreateScheduledQueryRequest & RegionInput,
   CreateScheduledQueryResponse,
   CreateScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -3054,7 +3055,7 @@ export type DeleteAccountPolicyError =
  * Insights queries.
  */
 export const deleteAccountPolicy: API.OperationMethod<
-  DeleteAccountPolicyRequest,
+  DeleteAccountPolicyRequest & RegionInput,
   DeleteAccountPolicyResponse,
   DeleteAccountPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3086,7 +3087,7 @@ export type DeleteDataProtectionPolicyError =
  * For more information about data protection policies, see PutDataProtectionPolicy.
  */
 export const deleteDataProtectionPolicy: API.OperationMethod<
-  DeleteDataProtectionPolicyRequest,
+  DeleteDataProtectionPolicyRequest & RegionInput,
   DeleteDataProtectionPolicyResponse,
   DeleteDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3122,7 +3123,7 @@ export type DeleteDeliveryError =
  * source.
  */
 export const deleteDelivery: API.OperationMethod<
-  DeleteDeliveryRequest,
+  DeleteDeliveryRequest & RegionInput,
   DeleteDeliveryResponse,
   DeleteDeliveryError,
   Credentials | HttpClient.HttpClient
@@ -3162,7 +3163,7 @@ export type DeleteDeliveryDestinationError =
  * field in the results.
  */
 export const deleteDeliveryDestination: API.OperationMethod<
-  DeleteDeliveryDestinationRequest,
+  DeleteDeliveryDestinationRequest & RegionInput,
   DeleteDeliveryDestinationResponse,
   DeleteDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type DeleteDeliveryDestinationPolicyError =
  * PutDeliveryDestinationPolicy.
  */
 export const deleteDeliveryDestinationPolicy: API.OperationMethod<
-  DeleteDeliveryDestinationPolicyRequest,
+  DeleteDeliveryDestinationPolicyRequest & RegionInput,
   DeleteDeliveryDestinationPolicyResponse,
   DeleteDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3233,7 +3234,7 @@ export type DeleteDeliverySourceError =
  * the results.
  */
 export const deleteDeliverySource: API.OperationMethod<
-  DeleteDeliverySourceRequest,
+  DeleteDeliverySourceRequest & RegionInput,
   DeleteDeliverySourceResponse,
   DeleteDeliverySourceError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3268,7 @@ export type DeleteDestinationError =
  * destination.
  */
 export const deleteDestination: API.OperationMethod<
-  DeleteDestinationRequest,
+  DeleteDestinationRequest & RegionInput,
   DeleteDestinationResponse,
   DeleteDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3312,7 +3313,7 @@ export type DeleteIndexPolicyError =
  * the log group.
  */
 export const deleteIndexPolicy: API.OperationMethod<
-  DeleteIndexPolicyRequest,
+  DeleteIndexPolicyRequest & RegionInput,
   DeleteIndexPolicyResponse,
   DeleteIndexPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3348,7 +3349,7 @@ export type DeleteIntegrationError =
  * longer be accessible.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3378,7 +3379,7 @@ export type DeleteLogAnomalyDetectorError =
  * Deletes the specified CloudWatch Logs anomaly detector.
  */
 export const deleteLogAnomalyDetector: API.OperationMethod<
-  DeleteLogAnomalyDetectorRequest,
+  DeleteLogAnomalyDetectorRequest & RegionInput,
   DeleteLogAnomalyDetectorResponse,
   DeleteLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3410,7 +3411,7 @@ export type DeleteLogGroupError =
  * associated with the log group.
  */
 export const deleteLogGroup: API.OperationMethod<
-  DeleteLogGroupRequest,
+  DeleteLogGroupRequest & RegionInput,
   DeleteLogGroupResponse,
   DeleteLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -3443,7 +3444,7 @@ export type DeleteLogStreamError =
  * associated with the log stream.
  */
 export const deleteLogStream: API.OperationMethod<
-  DeleteLogStreamRequest,
+  DeleteLogStreamRequest & RegionInput,
   DeleteLogStreamResponse,
   DeleteLogStreamError,
   Credentials | HttpClient.HttpClient
@@ -3477,7 +3478,7 @@ export type DeleteLookupTableError =
  * table, review any saved queries or dashboards that may reference it.
  */
 export const deleteLookupTable: API.OperationMethod<
-  DeleteLookupTableRequest,
+  DeleteLookupTableRequest & RegionInput,
   DeleteLookupTableResponse,
   DeleteLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -3507,7 +3508,7 @@ export type DeleteMetricFilterError =
  * Deletes the specified metric filter.
  */
 export const deleteMetricFilter: API.OperationMethod<
-  DeleteMetricFilterRequest,
+  DeleteMetricFilterRequest & RegionInput,
   DeleteMetricFilterResponse,
   DeleteMetricFilterError,
   Credentials | HttpClient.HttpClient
@@ -3542,7 +3543,7 @@ export type DeleteQueryDefinitionError =
  * this operation.
  */
 export const deleteQueryDefinition: API.OperationMethod<
-  DeleteQueryDefinitionRequest,
+  DeleteQueryDefinitionRequest & RegionInput,
   DeleteQueryDefinitionResponse,
   DeleteQueryDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3568,7 +3569,7 @@ export type DeleteResourcePolicyError =
  * in that policy to put log events to this account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3601,7 +3602,7 @@ export type DeleteRetentionPolicyError =
  * policy.
  */
 export const deleteRetentionPolicy: API.OperationMethod<
-  DeleteRetentionPolicyRequest,
+  DeleteRetentionPolicyRequest & RegionInput,
   DeleteRetentionPolicyResponse,
   DeleteRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3633,7 +3634,7 @@ export type DeleteScheduledQueryError =
  * configured actions and associated resources.
  */
 export const deleteScheduledQuery: API.OperationMethod<
-  DeleteScheduledQueryRequest,
+  DeleteScheduledQueryRequest & RegionInput,
   DeleteScheduledQueryResponse,
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -3664,7 +3665,7 @@ export type DeleteSubscriptionFilterError =
  * Deletes the specified subscription filter.
  */
 export const deleteSubscriptionFilter: API.OperationMethod<
-  DeleteSubscriptionFilterRequest,
+  DeleteSubscriptionFilterRequest & RegionInput,
   DeleteSubscriptionFilterResponse,
   DeleteSubscriptionFilterError,
   Credentials | HttpClient.HttpClient
@@ -3698,7 +3699,7 @@ export type DeleteSyslogConfigurationError =
  * longer ingested through the specified VPC endpoint.
  */
 export const deleteSyslogConfiguration: API.OperationMethod<
-  DeleteSyslogConfigurationRequest,
+  DeleteSyslogConfigurationRequest & RegionInput,
   DeleteSyslogConfigurationResponse,
   DeleteSyslogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3738,7 +3739,7 @@ export type DeleteTransformerError =
  * that relied on the transformed versions of the log events.
  */
 export const deleteTransformer: API.OperationMethod<
-  DeleteTransformerRequest,
+  DeleteTransformerRequest & RegionInput,
   DeleteTransformerResponse,
   DeleteTransformerError,
   Credentials | HttpClient.HttpClient
@@ -3786,7 +3787,7 @@ export type DescribeAccountPoliciesError =
  * and `logs:DescribeAccountPolicies` permissions.
  */
 export const describeAccountPolicies: API.OperationMethod<
-  DescribeAccountPoliciesRequest,
+  DescribeAccountPoliciesRequest & RegionInput,
   DescribeAccountPoliciesResponse,
   DescribeAccountPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -3818,7 +3819,7 @@ export type DescribeConfigurationTemplatesError =
  * deliveries, see CreateDelivery.
  */
 export const describeConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeConfigurationTemplatesRequest,
+  DescribeConfigurationTemplatesRequest & RegionInput,
   DescribeConfigurationTemplatesResponse,
   DescribeConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -3867,7 +3868,7 @@ export type DescribeDeliveriesError =
  * Amazon Web Services services.
  */
 export const describeDeliveries: API.PaginatedOperationMethod<
-  DescribeDeliveriesRequest,
+  DescribeDeliveriesRequest & RegionInput,
   DescribeDeliveriesResponse,
   DescribeDeliveriesError,
   Credentials | HttpClient.HttpClient,
@@ -3905,7 +3906,7 @@ export type DescribeDeliveryDestinationsError =
  * account.
  */
 export const describeDeliveryDestinations: API.PaginatedOperationMethod<
-  DescribeDeliveryDestinationsRequest,
+  DescribeDeliveryDestinationsRequest & RegionInput,
   DescribeDeliveryDestinationsResponse,
   DescribeDeliveryDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -3942,7 +3943,7 @@ export type DescribeDeliverySourcesError =
  * Retrieves a list of the delivery sources that have been created in the account.
  */
 export const describeDeliverySources: API.PaginatedOperationMethod<
-  DescribeDeliverySourcesRequest,
+  DescribeDeliverySourcesRequest & RegionInput,
   DescribeDeliverySourcesResponse,
   DescribeDeliverySourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3978,7 +3979,7 @@ export type DescribeDestinationsError =
  * name.
  */
 export const describeDestinations: API.PaginatedOperationMethod<
-  DescribeDestinationsRequest,
+  DescribeDestinationsRequest & RegionInput,
   DescribeDestinationsResponse,
   DescribeDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -4009,7 +4010,7 @@ export type DescribeExportTasksError =
  * results based on task ID or task status.
  */
 export const describeExportTasks: API.OperationMethod<
-  DescribeExportTasksRequest,
+  DescribeExportTasksRequest & RegionInput,
   DescribeExportTasksResponse,
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient
@@ -4039,7 +4040,7 @@ export type DescribeFieldIndexesError =
  * For more information about field index policies, see PutIndexPolicy.
  */
 export const describeFieldIndexes: API.OperationMethod<
-  DescribeFieldIndexesRequest,
+  DescribeFieldIndexesRequest & RegionInput,
   DescribeFieldIndexesResponse,
   DescribeFieldIndexesError,
   Credentials | HttpClient.HttpClient
@@ -4072,7 +4073,7 @@ export type DescribeImportTaskBatchesError =
  * For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime.
  */
 export const describeImportTaskBatches: API.OperationMethod<
-  DescribeImportTaskBatchesRequest,
+  DescribeImportTaskBatchesRequest & RegionInput,
   DescribeImportTaskBatchesResponse,
   DescribeImportTaskBatchesError,
   Credentials | HttpClient.HttpClient
@@ -4104,7 +4105,7 @@ export type DescribeImportTasksError =
  * Lists and describes import tasks, with optional filtering by import status and source ARN.
  */
 export const describeImportTasks: API.OperationMethod<
-  DescribeImportTasksRequest,
+  DescribeImportTasksRequest & RegionInput,
   DescribeImportTasksResponse,
   DescribeImportTasksError,
   Credentials | HttpClient.HttpClient
@@ -4145,7 +4146,7 @@ export type DescribeIndexPoliciesError =
  * To find information about only account-level policies, use DescribeAccountPolicies instead.
  */
 export const describeIndexPolicies: API.OperationMethod<
-  DescribeIndexPoliciesRequest,
+  DescribeIndexPoliciesRequest & RegionInput,
   DescribeIndexPoliciesResponse,
   DescribeIndexPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -4190,7 +4191,7 @@ export type DescribeLogGroupsError =
  * see CloudWatch cross-account observability.
  */
 export const describeLogGroups: API.PaginatedOperationMethod<
-  DescribeLogGroupsRequest,
+  DescribeLogGroupsRequest & RegionInput,
   DescribeLogGroupsResponse,
   DescribeLogGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4233,7 +4234,7 @@ export type DescribeLogStreamsError =
  * see CloudWatch cross-account observability.
  */
 export const describeLogStreams: API.PaginatedOperationMethod<
-  DescribeLogStreamsRequest,
+  DescribeLogStreamsRequest & RegionInput,
   DescribeLogStreamsResponse,
   DescribeLogStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -4266,7 +4267,7 @@ export type DescribeLookupTablesError =
  * results by table name prefix. Results are sorted by table name in ascending order.
  */
 export const describeLookupTables: API.OperationMethod<
-  DescribeLookupTablesRequest,
+  DescribeLookupTablesRequest & RegionInput,
   DescribeLookupTablesResponse,
   DescribeLookupTablesError,
   Credentials | HttpClient.HttpClient
@@ -4297,7 +4298,7 @@ export type DescribeMetricFiltersError =
  * ASCII-sorted by filter name.
  */
 export const describeMetricFilters: API.PaginatedOperationMethod<
-  DescribeMetricFiltersRequest,
+  DescribeMetricFiltersRequest & RegionInput,
   DescribeMetricFiltersResponse,
   DescribeMetricFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -4335,7 +4336,7 @@ export type DescribeQueriesError =
  * your account.
  */
 export const describeQueries: API.OperationMethod<
-  DescribeQueriesRequest,
+  DescribeQueriesRequest & RegionInput,
   DescribeQueriesResponse,
   DescribeQueriesError,
   Credentials | HttpClient.HttpClient
@@ -4363,7 +4364,7 @@ export type DescribeQueryDefinitionsError =
  * only the query definitions that have names that start with a certain string.
  */
 export const describeQueryDefinitions: API.OperationMethod<
-  DescribeQueryDefinitionsRequest,
+  DescribeQueryDefinitionsRequest & RegionInput,
   DescribeQueryDefinitionsResponse,
   DescribeQueryDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -4386,7 +4387,7 @@ export type DescribeResourcePoliciesError =
  * Lists the resource policies in this account.
  */
 export const describeResourcePolicies: API.OperationMethod<
-  DescribeResourcePoliciesRequest,
+  DescribeResourcePoliciesRequest & RegionInput,
   DescribeResourcePoliciesResponse,
   DescribeResourcePoliciesError,
   Credentials | HttpClient.HttpClient
@@ -4412,7 +4413,7 @@ export type DescribeSubscriptionFiltersError =
  * name.
  */
 export const describeSubscriptionFilters: API.PaginatedOperationMethod<
-  DescribeSubscriptionFiltersRequest,
+  DescribeSubscriptionFiltersRequest & RegionInput,
   DescribeSubscriptionFiltersResponse,
   DescribeSubscriptionFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -4464,7 +4465,7 @@ export type DisassociateKmsKeyError =
  * It can take up to 5 minutes for this operation to take effect.
  */
 export const disassociateKmsKey: API.OperationMethod<
-  DisassociateKmsKeyRequest,
+  DisassociateKmsKeyRequest & RegionInput,
   DisassociateKmsKeyResponse,
   DisassociateKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -4496,7 +4497,7 @@ export type DisassociateSourceFromS3TableIntegrationError =
  * deleting all associated data from the integration.
  */
 export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
-  DisassociateSourceFromS3TableIntegrationRequest,
+  DisassociateSourceFromS3TableIntegrationRequest & RegionInput,
   DisassociateSourceFromS3TableIntegrationResponse,
   DisassociateSourceFromS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4572,7 +4573,7 @@ export type FilterLogEventsError =
  * query.
  */
 export const filterLogEvents: API.PaginatedOperationMethod<
-  FilterLogEventsRequest,
+  FilterLogEventsRequest & RegionInput,
   FilterLogEventsResponse,
   FilterLogEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4599,7 +4600,7 @@ export type GetDataProtectionPolicyError =
  * Returns information about a log group data protection policy.
  */
 export const getDataProtectionPolicy: API.OperationMethod<
-  GetDataProtectionPolicyRequest,
+  GetDataProtectionPolicyRequest & RegionInput,
   GetDataProtectionPolicyResponse,
   GetDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4644,7 +4645,7 @@ export type GetDeliveryError =
  * of the deliveries in your account with the DescribeDeliveries operation.
  */
 export const getDelivery: API.OperationMethod<
-  GetDeliveryRequest,
+  GetDeliveryRequest & RegionInput,
   GetDeliveryResponse,
   GetDeliveryError,
   Credentials | HttpClient.HttpClient
@@ -4676,7 +4677,7 @@ export type GetDeliveryDestinationError =
  * Retrieves complete information about one delivery destination.
  */
 export const getDeliveryDestination: API.OperationMethod<
-  GetDeliveryDestinationRequest,
+  GetDeliveryDestinationRequest & RegionInput,
   GetDeliveryDestinationResponse,
   GetDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
@@ -4707,7 +4708,7 @@ export type GetDeliveryDestinationPolicyError =
  * specify. For more information about delivery destinations and their policies, see PutDeliveryDestinationPolicy.
  */
 export const getDeliveryDestinationPolicy: API.OperationMethod<
-  GetDeliveryDestinationPolicyRequest,
+  GetDeliveryDestinationPolicyRequest & RegionInput,
   GetDeliveryDestinationPolicyResponse,
   GetDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4733,7 +4734,7 @@ export type GetDeliverySourceError =
  * Retrieves complete information about one delivery source.
  */
 export const getDeliverySource: API.OperationMethod<
-  GetDeliverySourceRequest,
+  GetDeliverySourceRequest & RegionInput,
   GetDeliverySourceResponse,
   GetDeliverySourceError,
   Credentials | HttpClient.HttpClient
@@ -4763,7 +4764,7 @@ export type GetIntegrationError =
  * Returns information about one integration between CloudWatch Logs and OpenSearch Service.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResponse,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4788,7 +4789,7 @@ export type GetLogAnomalyDetectorError =
  * Retrieves information about the log anomaly detector that you specify. The KMS key ARN detected is valid.
  */
 export const getLogAnomalyDetector: API.OperationMethod<
-  GetLogAnomalyDetectorRequest,
+  GetLogAnomalyDetectorRequest & RegionInput,
   GetLogAnomalyDetectorResponse,
   GetLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -4849,7 +4850,7 @@ export type GetLogEventsError =
  * query.
  */
 export const getLogEvents: API.PaginatedOperationMethod<
-  GetLogEventsRequest,
+  GetLogEventsRequest & RegionInput,
   GetLogEventsResponse,
   GetLogEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4882,7 +4883,7 @@ export type GetLogFieldsError =
  * field modifications introduced through pipelines, such as new fields or changed field types.
  */
 export const getLogFields: API.OperationMethod<
-  GetLogFieldsRequest,
+  GetLogFieldsRequest & RegionInput,
   GetLogFieldsResponse,
   GetLogFieldsError,
   Credentials | HttpClient.HttpClient
@@ -4933,7 +4934,7 @@ export type GetLogGroupFieldsError =
  * see CloudWatch cross-account observability.
  */
 export const getLogGroupFields: API.OperationMethod<
-  GetLogGroupFieldsRequest,
+  GetLogGroupFieldsRequest & RegionInput,
   GetLogGroupFieldsResponse,
   GetLogGroupFieldsError,
   Credentials | HttpClient.HttpClient
@@ -4979,7 +4980,7 @@ export type GetLogObjectError =
  * .
  */
 export const getLogObject: API.OperationMethod<
-  GetLogObjectRequest,
+  GetLogObjectRequest & RegionInput,
   GetLogObjectResponse,
   GetLogObjectError,
   Credentials | HttpClient.HttpClient
@@ -5015,7 +5016,7 @@ export type GetLogRecordError =
  * The full unparsed log event is returned within `@message`.
  */
 export const getLogRecord: API.OperationMethod<
-  GetLogRecordRequest,
+  GetLogRecordRequest & RegionInput,
   GetLogRecordResponse,
   GetLogRecordError,
   Credentials | HttpClient.HttpClient
@@ -5045,7 +5046,7 @@ export type GetLookupTableError =
  * Retrieves the full content of a lookup table, including the CSV data.
  */
 export const getLookupTable: API.OperationMethod<
-  GetLookupTableRequest,
+  GetLookupTableRequest & RegionInput,
   GetLookupTableResponse,
   GetLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -5101,7 +5102,7 @@ export type GetQueryResultsError =
  * CloudWatch cross-account observability.
  */
 export const getQueryResults: API.OperationMethod<
-  GetQueryResultsRequest,
+  GetQueryResultsRequest & RegionInput,
   GetQueryResultsResponse,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient
@@ -5128,7 +5129,7 @@ export type GetScheduledQueryError =
  * status, and metadata.
  */
 export const getScheduledQuery: API.OperationMethod<
-  GetScheduledQueryRequest,
+  GetScheduledQueryRequest & RegionInput,
   GetScheduledQueryResponse,
   GetScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -5161,7 +5162,7 @@ export type GetScheduledQueryHistoryError =
  * including query results and destination processing status.
  */
 export const getScheduledQueryHistory: API.PaginatedOperationMethod<
-  GetScheduledQueryHistoryRequest,
+  GetScheduledQueryHistoryRequest & RegionInput,
   GetScheduledQueryHistoryResponse,
   GetScheduledQueryHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -5200,7 +5201,7 @@ export type GetStorageTierPolicyError =
  * Returns the storage tier policy for the account.
  */
 export const getStorageTierPolicy: API.OperationMethod<
-  GetStorageTierPolicyRequest,
+  GetStorageTierPolicyRequest & RegionInput,
   GetStorageTierPolicyResponse,
   GetStorageTierPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5234,7 +5235,7 @@ export type GetTransformerError =
  * information for an account-level transformer, use DescribeAccountPolicies.
  */
 export const getTransformer: API.OperationMethod<
-  GetTransformerRequest,
+  GetTransformerRequest & RegionInput,
   GetTransformerResponse,
   GetTransformerError,
   Credentials | HttpClient.HttpClient
@@ -5274,7 +5275,7 @@ export type ListAggregateLogGroupSummariesError =
  * results.
  */
 export const listAggregateLogGroupSummaries: API.PaginatedOperationMethod<
-  ListAggregateLogGroupSummariesRequest,
+  ListAggregateLogGroupSummariesRequest & RegionInput,
   ListAggregateLogGroupSummariesResponse,
   ListAggregateLogGroupSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -5308,7 +5309,7 @@ export type ListAnomaliesError =
  * section.
  */
 export const listAnomalies: API.PaginatedOperationMethod<
-  ListAnomaliesRequest,
+  ListAnomaliesRequest & RegionInput,
   ListAnomaliesResponse,
   ListAnomaliesError,
   Credentials | HttpClient.HttpClient,
@@ -5345,7 +5346,7 @@ export type ListIntegrationsError =
  * must be with OpenSearch Service.
  */
 export const listIntegrations: API.OperationMethod<
-  ListIntegrationsRequest,
+  ListIntegrationsRequest & RegionInput,
   ListIntegrationsResponse,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -5370,7 +5371,7 @@ export type ListLogAnomalyDetectorsError =
  * Retrieves a list of the log anomaly detectors in the account.
  */
 export const listLogAnomalyDetectors: API.PaginatedOperationMethod<
-  ListLogAnomalyDetectorsRequest,
+  ListLogAnomalyDetectorsRequest & RegionInput,
   ListLogAnomalyDetectorsResponse,
   ListLogAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -5416,7 +5417,7 @@ export type ListLogGroupsError =
  * results, and includes a token to use in a subsequent operation to return more results.
  */
 export const listLogGroups: API.OperationMethod<
-  ListLogGroupsRequest,
+  ListLogGroupsRequest & RegionInput,
   ListLogGroupsResponse,
   ListLogGroupsError,
   Credentials | HttpClient.HttpClient
@@ -5447,7 +5448,7 @@ export type ListLogGroupsForQueryError =
  * to improve query performance and reduce costs.
  */
 export const listLogGroupsForQuery: API.PaginatedOperationMethod<
-  ListLogGroupsForQueryRequest,
+  ListLogGroupsForQueryRequest & RegionInput,
   ListLogGroupsForQueryResponse,
   ListLogGroupsForQueryError,
   Credentials | HttpClient.HttpClient,
@@ -5485,7 +5486,7 @@ export type ListScheduledQueriesError =
  * show only enabled or disabled queries.
  */
 export const listScheduledQueries: API.PaginatedOperationMethod<
-  ListScheduledQueriesRequest,
+  ListScheduledQueriesRequest & RegionInput,
   ListScheduledQueriesResponse,
   ListScheduledQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5524,7 +5525,7 @@ export type ListSourcesForS3TableIntegrationError =
  * which data sources are currently associated for query access.
  */
 export const listSourcesForS3TableIntegration: API.PaginatedOperationMethod<
-  ListSourcesForS3TableIntegrationRequest,
+  ListSourcesForS3TableIntegrationRequest & RegionInput,
   ListSourcesForS3TableIntegrationResponse,
   ListSourcesForS3TableIntegrationError,
   Credentials | HttpClient.HttpClient,
@@ -5565,7 +5566,7 @@ export type ListSyslogConfigurationsError =
  * group or VPC endpoint.
  */
 export const listSyslogConfigurations: API.OperationMethod<
-  ListSyslogConfigurationsRequest,
+  ListSyslogConfigurationsRequest & RegionInput,
   ListSyslogConfigurationsResponse,
   ListSyslogConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -5597,7 +5598,7 @@ export type ListTagsForResourceError =
  * destinations support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5623,7 +5624,7 @@ export type ListTagsLogGroupError =
  * Lists the tags for the specified log group.
  */
 export const listTagsLogGroup: API.OperationMethod<
-  ListTagsLogGroupRequest,
+  ListTagsLogGroupRequest & RegionInput,
   ListTagsLogGroupResponse,
   ListTagsLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -6002,7 +6003,7 @@ export type PutAccountPolicyError =
  * `"/aws/lambda"`.
  */
 export const putAccountPolicy: API.OperationMethod<
-  PutAccountPolicyRequest,
+  PutAccountPolicyRequest & RegionInput,
   PutAccountPolicyResponse,
   PutAccountPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6038,7 +6039,7 @@ export type PutBearerTokenAuthenticationError =
  * For information about the parameters that are common to all actions, see Common Parameters.
  */
 export const putBearerTokenAuthentication: API.OperationMethod<
-  PutBearerTokenAuthenticationRequest,
+  PutBearerTokenAuthenticationRequest & RegionInput,
   PutBearerTokenAuthenticationResponse,
   PutBearerTokenAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -6094,7 +6095,7 @@ export type PutDataProtectionPolicyError =
  * specified in either policy is masked.
  */
 export const putDataProtectionPolicy: API.OperationMethod<
-  PutDataProtectionPolicyRequest,
+  PutDataProtectionPolicyRequest & RegionInput,
   PutDataProtectionPolicyResponse,
   PutDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6160,7 +6161,7 @@ export type PutDeliveryDestinationError =
  * specify.
  */
 export const putDeliveryDestination: API.OperationMethod<
-  PutDeliveryDestinationRequest,
+  PutDeliveryDestinationRequest & RegionInput,
   PutDeliveryDestinationResponse,
   PutDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
@@ -6215,7 +6216,7 @@ export type PutDeliveryDestinationPolicyError =
  * needed policies.
  */
 export const putDeliveryDestinationPolicy: API.OperationMethod<
-  PutDeliveryDestinationPolicyRequest,
+  PutDeliveryDestinationPolicyRequest & RegionInput,
   PutDeliveryDestinationPolicyResponse,
   PutDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6276,7 +6277,7 @@ export type PutDeliverySourceError =
  * source parameters are overwritten with the new parameter values that you specify.
  */
 export const putDeliverySource: API.OperationMethod<
-  PutDeliverySourceRequest,
+  PutDeliverySourceRequest & RegionInput,
   PutDeliverySourceResponse,
   PutDeliverySourceError,
   Credentials | HttpClient.HttpClient
@@ -6320,7 +6321,7 @@ export type PutDestinationError =
  * `iam:PassRole` permission.
  */
 export const putDestination: API.OperationMethod<
-  PutDestinationRequest,
+  PutDestinationRequest & RegionInput,
   PutDestinationResponse,
   PutDestinationError,
   Credentials | HttpClient.HttpClient
@@ -6347,7 +6348,7 @@ export type PutDestinationPolicyError =
  * against a given destination.
  */
 export const putDestinationPolicy: API.OperationMethod<
-  PutDestinationPolicyRequest,
+  PutDestinationPolicyRequest & RegionInput,
   PutDestinationPolicyResponse,
   PutDestinationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6433,7 +6434,7 @@ export type PutIndexPolicyError =
  * policies may still apply.
  */
 export const putIndexPolicy: API.OperationMethod<
-  PutIndexPolicyRequest,
+  PutIndexPolicyRequest & RegionInput,
   PutIndexPolicyResponse,
   PutIndexPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6473,7 +6474,7 @@ export type PutIntegrationError =
  * integration.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   PutIntegrationResponse,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -6545,7 +6546,7 @@ export type PutLogEventsError =
  * likely cause is a non-valid Amazon Web Services access key ID or secret key.
  */
 export const putLogEvents: API.OperationMethod<
-  PutLogEventsRequest,
+  PutLogEventsRequest & RegionInput,
   PutLogEventsResponse,
   PutLogEventsError,
   Credentials | HttpClient.HttpClient
@@ -6583,7 +6584,7 @@ export type PutLogGroupDeletionProtectionError =
  * For information about the parameters that are common to all actions, see Common Parameters.
  */
 export const putLogGroupDeletionProtection: API.OperationMethod<
-  PutLogGroupDeletionProtectionRequest,
+  PutLogGroupDeletionProtectionRequest & RegionInput,
   PutLogGroupDeletionProtectionResponse,
   PutLogGroupDeletionProtectionError,
   Credentials | HttpClient.HttpClient
@@ -6643,7 +6644,7 @@ export type PutMetricFilterError =
  * Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
  */
 export const putMetricFilter: API.OperationMethod<
-  PutMetricFilterRequest,
+  PutMetricFilterRequest & RegionInput,
   PutMetricFilterResponse,
   PutMetricFilterError,
   Credentials | HttpClient.HttpClient
@@ -6687,7 +6688,7 @@ export type PutQueryDefinitionError =
  * this operation.
  */
 export const putQueryDefinition: API.OperationMethod<
-  PutQueryDefinitionRequest,
+  PutQueryDefinitionRequest & RegionInput,
   PutQueryDefinitionResponse,
   PutQueryDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -6735,7 +6736,7 @@ export type PutResourcePolicyError =
  * policies.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6786,7 +6787,7 @@ export type PutRetentionPolicyError =
  * bytes a log group is storing.
  */
 export const putRetentionPolicy: API.OperationMethod<
-  PutRetentionPolicyRequest,
+  PutRetentionPolicyRequest & RegionInput,
   PutRetentionPolicyResponse,
   PutRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6819,7 +6820,7 @@ export type PutStorageTierPolicyError =
  * cost-effective storage tier based on access frequency.
  */
 export const putStorageTierPolicy: API.OperationMethod<
-  PutStorageTierPolicyRequest,
+  PutStorageTierPolicyRequest & RegionInput,
   PutStorageTierPolicyResponse,
   PutStorageTierPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6884,7 +6885,7 @@ export type PutSubscriptionFilterError =
  * permission.
  */
 export const putSubscriptionFilter: API.OperationMethod<
-  PutSubscriptionFilterRequest,
+  PutSubscriptionFilterRequest & RegionInput,
   PutSubscriptionFilterResponse,
   PutSubscriptionFilterError,
   Credentials | HttpClient.HttpClient
@@ -6920,7 +6921,7 @@ export type PutSyslogConfigurationError =
  * syslog data through the specified VPC endpoint into the log group.
  */
 export const putSyslogConfiguration: API.OperationMethod<
-  PutSyslogConfigurationRequest,
+  PutSyslogConfigurationRequest & RegionInput,
   PutSyslogConfigurationResponse,
   PutSyslogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6985,7 +6986,7 @@ export type PutTransformerError =
  * account-level transformer.
  */
 export const putTransformer: API.OperationMethod<
-  PutTransformerRequest,
+  PutTransformerRequest & RegionInput,
   PutTransformerResponse,
   PutTransformerError,
   Credentials | HttpClient.HttpClient
@@ -7060,7 +7061,7 @@ export type StartLiveTailError =
  * a Live Tail session using an Amazon Web Services SDK.
  */
 export const startLiveTail: API.OperationMethod<
-  StartLiveTailRequest,
+  StartLiveTailRequest & RegionInput,
   StartLiveTailResponse,
   StartLiveTailError,
   Credentials | HttpClient.HttpClient
@@ -7138,7 +7139,7 @@ export type StartQueryError =
  * that have been added to dashboards.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryRequest,
+  StartQueryRequest & RegionInput,
   StartQueryResponse,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -7175,7 +7176,7 @@ export type StopQueryError =
  * itself.
  */
 export const stopQuery: API.OperationMethod<
-  StopQueryRequest,
+  StopQueryRequest & RegionInput,
   StopQueryResponse,
   StopQueryError,
   Credentials | HttpClient.HttpClient
@@ -7210,7 +7211,7 @@ export type TagLogGroupError = InvalidParameterException | ResourceNotFoundExcep
  * access, see Controlling access to Amazon Web Services resources using tags.
  */
 export const tagLogGroup: API.OperationMethod<
-  TagLogGroupRequest,
+  TagLogGroupRequest & RegionInput,
   TagLogGroupResponse,
   TagLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -7251,7 +7252,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch Logs resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7280,7 +7281,7 @@ export type TestMetricFilterError =
  * can use this operation to validate the correctness of a metric filter pattern.
  */
 export const testMetricFilter: API.OperationMethod<
-  TestMetricFilterRequest,
+  TestMetricFilterRequest & RegionInput,
   TestMetricFilterResponse,
   TestMetricFilterError,
   Credentials | HttpClient.HttpClient
@@ -7306,7 +7307,7 @@ export type TestTransformerError =
  * original log events and the transformed versions.
  */
 export const testTransformer: API.OperationMethod<
-  TestTransformerRequest,
+  TestTransformerRequest & RegionInput,
   TestTransformerResponse,
   TestTransformerError,
   Credentials | HttpClient.HttpClient
@@ -7335,7 +7336,7 @@ export type UntagLogGroupError = ResourceNotFoundException | CommonErrors;
  * to restrict which tags users can assign.
  */
 export const untagLogGroup: API.OperationMethod<
-  UntagLogGroupRequest,
+  UntagLogGroupRequest & RegionInput,
   UntagLogGroupResponse,
   UntagLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -7359,7 +7360,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7395,7 +7396,7 @@ export type UpdateAnomalyError =
  * `suppressionType` and `suppressionPeriod` parameters.
  */
 export const updateAnomaly: API.OperationMethod<
-  UpdateAnomalyRequest,
+  UpdateAnomalyRequest & RegionInput,
   UpdateAnomalyResponse,
   UpdateAnomalyError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7430,7 @@ export type UpdateDeliveryConfigurationError =
  * to change the source or destination of the delivery.
  */
 export const updateDeliveryConfiguration: API.OperationMethod<
-  UpdateDeliveryConfigurationRequest,
+  UpdateDeliveryConfigurationRequest & RegionInput,
   UpdateDeliveryConfigurationResponse,
   UpdateDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7461,7 +7462,7 @@ export type UpdateLogAnomalyDetectorError =
  * Updates an existing log anomaly detector.
  */
 export const updateLogAnomalyDetector: API.OperationMethod<
-  UpdateLogAnomalyDetectorRequest,
+  UpdateLogAnomalyDetectorRequest & RegionInput,
   UpdateLogAnomalyDetectorResponse,
   UpdateLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -7497,7 +7498,7 @@ export type UpdateLookupTableError =
  * either `tableBody` or `queryId`, but not both.
  */
 export const updateLookupTable: API.OperationMethod<
-  UpdateLookupTableRequest,
+  UpdateLookupTableRequest & RegionInput,
   UpdateLookupTableResponse,
   UpdateLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -7531,7 +7532,7 @@ export type UpdateScheduledQueryError =
  * semantics, allowing modification of query parameters, schedule, and destinations.
  */
 export const updateScheduledQuery: API.OperationMethod<
-  UpdateScheduledQueryRequest,
+  UpdateScheduledQueryRequest & RegionInput,
   UpdateScheduledQueryResponse,
   UpdateScheduledQueryError,
   Credentials | HttpClient.HttpClient

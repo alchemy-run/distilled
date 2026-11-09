@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -448,7 +449,7 @@ export type CancelResourceRequestError =
  * `IN_PROGRESS` can be canceled.
  */
 export const cancelResourceRequest: API.OperationMethod<
-  CancelResourceRequestInput,
+  CancelResourceRequestInput & RegionInput,
   CancelResourceRequestOutput,
   CancelResourceRequestError,
   Credentials | HttpClient.HttpClient
@@ -493,7 +494,7 @@ export type CreateResourceError =
  * `ProgressEvent` type returned by `CreateResource`.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceInput,
+  CreateResourceInput & RegionInput,
   CreateResourceOutput,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -558,7 +559,7 @@ export type DeleteResourceError =
  * `ProgressEvent` returned by `DeleteResource`.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceInput,
+  DeleteResourceInput & RegionInput,
   DeleteResourceOutput,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -620,7 +621,7 @@ export type GetResourceError =
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const getResource: API.OperationMethod<
-  GetResourceInput,
+  GetResourceInput & RegionInput,
   GetResourceOutput,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type GetResourceRequestStatusError = RequestTokenNotFoundException | Comm
  * *Amazon Web Services Cloud Control API User Guide*.
  */
 export const getResourceRequestStatus: API.OperationMethod<
-  GetResourceRequestStatusInput,
+  GetResourceRequestStatusInput & RegionInput,
   GetResourceRequestStatusOutput,
   GetResourceRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +685,7 @@ export type ListResourceRequestsError = CommonErrors;
  * Resource operation requests expire after 7 days.
  */
 export const listResourceRequests: API.PaginatedOperationMethod<
-  ListResourceRequestsInput,
+  ListResourceRequestsInput & RegionInput,
   ListResourceRequestsOutput,
   ListResourceRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -732,7 +733,7 @@ export type ListResourcesError =
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesInput,
+  ListResourcesInput & RegionInput,
   ListResourcesOutput,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -812,7 +813,7 @@ export type UpdateResourceError =
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceInput,
+  UpdateResourceInput & RegionInput,
   UpdateResourceOutput,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient

@@ -1,0 +1,146 @@
+{
+  "description": "Typed not-found / already-exists errors for the dict RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The dict doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A dict with this name already exists in the environment (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictGetOrCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        },
+        {
+          "target": "com.modal.dict#DictAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictGetById/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictDelete/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictUpdate/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictGet/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictPop/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictContains/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictLen/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictContents/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictClear/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#DictNotFound"
+        }
+      ]
+    }
+  ]
+}
