@@ -66,6 +66,27 @@ jobs:
       - name: Run tests
         run: pnpm vitest run
 
+  bundlers:
+    name: Bundlers
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Builds and packs core, aws4signer, s3, aws, cloudflare and prisma, then
+      # bundles a program that triggers every lazy import() of the published
+      # SDKs with esbuild, rolldown, Vite, webpack and wrangler's settings, and
+      # runs each bundle (benches/bundlers). No network.
+      - name: Bundle the published SDKs
+        run: pnpm --filter @distilled.cloud/bench-bundlers test
+
   lint:
     name: Lint
     runs-on: blacksmith-4vcpu-ubuntu-2404
