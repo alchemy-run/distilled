@@ -11,8 +11,9 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * at the top level, which the factory's default envelope already reads.
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
- *             (default https://boat.dev/api/v1), resolved from the
- *             calling fiber on every request
+ *             (default https://boat.dev/api/v1) + `X-Boat-Org` when a
+ *             default org is set, resolved from the calling fiber on
+ *             every request
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx bodies map to the operation's typed
@@ -52,6 +53,7 @@ export const BoatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    ...(creds.org ? { "X-Boat-Org": creds.org } : {}),
   }),
   unknownError: ({ code, message, body }) =>
     new UnknownBoatError({
