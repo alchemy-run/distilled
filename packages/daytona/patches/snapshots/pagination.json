@@ -1,0 +1,16 @@
+{
+  "description": "getAllSnapshots pages by number (`page`, `limit`, `totalPages`, `items`). The spec declares the parameters but no paginated trait, so the SDK exposed only the first page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.snapshots#GetAllSnapshots/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "page",
+        "items": "items",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

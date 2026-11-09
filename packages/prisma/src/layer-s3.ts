@@ -1,3 +1,4 @@
+import { loadModule, type SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * A Prisma bucket's S3-compatible API with the credentials this SDK already
  * holds. `@distilled.cloud/prisma/management` re-exports it.
@@ -37,6 +38,9 @@ export class S3CredentialsError
     cause?: unknown;
   }> {}
 
+const loadFailure = (e: SdkError) =>
+  new S3CredentialsError({ message: `the S3 layer could not load: ${e.message}`, cause: e });
+
 /** The bucket's name on the S3 API (the `Bucket` of every S3 call). */
 export class S3BucketName
   extends /*@__PURE__*/ Context.Service<S3BucketName, string>()("Prisma::S3BucketName") {}
@@ -65,13 +69,13 @@ export const layerS3 = (
     Effect.gen(function* () {
       // The S3 runtime and the management API load when the layer is built,
       // so importing `management` costs neither.
-      const [{ Credentials: S3Keys }, { Endpoint }, Management] = yield* Effect.promise(() =>
+      const [{ Credentials: S3Keys }, { Endpoint }, Management] = yield* loadModule(() =>
         Promise.all([
           import("@distilled.cloud/s3/Credentials"),
           import("@distilled.cloud/s3/Endpoint"),
           import("./services/management.ts"),
         ]),
-      );
+      ).pipe(Effect.mapError(loadFailure));
       const context = yield* Effect.context<Credentials | HttpClient.HttpClient>();
       const key = yield* Effect.acquireRelease(
         Management.createBucketKey({

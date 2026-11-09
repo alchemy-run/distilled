@@ -2,6 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * IcebergProtocol -- the shared bearer-REST protocol instantiated for the
  * Apache Iceberg REST Catalog API.
@@ -41,7 +42,8 @@ export type IcebergOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Iceberg operation. */
 export type IcebergOpContext = Credentials | HttpClient.HttpClient;

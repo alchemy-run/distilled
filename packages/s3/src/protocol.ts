@@ -1,5 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -46,7 +47,12 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
-import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
+import {
+  loadHandler,
+  serializeFailure,
+  type LazyHandler,
+  type ProtocolHandler,
+} from "./client/protocol.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
@@ -497,7 +503,10 @@ interface Plan {
 const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   if (prepared.plan !== undefined) return Effect.succeed(prepared.plan);
   const handler = prepared.handler;
-  if (handler === undefined) return Effect.die(new Error("No protocol found on input schema"));
+  if (handler === undefined)
+    return Effect.fail(
+      new SdkError({ message: "No protocol found on input schema" }),
+    ) as Effect.Effect<never>;
   return Effect.map(loadHandler(handler), (protocol) => {
     const decodeSuccess = makeSuccessDecoder(prepared.op, {
       service: prepared.serviceSdkId,
@@ -570,7 +579,7 @@ const encodeWith = <A>(
             const r = plan.build(input);
             return Effect.isEffect(r) ? r : Effect.succeed(r);
           } catch (e) {
-            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+            return serializeFailure(prepared.operationName, e);
           }
         }),
       ),
@@ -581,7 +590,7 @@ const encodeWith = <A>(
   try {
     request = plan.build(input);
   } catch (e) {
-    return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+    return serializeFailure(prepared.operationName, e);
   }
   return Effect.isEffect(request) ? Effect.flatMap(request, sendSigned) : sendSigned(request);
 };

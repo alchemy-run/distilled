@@ -1,0 +1,171 @@
+{
+  "description": "Type createSandbox's resource, GPU and Windows rejections, and resizeSandbox on deployments that don't serve it. Observed live on Daytona Cloud v0.229.2 (2026-11-04): a create that sets cpu/memory/disk/gpu with any snapshot (the default included) is a 400 \"Cannot specify Sandbox resources when using a snapshot\"; gpuType with a snapshot is a 400 \"Cannot specify GPU type when creating sandbox from snapshot. GPU type is inherited from snapshot.\"; a non-ephemeral GPU sandbox is a 400 \"GPU sandboxes must be ephemeral; set autoDeleteInterval to 0\"; an empty wallet is a 400 \"Organization doesn't have [spot ]GPU credits. Add more by visiting the Wallet page\"; Tier 1-2 orgs get a 403 \"Windows sandboxes are not available for Tier 1 and Tier 2 organizations. Contact support@daytona.io to request access.\"; and POST /sandbox/{id}/resize is a 404 \"Cannot POST /api/sandbox/{id}/resize\", which would otherwise match SandboxNotFound.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SandboxResourcesFromSnapshot",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "CPU, memory, disk, GPU count and GPU type come from the snapshot; a create that also sets them is refused (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Cannot specify Sandbox resources when using a snapshot"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "Cannot specify GPU type when creating sandbox from snapshot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GpuSandboxNotEphemeral",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A GPU sandbox must set autoDeleteInterval to 0 (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "GPU sandboxes must be ephemeral"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GpuCreditsRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The organization's wallet has no (spot) GPU credits (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "doesn't have (spot )?GPU credits"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#WindowsSandboxesUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Windows sandboxes need a higher tier, or access granted by Daytona support (HTTP 403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Windows sandboxes are not available"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SandboxResizeUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The Daytona deployment doesn't serve the resize endpoint; Daytona Cloud answers 404 \"Cannot POST /api/sandbox/{id}/resize\".",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^Cannot POST /api/sandbox/[^/]+/resize"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#SandboxResourcesFromSnapshot"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#GpuSandboxNotEphemeral"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#GpuCreditsRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#WindowsSandboxesUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ResizeSandbox/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#SandboxResizeUnavailable"
+      }
+    }
+  ]
+}

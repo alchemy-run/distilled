@@ -25,6 +25,10 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *     deliberately NOT wrapped — mirroring v0.
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+} from "@distilled.cloud/dev/codegen/pagination";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -78,6 +82,9 @@ const stripeSpec: SdkSpec = {
   paginationProfiles: {
     search: {
       strategy: "stripeSearchPaginate",
+      // Search ("page" mode) follows the cursor.
+      requires: (t) =>
+        t.mode === "page" ? CORE_STRATEGY_FIELDS.paginateCursor! : defaultStrategyFields(t),
       itemsFallback: "data",
     },
   },

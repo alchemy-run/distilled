@@ -128,6 +128,8 @@ export interface DaytonaConfiguration {
   billingApiUrl?: string;
   /** Analytics API URL */
   analyticsApiUrl?: string;
+  /** Base URL of the new Daytona dashboard. The dashboard links to it, with the selected organization id appended, from its "Switch to the new Daytona" entry point when that is enabled for the organization. Absent when the deployment does not advertise one. */
+  v2DashboardUrl?: string;
   /** Stripe publishable key for client-side Stripe.js */
   stripePublishableKey?: string;
   /** SSH Gateway command */
@@ -243,6 +245,7 @@ function __c0(j: number): any {
           environment: S.String,
           billingApiUrl: S.optional(S.String),
           analyticsApiUrl: S.optional(S.String),
+          v2DashboardUrl: S.optional(S.String),
           stripePublishableKey: S.optional(S.String),
           sshGatewayCommand: S.optional(S.String),
           sshGatewayPublicKey: S.optional(S.String),

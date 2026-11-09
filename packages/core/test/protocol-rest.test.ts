@@ -21,6 +21,7 @@ import {
 import {
   BinaryResponse,
   makeRestProtocol,
+  RawResponse,
   RawResponseRoot,
   SensitiveValue,
   type RestErrorInfo,
@@ -99,6 +100,7 @@ const ThingInput = S.Struct({
   id: S.String.pipe(T.Label()),
   limit: S.optional(S.Number.pipe(T.Query("limit"))),
   tags: S.optional(S.Array(S.String).pipe(T.Query("tag"))),
+  states: S.optional(S.Array(S.String).pipe(T.Query("state"), T.CommaDelimited())),
   trace: S.optional(S.String.pipe(T.Header("X-Trace-Id"))),
   displayName: S.optional(S.String.pipe(T.Body("display_name"))),
   secret: S.optional(S.String.pipe(SensitiveValue(), T.Body("secret_value"))),
@@ -205,6 +207,16 @@ describe("makeRestProtocol request encoding", () => {
     expect(request!.url).toBe("https://api.test/things/a%20b%2Fc?limit=5&tag=x&tag=y");
     expect(request!.headers["x-trace-id"]).toBe("trace-1");
     expect(JSON.parse(bodyText(request!)!)).toEqual({ display_name: "Widget" });
+  });
+
+  test("sends a CommaDelimited query list as one comma-separated parameter", async () => {
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      createThing({ id: "t1", states: ["running", "paused"] }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(recorded.requests[0]!.url).toBe("https://api.test/things/t1?state=running%2Cpaused");
   });
 
   test("unwraps Redacted input values before serializing them", async () => {
@@ -431,6 +443,33 @@ describe("makeRestProtocol success decoding", () => {
       creds(),
     );
     expect(out).toEqual({});
+  });
+
+  test("an empty 200 body decodes to an empty string when the output is a string", async () => {
+    const getText = API.make(() => ({
+      input: S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
+        T.Http({ method: "GET", uri: "/things/{id}/logs" }),
+      ),
+      output: S.String,
+      errors: [],
+      protocol: DefaultProtocol,
+    }));
+    const empty = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(empty).toEqual("");
+    const text = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("done\n", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(text).toEqual("done\n");
   });
 
   test("transformResponse runs on the parsed body before key mapping", async () => {
@@ -872,5 +911,38 @@ describe("Link-header pagination", () => {
     );
     expect(items).toEqual([{ id: "x" }]);
     expect(recorded.requests).toHaveLength(1);
+  });
+});
+
+describe("makeRestProtocol raw body members", () => {
+  // Shaped like E2B's list endpoints: a bare JSON array body, with the next
+  // page token in a response header.
+  const PageOutput = S.Struct({
+    items: S.Array(S.Struct({ id: S.String })).pipe(RawResponse()),
+    nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+  });
+  const pageOp = API.make(() => ({
+    input: ThingInput,
+    output: PageOutput,
+    errors: [],
+    protocol: DefaultProtocol,
+  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+  test("a bare array body lands in the raw member, next to header members", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([{ id: "a" }, { id: "b" }], 200, { "X-Next-Token": "page-2" })),
+      creds(),
+    );
+    expect(out).toEqual({ items: [{ id: "a" }, { id: "b" }], nextToken: "page-2" });
+  });
+
+  test("a missing header leaves the header member unset", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([])),
+      creds(),
+    );
+    expect(out).toEqual({ items: [] });
   });
 });
