@@ -127,6 +127,8 @@ export class UnknownAwsError
     service: /*@__PURE__*/ S.optional(S.String),
     /** The operation name (e.g., "createBucket", "putObject") */
     operation: /*@__PURE__*/ S.optional(S.String),
+    /** The response's HTTP status (e.g. 400, 500) */
+    status: /*@__PURE__*/ S.optional(S.Number),
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 

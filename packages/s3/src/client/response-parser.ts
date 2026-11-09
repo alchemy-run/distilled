@@ -408,6 +408,7 @@ export const makeResponseParser = <A>(
       errorData: data,
       service: options?.service,
       operation: options?.operation,
+      status: response.status,
       message: typeof data?.message === "string" ? data.message : errorCode,
     });
   });
