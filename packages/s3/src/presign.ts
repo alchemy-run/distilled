@@ -1,9 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import { Presigning } from "./client/presigning.ts";
 import * as Credentials from "./credentials.ts";
 import * as Endpoint from "./endpoint.ts";
+import type { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -222,3 +228,106 @@ export const presignS3Url: (
     });
   },
 );
+
+/**
+ * Options for {@link presignRequest}.
+ */
+export interface PresignRequestOptions {
+  /**
+   * Number of seconds the URL remains valid.
+   * @default 900
+   */
+  readonly expiresIn?: number;
+  /**
+   * Fixed signing datetime in `YYYYMMDDTHHMMSSZ` format. Defaults to now.
+   */
+  readonly datetime?: string;
+}
+
+/**
+ * A request presigned by {@link presignRequest}.
+ */
+export interface PresignedRequest {
+  /** HTTP method the URL authorizes. */
+  readonly method: string;
+  /** The URL, with the signature and the input's `x-amz-*` fields in its query string. */
+  readonly url: string;
+  /**
+   * Headers (lower-case names) the request must be sent with, each covered
+   * by the signature. Empty when every field went into the URL.
+   */
+  readonly headers: Record<string, string>;
+}
+
+/**
+ * Errors returned by {@link presignRequest}: {@link PresignError}, an input
+ * the operation's serializer or endpoint rules refuse, and `SdkError` when
+ * the operation can't be loaded.
+ */
+export type PresignRequestError = PresignError | ParseError | EndpointError | SdkError;
+
+/**
+ * SigV4 query-string presigning for any operation, from its typed input,
+ * like the AWS SDK's `getSignedUrl(client, command)`.
+ *
+ * The request is the one a call to `operation` would send -- the same
+ * serializer, middleware and endpoint rules -- signed into its query string
+ * instead of its headers, so every member the input sets is pinned:
+ *
+ * - query members (`versionId`, `partNumber`, the `response-*` overrides)
+ *   are signed into the URL;
+ * - `x-amz-*` header members (`x-amz-meta-*`, `x-amz-tagging`,
+ *   `x-amz-storage-class`, ...) are signed into the URL as query parameters,
+ *   except the server-side encryption and checksum headers, which S3 reads
+ *   only as headers;
+ * - every other header member (`Content-Type`, `Content-Length`,
+ *   `Content-MD5`, `If-None-Match`, `Range`, ...) and those exceptions are
+ *   returned in `headers`. The request must send exactly these: a PUT with
+ *   `ContentLength: 1024` accepts only a 1024-byte body.
+ *
+ * A member left out of the input is not signed, and the client may send it.
+ * The body is not part of the signature (`UNSIGNED-PAYLOAD`); pin it with
+ * `ContentLength`, `ContentMD5` or a `Checksum*` member. An input that
+ * serializes into a body (an XML payload such as `PutObjectTagging`'s tag
+ * set, or any JSON or query-protocol operation) fails with `InvalidInput`,
+ * since a URL cannot carry it, as does an endpoint that signs with SigV4A
+ * (an S3 Multi-Region Access Point).
+ *
+ * Pure client-side computation -- no API call is made. The URL inherits the
+ * IAM permissions of the identity resolved from the
+ * {@link Credentials.Credentials} service. The region is the input's
+ * `region`, else the `Region` layer, else the credentials' region, and a
+ * custom `Endpoint` is used as for any call.
+ *
+ * @example
+ * ```ts
+ * const upload = yield* Presign.presignRequest(
+ *   S3.putObject,
+ *   { Bucket: "uploads", Key: "avatar.png", ContentType: "image/png", ContentLength: 1024, IfNoneMatch: "*" },
+ *   { expiresIn: 300 },
+ * );
+ * // fetch(upload.url, { method: upload.method, headers: upload.headers, body })
+ * ```
+ */
+export const presignRequest = <I, O, E, R>(
+  operation: API.OperationMethod<I, O, E, R>,
+  input: Omit<I, "Body">,
+  options: PresignRequestOptions = {},
+): Effect.Effect<PresignedRequest, PresignRequestError, Exclude<R, HttpClient.HttpClient>> =>
+  (
+    API.encodeRequest(operation, input as I) as Effect.Effect<
+      HttpClientRequest.HttpClientRequest,
+      PresignRequestError,
+      Exclude<R, HttpClient.HttpClient>
+    >
+  ).pipe(
+    Effect.provideService(Presigning, {
+      expiresIn: options.expiresIn ?? 900,
+      datetime: options.datetime,
+    }),
+    Effect.map((request) => ({
+      method: request.method,
+      url: request.url,
+      headers: { ...request.headers },
+    })),
+  );
