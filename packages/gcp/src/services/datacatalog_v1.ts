@@ -68,7 +68,10 @@ export class DataCatalogDeprecated
       domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
     }).pipe(C.withBadRequestError),
-    [{ status: 400, message: { includes: "due to Data Catalog deprecation" } }],
+    [
+      { status: 400, message: { includes: "due to Data Catalog deprecation" } },
+      { status: 404, message: { includes: "Method not found." } },
+    ],
   ) {}
 
 /** Data Catalog answers a missing entry group, entry or tag and a denied permission alike, with HTTP 403 PERMISSION_DENIED: "No permission to delete Entry \"...\" or it does not exist." Verified live 2026-10-29 with a caller holding datacatalog.entries.delete. */

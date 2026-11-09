@@ -1,5 +1,5 @@
 {
-  "description": "Type the Data Catalog deprecation rejection on tag template and entry operations. Projects migrated to Dataplex get HTTP 400 INVALID_ARGUMENT ('Project \u2026 is not allowed to perform read operations due to Data Catalog deprecation.'); it surfaced as a generic BadRequest indistinguishable from a malformed request. Observed live 2026-09-29 on getProjectsLocationsTagTemplates/createProjectsLocationsTagTemplates.",
+  "description": "Type the Data Catalog deprecation rejection on tag template and entry operations. Projects migrated to Dataplex get HTTP 400 INVALID_ARGUMENT ('Project \u2026 is not allowed to perform read operations due to Data Catalog deprecation.'); it surfaced as a generic BadRequest indistinguishable from a malformed request. Observed live 2026-09-29 on getProjectsLocationsTagTemplates/createProjectsLocationsTagTemplates; since its shutdown every method answers 404 \"Method not found.\".",
   "patches": [
     {
       "op": "add",
@@ -16,6 +16,12 @@
               "status": 400,
               "message": {
                 "includes": "due to Data Catalog deprecation"
+              }
+            },
+            {
+              "status": 404,
+              "message": {
+                "includes": "Method not found."
               }
             }
           ]
