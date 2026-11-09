@@ -2,7 +2,8 @@
   "errorCategories": {
     "RequestLimitExceeded": ["ThrottlingError"],
     "IncorrectState": ["ConflictError"],
-    "VolumeInUse": ["ConflictError", "RetryableError"]
+    "VolumeInUse": ["ConflictError", "RetryableError"],
+    "IncorrectInstanceState": ["ConflictError"]
   },
   "operations": {
     "createVpc": {
@@ -990,7 +991,13 @@
       "errors": ["RequestLimitExceeded", "InvalidID", "MissingParameter", "UnauthorizedOperation"]
     },
     "createTags": {
-      "errors": ["RequestLimitExceeded", "InvalidID", "MissingParameter", "UnauthorizedOperation"]
+      "errors": [
+        "RequestLimitExceeded",
+        "InvalidID",
+        "MissingParameter",
+        "UnauthorizedOperation",
+        "DryRunOperation"
+      ]
     },
     "describeInstanceAttribute": {
       "errors": [
@@ -1052,7 +1059,10 @@
         "InvalidParameterValue",
         "MissingParameter",
         "ParseError",
-        "UnauthorizedOperation"
+        "UnauthorizedOperation",
+        "DryRunOperation",
+        "UnsupportedHibernationConfiguration",
+        "InsufficientInstanceCapacity"
       ]
     },
     "attachVolume": {
@@ -1071,7 +1081,8 @@
         "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "InvalidParameterCombination",
-        "UnauthorizedOperation"
+        "UnauthorizedOperation",
+        "DryRunOperation"
       ]
     },
     "describeInstances": {
@@ -1108,7 +1119,9 @@
         "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "InvalidParameterCombination",
-        "UnauthorizedOperation"
+        "UnauthorizedOperation",
+        "DryRunOperation",
+        "IncorrectInstanceState"
       ]
     },
     "stopInstances": {
@@ -1117,7 +1130,10 @@
         "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "InvalidParameterCombination",
-        "UnauthorizedOperation"
+        "UnauthorizedOperation",
+        "DryRunOperation",
+        "IncorrectInstanceState",
+        "UnsupportedHibernationConfiguration"
       ]
     },
     "rebootInstances": {
@@ -3993,7 +4009,12 @@
       "errors": ["RequestLimitExceeded", "InvalidVolumeID.Malformed", "UnauthorizedOperation"]
     },
     "describeVolumesModifications": {
-      "errors": ["RequestLimitExceeded", "InvalidVolumeID.Malformed", "UnauthorizedOperation"]
+      "errors": [
+        "RequestLimitExceeded",
+        "InvalidVolumeID.Malformed",
+        "UnauthorizedOperation",
+        "InvalidVolumeModification.NotFound"
+      ]
     },
     "describeVpcEncryptionControls": {
       "errors": ["RequestLimitExceeded", "InvalidParameterCombination", "UnauthorizedOperation"]
