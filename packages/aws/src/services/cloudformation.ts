@@ -479,11 +479,13 @@ export type StackNameOrId = string;
 export type RoleARN = string;
 export type ResourceToSkip = string;
 export type ResourcesToSkip = string[];
+export type ForceRollback = boolean;
 export interface ContinueUpdateRollbackInput {
   StackName?: string;
   RoleARN?: string;
   ResourcesToSkip?: string[];
   ClientRequestToken?: string;
+  ForceRollback?: boolean;
 }
 export interface ContinueUpdateRollbackOutput {}
 export type TemplateBody = string;
@@ -2881,6 +2883,9 @@ export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonEr
  *
  * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
  * information for troubleshooting a failed update rollback, see Update rollback failed.
+ *
+ * `ForceRollback` and `ResourcesToSkip` are mutually exclusive.
+ * For details, see ContinueUpdateRollbackInput$ForceRollback.
  */
 export const continueUpdateRollback: API.OperationMethod<
   ContinueUpdateRollbackInput & RegionInput,
@@ -6067,6 +6072,7 @@ function __c26(j: number): any {
           RoleARN: S.optional(S.String),
           ResourcesToSkip: S.optional(__S(416, __c26, 0)),
           ClientRequestToken: S.optional(S.String),
+          ForceRollback: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ContinueUpdateRollbackInput" });
     case 2:

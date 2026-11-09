@@ -252,6 +252,11 @@ export type TaxRegistrationType =
   | "NRIC"
   | "PAN"
   | "NIP"
+  | "CUIT"
+  | "CDI"
+  | "RUT"
+  | "NIE"
+  | "CI"
   | (string & {});
 export type LegalName = string;
 export type AddressLine1 = string;
@@ -442,6 +447,20 @@ export type BusinessNumber = string;
 export interface MonacoAdditionalInfo {
   businessNumber: string;
 }
+export type EconomicIdentificationNumber = string;
+export type Steuernummer = string;
+export interface GermanyAdditionalInfo {
+  economicIdentificationNumber?: string;
+  steuernummer?: string;
+}
+export type MexicoTaxRegimeCode = string;
+export type MexicoTaxRegimeFullName = string;
+export type MexicoCfdiUsageCode = string;
+export interface MexicoAdditionalInfo {
+  taxRegime?: string;
+  taxRegimeFullName?: string;
+  cfdiUsageCode?: string;
+}
 export interface AdditionalInfoRequest {
   malaysiaAdditionalInfo?: MalaysiaAdditionalInfo;
   israelAdditionalInfo?: IsraelAdditionalInfo;
@@ -467,6 +486,8 @@ export interface AdditionalInfoRequest {
   chileAdditionalInfo?: ChileAdditionalInfo;
   franceAdditionalInfo?: FranceAdditionalInfo;
   monacoAdditionalInfo?: MonacoAdditionalInfo;
+  germanyAdditionalInfo?: GermanyAdditionalInfo;
+  mexicoAdditionalInfo?: MexicoAdditionalInfo;
 }
 export type DateOfBirth = string;
 export type S3BucketName = string;
@@ -553,6 +574,14 @@ export type Pan = string;
 export interface IndiaAdditionalInfo {
   pan?: string;
 }
+export type ColombiaResponsabilidadCode = string;
+export type ColombiaResponsabilidadesList = string[];
+export type ColombiaTipoContribuyenteCode = string;
+export interface ColombiaAdditionalInfo {
+  responsibilityCodes?: string[];
+  taxpayerTypeCode?: string;
+  issueDate?: string;
+}
 export interface AdditionalInfoResponse {
   malaysiaAdditionalInfo?: MalaysiaAdditionalInfo;
   israelAdditionalInfo?: IsraelAdditionalInfo;
@@ -580,6 +609,15 @@ export interface AdditionalInfoResponse {
   chileAdditionalInfo?: ChileAdditionalInfo;
   franceAdditionalInfo?: FranceAdditionalInfo;
   monacoAdditionalInfo?: MonacoAdditionalInfo;
+  germanyAdditionalInfo?: GermanyAdditionalInfo;
+  mexicoAdditionalInfo?: MexicoAdditionalInfo;
+  colombiaAdditionalInfo?: ColombiaAdditionalInfo;
+}
+export type StatusReasonCode = string;
+export type StatusReasonMessage = string;
+export interface TaxRegistrationStatusReason {
+  code?: string;
+  message?: string;
 }
 export interface TaxRegistration {
   registrationId: string;
@@ -590,6 +628,7 @@ export interface TaxRegistration {
   taxDocumentMetadatas?: TaxDocumentMetadata[];
   certifiedEmailId?: string;
   additionalTaxInformation?: AdditionalInfoResponse;
+  statusReason?: TaxRegistrationStatusReason;
   legalAddress: Address;
 }
 export interface GetTaxRegistrationResponse {
@@ -655,6 +694,7 @@ export interface TaxRegistrationWithJurisdiction {
   taxDocumentMetadatas?: TaxDocumentMetadata[];
   certifiedEmailId?: string;
   additionalTaxInformation?: AdditionalInfoResponse;
+  statusReason?: TaxRegistrationStatusReason;
   jurisdiction: Jurisdiction;
 }
 export type InheritanceObtainedReason = string;
@@ -797,6 +837,10 @@ export type BatchPutTaxRegistrationError =
  *
  * To call this API operation for specific countries, see the following country-specific requirements.
  *
+ * **Argentina**
+ *
+ * - `RegistrationType` valid values are `CUIT` (Clave Única de Identificación Tributaria) and `CDI` (Clave de Identificación).
+ *
  * **Bangladesh**
  *
  * - You must specify the tax registration certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
@@ -806,6 +850,12 @@ export type BatchPutTaxRegistrationError =
  * - You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
  *
  * - For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+ *
+ * **Colombia**
+ *
+ * - You can provide a Registro Único Tributario (RUT) document in the **verificationDetails** field.
+ *
+ * - If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
  *
  * **Georgia**
  *
@@ -909,6 +959,10 @@ export type BatchPutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **Uruguay**
+ *
+ * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
  * **Philippines**
  *
  * - You can optionally specify the `isVatRegistered` in the `philippinesAdditionalInfo` field of the `additionalTaxInformation` object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -930,6 +984,12 @@ export type BatchPutTaxRegistrationError =
  * **Monaco**
  *
  * - You must specify the `businessNumber` in the `monacoAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Germany**
+ *
+ * - You must provide at least one of the following: a Tax Registration Number (TRN) (`registrationId`), the `economicIdentificationNumber`, or the `steuernummer`.
+ *
+ * - You can optionally specify the `economicIdentificationNumber` (Wirtschafts-Identifikationsnummer, or W-IdNr) and the `steuernummer` (tax number issued by the local tax office) in the `germanyAdditionalInfo` field of the `additionalTaxInformation` object.
  *
  * **Poland**
  *
@@ -1299,6 +1359,10 @@ export type PutTaxRegistrationError =
  *
  * To call this API operation for specific countries, see the following country-specific requirements.
  *
+ * **Argentina**
+ *
+ * - `RegistrationType` valid values are `CUIT` (Clave Única de Identificación Tributaria) and `CDI` (Clave de Identificación).
+ *
  * **Bangladesh**
  *
  * - You must specify the tax registration certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
@@ -1308,6 +1372,12 @@ export type PutTaxRegistrationError =
  * - You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
  *
  * - For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+ *
+ * **Colombia**
+ *
+ * - You can provide a Registro Único Tributario (RUT) document in the **verificationDetails** field.
+ *
+ * - If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
  *
  * **Georgia**
  *
@@ -1411,6 +1481,10 @@ export type PutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **Uruguay**
+ *
+ * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
  * **Philippines**
  *
  * - You can optionally specify the `isVatRegistered` in the `philippinesAdditionalInfo` field of the `additionalTaxInformation` object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -1432,6 +1506,12 @@ export type PutTaxRegistrationError =
  * **Monaco**
  *
  * - You must specify the `businessNumber` in the `monacoAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Germany**
+ *
+ * - You must provide at least one of the following: a Tax Registration Number (TRN) (`registrationId`), the `economicIdentificationNumber`, or the `steuernummer`.
+ *
+ * - You can optionally specify the `economicIdentificationNumber` (Wirtschafts-Identifikationsnummer, or W-IdNr) and the `steuernummer` (tax number issued by the local tax office) in the `germanyAdditionalInfo` field of the `additionalTaxInformation` object.
  *
  * **Poland**
  *
@@ -1565,7 +1645,8 @@ function __c5(j: number): any {
           sector: S.optional(S.String),
           taxDocumentMetadatas: S.optional(__S(224, __c7, 0)),
           certifiedEmailId: S.optional(S.String),
-          additionalTaxInformation: S.optional(__S(227, __c7, 3)),
+          additionalTaxInformation: S.optional(__S(228, __c7, 4)),
+          statusReason: S.optional(__S(229, __c7, 5)),
           legalAddress: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "TaxRegistration" });
@@ -1598,6 +1679,14 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          responsibilityCodes: S.optional(__S(576, __c18, 0)),
+          taxpayerTypeCode: S.optional(S.String),
+          issueDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ColombiaAdditionalInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           malaysiaAdditionalInfo: S.optional(__S(801, __c25, 1)),
           israelAdditionalInfo: S.optional(__S(802, __c25, 2)),
           estoniaAdditionalInfo: S.optional(__S(803, __c25, 3)),
@@ -1624,8 +1713,15 @@ function __c7(j: number): any {
           chileAdditionalInfo: S.optional(__S(821, __c25, 21)),
           franceAdditionalInfo: S.optional(__S(822, __c25, 22)),
           monacoAdditionalInfo: S.optional(__S(823, __c25, 23)),
+          germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
+          mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
+          colombiaAdditionalInfo: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "AdditionalInfoResponse" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "TaxRegistrationStatusReason" });
   }
 }
 function __c8(j: number): any {
@@ -1746,7 +1842,8 @@ function __c11(j: number): any {
           sector: S.optional(S.String),
           taxDocumentMetadatas: S.optional(__S(224, __c7, 0)),
           certifiedEmailId: S.optional(S.String),
-          additionalTaxInformation: S.optional(__S(227, __c7, 3)),
+          additionalTaxInformation: S.optional(__S(228, __c7, 4)),
+          statusReason: S.optional(__S(229, __c7, 5)),
           jurisdiction: __S(353, __c11, 1),
         }),
       ).annotate({ identifier: "TaxRegistrationWithJurisdiction" });
@@ -2180,6 +2277,21 @@ function __c25(j: number): any {
       return S.suspend(() => S.Struct({ businessNumber: S.String })).annotate({
         identifier: "MonacoAdditionalInfo",
       });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          economicIdentificationNumber: S.optional(S.String),
+          steuernummer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GermanyAdditionalInfo" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          taxRegime: S.optional(S.String),
+          taxRegimeFullName: S.optional(S.String),
+          cfdiUsageCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MexicoAdditionalInfo" });
   }
 }
 function __c26(j: number): any {
@@ -2211,6 +2323,8 @@ function __c26(j: number): any {
           chileAdditionalInfo: S.optional(__S(821, __c25, 21)),
           franceAdditionalInfo: S.optional(__S(822, __c25, 22)),
           monacoAdditionalInfo: S.optional(__S(823, __c25, 23)),
+          germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
+          mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
         }),
       ).annotate({ identifier: "AdditionalInfoRequest" });
     case 1:

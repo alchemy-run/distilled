@@ -297,11 +297,16 @@ export interface RegisterUsageResult {
 export interface ResolveCustomerRequest {
   RegistrationToken: string;
 }
+export type AgreementId = string;
+export interface Metadata {
+  AgreementId?: string;
+}
 export interface ResolveCustomerResult {
   CustomerIdentifier?: string;
   ProductCode?: string;
   CustomerAWSAccountId?: string;
   LicenseArn?: string;
+  Metadata?: Metadata;
 }
 export type ErrorMessage = string;
 export type BatchMeterUsageError =
@@ -317,6 +322,14 @@ export type BatchMeterUsageError =
   | TimestampOutOfBoundsException
   | CommonErrors;
 /**
+ * The Amazon Web Services Marketplace AI Metering Agent Skill (`aws-marketplace-metering`) helps an AI
+ * coding agent integrate your SaaS product's usage reporting with the
+ * `BatchMeterUsage` API. The skill is a curated package of instructions and
+ * reference material that guides your AI coding agent through building, deploying, and
+ * testing the metering integration. To get the skill on demand without checking it out
+ * locally, install the Amazon Web Services MCP Server in your coding agent; the agent then discovers and loads
+ * the skill at runtime. The skill source is also available on GitHub. For more information, see Get started with the Amazon Web Services Marketplace AI Metering Agent Skill on the Amazon Web Services Marketplace blog.
+ *
  * Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use `CustomerAWSAccountId` (instead of `CustomerIdentifier`), `LicenseArn` (instead of `ProductCode`) to support this feature. `BatchMeterUsage` does not support `CustomerIdentifier` for new integrations. Existing integrations continue to work. Review the new integration for Concurrent Agreements here. For additional implementation details, see BatchMeterUsage code example with LicenseArn in the *Amazon Web Services Marketplace Seller Guide*.
  *
  * To post metering records for customers, SaaS applications call
@@ -337,8 +350,18 @@ export type BatchMeterUsageError =
  *
  * `BatchMeterUsage` can process up to 25
  * `UsageRecords` at a time, and each request must be less than
- * 1 MB in size. Optionally, you can have multiple usage allocations for
- * usage data that's split into buckets according to predefined tags.
+ * 1 MB in size.
+ *
+ * **Vendor-metered tagging**
+ *
+ * `BatchMeterUsage` supports vendor-metered tagging. Optionally, you can
+ * split the usage in a `UsageRecord` into buckets by including
+ * `UsageAllocations`, where each `UsageAllocation` has a set of
+ * `Tags` that you define. Vendor-metered tagging doesn't change the price,
+ * dimensions, or the total usage that you report. It gives buyers a more granular view of
+ * their usage of your product so they can perform cost allocation in the Amazon Web Services Billing and
+ * Cost Management console. For more information, see Vendor-metered tagging and BatchMeterUsage with usage allocation tagging code example in the
+ * *Amazon Web Services Marketplace Seller Guide*.
  *
  * `BatchMeterUsage` returns a list of
  * `UsageRecordResult` objects, which have each
@@ -570,7 +593,7 @@ export const resolveCustomer: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ResolveCustomerRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<ResolveCustomerResult>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResolveCustomerResult>,
   errors: [
     DisabledApiException,
     ExpiredTokenException,
@@ -691,12 +714,17 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ResolveCustomerRequest" });
     case 1:
+      return S.suspend(() => S.Struct({ AgreementId: S.optional(S.String) })).annotate({
+        identifier: "Metadata",
+      });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           CustomerIdentifier: S.optional(S.String),
           ProductCode: S.optional(S.String),
           CustomerAWSAccountId: S.optional(S.String),
           LicenseArn: S.optional(S.String),
+          Metadata: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ResolveCustomerResult" });
   }

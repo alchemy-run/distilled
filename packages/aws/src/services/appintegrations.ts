@@ -197,11 +197,13 @@ export interface IframeConfig {
   Sandbox?: string[];
 }
 export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | "A2A_SERVER" | (string & {});
-export type AuthType = "API_KEY" | (string & {});
+export type AuthType = "API_KEY" | "CONNECT_JWT" | (string & {});
 export type Arn = string;
+export type Identifier = string;
 export interface AuthConfig {
   AuthType?: AuthType;
   CredentialProviderIdentifier?: string;
+  AudienceOverride?: string;
 }
 export interface CreateApplicationRequest {
   Name: string;
@@ -269,7 +271,6 @@ export interface CreateDataIntegrationResponse {
   FileConfiguration?: FileConfiguration;
   ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
-export type Identifier = string;
 export type ClientId = string;
 export type DestinationURI = string;
 export type ClientAssociationMetadata = { [key: string]: string | undefined };
@@ -1478,6 +1479,7 @@ function __c3(j: number): any {
         S.Struct({
           AuthType: S.optional(S.String),
           CredentialProviderIdentifier: S.optional(S.String),
+          AudienceOverride: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthConfig" });
   }

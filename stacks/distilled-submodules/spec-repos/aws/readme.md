@@ -10,6 +10,11 @@ generator reads:
 - `specs/partitions.json` — the endpoint rules engine's region → partition
   table, from
   [smithy-lang/smithy](https://github.com/smithy-lang/smithy)
+- `specs/iam/<prefix>.json` — AWS's
+  [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/),
+  one file per IAM service prefix: the actions each API operation is
+  authorized as, the resource types each action can be scoped to (`*`-suffixed
+  when required, from the HTML pages), and their ARN formats
 
 The models are pulled with a blobless, sparse, depth-1 clone: the working tree
 is narrowed to `models/` before any checkout happens, so the gradle build, the

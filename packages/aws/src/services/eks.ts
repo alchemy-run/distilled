@@ -312,6 +312,8 @@ export type UpdateParamType =
   | "VendedLogs"
   | "UpdatedTier"
   | "PreviousTier"
+  | "EnableCrossNamespace"
+  | "DisabledServices"
   | "WarmPoolEnabled"
   | "WarmPoolMaxGroupPreparedCapacity"
   | "WarmPoolMinSize"
@@ -603,8 +605,16 @@ export interface ArgoCdConfigRequest {
   networkAccess?: ArgoCdNetworkAccessConfigRequest;
   endpointPrefix?: string;
 }
+export type BoxedBoolean = boolean;
+export type AckServiceName = string;
+export type AckDisabledServicesList = string[];
+export interface AckConfigRequest {
+  enableCrossNamespace?: boolean;
+  disabledServices?: string[];
+}
 export interface CapabilityConfigurationRequest {
   argoCd?: ArgoCdConfigRequest;
+  ack?: AckConfigRequest;
 }
 export type CapabilityDeletePropagationPolicy = "RETAIN" | (string & {});
 export interface CreateCapabilityRequest {
@@ -642,8 +652,13 @@ export interface ArgoCdConfigResponse {
   serverUrl?: string;
   endpointPrefix?: string;
 }
+export interface AckConfigResponse {
+  enableCrossNamespace?: boolean;
+  disabledServices?: string[];
+}
 export interface CapabilityConfigurationResponse {
   argoCd?: ArgoCdConfigResponse;
+  ack?: AckConfigResponse;
 }
 export type CapabilityIssueCode = "AccessDenied" | "ClusterUnreachable" | (string & {});
 export interface CapabilityIssue {
@@ -680,7 +695,6 @@ export interface CreateCertificateAuthorityResponse {
   update?: Update;
   certificateAuthority?: CertificateAuthoritySummary;
 }
-export type BoxedBoolean = boolean;
 export type ControlPlaneEgressModeType =
   | "AWS_MANAGED"
   | "CUSTOMER_ROUTED"
@@ -695,8 +709,15 @@ export interface VpcConfigRequest {
   controlPlaneEgressMode?: ControlPlaneEgressModeType;
 }
 export type IpFamily = "ipv4" | "ipv6" | (string & {});
+export interface CrdManagementConfiguration {
+  managed?: boolean;
+}
+export interface GatewayApiConfiguration {
+  crds?: CrdManagementConfiguration;
+}
 export interface ElasticLoadBalancing {
   enabled?: boolean;
+  gatewayApi?: GatewayApiConfiguration;
 }
 export interface KubernetesNetworkConfigRequest {
   serviceIpv4Cidr?: string;
@@ -2053,8 +2074,13 @@ export interface UpdateArgoCdConfig {
   rbacRoleMappings?: UpdateRoleMappings;
   networkAccess?: ArgoCdNetworkAccessConfigRequest;
 }
+export interface UpdateAckConfig {
+  enableCrossNamespace?: boolean;
+  disabledServices?: string[];
+}
 export interface UpdateCapabilityConfiguration {
   argoCd?: UpdateArgoCdConfig;
+  ack?: UpdateAckConfig;
 }
 export interface UpdateCapabilityRequest {
   clusterName: string;
@@ -5245,9 +5271,9 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ArgoCdConfigRequest" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(673, __c21, 1)) })).annotate({
-        identifier: "CapabilityConfigurationRequest",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(673, __c21, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "CapabilityConfigurationRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5294,9 +5320,9 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ArgoCdConfigResponse" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(705, __c22, 1)) })).annotate({
-        identifier: "CapabilityConfigurationResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(705, __c22, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "CapabilityConfigurationResponse" });
     case 3:
       return S.suspend(() =>
         S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
@@ -5349,6 +5375,13 @@ function __c23(j: number): any {
       return S.suspend(() => S.Struct({ vpceIds: S.optional(__S(0, __c0, 0)) })).annotate({
         identifier: "ArgoCdNetworkAccessConfigRequest",
       });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enableCrossNamespace: S.optional(S.Boolean),
+          disabledServices: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "AckConfigRequest" });
   }
 }
 function __c24(j: number): any {
@@ -5381,23 +5414,23 @@ function __c25(j: number): any {
           roleArn: S.String,
           resourcesVpcConfig: __S(960, __c30, 0),
           kubernetesNetworkConfig: S.optional(__S(961, __c30, 1)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(384, __c12, 0)),
           encryptionConfig: S.optional(__S(322, __c10, 2)),
           outpostConfig: S.optional(__S(898, __c28, 2)),
           accessConfig: S.optional(__S(899, __c28, 3)),
           bootstrapSelfManagedAddons: S.optional(S.Boolean),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/clusters" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateClusterRequest" });
   }
@@ -5472,7 +5505,7 @@ function __c28(j: number): any {
           serviceIpv4Cidr: S.optional(S.String),
           serviceIpv6Cidr: S.optional(S.String),
           ipFamily: S.optional(S.String),
-          elasticLoadBalancing: S.optional(__S(928, __c29, 0)),
+          elasticLoadBalancing: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "KubernetesNetworkConfigResponse" });
     case 6:
@@ -5512,7 +5545,7 @@ function __c28(j: number): any {
           roleArn: S.optional(S.String),
           resourcesVpcConfig: S.optional(__S(900, __c28, 4)),
           kubernetesNetworkConfig: S.optional(__S(901, __c28, 5)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           identity: S.optional(__S(903, __c28, 7)),
           status: S.optional(S.String),
           certificateAuthority: S.optional(__S(905, __c28, 9)),
@@ -5525,16 +5558,16 @@ function __c28(j: number): any {
           health: S.optional(__S(546, __c17, 2)),
           outpostConfig: S.optional(__S(898, __c28, 2)),
           accessConfig: S.optional(__S(899, __c28, 3)),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }),
       ).annotate({ identifier: "Cluster" });
     case 12:
@@ -5546,37 +5579,49 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "ElasticLoadBalancing",
+      return S.suspend(() => S.Struct({ managed: S.optional(S.Boolean) })).annotate({
+        identifier: "CrdManagementConfiguration",
       });
     case 1:
+      return S.suspend(() => S.Struct({ crds: S.optional(__S(928, __c29, 0)) })).annotate({
+        identifier: "GatewayApiConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ enabled: S.optional(S.Boolean), gatewayApi: S.optional(__S(929, __c29, 1)) }),
+      ).annotate({ identifier: "ElasticLoadBalancing" });
+    case 3:
       return S.suspend(() =>
         S.Struct({ types: S.optional(__S(864, __c27, 0)), enabled: S.optional(S.Boolean) }),
       ).annotate({ identifier: "LogSetup" });
-    case 2:
-      return S.Array(__S(929, __c29, 1));
-    case 3:
-      return S.suspend(() => S.Struct({ clusterLogging: S.optional(__S(930, __c29, 2)) })).annotate(
+    case 4:
+      return S.Array(__S(931, __c29, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ clusterLogging: S.optional(__S(932, __c29, 4)) })).annotate(
         { identifier: "Logging" },
       );
-    case 4:
+    case 6:
       return S.suspend(() => S.Struct({ supportType: S.optional(S.String) })).annotate({
         identifier: "UpgradePolicyRequest",
       });
-    case 5:
+    case 7:
+      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "ZonalShiftConfigRequest",
+      });
+    case 8:
       return S.suspend(() => S.Struct({ cidrs: S.optional(__S(0, __c0, 0)) })).annotate({
         identifier: "RemoteNodeNetwork",
       });
-    case 6:
-      return S.Array(__S(933, __c29, 5));
-    case 7:
+    case 9:
+      return S.Array(__S(936, __c29, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          remoteNodeNetworks: S.optional(__S(934, __c29, 6)),
-          remotePodNetworks: S.optional(__S(934, __c29, 6)),
+          remoteNodeNetworks: S.optional(__S(937, __c29, 9)),
+          remotePodNetworks: S.optional(__S(937, __c29, 9)),
         }),
       ).annotate({ identifier: "RemoteNetworkConfigRequest" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -5584,42 +5629,42 @@ function __c29(j: number): any {
           nodeRoleArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComputeConfigRequest" });
-    case 9:
-      return S.suspend(() => S.Struct({ blockStorage: S.optional(__S(928, __c29, 0)) })).annotate({
+    case 12:
+      return S.suspend(() => S.Struct({ blockStorage: S.optional(__S(935, __c29, 7)) })).annotate({
         identifier: "StorageConfigRequest",
       });
-    case 10:
+    case 13:
       return S.suspend(() => S.Struct({ tier: S.optional(S.String) })).annotate({
         identifier: "ControlPlaneScalingConfig",
       });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           eventTtl: S.optional(S.String),
           serviceNodePortRange: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "KubeApiServerConfigRequest" });
-    case 12:
+    case 15:
       return S.suspend(() =>
         S.Struct({ scoringStrategy: S.optional(__S(835, __c26, 3)) }),
       ).annotate({ identifier: "NodeResourcesFitConfig" });
-    case 13:
+    case 16:
       return S.suspend(() =>
-        S.Struct({ nodeResourcesFit: S.optional(__S(940, __c29, 12)) }),
+        S.Struct({ nodeResourcesFit: S.optional(__S(943, __c29, 15)) }),
       ).annotate({ identifier: "KubeSchedulerConfigRequest" });
-    case 14:
+    case 17:
       return S.suspend(() => S.Struct({ terminatedPodGcThreshold: S.optional(S.Number) })).annotate(
         { identifier: "PodGcControllerConfigRequest" },
       );
-    case 15:
+    case 18:
       return S.suspend(() =>
         S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
       ).annotate({ identifier: "HorizontalPodAutoscalerControllerConfigRequest" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          podGcControllerConfig: S.optional(__S(942, __c29, 14)),
-          horizontalPodAutoscalerControllerConfig: S.optional(__S(943, __c29, 15)),
+          podGcControllerConfig: S.optional(__S(945, __c29, 17)),
+          horizontalPodAutoscalerControllerConfig: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "KubeControllerManagerConfigRequest" });
   }
@@ -5642,7 +5687,7 @@ function __c30(j: number): any {
         S.Struct({
           serviceIpv4Cidr: S.optional(S.String),
           ipFamily: S.optional(S.String),
-          elasticLoadBalancing: S.optional(__S(928, __c29, 0)),
+          elasticLoadBalancing: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "KubernetesNetworkConfigRequest" });
   }
@@ -7530,9 +7575,9 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "UpdateArgoCdConfig" });
     case 2:
-      return S.suspend(() => S.Struct({ argoCd: S.optional(__S(2977, __c93, 1)) })).annotate({
-        identifier: "UpdateCapabilityConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ argoCd: S.optional(__S(2977, __c93, 1)), ack: S.optional(__S(741, __c23, 5)) }),
+      ).annotate({ identifier: "UpdateCapabilityConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7569,20 +7614,20 @@ function __c94(j: number): any {
         S.Struct({
           name: S.String.pipe(T.HttpLabel("name")),
           resourcesVpcConfig: S.optional(__S(960, __c30, 0)),
-          logging: S.optional(__S(931, __c29, 3)),
+          logging: S.optional(__S(933, __c29, 5)),
           clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           accessConfig: S.optional(__S(3008, __c94, 0)),
-          upgradePolicy: S.optional(__S(932, __c29, 4)),
-          zonalShiftConfig: S.optional(__S(928, __c29, 0)),
-          computeConfig: S.optional(__S(936, __c29, 8)),
+          upgradePolicy: S.optional(__S(934, __c29, 6)),
+          zonalShiftConfig: S.optional(__S(935, __c29, 7)),
+          computeConfig: S.optional(__S(939, __c29, 11)),
           kubernetesNetworkConfig: S.optional(__S(961, __c30, 1)),
-          storageConfig: S.optional(__S(937, __c29, 9)),
-          remoteNetworkConfig: S.optional(__S(935, __c29, 7)),
+          storageConfig: S.optional(__S(940, __c29, 12)),
+          remoteNetworkConfig: S.optional(__S(938, __c29, 10)),
           deletionProtection: S.optional(S.Boolean),
-          controlPlaneScalingConfig: S.optional(__S(938, __c29, 10)),
-          kubeApiServerConfig: S.optional(__S(939, __c29, 11)),
-          kubeSchedulerConfig: S.optional(__S(941, __c29, 13)),
-          kubeControllerManagerConfig: S.optional(__S(944, __c29, 16)),
+          controlPlaneScalingConfig: S.optional(__S(941, __c29, 13)),
+          kubeApiServerConfig: S.optional(__S(942, __c29, 14)),
+          kubeSchedulerConfig: S.optional(__S(944, __c29, 16)),
+          kubeControllerManagerConfig: S.optional(__S(947, __c29, 19)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/clusters/{name}/update-config" }),

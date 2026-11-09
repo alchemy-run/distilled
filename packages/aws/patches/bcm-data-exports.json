@@ -1,0 +1,12 @@
+{
+  "operations": {
+    "getTable": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:bcm-data-exports:${Region}:${Account}:table/*), the call was denied live in the BCMDataExports Bindings suite; the grant stays on *.",
+        "resources": {
+          "bcm-data-exports:GetTable": "*"
+        }
+      }
+    }
+  }
+}

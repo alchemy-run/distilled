@@ -503,6 +503,7 @@ export type LinuxCapabilityList = LinuxCapability[];
 export interface LinuxCapabilities {
   Include?: LinuxCapability[];
 }
+export type ContainerVcpu = number;
 export interface GameServerContainerDefinitionInput {
   ContainerName?: string;
   DependsOn?: ContainerDependency[];
@@ -512,6 +513,7 @@ export interface GameServerContainerDefinitionInput {
   PortConfiguration?: ContainerPortConfiguration;
   ServerSdkVersion?: string;
   LinuxCapabilities?: LinuxCapabilities;
+  Vcpu?: number;
 }
 export type BooleanModel = boolean;
 export type ContainerCommandStringList = string[];
@@ -527,7 +529,6 @@ export interface ContainerHealthCheck {
   Timeout?: number;
 }
 export type ContainerMemoryLimit = number;
-export type ContainerVcpu = number;
 export interface SupportContainerDefinitionInput {
   ContainerName?: string;
   DependsOn?: ContainerDependency[];
@@ -565,6 +566,7 @@ export interface GameServerContainerDefinition {
   ResolvedImageDigest?: string;
   ServerSdkVersion?: string;
   LinuxCapabilities?: LinuxCapabilities;
+  Vcpu?: number;
 }
 export interface SupportContainerDefinition {
   ContainerName?: string;
@@ -1155,23 +1157,36 @@ export type EC2InstanceType =
   | "c8a.large"
   | "c8a.xlarge"
   | "c8a.2xlarge"
+  | "c8a.4xlarge"
+  | "c8a.8xlarge"
   | "c8i.large"
   | "c8i.xlarge"
   | "c8i.2xlarge"
+  | "c8i.4xlarge"
+  | "c8i.8xlarge"
   | "c9g.medium"
   | "c9g.large"
   | "c9g.xlarge"
   | "c9g.2xlarge"
+  | "c9g.4xlarge"
+  | "c9g.8xlarge"
   | "m8a.medium"
   | "m8a.large"
   | "m8a.xlarge"
   | "m8a.2xlarge"
+  | "m8a.4xlarge"
+  | "m8a.8xlarge"
   | "m8i.large"
   | "m8i.xlarge"
   | "m8i.2xlarge"
+  | "m8i.4xlarge"
+  | "m8i.8xlarge"
+  | "m9g.medium"
   | "m9g.large"
   | "m9g.xlarge"
   | "m9g.2xlarge"
+  | "m9g.4xlarge"
+  | "m9g.8xlarge"
   | (string & {});
 export interface ServerProcess {
   LaunchPath?: string;
@@ -3136,6 +3151,8 @@ export interface UpdateContainerFleetOutput {
     })[];
   };
 }
+export type ContainerGroupDefinitionRemoveAttribute = "TOTAL_VCPU_LIMIT" | (string & {});
+export type ContainerGroupDefinitionRemoveAttributeList = ContainerGroupDefinitionRemoveAttribute[];
 export interface UpdateContainerGroupDefinitionInput {
   Name?: string;
   GameServerContainerDefinition?: GameServerContainerDefinitionInput;
@@ -3145,6 +3162,7 @@ export interface UpdateContainerGroupDefinitionInput {
   VersionDescription?: string;
   SourceVersionNumber?: number;
   OperatingSystem?: ContainerOperatingSystem;
+  RemoveAttributes?: ContainerGroupDefinitionRemoveAttribute[];
 }
 export interface UpdateContainerGroupDefinitionOutput {
   ContainerGroupDefinition?: ContainerGroupDefinition & {
@@ -3350,7 +3368,7 @@ export type AcceptMatchError =
  * timeout, the proposed match is dropped. Each matchmaking ticket in the failed match is handled as follows:
  *
  * - If the ticket has one or more players who rejected the match or failed to
- * respond, the ticket status is set `CANCELLED` and processing is
+ * respond, the ticket status is set to `CANCELLED` and processing is
  * terminated.
  *
  * - If all players in the ticket accepted the match, the ticket
@@ -3755,7 +3773,8 @@ export type CreateContainerGroupDefinitionError =
  *
  * - `TotalMemoryLimitMebibytes`
  *
- * - `TotalVcpuLimit`
+ * - Either `TotalVcpuLimit` or a `Vcpu` value for the game server
+ * container
  *
  * - At least one `GameServerContainerDefinition`
  *
@@ -3943,7 +3962,7 @@ export type CreateFleetLocationsError =
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
- * Adds remote locations to an EC2 and begins populating the new locations with
+ * Adds remote locations to an EC2 fleet and begins populating the new locations with
  * instances. The new instances conform to the fleet's instance type, auto-scaling, and
  * other configuration settings.
  *
@@ -4109,7 +4128,7 @@ export type CreateGameSessionError =
  * player access by using UpdateGameSession to change the game session's player session creation
  * policy.
  *
- * Amazon GameLift Servers retains logs for active for 14 days. To access the logs, call GetGameSessionLogUrl to download the log files.
+ * Amazon GameLift Servers retains logs for active game sessions for 14 days. To access the logs, call GetGameSessionLogUrl to download the log files.
  *
  * *Available in Amazon GameLift Servers Local.*
  *
@@ -4304,7 +4323,7 @@ export type CreateMatchmakingConfigurationError =
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
- * Defines a new matchmaking configuration for use with FlexMatch. Whether your are using
+ * Defines a new matchmaking configuration for use with FlexMatch. Whether you are using
  * FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking
  * configuration sets out rules for matching players and forming teams. If you're also
  * using Amazon GameLift Servers hosting, it defines how to start game sessions for each match. Your
@@ -4683,7 +4702,7 @@ export type CreateVpcPeeringConnectionError =
  *
  * To establish the connection, call this operation from the Amazon Web Services account that is used
  * to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you
- * want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that
+ * want to enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that
  * you want to peer with; and (3) The ID of the VPC you want to peer with. This operation
  * is asynchronous. If successful, a connection request is created. You can use continuous
  * polling to track the request's status using DescribeVpcPeeringConnections , or by monitoring fleet events for success
@@ -4986,7 +5005,7 @@ export type DeleteFleetLocationsError =
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
  * Removes locations from a multi-location fleet. When deleting a location, all game
- * server process and all instances that are still active in the location are shut down.
+ * server processes and all instances that are still active in the location are shut down.
  *
  * To delete fleet locations, identify the fleet ID and provide a list of the locations
  * to be deleted.
@@ -5365,7 +5384,7 @@ export type DeleteVpcPeeringConnectionError =
  * **This API works with the following fleet types:** EC2
  *
  * Removes a VPC peering connection. To delete the connection, you must have a valid
- * authorization for the VPC peering connection that you want to delete..
+ * authorization for the VPC peering connection that you want to delete.
  *
  * Once a valid authorization exists, call this operation from the Amazon Web Services account that is
  * used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID
@@ -5408,7 +5427,7 @@ export type DeregisterComputeError =
  *
  * Removes a compute resource from an Anywhere fleet. Deregistered computes can no longer
  * host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that
- * doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all
+ * doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all
  * compute registry tasks for you.
  *
  * To deregister a compute, call this operation from the compute that's being
@@ -5644,7 +5663,7 @@ export type DescribeContainerFleetError =
  * If successful, a `ContainerFleet` object is returned. This object includes
  * the fleet properties, including information about the most recent deployment.
  *
- * Some API operations limit the number of fleet IDs that allowed in one request. If
+ * Some API operations limit the number of fleet IDs that are allowed in one request. If
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  */
@@ -5895,7 +5914,7 @@ export type DescribeFleetAttributesError =
  * If successful, a `FleetAttributes` object is returned for each fleet
  * requested, unless the fleet identifier is not found.
  *
- * Some API operations limit the number of fleet IDs that allowed in one request. If
+ * Some API operations limit the number of fleet IDs that are allowed in one request. If
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  *
@@ -6548,7 +6567,7 @@ export type DescribeGameSessionDetailsError =
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
  * Retrieves additional game session properties, including the game session protection
- * policy in force, a set of one or more game sessions in a specific fleet location. You
+ * policy in force, for a set of one or more game sessions in a specific fleet location. You
  * can optionally filter the results by current game session status.
  *
  * This operation can be used in the following ways:
@@ -6784,7 +6803,7 @@ export type DescribeInstancesError =
   | UnsupportedRegionException
   | CommonErrors;
 /**
- * **This API works with the following fleet types:**EC2, Container
+ * **This API works with the following fleet types:** EC2, Container
  *
  * Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including
  * instance ID, connection data, and status. You can use this operation with a
@@ -7926,7 +7945,7 @@ export type ListFleetsError =
  * For fleets that have multiple locations, this operation retrieves fleets based on their
  * home Region only.
  *
- * You can use operation in the following ways:
+ * You can use this operation in the following ways:
  *
  * - To get a list of all fleets in a Region, don't provide a build or script
  * identifier.
@@ -7981,7 +8000,7 @@ export type ListGameServerGroupsError =
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
- * Lists a game server groups.
+ * Lists game server groups.
  */
 export const listGameServerGroups: API.PaginatedOperationMethod<
   ListGameServerGroupsInput & RegionInput,
@@ -8578,7 +8597,7 @@ export type SearchGameSessionsError =
  *
  * - **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game session.
  * For example: `{"Key": "difficulty", "Value": "novice"}`.
- * The filter expression must specify the https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty -- a `Key` and a string `Value` to search for the game sessions.
+ * The filter expression must specify the GameProperty -- a `Key` and a string `Value` to search for the game sessions.
  *
  * For example, to search for the above key-value pair, specify the following search filter: `gameSessionProperties.difficulty = "novice"`.
  * All game property values are searched as strings.
@@ -8735,7 +8754,7 @@ export type StartGameSessionPlacementError =
  *
  * - `PlayerLatencies`. Include a set of latency values for
  * destinations in the queue. When a request includes latency data, Amazon GameLift Servers
- * automatically reorder the queue's locations priority list based on
+ * automatically reorders the queue's locations priority list based on
  * lowest available latency values. If a request includes latency data for
  * multiple players, Amazon GameLift Servers calculates each location's average latency for
  * all players and reorders to find the lowest latency across all players.
@@ -8752,7 +8771,7 @@ export type StartGameSessionPlacementError =
  * fails to place the game session in any of the locations on the override
  * list.
  *
- * - Request a placement and prioritized based on a custom list of locations.
+ * - Request a placement and prioritize based on a custom list of locations.
  *
  * - You can request new player sessions for a group of players. Include the
  * *DesiredPlayerSessions* parameter and include at minimum
@@ -8817,7 +8836,7 @@ export type StartMatchBackfillError =
  * match process is essentially identical to the process of forming new matches. Backfill
  * requests use the same matchmaker that was used to make the original match, and they
  * provide matchmaking data for all players currently in the game session. FlexMatch uses
- * this information to select new players so that backfilled match continues to meet the
+ * this information to select new players so that the backfilled match continues to meet the
  * original match requirements.
  *
  * When using FlexMatch with Amazon GameLift Servers managed hosting, you can request a backfill match from
@@ -9003,7 +9022,7 @@ export type StopGameSessionPlacementError =
  * If successful, this operation removes the placement request from the queue and moves
  * the `GameSessionPlacement` to `CANCELLED` status.
  *
- * This operation results in an `InvalidRequestExecption` (400) error if a
+ * This operation results in an `InvalidRequestException` (400) error if a
  * game session has already been created for this placement. You can clean up an unneeded
  * game session by calling TerminateGameSession.
  */
@@ -9407,7 +9426,7 @@ export type UpdateContainerFleetError =
  * a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html.
  *
  * A managed fleet's runtime environment, which depends on the fleet's
- * Amazon Machine Image {AMI} version, can't be updated. You must create a new
+ * Amazon Machine Image (AMI) version, can't be updated. You must create a new
  * fleet. As a best practice, we recommend replacing your managed fleets every 30
  * days to maintain a secure and up-to-date runtime environment for your hosted game
  * servers. For guidance, see
@@ -9445,7 +9464,7 @@ export type UpdateContainerFleetError =
  * a new deployment of fleet resources using the deployment configuration provided. A
  * deployment replaces existing fleet instances with new instances that are deployed with
  * the updated fleet properties. The fleet is placed in `UPDATING` status until
- * the deployment is complete, then return to `ACTIVE`.
+ * the deployment is complete, then returns to `ACTIVE`.
  *
  * You can have only one update deployment active at a time for a fleet. If a second
  * update request initiates a deployment while another deployment is in progress, the first
@@ -9514,12 +9533,18 @@ export type UpdateContainerGroupDefinitionError =
  * definitions, excluding the definition to remove. If the container group has only one
  * support container definition, provide an empty set.
  *
+ * - Remove the total vCPU limit from a game server container group so that its containers
+ * can use up to the instance's available vCPU. Set `RemoveAttributes` to
+ * `TOTAL_VCPU_LIMIT`. The game server container must have a `Vcpu`
+ * value, because a game server container group needs either a total vCPU limit or a game
+ * server `Vcpu` value.
+ *
  * **Results:**
  *
  * If successful, this operation returns the complete properties of the new container group
  * definition version.
  *
- * If the container group definition version is used in an active fleets, the update
+ * If the container group definition version is used in an active fleet, the update
  * automatically initiates a new fleet deployment of the new version. You can track a fleet's
  * deployments using ListFleetDeployments.
  */
@@ -9565,7 +9590,7 @@ export type UpdateFleetAttributesError =
  * to change. If successful, Amazon GameLift Servers returns the identifiers for the updated fleet.
  *
  * A managed fleet's runtime environment, which depends on the fleet's
- * Amazon Machine Image {AMI} version, can't be updated. You must create a new
+ * Amazon Machine Image (AMI) version, can't be updated. You must create a new
  * fleet. As a best practice, we recommend replacing your managed fleets every 30
  * days to maintain a secure and up-to-date runtime environment for your hosted game
  * servers. For guidance, see
@@ -9763,7 +9788,7 @@ export type UpdateGameServerError =
  * (when the game server is available to be claimed) to `UTILIZED` (when
  * the game server is currently hosting games). Identify the game server and game
  * server group and specify the new utilization status. You can't change the status
- * from to `UTILIZED` to `AVAILABLE` .
+ * from `UTILIZED` to `AVAILABLE` .
  *
  * - To report health status, identify the game server and game server group and
  * set health check to `HEALTHY`. If a game server does not report
@@ -10492,6 +10517,7 @@ function __c26(j: number): any {
           VersionDescription: S.optional(S.String),
           SourceVersionNumber: S.optional(S.Number),
           OperatingSystem: S.optional(S.String),
+          RemoveAttributes: S.optional(__S(672, __c42, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateContainerGroupDefinitionInput" });
   }
@@ -11038,6 +11064,7 @@ function __c63(j: number): any {
           PortConfiguration: S.optional(__S(1048, __c65, 8)),
           ServerSdkVersion: S.optional(S.String),
           LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+          Vcpu: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GameServerContainerDefinitionInput" });
     case 1:
@@ -11132,6 +11159,7 @@ function __c65(j: number): any {
           ResolvedImageDigest: S.optional(S.String),
           ServerSdkVersion: S.optional(S.String),
           LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+          Vcpu: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GameServerContainerDefinition" });
     case 12:

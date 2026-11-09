@@ -215,7 +215,7 @@ export type InquiryContent =
   | { query: string; fileContent?: never }
   | { query?: never; fileContent: InquiryFileContent };
 export type IdempotentClientToken = string;
-export type InquirySupportMode = "AI_ONLY" | "FULL_SUPPORT" | (string & {});
+export type InquirySupportMode = "AI_ONLY" | (string & {});
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };

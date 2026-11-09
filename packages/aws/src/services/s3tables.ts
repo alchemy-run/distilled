@@ -138,6 +138,11 @@ export class TooManyRequestsException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
+export type TableARN = string;
+export interface CompleteTableMigrationRequest {
+  tableARN: string;
+}
+export interface CompleteTableMigrationResponse {}
 export type TableBucketARN = string;
 export type NamespaceName = string;
 export type NamespaceList = string[];
@@ -232,7 +237,6 @@ export interface CreateTableRequest {
   storageClassConfiguration?: StorageClassConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export type TableARN = string;
 export type VersionToken = string;
 export interface CreateTableResponse {
   tableARN: string;
@@ -496,6 +500,121 @@ export interface GetTableMetadataLocationResponse {
   metadataLocation?: string;
   warehouseLocation: string;
 }
+export type MigrationId = string;
+export interface GetTableMigrationRequest {
+  migrationId?: string;
+  tableARN?: string;
+}
+export type MigrationType = "start" | "sync" | (string & {});
+export type MigrationState =
+  | "new"
+  | "planning"
+  | "pendingReview"
+  | "queued"
+  | "migrating"
+  | "succeeded"
+  | "failed"
+  | "cancelling"
+  | "cancelled"
+  | (string & {});
+export type RoleArn = string;
+export type MigrationFailureCode =
+  | "rolePermissions"
+  | "sourcePermissions"
+  | "destinationPermissions"
+  | "resourceNotFound"
+  | "sourceNotSupported"
+  | "objectMigrationReport"
+  | "objectCompatibilityReport"
+  | "tableCompatibilityReport"
+  | "internalError"
+  | "reportBucketNotSupported"
+  | (string & {});
+export type MigrationFailureDetail = string;
+export interface MigrationFailureReason {
+  code: MigrationFailureCode;
+  detail?: string;
+}
+export interface PlanningStats {
+  objectsScanned?: number;
+  objectsPlanned?: number;
+  partitionCount?: number;
+}
+export interface MigrationStats {
+  objectsMigrated?: number;
+  objectsFailedMigration?: number;
+  objectsPendingMigration?: number;
+}
+export type MigrationSourceType = "glueTable" | (string & {});
+export interface GlueTableSource {
+  catalogId: string;
+  databaseName: string;
+  tableName: string;
+}
+export type SourceConfiguration = { glueTable: GlueTableSource };
+export type MigrationTargetFileSizeMB = number;
+export interface MigrationCompactionSettings {
+  targetFileSizeMB?: number;
+  strategy?: IcebergCompactionStrategy;
+}
+export type MigrationMinSnapshotsToKeep = number;
+export interface MigrationSnapshotManagementSettings {
+  minSnapshotsToKeep?: number;
+  maxSnapshotAgeHours?: number;
+}
+export interface MaintenanceSettings {
+  icebergCompaction?: MigrationCompactionSettings;
+  icebergSnapshotManagement?: MigrationSnapshotManagementSettings;
+}
+export type UnmatchedSourceFieldsPolicy = "fail" | "drop" | (string & {});
+export type IncompatibleValuesPolicy = "fail" | "setNull" | (string & {});
+export interface MigrationPolicies {
+  unmatchedSourceFieldsPolicy?: UnmatchedSourceFieldsPolicy;
+  incompatibleValuesPolicy?: IncompatibleValuesPolicy;
+}
+export interface DataMigrationOverview {
+  maintenanceSettings: MaintenanceSettings;
+  migrationPolicies: MigrationPolicies;
+}
+export type S3BucketARN = string;
+export type MigrationReportPrefix = string;
+export type ReportObjectKey = string;
+export type ChecksumCRC64NVME = string;
+export type FindingCategory = "access" | "metadata" | "data" | "internal" | (string & {});
+export type FindingCategoryCounts = { [key in FindingCategory]?: number };
+export interface ReportOverview {
+  prefix?: string;
+  key?: string;
+  checksumCRC64NVME?: string;
+  invalidFindings?: { [key: string]: number | undefined };
+}
+export interface MigrationOutputOverview {
+  bucket: string;
+  tableCompatibilityReport: ReportOverview;
+  objectCompatibilityReport: ReportOverview;
+  objectMigrationReport: ReportOverview;
+}
+export interface GetTableMigrationResponse {
+  migrationId: string;
+  tableBucketARN: string;
+  namespace: string;
+  tableARN?: string;
+  name: string;
+  type: MigrationType;
+  state: MigrationState;
+  roleARN: string;
+  reviewMigrationPlan: boolean;
+  hasValidPlan?: boolean;
+  createdAt: Date;
+  stateUpdatedAt: Date;
+  failureReason?: MigrationFailureReason;
+  planningStats?: PlanningStats;
+  migrationStats?: MigrationStats;
+  sourceType: MigrationSourceType;
+  source: SourceConfiguration;
+  dataMigration: DataMigrationOverview;
+  migrationOutput: MigrationOutputOverview;
+}
 export interface GetTablePolicyRequest {
   tableBucketARN: string;
   namespace: string;
@@ -622,6 +741,34 @@ export interface ListTableBucketsResponse {
   tableBuckets: TableBucketSummary[];
   continuationToken?: string;
 }
+export type ListTableMigrationsLimit = number;
+export interface ListTableMigrationsRequest {
+  tableBucketARN?: string;
+  namespace?: string;
+  name?: string;
+  tableARN?: string;
+  state?: MigrationState;
+  hasValidPlan?: boolean;
+  maxResults?: number;
+  nextToken?: string;
+}
+export interface MigrationSummary {
+  migrationId: string;
+  tableBucketARN: string;
+  namespace: string;
+  tableARN?: string;
+  name: string;
+  type: MigrationType;
+  state: MigrationState;
+  hasValidPlan?: boolean;
+  createdAt: Date;
+  stateUpdatedAt: Date;
+}
+export type MigrationSummaryList = MigrationSummary[];
+export interface ListTableMigrationsResponse {
+  migrations: MigrationSummary[];
+  nextToken?: string;
+}
 export type ListTablesLimit = number;
 export interface ListTablesRequest {
   tableBucketARN: string;
@@ -725,6 +872,61 @@ export interface RenameTableRequest {
   versionToken?: string;
 }
 export interface RenameTableResponse {}
+export type DataFileFormat = "parquet" | (string & {});
+export type CompressionCodec = "zstd" | "snappy" | "gzip" | "uncompressed" | (string & {});
+export interface MigrationTableProperties {
+  writeFormat?: DataFileFormat;
+  icebergFormatVersion?: number;
+  compressionCodec?: CompressionCodec;
+  dictionaryEncoding?: boolean;
+}
+export interface DestinationTable {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  storageClassConfiguration?: StorageClassConfiguration;
+  tags?: { [key: string]: string | undefined };
+  properties?: MigrationTableProperties;
+  schema?: IcebergSchemaV2;
+  icebergSortOrder?: IcebergSortOrder;
+}
+export interface DataMigrationSettings {
+  maintenanceSettings?: MaintenanceSettings;
+  migrationPolicies?: MigrationPolicies;
+}
+export interface MigrationReportPrefixes {
+  tableCompatibilityReport?: string;
+  objectCompatibilityReport?: string;
+  objectMigrationReport?: string;
+}
+export interface MigrationOutputConfiguration {
+  bucket: string;
+  prefixes?: MigrationReportPrefixes;
+}
+export interface StartTableMigrationRequest {
+  roleARN: string;
+  destinationTable: DestinationTable;
+  sourceType: MigrationSourceType;
+  source: SourceConfiguration;
+  dataMigration?: DataMigrationSettings;
+  reviewMigrationPlan?: boolean;
+  migrationOutput: MigrationOutputConfiguration;
+}
+export interface StartTableMigrationResponse {
+  migrationId: string;
+  state: MigrationState;
+}
+export interface SyncTableMigrationRequest {
+  roleARN: string;
+  tableARN: string;
+  reviewMigrationPlan?: boolean;
+  migrationOutput: MigrationOutputConfiguration;
+}
+export interface SyncTableMigrationResponse {
+  migrationId: string;
+  state: MigrationState;
+}
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -750,7 +952,59 @@ export interface UpdateTableMetadataLocationResponse {
   versionToken: string;
   metadataLocation: string;
 }
+export type MigrationRequestedState = "queued" | "cancelled" | (string & {});
+export interface UpdateTableMigrationRequest {
+  tableARN?: string;
+  migrationId?: string;
+  requestedState: MigrationRequestedState;
+  updateDescription?: string;
+}
+export interface UpdateTableMigrationResponse {
+  migrationId: string;
+  state: MigrationState;
+  tableARN?: string;
+}
 export type ErrorMessage = string;
+export type CompleteTableMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Completes the migration of a table. The table's most recent migration must be in the `succeeded`, `failed` or `cancelled` state. After you complete the migration, you can't sync the table again, and you can write to and maintain the table as you do any other table: compaction starts, and unreferenced file removal follows the table bucket's configuration. You can't undo this operation. Calling it again for the same table returns a `ConflictException`.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:CompleteTableMigration` permission to use this operation.
+ */
+export const completeTableMigration: API.OperationMethod<
+  CompleteTableMigrationRequest & RegionInput,
+  CompleteTableMigrationResponse,
+  CompleteTableMigrationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1136, __c71, 0) as any as S.Schema<CompleteTableMigrationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<CompleteTableMigrationResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CompleteTableMigration",
+  telemetry: TELEMETRY,
+  span: "CompleteTableMigration",
+}));
+
 export type CreateNamespaceError =
   | BadRequestException
   | ConflictException
@@ -772,8 +1026,8 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<CreateNamespaceResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<CreateNamespaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -820,8 +1074,8 @@ export const createTable: API.OperationMethod<
   CreateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1967, __c61, 15) as any as S.Schema<CreateTableRequest>,
-  output: __S(1968, __c61, 16) as any as S.Schema<CreateTableResponse>,
+  input: __S(8, __c0, 8) as any as S.Schema<CreateTableRequest>,
+  output: __S(9, __c0, 9) as any as S.Schema<CreateTableResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -864,8 +1118,8 @@ export const createTableBucket: API.OperationMethod<
   CreateTableBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTableBucketRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateTableBucketResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateTableBucketRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateTableBucketResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -902,8 +1156,8 @@ export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteNamespaceResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DeleteNamespaceRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteNamespaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -940,8 +1194,8 @@ export const deleteTable: API.OperationMethod<
   DeleteTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteTableRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteTableRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -978,8 +1232,8 @@ export const deleteTableBucket: API.OperationMethod<
   DeleteTableBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteTableBucketRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableBucketResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteTableBucketRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableBucketResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1016,8 +1270,8 @@ export const deleteTableBucketEncryption: API.OperationMethod<
   DeleteTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteTableBucketEncryptionRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableBucketEncryptionResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteTableBucketEncryptionRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableBucketEncryptionResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1054,8 +1308,8 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
   DeleteTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteTableBucketMetricsConfigurationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableBucketMetricsConfigurationResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteTableBucketMetricsConfigurationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableBucketMetricsConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1092,8 +1346,8 @@ export const deleteTableBucketPolicy: API.OperationMethod<
   DeleteTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteTableBucketPolicyRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableBucketPolicyResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteTableBucketPolicyRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableBucketPolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1131,8 +1385,8 @@ export const deleteTableBucketReplication: API.OperationMethod<
   DeleteTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteTableBucketReplicationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableBucketReplicationResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteTableBucketReplicationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableBucketReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1170,8 +1424,8 @@ export const deleteTablePolicy: API.OperationMethod<
   DeleteTablePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteTablePolicyRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTablePolicyResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteTablePolicyRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTablePolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1209,8 +1463,8 @@ export const deleteTableReplication: API.OperationMethod<
   DeleteTableReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteTableReplicationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteTableReplicationResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteTableReplicationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<DeleteTableReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1249,8 +1503,8 @@ export const getNamespace: API.OperationMethod<
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetNamespaceRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GetNamespaceResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetNamespaceRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetNamespaceResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1289,8 +1543,8 @@ export const getTable: API.OperationMethod<
   GetTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetTableRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<GetTableResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetTableRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<GetTableResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1329,8 +1583,8 @@ export const getTableBucket: API.OperationMethod<
   GetTableBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetTableBucketRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GetTableBucketResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetTableBucketRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetTableBucketResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1368,8 +1622,8 @@ export const getTableBucketEncryption: API.OperationMethod<
   GetTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetTableBucketEncryptionRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<GetTableBucketEncryptionResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetTableBucketEncryptionRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<GetTableBucketEncryptionResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1406,8 +1660,8 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
   GetTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetTableBucketMaintenanceConfigurationRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<GetTableBucketMaintenanceConfigurationResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetTableBucketMaintenanceConfigurationRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<GetTableBucketMaintenanceConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1444,8 +1698,8 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
   GetTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetTableBucketMetricsConfigurationRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<GetTableBucketMetricsConfigurationResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetTableBucketMetricsConfigurationRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<GetTableBucketMetricsConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1482,8 +1736,8 @@ export const getTableBucketPolicy: API.OperationMethod<
   GetTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetTableBucketPolicyRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<GetTableBucketPolicyResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetTableBucketPolicyRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<GetTableBucketPolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1521,8 +1775,8 @@ export const getTableBucketReplication: API.OperationMethod<
   GetTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetTableBucketReplicationRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GetTableBucketReplicationResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetTableBucketReplicationRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<GetTableBucketReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1560,8 +1814,8 @@ export const getTableBucketStorageClass: API.OperationMethod<
   GetTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetTableBucketStorageClassRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<GetTableBucketStorageClassResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetTableBucketStorageClassRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<GetTableBucketStorageClassResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1598,8 +1852,8 @@ export const getTableEncryption: API.OperationMethod<
   GetTableEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetTableEncryptionRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<GetTableEncryptionResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetTableEncryptionRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<GetTableEncryptionResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1638,8 +1892,8 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
   GetTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetTableMaintenanceConfigurationRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<GetTableMaintenanceConfigurationResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetTableMaintenanceConfigurationRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<GetTableMaintenanceConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1676,8 +1930,8 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
   GetTableMaintenanceJobStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetTableMaintenanceJobStatusRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<GetTableMaintenanceJobStatusResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetTableMaintenanceJobStatusRequest>,
+  output: __S(579, __c36, 3) as any as S.Schema<GetTableMaintenanceJobStatusResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1714,8 +1968,8 @@ export const getTableMetadataLocation: API.OperationMethod<
   GetTableMetadataLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetTableMetadataLocationRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<GetTableMetadataLocationResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetTableMetadataLocationRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<GetTableMetadataLocationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1729,6 +1983,44 @@ export const getTableMetadataLocation: API.OperationMethod<
   operationName: "GetTableMetadataLocation",
   telemetry: TELEMETRY,
   span: "GetTableMetadataLocation",
+}));
+
+export type GetTableMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Gets the details of a migration, including its state, the reason it failed, its statistics and the location of its reports. Identify the migration by its `migrationId`, or specify the `tableARN` of a destination table to get that table's most recent migration.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:GetTableMigration` permission to use this operation.
+ */
+export const getTableMigration: API.OperationMethod<
+  GetTableMigrationRequest & RegionInput,
+  GetTableMigrationResponse,
+  GetTableMigrationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c38, 0) as any as S.Schema<GetTableMigrationRequest>,
+  output: __S(616, __c38, 8) as any as S.Schema<GetTableMigrationResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetTableMigration",
+  telemetry: TELEMETRY,
+  span: "GetTableMigration",
 }));
 
 export type GetTablePolicyError =
@@ -1752,8 +2044,8 @@ export const getTablePolicy: API.OperationMethod<
   GetTablePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetTablePolicyRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<GetTablePolicyResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetTablePolicyRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<GetTablePolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1790,8 +2082,8 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
   GetTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetTableRecordExpirationConfigurationRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<GetTableRecordExpirationConfigurationResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetTableRecordExpirationConfigurationRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<GetTableRecordExpirationConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1828,8 +2120,8 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
   GetTableRecordExpirationJobStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetTableRecordExpirationJobStatusRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<GetTableRecordExpirationJobStatusResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetTableRecordExpirationJobStatusRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<GetTableRecordExpirationJobStatusResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1867,8 +2159,8 @@ export const getTableReplication: API.OperationMethod<
   GetTableReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetTableReplicationRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GetTableReplicationResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetTableReplicationRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<GetTableReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1906,8 +2198,8 @@ export const getTableReplicationStatus: API.OperationMethod<
   GetTableReplicationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetTableReplicationStatusRequest>,
-  output: __S(1220, __c38, 4) as any as S.Schema<GetTableReplicationStatusResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetTableReplicationStatusRequest>,
+  output: __S(724, __c45, 4) as any as S.Schema<GetTableReplicationStatusResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1944,8 +2236,8 @@ export const getTableStorageClass: API.OperationMethod<
   GetTableStorageClassError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetTableStorageClassRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<GetTableStorageClassResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetTableStorageClassRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<GetTableStorageClassResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1984,8 +2276,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NamespaceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListNamespacesRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<ListNamespacesResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListNamespacesRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListNamespacesResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2031,8 +2323,8 @@ export const listTableBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableBucketSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListTableBucketsRequest>,
-  output: __S(1314, __c41, 2) as any as S.Schema<ListTableBucketsResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListTableBucketsRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<ListTableBucketsResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2053,6 +2345,53 @@ export const listTableBuckets: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListTableBuckets",
+})) as any;
+
+export type ListTableMigrationsError =
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists the migrations whose destination is in a table bucket, a namespace or a table. Specify a `tableBucketARN` to list the migrations into a table bucket, and add a `namespace`, or a `namespace` and a `name`, to narrow the list. Or specify a `tableARN` to list the migrations into a table.
+ *
+ * Migrations are listed newest first. Results are paginated: use `maxResults` to set the page size, and pass the `nextToken` from a response to retrieve the next page of results. A page can contain fewer migrations than `maxResults`, or none, and still return a `nextToken`. Continue until a response has no `nextToken`.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:ListTableMigrations` permission to use this operation.
+ */
+export const listTableMigrations: API.PaginatedOperationMethod<
+  ListTableMigrationsRequest & RegionInput,
+  ListTableMigrationsResponse,
+  ListTableMigrationsError,
+  Credentials | HttpClient.HttpClient,
+  MigrationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<ListTableMigrationsRequest>,
+  output: __S(787, __c49, 3) as any as S.Schema<ListTableMigrationsResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTableMigrations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "migrations",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableMigrations",
 })) as any;
 
 export type ListTablesError =
@@ -2077,8 +2416,8 @@ export const listTables: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListTablesRequest>,
-  output: __S(1347, __c42, 3) as any as S.Schema<ListTablesResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListTablesRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<ListTablesResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2123,8 +2462,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2163,8 +2502,8 @@ export const putTableBucketEncryption: API.OperationMethod<
   PutTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<PutTableBucketEncryptionRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableBucketEncryptionResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<PutTableBucketEncryptionRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableBucketEncryptionResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2201,8 +2540,8 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
   PutTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<PutTableBucketMaintenanceConfigurationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableBucketMaintenanceConfigurationResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<PutTableBucketMaintenanceConfigurationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableBucketMaintenanceConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2239,8 +2578,8 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
   PutTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<PutTableBucketMetricsConfigurationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableBucketMetricsConfigurationResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<PutTableBucketMetricsConfigurationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableBucketMetricsConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2277,8 +2616,8 @@ export const putTableBucketPolicy: API.OperationMethod<
   PutTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<PutTableBucketPolicyRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableBucketPolicyResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<PutTableBucketPolicyRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableBucketPolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2332,8 +2671,8 @@ export const putTableBucketReplication: API.OperationMethod<
   PutTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<PutTableBucketReplicationRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<PutTableBucketReplicationResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<PutTableBucketReplicationRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<PutTableBucketReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2371,8 +2710,8 @@ export const putTableBucketStorageClass: API.OperationMethod<
   PutTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<PutTableBucketStorageClassRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableBucketStorageClassResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<PutTableBucketStorageClassRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableBucketStorageClassResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2409,8 +2748,8 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
   PutTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<PutTableMaintenanceConfigurationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableMaintenanceConfigurationResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<PutTableMaintenanceConfigurationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableMaintenanceConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2447,8 +2786,8 @@ export const putTablePolicy: API.OperationMethod<
   PutTablePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<PutTablePolicyRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTablePolicyResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<PutTablePolicyRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTablePolicyResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2485,8 +2824,8 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
   PutTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<PutTableRecordExpirationConfigurationRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutTableRecordExpirationConfigurationResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<PutTableRecordExpirationConfigurationRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<PutTableRecordExpirationConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2538,8 +2877,8 @@ export const putTableReplication: API.OperationMethod<
   PutTableReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<PutTableReplicationRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<PutTableReplicationResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<PutTableReplicationRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<PutTableReplicationResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2577,8 +2916,8 @@ export const renameTable: API.OperationMethod<
   RenameTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<RenameTableRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<RenameTableResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<RenameTableRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<RenameTableResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2592,6 +2931,98 @@ export const renameTable: API.OperationMethod<
   operationName: "RenameTable",
   telemetry: TELEMETRY,
   span: "RenameTable",
+}));
+
+export type StartTableMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Starts migrating an Amazon Web Services Glue Data Catalog table into a new table in a table bucket. The migration runs asynchronously: this operation returns the migration ID and its initial state, and you track progress with `GetTableMigration`.
+ *
+ * The namespace must already exist, and a table with the specified name must not. The migration creates the table during planning and commits data to it as it runs. Until you call `CompleteTableMigration`, you can read the table but you can't write to it. If the migration fails or is cancelled, the table and the data already committed to it remain.
+ *
+ * The migration first checks the source and the destination, and writes the table compatibility and object compatibility reports to the bucket that you specify in `migrationOutput`. If you set `reviewMigrationPlan` to `true`, the migration waits in the `pendingReview` state so that you can review the reports, and continues only when you call `UpdateTableMigration` with `requestedState` set to `queued`. If you don't continue or cancel the migration within 30 days, the migration fails. Otherwise it continues to migrate the data, and writes the object migration report when the migration ends. If planning fails, the migration writes no object migration report.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:StartTableMigration` permission to use this operation.
+ *
+ * - You must have the `iam:PassRole` permission on the role that you specify in `roleARN`, with a condition that allows passing it to `migration.s3tables.amazonaws.com`. The associated resource is the table bucket.
+ *
+ * - If `destinationTable` specifies SSE-KMS encryption, you must have the `kms:DescribeKey` and `kms:GenerateDataKey` permissions on the KMS key. You must also grant the S3 Tables maintenance principal access to the key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+ */
+export const startTableMigration: API.OperationMethod<
+  StartTableMigrationRequest & RegionInput,
+  StartTableMigrationResponse,
+  StartTableMigrationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1027, __c64, 3) as any as S.Schema<StartTableMigrationRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<StartTableMigrationResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartTableMigration",
+  telemetry: TELEMETRY,
+  span: "StartTableMigration",
+}));
+
+export type SyncTableMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Migrates the changes in the source table since the previous start or sync, such as added and deleted source objects, into the destination table. The sync runs asynchronously: this operation returns the migration ID of the sync and its initial state, and you track progress with `GetTableMigration`.
+ *
+ * A sync uses the source, destination and data migration settings of the table's migration, and plans the work and writes its reports in the same way as `StartTableMigration`. You can sync after a start or sync that succeeded, failed or was cancelled, if an earlier start or sync of the table has a valid plan (`hasValidPlan`). You can't sync a table while a start or sync is in progress for it, and you can sync a table until you call `CompleteTableMigration` for it. If a source object that an earlier migration migrated has since been overwritten, the sync fails.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:SyncTableMigration` permission to use this operation.
+ *
+ * - You must have the `iam:PassRole` permission on the role that you specify in `roleARN`, with a condition that allows passing it to `migration.s3tables.amazonaws.com`. The associated resource is the table.
+ */
+export const syncTableMigration: API.OperationMethod<
+  SyncTableMigrationRequest & RegionInput,
+  SyncTableMigrationResponse,
+  SyncTableMigrationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1056, __c66, 0) as any as S.Schema<SyncTableMigrationRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<SyncTableMigrationResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SyncTableMigration",
+  telemetry: TELEMETRY,
+  span: "SyncTableMigration",
 }));
 
 export type TagResourceError =
@@ -2617,8 +3048,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2657,8 +3088,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2695,8 +3126,8 @@ export const updateTableMetadataLocation: API.OperationMethod<
   UpdateTableMetadataLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<UpdateTableMetadataLocationRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<UpdateTableMetadataLocationResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateTableMetadataLocationRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<UpdateTableMetadataLocationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -2712,16 +3143,200 @@ export const updateTableMetadataLocation: API.OperationMethod<
   span: "UpdateTableMetadataLocation",
 }));
 
+export type UpdateTableMigrationError =
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Requests a state change for a migration. Identify the migration by its `migrationId` or by the `tableARN` of its destination table.
+ *
+ * Set `requestedState` to `queued` to continue a migration in the `pendingReview` state; the migration moves to `queued` or `migrating`. Set it to `cancelled` to cancel a migration in the `new`, `planning`, `pendingReview`, `queued` or `migrating` state; the migration moves to `cancelling`, finishes the work in progress, and then ends in the `cancelled` state, or in the `failed` state if any objects failed to migrate. Data that the migration already committed stays in the destination table.
+ *
+ * ### Permissions
+ *
+ * - You must have the `s3tables:UpdateTableMigration` permission to use this operation.
+ */
+export const updateTableMigration: API.OperationMethod<
+  UpdateTableMigrationRequest & RegionInput,
+  UpdateTableMigrationResponse,
+  UpdateTableMigrationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateTableMigrationRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<UpdateTableMigrationResponse>,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateTableMigration",
+  telemetry: TELEMETRY,
+  span: "UpdateTableMigration",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.Number),
           name: S.String,
-          encryptionConfiguration: S.optional(__S(1984, __c62, 0)),
-          storageClassConfiguration: S.optional(__S(2016, __c63, 0)),
-          tags: S.optional(__S(2048, __c64, 0)),
+          type: S.String,
+          required: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SchemaField" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ fields: __S(1, __c0, 1) })).annotate({
+        identifier: "IcebergSchema",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sourceId: S.Number,
+          transform: S.String,
+          name: S.String,
+          fieldId: S.optional(S.Number),
+        }).pipe(S.encodeKeys({ sourceId: "source-id", fieldId: "field-id" })),
+      ).annotate({ identifier: "IcebergPartitionField" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ fields: __S(4, __c0, 4), specId: S.optional(S.Number) }).pipe(
+          S.encodeKeys({ specId: "spec-id" }),
+        ),
+      ).annotate({ identifier: "IcebergPartitionSpec" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          schema: S.optional(__S(2, __c0, 2)),
+          schemaV2: S.optional(__S(67, __c4, 3)),
+          partitionSpec: S.optional(__S(5, __c0, 5)),
+          writeOrder: S.optional(__S(70, __c4, 6)),
+          properties: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "IcebergMetadata" });
+    case 7:
+      return S.Union([/*@__PURE__*/ S.Struct({ iceberg: __S(6, __c0, 6) })]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+          namespace: S.String.pipe(T.HttpLabel("namespace")),
+          name: S.String,
+          format: S.String,
+          metadata: S.optional(__S(7, __c0, 7)),
+          encryptionConfiguration: S.optional(__S(16, __c1, 0)),
+          storageClassConfiguration: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/tables/{tableBucketARN}/{namespace}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateTableRequest" });
+    case 9:
+      return S.suspend(() => S.Struct({ tableARN: S.String, versionToken: S.String })).annotate({
+        identifier: "CreateTableResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ sseAlgorithm: S.String, kmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "EncryptionConfiguration" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ storageClass: S.String })).annotate({
+        identifier: "StorageClassConfiguration",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          type: S.Any,
+          required: S.Boolean,
+          doc: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchemaV2Field" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          fields: __S(65, __c4, 1),
+          schemaId: S.optional(S.Number),
+          identifierFieldIds: S.optional(__S(66, __c4, 2)),
+        }).pipe(
+          S.encodeKeys({ schemaId: "schema-id", identifierFieldIds: "identifier-field-ids" }),
+        ),
+      ).annotate({ identifier: "IcebergSchemaV2" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          sourceId: S.Number,
+          transform: S.String,
+          direction: S.String,
+          nullOrder: S.String,
+        }).pipe(S.encodeKeys({ sourceId: "source-id", nullOrder: "null-order" })),
+      ).annotate({ identifier: "IcebergSortField" });
+    case 5:
+      return S.Array(__S(68, __c4, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ orderId: S.Number, fields: __S(69, __c4, 5) }).pipe(
+          S.encodeKeys({ orderId: "order-id" }),
+        ),
+      ).annotate({ identifier: "IcebergSortOrder" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          encryptionConfiguration: S.optional(__S(16, __c1, 0)),
+          storageClassConfiguration: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/buckets" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateTableBucketRequest" });
     case 1:
@@ -2730,7 +3345,7 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2750,13 +3365,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceRequest" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteNamespaceResponse" });
-  }
-}
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2778,7 +3387,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteTableRequest" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2795,7 +3404,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteTableBucketRequest" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2812,7 +3421,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteTableBucketEncryptionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2829,7 +3438,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteTableBucketMetricsConfigurationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2846,7 +3455,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteTableBucketPolicyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2866,7 +3475,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteTableBucketReplicationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2887,7 +3496,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteTablePolicyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2907,7 +3516,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteTableReplicationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2927,12 +3536,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetNamespaceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(1920, __c60, 0),
+          namespace: __S(1184, __c74, 0),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           createdBy: S.String,
           ownerAccountId: S.String,
@@ -2942,7 +3551,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,7 +3568,7 @@ function __c13(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ replicationInformation: S.optional(__S(417, __c13, 1)) }),
+        S.Struct({ replicationInformation: S.optional(__S(273, __c17, 1)) }),
       ).annotate({ identifier: "ManagedTableInformation" });
     case 3:
       return S.suspend(() =>
@@ -2967,7 +3576,7 @@ function __c13(j: number): any {
           name: S.String,
           type: S.String,
           tableARN: S.String,
-          namespace: __S(1920, __c60, 0),
+          namespace: __S(1184, __c74, 0),
           namespaceId: S.optional(S.String),
           versionToken: S.String,
           metadataLocation: S.optional(S.String),
@@ -2980,12 +3589,12 @@ function __c13(j: number): any {
           ownerAccountId: S.String,
           format: S.String,
           tableBucketId: S.optional(S.String),
-          managedTableInformation: S.optional(__S(418, __c13, 2)),
+          managedTableInformation: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "GetTableResponse" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3002,7 +3611,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetTableBucketRequest" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3017,7 +3626,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetTableBucketResponse" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3034,15 +3643,15 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetTableBucketEncryptionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ encryptionConfiguration: __S(1984, __c62, 0) })).annotate({
+      return S.suspend(() => S.Struct({ encryptionConfiguration: __S(16, __c1, 0) })).annotate({
         identifier: "GetTableBucketEncryptionResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3058,14 +3667,14 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "GetTableBucketMaintenanceConfigurationRequest" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(610, __c19, 2).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(370, __c23, 2).pipe(S.optional));
     case 2:
       return S.suspend(() =>
-        S.Struct({ tableBucketARN: S.String, configuration: __S(577, __c18, 1) }),
+        S.Struct({ tableBucketARN: S.String, configuration: __S(353, __c22, 1) }),
       ).annotate({ identifier: "GetTableBucketMaintenanceConfigurationResponse" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3073,15 +3682,15 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IcebergUnreferencedFileRemovalSettings" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ icebergUnreferencedFileRemoval: __S(608, __c19, 0) }),
+        /*@__PURE__*/ S.Struct({ icebergUnreferencedFileRemoval: __S(368, __c23, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(609, __c19, 1)) }),
+        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(369, __c23, 1)) }),
       ).annotate({ identifier: "TableBucketMaintenanceConfigurationValue" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3102,7 +3711,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetTableBucketMetricsConfigurationResponse" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3119,7 +3728,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetTableBucketPolicyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ resourcePolicy: S.String })).annotate({
@@ -3127,7 +3736,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3144,35 +3753,35 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetTableBucketReplicationRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ versionToken: S.String, configuration: __S(804, __c25, 4) }),
+        S.Struct({ versionToken: S.String, configuration: __S(468, __c29, 4) }),
       ).annotate({ identifier: "GetTableBucketReplicationResponse" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ destinationTableBucketARN: S.String })).annotate({
         identifier: "ReplicationDestination",
       });
     case 1:
-      return S.Array(__S(800, __c25, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
-      return S.suspend(() => S.Struct({ destinations: __S(801, __c25, 1) })).annotate({
+      return S.suspend(() => S.Struct({ destinations: __S(465, __c29, 1) })).annotate({
         identifier: "TableBucketReplicationRule",
       });
     case 3:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(466, __c29, 2));
     case 4:
-      return S.suspend(() => S.Struct({ role: S.String, rules: __S(803, __c25, 3) })).annotate({
+      return S.suspend(() => S.Struct({ role: S.String, rules: __S(467, __c29, 3) })).annotate({
         identifier: "TableBucketReplicationConfiguration",
       });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3189,15 +3798,15 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetTableBucketStorageClassRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ storageClassConfiguration: __S(2016, __c63, 0) })).annotate(
-        { identifier: "GetTableBucketStorageClassResponse" },
-      );
+      return S.suspend(() => S.Struct({ storageClassConfiguration: __S(32, __c2, 0) })).annotate({
+        identifier: "GetTableBucketStorageClassResponse",
+      });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3221,7 +3830,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetTableEncryptionRequest" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3244,14 +3853,14 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "GetTableMaintenanceConfigurationRequest" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(963, __c30, 3).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(561, __c35, 1).pipe(S.optional));
     case 2:
       return S.suspend(() =>
-        S.Struct({ tableARN: S.String, configuration: __S(929, __c29, 1) }),
+        S.Struct({ tableARN: S.String, configuration: __S(529, __c33, 1) }),
       ).annotate({ identifier: "GetTableMaintenanceConfigurationResponse" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3264,18 +3873,22 @@ function __c30(j: number): any {
           maxSnapshotAgeHours: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IcebergSnapshotManagementSettings" });
-    case 2:
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ icebergCompaction: __S(960, __c30, 0) }),
-        /*@__PURE__*/ S.Struct({ icebergSnapshotManagement: __S(961, __c30, 1) }),
+        /*@__PURE__*/ S.Struct({ icebergCompaction: __S(544, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ icebergSnapshotManagement: __S(545, __c34, 1) }),
       ]);
-    case 3:
+    case 1:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(962, __c30, 2)) }),
+        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(560, __c35, 0)) }),
       ).annotate({ identifier: "TableMaintenanceConfigurationValue" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3306,14 +3919,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "TableMaintenanceJobStatusValue" });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(993, __c31, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(577, __c36, 1).pipe(S.optional));
     case 3:
-      return S.suspend(() => S.Struct({ tableARN: S.String, status: __S(994, __c31, 2) })).annotate(
+      return S.suspend(() => S.Struct({ tableARN: S.String, status: __S(578, __c36, 2) })).annotate(
         { identifier: "GetTableMaintenanceJobStatusResponse" },
       );
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3345,7 +3958,122 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetTableMetadataLocationResponse" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          migrationId: S.optional(S.String).pipe(T.HttpQuery("migrationId")),
+          tableARN: S.optional(S.String).pipe(T.HttpQuery("tableARN")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/get-table-migration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTableMigrationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ code: S.String, detail: S.optional(S.String) })).annotate({
+        identifier: "MigrationFailureReason",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          objectsScanned: S.optional(S.Number),
+          objectsPlanned: S.optional(S.Number),
+          partitionCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PlanningStats" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          objectsMigrated: S.optional(S.Number),
+          objectsFailedMigration: S.optional(S.Number),
+          objectsPendingMigration: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MigrationStats" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceSettings: __S(626, __c39, 2),
+          migrationPolicies: __S(627, __c39, 3),
+        }),
+      ).annotate({ identifier: "DataMigrationOverview" });
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          prefix: S.optional(S.String),
+          key: S.optional(S.String),
+          checksumCRC64NVME: S.optional(S.String),
+          invalidFindings: S.optional(__S(613, __c38, 5)),
+        }),
+      ).annotate({ identifier: "ReportOverview" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String,
+          tableCompatibilityReport: __S(614, __c38, 6),
+          objectCompatibilityReport: __S(614, __c38, 6),
+          objectMigrationReport: __S(614, __c38, 6),
+        }),
+      ).annotate({ identifier: "MigrationOutputOverview" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          migrationId: S.String,
+          tableBucketARN: S.String,
+          namespace: S.String,
+          tableARN: S.optional(S.String),
+          name: S.String,
+          type: S.String,
+          state: S.String,
+          roleARN: S.String,
+          reviewMigrationPlan: S.Boolean,
+          hasValidPlan: S.optional(S.Boolean),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          stateUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          failureReason: S.optional(__S(609, __c38, 1)),
+          planningStats: S.optional(__S(610, __c38, 2)),
+          migrationStats: S.optional(__S(611, __c38, 3)),
+          sourceType: S.String,
+          source: __S(625, __c39, 1),
+          dataMigration: __S(612, __c38, 4),
+          migrationOutput: __S(615, __c38, 7),
+        }),
+      ).annotate({ identifier: "GetTableMigrationResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ catalogId: S.String, databaseName: S.String, tableName: S.String }),
+      ).annotate({ identifier: "GlueTableSource" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ glueTable: __S(624, __c39, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          icebergCompaction: S.optional(__S(544, __c34, 0)),
+          icebergSnapshotManagement: S.optional(__S(545, __c34, 1)),
+        }),
+      ).annotate({ identifier: "MaintenanceSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          unmatchedSourceFieldsPolicy: S.optional(S.String),
+          incompatibleValuesPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationPolicies" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3366,7 +4094,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetTablePolicyRequest" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3382,12 +4110,12 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetTableRecordExpirationConfigurationRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ configuration: __S(1121, __c35, 1) })).annotate({
+      return S.suspend(() => S.Struct({ configuration: __S(673, __c42, 1) })).annotate({
         identifier: "GetTableRecordExpirationConfigurationResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ days: S.optional(S.Number) })).annotate({
@@ -3395,11 +4123,11 @@ function __c35(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(1120, __c35, 0)) }),
+        S.Struct({ status: S.optional(S.String), settings: S.optional(__S(672, __c42, 0)) }),
       ).annotate({ identifier: "TableRecordExpirationConfigurationValue" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3428,12 +4156,12 @@ function __c36(j: number): any {
           status: S.String,
           lastRunTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           failureMessage: S.optional(S.String),
-          metrics: S.optional(__S(1153, __c36, 1)),
+          metrics: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "GetTableRecordExpirationJobStatusResponse" });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3443,7 +4171,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetTableReplicationRequest" });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3471,19 +4199,19 @@ function __c38(j: number): any {
           replicationStatus: S.String,
           destinationTableBucketArn: S.String,
           destinationTableArn: S.optional(S.String),
-          lastSuccessfulReplicatedUpdate: S.optional(__S(1217, __c38, 1)),
+          lastSuccessfulReplicatedUpdate: S.optional(__S(721, __c45, 1)),
           failureMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationDestinationStatusModel" });
     case 3:
-      return S.Array(__S(1218, __c38, 2));
+      return S.Array(__S(722, __c45, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ sourceTableArn: S.String, destinations: __S(1219, __c38, 3) }),
+        S.Struct({ sourceTableArn: S.String, destinations: __S(723, __c45, 3) }),
       ).annotate({ identifier: "GetTableReplicationStatusResponse" });
   }
 }
-function __c39(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3507,7 +4235,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetTableStorageClassRequest" });
   }
 }
-function __c40(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3528,14 +4256,14 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListNamespacesRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(256, __c16, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ namespaces: __S(1281, __c40, 1), continuationToken: S.optional(S.String) }),
+        S.Struct({ namespaces: __S(753, __c47, 1), continuationToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
 }
-function __c41(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3547,14 +4275,61 @@ function __c41(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/buckets" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTableBucketsRequest" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ tableBuckets: __S(1313, __c41, 1), continuationToken: S.optional(S.String) }),
+        S.Struct({ tableBuckets: __S(769, __c48, 1), continuationToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTableBucketsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tableBucketARN: S.optional(S.String).pipe(T.HttpQuery("tableBucketARN")),
+          namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
+          name: S.optional(S.String).pipe(T.HttpQuery("name")),
+          tableARN: S.optional(S.String).pipe(T.HttpQuery("tableARN")),
+          state: S.optional(S.String).pipe(T.HttpQuery("state")),
+          hasValidPlan: S.optional(S.Boolean).pipe(T.HttpQuery("hasValidPlan")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/list-table-migrations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTableMigrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          migrationId: S.String,
+          tableBucketARN: S.String,
+          namespace: S.String,
+          tableARN: S.optional(S.String),
+          name: S.String,
+          type: S.String,
+          state: S.String,
+          hasValidPlan: S.optional(S.Boolean),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          stateUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "MigrationSummary" });
+    case 2:
+      return S.Array(__S(785, __c49, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ migrations: __S(786, __c49, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTableMigrationsResponse" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3578,7 +4353,7 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(1920, __c60, 0),
+          namespace: __S(1184, __c74, 0),
           name: S.String,
           type: S.String,
           tableARN: S.String,
@@ -3590,14 +4365,14 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "TableSummary" });
     case 2:
-      return S.Array(__S(1345, __c42, 1));
+      return S.Array(__S(801, __c50, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ tables: __S(1346, __c42, 2), continuationToken: S.optional(S.String) }),
+        S.Struct({ tables: __S(802, __c50, 2), continuationToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTablesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3606,18 +4381,18 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(2048, __c64, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(48, __c3, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
-          encryptionConfiguration: __S(1984, __c62, 0),
+          encryptionConfiguration: __S(16, __c1, 0),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/encryption" }),
@@ -3631,14 +4406,14 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PutTableBucketEncryptionRequest" });
   }
 }
-function __c45(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
           type: S.String.pipe(T.HttpLabel("type")),
-          value: __S(610, __c19, 2),
+          value: __S(370, __c23, 2),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/maintenance/{type}" }),
@@ -3652,7 +4427,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PutTableBucketMaintenanceConfigurationRequest" });
   }
 }
-function __c46(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3669,7 +4444,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PutTableBucketMetricsConfigurationRequest" });
   }
 }
-function __c47(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3689,14 +4464,14 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PutTableBucketPolicyRequest" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableBucketARN: S.String.pipe(T.HttpQuery("tableBucketARN")),
           versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
-          configuration: __S(804, __c25, 4),
+          configuration: __S(468, __c29, 4),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/table-bucket-replication" }),
@@ -3710,7 +4485,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PutTableBucketReplicationRequest" });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ versionToken: S.String, status: S.String })).annotate({
@@ -3718,13 +4493,13 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
-          storageClassConfiguration: __S(2016, __c63, 0),
+          storageClassConfiguration: __S(32, __c2, 0),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/storage-class" }),
@@ -3738,7 +4513,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PutTableBucketStorageClassRequest" });
   }
 }
-function __c51(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3747,7 +4522,7 @@ function __c51(j: number): any {
           namespace: S.String.pipe(T.HttpLabel("namespace")),
           name: S.String.pipe(T.HttpLabel("name")),
           type: S.String.pipe(T.HttpLabel("type")),
-          value: __S(963, __c30, 3),
+          value: __S(561, __c35, 1),
         }).pipe(
           T.all(
             T.Http({
@@ -3764,7 +4539,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PutTableMaintenanceConfigurationRequest" });
   }
 }
-function __c52(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3786,13 +4561,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PutTablePolicyRequest" });
   }
 }
-function __c53(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableArn: S.String.pipe(T.HttpQuery("tableArn")),
-          value: __S(1121, __c35, 1),
+          value: __S(673, __c42, 1),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/table-record-expiration" }),
@@ -3806,21 +4581,21 @@ function __c53(j: number): any {
       ).annotate({ identifier: "PutTableRecordExpirationConfigurationRequest" });
   }
 }
-function __c54(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableArn: S.String.pipe(T.HttpQuery("tableArn")),
           versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
-          configuration: __S(804, __c25, 4),
+          configuration: __S(468, __c29, 4),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/table-replication" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutTableReplicationRequest" });
   }
 }
-function __c55(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3844,13 +4619,110 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RenameTableRequest" });
   }
 }
-function __c56(j: number): any {
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          writeFormat: S.optional(S.String),
+          icebergFormatVersion: S.optional(S.Number),
+          compressionCodec: S.optional(S.String),
+          dictionaryEncoding: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MigrationTableProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tableBucketARN: S.String,
+          namespace: S.String,
+          name: S.String,
+          encryptionConfiguration: S.optional(__S(16, __c1, 0)),
+          storageClassConfiguration: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
+          properties: S.optional(__S(1024, __c64, 0)),
+          schema: S.optional(__S(67, __c4, 3)),
+          icebergSortOrder: S.optional(__S(70, __c4, 6)),
+        }),
+      ).annotate({ identifier: "DestinationTable" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceSettings: S.optional(__S(626, __c39, 2)),
+          migrationPolicies: S.optional(__S(627, __c39, 3)),
+        }),
+      ).annotate({ identifier: "DataMigrationSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          roleARN: S.String,
+          destinationTable: __S(1025, __c64, 1),
+          sourceType: S.String,
+          source: __S(625, __c39, 1),
+          dataMigration: S.optional(__S(1026, __c64, 2)),
+          reviewMigrationPlan: S.optional(S.Boolean),
+          migrationOutput: __S(1041, __c65, 1),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/start-table-migration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartTableMigrationRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tableCompatibilityReport: S.optional(S.String),
+          objectCompatibilityReport: S.optional(S.String),
+          objectMigrationReport: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationReportPrefixes" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.String, prefixes: S.optional(__S(1040, __c65, 0)) }),
+      ).annotate({ identifier: "MigrationOutputConfiguration" });
+    case 2:
+      return S.suspend(() => S.Struct({ migrationId: S.String, state: S.String })).annotate({
+        identifier: "StartTableMigrationResponse",
+      });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          roleARN: S.String,
+          tableARN: S.String,
+          reviewMigrationPlan: S.optional(S.Boolean),
+          migrationOutput: __S(1041, __c65, 1),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/sync-table-migration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SyncTableMigrationRequest" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(2048, __c64, 0),
+          tags: __S(48, __c3, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tag/{resourceArn}" }),
@@ -3864,13 +4736,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c57(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(1920, __c60, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(1184, __c74, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tag/{resourceArn}" }),
@@ -3884,7 +4756,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c58(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3913,20 +4785,71 @@ function __c58(j: number): any {
         S.Struct({
           name: S.String,
           tableARN: S.String,
-          namespace: __S(1920, __c60, 0),
+          namespace: __S(1184, __c74, 0),
           versionToken: S.String,
           metadataLocation: S.String,
         }),
       ).annotate({ identifier: "UpdateTableMetadataLocationResponse" });
   }
 }
-function __c59(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tableARN: S.optional(S.String).pipe(T.HttpQuery("tableARN")),
+          migrationId: S.optional(S.String).pipe(T.HttpQuery("migrationId")),
+          requestedState: S.String,
+          updateDescription: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/update-table-migration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTableMigrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ migrationId: S.String, state: S.String, tableARN: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateTableMigrationResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ tableARN: S.String.pipe(T.HttpQuery("tableARN")) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/complete-table-migration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CompleteTableMigrationRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CompleteTableMigrationResponse",
+      });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
-          namespace: __S(1920, __c60, 0),
+          namespace: __S(1184, __c74, 0),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/namespaces/{tableBucketARN}" }),
@@ -3940,152 +4863,14 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateNamespaceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ tableBucketARN: S.String, namespace: __S(1920, __c60, 0) }),
+        S.Struct({ tableBucketARN: S.String, namespace: __S(1184, __c74, 0) }),
       ).annotate({ identifier: "CreateNamespaceResponse" });
   }
 }
-function __c60(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.String,
-          type: S.String,
-          required: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SchemaField" });
-    case 1:
-      return S.Array(__S(1952, __c61, 0));
-    case 2:
-      return S.suspend(() => S.Struct({ fields: __S(1953, __c61, 1) })).annotate({
-        identifier: "IcebergSchema",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          name: S.String,
-          type: S.Any,
-          required: S.Boolean,
-          doc: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SchemaV2Field" });
-    case 4:
-      return S.Array(__S(1955, __c61, 3));
-    case 5:
-      return S.Array(S.Number);
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          fields: __S(1956, __c61, 4),
-          schemaId: S.optional(S.Number),
-          identifierFieldIds: S.optional(__S(1957, __c61, 5)),
-        }).pipe(
-          S.encodeKeys({ schemaId: "schema-id", identifierFieldIds: "identifier-field-ids" }),
-        ),
-      ).annotate({ identifier: "IcebergSchemaV2" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          sourceId: S.Number,
-          transform: S.String,
-          name: S.String,
-          fieldId: S.optional(S.Number),
-        }).pipe(S.encodeKeys({ sourceId: "source-id", fieldId: "field-id" })),
-      ).annotate({ identifier: "IcebergPartitionField" });
-    case 8:
-      return S.Array(__S(1959, __c61, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({ fields: __S(1960, __c61, 8), specId: S.optional(S.Number) }).pipe(
-          S.encodeKeys({ specId: "spec-id" }),
-        ),
-      ).annotate({ identifier: "IcebergPartitionSpec" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          sourceId: S.Number,
-          transform: S.String,
-          direction: S.String,
-          nullOrder: S.String,
-        }).pipe(S.encodeKeys({ sourceId: "source-id", nullOrder: "null-order" })),
-      ).annotate({ identifier: "IcebergSortField" });
-    case 11:
-      return S.Array(__S(1962, __c61, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({ orderId: S.Number, fields: __S(1963, __c61, 11) }).pipe(
-          S.encodeKeys({ orderId: "order-id" }),
-        ),
-      ).annotate({ identifier: "IcebergSortOrder" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          schema: S.optional(__S(1954, __c61, 2)),
-          schemaV2: S.optional(__S(1958, __c61, 6)),
-          partitionSpec: S.optional(__S(1961, __c61, 9)),
-          writeOrder: S.optional(__S(1964, __c61, 12)),
-          properties: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "IcebergMetadata" });
-    case 14:
-      return S.Union([/*@__PURE__*/ S.Struct({ iceberg: __S(1965, __c61, 13) })]);
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
-          namespace: S.String.pipe(T.HttpLabel("namespace")),
-          name: S.String,
-          format: S.String,
-          metadata: S.optional(__S(1966, __c61, 14)),
-          encryptionConfiguration: S.optional(__S(1984, __c62, 0)),
-          storageClassConfiguration: S.optional(__S(2016, __c63, 0)),
-          tags: S.optional(__S(2048, __c64, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/tables/{tableBucketARN}/{namespace}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateTableRequest" });
-    case 16:
-      return S.suspend(() => S.Struct({ tableARN: S.String, versionToken: S.String })).annotate({
-        identifier: "CreateTableResponse",
-      });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ sseAlgorithm: S.String, kmsKeyArn: S.optional(S.String) }),
-      ).annotate({ identifier: "EncryptionConfiguration" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ storageClass: S.String })).annotate({
-        identifier: "StorageClassConfiguration",
-      });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

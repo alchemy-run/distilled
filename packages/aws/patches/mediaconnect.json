@@ -1,0 +1,12 @@
+{
+  "operations": {
+    "grantFlowEntitlements": {
+      "iam": {
+        "reason": "Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
+        "conditional": {
+          "mediaconnect:TagResource": "Needed only when the request sets tags; not granted, since tagging can change tag-based access."
+        }
+      }
+    }
+  }
+}

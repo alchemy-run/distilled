@@ -1,5 +1,9 @@
 import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/dev/codegen/emit";
-import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  errorCategories,
+  IAM_OPERATION_TRAIT,
+  type SdkSpec,
+} from "@distilled.cloud/dev/codegen/generator";
 /**
  * AWS provider spec for the shared smithy→SDK compiler
  * (`@distilled.cloud/dev/codegen/generator`).
@@ -37,6 +41,7 @@ import {
   mergePaginated,
 } from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
+import { operationIam } from "./iam.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
 
@@ -2277,6 +2282,20 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       const endpointHostPrefix = (
         opShape.traits?.["smithy.api#endpoint"] as { hostPrefix?: string } | undefined
       )?.hostPrefix;
+
+      // What the call is authorized as (AWS's Service Authorization
+      // Reference, corrected by patches): see scripts/iam.ts. Recorded as the
+      // operation's trait, which the generator publishes in the service's
+      // meta module rather than on the operation.
+      const iam = operationIam({
+        shapes,
+        service: serviceShape.traits["aws.api#service"],
+        opName,
+        input: opShape.__input,
+        patch: serviceSpec.operations?.[exportedName]?.iam,
+        removeEverywhere: serviceSpec.allOperations?.iam?.remove,
+      });
+      if (iam) opShape.traits = { ...opShape.traits, [IAM_OPERATION_TRAIT]: iam };
 
       // Always emit the Smithy operation name: protocols use it as the wire
       // Action / X-Amz-Target instead of guessing it from the input shape

@@ -1,0 +1,12 @@
+{
+  "operations": {
+    "getPipelineBlueprint": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:osis:${Region}:${Account}:blueprint/*), the call was denied live in the OSIS Bindings suite; the grant stays on *.",
+        "resources": {
+          "osis:GetPipelineBlueprint": "*"
+        }
+      }
+    }
+  }
+}

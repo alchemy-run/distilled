@@ -674,7 +674,7 @@ export type CreateWorkspaceApiKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
+ * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See for available APIs and example requests.
  *
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
@@ -716,9 +716,9 @@ export type CreateWorkspaceServiceAccountError =
  *
  * You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.
  *
- * For more information about service accounts, see Service accounts in the *Amazon Managed Grafana User Guide*.
+ * For more information about service accounts, see Service accounts in the * Amazon Managed Grafana User Guide*.
  *
- * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the *Amazon Managed Grafana User Guide*.
+ * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the * Amazon Managed Grafana User Guide*.
  */
 export const createWorkspaceServiceAccount: API.OperationMethod<
   CreateWorkspaceServiceAccountRequest & RegionInput,

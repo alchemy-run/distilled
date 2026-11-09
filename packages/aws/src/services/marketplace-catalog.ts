@@ -854,6 +854,85 @@ export interface OfferSetFilters {
   SolutionId?: OfferSetSolutionIdFilter;
   LastModifiedDate?: OfferSetLastModifiedDateFilter;
 }
+export type ExpressPrivateOfferConfigurationEntityIdString = string;
+export type ExpressPrivateOfferConfigurationEntityIdFilterValueList = string[];
+export interface ExpressPrivateOfferConfigurationEntityIdFilter {
+  ValueList?: string[];
+}
+export type ExpressPrivateOfferConfigurationProductIdString = string;
+export type ExpressPrivateOfferConfigurationProductIdFilterValueList = string[];
+export interface ExpressPrivateOfferConfigurationProductIdFilter {
+  ValueList?: string[];
+}
+export type ExpressPrivateOfferConfigurationStateString = "ACTIVE" | "INACTIVE" | (string & {});
+export type ExpressPrivateOfferConfigurationStateFilterValueList =
+  ExpressPrivateOfferConfigurationStateString[];
+export interface ExpressPrivateOfferConfigurationStateFilter {
+  ValueList?: ExpressPrivateOfferConfigurationStateString[];
+}
+export interface ExpressPrivateOfferConfigurationFilters {
+  EntityId?: ExpressPrivateOfferConfigurationEntityIdFilter;
+  ProductId?: ExpressPrivateOfferConfigurationProductIdFilter;
+  State?: ExpressPrivateOfferConfigurationStateFilter;
+}
+export type SubsidiaryAuthorizationEntityIdString = string;
+export type SubsidiaryAuthorizationEntityIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationEntityIdFilter {
+  ValueList?: string[];
+}
+export type SubsidiaryAuthorizationStatusString = "Draft" | "Active" | "Restricted" | (string & {});
+export type SubsidiaryAuthorizationStatusFilterValueList = SubsidiaryAuthorizationStatusString[];
+export interface SubsidiaryAuthorizationStatusFilter {
+  ValueList?: SubsidiaryAuthorizationStatusString[];
+}
+export type SubsidiaryAuthorizationResourceIdString = string;
+export type SubsidiaryAuthorizationResourceIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationResourceIdFilter {
+  ValueList?: string[];
+}
+export type SubsidiaryAuthorizationResourceNameString = string;
+export type SubsidiaryAuthorizationResourceNameFilterValueList = string[];
+export type SubsidiaryAuthorizationResourceNameFilterWildcard = string;
+export interface SubsidiaryAuthorizationResourceNameFilter {
+  ValueList?: string[];
+  WildCardValue?: string;
+}
+export type SubsidiaryAuthorizationNameString = string;
+export type SubsidiaryAuthorizationNameFilterValueList = string[];
+export type SubsidiaryAuthorizationNameFilterWildcard = string;
+export interface SubsidiaryAuthorizationNameFilter {
+  ValueList?: string[];
+  WildCardValue?: string;
+}
+export type SubsidiaryAuthorizationSubsidiaryAccountIdString = string;
+export type SubsidiaryAuthorizationSubsidiaryAccountIdFilterValueList = string[];
+export interface SubsidiaryAuthorizationSubsidiaryAccountIdFilter {
+  ValueList?: string[];
+}
+export interface SubsidiaryAuthorizationCreatedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export interface SubsidiaryAuthorizationCreatedDateFilter {
+  DateRange?: SubsidiaryAuthorizationCreatedDateFilterDateRange;
+}
+export interface SubsidiaryAuthorizationLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export interface SubsidiaryAuthorizationLastModifiedDateFilter {
+  DateRange?: SubsidiaryAuthorizationLastModifiedDateFilterDateRange;
+}
+export interface SubsidiaryAuthorizationFilters {
+  EntityId?: SubsidiaryAuthorizationEntityIdFilter;
+  Status?: SubsidiaryAuthorizationStatusFilter;
+  ResourceId?: SubsidiaryAuthorizationResourceIdFilter;
+  ResourceName?: SubsidiaryAuthorizationResourceNameFilter;
+  Name?: SubsidiaryAuthorizationNameFilter;
+  SubsidiaryAccountId?: SubsidiaryAuthorizationSubsidiaryAccountIdFilter;
+  CreatedDate?: SubsidiaryAuthorizationCreatedDateFilter;
+  LastModifiedDate?: SubsidiaryAuthorizationLastModifiedDateFilter;
+}
 export type EntityTypeFilters =
   | {
       DataProductFilters: DataProductFilters;
@@ -864,6 +943,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -874,6 +955,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -884,6 +967,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -894,6 +979,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -904,6 +991,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -914,6 +1003,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters: ResaleAuthorizationFilters;
       MachineLearningProductFilters?: never;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -924,6 +1015,8 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters: MachineLearningProductFilters;
       OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
     }
   | {
       DataProductFilters?: never;
@@ -934,6 +1027,32 @@ export type EntityTypeFilters =
       ResaleAuthorizationFilters?: never;
       MachineLearningProductFilters?: never;
       OfferSetFilters: OfferSetFilters;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters: ExpressPrivateOfferConfigurationFilters;
+      SubsidiaryAuthorizationFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+      ExpressPrivateOfferConfigurationFilters?: never;
+      SubsidiaryAuthorizationFilters: SubsidiaryAuthorizationFilters;
     };
 export type DataProductSortBy =
   | "EntityId"
@@ -1041,6 +1160,28 @@ export interface OfferSetSort {
   SortBy?: OfferSetSortBy;
   SortOrder?: SortOrder;
 }
+export type ExpressPrivateOfferConfigurationSortBy =
+  | "EntityId"
+  | "LastModifiedDate"
+  | "ProductId"
+  | "State"
+  | (string & {});
+export interface ExpressPrivateOfferConfigurationSort {
+  SortBy?: ExpressPrivateOfferConfigurationSortBy;
+  SortOrder?: SortOrder;
+}
+export type SubsidiaryAuthorizationSortBy =
+  | "EntityId"
+  | "Status"
+  | "ResourceId"
+  | "SubsidiaryAccountId"
+  | "CreatedDate"
+  | "LastModifiedDate"
+  | (string & {});
+export interface SubsidiaryAuthorizationSort {
+  SortBy?: SubsidiaryAuthorizationSortBy;
+  SortOrder?: SortOrder;
+}
 export type EntityTypeSort =
   | {
       DataProductSort: DataProductSort;
@@ -1051,6 +1192,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1061,6 +1204,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1071,6 +1216,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1081,6 +1228,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1091,6 +1240,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1101,6 +1252,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort: ResaleAuthorizationSort;
       MachineLearningProductSort?: never;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1111,6 +1264,8 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort: MachineLearningProductSort;
       OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
     }
   | {
       DataProductSort?: never;
@@ -1121,6 +1276,32 @@ export type EntityTypeSort =
       ResaleAuthorizationSort?: never;
       MachineLearningProductSort?: never;
       OfferSetSort: OfferSetSort;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort: ExpressPrivateOfferConfigurationSort;
+      SubsidiaryAuthorizationSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+      ExpressPrivateOfferConfigurationSort?: never;
+      SubsidiaryAuthorizationSort: SubsidiaryAuthorizationSort;
     };
 export interface ListEntitiesRequest {
   Catalog: string;
@@ -1196,6 +1377,23 @@ export interface OfferSetSummary {
   AssociatedOfferIds?: string[];
   SolutionId?: string;
 }
+export interface ExpressPrivateOfferConfigurationSummary {
+  ProductId?: string;
+  State?: ExpressPrivateOfferConfigurationStateString;
+}
+export type SubsidiaryAuthorizationSummaryNameString = string;
+export type SubsidiaryAuthorizationSummaryStatusString = string;
+export type SubsidiaryAuthorizationSummaryResourceIdString = string;
+export type SubsidiaryAuthorizationSummaryResourceNameString = string;
+export type SubsidiaryAuthorizationSummarySubsidiaryAccountIdString = string;
+export interface SubsidiaryAuthorizationSummary {
+  Name?: string;
+  Status?: string;
+  ResourceId?: string;
+  ResourceName?: string;
+  SubsidiaryAccountId?: string;
+  CreatedDate?: string;
+}
 export interface EntitySummary {
   Name?: string;
   EntityType?: string;
@@ -1211,6 +1409,8 @@ export interface EntitySummary {
   ResaleAuthorizationSummary?: ResaleAuthorizationSummary;
   MachineLearningProductSummary?: MachineLearningProductSummary;
   OfferSetSummary?: OfferSetSummary;
+  ExpressPrivateOfferConfigurationSummary?: ExpressPrivateOfferConfigurationSummary;
+  SubsidiaryAuthorizationSummary?: SubsidiaryAuthorizationSummary;
 }
 export type EntitySummaryList = EntitySummary[];
 export interface ListEntitiesResponse {
@@ -1635,8 +1835,8 @@ export const listEntities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EntitySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c12, 16) as any as S.Schema<ListEntitiesRequest>,
-  output: __S(407, __c12, 23) as any as S.Schema<ListEntitiesResponse>,
+  input: __S(402, __c12, 18) as any as S.Schema<ListEntitiesRequest>,
+  output: __S(411, __c12, 27) as any as S.Schema<ListEntitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -2243,6 +2443,27 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "OfferSetFilters" });
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          EntityId: S.optional(__S(384, __c12, 0)),
+          ProductId: S.optional(__S(384, __c12, 0)),
+          State: S.optional(__S(387, __c12, 3)),
+        }),
+      ).annotate({ identifier: "ExpressPrivateOfferConfigurationFilters" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          EntityId: S.optional(__S(384, __c12, 0)),
+          Status: S.optional(__S(387, __c12, 3)),
+          ResourceId: S.optional(__S(384, __c12, 0)),
+          ResourceName: S.optional(__S(385, __c12, 1)),
+          Name: S.optional(__S(385, __c12, 1)),
+          SubsidiaryAccountId: S.optional(__S(384, __c12, 0)),
+          CreatedDate: S.optional(__S(389, __c12, 5)),
+          LastModifiedDate: S.optional(__S(389, __c12, 5)),
+        }),
+      ).annotate({ identifier: "SubsidiaryAuthorizationFilters" });
+    case 15:
       return S.Union([
         /*@__PURE__*/ S.Struct({ DataProductFilters: __S(390, __c12, 6) }),
         /*@__PURE__*/ S.Struct({ SaaSProductFilters: __S(390, __c12, 6) }),
@@ -2252,23 +2473,27 @@ function __c12(j: number): any {
         /*@__PURE__*/ S.Struct({ ResaleAuthorizationFilters: __S(395, __c12, 11) }),
         /*@__PURE__*/ S.Struct({ MachineLearningProductFilters: __S(391, __c12, 7) }),
         /*@__PURE__*/ S.Struct({ OfferSetFilters: __S(396, __c12, 12) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationFilters: __S(397, __c12, 13) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationFilters: __S(398, __c12, 14) }),
       ]);
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
       ).annotate({ identifier: "DataProductSort" });
-    case 15:
+    case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DataProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ OfferSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(398, __c12, 14) }),
-        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(398, __c12, 14) }),
+        /*@__PURE__*/ S.Struct({ DataProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationSort: __S(400, __c12, 16) }),
       ]);
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
@@ -2278,17 +2503,17 @@ function __c12(j: number): any {
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           OwnershipType: S.optional(S.String),
-          EntityTypeFilters: S.optional(__S(397, __c12, 13)),
-          EntityTypeSort: S.optional(__S(399, __c12, 15)),
+          EntityTypeFilters: S.optional(__S(399, __c12, 15)),
+          EntityTypeSort: S.optional(__S(401, __c12, 17)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ListEntities" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "ListEntitiesRequest" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }),
       ).annotate({ identifier: "AmiProductSummary" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2305,7 +2530,7 @@ function __c12(j: number): any {
           CreatedBySource: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferSummary" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2324,7 +2549,7 @@ function __c12(j: number): any {
           IssuerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResaleAuthorizationSummary" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2334,7 +2559,22 @@ function __c12(j: number): any {
           SolutionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferSetSummary" });
-    case 21:
+    case 23:
+      return S.suspend(() =>
+        S.Struct({ ProductId: S.optional(S.String), State: S.optional(S.String) }),
+      ).annotate({ identifier: "ExpressPrivateOfferConfigurationSummary" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          ResourceName: S.optional(S.String),
+          SubsidiaryAccountId: S.optional(S.String),
+          CreatedDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SubsidiaryAuthorizationSummary" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -2343,22 +2583,24 @@ function __c12(j: number): any {
           EntityArn: S.optional(S.String),
           LastModifiedDate: S.optional(S.String),
           Visibility: S.optional(S.String),
-          AmiProductSummary: S.optional(__S(401, __c12, 17)),
-          ContainerProductSummary: S.optional(__S(401, __c12, 17)),
-          DataProductSummary: S.optional(__S(401, __c12, 17)),
-          SaaSProductSummary: S.optional(__S(401, __c12, 17)),
-          OfferSummary: S.optional(__S(402, __c12, 18)),
-          ResaleAuthorizationSummary: S.optional(__S(403, __c12, 19)),
-          MachineLearningProductSummary: S.optional(__S(401, __c12, 17)),
-          OfferSetSummary: S.optional(__S(404, __c12, 20)),
+          AmiProductSummary: S.optional(__S(403, __c12, 19)),
+          ContainerProductSummary: S.optional(__S(403, __c12, 19)),
+          DataProductSummary: S.optional(__S(403, __c12, 19)),
+          SaaSProductSummary: S.optional(__S(403, __c12, 19)),
+          OfferSummary: S.optional(__S(404, __c12, 20)),
+          ResaleAuthorizationSummary: S.optional(__S(405, __c12, 21)),
+          MachineLearningProductSummary: S.optional(__S(403, __c12, 19)),
+          OfferSetSummary: S.optional(__S(406, __c12, 22)),
+          ExpressPrivateOfferConfigurationSummary: S.optional(__S(407, __c12, 23)),
+          SubsidiaryAuthorizationSummary: S.optional(__S(408, __c12, 24)),
         }),
       ).annotate({ identifier: "EntitySummary" });
-    case 22:
-      return S.Array(__S(405, __c12, 21));
-    case 23:
+    case 26:
+      return S.Array(__S(409, __c12, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          EntitySummaryList: S.optional(__S(406, __c12, 22)),
+          EntitySummaryList: S.optional(__S(410, __c12, 26)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntitiesResponse" });
