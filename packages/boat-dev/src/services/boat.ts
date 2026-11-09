@@ -171,7 +171,7 @@ export interface AddCredentialAccountRequest {
   /** The API key. Boat encrypts it at rest. */
   value: string;
   /** Keep the key this one replaces as another account of the credential, ready to switch back to. */
-  keepCurrent?: boolean;
+  keepCurrent?: boolean | undefined;
 }
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
 export type CredentialId =
@@ -200,7 +200,7 @@ export interface CredentialAccount {
   /** True for the account every sandbox on the profile uses. */
   active: boolean;
   /** When the account was set aside (accounts not in use). */
-  addedAt?: string;
+  addedAt?: string | undefined;
 }
 /** In the order the accounts were added, so their numbers stay the same across switches. The one in use is marked `active`. */
 export type AddCredentialAccountResponseAccountsList = Array<CredentialAccount>;
@@ -217,17 +217,17 @@ export interface AddCredentialAccountResponse {
 export interface AddEnvironmentRepoRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** The repository `databaseId` from `GET /repos`. */
   repositoryId: string;
-  baseBranch?: string;
+  baseBranch?: string | undefined;
 }
 /** Result of a granular environment change. Every change mints a new immutable version holding just that delta; existing sandboxes stay pinned until upgraded. */
 export interface EnvironmentItemChangeResponse {
   success: boolean;
   /** Id of the newly minted environment version. This is a version id, not the environment's own id: the environment id you passed in the path is unchanged. */
-  versionId?: string;
-  versionNumber?: number;
+  versionId?: string | undefined;
+  versionNumber?: number | undefined;
 }
 export interface AttachCommandRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -235,21 +235,21 @@ export interface AttachCommandRequest {
   /** Process id returned by a detached command start. */
   processId: number;
   /** Start stdout at this byte offset. 0 sends the whole log. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Start stderr at this byte offset. 0 sends the whole log. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
 }
 export interface AttachCommandResponse {}
 export interface CommandHistoryRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Only these modes, comma-separated: sync, stream, detached, process, or `commands` for the first three. Default: all. */
-  mode?: string;
+  mode?: string | undefined;
   /** Only commands whose command line contains this text, in any case. */
-  q?: string;
-  limit?: number;
+  q?: string | undefined;
+  limit?: number | undefined;
   /** The `nextCursor` of the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** sync: the request waited for the result. stream: the output was streamed. detached: started in the background. process: any other process of the sandbox, recorded from what it wrote to its stdout/stderr. */
 export type CommandRecordMode = "sync" | "stream" | "detached" | "process";
@@ -262,15 +262,15 @@ export interface CommandRecord {
   sandboxId: string;
   /** The command text as sent (first 64 KiB). */
   command: string;
-  cwd?: string | null;
+  cwd?: string | null | undefined;
   /** sync: the request waited for the result. stream: the output was streamed. detached: started in the background. process: any other process of the sandbox, recorded from what it wrote to its stdout/stderr. */
   mode: CommandRecordMode;
   /** detached: the process id on the sandbox. */
-  processId?: number | null;
+  processId?: number | null | undefined;
   /** failed: the command could not start or its result never arrived. killed: ended by a signal or by DELETE /commands/{processId}. lost: the sandbox stopped or its agent restarted while the command ran. */
   status: CommandRecordStatus;
-  exitCode?: number | null;
-  signal?: string | null;
+  exitCode?: number | null | undefined;
+  signal?: string | null | undefined;
   /** Bytes of stdout written so far. */
   stdoutBytes: number;
   /** Bytes of stderr written so far. */
@@ -278,7 +278,7 @@ export interface CommandRecord {
   /** True when part of the output is not kept: the sandbox cut the output of a waiting command at 8 MiB, or the account wrote more than 10 MiB (compressed) of command output, or of process output, in one hour. */
   outputTruncated: boolean;
   startedAt: string;
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
 }
 /** Newest first. */
 export type CommandHistoryResponseCommandsList = Array<CommandRecord>;
@@ -297,11 +297,11 @@ export interface CommandLogsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   commandId: string;
-  stream?: CommandLogsRequestStream | (string & {});
-  offset?: number;
-  limit?: number;
+  stream?: CommandLogsRequestStream | (string & {}) | undefined;
+  offset?: number | undefined;
+  limit?: number | undefined;
   /** base64 returns the exact bytes. utf8 can split a character at the edge of a read. */
-  encoding?: CommandLogsRequestEncoding | (string & {});
+  encoding?: CommandLogsRequestEncoding | (string & {}) | undefined;
 }
 export type CommandLogsResponseStream = "stdout" | "stderr";
 export type CommandLogsResponseEncoding = "utf8" | "base64";
@@ -332,19 +332,19 @@ export interface ConfigureSshKeyResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
-  machineIp?: string | null;
-  sshUser?: string;
+  success?: boolean | undefined;
+  machineIp?: string | null | undefined;
+  sshUser?: string | undefined;
   /** Public IPv4 `host:port` that forwards to the sandbox SSH server, set only when the machine has no public IPv4 of its own. Connect with `ssh -p <port> user@<host>`. */
-  sshEndpoint?: string | null;
+  sshEndpoint?: string | null | undefined;
   /** The sandbox SSH server's public host key. Pin it in `known_hosts`. */
-  hostKey?: string;
+  hostKey?: string | undefined;
 }
 export interface ConnectCiGithubRequest {
   /** The organization whose wallet pays for the jobs. Omit for the wallet in scope. */
-  org?: string;
+  org?: string | undefined;
   /** GitHub organization or user login. Set this to authorize and link an existing installation. Omit it to install the app. */
-  account?: string;
+  account?: string | undefined;
 }
 export interface ConnectCiGithubResponse {
   ok: boolean;
@@ -357,9 +357,9 @@ export interface CreateCredentialProfileRequest {
   /** Unique among the owner's profiles. */
   name: string;
   /** Organization id or name. The profile then belongs to that organization. Omit for a personal profile. */
-  org?: string;
+  org?: string | undefined;
   /** Id or name of a profile you manage. The new profile starts with a copy of its credentials. */
-  copyFrom?: string;
+  copyFrom?: string | undefined;
 }
 export type CredentialProfileOwnerKind = "personal" | "org";
 export interface CredentialProfileOwner {
@@ -399,12 +399,12 @@ export interface CredentialProfile {
   /** The credentials the profile holds. */
   connected: CredentialProfileConnectedList;
   /** Credentials with several accounts, keyed by credential id. Each lists every account (labels only), the one in use marked `active`. Empty when you cannot manage the profile. */
-  accounts?: CredentialProfileAccountsMap;
+  accounts?: CredentialProfileAccountsMap | undefined;
   /** The names of the profile's custom APIs. Values are never returned. */
   customApis: CredentialProfileCustomApisList;
   createdAt: string;
   updatedAt: string;
-  access?: ResourceAccess;
+  access?: ResourceAccess | undefined;
 }
 export interface CreateCredentialProfileResponse {
   ok: boolean;
@@ -419,7 +419,7 @@ export interface CreateDownloadUrlRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). It must resolve under /home/user or /tmp. */
   path: string;
   /** How long the URL stays valid. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
 }
 /** GET downloads the file. PUT uploads the request body as the file. */
 export type CreateDownloadUrlResponseMethod = "GET" | "PUT";
@@ -437,7 +437,7 @@ export interface CreateDownloadUrlResponse {
 }
 export interface CreateEnvironmentRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Unique environment name. Letters, numbers, dot, dash, underscore; max 64 chars. */
   name: string;
 }
@@ -449,22 +449,22 @@ export interface SecretFile {
 export type SandboxEnvironmentSecretFilesList = Array<SecretFile>;
 export interface SelectedRepository {
   /** GitHub repository id. */
-  id?: number;
+  id?: number | undefined;
   /** Internal repository id used when selecting repositories. */
-  databaseId?: string;
-  name?: string;
-  fullName?: string;
-  description?: string | null;
-  url?: string;
-  private?: boolean;
-  permissions?: string;
-  pushedAt?: string | null;
+  databaseId?: string | undefined;
+  name?: string | undefined;
+  fullName?: string | undefined;
+  description?: string | null | undefined;
+  url?: string | undefined;
+  private?: boolean | undefined;
+  permissions?: string | undefined;
+  pushedAt?: string | null | undefined;
   /** Reserved; always null. */
-  lastUserCommitAt?: string | null;
-  baseBranch?: string;
-  setupRoutineId?: string | null;
-  setupScript?: string;
-  setupBlocking?: boolean;
+  lastUserCommitAt?: string | null | undefined;
+  baseBranch?: string | undefined;
+  setupRoutineId?: string | null | undefined;
+  setupScript?: string | undefined;
+  setupBlocking?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Repositories attached to the latest version, with base branch and setup script. */
@@ -487,9 +487,9 @@ export interface SandboxEnvironment {
   isDefault: boolean;
   latestVersionId: string | null;
   /** Number of the latest version, 0 when there is none. */
-  latestVersionNumber?: number;
+  latestVersionNumber?: number | undefined;
   /** When the owner last answered whether this environment is safe for third parties, or null if never asked. */
-  safetyAnsweredAt?: string | null;
+  safetyAnsweredAt?: string | null | undefined;
   /** When true the environment passes nothing to a sandbox (repos, secrets, and all credentials withheld), overriding the fine-grained flags below. Use for sandboxes handed to third parties. The one exception is `proxyAiCredentials`. */
   safeForThirdParties: boolean;
   /** Attach the environment's GitHub repositories and the GitHub token (so `gh` and pushes work). Ignored when `safeForThirdParties` is true. */
@@ -501,21 +501,21 @@ export interface SandboxEnvironment {
   /** Attach agent-provider credentials configured on the Agents page. Ignored when `safeForThirdParties` is true. */
   passAgentsCredentials: boolean;
   /** The AI credential profile the environment's sandboxes get. Null means the sandbox owner's default profile. */
-  credentialProfileId?: string | null;
+  credentialProfileId?: string | null | undefined;
   /** Only with `safeForThirdParties` true. The sandboxes still get AI credentials, as AI credentials proxy placeholders. Real keys never enter them. */
-  proxyAiCredentials?: boolean;
-  access?: ResourceAccess;
+  proxyAiCredentials?: boolean | undefined;
+  access?: ResourceAccess | undefined;
   /** The latest version's .env-style content. Treat as sensitive. */
   envContents: string;
   secretFiles: SandboxEnvironmentSecretFilesList;
   /** Repositories attached to the latest version, with base branch and setup script. */
-  selectedRepositories?: SandboxEnvironmentSelectedRepositoriesList;
+  selectedRepositories?: SandboxEnvironmentSelectedRepositoriesList | undefined;
   versions: SandboxEnvironmentVersionsList;
 }
 export type SandboxEnvironmentListResponseEnvironmentsList = Array<SandboxEnvironment>;
 export interface SandboxEnvironmentListResponse {
-  ok?: boolean;
-  type?: string;
+  ok?: boolean | undefined;
+  type?: string | undefined;
   environments: SandboxEnvironmentListResponseEnvironmentsList;
 }
 export interface CreateFolderRequest {
@@ -524,7 +524,7 @@ export interface CreateFolderRequest {
   /** Missing parent directories are created. */
   path: string;
   /** Octal permission bits, for example "755". */
-  mode?: string;
+  mode?: string | undefined;
 }
 export interface CreateFolderResponse {
   ok: boolean;
@@ -539,7 +539,7 @@ export interface CreateFolderResponse {
   /** Octal permission bits, for example "0644". */
   mode: string;
   modifiedAt: string;
-  success?: boolean;
+  success?: boolean | undefined;
 }
 /** Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator. Otherwise, create, resume and fork return 403 `machine_class_plan_required`. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes. */
 export type CreateSandboxRequestType = "small" | "default" | "large" | "xlarge";
@@ -553,11 +553,11 @@ export interface HostPortRequest {
   /** Port the service listens on inside the sandbox. */
   port: number;
   /** Return an ungated URL instead of one that requires the `_token` query parameter. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Set when the service listens on localhost (`127.0.0.1` or `::1`) only. The sandbox relays the URL to it. Leave unset for a service bound to `0.0.0.0`. Each call sets the value again. */
-  localhost?: boolean;
+  localhost?: boolean | undefined;
   /** Display title for the hosted port. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Ports to host on public HTTPS URLs, each exactly as `POST /sandboxes/{id}/host` does. The create waits for the sandbox's machine (up to 60 s, usually under a second), hosts every port at once and answers the URLs in `hostedPorts`. The ports are routed before the sandbox is ready, so a service that starts later is reachable as soon as it listens. Refused with 400 `invalid_hosted_ports` for a bad entry or a duplicate port, with 400 `count_with_hosted_ports` together with `count`, and with 400 `fail_fast_with_hosted_ports` together with `failFast`. */
 export type CreateSandboxRequestHostedPortsList = Array<HostPortRequest>;
@@ -566,51 +566,51 @@ export interface CreateSandboxRequestFilesItem {
   path: string;
   /** File contents, as text or base64 (see `encoding`). */
   content: string;
-  encoding?: CreateSandboxRequestFilesItemEncoding | (string & {});
+  encoding?: CreateSandboxRequestFilesItemEncoding | (string & {}) | undefined;
 }
 /** Files to write on the sandbox, each like `PUT /sandboxes/{id}/files` (a path under `/home/user` or `/tmp`, relative paths resolve against `/home/user`; missing folders are created). Boat writes them once the sandbox's disk is in place and before it reports `ready`, so a client that sees `ready`, and the `setupScript`, always find them. They are written once, at the first start: a resume does not write them again. At most 256KB in total; upload bigger files with `POST /sandboxes/{id}/files/upload-url`. `setupStatus` covers them: it stays `pending` until they are written, and a write that fails sets it `failed` with the path and the reason in `setupError` (the setup script then does not run). Refused with 400 `invalid_files` for a bad path, a duplicate path or a body over the limits. */
 export type CreateSandboxRequestFilesList = Array<CreateSandboxRequestFilesItem>;
 export interface CreateSandboxRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Optional exactly-once key for creating a sandbox. Send your own opaque, account-unique value (a UUID) to make `POST /sandboxes` safe to retry when the response is lost (network timeout, 5xx): the first request creates the sandbox and binds it to the key; every later request with the **same account, key, and request body** returns that same sandbox instead of creating a second, billable one. Behavior: keys are retained for **24 hours**; a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key); reusing a key with a **different body** returns `409` `idempotency_key_reused`; timeouts and 5xx are safe to retry with the same key; a create that fails before the sandbox exists releases the key within ~2 minutes so a retry can create the sandbox. Omit the header to keep the default (non-idempotent) behavior. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
   /** Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator. Otherwise, create, resume and fork return 403 `machine_class_plan_required`. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes. */
-  type?: CreateSandboxRequestType | (string & {});
+  type?: CreateSandboxRequestType | (string & {}) | undefined;
   /** Number of seconds before automatic archival. `null` disables auto-stop. The backend also accepts the string `infinite` for legacy compatibility; new clients should send null. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
   /** Key-value labels, for example your session id. Filter on them with `GET /sandboxes?label=key=value`. At most 20 labels. Keys match `[A-Za-z0-9][A-Za-z0-9._/-]{0,62}`; values are strings of at most 256 bytes. */
-  labels?: CreateSandboxRequestLabelsMap;
+  labels?: CreateSandboxRequestLabelsMap | undefined;
   /** Per-sandbox environment variables injected into the sandbox's tool environment, on top of the account environment's variables (per-sandbox values win on conflicts). Keys must match `[A-Za-z_][A-Za-z0-9_]{0,127}`; at most 100 variables and 64KB total. Reserved names (`ASCII_TOKEN`, `ASCII_API_URL`, `AGENT_ID`, `PRODUCT_MODE`, `ENVIRONMENT_ID`, `BOAT_ID`, `SERVICE_PREVIEW_TOKEN`, `BOAT_CLI_TOKEN`) are rejected with `invalid_env`. Forked sandboxes inherit the source sandbox's env unless the fork request supplies its own `env`. */
-  env?: CreateSandboxRequestEnvMap;
+  env?: CreateSandboxRequestEnvMap | undefined;
   /** Name of the sandbox environment to attach to this sandbox. Environments are managed in the Boat dashboard and bundle the repositories, secrets, and credential toggles a sandbox gets. Omit to use your default environment (`base` unless you changed it). Unknown names are rejected with `unknown_environment`. An environment marked "safe for third parties" passes nothing to the sandbox, exactly like `noEnv`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Create a sandbox with none of the secrets attached to your account (no environment variables, secret files, or credentials), confined to itself so it cannot act on your account or other sandboxes. For sandboxes you give to your own users. SSH, SCP, desktop, snapshots, and public URLs still work; pass `env` to give the sandbox a secret of its own. A fork of a no-env sandbox is always no-env. Equivalent to attaching an environment marked "safe for third parties". */
-  noEnv?: boolean;
+  noEnv?: boolean | undefined;
   /** Pass `false` to never snapshot this sandbox. Nothing is captured in the background, so it pays no CPU or memory for it, and stopping it erases its disk the way zero data retention does. It cannot be resumed, forked, or saved as a saved snapshot, and if its machine fails there is no backup to rebuild it from. */
-  snapshots?: boolean;
+  snapshots?: boolean | undefined;
   /** Pass `false` for monitoring off. Boat keeps no command or process output, process list or CPU/RAM samples for this sandbox, and its history, processes and metrics calls answer 409 `monitoring_off`. Live output of a running command still works. While the account default is on, `true` is refused with 409 `monitoring_off_for_account`. */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** Pass `true` to get a sandbox only if a machine of this type is ready right now. The call answers within about 1.5 s: either the usual `202` with the sandbox, or `503` `no_ready_machine` with nothing created, billed, or counted against your start limits, so you can retry or fall back at once. Without it, a create waits for a machine to be built when none is ready. Works with `from`; fork and resume take it too. */
-  failFast?: boolean;
+  failFast?: boolean | undefined;
   /** With `from`: create this many sandboxes from the saved snapshot in one request. Boat creates them together, which is faster than separate creates when you need many sandboxes at once. Start limits and the active-sandbox limit count every sandbox of the batch; if the batch does not fit, nothing is created. The answer lists all of them in `sandboxes` (and the first one in `sandbox`). Refused with 400 `count_requires_from` without `from`, and with 400 `count_with_fail_fast` together with `failFast`. */
-  count?: number;
+  count?: number | undefined;
   /** Shell script that runs on the sandbox after it is ready. Ready means "ready to accept the user", not "setup done": the script starts in the background once provisioning completes and never blocks the sandbox becoming usable. It runs as the sandbox user (`user`, not root; `sudo` needs no password) via `bash`, with the sandbox's environment applied, and its output goes to a log file on the sandbox. Observe the outcome as `setupStatus` (pending/running/done/failed) and `setupError` on the sandbox. Rejected with a 400 `invalid_setup_script` error when it is not a string or exceeds 64KB. When the request also has `files`, the script starts after every file is written. */
-  setupScript?: string;
+  setupScript?: string | undefined;
   /** Display name of the sandbox, the same value `PATCH /sandboxes/{id}` sets. A sandbox created `from` a saved snapshot is named after the snapshot when this is omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Who can use a sandbox billed to an organization, with the same rules as the sandbox's `visibility` field. `private`: only you can use it. `shared`: every member can, as long as it holds none of your personal logins (`noEnv`, or an environment that passes nothing). Omitted, the organization's default for new sandboxes applies (`PATCH /orgs/{org}` `newSandboxesPrivate`). It is set before the sandbox gets a machine, so a `private` sandbox is never shared, not even for a moment, and needs no `unshare` call. A personal sandbox is always private: `shared` is refused with 400 `not_org_sandbox`. Change it later with `POST /sandboxes/{id}/share` and `POST /sandboxes/{id}/unshare`. */
-  visibility?: CreateSandboxRequestVisibility | (string & {});
+  visibility?: CreateSandboxRequestVisibility | (string & {}) | undefined;
   /** Ports to host on public HTTPS URLs, each exactly as `POST /sandboxes/{id}/host` does. The create waits for the sandbox's machine (up to 60 s, usually under a second), hosts every port at once and answers the URLs in `hostedPorts`. The ports are routed before the sandbox is ready, so a service that starts later is reachable as soon as it listens. Refused with 400 `invalid_hosted_ports` for a bad entry or a duplicate port, with 400 `count_with_hosted_ports` together with `count`, and with 400 `fail_fast_with_hosted_ports` together with `failFast`. */
-  hostedPorts?: CreateSandboxRequestHostedPortsList;
+  hostedPorts?: CreateSandboxRequestHostedPortsList | undefined;
   /** Files to write on the sandbox, each like `PUT /sandboxes/{id}/files` (a path under `/home/user` or `/tmp`, relative paths resolve against `/home/user`; missing folders are created). Boat writes them once the sandbox's disk is in place and before it reports `ready`, so a client that sees `ready`, and the `setupScript`, always find them. They are written once, at the first start: a resume does not write them again. At most 256KB in total; upload bigger files with `POST /sandboxes/{id}/files/upload-url`. `setupStatus` covers them: it stays `pending` until they are written, and a write that fails sets it `failed` with the path and the reason in `setupError` (the setup script then does not run). Refused with 400 `invalid_files` for a bad path, a duplicate path or a body over the limits. */
-  files?: CreateSandboxRequestFilesList;
+  files?: CreateSandboxRequestFilesList | undefined;
   /** Legacy alias for `org`. Ignored when `org` is also set. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** Create the sandbox from a saved snapshot (saved with `POST /saved-snapshots`, or `boat snapshot <id> <name>` in the CLI). The sandbox starts from that exact frozen state. Omitting `type` inherits the type the snapshot was saved from; env and no-env inherit from the snapshot's source sandbox unless the request passes its own, with the same rules as forking. Also accepts a share code (`bsh_...`) that another account made with `POST /saved-snapshots/{name}/shares`. The new sandbox lives in and is billed to your account. It does not get the owner's per-sandbox env; your own environment applies normally. A wrong or revoked code returns `404 snapshot_not_found`. */
-  from?: string;
+  from?: string | undefined;
 }
 /** `ready` only when an idempotent retry finds a sandbox that is already past provisioning. */
 export type CreateSandboxResponseStatus = "provisioning" | "ready";
@@ -673,8 +673,8 @@ export type SandboxLastSnapshotStatus =
 export type SandboxLastRebootReason = "crash" | "clean" | "unknown";
 /** The last time the sandbox's kernel restarted on its machine, or null if it never did. Every process running at that time ended. `crash` means the system log ended with no shutdown, for example after a kernel panic. */
 export interface SandboxLastReboot {
-  at?: string;
-  reason?: SandboxLastRebootReason;
+  at?: string | undefined;
+  reason?: SandboxLastRebootReason | undefined;
 }
 /** Outcome of the create-time `setupScript`: `pending` (stored, not yet started), `running` (executing on the sandbox in the background), `done` (exit code 0) or `failed` (non-zero exit, or the sandbox lost track of the process). Null when the sandbox was created without a setup script. */
 export type SandboxSetupStatus = "pending" | "running" | "done" | "failed";
@@ -694,7 +694,7 @@ export interface StopOperation {
   /** When the stop completed or was superseded. */
   endedAt: string | null;
   /** True when a force (`--force`) ended this stop. The sandbox kept its last completed snapshot, and changes after it are discarded. */
-  forced?: boolean;
+  forced?: boolean | undefined;
 }
 export interface Sandbox {
   id: string;
@@ -702,93 +702,93 @@ export interface Sandbox {
   /** `cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404. */
   state: SandboxState;
   /** Why the sandbox is stopped, failed or cancelled, or null. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** When boat deleted the snapshot data after this sandbox was stopped for at least 14 days. Resume and fork then fail with `409 snapshot_data_expired`. Null while the data is kept. */
-  dataExpiredAt?: string | null;
+  dataExpiredAt?: string | null | undefined;
   /** When the sandbox last stopped, by any cause: your stop, its auto-stop, a plan limit or Boat. Null while the sandbox is not stopped. */
-  stoppedAt?: string | null;
+  stoppedAt?: string | null | undefined;
   /** The labels set at create or fork. Empty when none were set. */
-  labels?: SandboxLabelsMap;
+  labels?: SandboxLabelsMap | undefined;
   /** `degraded` when the machine is alive but Boat cannot fully reach it (for example a firewall rule inside the sandbox blocks the tunnel). The sandbox keeps running. */
-  health?: SandboxHealth;
+  health?: SandboxHealth | undefined;
   /** Why the sandbox is degraded, or null. */
-  healthReason?: string | null;
+  healthReason?: string | null | undefined;
   /** When the sandbox became degraded, or null. */
-  degradedSince?: string | null;
+  degradedSince?: string | null | undefined;
   /** True once every file of the sandbox's snapshot is on its disk. A resumed or forked sandbox is usable before that: its files keep copying in the background, and its docker volumes move onto the real disk near the end. Its docker containers start earlier; at that point their volume mounts move onto the real disk in place, without a restart. The `sandbox.hydrated` webhook fires at the same moment this turns true. A sandbox that restored nothing is hydrated from the start. */
-  hydrated?: boolean;
+  hydrated?: boolean | undefined;
   /** When the last resume or fork finished copying files in, or null. */
-  hydratedAt?: string | null;
+  hydratedAt?: string | null | undefined;
   /** Restore progress while `hydrated` is false, on GET /sandboxes/{id} only. Null in lists, after hydration, or when the sandbox does not answer within 1.5 s. */
-  hydration?: SandboxHydration | null;
+  hydration?: SandboxHydration | null | undefined;
   /** Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto. */
-  type?: SandboxType;
+  type?: SandboxType | undefined;
   /** vCPUs guaranteed by this sandbox's type. */
-  vcpu?: number;
+  vcpu?: number | undefined;
   /** RAM in GB guaranteed by this sandbox's type. */
-  memoryGB?: number;
+  memoryGB?: number | undefined;
   /** Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, 2 for `large`, and 50/9 (about 5.56) for `xlarge`. */
-  billingMultiplier?: number;
+  billingMultiplier?: number | undefined;
   /** Always `baremetal`. Every sandbox runs on bare metal. */
-  machineProvider?: SandboxMachineProvider;
+  machineProvider?: SandboxMachineProvider | undefined;
   /** Machine URL when assigned. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Machine IPv6 or IPv4 address when assigned. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Public IPv4 `host:port` that forwards to the sandbox SSH server. Set only when the machine has no public IPv4 of its own; null otherwise. Connect with `ssh -p <port> user@<host>`. */
-  sshEndpoint?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
+  sshEndpoint?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  updatedAt?: string | null | undefined;
   /** When the sandbox stops by itself (the stop starts within about 5 seconds), or null when auto-stop is disabled. A sandbox whose agent is working gets a fresh full TTL, and this time moves forward. */
-  archiveAfter?: string | null;
+  archiveAfter?: string | null | undefined;
   /** The auto-stop length as last set on create, resume, fork or PATCH, or null when auto-stop is disabled. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
   desktopAvailable: boolean;
   /** Secret-bearing desktop stream URL when available. Redact from logs. */
-  desktopUrl?: string | null;
+  desktopUrl?: string | null | undefined;
   /** False when the sandbox was created with snapshots off. */
-  snapshots?: boolean;
+  snapshots?: boolean | undefined;
   /** False when the sandbox was created with monitoring off. */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   snapshotAvailable: boolean;
   /** Timestamp of the most recent successfully completed snapshot, or null. */
-  snapshotCompletedAt?: string | null;
+  snapshotCompletedAt?: string | null | undefined;
   /** Last time a snapshot confirmed the sandbox's saved state, including checks that found nothing new to save. Falls back to `snapshotCompletedAt`; null if never. */
-  snapshotVerifiedAt?: string | null;
+  snapshotVerifiedAt?: string | null | undefined;
   /** The organization billed for this sandbox, or null when the owner is billed. */
-  team?: SandboxTeam | null;
+  team?: SandboxTeam | null | undefined;
   /** Display name (or email) of the person who created the sandbox. Organization members see every sandbox the organization pays for, so this says whose it is. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** Account id of the person who created the sandbox. */
-  createdById?: string | null;
+  createdById?: string | null | undefined;
   /** What you may do with this sandbox. `owner`: you created it. `use`: a teammate's organization sandbox that is `shared` (see `visibility`), so you can open, run commands in, prompt, resume and stop it. `view`: a teammate's organization sandbox that is `private`, so you can see it and stop it until they share it (`POST /sandboxes/{sandboxId}/share`). */
-  access?: SandboxAccess;
+  access?: SandboxAccess | undefined;
   /** True while the sandbox still holds its creator's personal logins (GitHub token, model logins, secrets). Other members can only see such a sandbox. */
-  holdsCreatorLogins?: boolean;
+  holdsCreatorLogins?: boolean | undefined;
   /** Organization sandboxes only; null for a personal sandbox. `shared`: every member can use it. It holds none of its creator's personal logins (`noEnv`, shared and restarted, or created on an environment that passes nothing) and its creator did not make it private. `private`: only its creator can use it. It holds their logins, or its creator made it private (`POST /sandboxes/{sandboxId}/unshare`, or the organization's `newSandboxesPrivate` default). */
-  visibility?: SandboxVisibility | null;
+  visibility?: SandboxVisibility | null | undefined;
   /** Only with `include=cost` on `GET /sandboxes`. Machine time this sandbox used this calendar month (UTC), at list price. Same meter as `GET /sandboxes/{sandboxId}/usage`. */
-  cost?: SandboxCost;
+  cost?: SandboxCost | undefined;
   /** True once the sandbox is shared but not restarted yet. Its creator's logins are wiped at its next start, and the organization can use it from then on. */
-  wipePendingUntilRestart?: boolean;
+  wipePendingUntilRestart?: boolean | undefined;
   /** The sandbox's stable three-word subdomain slug (e.g. "frazil-pneuma-rallye"), or null before one is assigned. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
   /** Timestamp of the most recent snapshot attempt of any status (queued, in_progress, completed, failed, cancelled), or null. Use with snapshotCompletedAt to detect snapshots that keep failing. */
-  lastSnapshotAttemptAt?: string | null;
+  lastSnapshotAttemptAt?: string | null | undefined;
   /** Status of the most recent snapshot attempt, or null if none. A value other than completed while snapshotCompletedAt stays stale indicates failing snapshots. */
-  lastSnapshotStatus?: SandboxLastSnapshotStatus | null;
+  lastSnapshotStatus?: SandboxLastSnapshotStatus | null | undefined;
   /** The last time the sandbox's kernel restarted on its machine, or null if it never did. Every process running at that time ended. `crash` means the system log ended with no shutdown, for example after a kernel panic. */
-  lastReboot?: SandboxLastReboot | null;
+  lastReboot?: SandboxLastReboot | null | undefined;
   /** Outcome of the create-time `setupScript`: `pending` (stored, not yet started), `running` (executing on the sandbox in the background), `done` (exit code 0) or `failed` (non-zero exit, or the sandbox lost track of the process). Null when the sandbox was created without a setup script. */
-  setupStatus?: SandboxSetupStatus | null;
+  setupStatus?: SandboxSetupStatus | null | undefined;
   /** Short failure detail (exit code plus a stderr tail) when `setupStatus` is `failed`; while `pending`, may carry the last start/upload error from a retry in progress. Otherwise null. */
-  setupError?: string | null;
+  setupError?: string | null | undefined;
   /** Name of the sandbox environment this sandbox is running, or null if it is attached to none (a `noEnv` sandbox, or one whose environment was deleted). A sandbox freezes onto one environment version when it starts and keeps it for life, so this is what the sandbox actually holds, not what the environment says today. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Version number of `environment` that this sandbox is pinned to. Compare it against the environment's latest version to see whether an upgrade is pending: a sandbox below the latest is still running the older configuration until someone calls `POST /environments/{environmentId}/upgrade`. */
-  environmentVersion?: number | null;
+  environmentVersion?: number | null | undefined;
   /** The last stop you requested (`POST /sandboxes/{sandboxId}/stop`), or null if you never stopped this sandbox. */
-  stop?: StopOperation | null;
+  stop?: StopOperation | null | undefined;
 }
 /** Present when the request set `count` above 1. Every sandbox of the batch, in creation order. */
 export type CreateSandboxResponseSandboxesList = Array<Sandbox>;
@@ -796,12 +796,12 @@ export type CreateSandboxResponseHostedPortsItemAccess = "private" | "public";
 export interface CreateSandboxResponseHostedPortsItem {
   port: number;
   /** Public HTTPS URL. Carries the `_token` query parameter unless the port is public; redact from logs. */
-  url?: string;
-  isProtected?: boolean;
-  access?: CreateSandboxResponseHostedPortsItemAccess;
-  localhost?: boolean;
-  error?: string;
-  message?: string;
+  url?: string | undefined;
+  isProtected?: boolean | undefined;
+  access?: CreateSandboxResponseHostedPortsItemAccess | undefined;
+  localhost?: boolean | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
   [key: string]: unknown;
 }
 /** Present when the request set `hostedPorts`, in request order. Each entry is what `POST /sandboxes/{id}/host` answers for that port: `url`, `access`, `isProtected` and `localhost`, or `error` and `message` when that one port could not be hosted (the sandbox is created anyway; host the port again with `POST /sandboxes/{id}/host`). */
@@ -815,24 +815,24 @@ export interface CreateSandboxResponse {
   ttlSeconds: number | null;
   sandbox: Sandbox;
   /** Present when the request set `count` above 1. Every sandbox of the batch, in creation order. */
-  sandboxes?: CreateSandboxResponseSandboxesList;
+  sandboxes?: CreateSandboxResponseSandboxesList | undefined;
   /** Present when the request set `hostedPorts`, in request order. Each entry is what `POST /sandboxes/{id}/host` answers for that port: `url`, `access`, `isProtected` and `localhost`, or `error` and `message` when that one port could not be hosted (the sandbox is created anyway; host the port again with `POST /sandboxes/{id}/host`). */
-  hostedPorts?: CreateSandboxResponseHostedPortsList;
+  hostedPorts?: CreateSandboxResponseHostedPortsList | undefined;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 export type CreateScopedApiKeyRequestPreset = "read-only" | "full-sandbox" | "ci" | "admin";
 export type CreateScopedApiKeyRequestActionsList = Array<string>;
 export type CreateScopedApiKeyRequestSandboxIdsList = Array<string>;
 export type CreateScopedApiKeyRequestEnvironmentIdsList = Array<string>;
 export interface CreateScopedApiKeyRequest {
-  name?: string;
+  name?: string | undefined;
   /** Duration such as 90d, 24h, or seconds, up to 365d; or `never` for a key that works until revoked. Default 90d. */
-  ttl?: string;
-  preset?: CreateScopedApiKeyRequestPreset | (string & {});
-  actions?: CreateScopedApiKeyRequestActionsList;
-  sandboxIds?: CreateScopedApiKeyRequestSandboxIdsList;
-  environmentIds?: CreateScopedApiKeyRequestEnvironmentIdsList;
+  ttl?: string | undefined;
+  preset?: CreateScopedApiKeyRequestPreset | (string & {}) | undefined;
+  actions?: CreateScopedApiKeyRequestActionsList | undefined;
+  sandboxIds?: CreateScopedApiKeyRequestSandboxIdsList | undefined;
+  environmentIds?: CreateScopedApiKeyRequestEnvironmentIdsList | undefined;
 }
 /** Credential storage lane. Scoped secrets are never stored in the legacy hash column. */
 export type ApiKeyCredentialLane = "legacy" | "scoped-v1";
@@ -856,11 +856,11 @@ export type ApiKeyScopeEnvironments =
   | ApiKeyScopeEnvironmentsCase0
   | ApiKeyScopeEnvironmentsCase1List;
 export interface ApiKeyScope {
-  expiresAt?: string | null;
-  actions?: ApiKeyScopeActionsList;
-  sandboxes?: ApiKeyScopeSandboxes;
-  environments?: ApiKeyScopeEnvironments;
-  grandfathered?: boolean;
+  expiresAt?: string | null | undefined;
+  actions?: ApiKeyScopeActionsList | undefined;
+  sandboxes?: ApiKeyScopeSandboxes | undefined;
+  environments?: ApiKeyScopeEnvironments | undefined;
+  grandfathered?: boolean | undefined;
 }
 export interface ApiKey {
   id: string;
@@ -875,10 +875,10 @@ export interface ApiKey {
   lastUsedAt: string | null;
   usage: ApiKeyRequestUsage;
   resources: ApiKeyResourceTotals;
-  expiresAt?: string | null;
-  expired?: boolean;
-  expiringSoon?: boolean;
-  scope?: ApiKeyScope;
+  expiresAt?: string | null | undefined;
+  expired?: boolean | undefined;
+  expiringSoon?: boolean | undefined;
+  scope?: ApiKeyScope | undefined;
 }
 export type CreateScopedApiKeyResponseApiKeysList = Array<ApiKey>;
 export interface CreateScopedApiKeyResponse {
@@ -925,7 +925,7 @@ export interface CreateUploadUrlRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). It must resolve under /home/user or /tmp. */
   path: string;
   /** How long the URL stays valid. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
 }
 /** GET downloads the file. PUT uploads the request body as the file. */
 export type CreateUploadUrlResponseMethod = "GET" | "PUT";
@@ -950,7 +950,7 @@ export type WebhookEventType =
   | "sandbox.recovered";
 export type CreateWebhookRequestEventsList = Array<WebhookEventType | (string & {})>;
 export interface CreateWebhookRequest {
-  name?: string | null;
+  name?: string | null | undefined;
   url: string;
   events: CreateWebhookRequestEventsList;
 }
@@ -1066,23 +1066,23 @@ export interface DeleteEnvironmentRequest {
   /** Environment id returned by `GET /environments`. */
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface SandboxEnvironmentResponse {
   success: boolean;
-  environment?: SandboxEnvironment | null;
+  environment?: SandboxEnvironment | null | undefined;
 }
 export interface DeleteEnvironmentRepoRequest {
   environmentId: string;
   /** The repository `databaseId`. */
   repositoryId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface DeleteEnvironmentSecretFileRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   path: string;
 }
 export interface DeleteEnvironmentVarRequest {
@@ -1090,19 +1090,19 @@ export interface DeleteEnvironmentVarRequest {
   /** Environment variable name. */
   key: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface DeleteFileRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   path: string;
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface DeleteFileResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   path: string;
 }
 export interface DeleteSandboxRequest {
@@ -1123,9 +1123,9 @@ export interface DeletionOperation {
   reason: DeletionOperationReason;
   status: DeletionOperationStatus;
   /** What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `retrying`: a transient fault, retried automatically. `completed`: a newer snapshot, a fork or a saved snapshot made from it keeps the data it reads, until that is deleted too. */
-  stage?: DeletionOperationStage;
+  stage?: DeletionOperationStage | undefined;
   /** When `waiting_for_uploads` ends. */
-  expectedBy?: string | null;
+  expectedBy?: string | null | undefined;
   attemptCount: number;
   requestedAt: string;
   completedAt: string | null;
@@ -1217,13 +1217,13 @@ export interface ExecuteSandboxCommandRequest {
   sandboxId: string;
   command: string;
   /** Relative working directory inside the sandbox work directory. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** Command timeout in seconds. Values outside 1-600 are rejected with a 400 invalid_timeout error. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Start the command in the background and return a process id immediately instead of waiting for it to finish. Output goes to a log file on the sandbox; poll the status endpoint for it. */
-  detached?: boolean;
+  detached?: boolean | undefined;
   /** Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. */
-  stream?: boolean;
+  stream?: boolean | undefined;
 }
 export interface CommandResponse {
   ok: boolean;
@@ -1231,19 +1231,19 @@ export interface CommandResponse {
   type: string;
   success: boolean;
   /** The command's record in the command history. */
-  commandId?: string;
+  commandId?: string | undefined;
   exitCode: number | null;
-  signal?: string | null;
+  signal?: string | null | undefined;
   /** True when the memory ceiling killed the command or one of its processes and the command failed. */
-  oomKilled?: boolean;
+  oomKilled?: boolean | undefined;
   stdout: string;
   stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
   timedOut: boolean;
-  cwd?: string;
-  startedAt?: string;
-  finishedAt?: string;
+  cwd?: string | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface CommandStartedResponse {
   ok: boolean;
@@ -1251,26 +1251,26 @@ export interface CommandStartedResponse {
   type: string;
   success: boolean;
   /** The command's record in the command history. Its output is copied there every 30 s. */
-  commandId?: string;
+  commandId?: string | undefined;
   /** Process id to poll with the command status endpoint. */
   processId: number;
   pid: number;
   command: string;
-  cwd?: string;
+  cwd?: string | undefined;
   startedAt: string;
   /** Stdout log file on the sandbox (~/.ascii/processes/<pid>.log). */
-  logPath?: string;
+  logPath?: string | undefined;
   /** Stderr log file on the sandbox. */
-  errLogPath?: string;
+  errLogPath?: string | undefined;
 }
 export type ExecuteSandboxCommandResponseBody = CommandResponse | CommandStartedResponse;
 export type ExecuteSandboxCommandResponse = ExecuteSandboxCommandResponseBody;
 export interface FindInFilesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
-  path?: string;
+  path?: string | undefined;
   pattern: string;
-  regex?: boolean;
+  regex?: boolean | undefined;
 }
 export interface FindInFilesResponseMatchesItem {
   file: string;
@@ -1285,12 +1285,12 @@ export interface FindInFilesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   /** At most 1,000 matches. Each line is cut at 500 characters. */
   matches: FindInFilesResponseMatchesList;
   truncated: boolean;
   /** Present only when part of the tree could not be searched. The matches are then incomplete. An invalid regular expression is an error response. */
-  errors?: FindInFilesResponseErrorsList;
+  errors?: FindInFilesResponseErrorsList | undefined;
 }
 /** Labels of the fork. The fork never takes the source's labels. Same rules as `CreateSandboxRequest.labels`. */
 export type ForkSandboxRequestLabelsMap = { [key: string]: string | undefined };
@@ -1302,23 +1302,23 @@ export interface ForkSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Optional exactly-once key for creating a sandbox. Send your own opaque, account-unique value (a UUID) to make `POST /sandboxes` safe to retry when the response is lost (network timeout, 5xx): the first request creates the sandbox and binds it to the key; every later request with the **same account, key, and request body** returns that same sandbox instead of creating a second, billable one. Behavior: keys are retained for **24 hours**; a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key); reusing a key with a **different body** returns `409` `idempotency_key_reused`; timeouts and 5xx are safe to retry with the same key; a create that fails before the sandbox exists releases the key within ~2 minutes so a retry can create the sandbox. Omit the header to keep the default (non-idempotent) behavior. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Labels of the fork. The fork never takes the source's labels. Same rules as `CreateSandboxRequest.labels`. */
-  labels?: ForkSandboxRequestLabelsMap;
+  labels?: ForkSandboxRequestLabelsMap | undefined;
   /** Pass `true` to fork only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with no fork created and nothing counted against your start limits. */
-  failFast?: boolean;
+  failFast?: boolean | undefined;
   /** `false` creates the fork with monitoring off: Boat keeps no command or process output, process list or CPU/RAM samples for it. Omitted, the fork keeps the source sandbox's setting. `true` turns it on for the fork, unless the account has monitoring off by default (`409` `monitoring_off_for_account`). */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** Replaces the env the fork would otherwise inherit from the source sandbox. Same validation rules as `CreateSandboxRequest.env`. */
-  env?: ForkSandboxRequestEnvMap;
+  env?: ForkSandboxRequestEnvMap | undefined;
   /** Optionally pin the fork to a different named sandbox environment. Omit to inherit the source sandbox's environment. Unknown names are rejected with `unknown_environment`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Make the fork no-env (see `CreateSandboxRequest.noEnv`). A fork of a no-env sandbox is always no-env regardless of this field. */
-  noEnv?: boolean;
+  noEnv?: boolean | undefined;
   /** Machine size for the fork. Omit to inherit the source sandbox's type. `xlarge` needs the $100/month plan or higher (403 `machine_class_plan_required`). The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk. */
-  type?: ForkSandboxRequestType | (string & {});
+  type?: ForkSandboxRequestType | (string & {}) | undefined;
   /** Auto-stop for the fork, in seconds. Omit for the 1 hour default; the fork does NOT inherit the source sandbox's TTL, so forking a sandbox that has auto-stop disabled still gives you a fork that stops itself. `null` disables auto-stop, which means nothing will ever stop this sandbox for you. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
 }
 export interface ForkSandboxResponse {
   ok: boolean;
@@ -1326,17 +1326,17 @@ export interface ForkSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface GetAiProxyRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface GetAiProxyResponsePricing {
   /** Charged to the account for each UTC day the proxy is on. */
@@ -1361,13 +1361,13 @@ export interface GetAiProxyResponse {
 }
 export interface GetAiUsageRequest {
   /** Days of history, today included. */
-  days?: number;
+  days?: number | undefined;
   /** A credential profile id. Counts that profile's requests instead of a wallet's. */
-  profile?: string;
+  profile?: string | undefined;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface AiUsageRow {
   /** UTC day. */
@@ -1439,11 +1439,11 @@ export type GetApiKeyUsageResponseScopeEnvironments =
   | GetApiKeyUsageResponseScopeEnvironmentsCase0
   | GetApiKeyUsageResponseScopeEnvironmentsCase1List;
 export interface GetApiKeyUsageResponseScope {
-  expiresAt?: string | null;
-  actions?: GetApiKeyUsageResponseScopeActionsList;
-  sandboxes?: GetApiKeyUsageResponseScopeSandboxes;
-  environments?: GetApiKeyUsageResponseScopeEnvironments;
-  grandfathered?: boolean;
+  expiresAt?: string | null | undefined;
+  actions?: GetApiKeyUsageResponseScopeActionsList | undefined;
+  sandboxes?: GetApiKeyUsageResponseScopeSandboxes | undefined;
+  environments?: GetApiKeyUsageResponseScopeEnvironments | undefined;
+  grandfathered?: boolean | undefined;
 }
 export type ApiKeyCreatedResourceKind = "sandbox" | "agent";
 export interface ApiKeyCreatedResource {
@@ -1470,10 +1470,10 @@ export interface GetApiKeyUsageResponse {
   lastUsedAt: string | null;
   usage: ApiKeyRequestUsage;
   resources: ApiKeyResourceTotals;
-  expiresAt?: string | null;
-  expired?: boolean;
-  expiringSoon?: boolean;
-  scope?: GetApiKeyUsageResponseScope;
+  expiresAt?: string | null | undefined;
+  expired?: boolean | undefined;
+  expiringSoon?: boolean | undefined;
+  scope?: GetApiKeyUsageResponseScope | undefined;
   createdResources: GetApiKeyUsageResponseCreatedResourcesList;
 }
 export interface GetCiJobRequest {
@@ -1497,31 +1497,31 @@ export interface CiJob {
   /** GitHub workflow job id. */
   id: string;
   repo: string;
-  runId?: string;
+  runId?: string | undefined;
   jobName: string;
-  workflowName?: string | null;
-  headBranch?: string | null;
-  headSha?: string | null;
+  workflowName?: string | null | undefined;
+  headBranch?: string | null | undefined;
+  headSha?: string | null | undefined;
   /** The job on GitHub. */
-  htmlUrl?: string | null;
+  htmlUrl?: string | null | undefined;
   /** The runs-on label that matched. */
   label: string;
   machineClass: CiJobMachineClass;
   state: CiJobState;
   /** Why boat refused or could not start the job. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** The sandbox this job's runner started. */
-  sandboxId?: string | null;
+  sandboxId?: string | null | undefined;
   /** kept = a failed /debug job's sandbox, kept 30 minutes. */
-  sandboxState?: CiJobSandboxState | null;
+  sandboxState?: CiJobSandboxState | null | undefined;
   queuedAt: string;
-  runStartedAt?: string | null;
-  finishedAt?: string | null;
+  runStartedAt?: string | null | undefined;
+  finishedAt?: string | null | undefined;
   /** Queued on GitHub until a runner took it. */
-  waitSeconds?: number | null;
-  runSeconds?: number | null;
+  waitSeconds?: number | null | undefined;
+  runSeconds?: number | null | undefined;
   /** Sandbox time of the job at the size's rate. */
-  costDollars?: number | null;
+  costDollars?: number | null | undefined;
 }
 export interface GetCiJobResponse {
   ok: boolean;
@@ -1543,35 +1543,35 @@ export interface GetCiJobLogResponse {
 export type GetCiOverviewRequestState = "all" | "active" | "failed";
 export interface GetCiOverviewRequest {
   /** Only this GitHub account (organization or user login). */
-  account?: string;
+  account?: string | undefined;
   /** Only this repository, as owner/name. */
-  repo?: string;
+  repo?: string | undefined;
   /** active = queued or running. failed = failed, never started, or refused. */
-  state?: GetCiOverviewRequestState | (string & {});
-  limit?: number;
+  state?: GetCiOverviewRequestState | (string & {}) | undefined;
+  limit?: number | undefined;
 }
 export type GetCiOverviewResponseSetupNext = "install" | "repositories" | "workflow" | "first-pass";
 export interface GetCiOverviewResponseSetupStepsItem {
-  id?: string;
-  title?: string;
-  done?: boolean;
-  detail?: string;
+  id?: string | undefined;
+  title?: string | undefined;
+  done?: boolean | undefined;
+  detail?: string | undefined;
 }
 export type GetCiOverviewResponseSetupStepsList = Array<GetCiOverviewResponseSetupStepsItem>;
 export interface GetCiOverviewResponseSetupProblemsItem {
-  jobId?: string;
-  repo?: string;
-  message?: string;
-  at?: string;
-  count?: number;
+  jobId?: string | undefined;
+  repo?: string | undefined;
+  message?: string | undefined;
+  at?: string | undefined;
+  count?: number | undefined;
 }
 export type GetCiOverviewResponseSetupProblemsList = Array<GetCiOverviewResponseSetupProblemsItem>;
 /** The four setup steps, the next one to do, and jobs boat did not run (grouped by repository and reason). */
 export interface GetCiOverviewResponseSetup {
-  complete?: boolean;
-  next?: GetCiOverviewResponseSetupNext | null;
-  steps?: GetCiOverviewResponseSetupStepsList;
-  problems?: GetCiOverviewResponseSetupProblemsList;
+  complete?: boolean | undefined;
+  next?: GetCiOverviewResponseSetupNext | null | undefined;
+  steps?: GetCiOverviewResponseSetupStepsList | undefined;
+  problems?: GetCiOverviewResponseSetupProblemsList | undefined;
 }
 export type CiInstallationAccountType = "Organization" | "User";
 /** With allowPublicRepos: only runs these GitHub users authored and started run. Empty = anyone. */
@@ -1586,9 +1586,9 @@ export interface CiRepository {
   status: CiRepositoryStatus;
   /** Jobs in the last 7 days. */
   jobs7d: number;
-  lastState?: CiJobState | null;
-  lastAt?: string | null;
-  lastError?: string | null;
+  lastState?: CiJobState | null | undefined;
+  lastAt?: string | null | undefined;
+  lastError?: string | null | undefined;
 }
 export type CiInstallationRepositoriesList = Array<CiRepository>;
 export interface CiInstallation {
@@ -1597,11 +1597,11 @@ export interface CiInstallation {
   accountLogin: string;
   accountType: CiInstallationAccountType;
   /** The organization that pays; null = the personal wallet. */
-  teamId?: string | null;
+  teamId?: string | null | undefined;
   /** Jobs from this account's public repositories run on boat. */
-  allowPublicRepos?: boolean;
+  allowPublicRepos?: boolean | undefined;
   /** With allowPublicRepos: only runs these GitHub users authored and started run. Empty = anyone. */
-  publicRepoUsers?: CiInstallationPublicRepoUsersList;
+  publicRepoUsers?: CiInstallationPublicRepoUsersList | undefined;
   /** Where to choose the repositories on GitHub. */
   manageUrl: string;
   repositories: CiInstallationRepositoriesList;
@@ -1609,31 +1609,31 @@ export interface CiInstallation {
 export type GetCiOverviewResponseInstallationsList = Array<CiInstallation>;
 export type GetCiOverviewResponseFilterState = "all" | "active" | "failed";
 export interface GetCiOverviewResponseFilter {
-  account?: string | null;
-  repo?: string | null;
-  state?: GetCiOverviewResponseFilterState;
+  account?: string | null | undefined;
+  repo?: string | null | undefined;
+  state?: GetCiOverviewResponseFilterState | undefined;
 }
 /** Jobs in the last 7 days in the account and repo scope, per state tab. */
 export interface GetCiOverviewResponseCounts {
-  all?: number;
-  active?: number;
-  failed?: number;
+  all?: number | undefined;
+  active?: number | undefined;
+  failed?: number | undefined;
 }
 export interface GetCiOverviewResponseStatsPerDayItem {
-  day?: string;
-  success?: number;
-  failure?: number;
-  other?: number;
+  day?: string | undefined;
+  success?: number | undefined;
+  failure?: number | undefined;
+  other?: number | undefined;
 }
 export type GetCiOverviewResponseStatsPerDayList = Array<GetCiOverviewResponseStatsPerDayItem>;
 export interface GetCiOverviewResponseStats {
-  jobs?: number;
-  running?: number;
-  successRate?: number | null;
-  medianWaitSeconds?: number | null;
-  medianRunSeconds?: number | null;
-  costDollars?: number;
-  perDay?: GetCiOverviewResponseStatsPerDayList;
+  jobs?: number | undefined;
+  running?: number | undefined;
+  successRate?: number | null | undefined;
+  medianWaitSeconds?: number | null | undefined;
+  medianRunSeconds?: number | null | undefined;
+  costDollars?: number | undefined;
+  perDay?: GetCiOverviewResponseStatsPerDayList | undefined;
 }
 export type GetCiOverviewResponseJobsList = Array<CiJob>;
 export interface GetCiOverviewResponse {
@@ -1643,7 +1643,7 @@ export interface GetCiOverviewResponse {
   /** The four setup steps, the next one to do, and jobs boat did not run (grouped by repository and reason). */
   setup: GetCiOverviewResponseSetup;
   installations: GetCiOverviewResponseInstallationsList;
-  filter?: GetCiOverviewResponseFilter;
+  filter?: GetCiOverviewResponseFilter | undefined;
   /** Jobs in the last 7 days in the account and repo scope, per state tab. */
   counts: GetCiOverviewResponseCounts;
   stats: GetCiOverviewResponseStats;
@@ -1666,11 +1666,11 @@ export interface GetCommandStatusRequest {
   /** Process id returned by a detached command start. */
   processId: number;
   /** Cap each returned log to its last N bytes. Defaults to 8388608 (8 MiB). Ignored with offsets. */
-  tailBytes?: number;
+  tailBytes?: number | undefined;
   /** Return only stdout written from this byte offset. Use `stdoutNextOffset` of the previous answer. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Return only stderr written from this byte offset. Use `stderrNextOffset` of the previous answer. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
 }
 /** lost: the sandbox agent restarted and forgot the process; running/exitCode are then a best-effort probe and the logs come from the on-disk files. */
 export type GetCommandStatusResponseStatus = "running" | "exited" | "lost";
@@ -1680,38 +1680,38 @@ export interface GetCommandStatusResponse {
   type: string;
   success: boolean;
   processId: number;
-  pid?: number;
+  pid?: number | undefined;
   /** lost: the sandbox agent restarted and forgot the process; running/exitCode are then a best-effort probe and the logs come from the on-disk files. */
   status: GetCommandStatusResponseStatus;
   /** Whether the process is still tracked by the sandbox agent. */
-  known?: boolean;
+  known?: boolean | undefined;
   running: boolean;
   exitCode: number | null;
-  signal?: string | null;
+  signal?: string | null | undefined;
   /** True when the memory ceiling killed the command or one of its processes and the command failed. */
-  oomKilled?: boolean;
-  command?: string | null;
-  cwd?: string | null;
-  startedAt?: string | null;
-  finishedAt?: string | null;
+  oomKilled?: boolean | undefined;
+  command?: string | null | undefined;
+  cwd?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  finishedAt?: string | null | undefined;
   /** Tail of the stdout log file. With `stdoutOffset`: the stdout written since that offset. */
   stdout: string;
   /** Tail of the stderr log file. With `stderrOffset`: the stderr written since that offset. */
   stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
-  logPath?: string;
-  errLogPath?: string;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
+  logPath?: string | undefined;
+  errLogPath?: string | undefined;
   /** Byte offset where `stdout` starts: the offset you asked for, or 0 when the log was replaced. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Byte offset where `stderr` starts: the offset you asked for, or 0 when the log was replaced. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
   /** The `stdoutOffset` for the next read. */
-  stdoutNextOffset?: number;
+  stdoutNextOffset?: number | undefined;
   /** The `stderrOffset` for the next read. */
-  stderrNextOffset?: number;
+  stderrNextOffset?: number | undefined;
   /** True when more output is already written. Read again at once. */
-  more?: boolean;
+  more?: boolean | undefined;
 }
 export interface GetCurrentUserRequest {}
 /** The login method the account was created with. */
@@ -1726,31 +1726,31 @@ export type GetCurrentUserResponseUserConnectionMethodsList = Array<string>;
 export type GetCurrentUserResponseUserAccountStatus = "active" | "suspended" | "closed";
 export interface GetCurrentUserResponseUser {
   /** Your account id. */
-  id?: string;
-  login?: string;
-  email?: string | null;
-  displayName?: string;
+  id?: string | undefined;
+  login?: string | undefined;
+  email?: string | null | undefined;
+  displayName?: string | undefined;
   /** The login method the account was created with. */
-  connectionMethod?: GetCurrentUserResponseUserConnectionMethod;
+  connectionMethod?: GetCurrentUserResponseUserConnectionMethod | undefined;
   /** Every login method linked to the account. */
-  connectionMethods?: GetCurrentUserResponseUserConnectionMethodsList;
-  accountPlan?: string;
-  serviceAccount?: boolean;
-  accountStatus?: GetCurrentUserResponseUserAccountStatus;
-  suspended?: boolean;
-  suspendedAt?: string | null;
-  suspendedReason?: string | null;
-  closed?: boolean;
-  closedAt?: string | null;
+  connectionMethods?: GetCurrentUserResponseUserConnectionMethodsList | undefined;
+  accountPlan?: string | undefined;
+  serviceAccount?: boolean | undefined;
+  accountStatus?: GetCurrentUserResponseUserAccountStatus | undefined;
+  suspended?: boolean | undefined;
+  suspendedAt?: string | null | undefined;
+  suspendedReason?: string | null | undefined;
+  closed?: boolean | undefined;
+  closedAt?: string | null | undefined;
   /** When a closed account's data is scheduled for deletion. */
-  purgeAt?: string | null;
+  purgeAt?: string | null | undefined;
   /** When a closed account's data was deleted. */
-  purgedAt?: string | null;
+  purgedAt?: string | null | undefined;
   /** Address to contact about a suspended or closed account. */
-  closureContactEmail?: string;
+  closureContactEmail?: string | undefined;
   /** Whether archived sandbox data is configured for deletion instead of retention. */
-  zeroDataRetention?: boolean;
-  zeroDataRetentionEnabledAt?: string | null;
+  zeroDataRetention?: boolean | undefined;
+  zeroDataRetentionEnabledAt?: string | null | undefined;
 }
 export interface GetCurrentUserResponse {
   ok: boolean;
@@ -1766,15 +1766,15 @@ export interface GetDataRetentionResponse {
   enabled: boolean;
   enabledAt: string | null;
   /** Archived Sandboxes newly queued for deletion by this policy update. */
-  queuedSandboxes?: number;
+  queuedSandboxes?: number | undefined;
   /** Always true on updates. Disabling the policy does not cancel accepted deletion operations. */
-  acceptedDeletionOperationsIrreversible?: boolean;
+  acceptedDeletionOperationsIrreversible?: boolean | undefined;
   /** When true, every new sandbox of this account is created with snapshots off. */
-  snapshotsOff?: boolean;
-  snapshotsOffAt?: string | null;
+  snapshotsOff?: boolean | undefined;
+  snapshotsOffAt?: string | null | undefined;
   /** When true, every new sandbox of this account is created with monitoring off. */
-  monitoringOff?: boolean;
-  monitoringOffAt?: string | null;
+  monitoringOff?: boolean | undefined;
+  monitoringOffAt?: string | null | undefined;
 }
 export interface GetDeletionOperationRequest {
   /** Deletion operation id returned by an accepted delete request. */
@@ -1792,24 +1792,24 @@ export interface GetDesktopStreamingUrlRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Use VNC/noVNC streaming mode. */
-  vnc?: GetDesktopStreamingUrlRequestVnc | (number & {});
+  vnc?: GetDesktopStreamingUrlRequestVnc | (number & {}) | undefined;
   /** Desktop streaming theme for non-VNC mode. */
-  theme?: GetDesktopStreamingUrlRequestTheme | (string & {});
+  theme?: GetDesktopStreamingUrlRequestTheme | (string & {}) | undefined;
   /** For `?vnc=1`, return a noVNC URL that does not require an access token. */
-  publicAccess?: boolean;
+  publicAccess?: boolean | undefined;
 }
 export interface GetDesktopStreamingUrlResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   /** Secret-bearing desktop or noVNC URL. Redact from logs. */
-  desktopUrl?: string | null;
-  ip?: string | null;
-  mode?: string;
+  desktopUrl?: string | null | undefined;
+  ip?: string | null | undefined;
+  mode?: string | undefined;
   /** For `?vnc=1`, true means VNC is still being prepared; poll again. */
-  provisioning?: boolean;
-  message?: string;
+  provisioning?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface GetFileInfoRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1829,7 +1829,7 @@ export interface GetFileInfoResponse {
   /** Octal permission bits, for example "0644". */
   mode: string;
   modifiedAt: string;
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface GetLatestSandboxSnapshotRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1846,22 +1846,22 @@ export interface SnapshotSummary {
   sandboxId: string;
   status: SnapshotSummaryStatus;
   /** `base` (full) or `incremental` (delta on a base). `null` for legacy snapshots. */
-  kind?: SnapshotSummaryKind | null;
+  kind?: SnapshotSummaryKind | null | undefined;
   /** Position in the incremental chain (0 = base). */
   generation: number | null;
-  chainId?: string | null;
+  chainId?: string | null | undefined;
   createdAt: string;
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** Bytes this snapshot added (its delta), not the full restored size. */
   sizeBytes: number | null;
   /** Inventory entries alive in the chain at this generation (includes base-image system entries). */
   fileCount: number | null;
   /** Total bytes of your data restored by this snapshot (what resume/download returns; base image excluded). `null` on legacy snapshots. */
-  contentSizeBytes?: number | null;
+  contentSizeBytes?: number | null | undefined;
   /** Number of your files restored by this snapshot (base image excluded). `null` on legacy snapshots. */
-  contentFileCount?: number | null;
+  contentFileCount?: number | null | undefined;
   /** `template` = this Sandbox has snapshots off, so Boat never captures it: the row is a copy of the template, saved snapshot or Sandbox it was created from. `captured` = this Sandbox has snapshots on: its own captures, plus the copies Boat makes when the Sandbox is created from a source, forked or resumed. */
-  origin?: SnapshotSummaryOrigin;
+  origin?: SnapshotSummaryOrigin | undefined;
 }
 export interface GetLatestSandboxSnapshotResponse {
   ok: boolean;
@@ -1871,17 +1871,17 @@ export interface GetLatestSandboxSnapshotResponse {
 }
 export interface GetLimitsRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Legacy alias for `org`. Takes precedence over `org` / `X-Boat-Org` when set. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface GetLimitsResponseCurrentLimits {
-  activeSandboxes?: number;
-  creationRatePerMinute?: number;
-  creationRequestsPerHour?: number | null;
-  creationRequestsPerDay?: number | null;
+  activeSandboxes?: number | undefined;
+  creationRatePerMinute?: number | undefined;
+  creationRequestsPerHour?: number | null | undefined;
+  creationRequestsPerDay?: number | null | undefined;
   [key: string]: unknown;
 }
 export type GetLimitsResponseStandardLimits = GetLimitsResponseCurrentLimits;
@@ -1890,31 +1890,31 @@ export type GetLimitsResponseUpgradeEffectsMap = { [key: string]: unknown | unde
 export type GetLimitsResponseActiveStatesList = Array<string>;
 /** Plan caps for machine starts. Null on unlimited accounts. Create, fork and resume each count as one start. */
 export interface GetLimitsResponseStartLimits {
-  perMinute?: number;
-  perHour?: number;
-  perDay?: number;
+  perMinute?: number | undefined;
+  perHour?: number | undefined;
+  perDay?: number | undefined;
 }
 /** The one wallet of this account or organization, in US dollars. It pays overage only: VM time past the plan, saved snapshots past the included count, extra starts and the AI proxy. It never pays the plan. Null on unlimited accounts. */
 export interface GetLimitsResponseWallet {
   /** Money in the wallet. Below zero while you owe during the grace period. */
-  balanceDollars?: number;
+  balanceDollars?: number | undefined;
 }
 /** What the plan includes this billing period. Null on unlimited accounts. */
 export interface GetLimitsResponsePlanIncluded {
   /** VM time included this period, in hours of a `default` machine. */
-  vmHours?: number;
+  vmHours?: number | undefined;
   /** Included VM time left this period, in hours of a `default` machine. */
-  vmHoursRemaining?: number;
+  vmHoursRemaining?: number | undefined;
   /** When the included amounts reset. */
-  periodEnd?: string | null;
+  periodEnd?: string | null | undefined;
 }
 export interface GetLimitsResponseOveragePricesStartBracketsItem {
   /** The bracket starts above this multiple of the limit. */
-  aboveMultiple?: number;
+  aboveMultiple?: number | undefined;
   /** The bracket ends at this multiple of the limit (included). */
-  upToMultiple?: number;
+  upToMultiple?: number | undefined;
   /** Dollars per start in this bracket. */
-  dollars?: number;
+  dollars?: number | undefined;
 }
 /** Price of a start above a start limit, by how far past the limit it falls, in each window (minute, hour, day). A start above limits in several windows pays the highest bracket among them. */
 export type GetLimitsResponseOveragePricesStartBracketsList =
@@ -1922,43 +1922,43 @@ export type GetLimitsResponseOveragePricesStartBracketsList =
 /** What the wallet pays past the plan. */
 export interface GetLimitsResponseOveragePrices {
   /** Dollars per hour of a `default` machine. `small` is 0.5x, `large` 2x, `xlarge` 5.556x. */
-  vmHourDollars?: number;
+  vmHourDollars?: number | undefined;
   /** Dollars per day for each saved snapshot above the included count. */
-  savedSnapshotDayDollars?: number;
+  savedSnapshotDayDollars?: number | undefined;
   /** Price of a start above a start limit, by how far past the limit it falls, in each window (minute, hour, day). A start above limits in several windows pays the highest bracket among them. */
-  startBrackets?: GetLimitsResponseOveragePricesStartBracketsList;
+  startBrackets?: GetLimitsResponseOveragePricesStartBracketsList | undefined;
   /** Extra starts stop at this multiple of the hour and day limits (the last bracket's upToMultiple). */
-  startLimitMultiplier?: number;
+  startLimitMultiplier?: number | undefined;
   /** Extra starts stop at this multiple of the minute limit. */
-  startMinuteLimitMultiplier?: number;
+  startMinuteLimitMultiplier?: number | undefined;
 }
 /** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
 export type GetLimitsResponseStartLimitsWithWallet = GetLimitsResponseStartLimits;
 /** One rolling start window. Null when the account is unlimited. */
 export interface StartWindowUsage {
-  limit?: number;
-  used?: number;
-  remaining?: number;
+  limit?: number | undefined;
+  used?: number | undefined;
+  remaining?: number | undefined;
 }
 /** Remaining machine starts in the rolling minute, hour and day windows. Null windows mean the account is unlimited. */
 export interface GetLimitsResponseStarts {
-  unlimited?: boolean;
-  minute?: StartWindowUsage | null;
-  hour?: StartWindowUsage | null;
-  day?: StartWindowUsage | null;
+  unlimited?: boolean | undefined;
+  minute?: StartWindowUsage | null | undefined;
+  hour?: StartWindowUsage | null | undefined;
+  day?: StartWindowUsage | null | undefined;
 }
 export interface GetLimitsResponseSandboxPlanTiersItem {
-  key?: string;
-  dollars?: number;
-  displayPrice?: string;
-  maxActiveSandboxes?: number;
-  startsPerMinute?: number;
-  startsPerHour?: number;
-  startsPerDay?: number;
+  key?: string | undefined;
+  dollars?: number | undefined;
+  displayPrice?: string | undefined;
+  maxActiveSandboxes?: number | undefined;
+  startsPerMinute?: number | undefined;
+  startsPerHour?: number | undefined;
+  startsPerDay?: number | undefined;
   /** Machine time included each month. */
-  includedSeconds?: number;
+  includedSeconds?: number | undefined;
   /** Whether this tier can be bought right now. */
-  purchasable?: boolean;
+  purchasable?: boolean | undefined;
 }
 /** Every plan tier and its limits. */
 export type GetLimitsResponseSandboxPlanTiersList = Array<GetLimitsResponseSandboxPlanTiersItem>;
@@ -1973,104 +1973,104 @@ export interface GetLimitsResponseMachineTypesItem {
 export type GetLimitsResponseMachineTypesList = Array<GetLimitsResponseMachineTypesItem>;
 /** Fair-use caps on a gifted account, or null when there are none. */
 export interface GetLimitsResponseGiftLimit {
-  maxActiveSandboxes?: number | null;
-  maxTtlSeconds?: number | null;
+  maxActiveSandboxes?: number | null | undefined;
+  maxTtlSeconds?: number | null | undefined;
   /** The caps in one readable line. */
-  line?: string | null;
+  line?: string | null | undefined;
   /** The same text shown when a cap is hit. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetLimitsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  accessTier?: string;
-  blockedReason?: string | null;
-  currentLimits?: GetLimitsResponseCurrentLimits;
-  standardLimits?: GetLimitsResponseCurrentLimits;
-  trialLimits?: GetLimitsResponseCurrentLimits;
-  upgradeEffects?: GetLimitsResponseUpgradeEffectsMap;
+  accessTier?: string | undefined;
+  blockedReason?: string | null | undefined;
+  currentLimits?: GetLimitsResponseCurrentLimits | undefined;
+  standardLimits?: GetLimitsResponseCurrentLimits | undefined;
+  trialLimits?: GetLimitsResponseCurrentLimits | undefined;
+  upgradeEffects?: GetLimitsResponseUpgradeEffectsMap | undefined;
   /** Whether the authenticated account can create or operate sandboxes right now. */
   canStart: boolean;
-  checkoutRequired?: boolean;
-  startBlockedReason?: string | null;
-  contactMessage?: string | null;
+  checkoutRequired?: boolean | undefined;
+  startBlockedReason?: string | null | undefined;
+  contactMessage?: string | null | undefined;
   activeSandboxes: number;
-  activeStates?: GetLimitsResponseActiveStatesList;
+  activeStates?: GetLimitsResponseActiveStatesList | undefined;
   maxActiveSandboxes: number;
-  maxCreationRequestsPerMinute?: number;
-  maxCreationRequestsPerDay?: number | null;
+  maxCreationRequestsPerMinute?: number | undefined;
+  maxCreationRequestsPerDay?: number | null | undefined;
   /** Plan caps for machine starts. Null on unlimited accounts. Create, fork and resume each count as one start. */
-  startLimits?: GetLimitsResponseStartLimits | null;
+  startLimits?: GetLimitsResponseStartLimits | null | undefined;
   /** The one wallet of this account or organization, in US dollars. It pays overage only: VM time past the plan, saved snapshots past the included count, extra starts and the AI proxy. It never pays the plan. Null on unlimited accounts. */
-  wallet?: GetLimitsResponseWallet | null;
+  wallet?: GetLimitsResponseWallet | null | undefined;
   /** What the plan includes this billing period. Null on unlimited accounts. */
-  planIncluded?: GetLimitsResponsePlanIncluded | null;
+  planIncluded?: GetLimitsResponsePlanIncluded | null | undefined;
   /** What the wallet pays past the plan. */
-  overagePrices?: GetLimitsResponseOveragePrices;
+  overagePrices?: GetLimitsResponseOveragePrices | undefined;
   /** What the next start costs now. 0 inside every limit; null when it would be refused. */
-  nextStartDollars?: number | null;
+  nextStartDollars?: number | null | undefined;
   /** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
-  startLimitsWithWallet?: GetLimitsResponseStartLimits | null;
+  startLimitsWithWallet?: GetLimitsResponseStartLimits | null | undefined;
   /** Remaining machine starts in the rolling minute, hour and day windows. Null windows mean the account is unlimited. */
-  starts?: GetLimitsResponseStarts;
+  starts?: GetLimitsResponseStarts | undefined;
   /** Deprecated. Read `planIncluded.vmHoursRemaining` and `wallet.balanceDollars`. */
-  creditBalanceHours?: number | null;
+  creditBalanceHours?: number | null | undefined;
   /** Deprecated. Read `wallet.balanceDollars`. */
-  packBalanceHours?: number;
+  packBalanceHours?: number | undefined;
   /** Deprecated. Read `wallet.balanceDollars`. */
-  packBalanceDollars?: number;
-  hasPaymentHistory?: boolean;
-  subscriptionQuotaSeconds?: number;
-  subscriptionRemainingSeconds?: number;
+  packBalanceDollars?: number | undefined;
+  hasPaymentHistory?: boolean | undefined;
+  subscriptionQuotaSeconds?: number | undefined;
+  subscriptionRemainingSeconds?: number | undefined;
   /** Deprecated. Read `wallet.balanceDollars`. */
-  packBalanceSeconds?: number;
+  packBalanceSeconds?: number | undefined;
   /** Deprecated. */
-  creditPurchasedSeconds?: number;
-  creditUsedSeconds?: number;
-  liveUsageSeconds?: number;
-  creditSecondsPerDollar?: number;
+  creditPurchasedSeconds?: number | undefined;
+  creditUsedSeconds?: number | undefined;
+  liveUsageSeconds?: number | undefined;
+  creditSecondsPerDollar?: number | undefined;
   /** Current plan key, or `trial` before any payment. */
-  sandboxPlanKey?: string;
+  sandboxPlanKey?: string | undefined;
   /** Monthly price of the current plan in dollars. */
-  sandboxPlanDollars?: number;
+  sandboxPlanDollars?: number | undefined;
   /** Every plan tier and its limits. */
-  sandboxPlanTiers?: GetLimitsResponseSandboxPlanTiersList;
-  accountPlan?: string;
+  sandboxPlanTiers?: GetLimitsResponseSandboxPlanTiersList | undefined;
+  accountPlan?: string | undefined;
   /** `service` for service accounts, otherwise null. */
-  plan?: string | null;
+  plan?: string | null | undefined;
   /** `Service` for service accounts, otherwise null. */
-  planName?: string | null;
-  serviceAccount?: boolean;
+  planName?: string | null | undefined;
+  serviceAccount?: boolean | undefined;
   /** True when the account has no machine-time or start limits. */
-  unlimited?: boolean;
+  unlimited?: boolean | undefined;
   /** True when an organization has an active per-seat plan. */
-  hasSeatPlan?: boolean;
+  hasSeatPlan?: boolean | undefined;
   /** Machine time used in the last 24 hours, in seconds. Useful to estimate how long the included time and the wallet last. */
-  last24hUsageSeconds?: number;
+  last24hUsageSeconds?: number | undefined;
   /** Lifetime VM-time allowance for new sandboxes while the account has not paid, a plan trial included. Null once the account has paid. */
-  trialComputeCapSeconds?: number | null;
+  trialComputeCapSeconds?: number | null | undefined;
   /** VM time already used against trialComputeCapSeconds. Null once the account has paid. */
-  trialComputeUsedSeconds?: number | null;
+  trialComputeUsedSeconds?: number | null | undefined;
   /** The trial limits in one readable line. Null on paid accounts. */
-  trialLine?: string | null;
+  trialLine?: string | null | undefined;
   /** Each sandbox type, and whether this account can create it now. A blocked type carries the reason. */
-  machineTypes?: GetLimitsResponseMachineTypesList;
+  machineTypes?: GetLimitsResponseMachineTypesList | undefined;
   /** Fair-use caps on a gifted account, or null when there are none. */
-  giftLimit?: GetLimitsResponseGiftLimit | null;
+  giftLimit?: GetLimitsResponseGiftLimit | null | undefined;
   /** Account access state returned by the current backend. Billing endpoints are not part of v1. */
   billingStatus: string;
-  subscriptionStatus?: string | null;
-  subscriptionCancelAtPeriodEnd?: boolean;
-  hasSubscription?: boolean;
-  subscriptionTrialEndsAt?: string | null;
-  subscriptionCurrentPeriodEnd?: string | null;
+  subscriptionStatus?: string | null | undefined;
+  subscriptionCancelAtPeriodEnd?: boolean | undefined;
+  hasSubscription?: boolean | undefined;
+  subscriptionTrialEndsAt?: string | null | undefined;
+  subscriptionCurrentPeriodEnd?: string | null | undefined;
   /** Deprecated. Read `planIncluded.vmHoursRemaining` and `wallet.balanceDollars`. */
-  creditBalanceSeconds?: number;
+  creditBalanceSeconds?: number | undefined;
   /** Present when limits were read for a team wallet (`?teamId=`, `?org=`, or `X-Boat-Org`). */
-  teamId?: string;
+  teamId?: string | undefined;
   /** Caller's role on that team when `teamId` is present. */
-  teamRole?: string;
+  teamRole?: string | undefined;
 }
 export interface GetPromptRunStatusRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2090,13 +2090,13 @@ export interface PromptRun {
   sandboxId: string;
   status: PromptRunStatus;
   done: boolean;
-  createdAt?: string | null;
-  model?: string | null;
-  reasoningEffort?: string | null;
+  createdAt?: string | null | undefined;
+  model?: string | null | undefined;
+  reasoningEffort?: string | null | undefined;
   /** The prompt runs in fast mode. `null` means no speed is set yet. The prompt waits without a speed choice, or it ended without running (`done` is true). The speed is set when the prompt starts, for the model that runs. */
-  fast?: boolean | null;
+  fast?: boolean | null | undefined;
   /** The conversation this prompt ran in. A Sandbox runs many conversations in parallel; see [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
 }
 export interface GetPromptRunStatusResponse {
   ok: boolean;
@@ -2115,13 +2115,13 @@ export interface GetSandboxResponse {
   type: string;
   sandbox: Sandbox;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 export interface GetSandboxAiUsageRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Days of history, today included. */
-  days?: number;
+  days?: number | undefined;
 }
 export type GetSandboxAiUsageResponseUsageList = Array<AiUsageRow>;
 export interface GetSandboxAiUsageResponse {
@@ -2144,9 +2144,9 @@ export interface GetSandboxUsageRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Count from this time, ISO 8601 or Unix epoch seconds. Default is the sandbox's creation. */
-  since?: string;
+  since?: string | undefined;
   /** Count up to this time, ISO 8601 or Unix epoch seconds. Default is now. */
-  until?: string;
+  until?: string | undefined;
 }
 /** The sandbox's current machine size, which sets `billingMultiplier`. */
 export type GetSandboxUsageResponseSandboxType = "small" | "default" | "large" | "xlarge";
@@ -2184,15 +2184,15 @@ export interface SavedSnapshot {
   /** `saving` while the capture and pin are in flight (a live source sandbox takes a fresh snapshot first, which can run minutes), `ready` when deployable, `failed` if the save did not complete (see `error`; save again to retry). */
   status: SavedSnapshotStatus;
   /** Failure reason. Only present when `status` is `failed`. */
-  error?: string;
+  error?: string | undefined;
   /** The sandbox this snapshot was saved from (display only). */
   sourceSandboxId: string;
   /** The frozen artifact behind the name. Present once `status` is `ready`. Accepted by `GET /api/boat/snapshots/{snapshotId}/tree` to browse its files. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Sandbox type the snapshot was saved from. Deploys default to it. */
-  type?: string;
+  type?: string | undefined;
   /** Restored content size of the frozen state, in bytes. */
-  sizeBytes?: number;
+  sizeBytes?: number | undefined;
   createdAt: string;
 }
 export interface GetSavedSnapshotResponse {
@@ -2209,14 +2209,14 @@ export interface GetSecretsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string;
+  subenvironmentId?: string | undefined;
   envContents: string;
   secretFiles: GetSecretsResponseSecretFilesList;
   /** Present on update; counts how many active sandboxes received the new environment. */
-  pushed?: GetSecretsResponsePushedMap;
+  pushed?: GetSecretsResponsePushedMap | undefined;
 }
 export interface GetSnapshotDownloadRequest {
   /** Snapshot id returned by the snapshot list/latest calls. */
@@ -2251,7 +2251,7 @@ export interface GetSnapshotDownloadResponse {
   expiresInSeconds: number;
   /** Human-readable note on how to reassemble the chunks into a filesystem. */
   reconstruct: string;
-  inventory?: GetSnapshotDownloadResponseInventory | null;
+  inventory?: GetSnapshotDownloadResponseInventory | null | undefined;
   /** Every chunk across the chain (all generations up to and including this snapshot), ordered by `(generation, chunkIndex)`. */
   chunks: GetSnapshotDownloadResponseChunksList;
 }
@@ -2259,7 +2259,7 @@ export interface GetSnapshotFileRequest {
   /** Snapshot id returned by the snapshot list/latest calls. */
   snapshotId: string;
   /** File or folder path inside the snapshot. Empty for the whole snapshot. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface GetSnapshotFileResponse {}
 export interface GetSnapshotTreeRequest {
@@ -2272,7 +2272,7 @@ export interface SnapshotTreeEntry {
   path: string;
   kind: SnapshotTreeEntryKind;
   /** File size in bytes. Omitted for directories. */
-  size?: number;
+  size?: number | undefined;
 }
 /** Exactly the files/dirs a resume or download returns, your data only; base-image system entries are not listed. */
 export type GetSnapshotTreeResponseEntriesList = Array<SnapshotTreeEntry>;
@@ -2294,7 +2294,7 @@ export interface GetSnapshotTreeResponse {
   /** Exactly the files/dirs a resume or download returns, your data only; base-image system entries are not listed. */
   entries: GetSnapshotTreeResponseEntriesList;
   /** Why the tree is unavailable, when `treeAvailable` is `false`. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface GetStopRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2330,31 +2330,31 @@ export interface HostPortRequest2 {
   /** Port the service listens on inside the sandbox. */
   port: number;
   /** Return an ungated URL instead of one that requires the `_token` query parameter. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Set when the service listens on localhost (`127.0.0.1` or `::1`) only. The sandbox relays the URL to it. Leave unset for a service bound to `0.0.0.0`. Each call sets the value again. */
-  localhost?: boolean;
+  localhost?: boolean | undefined;
   /** Display title for the hosted port. */
-  title?: string;
+  title?: string | undefined;
 }
 export type HostPortResponseAccess = "private" | "public";
 export interface HostPortResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
-  port?: number;
+  success?: boolean | undefined;
+  port?: number | undefined;
   /** Public HTTPS URL. Carries the `_token` query parameter unless the port is public; redact from logs. */
-  url?: string;
-  isProtected?: boolean;
-  access?: HostPortResponseAccess;
+  url?: string | undefined;
+  isProtected?: boolean | undefined;
+  access?: HostPortResponseAccess | undefined;
   /** The sandbox relays the URL to a service that listens on localhost only. */
-  localhost?: boolean;
+  localhost?: boolean | undefined;
 }
 export interface InterruptSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Interrupt only this conversation id. Omit to interrupt the whole sandbox. */
-  conversation?: string;
+  conversation?: string | undefined;
 }
 export interface InterruptSandboxResponse {
   ok: boolean;
@@ -2362,11 +2362,11 @@ export interface InterruptSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface ListApiKeysRequest {}
 export type ListApiKeysResponseApiKeysList = Array<ApiKey>;
@@ -2394,7 +2394,7 @@ export interface ApiKeyCatalog {
   /** Whether POST /api-keys/scoped currently accepts creation requests. */
   scopedCreationEnabled: boolean;
   /** Session-only selector resources. Omitted when the caller authenticates with an API key. */
-  scopeResources?: ApiKeyCatalogScopeResources;
+  scopeResources?: ApiKeyCatalogScopeResources | undefined;
 }
 export interface ListApiKeysResponse {
   ok: boolean;
@@ -2448,12 +2448,12 @@ export interface ListCredentialProfilesResponse {
 }
 export interface ListEnvironmentsRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface ListFilesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
-  path?: string;
+  path?: string | undefined;
 }
 export interface FileEntry {
   name: string;
@@ -2471,7 +2471,7 @@ export interface ListFilesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   path: string;
   files: ListFilesResponseFilesList;
   /** True when the directory holds more than 10,000 entries. */
@@ -2489,7 +2489,7 @@ export interface Org {
   role: OrgRole;
   memberCount: number;
   /** Stripe status of the organization's plan; absent on the personal row. */
-  subscriptionStatus?: string;
+  subscriptionStatus?: string | undefined;
   /** The wallet new sandboxes bill when a request names none. */
   active: boolean;
 }
@@ -2505,40 +2505,40 @@ export interface ListOrganizationsResponse {
 export type ListReposRequestSort = "asc" | "desc";
 export interface ListReposRequest {
   /** When true, sync from GitHub before returning repository groups. */
-  sync?: boolean;
+  sync?: boolean | undefined;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListReposRequestSort | (string & {});
+  sort?: ListReposRequestSort | (string & {}) | undefined;
   /** Case-insensitive repository name/fullName filter. */
-  q?: string;
+  q?: string | undefined;
   /** Filter to selected or unselected repositories. */
-  selected?: boolean;
+  selected?: boolean | undefined;
 }
 export interface Repository {
   /** GitHub repository id. */
-  id?: number;
+  id?: number | undefined;
   /** Internal repository id used when selecting repositories. */
-  databaseId?: string;
-  name?: string;
-  fullName?: string;
-  description?: string | null;
-  url?: string;
-  private?: boolean;
-  permissions?: string;
-  pushedAt?: string | null;
+  databaseId?: string | undefined;
+  name?: string | undefined;
+  fullName?: string | undefined;
+  description?: string | null | undefined;
+  url?: string | undefined;
+  private?: boolean | undefined;
+  permissions?: string | undefined;
+  pushedAt?: string | null | undefined;
   /** Reserved; always null. */
-  lastUserCommitAt?: string | null;
+  lastUserCommitAt?: string | null | undefined;
   [key: string]: unknown;
 }
 export type RepositoryInstallationRepositoriesList = Array<Repository>;
 export interface RepositoryInstallation {
-  type?: string;
-  accountLogin?: string;
-  accountAvatarUrl?: string | null;
-  repositories?: RepositoryInstallationRepositoriesList;
+  type?: string | undefined;
+  accountLogin?: string | undefined;
+  accountAvatarUrl?: string | null | undefined;
+  repositories?: RepositoryInstallationRepositoriesList | undefined;
 }
 export type ListReposResponseInstallationsList = Array<RepositoryInstallation>;
 export type ListReposResponseSelectedRepositoriesList = Array<SelectedRepository>;
@@ -2554,9 +2554,9 @@ export interface ListReposResponse {
   installations: ListReposResponseInstallationsList;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string | null;
+  subenvironmentId?: string | null | undefined;
   selectedRepositories: ListReposResponseSelectedRepositoriesList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSandboxConversationsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2596,27 +2596,27 @@ export type ListSandboxesRequestLabelList = Array<string>;
 export type ListSandboxesRequestInclude = "cost";
 export interface ListSandboxesRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxesRequestSort | (string & {});
+  sort?: ListSandboxesRequestSort | (string & {}) | undefined;
   /** Comma-separated sandbox state filter, for example `ready,idle,running`. */
-  state?: string;
+  state?: string | undefined;
   /** Keep sandboxes whose name starts with this text, for example `myapp-`. The match is literal. */
-  namePrefix?: string;
+  namePrefix?: string | undefined;
   /** Keep stopped sandboxes that stopped before this ISO 8601 time. Every stop counts, auto-stops too. */
-  stoppedBefore?: string;
+  stoppedBefore?: string | undefined;
   /** `true` keeps sandboxes whose data retention deleted (`dataExpiredAt` is set). `false` keeps the others. */
-  dataExpired?: boolean;
+  dataExpired?: boolean | undefined;
   /** `key=value`. Repeat it to require several labels, for example `label=session%3Dabc&label=env%3Dprod`. */
-  label?: ListSandboxesRequestLabelList;
+  label?: ListSandboxesRequestLabelList | undefined;
   /** `cost` adds each sandbox's `cost` this calendar month (UTC), at list price. */
-  include?: ListSandboxesRequestInclude | (string & {});
+  include?: ListSandboxesRequestInclude | (string & {}) | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export type ListSandboxesResponseSandboxesList = Array<Sandbox>;
 /** Only with `include=cost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
@@ -2626,36 +2626,36 @@ export interface ListSandboxesResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   sandboxes: ListSandboxesResponseSandboxesList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
   /** Only with `include=cost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
-  deletedCost?: SandboxCost;
+  deletedCost?: SandboxCost | undefined;
 }
 export type ListSandboxEventsRequestSort = "asc" | "desc";
 export interface ListSandboxEventsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxEventsRequestSort | (string & {});
+  sort?: ListSandboxEventsRequestSort | (string & {}) | undefined;
   /** Comma-separated event type filter, for example `prompt,response,steer`. */
-  type?: string;
+  type?: string | undefined;
   /** Only return events for this conversation id. Repeat the parameter (or comma-separate) for several. Omit to stream every conversation on the sandbox. See [Integrated agents](/integrated-agents). */
-  conversation?: string;
+  conversation?: string | undefined;
   /** The `ETag` of the last page you read. If the page is unchanged, the answer is `304` with no body. */
-  ifNoneMatch?: string;
+  ifNoneMatch?: string | undefined;
 }
 export type SandboxEventDataMap = { [key: string]: unknown | undefined };
 export interface SandboxEvent {
-  id?: string;
+  id?: string | undefined;
   type: string;
-  timestamp?: number;
-  taskId?: string | null;
+  timestamp?: number | undefined;
+  taskId?: string | null | undefined;
   /** The conversation this event belongs to. Filter the stream with `?conversation=<id>`. See [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
-  data?: SandboxEventDataMap;
+  conversationId?: string | null | undefined;
+  data?: SandboxEventDataMap | undefined;
   [key: string]: unknown;
 }
 /** Sandbox work and lifecycle event objects. Event shapes are intentionally extensible; branch on each event `type` when present. */
@@ -2667,7 +2667,7 @@ export interface ListSandboxEventsResponse {
   id: string;
   /** Sandbox work and lifecycle event objects. Event shapes are intentionally extensible; branch on each event `type` when present. */
   events: ListSandboxEventsResponseEventsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSandboxProcessesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2676,18 +2676,18 @@ export interface ListSandboxProcessesRequest {
 export interface SandboxProcess {
   pid: number;
   /** Live list only. */
-  parentPid?: number;
+  parentPid?: number | undefined;
   /** Live list only. */
-  user?: string;
-  cpuPercent?: number;
+  user?: string | undefined;
+  cpuPercent?: number | undefined;
   /** Resident memory. */
-  memoryMB?: number;
+  memoryMB?: number | undefined;
   /** Live list only. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The full command line (first 1000 characters; 120 in a stored sample). */
   command: string;
   /** Live list: the history record holding this process's output, when it has one. */
-  commandId?: string | null;
+  commandId?: string | null | undefined;
 }
 export type ListSandboxProcessesResponseProcessesList = Array<SandboxProcess>;
 export interface ListSandboxProcessesResponse {
@@ -2706,11 +2706,11 @@ export interface ListSandboxSnapshotsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxSnapshotsRequestSort | (string & {});
+  sort?: ListSandboxSnapshotsRequestSort | (string & {}) | undefined;
 }
 export type ListSandboxSnapshotsResponseSnapshotsList = Array<SnapshotSummary>;
 export interface ListSandboxSnapshotsResponse {
@@ -2718,48 +2718,48 @@ export interface ListSandboxSnapshotsResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   snapshots: ListSandboxSnapshotsResponseSnapshotsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSavedSnapshotsRequest {}
 export type ListSavedSnapshotsResponseSnapshotsList = Array<SavedSnapshot>;
 /** What the request's wallet (your active organization, `?org=`, or personal) pays for saved snapshots. The plan includes some; each one above costs $0.056 a day from the wallet. An organization's count includes every member's names billed to it. */
 export interface SavedSnapshotAllowance {
   /** Organization the numbers are for. null = personal. */
-  org?: string | null;
+  org?: string | null | undefined;
   /** That organization's name. */
-  orgName?: string | null;
+  orgName?: string | null | undefined;
   /** Saved snapshots the plan includes: 10 per $20 of plan per seat, never fewer than 10. */
-  included?: number;
+  included?: number | undefined;
   /** Same value as included. Kept for older clients. */
-  free?: number;
+  free?: number | undefined;
   /** Saved snapshots this wallet keeps. */
-  used?: number;
+  used?: number | undefined;
   /** Saved snapshots above the included ones. */
-  extra?: number;
+  extra?: number | undefined;
   /** What the extra ones cost per month. */
-  extraMonthlyDollars?: number;
+  extraMonthlyDollars?: number | undefined;
   /** What the wallet pays per day for the extra ones, in dollars. */
-  extraDailyDollars?: number;
+  extraDailyDollars?: number | undefined;
   /** Price of one extra saved snapshot for 30 days (1.68). */
-  pricePerExtraMonthlyDollars?: number;
+  pricePerExtraMonthlyDollars?: number | undefined;
   /** Daily price of one extra saved snapshot (0.056). */
-  pricePerExtraDailyDollars?: number;
+  pricePerExtraDailyDollars?: number | undefined;
 }
 export interface ListSavedSnapshotsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
   snapshots: ListSavedSnapshotsResponseSnapshotsList;
-  allowance?: SavedSnapshotAllowance;
+  allowance?: SavedSnapshotAllowance | undefined;
 }
 export type ListSnapshotsRequestSort = "asc" | "desc";
 export interface ListSnapshotsRequest {
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSnapshotsRequestSort | (string & {});
+  sort?: ListSnapshotsRequestSort | (string & {}) | undefined;
 }
 export type ListSnapshotsResponseSnapshotsList = Array<SnapshotSummary>;
 export interface ListSnapshotsResponse {
@@ -2767,7 +2767,7 @@ export interface ListSnapshotsResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   snapshots: ListSnapshotsResponseSnapshotsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSnapshotSharesRequest {
   name: string;
@@ -2795,13 +2795,13 @@ export interface MoveFileRequest {
   /** The new full path. Missing parent directories are created. */
   destination: string;
   /** Replace an existing destination. Without it, an existing destination is an error. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export interface MoveFileResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   path: string;
   destination: string;
 }
@@ -2821,15 +2821,15 @@ export interface PromptSandboxRequest {
   sandboxId: string;
   provider: PromptSandboxRequestProvider | (string & {});
   /** Optional provider model id from `GET /provider-models`. Omit to use the model selected for that harness on the Agents dashboard. Unknown explicit ids are currently forwarded rather than rejected by request validation. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Optional reasoning/thinking level (e.g. `none`, `low`, `medium`, `high`, `xhigh`, `max`). Which levels a given model accepts is listed per model in `GET /provider-models`; some models accept none. */
-  reasoningEffort?: string | null;
+  reasoningEffort?: string | null | undefined;
   /** Optional. `true` runs this prompt in fast mode. The model stays the same and gives output faster. The provider bills fast mode at its higher fast rate. Omit to use the choice saved on the Agents dashboard for that model. `false` forces standard speed. Only models with `fastMode` set to `true` in `GET /provider-models` accept `true`. Other models return 400 `fast_mode_not_supported`. */
-  fast?: boolean | null;
+  fast?: boolean | null | undefined;
   /** Start a NEW conversation on the sandbox (runs in parallel with any existing ones) instead of continuing the most-recently-active one. Mutually exclusive with `conversationId`. */
-  new?: boolean;
+  new?: boolean | undefined;
   /** Continue a specific conversation by id (as returned by a previous prompt). Omit (and omit `new`) to continue the sandbox's most-recently-active conversation. */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   /** Natural-language task for the sandbox, including repo, preview, or browser-use instructions. */
   prompt: string;
 }
@@ -2842,21 +2842,21 @@ export interface PromptSandboxResponse {
   id: string;
   promptId: string;
   /** The conversation this prompt was queued in. A new one when `new` was set, the one named by `conversationId`, or the sandbox's most-recently-active conversation. See [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   promptRun: PromptRun;
   status: PromptSandboxResponseStatus;
   provider: string;
-  model?: string | null;
-  reasoningEffort?: string | null;
+  model?: string | null | undefined;
+  reasoningEffort?: string | null | undefined;
   /** The prompt runs in fast mode. */
-  fast?: boolean;
+  fast?: boolean | undefined;
 }
 export type ReadSandboxFileRequestEncoding = "utf8" | "base64";
 export interface ReadSandboxFileRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   path: string;
-  encoding?: ReadSandboxFileRequestEncoding | (string & {});
+  encoding?: ReadSandboxFileRequestEncoding | (string & {}) | undefined;
 }
 export type ReadSandboxFileResponseEncoding = "utf8" | "base64";
 export interface ReadSandboxFileResponse {
@@ -2875,10 +2875,10 @@ export interface RecoverSandboxRequest {
 }
 export type RecoverSandboxResponseStatus = "recovering";
 export interface RecoverSandboxResponse {
-  ok?: boolean;
-  type?: string;
-  status?: RecoverSandboxResponseStatus;
-  message?: string;
+  ok?: boolean | undefined;
+  type?: string | undefined;
+  status?: RecoverSandboxResponseStatus | undefined;
+  message?: string | undefined;
 }
 /** Files up to 5 MiB each. */
 export type ReplaceInFilesRequestPathsList = Array<string>;
@@ -2895,8 +2895,8 @@ export interface ReplaceInFilesRequest {
 export interface ReplaceInFilesResponseResultsItem {
   file: string;
   success: boolean;
-  replacements?: number;
-  error?: string;
+  replacements?: number | undefined;
+  error?: string | undefined;
 }
 /** One result per file. A file that fails does not stop the others. */
 export type ReplaceInFilesResponseResultsList = Array<ReplaceInFilesResponseResultsItem>;
@@ -2904,7 +2904,7 @@ export interface ReplaceInFilesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   /** One result per file. A file that fails does not stop the others. */
   results: ReplaceInFilesResponseResultsList;
 }
@@ -2916,17 +2916,17 @@ export interface ResumeSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Pass `true` to resume only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with the sandbox left stopped and nothing counted against your start limits. */
-  failFast?: boolean;
+  failFast?: boolean | undefined;
   /** Resume onto a different machine size. Omit to keep the sandbox's current type. `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator (403 `machine_class_plan_required` otherwise). A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk. */
-  type?: ResumeSandboxRequestType | (string & {});
+  type?: ResumeSandboxRequestType | (string & {}) | undefined;
   /** Replaces the sandbox's per-sandbox environment variables. Omit to keep the sandbox's current env. Same validation rules as `CreateSandboxRequest.env`. */
-  env?: ResumeSandboxRequestEnvMap;
+  env?: ResumeSandboxRequestEnvMap | undefined;
   /** Optionally re-pin the sandbox to a different named sandbox environment on resume. Omit to keep the sandbox's current environment. Unknown names are rejected with `unknown_environment`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Resume into a no-env sandbox: withhold account secrets and scrub inherited owner secrets from the restored snapshot before the sandbox is exposed. One-way; once a sandbox is resumed as no-env it stays no-env on later resumes. */
-  noEnv?: boolean;
+  noEnv?: boolean | undefined;
   /** Auto-stop for the resumed sandbox, in seconds, stored on the sandbox. Omit to keep the TTL the sandbox already had. `null` disables auto-stop, which means nothing will ever stop this sandbox for you. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
 }
 export interface ResumeSandboxResponse {
   ok: boolean;
@@ -2934,11 +2934,11 @@ export interface ResumeSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface RevokeApiKeyRequest {
   apiKeyId: string;
@@ -3002,7 +3002,7 @@ export interface SaveSavedSnapshotResponse {
 export interface SearchFilesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
-  path?: string;
+  path?: string | undefined;
   pattern: string;
 }
 /** Absolute paths, at most 10,000. */
@@ -3013,17 +3013,17 @@ export interface SearchFilesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   /** Absolute paths, at most 10,000. */
   files: SearchFilesResponseFilesList;
   truncated: boolean;
   /** Present only when part of the tree could not be searched (for example a folder you cannot read). The results are then incomplete. A search that fails completely is an error response. */
-  errors?: SearchFilesResponseErrorsList;
+  errors?: SearchFilesResponseErrorsList | undefined;
 }
 export interface SelectRepoRequest {
   /** Internal repository `databaseId` returned by `GET /repos`. */
   repositoryId: string;
-  baseBranch?: string;
+  baseBranch?: string | undefined;
 }
 export type SelectRepoResponseSelectedRepositoriesList = Array<SelectedRepository>;
 export interface SelectRepoResponse {
@@ -3033,7 +3033,7 @@ export interface SelectRepoResponse {
   success: boolean;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its new version. */
-  subenvironmentId?: string | null;
+  subenvironmentId?: string | null | undefined;
   selectedRepositories: SelectRepoResponseSelectedRepositoriesList;
 }
 export interface SetActiveOrganizationRequest {
@@ -3059,18 +3059,18 @@ export interface SetCiPublicReposRequest {
   /** The linked GitHub account (login) or installation ID. */
   account: string;
   /** true = jobs from public repositories run. Omit to keep the current value. */
-  allow?: boolean;
+  allow?: boolean | undefined;
   /** GitHub users allowed: "alice, @bob" or a list. Commas, spaces, @ and profile URLs are accepted. "" = anyone. Omit to keep the current list. */
-  users?: SetCiPublicReposRequestUsers;
+  users?: SetCiPublicReposRequestUsers | undefined;
   /** Only check the users on GitHub; change nothing. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** The organization in scope. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface SetCiPublicReposResponsePublicRepoUsersItem {
   /** The login as GitHub spells it. */
-  login?: string;
-  avatarUrl?: string | null;
+  login?: string | undefined;
+  avatarUrl?: string | null | undefined;
 }
 export type SetCiPublicReposResponsePublicRepoUsersList =
   Array<SetCiPublicReposResponsePublicRepoUsersItem>;
@@ -3123,7 +3123,7 @@ export interface SetCredentialProfileKeyRequest {
   /** The API key. Boat encrypts it at rest. */
   value: string;
   /** Keep the key this one replaces as another account of the credential, ready to switch back to. */
-  keepCurrent?: boolean;
+  keepCurrent?: boolean | undefined;
 }
 export interface SetCredentialProfileKeyResponse {
   ok: boolean;
@@ -3135,7 +3135,7 @@ export interface SetCredentialProfileKeyResponse {
 export interface SetEnvironmentSecretFileRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** In-sandbox path relative to the workspace, e.g. `.env` or `repo/.env`. */
   path: string;
   contents: string;
@@ -3145,7 +3145,7 @@ export interface SetEnvironmentVarRequest {
   /** Environment variable name. */
   key: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   value: string;
 }
 export interface SetFilePermissionsRequest {
@@ -3168,7 +3168,7 @@ export interface SetFilePermissionsResponse {
   /** Octal permission bits, for example "0644". */
   mode: string;
   modifiedAt: string;
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface SetSandboxAiAccessRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -3189,7 +3189,7 @@ export interface SetTelemetryRequest {
   /** HTTPS URL on port 443 or 4318. Boat removes a trailing `/v1/metrics` or `/v1/logs`. */
   endpoint: string;
   /** Headers sent with every export, for example the vendor API key. Boat encrypts them at rest. */
-  headers?: SetTelemetryRequestHeadersMap;
+  headers?: SetTelemetryRequestHeadersMap | undefined;
 }
 export interface TelemetryTestResult {
   /** True when the collector accepted the test export. */
@@ -3210,16 +3210,16 @@ export interface ShareSandboxRequest {
   sandboxId: string;
 }
 export interface ShareSandboxResponse {
-  sandbox?: Sandbox;
+  sandbox?: Sandbox | undefined;
   /** True when the sandbox was running: what runs on it still holds your logins in memory, so it stays `view` for the organization until you stop and resume it. */
-  restartRequired?: boolean;
-  message?: string;
+  restartRequired?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface SteerSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Conversation id to steer. Also accepted in the body. Omit to steer the sandbox's most-recently-active conversation. */
-  conversation?: string;
+  conversation?: string | undefined;
   /** The extra instruction for the running turn. */
   message: string;
 }
@@ -3239,7 +3239,7 @@ export interface SteerSandboxResponse {
   /** `true` when the harness accepted the message into the turn that was already running, so nothing was interrupted. `false` when Boat interrupted that turn and immediately continued the SAME conversation with the instruction, which keeps the harness session and all of its memory but may repeat a little of the work in flight. */
   native: boolean;
   /** How the message was delivered. `native` and `fallback` mirror the `native` field; `late` means the turn finished between the request and its delivery, so the message ran as an ordinary new turn on the conversation. A steer reported `native` here can settle as `native-continued` on the `steer` event: the harness accepted it but its turn ended without acting on it, so Boat continued it immediately as its own turn on the same session. Read the event for the settled mode. */
-  mode?: SteerSandboxResponseMode;
+  mode?: SteerSandboxResponseMode | undefined;
   status: SteerSandboxResponseStatus;
 }
 export interface StopCommandRequest {
@@ -3264,7 +3264,7 @@ export interface StopSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Stop the sandbox even if its disk cannot be snapshotted. It keeps its last successful snapshot and everything written since then is permanently LOST. Without this, a sandbox whose snapshot pipeline is failing is left running rather than discarding your work, and you are not billed for that time. Only use this after a stop has already been refused. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopSandboxResponse {
   ok: boolean;
@@ -3272,11 +3272,11 @@ export interface StopSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
 export type SwitchCredentialAccountRequestCredential =
@@ -3320,14 +3320,14 @@ export interface UnshareSandboxRequest {
   sandboxId: string;
 }
 export interface UnshareSandboxResponse {
-  sandbox?: Sandbox;
-  message?: string;
+  sandbox?: Sandbox | undefined;
+  message?: string | undefined;
 }
 export interface UpdateAiProxyRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
   enabled: boolean;
 }
 export type UpdateAiProxyResponsePricing = GetAiProxyResponsePricing;
@@ -3353,17 +3353,17 @@ export interface ResourceAccessUpdate {
   /** False opens it to every member. True limits it to owners, admins and `members`. */
   restricted: boolean;
   /** Member ids or emails of active members. Replaces the full list. */
-  members?: ResourceAccessUpdateMembersList;
+  members?: ResourceAccessUpdateMembersList | undefined;
 }
 export interface UpdateCredentialProfileRequest {
   /** Profile id or name. */
   profile: string;
   /** New profile name. */
-  name?: string;
+  name?: string | undefined;
   /** Send true to make this profile its owner's default. The previous default loses the flag. False is ignored; make another profile the default instead. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Organization profiles only. Organization owner only. */
-  access?: ResourceAccessUpdate;
+  access?: ResourceAccessUpdate | undefined;
 }
 export interface UpdateCredentialProfileResponse {
   ok: boolean;
@@ -3373,13 +3373,13 @@ export interface UpdateCredentialProfileResponse {
   profile: CredentialProfile;
 }
 export interface UpdateDataRetentionRequest {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Turn snapshots off for every sandbox created from now on. Existing sandboxes keep their setting. While on, a create or fork that passes `snapshots: true` is refused with 409 `snapshots_off_for_account`. */
-  snapshotsOff?: boolean;
+  snapshotsOff?: boolean | undefined;
   /** Turn monitoring off for every sandbox created from now on. Existing sandboxes keep their setting. While on, a create or fork that passes `monitoring: true` is refused with 409 `monitoring_off_for_account`. */
-  monitoringOff?: boolean;
+  monitoringOff?: boolean | undefined;
   /** Required when enabling and must exactly equal `delete archived sandbox data`. */
-  confirmation?: string;
+  confirmation?: string | undefined;
 }
 export interface UpdateDataRetentionResponse {
   ok: boolean;
@@ -3388,23 +3388,23 @@ export interface UpdateDataRetentionResponse {
   enabled: boolean;
   enabledAt: string | null;
   /** Archived Sandboxes newly queued for deletion by this policy update. */
-  queuedSandboxes?: number;
+  queuedSandboxes?: number | undefined;
   /** Always true on updates. Disabling the policy does not cancel accepted deletion operations. */
-  acceptedDeletionOperationsIrreversible?: boolean;
+  acceptedDeletionOperationsIrreversible?: boolean | undefined;
   /** When true, every new sandbox of this account is created with snapshots off. */
-  snapshotsOff?: boolean;
-  snapshotsOffAt?: string | null;
+  snapshotsOff?: boolean | undefined;
+  snapshotsOffAt?: string | null | undefined;
   /** When true, every new sandbox of this account is created with monitoring off. */
-  monitoringOff?: boolean;
-  monitoringOffAt?: string | null;
+  monitoringOff?: boolean | undefined;
+  monitoringOffAt?: string | null | undefined;
 }
 export type UpdateEnvironmentRequestSecretFilesList = Array<SecretFile>;
 export interface UpdateEnvironmentRequestRepositoriesItem {
   /** Internal repository databaseId. */
   repositoryId: string;
-  baseBranch?: string;
-  setupScript?: string;
-  setupBlocking?: boolean;
+  baseBranch?: string | undefined;
+  setupScript?: string | undefined;
+  setupBlocking?: boolean | undefined;
 }
 /** Full replacement of the version's repository selection. Each item selects one repository by its internal `databaseId` (from `GET /repos`). */
 export type UpdateEnvironmentRequestRepositoriesList =
@@ -3413,51 +3413,51 @@ export interface UpdateEnvironmentRequest {
   /** Environment id returned by `GET /environments`. */
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** New environment name. */
-  name?: string;
+  name?: string | undefined;
   /** Set to true to make this the default environment (clears the flag on the previous default). */
-  isDefault?: boolean;
-  safeForThirdParties?: boolean;
-  passGithub?: boolean;
-  passSecrets?: boolean;
-  passSandboxCredentials?: boolean;
-  passAgentsCredentials?: boolean;
+  isDefault?: boolean | undefined;
+  safeForThirdParties?: boolean | undefined;
+  passGithub?: boolean | undefined;
+  passSecrets?: boolean | undefined;
+  passSandboxCredentials?: boolean | undefined;
+  passAgentsCredentials?: boolean | undefined;
   /** Id or name of a credential profile you can use, or null for the sandbox owner's default profile. Unknown profiles return `404 credential_profile_not_found`. */
-  credentialProfileId?: string | null;
+  credentialProfileId?: string | null | undefined;
   /** With `safeForThirdParties` true, pass AI credentials as proxy placeholders. Setting true needs the AI credentials proxy on for the profile owner, else `400 ai_proxy_off`. */
-  proxyAiCredentials?: boolean;
-  access?: ResourceAccessUpdate;
+  proxyAiCredentials?: boolean | undefined;
+  access?: ResourceAccessUpdate | undefined;
   /** Full .env-style content for the new version. */
-  envContents?: string;
-  secretFiles?: UpdateEnvironmentRequestSecretFilesList;
+  envContents?: string | undefined;
+  secretFiles?: UpdateEnvironmentRequestSecretFilesList | undefined;
   /** Full replacement of the version's repository selection. Each item selects one repository by its internal `databaseId` (from `GET /repos`). */
-  repositories?: UpdateEnvironmentRequestRepositoriesList;
+  repositories?: UpdateEnvironmentRequestRepositoriesList | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** Organization id or name. */
   org: string;
   /** New name. Owner only. Leading and trailing spaces are removed. */
-  name?: string;
+  name?: string | undefined;
   /** True = new sandboxes start private. False = they start shared. */
-  newSandboxesPrivate?: boolean;
+  newSandboxesPrivate?: boolean | undefined;
 }
 export interface UpdateOrganizationResponse {
-  ok?: boolean;
-  type?: string;
-  success?: boolean;
-  name?: string;
-  newSandboxesPrivate?: boolean;
+  ok?: boolean | undefined;
+  type?: string | undefined;
+  success?: boolean | undefined;
+  name?: string | undefined;
+  newSandboxesPrivate?: boolean | undefined;
 }
 export interface UpdateSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** New display name. Empty strings are rejected; longer names are truncated to 120 chars by the backend. */
-  name?: string;
+  name?: string | undefined;
   /** New auto-stop TTL. The deadline becomes now + `ttlSeconds`, so calling this again extends a running sandbox's life. `null` disables auto-stop. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
   /** Rename the sandbox's stable subdomain (the `<subdomain>.on.boat.dev` label). Lowercase letters, digits and hyphens; no leading/trailing/double hyphens; cannot end in `-desktop` or `-<number>` (reserved for the desktop and hosted-port URLs). Must be globally unique. The base URL, desktop URL and every live `host <port>` URL are re-pointed to the new name with no downtime and their access tokens preserved; the old URLs stop resolving. On a transient routing error the rename is saved but returns 502 `gateway_error` - retry with the same value to finish activating routes. */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 export interface UpdateSandboxResponse {
   ok: boolean;
@@ -3465,15 +3465,15 @@ export interface UpdateSandboxResponse {
   type: string;
   sandbox: Sandbox;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 /** Full list of secret files to keep configured. Send existing files again if they should remain. */
 export type UpdateSecretsRequestSecretFilesList = Array<SecretFile>;
 export interface UpdateSecretsRequest {
   /** Full .env-style content to sync into sandboxes. Send the complete desired file contents, not a patch. */
-  envContents?: string;
+  envContents?: string | undefined;
   /** Full list of secret files to keep configured. Send existing files again if they should remain. */
-  secretFiles?: UpdateSecretsRequestSecretFilesList;
+  secretFiles?: UpdateSecretsRequestSecretFilesList | undefined;
 }
 export type UpdateSecretsResponseSecretFilesList = Array<SecretFile>;
 /** Present on update; counts how many active sandboxes received the new environment. */
@@ -3482,21 +3482,21 @@ export interface UpdateSecretsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string;
+  subenvironmentId?: string | undefined;
   envContents: string;
   secretFiles: UpdateSecretsResponseSecretFilesList;
   /** Present on update; counts how many active sandboxes received the new environment. */
-  pushed?: UpdateSecretsResponsePushedMap;
+  pushed?: UpdateSecretsResponsePushedMap | undefined;
 }
 export type UpdateWebhookRequestEventsList = Array<WebhookEventType | (string & {})>;
 export interface UpdateWebhookRequest {
   webhookId: string;
-  name?: string | null;
-  url?: string;
-  events?: UpdateWebhookRequestEventsList;
+  name?: string | null | undefined;
+  url?: string | undefined;
+  events?: UpdateWebhookRequestEventsList | undefined;
 }
 export interface UpdateWebhookResponse {
   ok: boolean;
@@ -3509,20 +3509,20 @@ export type UpgradeEnvironmentRequestAgentIdsList = Array<string>;
 export interface UpgradeEnvironmentRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Restrict the upgrade to these sandbox (agent) ids. Omit to upgrade all of the caller's active sandboxes that are on an older version of this environment. */
-  agentIds?: UpgradeEnvironmentRequestAgentIdsList;
+  agentIds?: UpgradeEnvironmentRequestAgentIdsList | undefined;
 }
 export interface UpgradeSandboxEnvironmentResponse {
   success: boolean;
   upgraded: number;
   /** Running sandboxes that received the new configuration now. */
-  upgradedLive?: number;
+  upgradedLive?: number | undefined;
   /** Stopped sandboxes moved to the latest version; they pick it up when they next resume. */
-  upgradedStopped?: number;
+  upgradedStopped?: number | undefined;
   failed: number;
   /** Id of the version the sandboxes were moved to. */
-  latestVersionId?: string;
+  latestVersionId?: string | undefined;
 }
 export type WriteSandboxFileRequestEncoding = "utf8" | "base64";
 export interface WriteSandboxFileRequest {
@@ -3531,7 +3531,7 @@ export interface WriteSandboxFileRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). The canonicalized path must resolve under /home/user or /tmp; anything else is rejected with a 400 invalid_path error. */
   path: string;
   content: string;
-  encoding?: WriteSandboxFileRequestEncoding | (string & {});
+  encoding?: WriteSandboxFileRequestEncoding | (string & {}) | undefined;
 }
 export type WriteSandboxFileResponseEncoding = "utf8" | "base64";
 export interface WriteSandboxFileResponse {

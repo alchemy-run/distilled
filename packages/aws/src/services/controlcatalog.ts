@@ -245,9 +245,17 @@ export interface RelatedControlMappingDetails {
   RelationType: ControlRelationType;
 }
 export type Mapping =
-  | { Framework: FrameworkMappingDetails; CommonControl?: never; RelatedControl?: never }
-  | { Framework?: never; CommonControl: CommonControlMappingDetails; RelatedControl?: never }
-  | { Framework?: never; CommonControl?: never; RelatedControl: RelatedControlMappingDetails };
+  | { Framework: FrameworkMappingDetails; CommonControl?: undefined; RelatedControl?: undefined }
+  | {
+      Framework?: undefined;
+      CommonControl: CommonControlMappingDetails;
+      RelatedControl?: undefined;
+    }
+  | {
+      Framework?: undefined;
+      CommonControl?: undefined;
+      RelatedControl: RelatedControlMappingDetails;
+    };
 export interface ControlMapping {
   ControlArn: string;
   MappingType: MappingType;

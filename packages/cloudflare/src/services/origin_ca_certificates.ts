@@ -197,7 +197,7 @@ export interface ListOriginCaCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateOriginCaCertificateError = HostnameNotAuthorized | Forbidden | CloudflareOpError;
 /** Create an Origin CA certificate. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)). */

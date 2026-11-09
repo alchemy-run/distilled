@@ -253,8 +253,11 @@ export interface RevokeServicePeriodPayload {
   note?: string | undefined;
 }
 export type ChannelHandshakePayload =
-  | { startServicePeriodPayload: StartServicePeriodPayload; revokeServicePeriodPayload?: never }
-  | { startServicePeriodPayload?: never; revokeServicePeriodPayload: RevokeServicePeriodPayload };
+  | { startServicePeriodPayload: StartServicePeriodPayload; revokeServicePeriodPayload?: undefined }
+  | {
+      startServicePeriodPayload?: undefined;
+      revokeServicePeriodPayload: RevokeServicePeriodPayload;
+    };
 export type ClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -325,17 +328,17 @@ export interface ResoldUnifiedOperations {
 export type SupportPlan =
   | {
       resoldEnterprise: ResoldEnterprise;
-      partnerLedSupport?: never;
-      resoldUnifiedOperations?: never;
+      partnerLedSupport?: undefined;
+      resoldUnifiedOperations?: undefined;
     }
   | {
-      resoldEnterprise?: never;
+      resoldEnterprise?: undefined;
       partnerLedSupport: PartnerLedSupport;
-      resoldUnifiedOperations?: never;
+      resoldUnifiedOperations?: undefined;
     }
   | {
-      resoldEnterprise?: never;
-      partnerLedSupport?: never;
+      resoldEnterprise?: undefined;
+      partnerLedSupport?: undefined;
       resoldUnifiedOperations: ResoldUnifiedOperations;
     };
 export interface CreateRelationshipRequest {
@@ -413,17 +416,17 @@ export interface ProgramManagementAccountTypeFilters {
 export type ListChannelHandshakesTypeFilters =
   | {
       startServicePeriodTypeFilters: StartServicePeriodTypeFilters;
-      revokeServicePeriodTypeFilters?: never;
-      programManagementAccountTypeFilters?: never;
+      revokeServicePeriodTypeFilters?: undefined;
+      programManagementAccountTypeFilters?: undefined;
     }
   | {
-      startServicePeriodTypeFilters?: never;
+      startServicePeriodTypeFilters?: undefined;
       revokeServicePeriodTypeFilters: RevokeServicePeriodTypeFilters;
-      programManagementAccountTypeFilters?: never;
+      programManagementAccountTypeFilters?: undefined;
     }
   | {
-      startServicePeriodTypeFilters?: never;
-      revokeServicePeriodTypeFilters?: never;
+      startServicePeriodTypeFilters?: undefined;
+      revokeServicePeriodTypeFilters?: undefined;
       programManagementAccountTypeFilters: ProgramManagementAccountTypeFilters;
     };
 export type SortOrder = "Ascending" | "Descending" | (string & {});
@@ -445,17 +448,17 @@ export interface ProgramManagementAccountTypeSort {
 export type ListChannelHandshakesTypeSort =
   | {
       startServicePeriodTypeSort: StartServicePeriodTypeSort;
-      revokeServicePeriodTypeSort?: never;
-      programManagementAccountTypeSort?: never;
+      revokeServicePeriodTypeSort?: undefined;
+      programManagementAccountTypeSort?: undefined;
     }
   | {
-      startServicePeriodTypeSort?: never;
+      startServicePeriodTypeSort?: undefined;
       revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort;
-      programManagementAccountTypeSort?: never;
+      programManagementAccountTypeSort?: undefined;
     }
   | {
-      startServicePeriodTypeSort?: never;
-      revokeServicePeriodTypeSort?: never;
+      startServicePeriodTypeSort?: undefined;
+      revokeServicePeriodTypeSort?: undefined;
       programManagementAccountTypeSort: ProgramManagementAccountTypeSort;
     };
 export type NextToken = string;
@@ -492,17 +495,17 @@ export interface ProgramManagementAccountHandshakeDetail {
 export type HandshakeDetail =
   | {
       startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail;
-      revokeServicePeriodHandshakeDetail?: never;
-      programManagementAccountHandshakeDetail?: never;
+      revokeServicePeriodHandshakeDetail?: undefined;
+      programManagementAccountHandshakeDetail?: undefined;
     }
   | {
-      startServicePeriodHandshakeDetail?: never;
+      startServicePeriodHandshakeDetail?: undefined;
       revokeServicePeriodHandshakeDetail: RevokeServicePeriodHandshakeDetail;
-      programManagementAccountHandshakeDetail?: never;
+      programManagementAccountHandshakeDetail?: undefined;
     }
   | {
-      startServicePeriodHandshakeDetail?: never;
-      revokeServicePeriodHandshakeDetail?: never;
+      startServicePeriodHandshakeDetail?: undefined;
+      revokeServicePeriodHandshakeDetail?: undefined;
       programManagementAccountHandshakeDetail: ProgramManagementAccountHandshakeDetail;
     };
 export interface ChannelHandshakeSummary {

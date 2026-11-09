@@ -177,7 +177,7 @@ export interface BulkCreateLabelUsersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LabelsUserBulkCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OperationsLabelsBulkCreateRequestSelectorIncludeOperationIdsList = Array<string>;
 export interface OperationsLabelsBulkCreateRequestSelectorInclude {
@@ -246,7 +246,7 @@ export interface BulkCreateOperationLabelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OperationsLabelsBulkCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OperationsBulkCreateRequestBodyItemMethod =
   | "GET"
@@ -441,7 +441,7 @@ export interface BulkCreateOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OperationsBulkCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkDeleteLabelUsersRequest {
   /** Identifier. */
@@ -465,7 +465,7 @@ export interface BulkDeleteLabelUsersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LabelsUserBulkDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkDeleteOperationLabelsRequest {
   /** Identifier. */
@@ -513,7 +513,7 @@ export interface BulkDeleteOperationLabelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OperationsLabelsBulkDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkDeleteOperationsRequest {
   /** Identifier. */
@@ -611,7 +611,7 @@ export interface BulkUpdateOperationLabelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OperationsLabelsBulkUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ExpressionTemplateFallthroughCreateRequestHostsList = Array<string>;
 export interface CreateExpressionTemplateFallthroughRequest {
@@ -1332,7 +1332,7 @@ export interface ListDiscoveryOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DiscoveryOperationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type LabelsListRequestDirection = "asc" | "desc";
 export type LabelsListRequestOrder =
@@ -1380,7 +1380,7 @@ export interface ListLabelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LabelsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OperationsListRequestDirection = "asc" | "desc";
 export type OperationsListRequestFeature =
@@ -1513,7 +1513,7 @@ export interface ListOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OperationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SchemasListRequestFeature =
   | "thresholds"
@@ -1565,7 +1565,7 @@ export interface ListUserSchemaHostsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserSchemasHostsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UserSchemasOperationsListRequestFeature =
   | "thresholds"
@@ -1719,7 +1719,7 @@ export interface ListUserSchemaOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserSchemasOperationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListUserSchemasRequest {
   /** Identifier. */
@@ -1752,7 +1752,7 @@ export interface ListUserSchemasResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserSchemasListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchLabelUserRequest {
   /** Identifier. */

@@ -233,9 +233,17 @@ export interface PayloadPart {
 export type Message = string;
 export type ErrorCode = string;
 export type ResponseStream =
-  | { PayloadPart: PayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
+  | { PayloadPart: PayloadPart; ModelStreamError?: undefined; InternalStreamFailure?: undefined }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError?: undefined;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export interface InvokeEndpointWithResponseStreamOutput {
   Body: stream.Stream<ResponseStream, Error, never>;
   ContentType?: string | undefined;

@@ -446,101 +446,101 @@ export interface DICOMStudyDateAndTime {
 export type SearchByAttributeValue =
   | {
       DICOMPatientId: string | redacted.Redacted<string>;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
+      DICOMPatientId?: undefined;
       DICOMAccessionNumber: string | redacted.Redacted<string>;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
       DICOMStudyId: string | redacted.Redacted<string>;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
       DICOMStudyInstanceUID: string | redacted.Redacted<string>;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
       DICOMSeriesInstanceUID: string | redacted.Redacted<string>;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
       createdAt: Date;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
       updatedAt: Date;
-      DICOMStudyDateAndTime?: never;
-      isPrimary?: never;
+      DICOMStudyDateAndTime?: undefined;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
       DICOMStudyDateAndTime: DICOMStudyDateAndTime;
-      isPrimary?: never;
+      isPrimary?: undefined;
     }
   | {
-      DICOMPatientId?: never;
-      DICOMAccessionNumber?: never;
-      DICOMStudyId?: never;
-      DICOMStudyInstanceUID?: never;
-      DICOMSeriesInstanceUID?: never;
-      createdAt?: never;
-      updatedAt?: never;
-      DICOMStudyDateAndTime?: never;
+      DICOMPatientId?: undefined;
+      DICOMAccessionNumber?: undefined;
+      DICOMStudyId?: undefined;
+      DICOMStudyInstanceUID?: undefined;
+      DICOMSeriesInstanceUID?: undefined;
+      createdAt?: undefined;
+      updatedAt?: undefined;
+      DICOMStudyDateAndTime?: undefined;
       isPrimary: boolean;
     };
 export type SearchByAttributeValues = SearchByAttributeValue[];
@@ -643,8 +643,8 @@ export interface DICOMUpdates {
   updatableAttributes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type MetadataUpdates =
-  | { DICOMUpdates: DICOMUpdates; revertToVersionId?: never }
-  | { DICOMUpdates?: never; revertToVersionId: string };
+  | { DICOMUpdates: DICOMUpdates; revertToVersionId?: undefined }
+  | { DICOMUpdates?: undefined; revertToVersionId: string };
 export interface UpdateImageSetMetadataRequest {
   datastoreId: string;
   imageSetId: string;

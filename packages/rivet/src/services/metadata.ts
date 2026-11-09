@@ -61,7 +61,7 @@ export interface MetadataGetResponse {
   /** Version of the protocol nodes use to connect to the control plane. */
   envoyProtocolVersion: number;
   /** Actor names the default namespace's connected nodes accept. Only present for requests made with the admin token. */
-  actorNames?: MetadataGetResponseActorNamesMap;
+  actorNames?: MetadataGetResponseActorNamesMap | undefined;
 }
 export type GetMetadataError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Returns the runtime and version of the control plane. Requests with the admin token also receive the actor names served by the default namespace. */

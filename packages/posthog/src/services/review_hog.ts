@@ -245,7 +245,7 @@ export interface GetReviewHogReviewsPerspectiveStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whose reviews to aggregate: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
-  scope?: GetReviewHogReviewsPerspectiveStatRequestScope | (string & {});
+  scope?: GetReviewHogReviewsPerspectiveStatRequestScope | (string & {}) | undefined;
 }
 export interface ReviewPerspectiveStatItem {
   /** The review skill (perspective or blind-spot sweep) that raised the findings. */
@@ -318,9 +318,9 @@ export interface ListReviewHogReviewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum rows to return. The list grows this instead of paging by offset -- in-progress rows reorder the list between refreshes, so offset pages would shift under the reader. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
-  scope?: ListReviewHogReviewsRequestScope | (string & {});
+  scope?: ListReviewHogReviewsRequestScope | (string & {}) | undefined;
 }
 export interface ReviewRecentReview {
   /** The review report's id, for fetching the review's detail. */
@@ -408,7 +408,7 @@ export interface ReviewHogReviewsTriggerCreateRequest {
   /** GitHub pull request URL to review, e.g. 'https://github.com/PostHog/posthog.com/pull/123'. The repository must be accessible to the project's GitHub App installation. */
   pr_url: string;
   /** What to run on the pull request. 'review' (default) reviews it and, when the requesting user's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads; 'flash' uses a lower-cost model for the review passes and validation, and never resolves comments. * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only * `flash` - flash */
-  run_mode?: ReviewTriggerRequestRunModeEnum | (string & {});
+  run_mode?: ReviewTriggerRequestRunModeEnum | (string & {}) | undefined;
 }
 export interface ReviewTriggerResponse {
   /** Temporal workflow id for the started review run; empty when no run was started. */
@@ -421,28 +421,28 @@ export interface UpdateReviewHogBlindSpotsPartialRequest {
   project_id: string;
   skill_name: string;
   /** Set true to make this the single blind-spots skill that runs on the user's PR reviews. Only true is accepted -- the blind-spot check is single-active, so you switch by selecting a different skill, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface UpdateReviewHogPerspectivesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to run this perspective on the user's PR reviews, false to stop running it. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateReviewHogResolutionPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to make these the single resolution criteria applied on the user's PRs. Only true is accepted -- resolution criteria are single-active, so you switch by selecting a different skill, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface UpdateReviewHogValidatorsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to make this the single validator that runs on the user's PR reviews. Only true is accepted -- validators are single-active, so you switch by selecting a different one, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type GetReviewHogReviewError = NotFound | PosthogOpError;
 /** Retrieve one review's detail One completed ReviewHog review on this project, with the latest turn's validated findings, the findings the validator dismissed (and why), and the review body published to GitHub. Project-wide, so reviews listed under `scope=everyone` can be opened too. */

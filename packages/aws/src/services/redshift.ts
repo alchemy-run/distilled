@@ -2395,9 +2395,9 @@ export interface Connect {
 export type RedshiftScopeUnion = { Connect: Connect };
 export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export type ServiceIntegrationsUnion =
-  | { LakeFormation: LakeFormationScopeUnion[]; S3AccessGrants?: never; Redshift?: never }
-  | { LakeFormation?: never; S3AccessGrants: S3AccessGrantsScopeUnion[]; Redshift?: never }
-  | { LakeFormation?: never; S3AccessGrants?: never; Redshift: RedshiftScopeUnion[] };
+  | { LakeFormation: LakeFormationScopeUnion[]; S3AccessGrants?: undefined; Redshift?: undefined }
+  | { LakeFormation?: undefined; S3AccessGrants: S3AccessGrantsScopeUnion[]; Redshift?: undefined }
+  | { LakeFormation?: undefined; S3AccessGrants?: undefined; Redshift: RedshiftScopeUnion[] };
 export type ServiceIntegrationList = ServiceIntegrationsUnion[];
 export type ApplicationType = "None" | "Lakehouse" | (string & {});
 export type TagKeyList = string[];
@@ -2648,8 +2648,8 @@ export interface ProvisionedIdentifier {
   ClusterIdentifier?: string | undefined;
 }
 export type NamespaceIdentifierUnion =
-  | { ServerlessIdentifier: ServerlessIdentifier; ProvisionedIdentifier?: never }
-  | { ServerlessIdentifier?: never; ProvisionedIdentifier: ProvisionedIdentifier };
+  | { ServerlessIdentifier: ServerlessIdentifier; ProvisionedIdentifier?: undefined }
+  | { ServerlessIdentifier?: undefined; ProvisionedIdentifier: ProvisionedIdentifier };
 export type ConsumerIdentifierList = string[];
 export interface DeregisterNamespaceInputMessage {
   NamespaceIdentifier?: NamespaceIdentifierUnion | undefined;

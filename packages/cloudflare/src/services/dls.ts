@@ -127,7 +127,7 @@ export interface ListRegionalServicePrefixBindingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionalServicesPrefixBindingsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type RegionsListRequestType = "managed" | "custom";
 export interface ListRegionsRequest {
@@ -153,7 +153,7 @@ export interface ListRegionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchRegionalServicePrefixBindingRequest {
   /** Identifier of a Cloudflare account. */

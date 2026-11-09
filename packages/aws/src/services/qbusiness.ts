@@ -243,10 +243,30 @@ export type DocumentAttributeKey = string;
 export type DocumentAttributeStringValue = string;
 export type DocumentAttributeStringListValue = string[];
 export type DocumentAttributeValue =
-  | { stringValue: string; stringListValue?: never; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue: string[]; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue: number; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue?: never; dateValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue: string[];
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue: number;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue: Date;
+    };
 export interface DocumentAttribute {
   name: string;
   value: DocumentAttributeValue;
@@ -258,7 +278,7 @@ export interface S3 {
   bucket: string;
   key: string;
 }
-export type DocumentContent = { blob: Uint8Array; s3?: never } | { blob?: never; s3: S3 };
+export type DocumentContent = { blob: Uint8Array; s3?: undefined } | { blob?: undefined; s3: S3 };
 export type ContentType =
   | "PDF"
   | "HTML"
@@ -289,8 +309,8 @@ export interface PrincipalGroup {
   membershipType?: MembershipType | undefined;
 }
 export type Principal =
-  | { user: PrincipalUser; group?: never }
-  | { user?: never; group: PrincipalGroup };
+  | { user: PrincipalUser; group?: undefined }
+  | { user?: undefined; group: PrincipalGroup };
 export type Principals = Principal[];
 export type MemberRelation = "AND" | "OR" | (string & {});
 export interface AccessControl {
@@ -468,50 +488,50 @@ export interface AuthChallengeResponseEvent {
 export type ChatInputStream =
   | {
       configurationEvent: ConfigurationEvent;
-      textEvent?: never;
-      attachmentEvent?: never;
-      actionExecutionEvent?: never;
-      endOfInputEvent?: never;
-      authChallengeResponseEvent?: never;
+      textEvent?: undefined;
+      attachmentEvent?: undefined;
+      actionExecutionEvent?: undefined;
+      endOfInputEvent?: undefined;
+      authChallengeResponseEvent?: undefined;
     }
   | {
-      configurationEvent?: never;
+      configurationEvent?: undefined;
       textEvent: TextInputEvent;
-      attachmentEvent?: never;
-      actionExecutionEvent?: never;
-      endOfInputEvent?: never;
-      authChallengeResponseEvent?: never;
+      attachmentEvent?: undefined;
+      actionExecutionEvent?: undefined;
+      endOfInputEvent?: undefined;
+      authChallengeResponseEvent?: undefined;
     }
   | {
-      configurationEvent?: never;
-      textEvent?: never;
+      configurationEvent?: undefined;
+      textEvent?: undefined;
       attachmentEvent: AttachmentInputEvent;
-      actionExecutionEvent?: never;
-      endOfInputEvent?: never;
-      authChallengeResponseEvent?: never;
+      actionExecutionEvent?: undefined;
+      endOfInputEvent?: undefined;
+      authChallengeResponseEvent?: undefined;
     }
   | {
-      configurationEvent?: never;
-      textEvent?: never;
-      attachmentEvent?: never;
+      configurationEvent?: undefined;
+      textEvent?: undefined;
+      attachmentEvent?: undefined;
       actionExecutionEvent: ActionExecutionEvent;
-      endOfInputEvent?: never;
-      authChallengeResponseEvent?: never;
+      endOfInputEvent?: undefined;
+      authChallengeResponseEvent?: undefined;
     }
   | {
-      configurationEvent?: never;
-      textEvent?: never;
-      attachmentEvent?: never;
-      actionExecutionEvent?: never;
+      configurationEvent?: undefined;
+      textEvent?: undefined;
+      attachmentEvent?: undefined;
+      actionExecutionEvent?: undefined;
       endOfInputEvent: EndOfInputEvent;
-      authChallengeResponseEvent?: never;
+      authChallengeResponseEvent?: undefined;
     }
   | {
-      configurationEvent?: never;
-      textEvent?: never;
-      attachmentEvent?: never;
-      actionExecutionEvent?: never;
-      endOfInputEvent?: never;
+      configurationEvent?: undefined;
+      textEvent?: undefined;
+      attachmentEvent?: undefined;
+      actionExecutionEvent?: undefined;
+      endOfInputEvent?: undefined;
       authChallengeResponseEvent: AuthChallengeResponseEvent;
     };
 export interface ChatInput {
@@ -560,17 +580,17 @@ export interface VideoSourceDetails {
 export type SourceDetails =
   | {
       imageSourceDetails: ImageSourceDetails;
-      audioSourceDetails?: never;
-      videoSourceDetails?: never;
+      audioSourceDetails?: undefined;
+      videoSourceDetails?: undefined;
     }
   | {
-      imageSourceDetails?: never;
+      imageSourceDetails?: undefined;
       audioSourceDetails: AudioSourceDetails;
-      videoSourceDetails?: never;
+      videoSourceDetails?: undefined;
     }
   | {
-      imageSourceDetails?: never;
-      audioSourceDetails?: never;
+      imageSourceDetails?: undefined;
+      audioSourceDetails?: undefined;
       videoSourceDetails: VideoSourceDetails;
     };
 export interface TextSegment {
@@ -669,37 +689,37 @@ export interface AuthChallengeRequestEvent {
 export type ChatOutputStream =
   | {
       textEvent: TextOutputEvent;
-      metadataEvent?: never;
-      actionReviewEvent?: never;
-      failedAttachmentEvent?: never;
-      authChallengeRequestEvent?: never;
+      metadataEvent?: undefined;
+      actionReviewEvent?: undefined;
+      failedAttachmentEvent?: undefined;
+      authChallengeRequestEvent?: undefined;
     }
   | {
-      textEvent?: never;
+      textEvent?: undefined;
       metadataEvent: MetadataEvent;
-      actionReviewEvent?: never;
-      failedAttachmentEvent?: never;
-      authChallengeRequestEvent?: never;
+      actionReviewEvent?: undefined;
+      failedAttachmentEvent?: undefined;
+      authChallengeRequestEvent?: undefined;
     }
   | {
-      textEvent?: never;
-      metadataEvent?: never;
+      textEvent?: undefined;
+      metadataEvent?: undefined;
       actionReviewEvent: ActionReviewEvent;
-      failedAttachmentEvent?: never;
-      authChallengeRequestEvent?: never;
+      failedAttachmentEvent?: undefined;
+      authChallengeRequestEvent?: undefined;
     }
   | {
-      textEvent?: never;
-      metadataEvent?: never;
-      actionReviewEvent?: never;
+      textEvent?: undefined;
+      metadataEvent?: undefined;
+      actionReviewEvent?: undefined;
       failedAttachmentEvent: FailedAttachmentEvent;
-      authChallengeRequestEvent?: never;
+      authChallengeRequestEvent?: undefined;
     }
   | {
-      textEvent?: never;
-      metadataEvent?: never;
-      actionReviewEvent?: never;
-      failedAttachmentEvent?: never;
+      textEvent?: undefined;
+      metadataEvent?: undefined;
+      actionReviewEvent?: undefined;
+      failedAttachmentEvent?: undefined;
       authChallengeRequestEvent: AuthChallengeRequestEvent;
     };
 export interface ChatOutput {
@@ -1013,34 +1033,34 @@ export interface IdcAuthConfiguration {
 export type PluginAuthConfiguration =
   | {
       basicAuthConfiguration: BasicAuthConfiguration;
-      oAuth2ClientCredentialConfiguration?: never;
-      noAuthConfiguration?: never;
-      idcAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration?: undefined;
+      noAuthConfiguration?: undefined;
+      idcAuthConfiguration?: undefined;
     }
   | {
-      basicAuthConfiguration?: never;
+      basicAuthConfiguration?: undefined;
       oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration;
-      noAuthConfiguration?: never;
-      idcAuthConfiguration?: never;
+      noAuthConfiguration?: undefined;
+      idcAuthConfiguration?: undefined;
     }
   | {
-      basicAuthConfiguration?: never;
-      oAuth2ClientCredentialConfiguration?: never;
+      basicAuthConfiguration?: undefined;
+      oAuth2ClientCredentialConfiguration?: undefined;
       noAuthConfiguration: NoAuthConfiguration;
-      idcAuthConfiguration?: never;
+      idcAuthConfiguration?: undefined;
     }
   | {
-      basicAuthConfiguration?: never;
-      oAuth2ClientCredentialConfiguration?: never;
-      noAuthConfiguration?: never;
+      basicAuthConfiguration?: undefined;
+      oAuth2ClientCredentialConfiguration?: undefined;
+      noAuthConfiguration?: undefined;
       idcAuthConfiguration: IdcAuthConfiguration;
     };
 export type PluginDescription = string;
 export type APISchemaType = "OPEN_API_V3" | (string & {});
 export type Payload = string | redacted.Redacted<string>;
 export type APISchema =
-  | { payload: string | redacted.Redacted<string>; s3?: never }
-  | { payload?: never; s3: S3 };
+  | { payload: string | redacted.Redacted<string>; s3?: undefined }
+  | { payload?: undefined; s3: S3 };
 export interface CustomPluginConfiguration {
   description: string;
   apiSchemaType: APISchemaType;
@@ -1121,26 +1141,26 @@ export interface StringListAttributeBoostingConfiguration {
 export type DocumentAttributeBoostingConfiguration =
   | {
       numberConfiguration: NumberAttributeBoostingConfiguration;
-      stringConfiguration?: never;
-      dateConfiguration?: never;
-      stringListConfiguration?: never;
+      stringConfiguration?: undefined;
+      dateConfiguration?: undefined;
+      stringListConfiguration?: undefined;
     }
   | {
-      numberConfiguration?: never;
+      numberConfiguration?: undefined;
       stringConfiguration: StringAttributeBoostingConfiguration;
-      dateConfiguration?: never;
-      stringListConfiguration?: never;
+      dateConfiguration?: undefined;
+      stringListConfiguration?: undefined;
     }
   | {
-      numberConfiguration?: never;
-      stringConfiguration?: never;
+      numberConfiguration?: undefined;
+      stringConfiguration?: undefined;
       dateConfiguration: DateAttributeBoostingConfiguration;
-      stringListConfiguration?: never;
+      stringListConfiguration?: undefined;
     }
   | {
-      numberConfiguration?: never;
-      stringConfiguration?: never;
-      dateConfiguration?: never;
+      numberConfiguration?: undefined;
+      stringConfiguration?: undefined;
+      dateConfiguration?: undefined;
       stringListConfiguration: StringListAttributeBoostingConfiguration;
     };
 export type DocumentAttributeBoostingOverrideMap = {
@@ -1158,8 +1178,8 @@ export interface KendraIndexConfiguration {
   indexId: string;
 }
 export type RetrieverConfiguration =
-  | { nativeIndexConfiguration: NativeIndexConfiguration; kendraIndexConfiguration?: never }
-  | { nativeIndexConfiguration?: never; kendraIndexConfiguration: KendraIndexConfiguration };
+  | { nativeIndexConfiguration: NativeIndexConfiguration; kendraIndexConfiguration?: undefined }
+  | { nativeIndexConfiguration?: undefined; kendraIndexConfiguration: KendraIndexConfiguration };
 export interface CreateRetrieverRequest {
   applicationId: string;
   type: RetrieverType;
@@ -1178,8 +1198,8 @@ export interface CreateRetrieverResponse {
 export type UserIdentifier = string;
 export type GroupIdentifier = string;
 export type SubscriptionPrincipal =
-  | { user: string; group?: never }
-  | { user?: never; group: string };
+  | { user: string; group?: undefined }
+  | { user?: undefined; group: string };
 export interface CreateSubscriptionRequest {
   applicationId: string;
   principal: SubscriptionPrincipal;
@@ -1220,8 +1240,11 @@ export interface OpenIDConnectProviderConfiguration {
   secretsRole: string;
 }
 export type IdentityProviderConfiguration =
-  | { samlConfiguration: SamlProviderConfiguration; openIDConnectConfiguration?: never }
-  | { samlConfiguration?: never; openIDConnectConfiguration: OpenIDConnectProviderConfiguration };
+  | { samlConfiguration: SamlProviderConfiguration; openIDConnectConfiguration?: undefined }
+  | {
+      samlConfiguration?: undefined;
+      openIDConnectConfiguration: OpenIDConnectProviderConfiguration;
+    };
 export type BrowserExtension = string;
 export type BrowserExtensionList = string[];
 export interface BrowserExtensionConfiguration {
@@ -1413,8 +1436,8 @@ export interface ContentRetrievalRule {
   eligibleDataSources?: EligibleDataSource[] | undefined;
 }
 export type RuleConfiguration =
-  | { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: never }
-  | { contentBlockerRule?: never; contentRetrievalRule: ContentRetrievalRule };
+  | { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: undefined }
+  | { contentBlockerRule?: undefined; contentRetrievalRule: ContentRetrievalRule };
 export interface Rule {
   includedUsersAndGroups?: UsersAndGroups | undefined;
   excludedUsersAndGroups?: UsersAndGroups | undefined;

@@ -254,8 +254,8 @@ export interface ConfigurationEvent {
   PostCallAnalyticsSettings?: PostCallAnalyticsSettings | undefined;
 }
 export type AudioStream =
-  | { AudioEvent: AudioEvent; ConfigurationEvent?: never }
-  | { AudioEvent?: never; ConfigurationEvent: ConfigurationEvent };
+  | { AudioEvent: AudioEvent; ConfigurationEvent?: undefined }
+  | { AudioEvent?: undefined; ConfigurationEvent: ConfigurationEvent };
 export type VocabularyFilterMethod = "remove" | "mask" | "tag" | (string & {});
 export type ModelName = string;
 export type LanguageOptions = string;
@@ -354,65 +354,65 @@ export interface CategoryEvent {
 export type CallAnalyticsTranscriptResultStream =
   | {
       UtteranceEvent: UtteranceEvent;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
+      UtteranceEvent?: undefined;
       CategoryEvent: CategoryEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      UtteranceEvent?: never;
-      CategoryEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      UtteranceEvent?: undefined;
+      CategoryEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartCallAnalyticsStreamTranscriptionResponse {
@@ -464,15 +464,19 @@ export interface MedicalScribeConfigurationEvent {
   MedicalScribeContext?: MedicalScribeContext | undefined;
 }
 export type MedicalScribeInputStream =
-  | { AudioEvent: MedicalScribeAudioEvent; SessionControlEvent?: never; ConfigurationEvent?: never }
   | {
-      AudioEvent?: never;
-      SessionControlEvent: MedicalScribeSessionControlEvent;
-      ConfigurationEvent?: never;
+      AudioEvent: MedicalScribeAudioEvent;
+      SessionControlEvent?: undefined;
+      ConfigurationEvent?: undefined;
     }
   | {
-      AudioEvent?: never;
-      SessionControlEvent?: never;
+      AudioEvent?: undefined;
+      SessionControlEvent: MedicalScribeSessionControlEvent;
+      ConfigurationEvent?: undefined;
+    }
+  | {
+      AudioEvent?: undefined;
+      SessionControlEvent?: undefined;
       ConfigurationEvent: MedicalScribeConfigurationEvent;
     };
 export interface StartMedicalScribeStreamRequest {
@@ -507,50 +511,50 @@ export interface MedicalScribeTranscriptEvent {
 export type MedicalScribeResultStream =
   | {
       TranscriptEvent: MedicalScribeTranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartMedicalScribeStreamResponse {
@@ -728,50 +732,50 @@ export interface MedicalTranscriptEvent {
 export type MedicalTranscriptResultStream =
   | {
       TranscriptEvent: MedicalTranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartMedicalStreamTranscriptionResponse {
@@ -869,50 +873,50 @@ export interface TranscriptEvent {
 export type TranscriptResultStream =
   | {
       TranscriptEvent: TranscriptEvent;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
+      TranscriptEvent?: undefined;
       BadRequestException: BadRequestException;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
       LimitExceededException: LimitExceededException;
-      InternalFailureException?: never;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
       InternalFailureException: InternalFailureException;
-      ConflictException?: never;
-      ServiceUnavailableException?: never;
+      ConflictException?: undefined;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
       ConflictException: ConflictException;
-      ServiceUnavailableException?: never;
+      ServiceUnavailableException?: undefined;
     }
   | {
-      TranscriptEvent?: never;
-      BadRequestException?: never;
-      LimitExceededException?: never;
-      InternalFailureException?: never;
-      ConflictException?: never;
+      TranscriptEvent?: undefined;
+      BadRequestException?: undefined;
+      LimitExceededException?: undefined;
+      InternalFailureException?: undefined;
+      ConflictException?: undefined;
       ServiceUnavailableException: ServiceUnavailableException;
     };
 export interface StartStreamTranscriptionResponse {

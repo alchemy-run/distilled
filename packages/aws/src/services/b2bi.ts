@@ -727,17 +727,17 @@ export interface X12ElementRequirementValidationRule {
 export type X12ValidationRule =
   | {
       codeListValidationRule: X12CodeListValidationRule;
-      elementLengthValidationRule?: never;
-      elementRequirementValidationRule?: never;
+      elementLengthValidationRule?: undefined;
+      elementRequirementValidationRule?: undefined;
     }
   | {
-      codeListValidationRule?: never;
+      codeListValidationRule?: undefined;
       elementLengthValidationRule: X12ElementLengthValidationRule;
-      elementRequirementValidationRule?: never;
+      elementRequirementValidationRule?: undefined;
     }
   | {
-      codeListValidationRule?: never;
-      elementLengthValidationRule?: never;
+      codeListValidationRule?: undefined;
+      elementLengthValidationRule?: undefined;
       elementRequirementValidationRule: X12ElementRequirementValidationRule;
     };
 export type X12ValidationRules = X12ValidationRule[];

@@ -100,66 +100,67 @@ export interface CreateTaskRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Short human-readable title. Auto-generated from `description` when omitted. */
-  title?: string;
+  title?: string | undefined;
   /** Whether the title was set by a human (vs auto-generated from the description). */
-  title_manually_set?: boolean;
+  title_manually_set?: boolean | undefined;
   /** Free-form description of the work to be done. Used as the prompt passed to the agent. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge */
-  origin_product?: TaskOriginProductEnum | (string & {});
+  origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
   /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
-  repositories?: CreateTaskRequestRepositoriesList;
+  repositories?: CreateTaskRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
-  github_integration?: number | null;
+  github_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
-  github_user_integration?: string | null;
+  github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
-  signal_report?: string | null;
+  signal_report?: string | null | undefined;
   /** How the created task relates to the signal report (e.g. 'implementation', 'discussion'). Recorded as a signals task_run work-log entry; 'implementation' also opens the auto-start spend gate. Any routing-safe identifier (lowercase letters, numbers, '_', '-') is accepted except labels reserved for server-created tasks ('research', 'repo_selection', 'scout'). Non-implementation labels count toward the report's discussion task limit. */
-  signal_report_task_relationship?: string;
+  signal_report_task_relationship?: string | undefined;
   /** JSON schema used to validate the output of the task. */
-  json_schema?: unknown;
+  json_schema?: unknown | undefined;
   /** If true, the task is hidden from default list responses. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Custom prompt for CI fixes. If blank, a default prompt will be used. */
-  ci_prompt?: string | null;
+  ci_prompt?: string | null | undefined;
   /** Base branch for the first run when start_run is true, or for matching a pre-warmed run. Omit to use the repository's default branch. Write-only and not persisted on the task. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Runtime adapter ('claude' or 'codex') for the first run when start_run is true, or for matching a pre-warmed run. A different adapter prevents warm reuse. Write-only and not persisted on the task. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** LLM model for the first run when start_run is true, or for matching a pre-warmed run. Write-only. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Reasoning effort for the first run when start_run is true, or for matching a pre-warmed run. Write-only. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Agent permission mode for the first run when start_run is true, or for matching a pre-warmed run. Omit to match any warm permission mode. Write-only. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** First user message when start_run is true or creation reuses a pre-warmed run. This message can differ from description. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  pending_user_message?: string | null;
+  pending_user_message?: string | null | undefined;
   /** Run artifact ids (already uploaded to the pre-warmed Run) to attach to the forwarded first message when creation reuses that warm Run, e.g. skill bundles or file attachments. If any id is missing from the warm Run's manifest, warm reuse is skipped and the task is created cold. Ignored when no warm Run is matched. Not supported when start_run is true. */
-  pending_user_artifact_ids?: CreateTaskRequestPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: CreateTaskRequestPendingUserArtifactIdsList | undefined;
   /** When true, the agent pushes its work and opens a draft pull request on completion without an explicit request. Applies when start_run is true or creation reuses a pre-warmed run. Resumed runs keep this setting. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** Channel this task is owned by (the channel it was kicked off in). */
-  channel?: string | null;
+  channel?: string | null | undefined;
   /** Earliest start time for a one-off cloud run, in ISO 8601 format. Must be in the future and within 30 days. Times without an offset use UTC. Omit or send null to start immediately. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** Create the first cloud run. It starts immediately unless scheduled_at is set. */
-  start_run?: boolean;
+  start_run?: boolean | undefined;
   /** Question to forward to the signal report's scout when creating a discussion task. Send an empty string when there is no question. Omit only for older clients that embed the question in the task description. Not persisted on the task. */
-  signal_report_discussion_question?: string;
+  signal_report_discussion_question?: string | undefined;
   /** Text the server generates the title from instead of `description`. Lets a client whose `description` is only an attachment summary (e.g. pasted text stored as a file) supply the real content for naming, so `description` (the prompt passed to the agent) stays unchanged. Not persisted. */
-  naming_source?: string;
+  naming_source?: string | undefined;
   /** Sandbox environment for the first run when start_run is true, or for matching a pre-warmed run. Not persisted on the task. */
-  sandbox_environment_id?: string | null;
+  sandbox_environment_id?: string | null | undefined;
   /** Custom image for the first run when start_run is true, or for matching a pre-warmed run. Not persisted on the task. */
-  custom_image_id?: string | null;
+  custom_image_id?: string | null | undefined;
   /** Agent protocol and harness used for this task's runs. Defaults to ACP when omitted. * `acp` - ACP * `pi` - Pi */
-  runtime?: TaskRuntimeEnum | (string & {});
+  runtime?: TaskRuntimeEnum | (string & {}) | undefined;
 }
 export type TaskCreateResponseDTORepositoriesList = Array<string>;
 export type TaskCreateResponseDTOJsonSchemaMap = { [key: string]: unknown | undefined };
@@ -234,31 +235,31 @@ export type TaskRunArtifactMetadata = TaskRunSkillBundleMetadata | TaskRunPostHo
 export type UploadedByEnum = "agent" | "user";
 export interface TaskRunArtifactResponse {
   /** Stable identifier for the artifact within this run */
-  id?: string;
+  id?: string | undefined;
   /** Artifact file name */
-  name?: string;
+  name?: string | undefined;
   /** Artifact classification (plan, context, etc.) */
-  type?: string;
+  type?: string | undefined;
   /** Source of the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Artifact size in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Structured metadata for a skill bundle or a PostHog object reference. */
-  metadata?: TaskRunArtifactMetadata;
+  metadata?: TaskRunArtifactMetadata | undefined;
   /** S3 object key for file artifacts. Reference artifacts do not have one. */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Timestamp when the artifact was uploaded or registered */
-  uploaded_at?: string;
+  uploaded_at?: string | undefined;
   /** Whether the artifact version was uploaded by the task agent or an interactive user. * `agent` - agent * `user` - user */
-  uploaded_by?: UploadedByEnum;
+  uploaded_by?: UploadedByEnum | undefined;
   /** User id for an interactive user upload. Absent for agent uploads and legacy entries. */
-  uploaded_by_user_id?: number;
+  uploaded_by_user_id?: number | undefined;
   /** Timestamp when a user dismissed the artifact. Absent while the artifact is shown. */
-  dismissed_at?: string;
+  dismissed_at?: string | undefined;
   /** Stable download URL for the artifact. Populated on the finalize-upload response so the caller can link to the file; it redirects to a fresh presigned URL on each request and is not persisted on the manifest. */
-  url?: string;
+  url?: string | undefined;
 }
 export type TaskRunDetailDTOArtifactsList = Array<TaskRunArtifactResponse>;
 /** Detail response for a task run. Reads from a frozen ``TaskRunDetailDTO`` produced by the facade mapper (which computes the presigned ``log_url`` and parses ``runtime_adapter`` / ``provider`` / ``model`` / ``reasoning_effort`` off the run state). ``task`` is the parent task id. Reused as the nested ``latest_run`` shape by the task detail response. */
@@ -271,15 +272,15 @@ export interface TaskRunDetailDTO {
   status: string;
   environment: string;
   /** Configured runtime adapter for this run, such as 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | null;
+  runtime_adapter?: RuntimeAdapterEnum | null | undefined;
   /** Configured LLM provider for this run, such as 'anthropic' or 'openai'. * `anthropic` - anthropic * `openai` - openai */
-  provider?: TaskRunDetailDTOProviderEnum | null;
+  provider?: TaskRunDetailDTOProviderEnum | null | undefined;
   /** Configured LLM model identifier for this run. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Configured reasoning effort for this run when the selected model supports it. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | null;
+  reasoning_effort?: TaskRunReasoningEffortEnum | null | undefined;
   /** Presigned S3 URL for log access (valid for 1 hour). */
-  log_url?: string | null;
+  log_url?: string | null | undefined;
   error_message: string | null;
   output: TaskRunDetailDTOOutputMap | null;
   /** Latest summary for this task, including a summary inherited from an earlier run. */
@@ -288,13 +289,13 @@ export interface TaskRunDetailDTO {
   task_tags: TaskRunDetailDTOTaskTagsList;
   state: TaskRunDetailDTOStateMap;
   artifacts: TaskRunDetailDTOArtifactsList;
-  created_at?: string | null;
-  updated_at?: string | null;
-  completed_at?: string | null;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  completed_at?: string | null | undefined;
   /** Earliest start time in UTC. Null for runs without a schedule. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** True when this run's sandbox serves a dev stack preview, so clients can offer the preview link. Open it through the run's `preview/` endpoint, which mints a fresh access token on every request. */
-  preview_available?: boolean;
+  preview_available?: boolean | undefined;
 }
 export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** Response shape for a task creator, mirroring core ``UserBasicSerializer`` output. */
@@ -305,14 +306,14 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 export interface SlackThreadReferenceDTO {
   url: string;
   channel: string;
-  created_at?: string | null;
+  created_at?: string | null | undefined;
 }
 export type TaskCreateResponseDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
 /** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
@@ -336,41 +337,41 @@ export interface TaskCreateResponseDTO {
   archived: boolean;
   archived_at: string | null;
   /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  last_activity_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
-  channel?: string | null;
+  channel?: string | null | undefined;
   slack_thread_references: TaskCreateResponseDTOSlackThreadReferencesList;
   /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null;
+  origin_key?: string | null | undefined;
   /** Error returned when the task was created but its first run could not start. */
-  run_error?: string;
+  run_error?: string | undefined;
 }
 export interface CreateTasksConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Harness the default runs on: 'acp' for the Claude and Codex adapters, 'pi' for the Pi harness. Defaults to 'acp' when omitted. * `acp` - ACP * `pi` - Pi */
-  runtime?: TaskRuntimeEnum | (string & {}) | null;
+  runtime?: TaskRuntimeEnum | (string & {}) | null | undefined;
   /** Default agent runtime adapter for new task runs. Use 'claude' for the Claude runtime or 'codex' for the Codex runtime. Must be set together with `model`, and must be null when `runtime` is 'pi'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** Default LLM model identifier for new task runs. Must be set together with `runtime_adapter` on the ACP harness, and is required on its own for a Pi default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Default reasoning effort for models that expose an effort control. A Pi default stores a Pi thinking level here, which also allows 'off' and 'minimal'. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {}) | null | undefined;
 }
 /** The default AI run selection stored at team or user level. Write payload for the tasks config endpoints and the `ai_run_preferences` block of their responses. What a complete selection is depends on the harness: an ACP default sets `runtime_adapter` and `model` together, a Pi default sets `model` alone. Send every field as null to clear a stored preference. */
 export interface TasksAIRunPreferences {
   /** Harness the default runs on: 'acp' for the Claude and Codex adapters, 'pi' for the Pi harness. Defaults to 'acp' when omitted. * `acp` - ACP * `pi` - Pi */
-  runtime?: TaskRuntimeEnum | null;
+  runtime?: TaskRuntimeEnum | null | undefined;
   /** Default agent runtime adapter for new task runs. Use 'claude' for the Claude runtime or 'codex' for the Codex runtime. Must be set together with `model`, and must be null when `runtime` is 'pi'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | null;
+  runtime_adapter?: RuntimeAdapterEnum | null | undefined;
   /** Default LLM model identifier for new task runs. Must be set together with `runtime_adapter` on the ACP harness, and is required on its own for a Pi default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Default reasoning effort for models that expose an effort control. A Pi default stores a Pi thinking level here, which also allows 'off' and 'minimal'. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | null;
+  reasoning_effort?: TaskRunReasoningEffortEnum | null | undefined;
 }
 /** Team-level tasks configuration. */
 export interface TasksTeamConfigResponse {
@@ -421,28 +422,28 @@ export interface TaskDetailDTO {
   archived: boolean;
   archived_at: string | null;
   /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  last_activity_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
-  channel?: string | null;
+  channel?: string | null | undefined;
   slack_thread_references: TaskDetailDTOSlackThreadReferencesList;
   /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null;
+  origin_key?: string | null | undefined;
 }
 export interface CreateTasksMeConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Harness the default runs on: 'acp' for the Claude and Codex adapters, 'pi' for the Pi harness. Defaults to 'acp' when omitted. * `acp` - ACP * `pi` - Pi */
-  runtime?: TaskRuntimeEnum | (string & {}) | null;
+  runtime?: TaskRuntimeEnum | (string & {}) | null | undefined;
   /** Default agent runtime adapter for new task runs. Use 'claude' for the Claude runtime or 'codex' for the Codex runtime. Must be set together with `model`, and must be null when `runtime` is 'pi'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** Default LLM model identifier for new task runs. Must be set together with `runtime_adapter` on the ACP harness, and is required on its own for a Pi default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Default reasoning effort for models that expose an effort control. A Pi default stores a Pi thinking level here, which also allows 'off' and 'minimal'. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {}) | null | undefined;
 }
 /** * `user` - user * `team` - team * `none` - none */
 export type TasksResolvedAIRunDefaultsSourceEnum = "user" | "team" | "none";
@@ -487,9 +488,9 @@ export interface CreateTasksMeConfigTaskDefaultRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, new tasks start in plan mode: the agent makes a plan and waits for approval. Null when you never set it. */
-  start_in_plan_mode?: boolean;
+  start_in_plan_mode?: boolean | undefined;
   /** When true, a cloud run that changes code always opens a draft pull request. Null when you never set it. */
-  auto_publish_cloud_runs?: boolean;
+  auto_publish_cloud_runs?: boolean | undefined;
 }
 export interface CreateTasksPinRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -549,15 +550,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface RepoRoutingRule {
   id: string;
@@ -583,7 +584,7 @@ export interface ImportedMcpServer {
   type: ImportedMcpServerTypeEnum | (string & {});
   name: string;
   url: string;
-  headers?: ImportedMcpServerHeadersList;
+  headers?: ImportedMcpServerHeadersList | undefined;
 }
 /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
 export type ClaudeTaskRunCreateSchemaImportedMcpServersList = Array<ImportedMcpServer>;
@@ -617,55 +618,55 @@ export type InitialPermissionModeEnum =
 /** Request body for creating a new task run */
 export interface ClaudeTaskRunCreateSchema {
   /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
-  imported_mcp_servers?: ClaudeTaskRunCreateSchemaImportedMcpServersList | null;
+  imported_mcp_servers?: ClaudeTaskRunCreateSchemaImportedMcpServersList | null | undefined;
   /** Names of desktop-only MCP servers the creating client (PostHog Desktop) relays into the cloud sandbox over the durable event/command channel. Names only -- the server configuration (command, env, URL, headers) never crosses the wire. */
-  relayed_mcp_servers?: ClaudeTaskRunCreateSchemaRelayedMcpServersList | null;
+  relayed_mcp_servers?: ClaudeTaskRunCreateSchemaRelayedMcpServersList | null | undefined;
   /** Whether rtk command-output compression is enabled for this run. Omitted or null follows the server-side default (enabled); false opts this run out. */
-  rtk_enabled?: boolean | null;
+  rtk_enabled?: boolean | null | undefined;
   /** Whether the Benjamin-Plus token-efficiency instruction applies to this run. Omitted or null lets the server decide from the feature flag; true or false pins the choice for this run. */
-  benjamin_enabled?: boolean | null;
+  benjamin_enabled?: boolean | null | undefined;
   /** How the Claude runtime pays for model use. 'own-subscription' makes the sandbox request a Claude token from whoever started the run; Desktop relays it interactively and an API key caller relays it unattended. The token is sent in flight and never stored on PostHog servers. Only PostHog Desktop and API keys can select 'own-subscription'; other callers get a 400. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  claude_model_access?: ModelAccessEnum | (string & {}) | null;
+  claude_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** How the Codex runtime pays for model use. 'own-subscription' makes the sandbox fetch a ChatGPT access token from the PostHog API, refreshed from the ChatGPT account the run owner connected in Desktop settings. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  codex_model_access?: ModelAccessEnum | (string & {}) | null;
+  codex_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** Earliest start time for a one-off cloud run, in ISO 8601 format. Must be in the future and within 30 days. Times without an offset use UTC. Omit or send null to start immediately. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** Execution mode: 'interactive' for user-connected runs, 'background' for autonomous runs * `interactive` - interactive * `background` - background */
-  mode?: TaskExecutionModeEnum | (string & {});
+  mode?: TaskExecutionModeEnum | (string & {}) | undefined;
   /** Git branch to checkout in the sandbox */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** ID of a previous run to resume from. Must belong to the same task. */
-  resume_from_run_id?: string;
+  resume_from_run_id?: string | undefined;
   /** Initial or follow-up user message to include in the run prompt. */
-  pending_user_message?: string;
+  pending_user_message?: string | undefined;
   /** Identifiers for staged task artifacts that should be attached to the initial run prompt. */
-  pending_user_artifact_ids?: ClaudeTaskRunCreateSchemaPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: ClaudeTaskRunCreateSchemaPendingUserArtifactIdsList | undefined;
   /** Optional sandbox environment to apply for this cloud run. */
-  sandbox_environment_id?: string;
+  sandbox_environment_id?: string | undefined;
   /** Optional custom base image for this cloud run's sandbox (Modal VM runtime only); takes precedence over the environment's image. */
-  custom_image_id?: string;
+  custom_image_id?: string | undefined;
   /** Whether pull requests for this run should be authored by the user or the bot. * `user` - user * `bot` - bot */
-  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {});
+  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {}) | undefined;
   /** When true, the cloud run agent pushes its work and opens a draft pull request on completion without waiting for an explicit ask. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** High-level source that triggered this run, used to distinguish manual and signal-based cloud runs. * `manual` - manual * `signal_report` - signal_report * `agent` - agent */
-  run_source?: RunSourceEnum | (string & {});
+  run_source?: RunSourceEnum | (string & {}) | undefined;
   /** Optional signal report identifier when this run was started from Inbox. */
-  signal_report_id?: string;
+  signal_report_id?: string | undefined;
   /** Agent runtime adapter to launch for this run. Must be 'claude' for Claude runtimes. * `claude` - claude */
-  runtime_adapter?: ClaudeRuntimeAdapterEnum | (string & {});
+  runtime_adapter?: ClaudeRuntimeAdapterEnum | (string & {}) | undefined;
   /** LLM model identifier to run in the Claude runtime. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort to request for models that expose an effort control. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {});
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | undefined;
   /** Context window size for models that support the 1M window. * `200k` - 200k * `1m` - 1m */
-  context_window?: ContextWindowEnum | (string & {});
+  context_window?: ContextWindowEnum | (string & {}) | undefined;
   /** Enable fast mode for models that support it. */
-  fast_mode?: boolean | null;
+  fast_mode?: boolean | null | undefined;
   /** Optional GitHub user token from PostHog Desktop for user-authored cloud pull requests. Prefer linking GitHub from Settings -> Linked accounts so the server can manage tokens; this field remains supported for callers that still manage their own tokens. */
-  github_user_token?: string;
+  github_user_token?: string | undefined;
   /** Initial permission mode for Claude runtimes. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto */
-  initial_permission_mode?: InitialPermissionModeEnum | (string & {});
+  initial_permission_mode?: InitialPermissionModeEnum | (string & {}) | undefined;
 }
 /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
 export type CodexTaskRunCreateSchemaImportedMcpServersList = Array<ImportedMcpServer>;
@@ -684,81 +685,84 @@ export type CodexTaskRunCreateSchemaInitialPermissionModeEnum =
 /** Request body for creating a new task run */
 export interface CodexTaskRunCreateSchema {
   /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
-  imported_mcp_servers?: CodexTaskRunCreateSchemaImportedMcpServersList | null;
+  imported_mcp_servers?: CodexTaskRunCreateSchemaImportedMcpServersList | null | undefined;
   /** Names of desktop-only MCP servers the creating client (PostHog Desktop) relays into the cloud sandbox over the durable event/command channel. Names only -- the server configuration (command, env, URL, headers) never crosses the wire. */
-  relayed_mcp_servers?: CodexTaskRunCreateSchemaRelayedMcpServersList | null;
+  relayed_mcp_servers?: CodexTaskRunCreateSchemaRelayedMcpServersList | null | undefined;
   /** Whether rtk command-output compression is enabled for this run. Omitted or null follows the server-side default (enabled); false opts this run out. */
-  rtk_enabled?: boolean | null;
+  rtk_enabled?: boolean | null | undefined;
   /** Whether the Benjamin-Plus token-efficiency instruction applies to this run. Omitted or null lets the server decide from the feature flag; true or false pins the choice for this run. */
-  benjamin_enabled?: boolean | null;
+  benjamin_enabled?: boolean | null | undefined;
   /** How the Claude runtime pays for model use. 'own-subscription' makes the sandbox request a Claude token from whoever started the run; Desktop relays it interactively and an API key caller relays it unattended. The token is sent in flight and never stored on PostHog servers. Only PostHog Desktop and API keys can select 'own-subscription'; other callers get a 400. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  claude_model_access?: ModelAccessEnum | (string & {}) | null;
+  claude_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** How the Codex runtime pays for model use. 'own-subscription' makes the sandbox fetch a ChatGPT access token from the PostHog API, refreshed from the ChatGPT account the run owner connected in Desktop settings. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  codex_model_access?: ModelAccessEnum | (string & {}) | null;
+  codex_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** Earliest start time for a one-off cloud run, in ISO 8601 format. Must be in the future and within 30 days. Times without an offset use UTC. Omit or send null to start immediately. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** Execution mode: 'interactive' for user-connected runs, 'background' for autonomous runs * `interactive` - interactive * `background` - background */
-  mode?: TaskExecutionModeEnum | (string & {});
+  mode?: TaskExecutionModeEnum | (string & {}) | undefined;
   /** Git branch to checkout in the sandbox */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** ID of a previous run to resume from. Must belong to the same task. */
-  resume_from_run_id?: string;
+  resume_from_run_id?: string | undefined;
   /** Initial or follow-up user message to include in the run prompt. */
-  pending_user_message?: string;
+  pending_user_message?: string | undefined;
   /** Identifiers for staged task artifacts that should be attached to the initial run prompt. */
-  pending_user_artifact_ids?: CodexTaskRunCreateSchemaPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: CodexTaskRunCreateSchemaPendingUserArtifactIdsList | undefined;
   /** Optional sandbox environment to apply for this cloud run. */
-  sandbox_environment_id?: string;
+  sandbox_environment_id?: string | undefined;
   /** Optional custom base image for this cloud run's sandbox (Modal VM runtime only); takes precedence over the environment's image. */
-  custom_image_id?: string;
+  custom_image_id?: string | undefined;
   /** Whether pull requests for this run should be authored by the user or the bot. * `user` - user * `bot` - bot */
-  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {});
+  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {}) | undefined;
   /** When true, the cloud run agent pushes its work and opens a draft pull request on completion without waiting for an explicit ask. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** High-level source that triggered this run, used to distinguish manual and signal-based cloud runs. * `manual` - manual * `signal_report` - signal_report * `agent` - agent */
-  run_source?: RunSourceEnum | (string & {});
+  run_source?: RunSourceEnum | (string & {}) | undefined;
   /** Optional signal report identifier when this run was started from Inbox. */
-  signal_report_id?: string;
+  signal_report_id?: string | undefined;
   /** Agent runtime adapter to launch for this run. Must be 'codex' for Codex runtimes. * `codex` - codex */
-  runtime_adapter?: CodexRuntimeAdapterEnum | (string & {});
+  runtime_adapter?: CodexRuntimeAdapterEnum | (string & {}) | undefined;
   /** LLM model identifier to run in the Codex runtime. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort to request for models that expose an effort control. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {});
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | undefined;
   /** Context window size for models that support the 1M window. * `200k` - 200k * `1m` - 1m */
-  context_window?: ContextWindowEnum | (string & {});
+  context_window?: ContextWindowEnum | (string & {}) | undefined;
   /** Enable fast mode for models that support it. */
-  fast_mode?: boolean | null;
+  fast_mode?: boolean | null | undefined;
   /** Optional GitHub user token from PostHog Desktop for user-authored cloud pull requests. Prefer linking GitHub from Settings -> Linked accounts so the server can manage tokens; this field remains supported for callers that still manage their own tokens. */
-  github_user_token?: string;
+  github_user_token?: string | undefined;
   /** Initial permission mode for Codex runtimes. * `plan` - plan * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
-  initial_permission_mode?: CodexTaskRunCreateSchemaInitialPermissionModeEnum | (string & {});
+  initial_permission_mode?:
+    | CodexTaskRunCreateSchemaInitialPermissionModeEnum
+    | (string & {})
+    | undefined;
 }
 export interface TaskRunResumeRequestSchema {
   /** Earliest start time for a one-off cloud run, in ISO 8601 format. Must be in the future and within 30 days. Times without an offset use UTC. Omit or send null to start immediately. */
-  scheduled_at?: string | null;
-  model?: string;
-  reasoning_effort?: ReasoningEffortEnum | (string & {});
+  scheduled_at?: string | null | undefined;
+  model?: string | undefined;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | undefined;
   /** Execution mode: 'interactive' for user-connected runs, 'background' for autonomous runs * `interactive` - interactive * `background` - background */
-  mode?: TaskExecutionModeEnum | (string & {});
+  mode?: TaskExecutionModeEnum | (string & {}) | undefined;
   /** Git branch to checkout in the sandbox */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** ID of a previous run to resume from. Must belong to the same task. */
-  resume_from_run_id?: string;
+  resume_from_run_id?: string | undefined;
   /** Initial or follow-up user message to include in the run prompt. */
-  pending_user_message?: string;
+  pending_user_message?: string | undefined;
   /** Optional sandbox environment to apply for this cloud run. */
-  sandbox_environment_id?: string;
+  sandbox_environment_id?: string | undefined;
   /** Optional custom base image for this cloud run's sandbox (Modal VM runtime only); takes precedence over the environment's image. */
-  custom_image_id?: string;
+  custom_image_id?: string | undefined;
   /** Whether pull requests for this run should be authored by the user or the bot. * `user` - user * `bot` - bot */
-  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {});
+  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {}) | undefined;
   /** High-level source that triggered this run, used to distinguish manual and signal-based cloud runs. * `manual` - manual * `signal_report` - signal_report * `agent` - agent */
-  run_source?: RunSourceEnum | (string & {});
+  run_source?: RunSourceEnum | (string & {}) | undefined;
   /** Optional signal report identifier when this run was started from Inbox. */
-  signal_report_id?: string;
+  signal_report_id?: string | undefined;
   /** Optional GitHub user token from PostHog Desktop for user-authored cloud pull requests. Prefer linking GitHub from Settings -> Linked accounts so the server can manage tokens; this field remains supported for callers that still manage their own tokens. */
-  github_user_token?: string;
+  github_user_token?: string | undefined;
 }
 export type TaskRunCreateRequestSchema =
   | ClaudeTaskRunCreateSchema
@@ -768,7 +772,7 @@ export interface CreateTasksRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  body?: TaskRunCreateRequestSchema;
+  body?: TaskRunCreateRequestSchema | undefined;
 }
 export type TaskRunResponseRepositoriesList = Array<string>;
 export type TaskRunResponseJsonSchemaMap = { [key: string]: unknown | undefined };
@@ -794,20 +798,20 @@ export interface TaskRunResponse {
   archived: boolean;
   archived_at: string | null;
   /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  last_activity_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
-  channel?: string | null;
+  channel?: string | null | undefined;
   slack_thread_references: TaskRunResponseSlackThreadReferencesList;
   /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null;
+  origin_key?: string | null | undefined;
   /** Error returned when the run could not start. */
-  run_error?: string;
+  run_error?: string | undefined;
   /** The run this call created or activated. Read run-scoped ids from here -- `run.id` is the id the run's stream and command endpoints take, while the top-level `id` is the task's. Set on every 200; when `run_error` is also set, the run exists but its workflow did not start. */
-  run?: TaskRunDetailDTO | null;
+  run?: TaskRunDetailDTO | null | undefined;
 }
 /** * `slack_message` - slack_message * `slack_canvas` - slack_canvas * `document` - document * `spreadsheet` - spreadsheet * `dashboard` - dashboard * `file` - file * `github_pr` - github_pr */
 export type ArtifactType2f0Enum =
@@ -837,21 +841,21 @@ export interface CreateTasksRunsLivingArtifactRequest {
   /** Human-readable artifact name, used as the title. */
   name: string;
   /** Artifact format or delivery surface to create, such as document, spreadsheet, slack_canvas, or file. * `slack_message` - slack_message * `slack_canvas` - slack_canvas * `document` - document * `spreadsheet` - spreadsheet * `dashboard` - dashboard * `file` - file * `github_pr` - github_pr */
-  artifact_type?: ArtifactType2f0Enum | (string & {});
+  artifact_type?: ArtifactType2f0Enum | (string & {}) | undefined;
   /** Optional preferred external storage or delivery adapter. Slack adapters deliver into the mapped Slack thread; omitted Slack-run documents use Slack canvas, omitted Slack-run files and spreadsheets use Slack file upload, and document_connector uses a connected external document provider. * `slack_message` - slack_message * `slack_canvas` - slack_canvas * `slack_file` - slack_file * `document_connector` - document_connector * `github_pr` - github_pr */
-  adapter?: AdapterEnum | (string & {});
+  adapter?: AdapterEnum | (string & {}) | undefined;
   /** Markdown or text content for the initial artifact version. */
-  content?: string;
+  content?: string | undefined;
   /** Base64-encoded binary content for Slack file uploads or other external adapters. Prefer source_artifact_id or source_storage_path for large files that were already uploaded as run output artifacts. */
-  content_base64?: string;
+  content_base64?: string | undefined;
   /** MIME type for content_base64 or source-backed artifacts, such as application/vnd.openxmlformats-officedocument.spreadsheetml.sheet. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Existing run artifact id to use as the initial content source. Only agent-uploaded output artifacts are accepted; internal run artifacts are rejected. */
-  source_artifact_id?: string;
+  source_artifact_id?: string | undefined;
   /** Existing run artifact storage_path to use as the initial content source. Only agent-uploaded output artifacts are accepted; internal run artifacts are rejected. */
-  source_storage_path?: string;
+  source_storage_path?: string | undefined;
   /** Optional metadata to persist with the living artifact. */
-  metadata?: CreateTasksRunsLivingArtifactRequestMetadataMap;
+  metadata?: CreateTasksRunsLivingArtifactRequestMetadataMap | undefined;
 }
 /** * `active` - active * `failed` - failed */
 export type TaskArtifactStatusEnum = "active" | "failed";
@@ -885,9 +889,9 @@ export interface TaskRunLivingArtifactResponse {
   /** Chronological version records for this artifact. */
   versions: TaskRunLivingArtifactResponseVersionsList;
   /** ISO timestamp when created. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** ISO timestamp when last updated. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 /** Task IDs to fetch summaries for (max 5000). Response is paginated; follow the `next` cursor to retrieve all results. */
 export type CreateTasksSummaryRequestIdsList = Array<string>;
@@ -895,9 +899,9 @@ export interface CreateTasksSummaryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Page size for the paginated response. */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset into the result set for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** Task IDs to fetch summaries for (max 5000). Response is paginated; follow the `next` cursor to retrieve all results. */
   ids: CreateTasksSummaryRequestIdsList;
 }
@@ -925,7 +929,7 @@ export interface TaskRunSummary {
   /** State of that pull request: open, draft, merged, closed, or unknown. Null when the latest run opened no pull request. * `open` - open * `draft` - draft * `merged` - merged * `closed` - closed * `unknown` - unknown */
   pr_state: PrStateEnum | null;
   /** Latest summary for this task, including a summary inherited from an earlier run. */
-  task_summary?: string | null;
+  task_summary?: string | null | undefined;
 }
 /** Summary response for a task -- reads from a frozen ``TaskSummaryDTO``. */
 export interface TaskSummaryDTO {
@@ -936,14 +940,14 @@ export interface TaskSummaryDTO {
   created_by_id: number | null;
   created_at: string;
   updated_at: string;
-  origin_product?: string;
-  latest_run?: TaskRunSummary | null;
+  origin_product?: string | undefined;
+  latest_run?: TaskRunSummary | null | undefined;
 }
 export type PaginatedTaskSummaryDTOListResultsList = Array<TaskSummaryDTO>;
 export interface PaginatedTaskSummaryDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaskSummaryDTOListResultsList;
 }
 export interface CreateTasksThreadMessageRequest {
@@ -963,9 +967,9 @@ export interface TaskThreadMessageDTO {
   payload: TaskThreadMessageDTOPayloadMap;
   content: string;
   created_at: string;
-  author?: TaskUserBasicInfo | null;
-  forwarded_to_agent_at?: string | null;
-  forwarded_by?: TaskUserBasicInfo | null;
+  author?: TaskUserBasicInfo | null | undefined;
+  forwarded_to_agent_at?: string | null | undefined;
+  forwarded_by?: TaskUserBasicInfo | null | undefined;
 }
 /** GitHub repositories to clone into the warm sandbox, each in `organization/repo` format. */
 export type CreateTasksWarmRequestRepositoriesList = Array<string>;
@@ -975,32 +979,33 @@ export interface CreateTasksWarmRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional GitHub repository to clone, in `organization/repo` format (e.g. `posthog/posthog`). */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** GitHub repositories to clone into the warm sandbox, each in `organization/repo` format. */
-  repositories?: CreateTasksWarmRequestRepositoriesList;
+  repositories?: CreateTasksWarmRequestRepositoriesList | undefined;
   /** Primary key of the team's GitHub integration. Required when a repository is selected (it is what the sandbox clones with). Accepted without a repository too: the warm Run then boots with that integration's GitHub credentials, matching a repo-less create that carries it. */
-  github_integration?: number | null;
+  github_integration?: number | null | undefined;
   /** Branch to check out in the warm sandbox. Defaults to the repository's default branch when omitted. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Agent runtime adapter to warm the sandbox on ('claude' or 'codex'). The warm Run starts the agent on this runtime so a matching submit reuses it; a submit selecting a different runtime falls through to a cold Run instead of reusing a mismatched warm session. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** LLM model identifier to warm the sandbox on. A submit selecting a different model won't reuse this warm Run. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Reasoning effort to warm the sandbox on for models that expose an effort control. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Optional sandbox environment to provision before the task is submitted. */
-  sandbox_environment_id?: string | null;
+  sandbox_environment_id?: string | null | undefined;
   /** Optional custom base image to provision before the task is submitted; takes precedence over the environment's image. */
-  custom_image_id?: string | null;
+  custom_image_id?: string | null | undefined;
   /** Product the warm Run is for. Fixed when the sandbox boots -- it selects the OAuth app, the quota gate, the warm-pool budget, and PR authorship -- so a submit only reuses a warm born under the same origin. Defaults to the Code app. * `user_created` - user_created * `posthog_ai` - posthog_ai * `signal_report` - signal_report */
-  origin_product?: WarmTaskRequestOriginProductEnum | (string & {});
+  origin_product?: WarmTaskRequestOriginProductEnum | (string & {}) | undefined;
   /** Permission mode to boot the agent session on. Read at session construction, so it cannot be changed once the sandbox is warm -- a submit selecting a different mode falls through to a cold Run. Omit to take the runtime's default. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** Inbox report the warm discussion is about. Required with origin_product `signal_report`, where the warm Run boots repo-less and the submit that creates the report's discussion task activates it. */
-  signal_report?: string | null;
+  signal_report?: string | null | undefined;
 }
 /** Response for a successful warm request -- the draft Task + idling warm Run reused on submit. */
 export interface WarmTaskResponse {
@@ -1018,19 +1023,19 @@ export interface EditTasksRunsLivingArtifactRequest {
   run_id: string;
   id: string;
   /** Optional new human-readable artifact name. */
-  name?: string;
+  name?: string | undefined;
   /** Markdown or text content for the next version. */
-  content?: string;
+  content?: string | undefined;
   /** Base64-encoded binary content for the next version, used by adapters such as slack_file. */
-  content_base64?: string;
+  content_base64?: string | undefined;
   /** MIME type for content_base64 or source-backed edits. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Existing run artifact id to use as the next version content source. Only agent-uploaded output artifacts are accepted; internal run artifacts are rejected. */
-  source_artifact_id?: string;
+  source_artifact_id?: string | undefined;
   /** Existing run artifact storage_path to use as the next version content source. Only agent-uploaded output artifacts are accepted; internal run artifacts are rejected. */
-  source_storage_path?: string;
+  source_storage_path?: string | undefined;
   /** Optional metadata to merge into the artifact registry record. */
-  metadata?: EditTasksRunsLivingArtifactRequestMetadataMap;
+  metadata?: EditTasksRunsLivingArtifactRequestMetadataMap | undefined;
 }
 export interface GetCodeInvitesCheckAccessRequest {}
 export interface LegacyDesktopAccessResponse {
@@ -1069,7 +1074,7 @@ export interface WizardCloudRunDTO {
   /** Latest run status (e.g. queued, in_progress, completed, failed). */
   status: string;
   /** When the run was created, for the FAB's elapsed timer. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
 }
 export interface GetTasksCommentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1077,13 +1082,13 @@ export interface GetTasksCommentRequest {
   id: string;
   root_comment_id: string;
   /** Comment id whose truncated body should continue. Use with content_offset. */
-  comment_id?: string;
+  comment_id?: string | undefined;
   /** Byte offset returned as content_next_offset for the selected comment. */
-  content_offset?: number;
+  content_offset?: number | undefined;
   /** Opaque cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of comments in the thread to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface TaskCommentTarget {
   /** Stable target id. */
@@ -1095,25 +1100,25 @@ export interface TaskCommentTarget {
 }
 export interface TaskCommentAnchor {
   /** Anchor kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** Selected text. */
-  quote?: string;
+  quote?: string | undefined;
   /** Text immediately before the selection. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Text immediately after the selection. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** Selection start offset. */
-  start?: number;
+  start?: number | undefined;
   /** Selection end offset. */
-  end?: number;
+  end?: number | undefined;
   /** Horizontal region position. */
-  x?: number;
+  x?: number | undefined;
   /** Vertical region position. */
-  y?: number;
+  y?: number | undefined;
   /** Region width. */
-  width?: number;
+  width?: number | undefined;
   /** Region height. */
-  height?: number;
+  height?: number | undefined;
 }
 export interface TaskCommentEntry {
   /** Comment id. */
@@ -1163,7 +1168,7 @@ export interface ModelChoice {
   /** Reasoning efforts this model accepts, in ascending order. Empty for a model with no effort control. */
   supported_efforts: ModelChoiceSupportedEffortsList;
   /** Per-token cost against the catalogue baseline, ready to display, such as '2.5x' or '~0.55x'. Prefixed when the input and output rates diverge enough that one number flatters either. Null for a model the catalogue quotes no rate for. */
-  cost_multiplier?: string | null;
+  cost_multiplier?: string | null | undefined;
 }
 /** Every model a run may use, newest catalogue from the LLM gateway. Empty when the gateway is unreachable. */
 export type ModelCatalogueResponseModelsList = Array<ModelChoice>;
@@ -1195,15 +1200,15 @@ export interface GetTasksRepositoryRequest {
 export type TaskRepositoriesResponseRepositoriesList = Array<string>;
 export interface TaskRepositoriesResponse {
   /** Distinct repositories in use by non-deleted, non-internal tasks for the current team. */
-  repositories?: TaskRepositoriesResponseRepositoriesList;
+  repositories?: TaskRepositoriesResponseRepositoriesList | undefined;
 }
 export interface GetTasksRepositoryReadinessRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  refresh?: boolean;
+  refresh?: boolean | undefined;
   /** Repository in org/repo format */
   repository: string;
-  window_days?: number;
+  window_days?: number | undefined;
 }
 /** * `needs_setup` - needs_setup * `detected` - detected * `waiting_for_data` - waiting_for_data * `ready` - ready * `not_applicable` - not_applicable * `unknown` - unknown */
 export type CapabilityStateStateEnum =
@@ -1217,60 +1222,60 @@ export type CapabilityStateStateEnum =
 export type CapabilityStateEvidenceMap = { [key: string]: unknown | undefined };
 export interface CapabilityState {
   /** Current state of the capability * `needs_setup` - needs_setup * `detected` - detected * `waiting_for_data` - waiting_for_data * `ready` - ready * `not_applicable` - not_applicable * `unknown` - unknown */
-  state?: CapabilityStateStateEnum;
+  state?: CapabilityStateStateEnum | undefined;
   /** Whether the state is estimated from static analysis */
-  estimated?: boolean;
+  estimated?: boolean | undefined;
   /** Human-readable explanation */
-  reason?: string;
+  reason?: string | undefined;
   /** Supporting evidence */
-  evidence?: CapabilityStateEvidenceMap;
+  evidence?: CapabilityStateEvidenceMap | undefined;
 }
 export interface ScanEvidence {
   /** Number of files scanned */
-  filesScanned?: number;
+  filesScanned?: number | undefined;
   /** Total candidate files detected */
-  detectedFilesCount?: number;
+  detectedFilesCount?: number | undefined;
   /** Number of distinct event names found */
-  eventNameCount?: number;
+  eventNameCount?: number | undefined;
   /** Whether posthog.init() was found in scanned files */
-  foundPosthogInit?: boolean;
+  foundPosthogInit?: boolean | undefined;
   /** Whether posthog.capture() was found in scanned files */
-  foundPosthogCapture?: boolean;
+  foundPosthogCapture?: boolean | undefined;
   /** Whether error tracking signals were found in scanned files */
-  foundErrorSignal?: boolean;
+  foundErrorSignal?: boolean | undefined;
 }
 export interface RepositoryReadinessResponse {
   /** Normalized repository identifier */
-  repository?: string;
+  repository?: string | undefined;
   /** Repository classification */
-  classification?: string;
+  classification?: string | undefined;
   /** Whether the repository is excluded from readiness checks */
-  excluded?: boolean;
+  excluded?: boolean | undefined;
   /** Tracking capability state */
-  coreSuggestions?: CapabilityState;
+  coreSuggestions?: CapabilityState | undefined;
   /** Computer vision capability state */
-  replayInsights?: CapabilityState;
+  replayInsights?: CapabilityState | undefined;
   /** Error tracking capability state */
-  errorInsights?: CapabilityState;
+  errorInsights?: CapabilityState | undefined;
   /** Overall readiness state */
-  overall?: string;
+  overall?: string | undefined;
   /** Count of replay-derived evidence tasks */
-  evidenceTaskCount?: number;
+  evidenceTaskCount?: number | undefined;
   /** Lookback window in days */
-  windowDays?: number;
+  windowDays?: number | undefined;
   /** ISO timestamp when the response was generated */
-  generatedAt?: string;
+  generatedAt?: string | undefined;
   /** Age of cached response in seconds */
-  cacheAgeSeconds?: number;
+  cacheAgeSeconds?: number | undefined;
   /** Scan evidence details */
-  scan?: ScanEvidence;
+  scan?: ScanEvidence | undefined;
 }
 export interface GetTasksReviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Page of changed files. */
-  page?: number;
+  page?: number | undefined;
 }
 export interface TaskReviewFile {
   /** Repository-relative path. */
@@ -1466,51 +1471,51 @@ export interface ListTasksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Local development only. With ph_debug=true, list all project tasks for debugging. Ignored outside local development. */
-  all_team_tasks?: boolean;
+  all_team_tasks?: boolean | undefined;
   /** Filter by archived state. Defaults to excluding archived tasks. Use 'true' to list only archived tasks, 'false' for the default, or 'all' to include both. * `true` - true * `false` - false * `all` - all */
-  archived?: ListTasksRequestArchived | (string & {});
+  archived?: ListTasksRequestArchived | (string & {}) | undefined;
   /** With true, return basic list rows for summary surfaces: each row omits the full description and includes description_preview, its first 1000 characters. Defaults to false, which returns full task rows with description. The search parameter still matches description text server-side. */
-  basic?: boolean;
+  basic?: boolean | undefined;
   /** Filter tasks to a channel's feed. */
-  channel?: string;
+  channel?: string | undefined;
   /** Filter tasks by the CI check rollup on their most recent run's pull request, as last observed from GitHub. 'none' means the PR has no checks. * `passing` - passing * `failing` - failing * `pending` - pending * `none` - none */
-  ci_status?: ListTasksRequestCiStatus | (string & {});
+  ci_status?: ListTasksRequestCiStatus | (string & {}) | undefined;
   /** Filter by the client that created the task * `posthog_desktop` - PostHog Desktop */
-  client_provenance?: ListTasksRequestClientProvenance | (string & {});
+  client_provenance?: ListTasksRequestClientProvenance | (string & {}) | undefined;
   /** Filter to tasks carrying a thread comment written by this user ID. */
-  commented_by?: number;
+  commented_by?: number | undefined;
   /** Filter by creator user ID */
-  created_by?: number;
+  created_by?: number | undefined;
   /** Exclude tasks with this origin product from the results * `onboarding` - Onboarding * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge */
-  exclude_origin_product?: ListTasksRequestExcludeOriginProduct | (string & {});
+  exclude_origin_product?: ListTasksRequestExcludeOriginProduct | (string & {}) | undefined;
   /** Filter tasks to the runs spawned by this workflow's 'Create AI task' action. */
-  hog_flow_id?: string;
+  hog_flow_id?: string | undefined;
   /** Filter by the internal flag, which controls whether a task is shown by default, not whether it is accessible. Defaults to excluding internal tasks. Use 'all' to include both internal and user-facing tasks, or 'true' to list only internal tasks. All values are available to any team member; access stays governed by task visibility. * `true` - true * `false` - false * `all` - all */
-  internal?: ListTasksRequestInternal | (string & {});
+  internal?: ListTasksRequestInternal | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter to tasks whose thread mentions this user ID. */
-  mentions?: number;
+  mentions?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. '-last_activity_at' is newest activity first, where activity means a thread message or a run starting, streaming, or finishing. Defaults to '-created_at'. * `-created_at` - -created_at * `-last_activity_at` - -last_activity_at */
-  ordering?: ListTasksRequestOrdering | (string & {});
+  ordering?: ListTasksRequestOrdering | (string & {}) | undefined;
   /** Filter by repository organization */
-  organization?: string;
+  organization?: string | undefined;
   /** Filter by origin product */
-  origin_product?: string;
+  origin_product?: string | undefined;
   /** With true, only tasks the requesting user has pinned. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Filter tasks by the state of their most recent run's pull request, as last observed from GitHub (webhooks plus the CI follow-up snapshot). * `open` - open * `draft` - draft * `merged` - merged * `closed` - closed */
-  pr_state?: ListTasksRequestPrState | (string & {});
+  pr_state?: ListTasksRequestPrState | (string & {}) | undefined;
   /** Filter by repository name (can include org/repo format) */
-  repository?: string;
+  repository?: string | undefined;
   /** Case-insensitive substring search over task title and description. A numeric value also matches the task number. An empty value disables the filter. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by task run stage */
-  stage?: string;
+  stage?: string | undefined;
   /** Filter tasks by the status of their most recent run. * `not_started` - not_started * `queued` - queued * `in_progress` - in_progress * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
-  status?: ListTasksRequestStatus | (string & {});
+  status?: ListTasksRequestStatus | (string & {}) | undefined;
 }
 export type TaskBasicRepositoriesList = Array<string>;
 export type TaskBasicJsonSchemaMap = { [key: string]: unknown | undefined };
@@ -1535,16 +1540,16 @@ export interface TaskBasic {
   archived: boolean;
   archived_at: string | null;
   /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  last_activity_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
-  channel?: string | null;
+  channel?: string | null | undefined;
   slack_thread_references: TaskBasicSlackThreadReferencesList;
   /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null;
+  origin_key?: string | null | undefined;
   /** First 1000 characters of the description, so a summary surface can show a prompt snippet without the full body. Open the task for the complete text. */
   description_preview: string;
 }
@@ -1552,8 +1557,8 @@ export type TaskListItem = TaskDetailDTO | TaskBasic;
 export type PaginatedTaskListItemListResultsList = Array<TaskListItem>;
 export interface PaginatedTaskListItemList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaskListItemListResultsList;
 }
 export interface ListTasksArtifactsRequest {
@@ -1580,13 +1585,13 @@ export interface ListTasksCommentsRequest {
   project_id: string;
   id: string;
   /** Artifact id returned by the artifacts endpoint. */
-  artifact_id?: string;
+  artifact_id?: string | undefined;
   /** Opaque cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether to include resolved comment threads. */
-  include_resolved?: boolean;
+  include_resolved?: boolean | undefined;
   /** Maximum number of root comments to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface TaskCommentSummary {
   /** Root comment id. */
@@ -1618,9 +1623,9 @@ export interface ListTasksConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListTasksMeConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1649,15 +1654,15 @@ export interface ListTasksThreadMessagesRequest {
   project_id: string;
   task_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTaskThreadMessageDTOListResultsList = Array<TaskThreadMessageDTO>;
 export interface PaginatedTaskThreadMessageDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaskThreadMessageDTOListResultsList;
 }
 export interface TasksDestroyRequest {
@@ -1689,9 +1694,9 @@ export interface TasksRunsLivingArtifactsChartRequest {
   /** Chart title, also used as the delivered file name. */
   name: string;
   /** Insight query JSON to render ad hoc, e.g. {"kind": "InsightVizNode", "source": {"kind": "TrendsQuery", ...}}. SQL queries (DataVisualizationNode, HogQLQuery) are not supported yet. Provide exactly one of query or insight_id. */
-  query?: TasksRunsLivingArtifactsChartRequestQueryMap;
+  query?: TasksRunsLivingArtifactsChartRequestQueryMap | undefined;
   /** Numeric id of a saved insight to render. Provide exactly one of query or insight_id. */
-  insight_id?: number;
+  insight_id?: number | undefined;
 }
 export interface TaskRunLivingArtifactChartResponse {
   /** The living artifact registered for delivery. */
@@ -1699,7 +1704,7 @@ export interface TaskRunLivingArtifactChartResponse {
   /** Id of the rendered PNG export backing the chart. */
   export_asset_id: number;
   /** Link to explore this chart interactively in PostHog. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface TasksRunsLivingArtifactsOpenRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1740,11 +1745,11 @@ export interface TaskRunLivingArtifactOpenResponse {
   /** Chronological version records for this artifact. */
   versions: TaskRunLivingArtifactOpenResponseVersionsList;
   /** ISO timestamp when created. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** ISO timestamp when last updated. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   /** Current artifact content when the adapter can read it directly. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export interface TasksRunsLivingArtifactsVersionContentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1755,14 +1760,14 @@ export interface TasksRunsLivingArtifactsVersionContentRequest {
   /** Version number of the living artifact, as listed in its versions. */
   version: number;
   /** Set to true to save the version. A stored file then redirects to a short-lived presigned URL, so a large file never passes through the app. Leave unset for an inline preview. */
-  download?: boolean;
+  download?: boolean | undefined;
 }
 export interface TasksRunsLivingArtifactsVersionContentResponse {}
 export interface TasksSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of results to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Text or exact identifier to search for. */
   q: string;
 }
@@ -1808,19 +1813,19 @@ export type TaskRunArtifactTypeEnum =
   | "skill_bundle";
 export interface TaskStagedArtifactFinalizeUpload {
   /** Stable identifier returned by the staged prepare upload endpoint */
-  id?: string;
+  id?: string | undefined;
   /** File name associated with the staged artifact */
-  name?: string;
+  name?: string | undefined;
   /** Classification for the artifact * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
-  type?: TaskRunArtifactTypeEnum | (string & {});
+  type?: TaskRunArtifactTypeEnum | (string & {}) | undefined;
   /** Optional source label for the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** S3 object key returned by the prepare step */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Optional MIME type recorded for the artifact */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
 }
 /** Array of staged artifacts to finalize after upload */
 export type TasksStagedArtifactsFinalizeUploadCreateRequestArtifactsList =
@@ -1830,27 +1835,27 @@ export interface TasksStagedArtifactsFinalizeUploadCreateRequest {
   project_id: string;
   id: string;
   /** Array of staged artifacts to finalize after upload */
-  artifacts?: TasksStagedArtifactsFinalizeUploadCreateRequestArtifactsList;
+  artifacts?: TasksStagedArtifactsFinalizeUploadCreateRequestArtifactsList | undefined;
 }
 /** Finalized staged artifacts available for attachment to a new run */
 export type TaskStagedArtifactsFinalizeUploadResponseArtifactsList = Array<TaskRunArtifactResponse>;
 export interface TaskStagedArtifactsFinalizeUploadResponse {
   /** Finalized staged artifacts available for attachment to a new run */
-  artifacts?: TaskStagedArtifactsFinalizeUploadResponseArtifactsList;
+  artifacts?: TaskStagedArtifactsFinalizeUploadResponseArtifactsList | undefined;
 }
 export interface TaskStagedArtifactPrepareUpload {
   /** File name to associate with the staged artifact */
-  name?: string;
+  name?: string | undefined;
   /** Classification for the artifact * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
-  type?: TaskRunArtifactTypeEnum | (string & {});
+  type?: TaskRunArtifactTypeEnum | (string & {}) | undefined;
   /** Optional source label for the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Expected upload size in bytes (max 31457280 bytes) */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type for the artifact upload */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
 }
 /** Array of staged artifacts to prepare before creating a run */
 export type TasksStagedArtifactsPrepareUploadCreateRequestArtifactsList =
@@ -1860,44 +1865,44 @@ export interface TasksStagedArtifactsPrepareUploadCreateRequest {
   project_id: string;
   id: string;
   /** Array of staged artifacts to prepare before creating a run */
-  artifacts?: TasksStagedArtifactsPrepareUploadCreateRequestArtifactsList;
+  artifacts?: TasksStagedArtifactsPrepareUploadCreateRequestArtifactsList | undefined;
 }
 /** Form fields that must be submitted verbatim with the file upload */
 export type S3PresignedPostFieldsMap = { [key: string]: string | undefined };
 export interface S3PresignedPost {
   /** Presigned S3 POST URL */
-  url?: string;
+  url?: string | undefined;
   /** Form fields that must be submitted verbatim with the file upload */
-  fields?: S3PresignedPostFieldsMap;
+  fields?: S3PresignedPostFieldsMap | undefined;
 }
 export interface TaskStagedArtifactPrepareUploadResponse {
   /** Stable identifier for the prepared staged artifact within this task */
-  id?: string;
+  id?: string | undefined;
   /** Artifact file name */
-  name?: string;
+  name?: string | undefined;
   /** Artifact classification (plan, context, etc.) */
-  type?: string;
+  type?: string | undefined;
   /** Source of the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Expected upload size in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
   /** S3 object key reserved for the staged artifact */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Presigned POST expiry in seconds */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Presigned S3 POST configuration for uploading the file */
-  presigned_post?: S3PresignedPost;
+  presigned_post?: S3PresignedPost | undefined;
 }
 /** Prepared staged uploads for the requested artifacts */
 export type TaskStagedArtifactsPrepareUploadResponseArtifactsList =
   Array<TaskStagedArtifactPrepareUploadResponse>;
 export interface TaskStagedArtifactsPrepareUploadResponse {
   /** Prepared staged uploads for the requested artifacts */
-  artifacts?: TaskStagedArtifactsPrepareUploadResponseArtifactsList;
+  artifacts?: TaskStagedArtifactsPrepareUploadResponseArtifactsList | undefined;
 }
 export interface TasksThreadMessagesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1920,9 +1925,9 @@ export interface TasksThreadMessagesSendToAgentCreateRequest {
   payload: TasksThreadMessagesSendToAgentCreateRequestPayloadMap;
   content: string;
   created_at: string;
-  author?: TaskUserBasicInfo | null;
-  forwarded_to_agent_at?: string | null;
-  forwarded_by?: TaskUserBasicInfo | null;
+  author?: TaskUserBasicInfo | null | undefined;
+  forwarded_to_agent_at?: string | null | undefined;
+  forwarded_by?: TaskUserBasicInfo | null | undefined;
 }
 export interface TasksWarmResumeCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1931,13 +1936,16 @@ export interface TasksWarmResumeCreateRequest {
   /** ID of the task's latest terminal run whose snapshot and conversation should be resumed. */
   resume_from_run_id: string;
   /** Agent runtime adapter to start before the next message is submitted. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {});
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | undefined;
   /** LLM model to start before the next message is submitted. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort to apply when the warmed successor receives its first message. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {});
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | undefined;
   /** Initial permission mode for the warmed successor's agent session. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
-  initial_permission_mode?: TaskRunBootstrapCreateRequestInitialPermissionModeEnum | (string & {});
+  initial_permission_mode?:
+    | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
+    | (string & {})
+    | undefined;
 }
 /** Response for a successfully warmed successor run on an existing task. */
 export interface WarmTaskResumeResponse {
@@ -1955,52 +1963,53 @@ export interface UpdateTaskRequest {
   project_id: string;
   id: string;
   /** Short human-readable title. Auto-generated from `description` when omitted. */
-  title?: string;
+  title?: string | undefined;
   /** Whether the title was set by a human (vs auto-generated from the description). */
-  title_manually_set?: boolean;
+  title_manually_set?: boolean | undefined;
   /** Free-form description of the work to be done. Used as the prompt passed to the agent. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge */
-  origin_product?: TaskOriginProductEnum | (string & {});
+  origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
   /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
-  repositories?: UpdateTaskRequestRepositoriesList;
+  repositories?: UpdateTaskRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
-  github_integration?: number | null;
+  github_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
-  github_user_integration?: string | null;
+  github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
-  signal_report?: string | null;
+  signal_report?: string | null | undefined;
   /** How the created task relates to the signal report (e.g. 'implementation', 'discussion'). Recorded as a signals task_run work-log entry; 'implementation' also opens the auto-start spend gate. Any routing-safe identifier (lowercase letters, numbers, '_', '-') is accepted except labels reserved for server-created tasks ('research', 'repo_selection', 'scout'). Non-implementation labels count toward the report's discussion task limit. */
-  signal_report_task_relationship?: string;
+  signal_report_task_relationship?: string | undefined;
   /** JSON schema used to validate the output of the task. */
-  json_schema?: unknown;
+  json_schema?: unknown | undefined;
   /** If true, the task is hidden from default list responses. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Custom prompt for CI fixes. If blank, a default prompt will be used. */
-  ci_prompt?: string | null;
+  ci_prompt?: string | null | undefined;
   /** Base branch for the first run when start_run is true, or for matching a pre-warmed run. Omit to use the repository's default branch. Write-only and not persisted on the task. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Runtime adapter ('claude' or 'codex') for the first run when start_run is true, or for matching a pre-warmed run. A different adapter prevents warm reuse. Write-only and not persisted on the task. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** LLM model for the first run when start_run is true, or for matching a pre-warmed run. Write-only. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Reasoning effort for the first run when start_run is true, or for matching a pre-warmed run. Write-only. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Agent permission mode for the first run when start_run is true, or for matching a pre-warmed run. Omit to match any warm permission mode. Write-only. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** First user message when start_run is true or creation reuses a pre-warmed run. This message can differ from description. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  pending_user_message?: string | null;
+  pending_user_message?: string | null | undefined;
   /** Run artifact ids (already uploaded to the pre-warmed Run) to attach to the forwarded first message when creation reuses that warm Run, e.g. skill bundles or file attachments. If any id is missing from the warm Run's manifest, warm reuse is skipped and the task is created cold. Ignored when no warm Run is matched. Not supported when start_run is true. */
-  pending_user_artifact_ids?: UpdateTaskRequestPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: UpdateTaskRequestPendingUserArtifactIdsList | undefined;
   /** When true, the agent pushes its work and opens a draft pull request on completion without an explicit request. Applies when start_run is true or creation reuses a pre-warmed run. Resumed runs keep this setting. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** Channel this task is owned by (the channel it was kicked off in). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 /** GitHub repositories available to this task, each in `organization/repo` format. */
 export type UpdateTasksPartialRequestRepositoriesList = Array<string>;
@@ -2011,52 +2020,53 @@ export interface UpdateTasksPartialRequest {
   project_id: string;
   id: string;
   /** Short human-readable title. Auto-generated from `description` when omitted. */
-  title?: string;
+  title?: string | undefined;
   /** Whether the title was set by a human (vs auto-generated from the description). */
-  title_manually_set?: boolean;
+  title_manually_set?: boolean | undefined;
   /** Free-form description of the work to be done. Used as the prompt passed to the agent. */
-  description?: string;
+  description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge */
-  origin_product?: TaskOriginProductEnum | (string & {});
+  origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
   /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
-  repositories?: UpdateTasksPartialRequestRepositoriesList;
+  repositories?: UpdateTasksPartialRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
-  github_integration?: number | null;
+  github_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
-  github_user_integration?: string | null;
+  github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
-  signal_report?: string | null;
+  signal_report?: string | null | undefined;
   /** How the created task relates to the signal report (e.g. 'implementation', 'discussion'). Recorded as a signals task_run work-log entry; 'implementation' also opens the auto-start spend gate. Any routing-safe identifier (lowercase letters, numbers, '_', '-') is accepted except labels reserved for server-created tasks ('research', 'repo_selection', 'scout'). Non-implementation labels count toward the report's discussion task limit. */
-  signal_report_task_relationship?: string;
+  signal_report_task_relationship?: string | undefined;
   /** JSON schema used to validate the output of the task. */
-  json_schema?: unknown;
+  json_schema?: unknown | undefined;
   /** If true, the task is hidden from default list responses. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Custom prompt for CI fixes. If blank, a default prompt will be used. */
-  ci_prompt?: string | null;
+  ci_prompt?: string | null | undefined;
   /** Base branch for the first run when start_run is true, or for matching a pre-warmed run. Omit to use the repository's default branch. Write-only and not persisted on the task. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Runtime adapter ('claude' or 'codex') for the first run when start_run is true, or for matching a pre-warmed run. A different adapter prevents warm reuse. Write-only and not persisted on the task. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null;
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | null | undefined;
   /** LLM model for the first run when start_run is true, or for matching a pre-warmed run. Write-only. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Reasoning effort for the first run when start_run is true, or for matching a pre-warmed run. Write-only. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Agent permission mode for the first run when start_run is true, or for matching a pre-warmed run. Omit to match any warm permission mode. Write-only. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** First user message when start_run is true or creation reuses a pre-warmed run. This message can differ from description. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  pending_user_message?: string | null;
+  pending_user_message?: string | null | undefined;
   /** Run artifact ids (already uploaded to the pre-warmed Run) to attach to the forwarded first message when creation reuses that warm Run, e.g. skill bundles or file attachments. If any id is missing from the warm Run's manifest, warm reuse is skipped and the task is created cold. Ignored when no warm Run is matched. Not supported when start_run is true. */
-  pending_user_artifact_ids?: UpdateTasksPartialRequestPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: UpdateTasksPartialRequestPendingUserArtifactIdsList | undefined;
   /** When true, the agent pushes its work and opens a draft pull request on completion without an explicit request. Applies when start_run is true or creation reuses a pre-warmed run. Resumed runs keep this setting. Ignored if creation does not start a run. Write-only and not persisted on the task. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** Channel this task is owned by (the channel it was kicked off in). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 export interface UpdateTasksRepoRoutingRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2074,9 +2084,9 @@ export interface UpdateTasksRepoRoutingRulesPartialRequest {
   /** A UUID string identifying this repo routing rule. */
   id: string;
   /** Plain-text description of the requests that should route to the repository, e.g. 'anything about the internal dashboard'. At most 300 characters. */
-  rule_text?: string;
+  rule_text?: string | undefined;
   /** Target repository as owner/repo, e.g. 'posthog/posthog.com'. */
-  repository?: string;
+  repository?: string | undefined;
 }
 export type CreateTaskError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** API for managing tasks within a project. Tasks represent units of work to be performed by an agent. */

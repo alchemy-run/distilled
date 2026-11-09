@@ -259,9 +259,13 @@ export interface IntegratedRepository {
 export type IntegratedRepositoryList = IntegratedRepository[];
 export type CaCertificatePem = string | redacted.Redacted<string>;
 export type CaCertificateSource =
-  | { inlinePem: string | redacted.Redacted<string>; artifactId?: never; s3Location?: never }
-  | { inlinePem?: never; artifactId: string; s3Location?: never }
-  | { inlinePem?: never; artifactId?: never; s3Location: string };
+  | {
+      inlinePem: string | redacted.Redacted<string>;
+      artifactId?: undefined;
+      s3Location?: undefined;
+    }
+  | { inlinePem?: undefined; artifactId: string; s3Location?: undefined }
+  | { inlinePem?: undefined; artifactId?: undefined; s3Location: string };
 export interface TrustedCaCertificate {
   source: CaCertificateSource;
 }
@@ -1182,65 +1186,65 @@ export interface JiraIntegrationInput {
 export type ProviderInput =
   | {
       github: GitHubIntegrationInput;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabIntegrationInput;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketIntegrationInput;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceIntegrationInput;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsIntegrationInput;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
       bitbucketDataCenter: BitbucketDataCenterIntegrationInput;
-      jira?: never;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
       jira: JiraIntegrationInput;
     };
 export type PrivateConnectionName = string;
@@ -1332,8 +1336,8 @@ export interface SelfManagedInput {
   certificate?: string | redacted.Redacted<string> | undefined;
 }
 export type PrivateConnectionMode =
-  | { serviceManaged: ServiceManagedInput; selfManaged?: never }
-  | { serviceManaged?: never; selfManaged: SelfManagedInput };
+  | { serviceManaged: ServiceManagedInput; selfManaged?: undefined }
+  | { serviceManaged?: undefined; selfManaged: SelfManagedInput };
 export interface CreatePrivateConnectionInput {
   privateConnectionName: string;
   mode: PrivateConnectionMode;
@@ -1869,50 +1873,50 @@ export interface JiraProjectMetadata {
 export type IntegratedResourceMetadata =
   | {
       githubRepository: GitHubRepositoryMetadata;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryMetadata;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryMetadata;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentMetadata;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryMetadata;
-      jiraProject?: never;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
       jiraProject: JiraProjectMetadata;
     };
 export type TriggerEvent =
@@ -1968,50 +1972,50 @@ export interface JiraResourceCapabilities {
 export type ProviderResourceCapabilities =
   | {
       github: GitHubResourceCapabilities;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabResourceCapabilities;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketResourceCapabilities;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceResourceCapabilities;
-      azureDevOps?: never;
-      jira?: never;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsResourceCapabilities;
-      jira?: never;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
       jira: JiraResourceCapabilities;
     };
 export interface IntegratedResourceSummary {
@@ -2025,8 +2029,8 @@ export interface ListIntegratedResourcesOutput {
   nextToken?: string | undefined;
 }
 export type IntegrationFilter =
-  | { provider: Provider; providerType?: never }
-  | { provider?: never; providerType: ProviderType };
+  | { provider: Provider; providerType?: undefined }
+  | { provider?: undefined; providerType: ProviderType };
 export interface ListIntegrationsInput {
   filter?: IntegrationFilter | undefined;
   nextToken?: string | undefined;
@@ -2486,50 +2490,50 @@ export interface JiraProjectResource {
 export type IntegratedResource =
   | {
       githubRepository: GitHubRepositoryResource;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryResource;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryResource;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentResource;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryResource;
-      jiraProject?: never;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
       jiraProject: JiraProjectResource;
     };
 export interface IntegratedResourceInputItem {

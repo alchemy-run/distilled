@@ -199,9 +199,9 @@ export interface FirehoseDestinationConfiguration {
   deliveryStreamName: string;
 }
 export type DestinationConfiguration =
-  | { s3: S3DestinationConfiguration; cloudWatchLogs?: never; firehose?: never }
-  | { s3?: never; cloudWatchLogs: CloudWatchLogsDestinationConfiguration; firehose?: never }
-  | { s3?: never; cloudWatchLogs?: never; firehose: FirehoseDestinationConfiguration };
+  | { s3: S3DestinationConfiguration; cloudWatchLogs?: undefined; firehose?: undefined }
+  | { s3?: undefined; cloudWatchLogs: CloudWatchLogsDestinationConfiguration; firehose?: undefined }
+  | { s3?: undefined; cloudWatchLogs?: undefined; firehose: FirehoseDestinationConfiguration };
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };

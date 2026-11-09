@@ -85,7 +85,7 @@ export interface BulkPutFiltersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: BulkUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateRequestBodyItem = BulkUpdateRequestBodyItem;
 export type CreateRequestBodyList = Array<BulkUpdateRequestBodyItem>;
@@ -100,7 +100,7 @@ export interface CreateFilterResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteFilterRequest {
   /** Defines an identifier. */
@@ -156,7 +156,7 @@ export interface ListFiltersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateFilterRequest {
   /** Defines an identifier. */

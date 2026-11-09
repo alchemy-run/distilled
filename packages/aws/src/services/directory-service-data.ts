@@ -185,10 +185,10 @@ export type NumberAttributeValue = number;
 export type BooleanAttributeValue = boolean;
 export type StringSetAttributeValue = (string | redacted.Redacted<string>)[];
 export type AttributeValue =
-  | { S: string | redacted.Redacted<string>; N?: never; BOOL?: never; SS?: never }
-  | { S?: never; N: number; BOOL?: never; SS?: never }
-  | { S?: never; N?: never; BOOL: boolean; SS?: never }
-  | { S?: never; N?: never; BOOL?: never; SS: (string | redacted.Redacted<string>)[] };
+  | { S: string | redacted.Redacted<string>; N?: undefined; BOOL?: undefined; SS?: undefined }
+  | { S?: undefined; N: number; BOOL?: undefined; SS?: undefined }
+  | { S?: undefined; N?: undefined; BOOL: boolean; SS?: undefined }
+  | { S?: undefined; N?: undefined; BOOL?: undefined; SS: (string | redacted.Redacted<string>)[] };
 export type Attributes = { [key: string]: AttributeValue | undefined };
 export interface CreateGroupRequest {
   DirectoryId: string;

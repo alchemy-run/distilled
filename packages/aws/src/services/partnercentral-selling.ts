@@ -595,9 +595,9 @@ export interface ProspectingResult {
   Aws?: ProspectingResultAws | undefined;
 }
 export type EngagementContextPayload =
-  | { CustomerProject: CustomerProjectsContext; Lead?: never; ProspectingResult?: never }
-  | { CustomerProject?: never; Lead: LeadContext; ProspectingResult?: never }
-  | { CustomerProject?: never; Lead?: never; ProspectingResult: ProspectingResult };
+  | { CustomerProject: CustomerProjectsContext; Lead?: undefined; ProspectingResult?: undefined }
+  | { CustomerProject?: undefined; Lead: LeadContext; ProspectingResult?: undefined }
+  | { CustomerProject?: undefined; Lead?: undefined; ProspectingResult: ProspectingResult };
 export interface EngagementContextDetails {
   Id?: string | undefined;
   Type: EngagementContextType;
@@ -874,8 +874,8 @@ export interface LeadInvitationPayload {
   Interaction: LeadInvitationInteraction;
 }
 export type Payload =
-  | { OpportunityInvitation: OpportunityInvitationPayload; LeadInvitation?: never }
-  | { OpportunityInvitation?: never; LeadInvitation: LeadInvitationPayload };
+  | { OpportunityInvitation: OpportunityInvitationPayload; LeadInvitation?: undefined }
+  | { OpportunityInvitation?: undefined; LeadInvitation: LeadInvitationPayload };
 export interface Invitation {
   Message: string | redacted.Redacted<string>;
   Receiver: Receiver;
@@ -1537,8 +1537,11 @@ export interface AwsOpportunitySummaryFullView {
   SoftwareRevenue?: AwsSoftwareRevenue | undefined;
 }
 export type ResourceSnapshotPayload =
-  | { OpportunitySummary: OpportunitySummaryView; AwsOpportunitySummaryFullView?: never }
-  | { OpportunitySummary?: never; AwsOpportunitySummaryFullView: AwsOpportunitySummaryFullView };
+  | { OpportunitySummary: OpportunitySummaryView; AwsOpportunitySummaryFullView?: undefined }
+  | {
+      OpportunitySummary?: undefined;
+      AwsOpportunitySummaryFullView: AwsOpportunitySummaryFullView;
+    };
 export type AwsAccountIdOrAliasList = (string | redacted.Redacted<string>)[];
 export interface GetResourceSnapshotResponse {
   Catalog: string;
@@ -2159,9 +2162,9 @@ export interface UpdateLeadContext {
   Insights?: LeadInsights | undefined;
 }
 export type UpdateEngagementContextPayload =
-  | { Lead: UpdateLeadContext; CustomerProject?: never; ProspectingResult?: never }
-  | { Lead?: never; CustomerProject: CustomerProjectsContext; ProspectingResult?: never }
-  | { Lead?: never; CustomerProject?: never; ProspectingResult: ProspectingResult };
+  | { Lead: UpdateLeadContext; CustomerProject?: undefined; ProspectingResult?: undefined }
+  | { Lead?: undefined; CustomerProject: CustomerProjectsContext; ProspectingResult?: undefined }
+  | { Lead?: undefined; CustomerProject?: undefined; ProspectingResult: ProspectingResult };
 export interface UpdateEngagementContextRequest {
   Catalog: string;
   EngagementIdentifier: string;

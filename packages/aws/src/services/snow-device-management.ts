@@ -143,7 +143,9 @@ export interface CancelTaskOutput {
 export type TargetList = string[];
 export interface Unlock {}
 export interface Reboot {}
-export type Command = { unlock: Unlock; reboot?: never } | { unlock?: never; reboot: Reboot };
+export type Command =
+  | { unlock: Unlock; reboot?: undefined }
+  | { unlock?: undefined; reboot: Reboot };
 export type TaskDescriptionString = string;
 export type TagMap = { [key: string]: string | undefined };
 export type IdempotencyToken = string;

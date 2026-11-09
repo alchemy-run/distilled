@@ -181,11 +181,17 @@ export interface MatchRange {
   end: number;
 }
 export type HeaderMatchMethod =
-  | { exact: string; regex?: never; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex: string; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range: MatchRange; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix: string; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
+  | { exact: string; regex?: undefined; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | { exact?: undefined; regex: string; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | {
+      exact?: undefined;
+      regex?: undefined;
+      range: MatchRange;
+      prefix?: undefined;
+      suffix?: undefined;
+    }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix: string; suffix?: undefined }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix?: undefined; suffix: string };
 export interface HttpGatewayRouteHeader {
   name: string;
   invert?: boolean | undefined;
@@ -236,11 +242,17 @@ export interface HttpGatewayRoute {
 }
 export type ServiceName = string;
 export type GrpcMetadataMatchMethod =
-  | { exact: string; regex?: never; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex: string; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range: MatchRange; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix: string; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
+  | { exact: string; regex?: undefined; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | { exact?: undefined; regex: string; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | {
+      exact?: undefined;
+      regex?: undefined;
+      range: MatchRange;
+      prefix?: undefined;
+      suffix?: undefined;
+    }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix: string; suffix?: undefined }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix?: undefined; suffix: string };
 export interface GrpcGatewayRouteMetadata {
   name: string;
   invert?: boolean | undefined;
@@ -416,11 +428,17 @@ export interface GrpcRouteAction {
 }
 export type MethodName = string;
 export type GrpcRouteMetadataMatchMethod =
-  | { exact: string; regex?: never; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex: string; range?: never; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range: MatchRange; prefix?: never; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix: string; suffix?: never }
-  | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
+  | { exact: string; regex?: undefined; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | { exact?: undefined; regex: string; range?: undefined; prefix?: undefined; suffix?: undefined }
+  | {
+      exact?: undefined;
+      regex?: undefined;
+      range: MatchRange;
+      prefix?: undefined;
+      suffix?: undefined;
+    }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix: string; suffix?: undefined }
+  | { exact?: undefined; regex?: undefined; range?: undefined; prefix?: undefined; suffix: string };
 export interface GrpcRouteMetadata {
   name: string;
   invert?: boolean | undefined;
@@ -495,8 +513,8 @@ export interface VirtualGatewayListenerTlsSdsCertificate {
   secretName: string;
 }
 export type VirtualGatewayClientTlsCertificate =
-  | { file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
-  | { file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
+  | { file: VirtualGatewayListenerTlsFileCertificate; sds?: undefined }
+  | { file?: undefined; sds: VirtualGatewayListenerTlsSdsCertificate };
 export type VirtualGatewayCertificateAuthorityArns = string[];
 export interface VirtualGatewayTlsValidationContextAcmTrust {
   certificateAuthorityArns: string[];
@@ -508,9 +526,9 @@ export interface VirtualGatewayTlsValidationContextSdsTrust {
   secretName: string;
 }
 export type VirtualGatewayTlsValidationContextTrust =
-  | { acm: VirtualGatewayTlsValidationContextAcmTrust; file?: never; sds?: never }
-  | { acm?: never; file: VirtualGatewayTlsValidationContextFileTrust; sds?: never }
-  | { acm?: never; file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
+  | { acm: VirtualGatewayTlsValidationContextAcmTrust; file?: undefined; sds?: undefined }
+  | { acm?: undefined; file: VirtualGatewayTlsValidationContextFileTrust; sds?: undefined }
+  | { acm?: undefined; file?: undefined; sds: VirtualGatewayTlsValidationContextSdsTrust };
 export type SubjectAlternativeName = string;
 export type SubjectAlternativeNameList = string[];
 export interface SubjectAlternativeNameMatchers {
@@ -554,8 +572,8 @@ export interface VirtualGatewayPortMapping {
 }
 export type VirtualGatewayListenerTlsMode = string;
 export type VirtualGatewayListenerTlsValidationContextTrust =
-  | { file: VirtualGatewayTlsValidationContextFileTrust; sds?: never }
-  | { file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
+  | { file: VirtualGatewayTlsValidationContextFileTrust; sds?: undefined }
+  | { file?: undefined; sds: VirtualGatewayTlsValidationContextSdsTrust };
 export interface VirtualGatewayListenerTlsValidationContext {
   trust: VirtualGatewayListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames | undefined;
@@ -564,9 +582,9 @@ export interface VirtualGatewayListenerTlsAcmCertificate {
   certificateArn: string;
 }
 export type VirtualGatewayListenerTlsCertificate =
-  | { acm: VirtualGatewayListenerTlsAcmCertificate; file?: never; sds?: never }
-  | { acm?: never; file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
-  | { acm?: never; file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
+  | { acm: VirtualGatewayListenerTlsAcmCertificate; file?: undefined; sds?: undefined }
+  | { acm?: undefined; file: VirtualGatewayListenerTlsFileCertificate; sds?: undefined }
+  | { acm?: undefined; file?: undefined; sds: VirtualGatewayListenerTlsSdsCertificate };
 export interface VirtualGatewayListenerTls {
   mode: string;
   validation?: VirtualGatewayListenerTlsValidationContext | undefined;
@@ -586,9 +604,9 @@ export interface VirtualGatewayGrpcConnectionPool {
   maxRequests: number;
 }
 export type VirtualGatewayConnectionPool =
-  | { http: VirtualGatewayHttpConnectionPool; http2?: never; grpc?: never }
-  | { http?: never; http2: VirtualGatewayHttp2ConnectionPool; grpc?: never }
-  | { http?: never; http2?: never; grpc: VirtualGatewayGrpcConnectionPool };
+  | { http: VirtualGatewayHttpConnectionPool; http2?: undefined; grpc?: undefined }
+  | { http?: undefined; http2: VirtualGatewayHttp2ConnectionPool; grpc?: undefined }
+  | { http?: undefined; http2?: undefined; grpc: VirtualGatewayGrpcConnectionPool };
 export interface VirtualGatewayListener {
   healthCheck?: VirtualGatewayHealthCheckPolicy | undefined;
   portMapping: VirtualGatewayPortMapping;
@@ -605,8 +623,8 @@ export interface JsonFormatRef {
 }
 export type JsonFormat = JsonFormatRef[];
 export type LoggingFormat =
-  | { text: string; json?: never }
-  | { text?: never; json: JsonFormatRef[] };
+  | { text: string; json?: undefined }
+  | { text?: undefined; json: JsonFormatRef[] };
 export interface VirtualGatewayFileAccessLog {
   path: string;
   format?: LoggingFormat | undefined;
@@ -664,8 +682,8 @@ export interface AwsCloudMapServiceDiscovery {
   ipPreference?: string | undefined;
 }
 export type ServiceDiscovery =
-  | { dns: DnsServiceDiscovery; awsCloudMap?: never }
-  | { dns?: never; awsCloudMap: AwsCloudMapServiceDiscovery };
+  | { dns: DnsServiceDiscovery; awsCloudMap?: undefined }
+  | { dns?: undefined; awsCloudMap: AwsCloudMapServiceDiscovery };
 export type PortProtocol = string;
 export interface PortMapping {
   port: number;
@@ -684,9 +702,9 @@ export interface ListenerTlsSdsCertificate {
   secretName: string;
 }
 export type ListenerTlsCertificate =
-  | { acm: ListenerTlsAcmCertificate; file?: never; sds?: never }
-  | { acm?: never; file: ListenerTlsFileCertificate; sds?: never }
-  | { acm?: never; file?: never; sds: ListenerTlsSdsCertificate };
+  | { acm: ListenerTlsAcmCertificate; file?: undefined; sds?: undefined }
+  | { acm?: undefined; file: ListenerTlsFileCertificate; sds?: undefined }
+  | { acm?: undefined; file?: undefined; sds: ListenerTlsSdsCertificate };
 export interface TlsValidationContextFileTrust {
   certificateChain: string;
 }
@@ -694,8 +712,8 @@ export interface TlsValidationContextSdsTrust {
   secretName: string;
 }
 export type ListenerTlsValidationContextTrust =
-  | { file: TlsValidationContextFileTrust; sds?: never }
-  | { file?: never; sds: TlsValidationContextSdsTrust };
+  | { file: TlsValidationContextFileTrust; sds?: undefined }
+  | { file?: undefined; sds: TlsValidationContextSdsTrust };
 export interface ListenerTlsValidationContext {
   trust: ListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames | undefined;
@@ -718,10 +736,10 @@ export interface HealthCheckPolicy {
   unhealthyThreshold: number;
 }
 export type ListenerTimeout =
-  | { tcp: TcpTimeout; http?: never; http2?: never; grpc?: never }
-  | { tcp?: never; http: HttpTimeout; http2?: never; grpc?: never }
-  | { tcp?: never; http?: never; http2: HttpTimeout; grpc?: never }
-  | { tcp?: never; http?: never; http2?: never; grpc: GrpcTimeout };
+  | { tcp: TcpTimeout; http?: undefined; http2?: undefined; grpc?: undefined }
+  | { tcp?: undefined; http: HttpTimeout; http2?: undefined; grpc?: undefined }
+  | { tcp?: undefined; http?: undefined; http2: HttpTimeout; grpc?: undefined }
+  | { tcp?: undefined; http?: undefined; http2?: undefined; grpc: GrpcTimeout };
 export type OutlierDetectionMaxServerErrors = number;
 export type OutlierDetectionMaxEjectionPercent = number;
 export interface OutlierDetection {
@@ -744,10 +762,10 @@ export interface VirtualNodeGrpcConnectionPool {
   maxRequests: number;
 }
 export type VirtualNodeConnectionPool =
-  | { tcp: VirtualNodeTcpConnectionPool; http?: never; http2?: never; grpc?: never }
-  | { tcp?: never; http: VirtualNodeHttpConnectionPool; http2?: never; grpc?: never }
-  | { tcp?: never; http?: never; http2: VirtualNodeHttp2ConnectionPool; grpc?: never }
-  | { tcp?: never; http?: never; http2?: never; grpc: VirtualNodeGrpcConnectionPool };
+  | { tcp: VirtualNodeTcpConnectionPool; http?: undefined; http2?: undefined; grpc?: undefined }
+  | { tcp?: undefined; http: VirtualNodeHttpConnectionPool; http2?: undefined; grpc?: undefined }
+  | { tcp?: undefined; http?: undefined; http2: VirtualNodeHttp2ConnectionPool; grpc?: undefined }
+  | { tcp?: undefined; http?: undefined; http2?: undefined; grpc: VirtualNodeGrpcConnectionPool };
 export interface Listener {
   portMapping: PortMapping;
   tls?: ListenerTls | undefined;
@@ -758,16 +776,16 @@ export interface Listener {
 }
 export type Listeners = Listener[];
 export type ClientTlsCertificate =
-  | { file: ListenerTlsFileCertificate; sds?: never }
-  | { file?: never; sds: ListenerTlsSdsCertificate };
+  | { file: ListenerTlsFileCertificate; sds?: undefined }
+  | { file?: undefined; sds: ListenerTlsSdsCertificate };
 export type CertificateAuthorityArns = string[];
 export interface TlsValidationContextAcmTrust {
   certificateAuthorityArns: string[];
 }
 export type TlsValidationContextTrust =
-  | { acm: TlsValidationContextAcmTrust; file?: never; sds?: never }
-  | { acm?: never; file: TlsValidationContextFileTrust; sds?: never }
-  | { acm?: never; file?: never; sds: TlsValidationContextSdsTrust };
+  | { acm: TlsValidationContextAcmTrust; file?: undefined; sds?: undefined }
+  | { acm?: undefined; file: TlsValidationContextFileTrust; sds?: undefined }
+  | { acm?: undefined; file?: undefined; sds: TlsValidationContextSdsTrust };
 export interface TlsValidationContext {
   trust: TlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames | undefined;
@@ -863,8 +881,8 @@ export interface VirtualRouterServiceProvider {
   virtualRouterName: string;
 }
 export type VirtualServiceProvider =
-  | { virtualNode: VirtualNodeServiceProvider; virtualRouter?: never }
-  | { virtualNode?: never; virtualRouter: VirtualRouterServiceProvider };
+  | { virtualNode: VirtualNodeServiceProvider; virtualRouter?: undefined }
+  | { virtualNode?: undefined; virtualRouter: VirtualRouterServiceProvider };
 export interface VirtualServiceSpec {
   provider?: VirtualServiceProvider | undefined;
 }

@@ -327,37 +327,37 @@ export type DatetimeAttributeValue = Date;
 export type TypedAttributeValue =
   | {
       StringValue: string;
-      BinaryValue?: never;
-      BooleanValue?: never;
-      NumberValue?: never;
-      DatetimeValue?: never;
+      BinaryValue?: undefined;
+      BooleanValue?: undefined;
+      NumberValue?: undefined;
+      DatetimeValue?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       BinaryValue: Uint8Array;
-      BooleanValue?: never;
-      NumberValue?: never;
-      DatetimeValue?: never;
+      BooleanValue?: undefined;
+      NumberValue?: undefined;
+      DatetimeValue?: undefined;
     }
   | {
-      StringValue?: never;
-      BinaryValue?: never;
+      StringValue?: undefined;
+      BinaryValue?: undefined;
       BooleanValue: boolean;
-      NumberValue?: never;
-      DatetimeValue?: never;
+      NumberValue?: undefined;
+      DatetimeValue?: undefined;
     }
   | {
-      StringValue?: never;
-      BinaryValue?: never;
-      BooleanValue?: never;
+      StringValue?: undefined;
+      BinaryValue?: undefined;
+      BooleanValue?: undefined;
       NumberValue: string;
-      DatetimeValue?: never;
+      DatetimeValue?: undefined;
     }
   | {
-      StringValue?: never;
-      BinaryValue?: never;
-      BooleanValue?: never;
-      NumberValue?: never;
+      StringValue?: undefined;
+      BinaryValue?: undefined;
+      BooleanValue?: undefined;
+      NumberValue?: undefined;
       DatetimeValue: Date;
     };
 export interface AttributeKeyAndValue {

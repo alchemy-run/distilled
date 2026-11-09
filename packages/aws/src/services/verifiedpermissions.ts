@@ -208,8 +208,8 @@ export interface TemplateLinkedPolicyDefinitionDetail {
   resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinitionDetail =
-  | { static: StaticPolicyDefinitionDetail; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionDetail };
+  | { static: StaticPolicyDefinitionDetail; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinitionDetail };
 export type TimestampFormat = Date;
 export type PolicyName = string;
 export interface BatchGetPolicyOutputItem {
@@ -250,122 +250,122 @@ export type Duration = string | redacted.Redacted<string>;
 export type AttributeValue =
   | {
       boolean: boolean;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
+      boolean?: undefined;
       entityIdentifier: EntityIdentifier;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
       long: number;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
       string: string | redacted.Redacted<string>;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
       set: AttributeValue[];
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
       record: { [key: string]: AttributeValue | undefined };
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
       ipaddr: string | redacted.Redacted<string>;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
       decimal: string | redacted.Redacted<string>;
-      datetime?: never;
-      duration?: never;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
       datetime: string | redacted.Redacted<string>;
-      duration?: never;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
       duration: string | redacted.Redacted<string>;
     };
 export type EntityAttributes = { [key: string]: AttributeValue | undefined };
@@ -375,122 +375,122 @@ export type CedarTagRecordAttribute = { [key: string]: CedarTagValue | undefined
 export type CedarTagValue =
   | {
       boolean: boolean;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
+      boolean?: undefined;
       entityIdentifier: EntityIdentifier;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
       long: number;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
       string: string | redacted.Redacted<string>;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
       set: CedarTagValue[];
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
       record: { [key: string]: CedarTagValue | undefined };
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
       ipaddr: string | redacted.Redacted<string>;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
       decimal: string | redacted.Redacted<string>;
-      datetime?: never;
-      duration?: never;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
       datetime: string | redacted.Redacted<string>;
-      duration?: never;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
       duration: string | redacted.Redacted<string>;
     };
 export type EntityCedarTags = { [key: string]: CedarTagValue | undefined };
@@ -503,8 +503,8 @@ export interface EntityItem {
 export type EntityList = EntityItem[];
 export type CedarJson = string | redacted.Redacted<string>;
 export type EntitiesDefinition =
-  | { entityList: EntityItem[]; cedarJson?: never }
-  | { entityList?: never; cedarJson: string | redacted.Redacted<string> };
+  | { entityList: EntityItem[]; cedarJson?: undefined }
+  | { entityList?: undefined; cedarJson: string | redacted.Redacted<string> };
 export type ActionType = string | redacted.Redacted<string>;
 export type ActionId = string | redacted.Redacted<string>;
 export interface ActionIdentifier {
@@ -513,8 +513,8 @@ export interface ActionIdentifier {
 }
 export type ContextMap = { [key: string]: AttributeValue | undefined };
 export type ContextDefinition =
-  | { contextMap: { [key: string]: AttributeValue | undefined }; cedarJson?: never }
-  | { contextMap?: never; cedarJson: string | redacted.Redacted<string> };
+  | { contextMap: { [key: string]: AttributeValue | undefined }; cedarJson?: undefined }
+  | { contextMap?: undefined; cedarJson: string | redacted.Redacted<string> };
 export interface BatchIsAuthorizedInputItem {
   principal?: EntityIdentifier | undefined;
   action?: ActionIdentifier | undefined;
@@ -602,8 +602,8 @@ export interface OpenIdConnectIdentityTokenConfiguration {
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelection =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration; identityTokenOnly?: undefined }
+  | { accessTokenOnly?: undefined; identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
 export interface OpenIdConnectConfiguration {
   issuer: string;
   entityIdPrefix?: string | redacted.Redacted<string> | undefined;
@@ -613,10 +613,10 @@ export interface OpenIdConnectConfiguration {
 export type Configuration =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfiguration;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfiguration;
     };
 export type PrincipalEntityType = string | redacted.Redacted<string>;
@@ -643,8 +643,8 @@ export interface TemplateLinkedPolicyDefinition {
   resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinition =
-  | { static: StaticPolicyDefinition; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinition };
+  | { static: StaticPolicyDefinition; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinition };
 export interface CreatePolicyInput {
   clientToken?: string | undefined;
   policyStoreId: string;
@@ -679,8 +679,8 @@ export interface KmsEncryptionSettings {
   encryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export type EncryptionSettings =
-  | { kmsEncryptionSettings: KmsEncryptionSettings; default?: never }
-  | { kmsEncryptionSettings?: never; default: Record<string, never> };
+  | { kmsEncryptionSettings: KmsEncryptionSettings; default?: undefined }
+  | { kmsEncryptionSettings?: undefined; default: Record<string, never> };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
@@ -784,8 +784,11 @@ export interface OpenIdConnectIdentityTokenConfigurationDetail {
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionDetail =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail; identityTokenOnly?: undefined }
+  | {
+      accessTokenOnly?: undefined;
+      identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail;
+    };
 export interface OpenIdConnectConfigurationDetail {
   issuer: string;
   entityIdPrefix?: string | redacted.Redacted<string> | undefined;
@@ -795,10 +798,10 @@ export interface OpenIdConnectConfigurationDetail {
 export type ConfigurationDetail =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfigurationDetail;
     };
 export interface GetIdentitySourceOutput {
@@ -836,8 +839,8 @@ export interface KmsEncryptionState {
   encryptionContext: { [key: string]: string | undefined };
 }
 export type EncryptionState =
-  | { kmsEncryptionState: KmsEncryptionState; default?: never }
-  | { kmsEncryptionState?: never; default: Record<string, never> };
+  | { kmsEncryptionState: KmsEncryptionState; default?: undefined }
+  | { kmsEncryptionState?: undefined; default: Record<string, never> };
 export type CedarVersion = "CEDAR_2" | "CEDAR_4" | (string & {});
 export interface GetPolicyStoreOutput {
   policyStoreId: string;
@@ -956,8 +959,8 @@ export interface OpenIdConnectIdentityTokenConfigurationItem {
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionItem =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem; identityTokenOnly?: undefined }
+  | { accessTokenOnly?: undefined; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
 export interface OpenIdConnectConfigurationItem {
   issuer: string;
   entityIdPrefix?: string | redacted.Redacted<string> | undefined;
@@ -967,10 +970,10 @@ export interface OpenIdConnectConfigurationItem {
 export type ConfigurationItem =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfigurationItem;
     };
 export interface IdentitySourceItem {
@@ -989,8 +992,8 @@ export interface ListIdentitySourcesOutput {
 }
 export type MaxResults = number;
 export type EntityReference =
-  | { unspecified: boolean; identifier?: never }
-  | { unspecified?: never; identifier: EntityIdentifier };
+  | { unspecified: boolean; identifier?: undefined }
+  | { unspecified?: undefined; identifier: EntityIdentifier };
 export interface PolicyFilter {
   principal?: EntityReference | undefined;
   resource?: EntityReference | undefined;
@@ -1012,8 +1015,8 @@ export interface TemplateLinkedPolicyDefinitionItem {
   resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinitionItem =
-  | { static: StaticPolicyDefinitionItem; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionItem };
+  | { static: StaticPolicyDefinitionItem; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinitionItem };
 export interface PolicyItem {
   policyStoreId: string;
   policyId: string;
@@ -1136,8 +1139,11 @@ export interface UpdateOpenIdConnectIdentityTokenConfiguration {
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type UpdateOpenIdConnectTokenSelection =
-  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration };
+  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration; identityTokenOnly?: undefined }
+  | {
+      accessTokenOnly?: undefined;
+      identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration;
+    };
 export interface UpdateOpenIdConnectConfiguration {
   issuer: string;
   entityIdPrefix?: string | redacted.Redacted<string> | undefined;
@@ -1147,10 +1153,10 @@ export interface UpdateOpenIdConnectConfiguration {
 export type UpdateConfiguration =
   | {
       cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: UpdateOpenIdConnectConfiguration;
     };
 export interface UpdateIdentitySourceInput {

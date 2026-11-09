@@ -183,12 +183,12 @@ export interface CreateAlertManagerDefinitionResponse {
 export type AnomalyDetectorAlias = string;
 export type AnomalyDetectorEvaluationInterval = number;
 export type AnomalyDetectorMissingDataAction =
-  | { markAsAnomaly: boolean; skip?: never }
-  | { markAsAnomaly?: never; skip: boolean };
+  | { markAsAnomaly: boolean; skip?: undefined }
+  | { markAsAnomaly?: undefined; skip: boolean };
 export type RandomCutForestQuery = string;
 export type IgnoreNearExpected =
-  | { amount: number; ratio?: never }
-  | { amount?: never; ratio: number };
+  | { amount: number; ratio?: undefined }
+  | { amount?: undefined; ratio: number };
 export interface RandomCutForestConfiguration {
   query: string;
   shingleSize?: number | undefined;
@@ -310,8 +310,8 @@ export interface VpcConfiguration {
   subnetIds: string[];
 }
 export type Source =
-  | { eksConfiguration: EksConfiguration; vpcConfiguration?: never }
-  | { eksConfiguration?: never; vpcConfiguration: VpcConfiguration };
+  | { eksConfiguration: EksConfiguration; vpcConfiguration?: undefined }
+  | { eksConfiguration?: undefined; vpcConfiguration: VpcConfiguration };
 export type WorkspaceArn = string;
 export interface AmpConfiguration {
   workspaceArn: string;
@@ -321,8 +321,8 @@ export interface CloudWatchConfiguration {
   datasetArn: string;
 }
 export type Destination =
-  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: never }
-  | { ampConfiguration?: never; cloudWatchConfiguration: CloudWatchConfiguration };
+  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: undefined }
+  | { ampConfiguration?: undefined; cloudWatchConfiguration: CloudWatchConfiguration };
 export type IamRoleArn = string;
 export interface RoleConfiguration {
   sourceRoleArn?: string | undefined;

@@ -7120,7 +7120,7 @@ export interface ListRecordsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecordsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAccountViewsListRequestDirection = "asc" | "desc";
 export type SettingsAccountViewsListRequestMatch = "any" | "all";
@@ -7172,7 +7172,7 @@ export interface ListSettingAccountViewsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsAccountViewsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingsAccountNameserverSetsRequest {
   /** Identifier. */
@@ -7273,7 +7273,7 @@ export interface ListZoneTransferAclsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersAclsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneTransferPeersRequest {
   accountId: string;
@@ -7296,7 +7296,7 @@ export interface ListZoneTransferPeersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersPeersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneTransferTsigsRequest {
   accountId: string;
@@ -7315,7 +7315,7 @@ export interface ListZoneTransferTsigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersTsigsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DnssecEditRequestStatus = "active" | "disabled";
 export interface PatchDnssecRequest {
@@ -9332,7 +9332,7 @@ export interface ScanListRecordResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecordsScanListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ScanRecordRequest {
   /** Identifier. */

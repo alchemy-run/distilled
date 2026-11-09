@@ -1400,7 +1400,7 @@ export interface GetDispatchNamespaceScriptBindingResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsBindingsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDispatchNamespaceScriptContentRequest {
   /** Identifier. */
@@ -2523,7 +2523,7 @@ export interface ListDispatchNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDispatchNamespaceScriptSecretsRequest {
   /** Identifier. */
@@ -2584,7 +2584,7 @@ export interface ListDispatchNamespaceScriptSecretsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsSecretsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDispatchNamespaceScriptTagsRequest {
   /** Identifier. */
@@ -2599,7 +2599,7 @@ export interface ListDispatchNamespaceScriptTagsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsTagsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAIType = "ai";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAI {
@@ -6090,7 +6090,7 @@ export interface PutDispatchNamespaceScriptTagResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsTagsUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BulkUpdateDispatchNamespaceScriptSecretsError = CloudflareOpError;
 /** Create, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */

@@ -67,7 +67,7 @@ export interface CancelTradeRequest {
   /** ID of the order trade to cancel, prefixed `trop_`. */
   id: string;
   /** Free-form string-to-string annotations stored on the trade. */
-  metadata?: CancelTradeRequestMetadataMap | null;
+  metadata?: CancelTradeRequestMetadataMap | null | undefined;
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
   idempotency_key: string;
 }
@@ -232,7 +232,7 @@ export type CreateTradeRequestOrdersItemOrderType =
 export type CreateTradeRequestOrdersItemSide = "buy" | "sell";
 export interface CreateTradeRequestOrdersItemStopLoss {
   /** Limit price once triggered, as a decimal string. Omit or pass `null` for a market order with the request's slippage cap. */
-  limit_price?: string | null;
+  limit_price?: string | null | undefined;
   /** Price that triggers the order, as a decimal string. */
   trigger_price: string;
 }
@@ -245,24 +245,24 @@ export type CreateTradeRequestOrdersItemTimeInForce =
 export interface CreateTradeRequestOrdersItem {
   /** Perpetual market on the selected provider, such as `ETH`. */
   market: string;
-  order_type?: CreateTradeRequestOrdersItemOrderType | (string & {});
+  order_type?: CreateTradeRequestOrdersItemOrderType | (string & {}) | undefined;
   /** Limit price as a decimal string. Required for a limit order; for a take-profit or stop-loss, omit it to trigger a market order. */
-  price?: string | null;
+  price?: string | null | undefined;
   /** Whether the order can only reduce an existing position. Take-profit and stop-loss orders are always reduce-only. */
-  reduce_only?: boolean;
+  reduce_only?: boolean | undefined;
   side: CreateTradeRequestOrdersItemSide | (string & {});
   /** Order size as a decimal string. */
   size: string;
   /** Slippage cap for this order in basis points, overriding the request's `slippage_bps`. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Stop-loss to attach to a single entry order. */
-  stop_loss?: CreateTradeRequestOrdersItemStopLoss | null;
+  stop_loss?: CreateTradeRequestOrdersItemStopLoss | null | undefined;
   /** Take-profit to attach to a single entry order. */
-  take_profit?: CreateTradeRequestOrdersItemStopLoss | null;
+  take_profit?: CreateTradeRequestOrdersItemStopLoss | null | undefined;
   /** How long a limit order stays active. Ignored for other order types. */
-  time_in_force?: CreateTradeRequestOrdersItemTimeInForce | (string & {});
+  time_in_force?: CreateTradeRequestOrdersItemTimeInForce | (string & {}) | undefined;
   /** Trigger price as a decimal string. Required for standalone take-profit and stop-loss orders. */
-  trigger_price?: string | null;
+  trigger_price?: string | null | undefined;
 }
 /** Orders to submit together. Attached take-profit and stop-loss are supported only with a single entry order. */
 export type CreateTradeRequestOrdersList = Array<CreateTradeRequestOrdersItem>;
@@ -273,12 +273,12 @@ export interface CreateTradeRequest {
   /** The kind of instrument to trade. */
   instrument_type: CreateTradeRequestInstrumentType | (string & {});
   /** Free-form string-to-string annotations stored on the trade. */
-  metadata?: CreateTradeRequestMetadataMap | null;
+  metadata?: CreateTradeRequestMetadataMap | null | undefined;
   /** Orders to submit together. Attached take-profit and stop-loss are supported only with a single entry order. */
   orders: CreateTradeRequestOrdersList;
   provider: CreateTradeRequestProvider | (string & {});
   /** Default slippage cap in basis points for market orders and market-triggered take-profit and stop-loss. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
   idempotency_key: string;
 }
@@ -297,23 +297,23 @@ export type ListTradesRequestOrder = "created_at" | "updated_at";
 export type ListTradesRequestDirection = "asc" | "desc";
 export interface ListTradesRequest {
   /** Only return trades for this account or user, prefixed `biz_` or `user_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return trades with this submission status. */
-  status?: ListTradesRequestStatus | (string & {});
+  status?: ListTradesRequestStatus | (string & {}) | undefined;
   /** Only return trades of this kind, such as `create_orders` for order submissions. */
-  operation_type?: ListTradesRequestOperationType | (string & {});
+  operation_type?: ListTradesRequestOperationType | (string & {}) | undefined;
   /** Field to sort by. */
-  order?: ListTradesRequestOrder | (string & {});
+  order?: ListTradesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListTradesRequestDirection | (string & {});
+  direction?: ListTradesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListTradesResponseDataList = Array<Trade>;
 export interface ListTradesResponsePageInfo {
@@ -341,7 +341,7 @@ export interface UpdateTradeLeverageRequest {
   /** Perpetual market on the provider, such as `ETH`. */
   market: string;
   /** Free-form string-to-string annotations stored on the trade. */
-  metadata?: UpdateTradeLeverageRequestMetadataMap | null;
+  metadata?: UpdateTradeLeverageRequestMetadataMap | null | undefined;
   provider: UpdateTradeLeverageRequestProvider | (string & {});
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
   idempotency_key: string;

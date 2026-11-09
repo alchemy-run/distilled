@@ -56,31 +56,31 @@ export interface ListPluginConfigsLogsRequest {
   project_id: string;
   plugin_config_id: number;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `SYSTEM` - SYSTEM * `PLUGIN` - PLUGIN * `CONSOLE` - CONSOLE */
 export type PluginLogEntrySourceEnum = "SYSTEM" | "PLUGIN" | "CONSOLE";
 /** * `DEBUG` - DEBUG * `LOG` - LOG * `INFO` - INFO * `WARN` - WARN * `ERROR` - ERROR */
 export type PluginLogEntryTypeEnum = "DEBUG" | "LOG" | "INFO" | "WARN" | "ERROR";
 export interface PluginLogEntry {
-  id?: string;
-  team_id?: number;
-  plugin_id?: number;
-  plugin_config_id?: number;
-  timestamp?: string;
-  source?: PluginLogEntrySourceEnum;
-  type?: PluginLogEntryTypeEnum;
-  message?: string;
-  instance_id?: string;
+  id?: string | undefined;
+  team_id?: number | undefined;
+  plugin_id?: number | undefined;
+  plugin_config_id?: number | undefined;
+  timestamp?: string | undefined;
+  source?: PluginLogEntrySourceEnum | undefined;
+  type?: PluginLogEntryTypeEnum | undefined;
+  message?: string | undefined;
+  instance_id?: string | undefined;
 }
 export type PaginatedPluginLogEntryListResultsList = Array<PluginLogEntry>;
 export interface PaginatedPluginLogEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedPluginLogEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedPluginLogEntryListResultsList | undefined;
 }
 export type ListPluginConfigsLogsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listPluginConfigsLogs: API.OperationMethod<

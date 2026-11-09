@@ -270,37 +270,37 @@ export type NumberList = number[];
 export type AttributeValue =
   | {
       StringValue: string;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       NumberValue: number;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
       BooleanValue: boolean;
-      StringArray?: never;
-      NumberArray?: never;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
       StringArray: string[];
-      NumberArray?: never;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
       NumberArray: number[];
     };
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };

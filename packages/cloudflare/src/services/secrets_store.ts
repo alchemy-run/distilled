@@ -211,7 +211,7 @@ export interface CreateStoreSecretResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresSecretsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteStoreRequest {
   accountId: string;
@@ -367,7 +367,7 @@ export interface ListStoresResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StoresSecretsListRequestDirection = "asc" | "desc";
 export type StoresSecretsListRequestOrder = "name" | "comment" | "created" | "modified" | "status";
@@ -428,7 +428,7 @@ export interface ListStoreSecretsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresSecretsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StoresSecretsEditRequestScopesItem =
   | "workers"

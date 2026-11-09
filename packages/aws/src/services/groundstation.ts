@@ -230,82 +230,82 @@ export interface TelemetrySinkConfig {
 export type ConfigTypeData =
   | {
       antennaDownlinkConfig: AntennaDownlinkConfig;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
+      antennaDownlinkConfig?: undefined;
       trackingConfig: TrackingConfig;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
       dataflowEndpointConfig: DataflowEndpointConfig;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
       antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
       antennaUplinkConfig: AntennaUplinkConfig;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
       uplinkEchoConfig: UplinkEchoConfig;
-      s3RecordingConfig?: never;
-      telemetrySinkConfig?: never;
+      s3RecordingConfig?: undefined;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
       s3RecordingConfig: S3RecordingConfig;
-      telemetrySinkConfig?: never;
+      telemetrySinkConfig?: undefined;
     }
   | {
-      antennaDownlinkConfig?: never;
-      trackingConfig?: never;
-      dataflowEndpointConfig?: never;
-      antennaDownlinkDemodDecodeConfig?: never;
-      antennaUplinkConfig?: never;
-      uplinkEchoConfig?: never;
-      s3RecordingConfig?: never;
+      antennaDownlinkConfig?: undefined;
+      trackingConfig?: undefined;
+      dataflowEndpointConfig?: undefined;
+      antennaDownlinkDemodDecodeConfig?: undefined;
+      antennaUplinkConfig?: undefined;
+      uplinkEchoConfig?: undefined;
+      s3RecordingConfig?: undefined;
       telemetrySinkConfig: TelemetrySinkConfig;
     };
 export type TagsMap = { [key: string]: string | undefined };
@@ -443,10 +443,10 @@ export interface DownlinkAwsGroundStationAgentEndpoint {
 export type CreateEndpointDetails =
   | {
       uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint;
-      downlinkAwsGroundStationAgentEndpoint?: never;
+      downlinkAwsGroundStationAgentEndpoint?: undefined;
     }
   | {
-      uplinkAwsGroundStationAgentEndpoint?: never;
+      uplinkAwsGroundStationAgentEndpoint?: undefined;
       downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpoint;
     };
 export type CreateEndpointDetailsList = CreateEndpointDetails[];
@@ -513,16 +513,16 @@ export interface AzElSegments {
   azElSegmentList: AzElSegment[];
 }
 export type AzElSegmentsData =
-  | { s3Object: S3Object; azElData?: never }
-  | { s3Object?: never; azElData: AzElSegments };
+  | { s3Object: S3Object; azElData?: undefined }
+  | { s3Object?: undefined; azElData: AzElSegments };
 export interface AzElEphemeris {
   groundStation: string;
   data: AzElSegmentsData;
 }
 export type EphemerisData =
-  | { tle: TLEEphemeris; oem?: never; azEl?: never }
-  | { tle?: never; oem: OEMEphemeris; azEl?: never }
-  | { tle?: never; oem?: never; azEl: AzElEphemeris };
+  | { tle: TLEEphemeris; oem?: undefined; azEl?: undefined }
+  | { tle?: undefined; oem: OEMEphemeris; azEl?: undefined }
+  | { tle?: undefined; oem?: undefined; azEl: AzElEphemeris };
 export interface CreateEphemerisRequest {
   satelliteId?: string | undefined;
   enabled?: boolean | undefined;
@@ -543,9 +543,9 @@ export type DataflowEdgeList = string[][];
 export type KeyAliasArn = string;
 export type KeyAliasName = string;
 export type KmsKey =
-  | { kmsKeyArn: string; kmsAliasArn?: never; kmsAliasName?: never }
-  | { kmsKeyArn?: never; kmsAliasArn: string; kmsAliasName?: never }
-  | { kmsKeyArn?: never; kmsAliasArn?: never; kmsAliasName: string };
+  | { kmsKeyArn: string; kmsAliasArn?: undefined; kmsAliasName?: undefined }
+  | { kmsKeyArn?: undefined; kmsAliasArn: string; kmsAliasName?: undefined }
+  | { kmsKeyArn?: undefined; kmsAliasArn?: undefined; kmsAliasName: string };
 export interface CreateMissionProfileRequest {
   name: string;
   contactPrePassDurationSeconds?: number | undefined;
@@ -608,17 +608,17 @@ export interface S3RecordingDetails {
 export type ConfigDetails =
   | {
       endpointDetails: EndpointDetails;
-      antennaDemodDecodeDetails?: never;
-      s3RecordingDetails?: never;
+      antennaDemodDecodeDetails?: undefined;
+      s3RecordingDetails?: undefined;
     }
   | {
-      endpointDetails?: never;
+      endpointDetails?: undefined;
       antennaDemodDecodeDetails: AntennaDemodDecodeDetails;
-      s3RecordingDetails?: never;
+      s3RecordingDetails?: undefined;
     }
   | {
-      endpointDetails?: never;
-      antennaDemodDecodeDetails?: never;
+      endpointDetails?: undefined;
+      antennaDemodDecodeDetails?: undefined;
       s3RecordingDetails: S3RecordingDetails;
     };
 export interface Source {
@@ -649,9 +649,9 @@ export interface TleProgramTrackSettings {
   ephemerisId: string;
 }
 export type ProgramTrackSettings =
-  | { azEl: AzElProgramTrackSettings; oem?: never; tle?: never }
-  | { azEl?: never; oem: OemProgramTrackSettings; tle?: never }
-  | { azEl?: never; oem?: never; tle: TleProgramTrackSettings };
+  | { azEl: AzElProgramTrackSettings; oem?: undefined; tle?: undefined }
+  | { azEl?: undefined; oem: OemProgramTrackSettings; tle?: undefined }
+  | { azEl?: undefined; oem?: undefined; tle: TleProgramTrackSettings };
 export interface TrackingOverrides {
   programTrackSettings?: ProgramTrackSettings | undefined;
 }
@@ -754,9 +754,9 @@ export interface EphemerisDescription {
   ephemerisData?: string | undefined;
 }
 export type EphemerisTypeDescription =
-  | { tle: EphemerisDescription; oem?: never; azEl?: never }
-  | { tle?: never; oem: EphemerisDescription; azEl?: never }
-  | { tle?: never; oem?: never; azEl: EphemerisDescription };
+  | { tle: EphemerisDescription; oem?: undefined; azEl?: undefined }
+  | { tle?: undefined; oem: EphemerisDescription; azEl?: undefined }
+  | { tle?: undefined; oem?: undefined; azEl: EphemerisDescription };
 export type EphemerisInvalidReason =
   | "METADATA_INVALID"
   | "TIME_RANGE_INVALID"
@@ -1053,8 +1053,8 @@ export interface ContactReservationDetails {
   contactId?: string | undefined;
 }
 export type ReservationDetails =
-  | { maintenance: MaintenanceReservationDetails; contact?: never }
-  | { maintenance?: never; contact: ContactReservationDetails };
+  | { maintenance: MaintenanceReservationDetails; contact?: undefined }
+  | { maintenance?: undefined; contact: ContactReservationDetails };
 export interface GroundStationReservationListItem {
   reservationType: ReservationType;
   groundStationId: string;

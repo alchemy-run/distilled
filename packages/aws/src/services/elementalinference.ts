@@ -200,13 +200,28 @@ export interface ContextualMetadataConfig {
   extendedAnalysis?: ExtendedAnalysisMode | undefined;
 }
 export type OutputConfig =
-  | { cropping: CroppingConfig; clipping?: never; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping: ClippingConfig; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig; contextualMetadata?: never }
   | {
-      cropping?: never;
-      clipping?: never;
-      subtitling?: never;
+      cropping: CroppingConfig;
+      clipping?: undefined;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping: ClippingConfig;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling: SubtitlingConfig;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling?: undefined;
       contextualMetadata: ContextualMetadataConfig;
     };
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});

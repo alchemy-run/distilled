@@ -1094,9 +1094,9 @@ export type Ec2ImportTaskId = string;
 export type ImageBuildVersionArn = string;
 export type Ec2ImageId = string;
 export type ImageSourceIdentifier =
-  | { Ec2ImportTaskId: string; ImageBuildVersionArn?: never; Ec2ImageId?: never }
-  | { Ec2ImportTaskId?: never; ImageBuildVersionArn: string; Ec2ImageId?: never }
-  | { Ec2ImportTaskId?: never; ImageBuildVersionArn?: never; Ec2ImageId: string };
+  | { Ec2ImportTaskId: string; ImageBuildVersionArn?: undefined; Ec2ImageId?: undefined }
+  | { Ec2ImportTaskId?: undefined; ImageBuildVersionArn: string; Ec2ImageId?: undefined }
+  | { Ec2ImportTaskId?: undefined; ImageBuildVersionArn?: undefined; Ec2ImageId: string };
 export type ErrorCode = string;
 export type ImageErrorMessage = string;
 export interface CustomWorkspaceImageImportErrorDetails {

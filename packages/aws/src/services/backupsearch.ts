@@ -294,8 +294,8 @@ export interface EBSResultItem {
   LastModifiedTime?: Date | undefined;
 }
 export type ResultItem =
-  | { S3ResultItem: S3ResultItem; EBSResultItem?: never }
-  | { S3ResultItem?: never; EBSResultItem: EBSResultItem };
+  | { S3ResultItem: S3ResultItem; EBSResultItem?: undefined }
+  | { S3ResultItem?: undefined; EBSResultItem: EBSResultItem };
 export type Results = ResultItem[];
 export interface ListSearchJobResultsOutput {
   Results: ResultItem[];

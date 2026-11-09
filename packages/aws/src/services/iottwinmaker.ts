@@ -397,8 +397,8 @@ export interface FilterByAsset {
   includeAssetModel?: boolean | undefined;
 }
 export type IotSiteWiseSourceConfigurationFilter =
-  | { filterByAssetModel: FilterByAssetModel; filterByAsset?: never }
-  | { filterByAssetModel?: never; filterByAsset: FilterByAsset };
+  | { filterByAssetModel: FilterByAssetModel; filterByAsset?: undefined }
+  | { filterByAssetModel?: undefined; filterByAsset: FilterByAsset };
 export type IotSiteWiseSourceConfigurationFilters = IotSiteWiseSourceConfigurationFilter[];
 export interface IotSiteWiseSourceConfiguration {
   filters?: IotSiteWiseSourceConfigurationFilter[] | undefined;
@@ -410,8 +410,8 @@ export interface FilterByEntity {
   entityId: string;
 }
 export type IotTwinMakerSourceConfigurationFilter =
-  | { filterByComponentType: FilterByComponentType; filterByEntity?: never }
-  | { filterByComponentType?: never; filterByEntity: FilterByEntity };
+  | { filterByComponentType: FilterByComponentType; filterByEntity?: undefined }
+  | { filterByComponentType?: undefined; filterByEntity: FilterByEntity };
 export type IotTwinMakerSourceConfigurationFilters = IotTwinMakerSourceConfigurationFilter[];
 export interface IotTwinMakerSourceConfiguration {
   workspace: string;
@@ -859,9 +859,9 @@ export interface ListComponentsResponse {
   nextToken?: string | undefined;
 }
 export type ListComponentTypesFilter =
-  | { extendsFrom: string; namespace?: never; isAbstract?: never }
-  | { extendsFrom?: never; namespace: string; isAbstract?: never }
-  | { extendsFrom?: never; namespace?: never; isAbstract: boolean };
+  | { extendsFrom: string; namespace?: undefined; isAbstract?: undefined }
+  | { extendsFrom?: undefined; namespace: string; isAbstract?: undefined }
+  | { extendsFrom?: undefined; namespace?: undefined; isAbstract: boolean };
 export type ListComponentTypesFilters = ListComponentTypesFilter[];
 export interface ListComponentTypesRequest {
   workspaceId: string;
@@ -886,9 +886,9 @@ export interface ListComponentTypesResponse {
   maxResults?: number | undefined;
 }
 export type ListEntitiesFilter =
-  | { parentEntityId: string; componentTypeId?: never; externalId?: never }
-  | { parentEntityId?: never; componentTypeId: string; externalId?: never }
-  | { parentEntityId?: never; componentTypeId?: never; externalId: string };
+  | { parentEntityId: string; componentTypeId?: undefined; externalId?: undefined }
+  | { parentEntityId?: undefined; componentTypeId: string; externalId?: undefined }
+  | { parentEntityId?: undefined; componentTypeId?: undefined; externalId: string };
 export type ListEntitiesFilters = ListEntitiesFilter[];
 export interface ListEntitiesRequest {
   workspaceId: string;
@@ -913,8 +913,8 @@ export interface ListEntitiesResponse {
   nextToken?: string | undefined;
 }
 export type ListMetadataTransferJobsFilter =
-  | { workspaceId: string; state?: never }
-  | { workspaceId?: never; state: string };
+  | { workspaceId: string; state?: undefined }
+  | { workspaceId?: undefined; state: string };
 export type ListMetadataTransferJobsFilters = ListMetadataTransferJobsFilter[];
 export interface ListMetadataTransferJobsRequest {
   sourceType: string;
@@ -994,10 +994,10 @@ export interface ListSyncJobsResponse {
 export type SyncResourceState = string;
 export type SyncResourceType = string;
 export type SyncResourceFilter =
-  | { state: string; resourceType?: never; resourceId?: never; externalId?: never }
-  | { state?: never; resourceType: string; resourceId?: never; externalId?: never }
-  | { state?: never; resourceType?: never; resourceId: string; externalId?: never }
-  | { state?: never; resourceType?: never; resourceId?: never; externalId: string };
+  | { state: string; resourceType?: undefined; resourceId?: undefined; externalId?: undefined }
+  | { state?: undefined; resourceType: string; resourceId?: undefined; externalId?: undefined }
+  | { state?: undefined; resourceType?: undefined; resourceId: string; externalId?: undefined }
+  | { state?: undefined; resourceType?: undefined; resourceId?: undefined; externalId: string };
 export type SyncResourceFilters = SyncResourceFilter[];
 export interface ListSyncResourcesRequest {
   workspaceId: string;

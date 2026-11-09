@@ -1786,10 +1786,10 @@ export interface UpdateOperation {
   properties?: { [key: string]: string | undefined } | undefined;
 }
 export type OperationUnion =
-  | { merge: MergeOperation; split?: never; delete?: never; update?: never }
-  | { merge?: never; split: SplitOperation; delete?: never; update?: never }
-  | { merge?: never; split?: never; delete: DeleteOperation; update?: never }
-  | { merge?: never; split?: never; delete?: never; update: UpdateOperation };
+  | { merge: MergeOperation; split?: undefined; delete?: undefined; update?: undefined }
+  | { merge?: undefined; split: SplitOperation; delete?: undefined; update?: undefined }
+  | { merge?: undefined; split?: undefined; delete: DeleteOperation; update?: undefined }
+  | { merge?: undefined; split?: undefined; delete?: undefined; update: UpdateOperation };
 export interface StartNetworkMigrationMappingUpdateConstruct {
   segmentID: string;
   constructID: string;

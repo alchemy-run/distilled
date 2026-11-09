@@ -1499,11 +1499,41 @@ export interface DSSEKMSFilter {
 export interface SSECFilter {}
 export interface NotSSEFilter {}
 export type ObjectEncryptionFilter =
-  | { SSES3: SSES3Filter; SSEKMS?: never; DSSEKMS?: never; SSEC?: never; NOTSSE?: never }
-  | { SSES3?: never; SSEKMS: SSEKMSFilter; DSSEKMS?: never; SSEC?: never; NOTSSE?: never }
-  | { SSES3?: never; SSEKMS?: never; DSSEKMS: DSSEKMSFilter; SSEC?: never; NOTSSE?: never }
-  | { SSES3?: never; SSEKMS?: never; DSSEKMS?: never; SSEC: SSECFilter; NOTSSE?: never }
-  | { SSES3?: never; SSEKMS?: never; DSSEKMS?: never; SSEC?: never; NOTSSE: NotSSEFilter };
+  | {
+      SSES3: SSES3Filter;
+      SSEKMS?: undefined;
+      DSSEKMS?: undefined;
+      SSEC?: undefined;
+      NOTSSE?: undefined;
+    }
+  | {
+      SSES3?: undefined;
+      SSEKMS: SSEKMSFilter;
+      DSSEKMS?: undefined;
+      SSEC?: undefined;
+      NOTSSE?: undefined;
+    }
+  | {
+      SSES3?: undefined;
+      SSEKMS?: undefined;
+      DSSEKMS: DSSEKMSFilter;
+      SSEC?: undefined;
+      NOTSSE?: undefined;
+    }
+  | {
+      SSES3?: undefined;
+      SSEKMS?: undefined;
+      DSSEKMS?: undefined;
+      SSEC: SSECFilter;
+      NOTSSE?: undefined;
+    }
+  | {
+      SSES3?: undefined;
+      SSEKMS?: undefined;
+      DSSEKMS?: undefined;
+      SSEC?: undefined;
+      NOTSSE: NotSSEFilter;
+    };
 export type ObjectEncryptionFilterList = ObjectEncryptionFilter[];
 export interface JobManifestGeneratorFilter {
   EligibleForReplication?: boolean | undefined;

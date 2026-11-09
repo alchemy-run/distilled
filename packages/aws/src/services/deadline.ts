@@ -390,170 +390,170 @@ export type IntStringListList = string[][];
 export type JobParameter =
   | {
       int: string;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
+      int?: undefined;
       float: string;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
+      int?: undefined;
+      float?: undefined;
       string: string;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
       path: string;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
       bool: string;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
       rangeExpr: string;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
       stringList: string[];
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
       pathList: string[];
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
       intList: string[];
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
       floatList: string[];
-      boolList?: never;
-      intListList?: never;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
       boolList: string[];
-      intListList?: never;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
       intListList: string[][];
     };
 export type JobParameters = { [key: string]: JobParameter | undefined };
@@ -642,26 +642,26 @@ export interface EnvironmentDetailsIdentifiers {
 export type JobEntityIdentifiersUnion =
   | {
       jobDetails: JobDetailsIdentifiers;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsIdentifiers;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsIdentifiers;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsIdentifiers;
     };
 export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
@@ -738,26 +738,26 @@ export interface EnvironmentDetailsEntity {
 export type JobEntity =
   | {
       jobDetails: JobDetailsEntity;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsEntity;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsEntity;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsEntity;
     };
 export type BatchGetJobEntityList = JobEntity[];
@@ -794,26 +794,26 @@ export interface EnvironmentDetailsError {
 export type GetJobEntityError =
   | {
       jobDetails: JobDetailsError;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsError;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsError;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsError;
     };
 export type BatchGetJobEntityErrors = GetJobEntityError[];
@@ -949,11 +949,11 @@ export interface EnvironmentExitSessionActionDefinition {
 }
 export type TaskId = string;
 export type TaskParameterValue =
-  | { int: string; float?: never; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float: string; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string: string; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path: string; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path?: never; chunkInt: string };
+  | { int: string; float?: undefined; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float: string; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string: string; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path: string; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path?: undefined; chunkInt: string };
 export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
 export interface TaskRunSessionActionDefinition {
   taskId?: string | undefined;
@@ -966,26 +966,26 @@ export interface SyncInputJobAttachmentsSessionActionDefinition {
 export type SessionActionDefinition =
   | {
       envEnter: EnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface BatchGetSessionActionItem {
@@ -1532,8 +1532,8 @@ export interface ServiceManagedEc2FleetConfiguration {
   autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration | undefined;
 }
 export type FleetConfiguration =
-  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: never }
-  | { customerManaged?: never; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
+  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: undefined }
+  | { customerManaged?: undefined; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
 export type HostConfigurationScript = string | redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export interface HostConfiguration {
@@ -1665,17 +1665,17 @@ export interface WeightedBalancedSchedulingConfiguration {
 export type SchedulingConfiguration =
   | {
       priorityFifo: PriorityFifoSchedulingConfiguration;
-      priorityBalanced?: never;
-      weightedBalanced?: never;
+      priorityBalanced?: undefined;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
+      priorityFifo?: undefined;
       priorityBalanced: PriorityBalancedSchedulingConfiguration;
-      weightedBalanced?: never;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
-      priorityBalanced?: never;
+      priorityFifo?: undefined;
+      priorityBalanced?: undefined;
       weightedBalanced: WeightedBalancedSchedulingConfiguration;
     };
 export interface CreateQueueRequest {
@@ -2569,10 +2569,10 @@ export interface QueueMember {
   membershipLevel: MembershipLevel;
 }
 export type MembershipSummary =
-  | { farm: FarmMember; queue?: never; fleet?: never; job?: never }
-  | { farm?: never; queue: QueueMember; fleet?: never; job?: never }
-  | { farm?: never; queue?: never; fleet: FleetMember; job?: never }
-  | { farm?: never; queue?: never; fleet?: never; job: JobMember };
+  | { farm: FarmMember; queue?: undefined; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue: QueueMember; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet: FleetMember; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet?: undefined; job: JobMember };
 export type MembershipSummaries = MembershipSummary[];
 export interface ListMembershipsResponse {
   memberships: MembershipSummary[];
@@ -2729,26 +2729,26 @@ export interface SyncInputJobAttachmentsSessionActionDefinitionSummary {
 export type SessionActionDefinitionSummary =
   | {
       envEnter: EnvironmentEnterSessionActionDefinitionSummary;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinitionSummary;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinitionSummary;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
     };
 export interface SessionActionSummary {
@@ -3022,50 +3022,50 @@ export interface StringListFilterExpression {
 export type SearchFilterExpression =
   | {
       dateTimeFilter: DateTimeFilterExpression;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
+      dateTimeFilter?: undefined;
       parameterFilter: ParameterFilterExpression;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
       searchTermFilter: SearchTermFilterExpression;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
       stringFilter: StringFilterExpression;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
       stringListFilter: StringListFilterExpression;
-      groupFilter?: never;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
       groupFilter: SearchGroupedFilterExpressions;
     };
 export type SearchFilterExpressions = SearchFilterExpression[];
@@ -3087,9 +3087,9 @@ export interface ParameterSortExpression {
   name: string;
 }
 export type SearchSortExpression =
-  | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort: FieldSortExpression; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort?: never; parameterSort: ParameterSortExpression };
+  | { userJobsFirst: UserJobsFirst; fieldSort?: undefined; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort: FieldSortExpression; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort?: undefined; parameterSort: ParameterSortExpression };
 export type SearchSortExpressions = SearchSortExpression[];
 export type QueueIds = string[];
 export interface SearchJobsRequest {
@@ -3221,8 +3221,8 @@ export interface SearchWorkersResponse {
   totalResults: number;
 }
 export type SessionsStatisticsResources =
-  | { queueIds: string[]; fleetIds?: never }
-  | { queueIds?: never; fleetIds: string[] };
+  | { queueIds: string[]; fleetIds?: undefined }
+  | { queueIds?: undefined; fleetIds: string[] };
 export type Timezone = string;
 export type Period = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export type UsageGroupByField =
@@ -3496,26 +3496,26 @@ export interface AssignedSyncInputJobAttachmentsSessionActionDefinition {
 export type AssignedSessionActionDefinition =
   | {
       envEnter: AssignedEnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: AssignedEnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: AssignedTaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface AssignedSessionAction {

@@ -45,20 +45,20 @@ export class WebhookTokenNotFound
   ) {}
 
 export interface AddWebhookTokenEnvironmentRequest {
-  tokenId?: string;
-  environmentId?: string;
+  tokenId?: string | undefined;
+  environmentId?: string | undefined;
 }
 export interface AddWebhookTokenEnvironmentResponse {}
 export interface CreateWebhookTokenRequest {
-  scoped?: boolean;
-  name?: string;
+  scoped?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface CreateWebhookTokenResponse {
   tokenId: string;
   tokenSecret: string | Redacted.Redacted<string>;
 }
 export interface DeleteWebhookTokenRequest {
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 export interface DeleteWebhookTokenResponse {}
 export interface ListWebhookTokenRequest {}
@@ -72,37 +72,37 @@ export interface WebhookToken {
   createdAt: number;
   scoped: boolean;
   name: string;
-  createdBy?: UserIdentity;
+  createdBy?: UserIdentity | undefined;
 }
 export type WebhookTokenList2 = Array<WebhookToken>;
 export interface ListWebhookTokenResponse {
   tokens: WebhookTokenList2;
 }
 export interface ListWebhookTokenEnvironmentRequest {
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ListWebhookTokenEnvironmentResponse {
   environmentIds: StringList;
 }
 export interface RemoveWebhookTokenEnvironmentRequest {
-  tokenId?: string;
-  environmentId?: string;
+  tokenId?: string | undefined;
+  environmentId?: string | undefined;
 }
 export interface RemoveWebhookTokenEnvironmentResponse {}
 export interface UpdateWebhookTokenRequest {
-  tokenId?: string;
-  name?: string;
+  tokenId?: string | undefined;
+  name?: string | undefined;
 }
 export interface UpdateWebhookTokenResponse {
   tokenId: string;
   createdAt: number;
   scoped: boolean;
   name: string;
-  createdBy?: UserIdentity;
+  createdBy?: UserIdentity | undefined;
 }
 export interface WebhookTokenListForEnvironmentRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface WebhookTokenListForEnvironmentResponse {
   tokens: WebhookTokenList2;

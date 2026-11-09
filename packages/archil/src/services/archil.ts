@@ -219,18 +219,18 @@ export type TokenUserType = "token";
 export interface TokenUser {
   type: TokenUserType;
   /** Deprecated. Client-provided token. If omitted, the server generates a cryptographically secure token and returns it in the response. */
-  principal?: string;
+  principal?: string | undefined;
   nickname: string;
   /** Deprecated. Last 4 characters of the token. Required when principal is provided; ignored when the server generates the token. */
-  tokenSuffix?: string;
+  tokenSuffix?: string | undefined;
   /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** When true, the token can be used for only one mount. Later mount attempts with it are rejected. */
-  oneUse?: boolean;
+  oneUse?: boolean | undefined;
   /** When true, mounts made with this token reject writes with EROFS. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 export type AwsStsUserType = "awssts";
 export interface AwsStsUser {
@@ -238,24 +238,24 @@ export interface AwsStsUser {
   /** IAM principal ARN */
   principal: string;
   /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** When true, the credential can be used for only one mount. */
-  oneUse?: boolean;
+  oneUse?: boolean | undefined;
   /** When true, mounts made with this credential reject writes with EROFS. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 export type S3UserType = "s3";
 export interface S3User {
   type: S3UserType;
-  nickname?: string;
+  nickname?: string | undefined;
   /** Optional time-to-live as a Go duration string (e.g. "1h", "30m"). Maximum 365 days ("8760h"). Requests signed with an expired key, including presigned URLs, are rejected. Mutually exclusive with expiresAt. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Optional absolute expiration time as an RFC3339 timestamp. Must be in the future. Mutually exclusive with ttl. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** When true, the keys can only make GET and HEAD requests. Writes, deletes, and multipart uploads return AccessDenied. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 export type DiskUser = TokenUser | AwsStsUser | S3User;
 export interface AddDiskUserRequest {
@@ -267,30 +267,30 @@ export type AuthorizedUserType = "token" | "awssts" | "s3";
 /** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
 export type AuthorizedUserStatus = "active" | "expired" | "consumed" | "in_use";
 export interface AuthorizedUser {
-  type?: AuthorizedUserType;
+  type?: AuthorizedUserType | undefined;
   /** Use identifier instead. Only populated for awssts type (the IAM ARN). */
-  principal?: string;
-  nickname?: string;
-  tokenSuffix?: string;
+  principal?: string | undefined;
+  nickname?: string | undefined;
+  tokenSuffix?: string | undefined;
   /** The generated disk token (used by clients when mounting the disk). Only present in the response when the server generates the token (i.e. principal was not provided). This value is shown exactly once and cannot be retrieved again. */
-  token?: string | Redacted.Redacted<string>;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The S3 access key ID. Only present for s3 users. */
-  s3AccessKeyId?: string;
+  s3AccessKeyId?: string | undefined;
   /** The generated S3 secret access key. Only present in the creation response for s3 users. This value is shown exactly once and cannot be retrieved again. */
-  s3SecretKey?: string | Redacted.Redacted<string>;
+  s3SecretKey?: string | Redacted.Redacted<string> | undefined;
   /** Stable identifier for this user, returned in creation and list responses. Use this value with DELETE /api/disks/{id}/users/{type}?identifier={identifier} to remove the user. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
-  identifier?: string;
-  createdAt?: string;
+  identifier?: string | undefined;
+  createdAt?: string | undefined;
   /** When the user expires. Absent for users without an expiry. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Whether the user can be used for only one mount. */
-  oneUse?: boolean;
+  oneUse?: boolean | undefined;
   /** When a one-use user was consumed by its mount. Absent until then. */
-  consumedAt?: string;
+  consumedAt?: string | undefined;
   /** Whether the user grants read-only access. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
-  status?: AuthorizedUserStatus;
+  status?: AuthorizedUserStatus | undefined;
 }
 export interface ApiResponseAuthorizedUser {
   success: boolean;
@@ -300,17 +300,17 @@ export interface CreateApiTokenRequest {
   /** Token name */
   name: string;
   /** Token description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ApiResponseTokenCreatedData {
   /** Token hash/ID */
   id: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   /** Last 4 characters of the token */
-  tokenSuffix?: string;
-  createdAt?: string;
-  lastUsedAt?: string;
+  tokenSuffix?: string | undefined;
+  createdAt?: string | undefined;
+  lastUsedAt?: string | undefined;
   /** Full token value (only shown at creation) */
   token: string | Redacted.Redacted<string>;
 }
@@ -325,7 +325,7 @@ export interface CreateBranchRequest {
   /** Name of a committed checkpoint on the source, which is the root disk or `from_branch` when set. */
   from_checkpoint_name: string;
   /** Name of the branch the checkpoint was taken on. Omit to use the root disk. */
-  from_branch?: string;
+  from_branch?: string | undefined;
 }
 export interface BranchResponse {
   /** ID of the disk the branch belongs to. */
@@ -353,13 +353,13 @@ export interface S3Mount {
   /** S3 bucket name */
   bucketName: string;
   /** AWS access key ID (optional for public buckets or IAM role auth) */
-  accessKeyId?: string | Redacted.Redacted<string>;
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
   /** AWS secret access key */
-  secretAccessKey?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Session token for temporary credentials */
-  sessionToken?: string | Redacted.Redacted<string>;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
   /** Prefix within the bucket */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type GCSMountType = "gcs";
@@ -374,7 +374,7 @@ export interface GCSMount {
   /** HMAC secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type R2MountType = "r2";
@@ -391,7 +391,7 @@ export interface R2Mount {
   /** R2 secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type S3CompatibleMountType = "s3-compatible";
@@ -408,7 +408,7 @@ export interface S3CompatibleMount {
   /** Secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type AzureBlobMountType = "azure-blob";
@@ -419,9 +419,9 @@ export interface AzureBlobMount {
   /** Azure blob container name */
   containerName: string;
   /** Azure blob endpoint URL (optional if storageAccountName provided) */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Azure storage account name (used to derive endpoint if not provided) */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
   /** Azure AD tenant ID */
   tenantId: string;
   /** Azure AD application client ID */
@@ -429,7 +429,7 @@ export interface AzureBlobMount {
   /** Azure AD application client secret */
   clientSecret: string | Redacted.Redacted<string>;
   /** Prefix within the container */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 export type MountConfig = S3Mount | GCSMount | R2Mount | S3CompatibleMount | AzureBlobMount;
 /** Storage mount to attach. Omit for archil-managed storage. */
@@ -440,14 +440,14 @@ export interface CreateDiskRequest {
   /** Disk name (alphanumeric, dashes, underscores) */
   name: string;
   /** Storage mount to attach. Omit for archil-managed storage. */
-  mounts?: CreateDiskRequestMountsList;
+  mounts?: CreateDiskRequestMountsList | undefined;
   /** Deprecated. Use AddDiskUser after creation instead. When provided, suppresses the default auto-generated token user. */
-  authMethods?: CreateDiskRequestAuthMethodsList;
+  authMethods?: CreateDiskRequestAuthMethodsList | undefined;
 }
 export type ApiResponseCreateDiskDataAuthorizedUsersList = Array<AuthorizedUser>;
 export interface ApiResponseCreateDiskData {
   diskId: string;
-  authorizedUsers?: ApiResponseCreateDiskDataAuthorizedUsersList;
+  authorizedUsers?: ApiResponseCreateDiskDataAuthorizedUsersList | undefined;
 }
 export interface ApiResponseCreateDisk {
   success: boolean;
@@ -463,7 +463,7 @@ export interface RegistryAuth {
 export interface CreateImageRequest {
   /** Linux OCI image reference. Docker shorthand and tags are accepted. */
   source: string;
-  registry_auth?: RegistryAuth;
+  registry_auth?: RegistryAuth | undefined;
 }
 export type ImageState = "building" | "ready" | "failed";
 /** Set when `failed`. `invalid_source`: the registry reported the image missing or denied access, so requesting it again will not help. `interrupted`: the build did not finish; request the image again. */
@@ -477,11 +477,11 @@ export interface Image {
   private: boolean;
   status: ImageState;
   /** The most recent successful build. Sandboxes created from this `image_id` boot it, and keep it after the image is rebuilt. */
-  digest?: string;
+  digest?: string | undefined;
   /** The pulled manifest, as `repository@sha256:...`. */
-  canonical_source?: string;
+  canonical_source?: string | undefined;
   /** Set when `failed`. `invalid_source`: the registry reported the image missing or denied access, so requesting it again will not help. `interrupted`: the build did not finish; request the image again. */
-  failure_reason?: ImageFailureReason;
+  failure_reason?: ImageFailureReason | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -499,14 +499,14 @@ export type SandboxEgressTransformHeadersMap = { [key: string]: string | undefin
 /** Optional outbound HTTPS request transformations. An omitted or empty transform leaves the rule as an ordinary allow without request mutations. */
 export interface SandboxEgressTransform {
   /** Outbound HTTPS request headers to set, overwriting values supplied by the sandbox. */
-  headers?: SandboxEgressTransformHeadersMap;
+  headers?: SandboxEgressTransformHeadersMap | undefined;
 }
 export interface SandboxEgressRule {
   /** Target allowed by this rule. Effective transformations and forwarding require an exact or wildcard lowercase domain. */
   target: string;
-  transform?: SandboxEgressTransform;
+  transform?: SandboxEgressTransform | undefined;
   /** Absolute public HTTPS URL that receives this rule's permitted HTTP and HTTPS requests instead of their original upstream. Requires a lowercase domain; IP addresses, credentials, queries, and fragments are rejected. Protected and private destination addresses are blocked. The original path and query are appended to this URL's path prefix. Archil overwrites the archil-forwarded-host, archil-forwarded-scheme, archil-forwarded-port, archil-forwarded-path, and archil-sandbox-id headers with request metadata. A transform on the same rule is applied before forwarding. */
-  forward_url?: string;
+  forward_url?: string | undefined;
 }
 export type SandboxEgressPolicyAllowItem = string | SandboxEgressRule;
 /** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
@@ -519,57 +519,57 @@ export type SandboxEgressPolicyDrainOnPauseList = Array<string>;
 export interface SandboxEgressPolicy {
   default: SandboxNetworkAction | (string & {});
   /** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
-  allow?: SandboxEgressPolicyAllowList;
+  allow?: SandboxEgressPolicyAllowList | undefined;
   /** Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain. */
-  deny?: SandboxEgressPolicyDenyList;
+  deny?: SandboxEgressPolicyDenyList | undefined;
   /** Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume. */
-  drain_on_pause?: SandboxEgressPolicyDrainOnPauseList;
+  drain_on_pause?: SandboxEgressPolicyDrainOnPauseList | undefined;
 }
 /** Sandbox network policy. New sandboxes on free plans receive deny-all egress with no allowlist exceptions. Start/resume and forks retain the stored policy. For paid accounts, egress is unrestricted when omitted. */
 export interface SandboxNetwork {
-  egress?: SandboxEgressPolicy;
+  egress?: SandboxEgressPolicy | undefined;
 }
 export interface SandboxMount {
   /** Existing disk owned by your account in the sandbox's region. A sandbox's internal root disk cannot be used here. */
   disk_id: string;
   /** Absolute guest directory to mount at. Required when more than one disk is mounted; a sole mount defaults to /mnt/archil. Paths cannot overlap or contain whitespace, control characters, empty components, . or .. components, or a trailing slash. The root directory and guest system directories (/usr, /etc, /var, /opt, /dev, ...) and their descendants are reserved. A disk can be mounted once per sandbox. */
-  path?: string;
+  path?: string | undefined;
   /** Relative subdirectory of the disk to expose instead of its root. */
-  subdirectory?: string;
-  read_only?: boolean;
+  subdirectory?: string | undefined;
+  read_only?: boolean | undefined;
   /** Mount in conditional mode, which lets this mount write to the disk without a delegation checkout, allowing concurrent writers. */
-  conditional?: boolean;
+  conditional?: boolean | undefined;
   /** Milliseconds to wait for the disk's exclusive root delegation before the mount fails. Not allowed with read_only or conditional. */
-  queue_ms?: number;
+  queue_ms?: number | undefined;
 }
 /** Archil disks mounted inside the guest for the first session; `start` can replace them for later sessions. Inherited by forks. A sandbox with mounts must be stopped before it can be forked. */
 export type CreateSandboxRequestMountsList = Array<SandboxMount>;
 export interface CreateSandboxRequest {
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Sandbox name, unique within the account. A random word-list name is generated when omitted. */
-  name?: string;
-  vcpu_count?: number;
-  mem_size_mib?: number;
+  name?: string | undefined;
+  vcpu_count?: number | undefined;
+  mem_size_mib?: number | undefined;
   /** Public Linux OCI image reference with a linux/amd64 manifest for Archil's public sandbox service. Docker shorthand and tags are accepted; the deployment's platform manifest is pinned at creation. Defaults to `node:24-bookworm` (Debian with Node.js, Python, git, and a C toolchain) when neither this nor `image_id` is set. Mutually exclusive with `image_id`. */
-  base_image?: string;
+  base_image?: string | undefined;
   /** ID from [Build Image](/api-reference/images/build-image), for a public or private image. For private images, build with `registry_auth` first, then pass the returned ID here. The sandbox boots the image's current `digest`. Mutually exclusive with `base_image`. */
-  image_id?: string;
+  image_id?: string | undefined;
   /** TCP ports to expose publicly when the sandbox is created. */
-  ports?: CreateSandboxRequestPortsList;
+  ports?: CreateSandboxRequestPortsList | undefined;
   /** Allow services inside the sandbox to expose ingress. When false, services still run but their ports must be exposed explicitly through the API. Retained across starts, resumes, and forks. */
-  enable_service_ingress?: boolean;
+  enable_service_ingress?: boolean | undefined;
   /** Environment variables applied to every process */
-  env?: CreateSandboxRequestEnvMap;
-  network?: SandboxNetwork;
+  env?: CreateSandboxRequestEnvMap | undefined;
+  network?: SandboxNetwork | undefined;
   /** Archil disks mounted inside the guest for the first session; `start` can replace them for later sessions. Inherited by forks. A sandbox with mounts must be stopped before it can be forked. */
-  mounts?: CreateSandboxRequestMountsList;
+  mounts?: CreateSandboxRequestMountsList | undefined;
   /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Timeout resets cannot extend a session beyond 24 hours. */
-  max_ttl_seconds?: number;
+  max_ttl_seconds?: number | undefined;
   /** Pause after this many seconds without a direct process connection, preserving memory and processes for resume. Defaults to 1800 (30 minutes) when omitted. Zero disables idle expiry. */
-  idle_ttl_seconds?: number;
+  idle_ttl_seconds?: number | undefined;
   /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
-  max_concurrent_execs?: number;
+  max_concurrent_execs?: number | undefined;
 }
 export type SandboxState =
   | "pending"
@@ -607,21 +607,21 @@ export interface Sandbox {
   /** OCI reference requested when the sandbox was created. Empty for a sandbox created from `image_id`. */
   base_image: string;
   /** Image digest the sandbox was created from, if any. */
-  image_digest?: string;
+  image_digest?: string | undefined;
   /** Sandbox CPU architecture. Archil's public sandbox service runs on amd64. This response field is not a creation option; callers cannot select an architecture per sandbox. */
-  platform?: SandboxPlatform;
+  platform?: SandboxPlatform | undefined;
   /** Public hostnames published by enabled sandbox services. */
-  endpoints?: SandboxEndpointsList;
+  endpoints?: SandboxEndpointsList | undefined;
   /** Whether services inside the sandbox can expose ingress. Explicit API port exposure remains available regardless of this setting. */
-  enable_service_ingress?: boolean;
-  mounts?: SandboxMountsList;
+  enable_service_ingress?: boolean | undefined;
+  mounts?: SandboxMountsList | undefined;
   created_at: string;
-  running_at?: string;
-  finished_at?: string;
+  running_at?: string | undefined;
+  finished_at?: string | undefined;
   last_active_at: string;
-  exit_reason?: string;
+  exit_reason?: string | undefined;
   /** Disk checkpoint the current session leaves behind. Present while pausing, paused, stopping, or stopped, and committed once the sandbox is paused or stopped. Pass it to the fork endpoint to fork exactly this state. */
-  checkpoint?: string;
+  checkpoint?: string | undefined;
 }
 export interface ApiResponseSandbox {
   success: boolean;
@@ -644,7 +644,7 @@ export interface CreateSandboxPortTokenRequest {
   sid: string;
   port: number;
   /** Token lifetime as a Go duration string (for example, "4m", "1h", or "24h"). Maximum 365 days ("8760h"). Omit for no expiration. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface CreatedSandboxPortToken {
   /** Stable token identifier used for get and revoke operations. */
@@ -652,7 +652,7 @@ export interface CreatedSandboxPortToken {
   port: number;
   created_at: string;
   /** When the token expires. Absent for a non-expiring token. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Stable sandbox port hostname, shared with public access. */
   hostname: string;
   /** Raw token returned only when the token is created. */
@@ -668,7 +668,7 @@ export interface CreateShareUrlRequest {
   /** File key (path) within the disk. */
   key: string;
   /** URL lifetime in seconds. Any integer from 1 to 604800 (7 days). Defaults to 86400 (24 hours). */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
 }
 export interface ApiResponseShareUrlData {
   /** The signed, public download URL. */
@@ -709,7 +709,7 @@ export interface DeleteTokenRequest {
   id: string;
 }
 export interface ApiResponseMessageData {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ApiResponseMessage {
   success: boolean;
@@ -719,9 +719,9 @@ export interface ExecMount {
   /** Disk ID to mount at this relative path */
   disk: string;
   /** Subdirectory of the disk to expose at the mountpoint. Must be a relative path with no `.` or `..` segments. When omitted, the disk's root is exposed. */
-  subdirectory?: string;
+  subdirectory?: string | undefined;
   /** When true, the disk is mounted read-only inside the microVM. Writes against the mount fail with EROFS. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 export type ExecRequestDisksValue = string | ExecMount;
 /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
@@ -778,11 +778,11 @@ export interface ForkSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Name for the fork. A random word-list name is generated when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Fork this checkpoint of the source, as returned by pause, stop, or describe, instead of the source's live state. The source is neither paused nor resumed. Only the current session's checkpoint and the one before it are accepted; an uncommitted or superseded checkpoint is rejected with 409. */
-  checkpoint?: string;
+  checkpoint?: string | undefined;
 }
 export interface GetAllowedIpsRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -821,7 +821,7 @@ export interface BillingScheduledChange {
   type: BillingScheduledChangeType;
   /** Unix timestamp in seconds. */
   effectiveAt: number;
-  targetPlan?: BillingScheduledChangeTargetPlan;
+  targetPlan?: BillingScheduledChangeTargetPlan | undefined;
 }
 export type BillingPaymentHealthStatus =
   | "not_applicable"
@@ -832,15 +832,15 @@ export type BillingPaymentHealthStatus =
 export interface BillingPaymentHealth {
   status: BillingPaymentHealthStatus;
   hasDefaultPaymentMethod: boolean;
-  openInvoiceId?: string;
+  openInvoiceId?: string | undefined;
   /** What is still owed on the open invoice, in dollars to the cent. */
-  amountRemaining?: number;
-  openInvoiceCurrency?: string;
-  openInvoiceDueDate?: number;
+  amountRemaining?: number | undefined;
+  openInvoiceCurrency?: string | undefined;
+  openInvoiceDueDate?: number | undefined;
   /** When the payment processor retries automatically, if scheduled. */
-  openInvoiceNextPaymentAttempt?: number;
+  openInvoiceNextPaymentAttempt?: number | undefined;
   /** An unfinished purchase or plan change awaiting payment, which the console resumes. */
-  pendingOperationId?: string;
+  pendingOperationId?: string | undefined;
 }
 /** What the console offers the account from its billing page, given the subscription's state. */
 export interface BillingSubscriptionActions {
@@ -862,10 +862,10 @@ export interface BillingSubscription {
   plan: BillingSubscriptionPlan;
   /** Current subscription status; `none` without a paid subscription, `past_due` while a failing payment is retried and the plan is kept. */
   subscriptionStatus: BillingSubscriptionSubscriptionStatus;
-  billingPeriod?: BillingPeriod;
+  billingPeriod?: BillingPeriod | undefined;
   /** Unix timestamp in seconds. */
-  scheduledCancellationAt?: number;
-  scheduledChange?: BillingScheduledChange;
+  scheduledCancellationAt?: number | undefined;
+  scheduledChange?: BillingScheduledChange | undefined;
   hasPendingUpdate: boolean;
   paymentHealth: BillingPaymentHealth;
   actions: BillingSubscriptionActions;
@@ -876,7 +876,7 @@ export interface ApiResponseBillingSubscription {
 }
 export interface GetBillingSummaryRequest {
   /** Which billing period: `current` (the default), or a YYYY-MM-DD date (UTC) inside a past period that has been invoiced; the day a period starts on selects it. A past period's lines are read whole from the invoices issued for it, named in `invoices`, under the plan they were issued for, whatever the account is on now. */
-  period?: string;
+  period?: string | undefined;
 }
 export interface BillingSummaryPlan {
   /** The plan id, such as `enterprise`. */
@@ -891,13 +891,13 @@ export interface BillingLine {
   /** The key to branch on. `fixed` is a charge over the whole period (the plan's base price; an item paid for up front per period, such as a block of sandboxes, on its feature with its quantity); `usage` is a meter's usage billed past its grants, with its quantity; `credit` is a credit taken off, on the feature it draws, in money (what is left of the grant is in `credits`); `other` is anything else billed inside the period, such as a proration, a one-off purchase or a reward (`Discount`), carried with its own `name`. */
   type: BillingLineType;
   /** On a `usage` or `credit` line, and a `fixed` line for an item paid up front, the feature it is on. */
-  featureId?: string;
+  featureId?: string | undefined;
   /** The line's label as billing wrote it. */
   name: string;
   /** On a line with a `featureId`, the quantity billed, in `unit`. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The quantity's unit, such as vCPU-hours or USD. */
-  unit?: string;
+  unit?: string | undefined;
   /** Unix timestamp in seconds; the span the line covers. A line is on the period its span ends in, or for an item billed over several periods (a yearly add-on) the period it starts in, and on no other. */
   start: number;
   /** Unix timestamp in seconds, exclusive. */
@@ -905,7 +905,7 @@ export interface BillingLine {
   /** In dollars to the cent; negative for a credit. */
   amount: number;
   /** The invoice the line is on, one of `invoices`; absent for a line previewed for the period end and not invoiced yet. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
 }
 /** The statement's lines, oldest invoice first, then the lines previewed for the period end: on the current period, what was billed as it opened (the base price, a proration) and what billing will bill as it closes (the usage past the grants, the credits taken off); on a past period, everything the invoices issued for it carry. Empty on a plan that bills nothing. */
 export type BillingSummaryLinesList = Array<BillingLine>;
@@ -941,7 +941,7 @@ export interface BillingIssuedInvoice {
   /** The invoice's status with the billing processor. `draft` is a renewal the processor has not finalized yet, for about an hour after the period rolls; it already carries every line it will bill. Voided invoices are not listed. */
   status: BillingIssuedInvoiceStatus;
   /** The invoice as the billing processor hosts it. */
-  hostedInvoiceUrl?: string;
+  hostedInvoiceUrl?: string | undefined;
 }
 /** The invoices the lines with an `invoiceId` are on, oldest first. Absent when nothing is invoiced for the period yet. */
 export type BillingSummaryInvoicesList = Array<BillingIssuedInvoice>;
@@ -957,9 +957,9 @@ export interface BillingSummary {
   /** The grants the account still draws on, on the current period only: each with something left or that will refill. A spent one-time grant and an expired one are not listed; a past period lists none (its `credit` lines show the draw). This is a grant's standing, not a charge: a `credit` line in `lines` is what a grant took off this period's bill, in money, and the two need not pair up. A grant nothing has drawn from yet has no line; an included quantity (tool calls, disks) is spent without one, since billing invoices only the usage past it; and several grants on one feature draw as one line. */
   credits: BillingSummaryCreditsList;
   /** The period end at the recent daily pace; absent for a past period, a plan that prices no usage, or without an elapsed day of usage. */
-  projected?: BillingSummaryProjection;
+  projected?: BillingSummaryProjection | undefined;
   /** The invoices the lines with an `invoiceId` are on, oldest first. Absent when nothing is invoiced for the period yet. */
-  invoices?: BillingSummaryInvoicesList;
+  invoices?: BillingSummaryInvoicesList | undefined;
 }
 export interface ApiResponseBillingSummary {
   success: boolean;
@@ -975,15 +975,15 @@ export type GetBillingUsageRequestFor =
 export type GetBillingUsageRequestGranularity = "1d" | "1h";
 export interface GetBillingUsageRequest {
   /** Start of the window, inclusive: an RFC 3339 timestamp, or a YYYY-MM-DD date taken at midnight in `timezone`. Defaults to seven days (hourly: 24 hours) before `end`. Not with `for`. */
-  start?: string;
+  start?: string | undefined;
   /** End of the window, exclusive, in the same forms as `start`. Defaults to now. Not with `for`. */
-  end?: string;
+  end?: string | undefined;
   /** A named window relative to now in `timezone`, instead of `start` and `end`. Weeks start on Monday. A window may run past now; the intervals after it are left out. */
-  for?: GetBillingUsageRequestFor | (string & {});
+  for?: GetBillingUsageRequestFor | (string & {}) | undefined;
   /** Width of each interval. Days are aligned to `timezone`; hours are UTC. */
-  granularity?: GetBillingUsageRequestGranularity | (string & {});
+  granularity?: GetBillingUsageRequestGranularity | (string & {}) | undefined;
   /** IANA timezone that day intervals and dates are aligned to. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type BillingUsageGranularity = "1d" | "1h";
 /** Cost of one unit of each meter, in dollars per unit as a decimal (a rate can be well below a cent), keyed by feature id; zero for a meter the plan does not price. */
@@ -1033,7 +1033,7 @@ export interface BillingUsage {
   /** Newest first, each the window's share of one interval. Intervals after now are left out. */
   intervals: BillingUsageIntervalsList;
   /** The current billing period, which `/api/billing/summary` sums; absent on a plan without one. */
-  billingPeriod?: BillingPeriod;
+  billingPeriod?: BillingPeriod | undefined;
 }
 export interface ApiResponseBillingUsage {
   success: boolean;
@@ -1057,13 +1057,13 @@ export type MountResponseAccessMode = "rw" | "ro";
 /** Mount configuration details (secrets omitted) */
 export interface MountConfigResponse {
   /** Bucket name */
-  bucketName?: string;
+  bucketName?: string | undefined;
   /** Storage endpoint URL */
-  bucketEndpoint?: string;
+  bucketEndpoint?: string | undefined;
   /** Prefix within the bucket */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
   /** Session identifier for IAM-authorized mounts */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 /** Current connection status */
 export type MountResponseConnectionStatus = "connected" | "disconnected";
@@ -1071,36 +1071,36 @@ export type MountResponseConnectionStatus = "connected" | "disconnected";
 export type MountResponseAuthorizationType = "iam" | "accessKeys" | "oauth";
 export interface MountResponse {
   /** Mount identifier */
-  id?: string;
+  id?: string | undefined;
   /** Storage backend type */
-  type?: MountResponseType;
+  type?: MountResponseType | undefined;
   /** Mount path */
-  path?: string;
+  path?: string | undefined;
   /** Bucket/container name */
-  name?: string;
+  name?: string | undefined;
   /** Access mode */
-  accessMode?: MountResponseAccessMode;
-  config?: MountConfigResponse;
+  accessMode?: MountResponseAccessMode | undefined;
+  config?: MountConfigResponse | undefined;
   /** Current connection status */
-  connectionStatus?: MountResponseConnectionStatus;
+  connectionStatus?: MountResponseConnectionStatus | undefined;
   /** Authentication error message (if disconnected) */
-  authError?: string;
+  authError?: string | undefined;
   /** How the mount authenticates to the storage backend */
-  authorizationType?: MountResponseAuthorizationType;
+  authorizationType?: MountResponseAuthorizationType | undefined;
 }
 export type DiskResponseMountsList = Array<MountResponse>;
 export interface DiskMetrics {
   /** Data transfer amount with unit (e.g., "1.5 GB") */
-  dataTransfer?: string;
+  dataTransfer?: string | undefined;
   /** Total request count as a formatted string (e.g., "1,234") */
-  requests?: string;
+  requests?: string | undefined;
   /** Average response time with unit (e.g., "45ms") */
-  avgResponseTime?: string;
+  avgResponseTime?: string | undefined;
 }
 export interface ConnectedClient {
-  id?: string;
-  ipAddress?: string;
-  connectedAt?: string;
+  id?: string | undefined;
+  ipAddress?: string | undefined;
+  connectedAt?: string | undefined;
 }
 export type DiskResponseConnectedClientsList = Array<ConnectedClient>;
 export type DiskResponseAuthorizedUsersList = Array<AuthorizedUser>;
@@ -1114,7 +1114,7 @@ export interface DiskResponse {
   /** Disk status */
   status: DiskResponseStatus;
   /** Filesystem handler status */
-  fsHandlerStatus?: string;
+  fsHandlerStatus?: string | undefined;
   /** Cloud provider */
   provider: string;
   /** Disk region (e.g., aws-us-east-1, gcp-us-central1) */
@@ -1122,19 +1122,19 @@ export interface DiskResponse {
   /** Creation timestamp */
   createdAt: string;
   /** Last access timestamp */
-  lastAccessed?: string;
+  lastAccessed?: string | undefined;
   /** Total data size in bytes */
-  dataSize?: number;
+  dataSize?: number | undefined;
   /** Monthly usage amount formatted as a currency string (e.g., "$1.23") */
-  monthlyUsage?: string;
-  mounts?: DiskResponseMountsList;
-  metrics?: DiskMetrics;
-  connectedClients?: DiskResponseConnectedClientsList;
-  authorizedUsers?: DiskResponseAuthorizedUsersList;
+  monthlyUsage?: string | undefined;
+  mounts?: DiskResponseMountsList | undefined;
+  metrics?: DiskMetrics | undefined;
+  connectedClients?: DiskResponseConnectedClientsList | undefined;
+  authorizedUsers?: DiskResponseAuthorizedUsersList | undefined;
   /** Active data size in bytes (data in the high-speed cache). Absent until the disk holds data. */
-  activeDataBytes?: number;
+  activeDataBytes?: number | undefined;
   /** Total logical data written to the disk, in bytes. Absent until the disk holds data. */
-  totalDataBytes?: number;
+  totalDataBytes?: number | undefined;
 }
 export interface ApiResponseDisk {
   success: boolean;
@@ -1177,7 +1177,7 @@ export interface SandboxPortToken {
   port: number;
   created_at: string;
   /** When the token expires. Absent for a non-expiring token. */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface ApiResponseSandboxPortToken {
   success: boolean;
@@ -1191,13 +1191,13 @@ export interface GrepDiskRequest {
   /** Extended regular expression (passed to `grep -E`) */
   pattern: string;
   /** When true, walks subdirectories breadth-first. */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
   /** Wall-clock deadline for the entire request. Capped at 30 seconds because the runtime exec microVM itself is bounded at ~30s; longer requests would have their workers killed mid-scan. */
-  maxDurationSeconds?: number;
+  maxDurationSeconds?: number | undefined;
   /** Maximum number of parallel grep workers. Higher values finish larger datasets within the deadline but consume proportionally more runtime capacity. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Stop scanning once the aggregator has this many matches. Returned matches are a sample of whichever workers reported first, not the lexicographically first N. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export interface GrepMatch {
   /** Path to the file (relative to the disk root). */
@@ -1237,23 +1237,23 @@ export interface ApiResponseGrepDisk {
 }
 export interface ListApiTokensRequest {
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ApiTokenResponse {
   /** Token hash/ID */
-  id?: string;
-  name?: string;
-  description?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   /** Last 4 characters of the token */
-  tokenSuffix?: string;
-  createdAt?: string;
-  lastUsedAt?: string;
+  tokenSuffix?: string | undefined;
+  createdAt?: string | undefined;
+  lastUsedAt?: string | undefined;
 }
 export type ApiResponseTokenListDataTokensList = Array<ApiTokenResponse>;
 export interface ApiResponseTokenListData {
-  tokens?: ApiResponseTokenListDataTokensList;
+  tokens?: ApiResponseTokenListDataTokensList | undefined;
 }
 export interface ApiResponseTokenList {
   success: boolean;
@@ -1278,7 +1278,7 @@ export interface DelegationEntry {
   /** Inode the delegation covers. */
   inodeId: number;
   /** Path of the inode, resolved best-effort. Omitted when the server could not resolve it. */
-  path?: string;
+  path?: string | undefined;
   /** True while the checkout is still in flight. */
   isPending: boolean;
   /** True when the holding client is no longer connected to the disk. */
@@ -1294,11 +1294,11 @@ export interface ApiResponseDelegations {
 }
 export interface ListDisksRequest {
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter disks by exact name match. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ApiResponseDiskListDataList = Array<DiskResponse>;
 /** All API responses use a standard envelope with `success: boolean` and `data` (on success) or `error: string` (on failure). The ApiResponse_* schemas each define the specific `data` shape for their endpoint. */
@@ -1306,15 +1306,15 @@ export interface ApiResponseDiskList {
   success: boolean;
   data: ApiResponseDiskListDataList;
   /** Set when more disks remain. Pass it as `cursor` to read the next page. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export interface ListSandboxesRequest {
   /** Only sandboxes that mount this disk */
-  filesystem?: string;
+  filesystem?: string | undefined;
 }
 export type ApiResponseSandboxListDataSandboxesList = Array<Sandbox>;
 export interface ApiResponseSandboxListData {
-  sandboxes?: ApiResponseSandboxListDataSandboxesList;
+  sandboxes?: ApiResponseSandboxListDataSandboxesList | undefined;
 }
 export interface ApiResponseSandboxList {
   success: boolean;
@@ -1336,9 +1336,9 @@ export interface ListSandboxPortTokensRequest {
   /** Sandbox UUID */
   sid: string;
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type SandboxPortTokenListTokensList = Array<SandboxPortToken>;
 export interface SandboxPortTokenList {
@@ -1348,7 +1348,7 @@ export interface ApiResponseSandboxPortTokenList {
   success: boolean;
   data: SandboxPortTokenList;
   /** Set when more port tokens remain. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export interface PauseSandboxRequest {
   /** Sandbox UUID */
@@ -1361,15 +1361,15 @@ export interface RemoveDiskUserRequest {
   /** The type of user authentication */
   userType: RemoveDiskUserRequestUserType | (string & {});
   /** Identifier of the user to remove, as returned in the creation or list response. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Use identifier instead. */
-  principal?: string;
+  principal?: string | undefined;
 }
 export interface ResumeSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
 }
 export interface RevokeDelegationRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -1397,9 +1397,9 @@ export interface SetSandboxTimeoutRequest {
   /** Sandbox UUID */
   sid: string;
   /** Seconds from now until a running sandbox pauses, capped at 24 hours after its current session started. Also sets the lifetime budget for its next powered-on session. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Seconds without a direct process connection before the sandbox pauses. Zero disables idle expiry. */
-  idle_ttl_seconds?: number;
+  idle_ttl_seconds?: number | undefined;
 }
 /** Replace the sandbox's additional disk mounts for this and later sessions. Omit to keep the current ones; an empty list removes all additional mounts without deleting their disks. The internal root disk is unaffected. Not accepted by resume, and 409 while the sandbox is running or pending. */
 export type StartSandboxRequestMountsList = Array<SandboxMount>;
@@ -1407,9 +1407,9 @@ export interface StartSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Replace the sandbox's additional disk mounts for this and later sessions. Omit to keep the current ones; an empty list removes all additional mounts without deleting their disks. The internal root disk is unaffected. Not accepted by resume, and 409 while the sandbox is running or pending. */
-  mounts?: StartSandboxRequestMountsList;
+  mounts?: StartSandboxRequestMountsList | undefined;
 }
 export interface StopSandboxRequest {
   /** Sandbox UUID */
@@ -1418,7 +1418,7 @@ export interface StopSandboxRequest {
 export interface UpdateSandboxNetworkRequest {
   /** Sandbox UUID */
   sid: string;
-  egress?: SandboxEgressPolicy;
+  egress?: SandboxEgressPolicy | undefined;
 }
 export type AddDiskUserError = BadRequest | NotFound | ArchilOpError;
 /** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN - **s3**: An access key pair for the disk's [S3 API](/protocols/s3-api). The server generates both keys and returns the secret key only in this response. The keys reach the whole disk, read-write unless `readOnly` is set, so keep them on your server and give browsers and other untrusted clients presigned URLs instead. */

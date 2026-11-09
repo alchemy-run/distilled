@@ -142,8 +142,8 @@ export interface BatchDeleteByResourceArns {
   InstrumentationType: InstrumentationType;
 }
 export type BatchDeleteDeletionTarget =
-  | { Scope: BatchDeleteScope; ResourceArns?: never }
-  | { Scope?: never; ResourceArns: BatchDeleteByResourceArns };
+  | { Scope: BatchDeleteScope; ResourceArns?: undefined }
+  | { Scope?: undefined; ResourceArns: BatchDeleteByResourceArns };
 export interface BatchDeleteInstrumentationConfigurationsRequest {
   DeletionTarget: BatchDeleteDeletionTarget;
 }
@@ -301,8 +301,8 @@ export interface ServiceLevelIndicator {
   ComparisonOperator: ServiceLevelIndicatorComparisonOperator;
 }
 export type MonitoredRequestCountMetricDataQueries =
-  | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: never }
-  | { GoodCountMetric?: never; BadCountMetric: MetricDataQuery[] };
+  | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: undefined }
+  | { GoodCountMetric?: undefined; BadCountMetric: MetricDataQuery[] };
 export interface RequestBasedServiceLevelIndicatorMetric {
   KeyAttributes?: { [key: string]: string | undefined } | undefined;
   OperationName?: string | undefined;
@@ -331,8 +331,8 @@ export interface CalendarInterval {
   Duration: number;
 }
 export type Interval =
-  | { RollingInterval: RollingInterval; CalendarInterval?: never }
-  | { RollingInterval?: never; CalendarInterval: CalendarInterval };
+  | { RollingInterval: RollingInterval; CalendarInterval?: undefined }
+  | { RollingInterval?: undefined; CalendarInterval: CalendarInterval };
 export type AttainmentGoal = number;
 export type WarningThreshold = number;
 export interface Goal {
@@ -550,8 +550,8 @@ export interface CreateServiceLevelObjectiveOutput {
 export interface DeleteGroupingConfigurationRequest {}
 export interface DeleteGroupingConfigurationOutput {}
 export type LocationIdentifier =
-  | { CodeLocation: CodeLocation; LocationHash?: never }
-  | { CodeLocation?: never; LocationHash: string };
+  | { CodeLocation: CodeLocation; LocationHash?: undefined }
+  | { CodeLocation?: undefined; LocationHash: string };
 export interface DeleteInstrumentationConfigurationRequest {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -700,10 +700,20 @@ export interface CanaryEntity {
   CanaryName: string;
 }
 export type AuditTargetEntity =
-  | { Service: ServiceEntity; Slo?: never; ServiceOperation?: never; Canary?: never }
-  | { Service?: never; Slo: ServiceLevelObjectiveEntity; ServiceOperation?: never; Canary?: never }
-  | { Service?: never; Slo?: never; ServiceOperation: ServiceOperationEntity; Canary?: never }
-  | { Service?: never; Slo?: never; ServiceOperation?: never; Canary: CanaryEntity };
+  | { Service: ServiceEntity; Slo?: undefined; ServiceOperation?: undefined; Canary?: undefined }
+  | {
+      Service?: undefined;
+      Slo: ServiceLevelObjectiveEntity;
+      ServiceOperation?: undefined;
+      Canary?: undefined;
+    }
+  | {
+      Service?: undefined;
+      Slo?: undefined;
+      ServiceOperation: ServiceOperationEntity;
+      Canary?: undefined;
+    }
+  | { Service?: undefined; Slo?: undefined; ServiceOperation?: undefined; Canary: CanaryEntity };
 export interface AuditTarget {
   Type: string;
   Data: AuditTargetEntity;

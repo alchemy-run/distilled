@@ -123,37 +123,37 @@ export type DedicatedTaskStatusEnum =
   | "todo";
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueCanBeNullString {
-  key?: string | null;
-  value?: string;
+  key?: string | null | undefined;
+  value?: string | undefined;
 }
 /** Task result tags output */
 export type DedicatedServerTaskTagsList = Array<ComplexTypeSafeKeyValueCanBeNullString>;
 /** Server tasks */
 export interface DedicatedServerTask {
   /** Details of this task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function name */
-  function?: DedicatedTaskFunctionEnum;
+  function?: DedicatedTaskFunctionEnum | undefined;
   /** last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Whether this task need to be scheduled or not */
-  needSchedule?: boolean;
+  needSchedule?: boolean | undefined;
   /** Extra information about this task */
-  note?: string | null;
+  note?: string | null | undefined;
   /** ID of the planned intervention for this task */
-  plannedInterventionId?: number | null;
+  plannedInterventionId?: number | null | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: DedicatedTaskStatusEnum;
+  status?: DedicatedTaskStatusEnum | undefined;
   /** Task result tags output */
-  tags?: DedicatedServerTaskTagsList | null;
+  tags?: DedicatedServerTaskTagsList | null | undefined;
   /** the id of the task */
-  taskId?: number;
+  taskId?: number | undefined;
   /** Reference of the thread on the support tool */
-  ticketReference?: string | null;
+  ticketReference?: string | null | undefined;
 }
 export interface CancelDedicatedServerTaskRequest {
   /** The internal name of your dedicated server */
@@ -189,11 +189,11 @@ export interface ConfirmDedicatedServerTerminationRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -214,13 +214,13 @@ export type DedicatedServerAccessTypeEnum =
 /** A structure describing the server's access */
 export interface DedicatedServerAccess {
   /** Password */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** Application access type */
-  type?: DedicatedServerAccessTypeEnum;
+  type?: DedicatedServerAccessTypeEnum | undefined;
   /** Url */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Login */
-  user?: string | null;
+  user?: string | null | undefined;
 }
 export type CreateDedicatedServerAuthenticationSecretResponseBodyList =
   Array<DedicatedServerAccess>;
@@ -249,19 +249,19 @@ export interface CreateDedicatedServerBiosSettingsSgxConfigureRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Size of the Processor Reserved Memory */
-  prmrr?: DedicatedServerBiosSettingsSgxPrmrrEnum | (string & {});
+  prmrr?: DedicatedServerBiosSettingsSgxPrmrrEnum | (string & {}) | undefined;
   /** Desired SGX status */
-  status?: DedicatedServerBiosSettingsSgxStatusEnum | (string & {});
+  status?: DedicatedServerBiosSettingsSgxStatusEnum | (string & {}) | undefined;
 }
 export interface CreateDedicatedServerChangeContactRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDedicatedServerChangeContactResponseBodyList = Array<number>;
 export type CreateDedicatedServerChangeContactResponse =
@@ -270,69 +270,69 @@ export interface CreateDedicatedServerFeatureBackupCloudRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** cloud project id */
-  cloudProjectId?: string;
+  cloudProjectId?: string | undefined;
   /** Project description of the project to be created (ignored when an existing project is already specified) */
-  projectDescription?: string;
+  projectDescription?: string | undefined;
 }
 /** Agreement ids waiting for validation */
 export type DedicatedServerBackupCloudAgreementsList = Array<number>;
 /** Cloud project struct. */
 export interface DedicatedServerBackupBackupProject {
   /** Project description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Project id. */
-  projectId?: string | null;
+  projectId?: string | null | undefined;
 }
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueLong {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** A structure describing quota associated to the current container */
 export interface DedicatedServerBackupBackupQuota {
   /** Volume r/w bandwidth limit: read/write volume offered per month on the container. */
-  maxBandwidth?: ComplexTypeUnitAndValueLong | null;
+  maxBandwidth?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Container max size. */
-  maxStorage?: ComplexTypeUnitAndValueLong | null;
+  maxStorage?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Volume usage. */
-  storageUsed?: ComplexTypeUnitAndValueLong | null;
+  storageUsed?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Volume usage in percent */
-  usagePercent?: number | null;
+  usagePercent?: number | null | undefined;
 }
 /** A structure describing the SFTP access to a container */
 export interface DedicatedServerBackupBackupSftp {
   /** Sftp password. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** Url */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Username */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 /** A structure describing the information related to Openstack to reach the container. */
 export interface DedicatedServerBackupBackupSwift {
   /** Auth url. */
-  authUrl?: string | null;
+  authUrl?: string | null | undefined;
   /** Openstack password. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** Openstack username to use swift. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 /** A structure describing informations about the backup cloud feature */
 export interface DedicatedServerBackupBackupContainer {
   /** /cloud project which the container belongs to. */
-  cloudProject?: DedicatedServerBackupBackupProject | null;
+  cloudProject?: DedicatedServerBackupBackupProject | null | undefined;
   /** Container id (can also be used to retrieve the resource in the /cloud api). */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Container name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Quota on the current container */
-  quota?: DedicatedServerBackupBackupQuota | null;
+  quota?: DedicatedServerBackupBackupQuota | null | undefined;
   /** The cloud region which the container belongs to. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Sftp connection info */
-  sftp?: DedicatedServerBackupBackupSftp | null;
+  sftp?: DedicatedServerBackupBackupSftp | null | undefined;
   /** Swift related information to reach the container */
-  swift?: DedicatedServerBackupBackupSwift | null;
+  swift?: DedicatedServerBackupBackupSwift | null | undefined;
 }
 /** Possible values for backup status code */
 export type DedicatedServerBackupBackupStatusCodeEnum =
@@ -346,20 +346,20 @@ export type DedicatedServerBackupBackupStatusCodeEnum =
 /** A structure describing the status of your backup */
 export interface DedicatedServerBackupBackupStatus {
   /** Status code */
-  code?: DedicatedServerBackupBackupStatusCodeEnum;
+  code?: DedicatedServerBackupBackupStatusCodeEnum | undefined;
   /** Status code reason (when not ok) */
-  reason?: string | null;
+  reason?: string | null | undefined;
 }
 /** Backup Cloud assigned to this server */
 export interface DedicatedServerBackupCloud {
   /** Agreement ids waiting for validation */
-  agreements?: DedicatedServerBackupCloudAgreementsList | null;
+  agreements?: DedicatedServerBackupCloudAgreementsList | null | undefined;
   /** Archive space info. */
-  archive?: DedicatedServerBackupBackupContainer | null;
+  archive?: DedicatedServerBackupBackupContainer | null | undefined;
   /** Status of the container. */
-  status?: DedicatedServerBackupBackupStatus;
+  status?: DedicatedServerBackupBackupStatus | undefined;
   /** Storage space info. */
-  storage?: DedicatedServerBackupBackupContainer | null;
+  storage?: DedicatedServerBackupBackupContainer | null | undefined;
 }
 export interface CreateDedicatedServerFeatureBackupCloudPasswordRequest {
   /** The internal name of your dedicated server */
@@ -368,13 +368,13 @@ export interface CreateDedicatedServerFeatureBackupCloudPasswordRequest {
 /** A structure describing regenerated passwords */
 export interface DedicatedServerBackupBackupPassword {
   /** Password to reach the archive container through the sftp gw. */
-  sftpArchive?: string | null;
+  sftpArchive?: string | null | undefined;
   /** Password to reach the storage container through the sftp gw. */
-  sftpStorage?: string | null;
+  sftpStorage?: string | null | undefined;
   /** Password to reach the archive container through swift. */
-  swiftArchive?: string | null;
+  swiftArchive?: string | null | undefined;
   /** Password to reach the storage container through swift. */
-  swiftStorage?: string | null;
+  swiftStorage?: string | null | undefined;
 }
 export interface CreateDedicatedServerFeatureBackupFTPRequest {
   /** The internal name of your dedicated server */
@@ -386,7 +386,7 @@ export interface CreateDedicatedServerFeatureBackupFTPAccessRequest {
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
   cifs: boolean;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** The IP Block specific to this ACL. It musts belong to your server. */
   ipBlock: string;
   /** Whether to allow the NFS protocol for this ACL */
@@ -402,9 +402,9 @@ export interface CreateDedicatedServerFeatureBmcJavaKvmRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** IP to allow connection from for this KVM session, default value is caller IP */
-  ipToAllow?: string;
+  ipToAllow?: string | undefined;
   /** Time to live in minutes to get session credentials, default is 5 minutes */
-  ttl?: DedicatedServerCacheTTLEnum | (number & {});
+  ttl?: DedicatedServerCacheTTLEnum | (number & {}) | undefined;
 }
 /** List of operation type */
 export type DedicatedOperationFunctionEnum =
@@ -420,19 +420,19 @@ export type DedicatedOperationFunctionEnum =
 /** Server operations */
 export interface DedicatedServerOperation {
   /** Details of this task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function name */
-  function?: DedicatedOperationFunctionEnum;
+  function?: DedicatedOperationFunctionEnum | undefined;
   /** Last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** The unique identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: DedicatedTaskStatusEnum;
+  status?: DedicatedTaskStatusEnum | undefined;
 }
 export interface CreateDedicatedServerFeatureBmcSshSolRequest {
   /** The internal name of your dedicated server */
@@ -440,23 +440,23 @@ export interface CreateDedicatedServerFeatureBmcSshSolRequest {
   /** Public SSH key to use for this session */
   sshKey: string;
   /** Time to live in minutes to get session credentials, default is 5 minutes */
-  ttl?: DedicatedServerCacheTTLEnum | (number & {});
+  ttl?: DedicatedServerCacheTTLEnum | (number & {}) | undefined;
 }
 export interface CreateDedicatedServerFeatureBmcWebKvmRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** IP to allow connection from for this KVM session, default value is caller IP */
-  ipToAllow?: string;
+  ipToAllow?: string | undefined;
   /** Time to live in minutes to get session credentials, default is 5 minutes */
-  ttl?: DedicatedServerCacheTTLEnum | (number & {});
+  ttl?: DedicatedServerCacheTTLEnum | (number & {}) | undefined;
 }
 export interface CreateDedicatedServerFeatureBmcWebSolRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** IP to allow connection from for this Web SOL session, default value is caller IP */
-  ipToAllow?: string;
+  ipToAllow?: string | undefined;
   /** Time to live in minutes to get session credentials, default is 5 minutes */
-  ttl?: DedicatedServerCacheTTLEnum | (number & {});
+  ttl?: DedicatedServerCacheTTLEnum | (number & {}) | undefined;
 }
 /** Distinct way to acces a KVM IPMI session */
 export type DedicatedServerIpmiAccessTypeEnum =
@@ -468,9 +468,9 @@ export interface CreateDedicatedServerFeatureIpmiAccessRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** IP to allow connection from for this IPMI session */
-  ipToAllow?: string;
+  ipToAllow?: string | undefined;
   /** Public SSH key for Serial Over Lan SSH access | U+26A0 Starting 2024-08-27, SSH key name will no longer be accepted and only raw public SSH key will remain accepted */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Session access time to live in minutes */
   ttl: DedicatedServerCacheTTLEnum | (number & {});
   /** IPMI console access */
@@ -1085,9 +1085,9 @@ export type DedicatedServerNetworkingTypeEnum = "public" | "vrack";
 /** Interface or interfaces aggregation */
 export interface DedicatedServerInterfaces {
   /** Mac address or list of mac addresses */
-  macs?: DedicatedServerInterfacesMacsList;
+  macs?: DedicatedServerInterfacesMacsList | undefined;
   /** Network type */
-  type?: DedicatedServerNetworkingTypeEnum | (string & {});
+  type?: DedicatedServerNetworkingTypeEnum | (string & {}) | undefined;
 }
 /** Interface or interfaces aggregation */
 export type CreateDedicatedServerNetworkingRequestInterfacesList = Array<DedicatedServerInterfaces>;
@@ -1104,11 +1104,11 @@ export type DedicatedServerNetworkingOperationEnum = "active" | "deploying";
 /** Network configuration */
 export interface DedicatedServerNetworking {
   /** Operation description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Interface or interfaces aggregation */
-  interfaces?: DedicatedServerNetworkingInterfacesList;
+  interfaces?: DedicatedServerNetworkingInterfacesList | undefined;
   /** Operation status */
-  status?: DedicatedServerNetworkingOperationEnum | null;
+  status?: DedicatedServerNetworkingOperationEnum | null | undefined;
 }
 /** Interfaces to aggregate */
 export type CreateDedicatedServerOlaAggregationRequestVirtualNetworkInterfacesList = Array<string>;
@@ -1150,31 +1150,35 @@ export type DedicatedServerReinstallCustomizationsPostInstallationScriptExtensio
 /** OS reinstallation customizations */
 export interface DedicatedServerReinstallCustomizations {
   /** Config Drive UserData */
-  configDriveUserData?: string;
+  configDriveUserData?: string | undefined;
   /** Path of the EFI bootloader from the OS installed on the server */
-  efiBootloaderPath?: string;
+  efiBootloaderPath?: string | undefined;
   /** Custom hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Image HTTP Headers */
-  httpHeaders?: DedicatedServerReinstallCustomizationsHttpHeadersMap;
+  httpHeaders?: DedicatedServerReinstallCustomizationsHttpHeadersMap | undefined;
   /** Image checksum */
-  imageCheckSum?: string;
+  imageCheckSum?: string | undefined;
   /** Checksum type */
-  imageCheckSumType?: DedicatedServerReinstallCustomizationsImageCheckSumTypeEnum | (string & {});
+  imageCheckSumType?:
+    | DedicatedServerReinstallCustomizationsImageCheckSumTypeEnum
+    | (string & {})
+    | undefined;
   /** Image Type */
-  imageType?: DedicatedServerReinstallCustomizationsImageTypeEnum | (string & {});
+  imageType?: DedicatedServerReinstallCustomizationsImageTypeEnum | (string & {}) | undefined;
   /** Image URL */
-  imageURL?: string;
+  imageURL?: string | undefined;
   /** Display Language */
-  language?: DedicatedServerReinstallCustomizationsLanguageEnum | (string & {});
+  language?: DedicatedServerReinstallCustomizationsLanguageEnum | (string & {}) | undefined;
   /** Post-Installation Script */
-  postInstallationScript?: string;
+  postInstallationScript?: string | undefined;
   /** Post-Installation Script File Extension */
   postInstallationScriptExtension?:
     | DedicatedServerReinstallCustomizationsPostInstallationScriptExtensionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** SSH Public Key */
-  sshKey?: string;
+  sshKey?: string | undefined;
 }
 /** Arbitrary properties to pass to cloud-init's config drive datasource */
 export type CreateDedicatedServerReinstallRequestPropertiesMap = {
@@ -1185,13 +1189,13 @@ export type DedicatedServerReinstallStorageHardwareRaidRaidLevelEnum = 0 | 1 | 5
 /** Hardware Raid configuration */
 export interface DedicatedServerReinstallStorageHardwareRaid {
   /** Number of arrays (default is 1) */
-  arrays?: number;
+  arrays?: number | undefined;
   /** Total number of disks in the disk group involved in the hardware raid configuration (all disks of the disk group by default) */
-  disks?: number;
+  disks?: number | undefined;
   /** Hardware raid type (default is 1) */
-  raidLevel?: DedicatedServerReinstallStorageHardwareRaidRaidLevelEnum | (number & {});
+  raidLevel?: DedicatedServerReinstallStorageHardwareRaidRaidLevelEnum | (number & {}) | undefined;
   /** Number of disks in the disk group involved in the spare (default is 0) */
-  spares?: number;
+  spares?: number | undefined;
 }
 /** Hardware Raid configurations (if not specified, all disks of the chosen disk group id will be configured in JBOD mode) */
 export type DedicatedServerReinstallStorageHardwareRaidList =
@@ -1199,19 +1203,19 @@ export type DedicatedServerReinstallStorageHardwareRaidList =
 /** LVM-specific parameters */
 export interface DedicatedServerReinstallStoragePartitioningLayoutExtrasLv {
   /** Logical volume name */
-  name?: string;
+  name?: string | undefined;
 }
 /** ZFS-specific parameters */
 export interface DedicatedServerReinstallStoragePartitioningLayoutExtrasZp {
   /** zpool name (generated automatically if not specified, note that multiple ZFS partitions with same zpool names will be configured as multiple datasets belonging to the same zpool if compatible) */
-  name?: string;
+  name?: string | undefined;
 }
 /** Partition extras parameters */
 export interface DedicatedServerReinstallStoragePartitioningLayoutExtras {
   /** LVM-specific parameters */
-  lv?: DedicatedServerReinstallStoragePartitioningLayoutExtrasLv;
+  lv?: DedicatedServerReinstallStoragePartitioningLayoutExtrasLv | undefined;
   /** ZFS-specific parameters */
-  zp?: DedicatedServerReinstallStoragePartitioningLayoutExtrasZp;
+  zp?: DedicatedServerReinstallStoragePartitioningLayoutExtrasZp | undefined;
 }
 /** File system types */
 export type DedicatedServerReinstallStoragePartitioningLayoutFileSystemEnum =
@@ -1234,15 +1238,18 @@ export type DedicatedServerReinstallStoragePartitioningLayoutRaidLevelEnum = 0 |
 /** Custom partition parameters */
 export interface DedicatedServerReinstallStoragePartitioningLayout {
   /** Partition extras parameters */
-  extras?: DedicatedServerReinstallStoragePartitioningLayoutExtras;
+  extras?: DedicatedServerReinstallStoragePartitioningLayoutExtras | undefined;
   /** File system type */
   fileSystem: DedicatedServerReinstallStoragePartitioningLayoutFileSystemEnum | (string & {});
   /** Mount point */
   mountPoint: string;
   /** Software raid type (default is 1) */
-  raidLevel?: DedicatedServerReinstallStoragePartitioningLayoutRaidLevelEnum | (number & {});
+  raidLevel?:
+    | DedicatedServerReinstallStoragePartitioningLayoutRaidLevelEnum
+    | (number & {})
+    | undefined;
   /** Partition size in MiB (default value is 0 which means to fill the disk with that partition) */
-  size?: number;
+  size?: number | undefined;
 }
 /** Custom partitioning layout (default is the default layout of the operating system's default partitioning scheme) */
 export type DedicatedServerReinstallStoragePartitioningLayoutList =
@@ -1250,20 +1257,20 @@ export type DedicatedServerReinstallStoragePartitioningLayoutList =
 /** Partitioning configuration */
 export interface DedicatedServerReinstallStoragePartitioning {
   /** Total number of disks in the disk group involved in the partitioning configuration (all disks of the disk group by default) */
-  disks?: number;
+  disks?: number | undefined;
   /** Custom partitioning layout (default is the default layout of the operating system's default partitioning scheme) */
-  layout?: DedicatedServerReinstallStoragePartitioningLayoutList;
+  layout?: DedicatedServerReinstallStoragePartitioningLayoutList | undefined;
   /** Partitioning scheme (if applicable with selected operating system) */
-  schemeName?: string;
+  schemeName?: string | undefined;
 }
 /** OS reinstallation storage configuration */
 export interface DedicatedServerReinstallStorage {
   /** Disk group id (default is 0, meaning automatic) */
-  diskGroupId?: number;
+  diskGroupId?: number | undefined;
   /** Hardware Raid configurations (if not specified, all disks of the chosen disk group id will be configured in JBOD mode) */
-  hardwareRaid?: DedicatedServerReinstallStorageHardwareRaidList;
+  hardwareRaid?: DedicatedServerReinstallStorageHardwareRaidList | undefined;
   /** Partitioning configuration */
-  partitioning?: DedicatedServerReinstallStoragePartitioning;
+  partitioning?: DedicatedServerReinstallStoragePartitioning | undefined;
 }
 /** OS reinstallation storage configurations */
 export type CreateDedicatedServerReinstallRequestStorageList =
@@ -1272,13 +1279,13 @@ export interface CreateDedicatedServerReinstallRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** OS reinstallation customizations */
-  customizations?: DedicatedServerReinstallCustomizations;
+  customizations?: DedicatedServerReinstallCustomizations | undefined;
   /** Operating System name to install (available values for this server can be retrieved using GET /dedicated/server/{serviceName}/install/compatibleTemplates) */
   operatingSystem: string;
   /** Arbitrary properties to pass to cloud-init's config drive datasource */
-  properties?: CreateDedicatedServerReinstallRequestPropertiesMap;
+  properties?: CreateDedicatedServerReinstallRequestPropertiesMap | undefined;
   /** OS reinstallation storage configurations */
-  storage?: CreateDedicatedServerReinstallRequestStorageList;
+  storage?: CreateDedicatedServerReinstallRequestStorageList | undefined;
 }
 /** Task operation types */
 export type DedicatedServerTaskFunctionEnum =
@@ -1335,24 +1342,24 @@ export type DedicatedServerTaskStatusEnum =
 /** Dedicated server task */
 export interface DedicatedServerTaskResponse {
   /** Details of this task */
-  comment?: string;
+  comment?: string | undefined;
   /** Task Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Task operation type */
-  function?: DedicatedServerTaskFunctionEnum;
+  function?: DedicatedServerTaskFunctionEnum | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: DedicatedServerTaskStatusEnum;
+  status?: DedicatedServerTaskStatusEnum | undefined;
   /** Task id */
-  taskId?: number;
+  taskId?: number | undefined;
 }
 export interface CreateDedicatedServerSecondaryDnsDomainRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** The domain to add */
   domain: string;
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface CreateDedicatedServerSecondaryDnsDomainResponse {}
 /** SPLA license type */
@@ -1377,20 +1384,20 @@ export interface CreateDedicatedServerSupportReplaceCoolingRequest {
 /** Newly created support identifiers */
 export interface SupportNewMessageInfo {
   /** Notice or warning */
-  additionalNotice?: string | null;
+  additionalNotice?: string | null | undefined;
   /** Message identifier */
-  messageId?: number;
+  messageId?: number | undefined;
   /** Ticket identifier */
-  ticketId?: number;
+  ticketId?: number | undefined;
   /** Ticket external number */
-  ticketNumber?: number;
+  ticketNumber?: number | undefined;
 }
 /** Hdd replace support request details. */
 export interface DedicatedServerSupportReplaceHddInfo {
   /** Disk serial number */
-  disk_serial?: string;
+  disk_serial?: string | undefined;
   /** Disk slotId (if any) */
-  slot_id?: number | null;
+  slot_id?: number | null | undefined;
 }
 /** If 'inverse' is set as 'false', the list of HDD TO REPLACE. If 'inverse' is set as 'true', the list of HDD TO NOT REPLACE. */
 export type CreateDedicatedServerSupportReplaceHardDiskDriveRequestDisksList =
@@ -1415,7 +1422,7 @@ export interface CreateDedicatedServerSupportReplaceMemoryRequest {
   /** Technical details or logs */
   details: string;
   /** The list of faulty RAM slots (if you have the information) */
-  slots?: CreateDedicatedServerSupportReplaceMemoryRequestSlotsList;
+  slots?: CreateDedicatedServerSupportReplaceMemoryRequestSlotsList | undefined;
 }
 export interface CreateDedicatedServerTaskScheduleRequest {
   /** The internal name of your dedicated server */
@@ -1514,15 +1521,15 @@ export interface DeleteDedicatedServerVrackRequest {
 export type VrackTaskStatusEnum = "cancelled" | "doing" | "done" | "init" | "todo";
 /** vrack tasks */
 export interface VrackTask {
-  function?: string;
-  id?: number;
-  lastUpdate?: string | null;
-  orderId?: number | null;
-  serviceName?: string | null;
+  function?: string | undefined;
+  id?: number | undefined;
+  lastUpdate?: string | null | undefined;
+  orderId?: number | null | undefined;
+  serviceName?: string | null | undefined;
   /** Task status */
-  status?: VrackTaskStatusEnum;
-  targetDomain?: string | null;
-  todoDate?: string | null;
+  status?: VrackTaskStatusEnum | undefined;
+  targetDomain?: string | null | undefined;
+  todoDate?: string | null | undefined;
 }
 export interface GetDedicatedServerRequest {
   /** The internal name of your dedicated server */
@@ -1589,13 +1596,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Power states of a Dedicated */
 export type DedicatedServerPowerStateEnum = "poweroff" | "poweron";
@@ -1606,49 +1613,49 @@ export type DedicatedServerSupportLevelEnum = "critical" | "fastpath" | "gs" | "
 /** Server informations */
 export interface DedicatedServerDedicatedWithIAM {
   /** dedicated AZ localisation */
-  availabilityZone?: string;
-  bootId?: number | null;
+  availabilityZone?: string | undefined;
+  bootId?: number | null | undefined;
   /** Ipxe script served on boot */
-  bootScript?: string | null;
+  bootScript?: string | null | undefined;
   /** dedicater server commercial range */
-  commercialRange?: string | null;
+  commercialRange?: string | null | undefined;
   /** dedicated datacenter localisation */
-  datacenter?: DedicatedDatacenterEnum;
+  datacenter?: DedicatedDatacenterEnum | undefined;
   /** EfiBootloader path */
-  efiBootloaderPath?: string | null;
+  efiBootloaderPath?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** dedicated server ip */
-  ip?: string;
-  linkSpeed?: number | null;
+  ip?: string | undefined;
+  linkSpeed?: number | null | undefined;
   /** Icmp monitoring state */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** dedicated server name */
-  name?: string;
-  newUpgradeSystem?: boolean;
+  name?: string | undefined;
+  newUpgradeSystem?: boolean | undefined;
   /** Prevent datacenter intervention */
-  noIntervention?: boolean;
+  noIntervention?: boolean | undefined;
   /** Operating system */
-  os?: string;
+  os?: string | undefined;
   /** Power state of the server */
-  powerState?: DedicatedServerPowerStateEnum;
+  powerState?: DedicatedServerPowerStateEnum | undefined;
   /** Does this server have professional use option */
-  professionalUse?: boolean;
-  rack?: string;
+  professionalUse?: boolean | undefined;
+  rack?: string | undefined;
   /** dedicated region localisation */
-  region?: string;
+  region?: string | undefined;
   /** Custom email used to receive rescue credentials */
-  rescueMail?: string | null;
+  rescueMail?: string | null | undefined;
   /** Public SSH Key used in the rescue mode */
-  rescueSshKey?: string | null;
+  rescueSshKey?: string | null | undefined;
   /** dedicated server reverse */
-  reverse?: string | null;
-  rootDevice?: string | null;
+  reverse?: string | null | undefined;
+  rootDevice?: string | null | undefined;
   /** your server id */
-  serverId?: number;
-  state?: DedicatedServerStateEnum;
+  serverId?: number | undefined;
+  state?: DedicatedServerStateEnum | undefined;
   /** Dedicated server support level */
-  supportLevel?: DedicatedServerSupportLevelEnum;
+  supportLevel?: DedicatedServerSupportLevelEnum | undefined;
 }
 export interface GetDedicatedServerAntiDDosGameStatusRequest {
   /** The internal name of your dedicated server */
@@ -1664,13 +1671,13 @@ export interface GetDedicatedServerBackupCloudOfferDetailsRequest {
 /** Backup cloud offer description for a dedicated server */
 export interface DedicatedServerBackupBackupOffer {
   /** Archive container max size. */
-  maxArchive?: ComplexTypeUnitAndValueLong | null;
+  maxArchive?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Archive volume r/w bandwidth limit: read/write volume offered per month on the container. */
-  maxBandwidthArchive?: ComplexTypeUnitAndValueLong | null;
+  maxBandwidthArchive?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Storage volume r/w bandwidth limit: read/write volume offered per month on the container. */
-  maxBandwidthStorage?: ComplexTypeUnitAndValueLong | null;
+  maxBandwidthStorage?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Storage container max size. */
-  maxStorage?: ComplexTypeUnitAndValueLong | null;
+  maxStorage?: ComplexTypeUnitAndValueLong | null | undefined;
 }
 export interface GetDedicatedServerBiosSettingsRequest {
   /** The internal name of your dedicated server */
@@ -1685,21 +1692,21 @@ export type DedicatedServerBiosSettingsSupportSgxOptionsStatusList =
 /** A structure describing supported SGX options values */
 export interface DedicatedServerBiosSettingsSupportSgxOptions {
   /** Supported SGX prmrr values */
-  prmrr?: DedicatedServerBiosSettingsSupportSgxOptionsPrmrrList;
+  prmrr?: DedicatedServerBiosSettingsSupportSgxOptionsPrmrrList | undefined;
   /** Supported SGX statuses */
-  status?: DedicatedServerBiosSettingsSupportSgxOptionsStatusList;
+  status?: DedicatedServerBiosSettingsSupportSgxOptionsStatusList | undefined;
 }
 /** A structure describing supported bios settings */
 export interface DedicatedServerBiosSettingsSupport {
   /** SGX feature support */
-  sgx?: boolean;
+  sgx?: boolean | undefined;
   /** Supported SGX options */
-  sgxOptions?: DedicatedServerBiosSettingsSupportSgxOptions;
+  sgxOptions?: DedicatedServerBiosSettingsSupportSgxOptions | undefined;
 }
 /** Your BiosSettings */
 export interface DedicatedBiosSettingsBiosSettings {
   /** List supported setting */
-  supportedSettings?: DedicatedServerBiosSettingsSupport;
+  supportedSettings?: DedicatedServerBiosSettingsSupport | undefined;
 }
 export interface GetDedicatedServerBiosSettingsSgxRequest {
   /** The internal name of your dedicated server */
@@ -1708,9 +1715,9 @@ export interface GetDedicatedServerBiosSettingsSgxRequest {
 /** Your BiosSettings for SGX feature */
 export interface DedicatedBiosSettingsSgxBiosSettingsSgx {
   /** Settings sections */
-  prmrr?: DedicatedServerBiosSettingsSgxPrmrrEnum;
+  prmrr?: DedicatedServerBiosSettingsSgxPrmrrEnum | undefined;
   /** Settings sections */
-  status?: DedicatedServerBiosSettingsSgxStatusEnum;
+  status?: DedicatedServerBiosSettingsSgxStatusEnum | undefined;
 }
 export interface GetDedicatedServerBootRequest {
   /** The internal name of your dedicated server */
@@ -1723,13 +1730,13 @@ export type DedicatedServerBootTypeEnum = "harddisk" | "internal" | "network" | 
 /** Available boots */
 export interface DedicatedServerNetboot {
   /** boot id */
-  bootId?: number;
+  bootId?: number | undefined;
   /** the boot system */
-  bootType?: DedicatedServerBootTypeEnum;
+  bootType?: DedicatedServerBootTypeEnum | undefined;
   /** the boot description */
-  description?: string;
+  description?: string | undefined;
   /** The boot kernel */
-  kernel?: string;
+  kernel?: string | undefined;
 }
 /** Different option activated on netboot */
 export type GetDedicatedServerBootOptionRequestOption = "cpufamily" | "grsec" | "ipv6" | "smp";
@@ -1746,9 +1753,9 @@ export type DedicatedServerBootOptionEnum = "cpufamily" | "grsec" | "ipv6" | "sm
 /** Available boot options */
 export interface DedicatedServerNetbootOption {
   /** The option of this boot */
-  option?: DedicatedServerBootOptionEnum;
+  option?: DedicatedServerBootOptionEnum | undefined;
   /** the value of this option */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetDedicatedServerBurstRequest {
   /** The internal name of your dedicated server */
@@ -1759,9 +1766,9 @@ export type DedicatedServerBurstStatusEnum = "active" | "inactive" | "inactiveLo
 /** Server bandwidth burst details */
 export interface DedicatedServerServerBurst {
   /** Bandwidth busrt capacity */
-  capacity?: ComplexTypeUnitAndValueLong | null;
+  capacity?: ComplexTypeUnitAndValueLong | null | undefined;
   /** indicates whether burstable bandwidth is currently active, allowing it to temporarily exceed the normally included bandwidth.OvhToInternet amount, within the limits indicated by the burst.capacity item. It can also be inactiveLocked when temporarily disabled due to overuse, capping it to the included non-burstable bandwidth capacity of bandwidth.OvhToInternet */
-  status?: DedicatedServerBurstStatusEnum;
+  status?: DedicatedServerBurstStatusEnum | undefined;
 }
 export interface GetDedicatedServerFeatureBackupFTPRequest {
   /** The internal name of your dedicated server */
@@ -1772,15 +1779,15 @@ export type DedicatedServerBackupStorageTypeEnum = "included" | "storage";
 /** Backup Ftp assigned to this server */
 export interface DedicatedServerBackupFtp {
   /** The backup FTP server name */
-  ftpBackupName?: string;
+  ftpBackupName?: string | undefined;
   /** The disk space available in gigabytes */
-  quota?: ComplexTypeUnitAndValueLong | null;
+  quota?: ComplexTypeUnitAndValueLong | null | undefined;
   /** If not-null, gives the date since when your account was set in read-only mode because the quota was exceeded */
-  readOnlyDate?: string | null;
+  readOnlyDate?: string | null | undefined;
   /** The backup FTP type */
-  type?: DedicatedServerBackupStorageTypeEnum;
+  type?: DedicatedServerBackupStorageTypeEnum | undefined;
   /** The disk space currently used on your backup FTP in percent */
-  usage?: ComplexTypeUnitAndValueLong | null;
+  usage?: ComplexTypeUnitAndValueLong | null | undefined;
 }
 export interface GetDedicatedServerFeatureBackupFTPAccessRequest {
   /** The internal name of your dedicated server */
@@ -1791,17 +1798,17 @@ export interface GetDedicatedServerFeatureBackupFTPAccessRequest {
 /** Backup Ftp ACL for this server and Backup Ftp */
 export interface DedicatedServerBackupFtpAcl {
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
-  cifs?: boolean;
+  cifs?: boolean | undefined;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** The IP Block specific to this ACL */
-  ipBlock?: string;
+  ipBlock?: string | undefined;
   /** Whether the rule has been applied on the Backup Ftp */
-  isApplied?: boolean;
+  isApplied?: boolean | undefined;
   /** Date of the last object modification */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Whether to allow the NFS protocol for this ACL */
-  nfs?: boolean;
+  nfs?: boolean | undefined;
 }
 export interface GetDedicatedServerFeatureBmcRequest {
   /** The internal name of your dedicated server */
@@ -1810,26 +1817,26 @@ export interface GetDedicatedServerFeatureBmcRequest {
 /** A structure describing the BMC supported features */
 export interface DedicatedServerBmcSupportedFeatures {
   /** Access to the KVM through a Java web launch application */
-  javaKvm?: boolean;
+  javaKvm?: boolean | undefined;
   /** Access to the virtual serial port of your server through a SSH client */
-  sshSol?: boolean;
+  sshSol?: boolean | undefined;
   /** Test that the access to the BMC is operational */
-  testPassword?: boolean;
+  testPassword?: boolean | undefined;
   /** Test that the BMC is reachable */
-  testPing?: boolean;
+  testPing?: boolean | undefined;
   /** Test that the Web interface of the BMC is operational */
-  testWeb?: boolean;
+  testWeb?: boolean | undefined;
   /** Access to the KVM through a Web interface */
-  webKvm?: boolean;
+  webKvm?: boolean | undefined;
   /** Access to the virtual serial port of your server through a Web interface */
-  webSol?: boolean;
+  webSol?: boolean | undefined;
 }
 /** Server BMC interface (formerly named IPMI) */
 export interface DedicatedServerBMC {
   /** True, if a BMC is available on this server */
-  available?: boolean;
+  available?: boolean | undefined;
   /** A structure describing the BMC supported features */
-  supportedFeatures?: DedicatedServerBmcSupportedFeatures;
+  supportedFeatures?: DedicatedServerBmcSupportedFeatures | undefined;
 }
 export interface GetDedicatedServerFeatureBmcJavaKvmRequest {
   /** The internal name of your dedicated server */
@@ -1840,9 +1847,9 @@ export interface GetDedicatedServerFeatureBmcJavaKvmRequest {
 /** Java KVM session information */
 export interface DedicatedServerBmcJavaKvmValue {
   /** Date on which the credentials will no longer be retrievable */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** value */
-  jnlp?: string;
+  jnlp?: string | undefined;
 }
 export interface GetDedicatedServerFeatureBmcSshSolRequest {
   /** The internal name of your dedicated server */
@@ -1853,9 +1860,9 @@ export interface GetDedicatedServerFeatureBmcSshSolRequest {
 /** Ssh SOL session information */
 export interface DedicatedServerBmcSshSolValue {
   /** Date on which the credentials will no longer be retrievable */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Ssh user and host in "user@host" format */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** List of tests to run on a BMC */
 export type DedicatedServerBmcTestTypeEnum = "password" | "ping" | "web";
@@ -1870,11 +1877,11 @@ export interface GetDedicatedServerFeatureBmcTestRequest {
 /** A structure describing BMC test result */
 export interface DedicatedServerBmcTestResult {
   /** Date of expiration of the result of this test */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Error message, null if the test is successfully executed */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Test result, true if successful */
-  status?: boolean;
+  status?: boolean | undefined;
 }
 export interface GetDedicatedServerFeatureBmcWebKvmRequest {
   /** The internal name of your dedicated server */
@@ -1885,9 +1892,9 @@ export interface GetDedicatedServerFeatureBmcWebKvmRequest {
 /** Web KVM session information */
 export interface DedicatedServerBmcWebKvmValue {
   /** Date on which the credentials will no longer be retrievable */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** URL of the Web KVM session */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetDedicatedServerFeatureBmcWebSolRequest {
   /** The internal name of your dedicated server */
@@ -1898,9 +1905,9 @@ export interface GetDedicatedServerFeatureBmcWebSolRequest {
 /** Web SOL session information */
 export interface DedicatedServerBmcWebSolValue {
   /** Date on which the credentials will no longer be retrievable */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** URL of the Web SOL session */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetDedicatedServerFeatureFirewallRequest {
   /** The internal name of your dedicated server */
@@ -1912,14 +1919,14 @@ export type DedicatedServerFirewallModeEnum = "routed" | "transparent";
 export type DedicatedServerFirewallModelEnum = "asa5505" | "asa5510" | "asa5520";
 /** Firewall attached to this server */
 export interface DedicatedServerFirewall {
-  enabled?: boolean;
-  firewall?: string;
+  enabled?: boolean | undefined;
+  firewall?: string | undefined;
   /** Firewall management IP */
-  ip?: string;
+  ip?: string | undefined;
   /** transparent mode : device is invisible on the network; routed mode : the security appliance is considered to be a router hop in the network */
-  mode?: DedicatedServerFirewallModeEnum;
+  mode?: DedicatedServerFirewallModeEnum | undefined;
   /** Firewall model */
-  model?: DedicatedServerFirewallModelEnum | null;
+  model?: DedicatedServerFirewallModelEnum | null | undefined;
 }
 export interface GetDedicatedServerFeatureIpmiRequest {
   /** The internal name of your dedicated server */
@@ -1928,20 +1935,20 @@ export interface GetDedicatedServerFeatureIpmiRequest {
 /** A structure describing the IPMI supported features */
 export interface DedicatedServerIpmiSupportedFeatures {
   /** Access to the KVM through an HTML web interface */
-  kvmipHtml5URL?: boolean;
+  kvmipHtml5URL?: boolean | undefined;
   /** Access to the KVM through a Java web launch application */
-  kvmipJnlp?: boolean;
+  kvmipJnlp?: boolean | undefined;
   /** Access to the virtual serial port of your server through an SSH client */
-  serialOverLanSshKey?: boolean;
+  serialOverLanSshKey?: boolean | undefined;
   /** Access to the virtual serial port of your server through an HTML command line interface */
-  serialOverLanURL?: boolean;
+  serialOverLanURL?: boolean | undefined;
 }
 /** Server IPMI interface */
 export interface DedicatedServerIpmi {
   /** true, if IPMI is available on this server */
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** A structure describing the IPMI supported features */
-  supportedFeatures?: DedicatedServerIpmiSupportedFeatures;
+  supportedFeatures?: DedicatedServerIpmiSupportedFeatures | undefined;
 }
 export interface GetDedicatedServerFeatureIpmiAccessRequest {
   /** The internal name of your dedicated server */
@@ -1952,9 +1959,9 @@ export interface GetDedicatedServerFeatureIpmiAccessRequest {
 /** A structure describing ipmi access value */
 export interface DedicatedServerIpmiAccessValue {
   /** Session expiration date */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Different test can be made on IPMI interface */
 export type DedicatedServerIpmiTestTypeEnum = "http" | "password" | "ping";
@@ -1967,9 +1974,9 @@ export interface GetDedicatedServerFeatureIpmiTestRequest {
 /** A structure describing IPMI test result */
 export interface DedicatedServerIpmiTestResult {
   /** Test running date */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Test result */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export interface GetDedicatedServerFeatureKvmRequest {
   /** The internal name of your dedicated server */
@@ -1978,11 +1985,11 @@ export interface GetDedicatedServerFeatureKvmRequest {
 /** Physical KVM */
 export interface DedicatedServerKvm {
   /** KVM expiration date */
-  expiration?: string;
+  expiration?: string | undefined;
   /** KVM access ip */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** KVM hostname */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDedicatedServerInterventionRequest {
   /** The internal name of your dedicated server */
@@ -1993,11 +2000,11 @@ export interface GetDedicatedServerInterventionRequest {
 /** Intervention made on this server */
 export interface DedicatedServerIntervention {
   /** the intervention start date */
-  date?: string | null;
+  date?: string | null | undefined;
   /** The intervention id */
-  interventionId?: number;
+  interventionId?: number | undefined;
   /** the intervention type */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface GetDedicatedServerIpCanBeMovedToRequest {
   /** The internal name of your dedicated server */
@@ -2024,11 +2031,11 @@ export type DedicatedNetworkInterfaceControllerNetworkInterfaceControllerLinkTyp
 /** Your networkInterfaceController */
 export interface DedicatedNetworkInterfaceControllerNetworkInterfaceController {
   /** NetworkInterfaceController linkType */
-  linkType?: DedicatedNetworkInterfaceControllerNetworkInterfaceControllerLinkTypeEnum;
+  linkType?: DedicatedNetworkInterfaceControllerNetworkInterfaceControllerLinkTypeEnum | undefined;
   /** NetworkInterfaceController mac */
-  mac?: string;
+  mac?: string | undefined;
   /** VirtualNetworkInterface bound to this NetworkInterfaceController */
-  virtualNetworkInterface?: string | null;
+  virtualNetworkInterface?: string | null | undefined;
 }
 export interface GetDedicatedServerOperationRequest {
   /** The internal name of your dedicated server */
@@ -2073,9 +2080,9 @@ export type DedicatedServerOptionStateEnum = "released" | "subscribed";
 /** Information about the options of a dedicated server */
 export interface DedicatedServerOption {
   /** The option name */
-  option?: DedicatedServerOptionEnum;
+  option?: DedicatedServerOptionEnum | undefined;
   /** The state of the option */
-  state?: DedicatedServerOptionStateEnum;
+  state?: DedicatedServerOptionStateEnum | undefined;
 }
 /** Dedicated server orderable features */
 export type DedicatedServerOrderableSysFeatureEnum = "backupProtocol" | "monitoring";
@@ -2114,15 +2121,15 @@ export type DedicatedPlannedInterventionTypeEnum = "HARDWARE_UPGRADE_ON_ACTIVE_S
 /** Planned intervention on the server */
 export interface DedicatedServerPlannedIntervention {
   /** Expected end date for this intervention */
-  expectedEndDate?: string;
+  expectedEndDate?: string | undefined;
   /** ID of the intervention */
-  id?: number;
+  id?: number | undefined;
   /** Status of the intervention */
-  status?: DedicatedPlannedInterventionStatusEnum;
+  status?: DedicatedPlannedInterventionStatusEnum | undefined;
   /** Operation purpose */
-  type?: DedicatedPlannedInterventionTypeEnum;
+  type?: DedicatedPlannedInterventionTypeEnum | undefined;
   /** Wanted start date for this intervention */
-  wantedStartDate?: string;
+  wantedStartDate?: string | undefined;
 }
 export interface GetDedicatedServerSecondaryDnsDomainRequest {
   /** The internal name of your dedicated server */
@@ -2132,13 +2139,13 @@ export interface GetDedicatedServerSecondaryDnsDomainRequest {
 }
 /** Secondary dns infos */
 export interface SecondaryDnsSecondaryDNS {
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** secondary dns server */
-  dns?: string;
+  dns?: string | undefined;
   /** domain on slave server */
-  domain?: string;
+  domain?: string | undefined;
   /** master ip */
-  ipMaster?: string;
+  ipMaster?: string | undefined;
 }
 export interface GetDedicatedServerSecondaryDnsDomainDnsServerRequest {
   /** The internal name of your dedicated server */
@@ -2149,9 +2156,9 @@ export interface GetDedicatedServerSecondaryDnsDomainDnsServerRequest {
 /** A structure describing informations about available nameserver for secondary dns */
 export interface SecondaryDnsSecondaryDNSNameServer {
   /** the name server */
-  hostname?: string;
-  ip?: string;
-  ipv6?: string | null;
+  hostname?: string | undefined;
+  ip?: string | undefined;
+  ipv6?: string | null | undefined;
 }
 export interface GetDedicatedServerSecondaryDnsNameDomainTokenRequest {
   /** The internal name of your dedicated server */
@@ -2181,11 +2188,11 @@ export type ZoneNamedResolutionFieldTypeEnum =
 /** A structure describing informations about secondary dns check field */
 export interface SecondaryDnsSecondaryDNSCheckField {
   /** The field type to add on your DNS zone for this subDomain */
-  fieldType?: ZoneNamedResolutionFieldTypeEnum;
+  fieldType?: ZoneNamedResolutionFieldTypeEnum | undefined;
   /** The field value to add on your DNS zone for this subDomain */
-  fieldValue?: string;
+  fieldValue?: string | undefined;
   /** The subdomain to add on your DNS zone for the domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export interface GetDedicatedServerSecondaryDnsNameServerAvailableRequest {
   /** The internal name of your dedicated server */
@@ -2200,15 +2207,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -2230,21 +2237,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDedicatedServerSpecificationHardwareRequest {
   /** The internal name of your dedicated server */
@@ -2265,21 +2272,21 @@ export type DedicatedServerHardwareSpecificationsRaidHardEnum =
 /** A structure describing informations about server disks */
 export interface DedicatedServerHardwareSpecificationsDisk {
   /** default hardware raid size for this disk group */
-  defaultHardwareRaidSize?: ComplexTypeUnitAndValueLong | null;
+  defaultHardwareRaidSize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** default hardware raid type for this disk group */
-  defaultHardwareRaidType?: DedicatedServerHardwareSpecificationsRaidHardEnum | null;
+  defaultHardwareRaidType?: DedicatedServerHardwareSpecificationsRaidHardEnum | null | undefined;
   /** human readable description of this disk group */
-  description?: string | null;
+  description?: string | null | undefined;
   /** identifier of this disk group */
-  diskGroupId?: number | null;
+  diskGroupId?: number | null | undefined;
   /** disk capacity */
-  diskSize?: ComplexTypeUnitAndValueLong | null;
+  diskSize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** type of the disk (SSD, SATA, SAS, ...) */
-  diskType?: string | null;
+  diskType?: string | null | undefined;
   /** number of disks in this group */
-  numberOfDisks?: number | null;
+  numberOfDisks?: number | null | undefined;
   /** raid controller, if any, managing this group of disks */
-  raidController?: string | null;
+  raidController?: string | null | undefined;
 }
 /** details about the groups of disks in the server */
 export type DedicatedServerHardwareSpecificationsDiskGroupsList =
@@ -2289,9 +2296,9 @@ export type DedicatedServerHardwareSpecificationsExpansionCardTypeEnum = "fpga" 
 /** A structure describing informations about server expansion cards */
 export interface DedicatedServerHardwareSpecificationsExpansionCard {
   /** expansion card description */
-  description?: string;
+  description?: string | undefined;
   /** expansion card type */
-  type?: DedicatedServerHardwareSpecificationsExpansionCardTypeEnum;
+  type?: DedicatedServerHardwareSpecificationsExpansionCardTypeEnum | undefined;
 }
 /** details about the server's expansion cards */
 export type DedicatedServerHardwareSpecificationsExpansionCardsList =
@@ -2311,35 +2318,35 @@ export type DedicatedServerHardwareSpecificationsUsbKeysList = Array<ComplexType
 /** A structure describing informations about this dedicated server */
 export interface DedicatedServerHardwareSpecifications {
   /** Server boot mode */
-  bootMode?: DedicatedServerBootModeEnum;
+  bootMode?: DedicatedServerBootModeEnum | undefined;
   /** number of cores per processor */
-  coresPerProcessor?: number | null;
+  coresPerProcessor?: number | null | undefined;
   /** Default hardware raid size for this server */
-  defaultHardwareRaidSize?: ComplexTypeUnitAndValueLong | null;
+  defaultHardwareRaidSize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Default hardware raid type configured on this server */
-  defaultHardwareRaidType?: DedicatedServerHardwareSpecificationsRaidHardEnum | null;
+  defaultHardwareRaidType?: DedicatedServerHardwareSpecificationsRaidHardEnum | null | undefined;
   /** commercial name of this server */
-  description?: string | null;
+  description?: string | null | undefined;
   /** details about the groups of disks in the server */
-  diskGroups?: DedicatedServerHardwareSpecificationsDiskGroupsList | null;
+  diskGroups?: DedicatedServerHardwareSpecificationsDiskGroupsList | null | undefined;
   /** details about the server's expansion cards */
-  expansionCards?: DedicatedServerHardwareSpecificationsExpansionCardsList | null;
+  expansionCards?: DedicatedServerHardwareSpecificationsExpansionCardsList | null | undefined;
   /** Server form factor */
-  formFactor?: DedicatedServerFormFactorEnum | null;
+  formFactor?: DedicatedServerFormFactorEnum | null | undefined;
   /** ram capacity */
-  memorySize?: ComplexTypeUnitAndValueLong | null;
+  memorySize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** server motherboard */
-  motherboard?: string | null;
+  motherboard?: string | null | undefined;
   /** number of processors in this dedicated server */
-  numberOfProcessors?: number | null;
+  numberOfProcessors?: number | null | undefined;
   /** processor architecture bit */
-  processorArchitecture?: DedicatedServerCpuFamilyEnum | null;
+  processorArchitecture?: DedicatedServerCpuFamilyEnum | null | undefined;
   /** processor name */
-  processorName?: string | null;
+  processorName?: string | null | undefined;
   /** number of threads per processor */
-  threadsPerProcessor?: number | null;
+  threadsPerProcessor?: number | null | undefined;
   /** Capacity of the USB keys installed on your server, if any */
-  usbKeys?: DedicatedServerHardwareSpecificationsUsbKeysList | null;
+  usbKeys?: DedicatedServerHardwareSpecificationsUsbKeysList | null | undefined;
 }
 export interface GetDedicatedServerSpecificationNetworkRequest {
   /** The internal name of your dedicated server */
@@ -2356,35 +2363,35 @@ export type DedicatedServerBandwidthTypeEnum =
 /** A structure describing bandwidth informations about this dedicated server */
 export interface DedicatedServerBandwidthDetails {
   /** bandwidth limitation Internet to OVH */
-  InternetToOvh?: ComplexTypeUnitAndValueLong | null;
+  InternetToOvh?: ComplexTypeUnitAndValueLong | null | undefined;
   /** bandwidth limitation OVH to Internet */
-  OvhToInternet?: ComplexTypeUnitAndValueLong | null;
+  OvhToInternet?: ComplexTypeUnitAndValueLong | null | undefined;
   /** bandwidth limitation OVH to OVH */
-  OvhToOvh?: ComplexTypeUnitAndValueLong | null;
+  OvhToOvh?: ComplexTypeUnitAndValueLong | null | undefined;
   /** bandwidth offer type */
-  type?: DedicatedServerBandwidthTypeEnum | null;
+  type?: DedicatedServerBandwidthTypeEnum | null | undefined;
 }
 /** An enum describing OVH Link Aggregation interface types */
 export type DedicatedServerOlaInterfaceModeEnum = "public" | "vrack";
 /** A structure describing OVH Link Aggregation interface configuration */
 export interface DedicatedServerOlaInterface {
   /** Interface aggregation status */
-  aggregation?: boolean;
+  aggregation?: boolean | undefined;
   /** Interface count */
-  count?: number;
+  count?: number | undefined;
   /** Interface mode */
-  type?: DedicatedServerOlaInterfaceModeEnum;
+  type?: DedicatedServerOlaInterfaceModeEnum | undefined;
 }
 /** Interface layout */
 export type DedicatedServerOlaAvailableModesInterfacesList = Array<DedicatedServerOlaInterface>;
 /** A structure describing OVH Link Aggregation available modes */
 export interface DedicatedServerOlaAvailableModes {
   /** Is it the default configuration of the server */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Interface layout */
-  interfaces?: DedicatedServerOlaAvailableModesInterfacesList;
+  interfaces?: DedicatedServerOlaAvailableModesInterfacesList | undefined;
   /** Mode name */
-  name?: string;
+  name?: string | undefined;
 }
 /** What modes are supported */
 export type DedicatedServerOlaDetailsAvailableModesList = Array<DedicatedServerOlaAvailableModes>;
@@ -2400,84 +2407,84 @@ export type DedicatedServerOlaDetailsSupportedModesList =
 /** A structure describing OVH Link Aggregation available modes for this dedicated server */
 export interface DedicatedServerOlaDetails {
   /** Is the OLA feature available */
-  available?: boolean;
+  available?: boolean | undefined;
   /** What modes are supported */
-  availableModes?: DedicatedServerOlaDetailsAvailableModesList;
+  availableModes?: DedicatedServerOlaDetailsAvailableModesList | undefined;
   /** (DEPRECATED) What modes are supported */
-  supportedModes?: DedicatedServerOlaDetailsSupportedModesList | null;
+  supportedModes?: DedicatedServerOlaDetailsSupportedModesList | null | undefined;
 }
 /** A structure describing IPv4 routing informations about this dedicated server */
 export interface DedicatedServerRoutingDetailsIpv4 {
   /** Server gateway */
-  gateway?: string | null;
+  gateway?: string | null | undefined;
   /** Server main IP */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Server network */
-  network?: string | null;
+  network?: string | null | undefined;
 }
 /** A structure describing IPv6 routing informations about this dedicated server */
 export type DedicatedServerRoutingDetailsIpv6 = DedicatedServerRoutingDetailsIpv4;
 /** A structure describing routing informations about this dedicated server */
 export interface DedicatedServerRoutingDetails {
   /** Ipv4 routing details */
-  ipv4?: DedicatedServerRoutingDetailsIpv4 | null;
+  ipv4?: DedicatedServerRoutingDetailsIpv4 | null | undefined;
   /** Ipv6 routing details */
-  ipv6?: DedicatedServerRoutingDetailsIpv4 | null;
+  ipv6?: DedicatedServerRoutingDetailsIpv4 | null | undefined;
 }
 /** A structure describing switching informations about this dedicated server */
 export interface DedicatedServerSwitchingDetails {
   /** Switch name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** A structure describing traffic informations about this dedicated server */
 export interface DedicatedServerTrafficDetails {
   /** Monthly input traffic quota allowed */
-  inputQuotaSize?: ComplexTypeUnitAndValueLong | null;
+  inputQuotaSize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Monthly input traffic consumed this month */
-  inputQuotaUsed?: ComplexTypeUnitAndValueLong | null;
+  inputQuotaUsed?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Is bandwidth throttleted for being over quota */
-  isThrottled?: boolean | null;
+  isThrottled?: boolean | null | undefined;
   /** Monthly output traffic quota allowed */
-  outputQuotaSize?: ComplexTypeUnitAndValueLong | null;
+  outputQuotaSize?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Monthly output traffic consumed this month */
-  outputQuotaUsed?: ComplexTypeUnitAndValueLong | null;
+  outputQuotaUsed?: ComplexTypeUnitAndValueLong | null | undefined;
   /** Next reset quota date for traffic counter */
-  resetQuotaDate?: string | null;
+  resetQuotaDate?: string | null | undefined;
 }
 /** A structure describing VMAC Infos for this dedicated server */
 export interface DedicatedServerVmacDetails {
   /** Maximum number of VirtualMacs allowed on this server */
-  quota?: number;
+  quota?: number | undefined;
   /** Server is compatible vmac or not */
-  supported?: boolean;
+  supported?: boolean | undefined;
 }
 /** Different Bandwidth type */
 export type DedicatedServerBandwidthvRackTypeEnum = "included" | "standard";
 /** A structure describing vRack bandwidth informations about this dedicated server */
 export interface DedicatedServerBandwidthvRackDetails {
   /** vrack bandwidth limitation */
-  bandwidth?: ComplexTypeUnitAndValueLong | null;
+  bandwidth?: ComplexTypeUnitAndValueLong | null | undefined;
   /** bandwidth offer type */
-  type?: DedicatedServerBandwidthvRackTypeEnum | null;
+  type?: DedicatedServerBandwidthvRackTypeEnum | null | undefined;
 }
 /** A structure describing network informations about this dedicated server */
 export interface DedicatedServerNetworkSpecifications {
   /** Bandwidth details */
-  bandwidth?: DedicatedServerBandwidthDetails | null;
+  bandwidth?: DedicatedServerBandwidthDetails | null | undefined;
   /** Network connection flow rate */
-  connection?: ComplexTypeUnitAndValueLong | null;
+  connection?: ComplexTypeUnitAndValueLong | null | undefined;
   /** OLA details */
-  ola?: DedicatedServerOlaDetails | null;
+  ola?: DedicatedServerOlaDetails | null | undefined;
   /** Routing details */
-  routing?: DedicatedServerRoutingDetails | null;
+  routing?: DedicatedServerRoutingDetails | null | undefined;
   /** Switching details */
-  switching?: DedicatedServerSwitchingDetails | null;
+  switching?: DedicatedServerSwitchingDetails | null | undefined;
   /** Traffic details */
-  traffic?: DedicatedServerTrafficDetails | null;
+  traffic?: DedicatedServerTrafficDetails | null | undefined;
   /** A structure describing VMAC Infos for this dedicated server */
-  vmac?: DedicatedServerVmacDetails;
+  vmac?: DedicatedServerVmacDetails | undefined;
   /** vRack details */
-  vrack?: DedicatedServerBandwidthvRackDetails | null;
+  vrack?: DedicatedServerBandwidthvRackDetails | null | undefined;
 }
 export interface GetDedicatedServerSplaRequest {
   /** The internal name of your dedicated server */
@@ -2490,15 +2497,15 @@ export type DedicatedServerSplaStatusEnum = "terminated" | "used" | "waitingToCh
 /** SPLA licenses management */
 export interface DedicatedServerSpla {
   /** License id */
-  id?: number;
+  id?: number | undefined;
   /** Last update timestamp */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** License serial number */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Status of license */
-  status?: DedicatedServerSplaStatusEnum;
+  status?: DedicatedServerSplaStatusEnum | undefined;
   /** License type */
-  type?: DedicatedServerSplaTypeEnum;
+  type?: DedicatedServerSplaTypeEnum | undefined;
 }
 export interface GetDedicatedServerTaskRequest {
   /** The internal name of your dedicated server */
@@ -2515,9 +2522,9 @@ export interface GetDedicatedServerVirtualMacRequest {
 /** A virtual MAC address associated to one or more IPs */
 export interface DedicatedServerVirtualMac {
   /** Virtual MAC address in 00:00:00:00:00:00 format */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Virtual MAC address type */
-  type?: DedicatedServerVmacTypeEnum;
+  type?: DedicatedServerVmacTypeEnum | undefined;
 }
 export interface GetDedicatedServerVirtualMacVirtualAddressRequest {
   /** The internal name of your dedicated server */
@@ -2530,9 +2537,9 @@ export interface GetDedicatedServerVirtualMacVirtualAddressRequest {
 /** ip address linked with this virtual mac address */
 export interface DedicatedServerVirtualMacManagement {
   /** IP address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Friendly name of your Virtual Machine behind this IP/MAC */
-  virtualMachineName?: string;
+  virtualMachineName?: string | undefined;
 }
 export interface GetDedicatedServerVirtualNetworkInterfaceRequest {
   /** Uuid */
@@ -2543,19 +2550,21 @@ export type DedicatedServerVirtualNetworkInterfaceNetworkInterfaceControllerList
 /** Your VirtualNetworkInterface */
 export interface DedicatedServerVirtualNetworkInterface {
   /** VirtualNetworkInterface activation state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Available VirtualNetworkInterface modes */
-  mode?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum;
+  mode?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum | undefined;
   /** User defined VirtualNetworkInterface name */
-  name?: string;
+  name?: string | undefined;
   /** NetworkInterfaceControllers bound to this VirtualNetworkInterface */
-  networkInterfaceController?: DedicatedServerVirtualNetworkInterfaceNetworkInterfaceControllerList;
+  networkInterfaceController?:
+    | DedicatedServerVirtualNetworkInterfaceNetworkInterfaceControllerList
+    | undefined;
   /** Server bound to this VirtualNetworkInterface */
-  serverName?: string;
+  serverName?: string | undefined;
   /** VirtualNetworkInterface unique id */
-  uuid?: string;
+  uuid?: string | undefined;
   /** vRack name */
-  vrack?: string | null;
+  vrack?: string | null | undefined;
 }
 export interface GetDedicatedServerVirtualNetworkInterfaceByUuidRequest {
   /** The internal name of your dedicated server */
@@ -2569,19 +2578,21 @@ export type DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceNetworkInterf
 /** Your VirtualNetworkInterface */
 export interface DedicatedVirtualNetworkInterfaceVirtualNetworkInterface {
   /** VirtualNetworkInterface activation state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** VirtualNetworkInterface mode */
-  mode?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum;
+  mode?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum | undefined;
   /** User defined VirtualNetworkInterface name */
-  name?: string;
+  name?: string | undefined;
   /** NetworkInterfaceControllers bound to this VirtualNetworkInterface */
-  networkInterfaceController?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceNetworkInterfaceControllerList;
+  networkInterfaceController?:
+    | DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceNetworkInterfaceControllerList
+    | undefined;
   /** Server bound to this VirtualNetworkInterface */
-  serverName?: string;
+  serverName?: string | undefined;
   /** VirtualNetworkInterface unique id */
-  uuid?: string;
+  uuid?: string | undefined;
   /** vRack name */
-  vrack?: string | null;
+  vrack?: string | null | undefined;
 }
 export interface GetDedicatedServerVrackRequest {
   /** The internal name of your dedicated server */
@@ -2592,9 +2603,9 @@ export interface GetDedicatedServerVrackRequest {
 /** vrack dedicated server interfaces (LEGACY) */
 export interface VrackDedicatedServer {
   /** Dedicated Server */
-  dedicatedServer?: string;
+  dedicatedServer?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -2604,7 +2615,7 @@ export type ListDedicatedServerRequestIamTagsMap = {
 };
 export interface ListDedicatedServerRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListDedicatedServerRequestIamTagsMap;
+  iamTags?: ListDedicatedServerRequestIamTagsMap | undefined;
 }
 export type ListDedicatedServerResponseBodyList = Array<string>;
 export type ListDedicatedServerResponse = ListDedicatedServerResponseBodyList;
@@ -2673,29 +2684,29 @@ export type DedicatedAvailabilityRegionEnum =
 /** A structure describing the availabilities of dedicated server */
 export interface DedicatedAvailabilitiesRaw {
   /** The availability */
-  availability?: DedicatedAvailabilityEnum;
+  availability?: DedicatedAvailabilityEnum | undefined;
   /** Real stock in database */
-  available?: number;
+  available?: number | undefined;
   /** Stock in datacenter */
-  incomingDatacenter?: number | null;
+  incomingDatacenter?: number | null | undefined;
   /** Last availability rule applied */
-  lastRule?: string | null;
+  lastRule?: string | null | undefined;
   /** Ordered count */
-  ordered?: number;
+  ordered?: number | undefined;
   /** Validating order count */
-  orderedCheck?: number | null;
+  orderedCheck?: number | null | undefined;
   /** Blockbuster stock count */
-  parentAvailable?: number | null;
+  parentAvailable?: number | null | undefined;
   /** Product reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Real stock (considering order in validating) */
-  trueAvailable?: number;
+  trueAvailable?: number | undefined;
   /** 24H count */
-  trueAvailable24H?: number | null;
+  trueAvailable24H?: number | null | undefined;
   /** 4H count */
-  trueAvailable4H?: number | null;
+  trueAvailable4H?: number | null | undefined;
   /** The region */
-  zone?: DedicatedAvailabilityRegionEnum;
+  zone?: DedicatedAvailabilityRegionEnum | undefined;
 }
 export type ListDedicatedServerAvailabilityRawResponseBodyList = Array<DedicatedAvailabilitiesRaw>;
 export type ListDedicatedServerAvailabilityRawResponse =
@@ -2704,7 +2715,7 @@ export interface ListDedicatedServerBootRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Filter the value of bootType property (=) */
-  bootType?: DedicatedServerBootTypeEnum | (string & {});
+  bootType?: DedicatedServerBootTypeEnum | (string & {}) | undefined;
 }
 export type ListDedicatedServerBootResponseBodyList = Array<number>;
 export type ListDedicatedServerBootResponse = ListDedicatedServerBootResponseBodyList;
@@ -2718,21 +2729,21 @@ export type ListDedicatedServerBootOptionResponseBodyList = Array<DedicatedServe
 export type ListDedicatedServerBootOptionResponse = ListDedicatedServerBootOptionResponseBodyList;
 export interface ListDedicatedServerDatacenterAvailabilitiesRequest {
   /** The names of datacenters separated by commas */
-  datacenters?: string;
+  datacenters?: string | undefined;
   /** If true, all datacenters are returned except those listed in datacenters parameter */
-  excludeDatacenters?: boolean;
+  excludeDatacenters?: boolean | undefined;
   /** The name of the gpu hardware part */
-  gpu?: string;
+  gpu?: string | undefined;
   /** The name of the memory hardware part */
-  memory?: string;
+  memory?: string | undefined;
   /** The plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** The name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** The name of the storage hardware part */
-  storage?: string;
+  storage?: string | undefined;
   /** The name of the system storage hardware part */
-  systemStorage?: string;
+  systemStorage?: string | undefined;
 }
 /** The datacenter */
 export type DedicatedAvailabilityDatacenterEnum =
@@ -2787,30 +2798,30 @@ export type DedicatedAvailabilityDatacenterEnum =
 /** A structure describing the hardware availability for each datacenter */
 export interface DedicatedAvailabilityDatacenter {
   /** The availability */
-  availability?: DedicatedAvailabilityEnum;
+  availability?: DedicatedAvailabilityEnum | undefined;
   /** The datacenter */
-  datacenter?: DedicatedAvailabilityDatacenterEnum;
+  datacenter?: DedicatedAvailabilityDatacenterEnum | undefined;
 }
 /** The hardware availability for each datacenter */
 export type DedicatedDatacenterAvailabilityDatacentersList = Array<DedicatedAvailabilityDatacenter>;
 /** A structure describing the availabilities of dedicated server */
 export interface DedicatedDatacenterAvailability {
   /** The hardware availability for each datacenter */
-  datacenters?: DedicatedDatacenterAvailabilityDatacentersList;
+  datacenters?: DedicatedDatacenterAvailabilityDatacentersList | undefined;
   /** Fully qualified and unique name of the hardware */
-  fqn?: string;
+  fqn?: string | undefined;
   /** Name of the gpu hardware part */
-  gpu?: string | null;
+  gpu?: string | null | undefined;
   /** Name of the memory hardware part */
-  memory?: string | null;
+  memory?: string | null | undefined;
   /** Plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** Name of the storage hardware part */
-  storage?: string | null;
+  storage?: string | null | undefined;
   /** Name of the system storage hardware part */
-  systemStorage?: string | null;
+  systemStorage?: string | null | undefined;
 }
 export type ListDedicatedServerDatacenterAvailabilitiesResponseBodyList =
   Array<DedicatedDatacenterAvailability>;
@@ -2818,34 +2829,34 @@ export type ListDedicatedServerDatacenterAvailabilitiesResponse =
   ListDedicatedServerDatacenterAvailabilitiesResponseBodyList;
 export interface ListDedicatedServerDatacenterAvailabilityRawRequest {
   /** The names of datacenters separated by commas */
-  datacenters?: string;
+  datacenters?: string | undefined;
   /** If true, all datacenters are returned except those listed in datacenters parameter */
-  excludeDatacenters?: boolean;
+  excludeDatacenters?: boolean | undefined;
   /** The name of the gpu hardware part */
-  gpu?: string;
+  gpu?: string | undefined;
   /** The name of the memory hardware part */
-  memory?: string;
+  memory?: string | undefined;
   /** The plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** The name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** The name of the storage hardware part */
-  storage?: string;
+  storage?: string | undefined;
   /** The name of the system storage hardware part */
-  systemStorage?: string;
+  systemStorage?: string | undefined;
 }
 /** A structure describing the hardware raw availability for each datacenter */
 export interface DedicatedAvailabilityRawDatacenter {
   /** The availability */
-  availability?: DedicatedAvailabilityEnum;
+  availability?: DedicatedAvailabilityEnum | undefined;
   /** The datacenter */
-  datacenter?: DedicatedAvailabilityDatacenterEnum;
+  datacenter?: DedicatedAvailabilityDatacenterEnum | undefined;
   /** Last availability rule applied */
-  lastRule?: string | null;
+  lastRule?: string | null | undefined;
   /** Real stock including parent references */
-  parentAvailable?: number;
+  parentAvailable?: number | undefined;
   /** Real stock */
-  trueAvailable?: number;
+  trueAvailable?: number | undefined;
 }
 /** The hardware raw availability for each datacenter */
 export type DedicatedDatacenterRawAvailabilityDatacentersList =
@@ -2879,15 +2890,15 @@ export type DedicatedAvailabilityAvailabilityZoneEnum =
 /** A structure describing the hardware raw availability for each availability zone */
 export interface DedicatedAvailabilityRawAvailabilityZones {
   /** The availability */
-  availability?: DedicatedAvailabilityEnum;
+  availability?: DedicatedAvailabilityEnum | undefined;
   /** The availability zone */
-  availabilityZone?: DedicatedAvailabilityAvailabilityZoneEnum;
+  availabilityZone?: DedicatedAvailabilityAvailabilityZoneEnum | undefined;
   /** Last availability rule applied */
-  lastRule?: string | null;
+  lastRule?: string | null | undefined;
   /** Real stock including parent references */
-  parentAvailable?: number;
+  parentAvailable?: number | undefined;
   /** Real stock */
-  trueAvailable?: number;
+  trueAvailable?: number | undefined;
 }
 /** Availability for each availability zone */
 export type DedicatedAvailabilityRawRegionAvailabilityZonesList =
@@ -2915,40 +2926,40 @@ export type DedicatedAvailabilityRegionalizationEnum =
 /** A structure describing the hardware raw availability for each datacenter */
 export interface DedicatedAvailabilityRawRegion {
   /** The availability */
-  availability?: DedicatedAvailabilityEnum;
+  availability?: DedicatedAvailabilityEnum | undefined;
   /** Availability for each availability zone */
-  availabilityZones?: DedicatedAvailabilityRawRegionAvailabilityZonesList;
+  availabilityZones?: DedicatedAvailabilityRawRegionAvailabilityZonesList | undefined;
   /** Last availability rule applied */
-  lastRule?: string | null;
+  lastRule?: string | null | undefined;
   /** Real stock including parent references */
-  parentAvailable?: number;
+  parentAvailable?: number | undefined;
   /** The region */
-  region?: DedicatedAvailabilityRegionalizationEnum;
+  region?: DedicatedAvailabilityRegionalizationEnum | undefined;
   /** Real stock */
-  trueAvailable?: number;
+  trueAvailable?: number | undefined;
 }
 /** The hardware raw availability for each datacenter */
 export type DedicatedDatacenterRawAvailabilityRegionsList = Array<DedicatedAvailabilityRawRegion>;
 /** A structure describing the raw availabilities of dedicated server */
 export interface DedicatedDatacenterRawAvailability {
   /** The hardware raw availability for each datacenter */
-  datacenters?: DedicatedDatacenterRawAvailabilityDatacentersList;
+  datacenters?: DedicatedDatacenterRawAvailabilityDatacentersList | undefined;
   /** Fully qualified and unique name of the hardware */
-  fqn?: string;
+  fqn?: string | undefined;
   /** Name of the gpu hardware part */
-  gpu?: string | null;
+  gpu?: string | null | undefined;
   /** Name of the memory hardware part */
-  memory?: string | null;
+  memory?: string | null | undefined;
   /** Plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** The hardware raw availability for each datacenter */
-  regions?: DedicatedDatacenterRawAvailabilityRegionsList | null;
+  regions?: DedicatedDatacenterRawAvailabilityRegionsList | null | undefined;
   /** Name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** Name of the storage hardware part */
-  storage?: string | null;
+  storage?: string | null | undefined;
   /** Name of the system storage hardware part */
-  systemStorage?: string | null;
+  systemStorage?: string | null | undefined;
 }
 export type ListDedicatedServerDatacenterAvailabilityRawResponseBodyList =
   Array<DedicatedDatacenterRawAvailability>;
@@ -2992,9 +3003,9 @@ export type DedicatedServerInstallTemplatePersonalList = Array<string>;
 /** A structure describing informations about an Installation templates */
 export interface DedicatedServerInstallTemplate {
   /** Names list of ovh installationtemplates compatibles with this server */
-  ovh?: DedicatedServerInstallTemplateOvhList | null;
+  ovh?: DedicatedServerInstallTemplateOvhList | null | undefined;
   /** Names list of yours installation templates compatibles with this server */
-  personal?: DedicatedServerInstallTemplatePersonalList | null;
+  personal?: DedicatedServerInstallTemplatePersonalList | null | undefined;
 }
 export interface ListDedicatedServerInstallHardwareRaidProfileRequest {
   /** The internal name of your dedicated server */
@@ -3004,23 +3015,23 @@ export interface ListDedicatedServerInstallHardwareRaidProfileRequest {
 export type DedicatedServerHardwareRaidDiskGroupNamesList = Array<string>;
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueString {
-  unit?: string;
-  value?: string;
+  unit?: string | undefined;
+  value?: string | undefined;
 }
 /** Disk interface type enum */
 export type DedicatedServerDiskTypeEnum = "NVMe" | "SAS" | "SATA" | "SSD" | "Unknown";
 /** Disk attached to a RAID controller */
 export interface DedicatedServerHardwareRaidDiskGroup {
   /** Disk capacity */
-  capacity?: ComplexTypeUnitAndValueLong;
+  capacity?: ComplexTypeUnitAndValueLong | undefined;
   /** Disk Group Id */
-  diskGroupId?: number;
+  diskGroupId?: number | undefined;
   /** Disk names */
-  names?: DedicatedServerHardwareRaidDiskGroupNamesList;
+  names?: DedicatedServerHardwareRaidDiskGroupNamesList | undefined;
   /** Disk insterface speed */
-  speed?: ComplexTypeUnitAndValueString;
+  speed?: ComplexTypeUnitAndValueString | undefined;
   /** Disk type */
-  type?: DedicatedServerDiskTypeEnum;
+  type?: DedicatedServerDiskTypeEnum | undefined;
 }
 /** Connected disk type */
 export type DedicatedServerHardwareRaidControllerDisksList =
@@ -3028,11 +3039,11 @@ export type DedicatedServerHardwareRaidControllerDisksList =
 /** RAID controller configuration */
 export interface DedicatedServerHardwareRaidController {
   /** Connected disk type */
-  disks?: DedicatedServerHardwareRaidControllerDisksList;
+  disks?: DedicatedServerHardwareRaidControllerDisksList | undefined;
   /** Raid controler model */
-  model?: string;
+  model?: string | undefined;
   /** Raid controler type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Hardware RAID controller list */
 export type DedicatedServerHardwareRaidProfileControllersList =
@@ -3040,7 +3051,7 @@ export type DedicatedServerHardwareRaidProfileControllersList =
 /** A structure describing the server's hardware RAID configuration */
 export interface DedicatedServerHardwareRaidProfile {
   /** Hardware RAID controller list */
-  controllers?: DedicatedServerHardwareRaidProfileControllersList;
+  controllers?: DedicatedServerHardwareRaidProfileControllersList | undefined;
 }
 export interface ListDedicatedServerInstallHardwareRaidSizeRequest {
   /** The internal name of your dedicated server */
@@ -3053,19 +3064,19 @@ export interface ListDedicatedServerInstallHardwareRaidSizeRequest {
 /** Simulated result of how the hardware RAID template will be configured on this server */
 export interface DedicatedServerHardwareRaidConfiguration {
   /** RAID total capacity */
-  capacity?: ComplexTypeUnitAndValueLong;
+  capacity?: ComplexTypeUnitAndValueLong | undefined;
   /** Disk count */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** Disk capacity */
-  diskSize?: ComplexTypeUnitAndValueLong;
+  diskSize?: ComplexTypeUnitAndValueLong | undefined;
   /** Size of disk spans on RAID */
-  diskSpanSize?: number;
+  diskSpanSize?: number | undefined;
   /** RAID mode */
-  mode?: DedicatedServerHardwareSpecificationsRaidHardEnum;
+  mode?: DedicatedServerHardwareSpecificationsRaidHardEnum | undefined;
   /** RAID configuration name */
-  name?: string;
+  name?: string | undefined;
   /** RAID controller type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Hardware RAID configuration list */
 export type DedicatedServerHardwareRaidSizeConfigurationsList =
@@ -3073,7 +3084,7 @@ export type DedicatedServerHardwareRaidSizeConfigurationsList =
 /** A structure describing the server's resulting layout after RAID configuration */
 export interface DedicatedServerHardwareRaidSize {
   /** Hardware RAID configuration list */
-  configurations?: DedicatedServerHardwareRaidSizeConfigurationsList;
+  configurations?: DedicatedServerHardwareRaidSizeConfigurationsList | undefined;
 }
 export interface ListDedicatedServerInstallStatusRequest {
   /** The internal name of your dedicated server */
@@ -3092,11 +3103,11 @@ export type DedicatedServerInstallationProgressStatusEnum =
 /** A structure describing informations about this dedicated server installation steps */
 export interface DedicatedServerInstallationProgressSteps {
   /** Informations about this installation step */
-  comment?: string;
+  comment?: string | undefined;
   /** Error details if state is error */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Status of this installation step */
-  status?: DedicatedServerInstallationProgressStatusEnum;
+  status?: DedicatedServerInstallationProgressStatusEnum | undefined;
 }
 /** Installation steps */
 export type DedicatedServerInstallationProgressStatusProgressList =
@@ -3104,9 +3115,9 @@ export type DedicatedServerInstallationProgressStatusProgressList =
 /** A structure describing informations about this dedicated server installation status */
 export interface DedicatedServerInstallationProgressStatus {
   /** Elapsed time in seconds since installation beggining */
-  elapsedTime?: number;
+  elapsedTime?: number | undefined;
   /** Installation steps */
-  progress?: DedicatedServerInstallationProgressStatusProgressList | null;
+  progress?: DedicatedServerInstallationProgressStatusProgressList | null | undefined;
 }
 export interface ListDedicatedServerInterventionRequest {
   /** The internal name of your dedicated server */
@@ -3201,7 +3212,8 @@ export interface ListDedicatedServerNetworkInterfaceControllerRequest {
   /** Filter the value of linkType property (=) */
   linkType?:
     | DedicatedNetworkInterfaceControllerNetworkInterfaceControllerLinkTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ListDedicatedServerNetworkInterfaceControllerResponseBodyList = Array<string>;
 export type ListDedicatedServerNetworkInterfaceControllerResponse =
@@ -3230,8 +3242,8 @@ export interface ListDedicatedServerNetworkInterfaceControllerMrtgRequest {
 export type ComplexTypeUnitAndValueDouble = ComplexTypeUnitAndValueLong;
 /** A timestamp associated to a value */
 export interface DedicatedServerMrtgTimestampValue {
-  timestamp?: number;
-  value?: ComplexTypeUnitAndValueLong | null;
+  timestamp?: number | undefined;
+  value?: ComplexTypeUnitAndValueLong | null | undefined;
 }
 export type ListDedicatedServerNetworkInterfaceControllerMrtgResponseBodyList =
   Array<DedicatedServerMrtgTimestampValue>;
@@ -3244,13 +3256,13 @@ export interface ListDedicatedServerOngoingRequest {
 /** A task for a dedicated server */
 export interface DedicatedExposedTask {
   /** Location of the server */
-  datacenter?: DedicatedDatacenterEnum;
+  datacenter?: DedicatedDatacenterEnum | undefined;
   /** Short text describing the entry */
-  description?: string;
+  description?: string | undefined;
   /** Name of the dedicated server */
-  server?: string;
+  server?: string | undefined;
   /** Timestamp for processing */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export type ListDedicatedServerOngoingResponseBodyList = Array<DedicatedExposedTask>;
 export type ListDedicatedServerOngoingResponse = ListDedicatedServerOngoingResponseBodyList;
@@ -3258,9 +3270,9 @@ export interface ListDedicatedServerOperationRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Filter the value of function property (=) */
-  function?: DedicatedOperationFunctionEnum | (string & {});
+  function?: DedicatedOperationFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: DedicatedTaskStatusEnum | (string & {});
+  status?: DedicatedTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListDedicatedServerOperationResponseBodyList = Array<string>;
 export type ListDedicatedServerOperationResponse = ListDedicatedServerOperationResponseBodyList;
@@ -3282,9 +3294,9 @@ export type DedicatedServerBackupStorageOrderableCapacitiesList =
 /** A structure describing informations storage backup orderable for this dedicated server */
 export interface DedicatedServerBackupStorageOrderable {
   /** Backup storage orderable capacities in gigabytes */
-  capacities?: DedicatedServerBackupStorageOrderableCapacitiesList | null;
+  capacities?: DedicatedServerBackupStorageOrderableCapacitiesList | null | undefined;
   /** Is a backup storage is orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
 }
 export interface ListDedicatedServerOrderableBandwidthRequest {
   /** The internal name of your dedicated server */
@@ -3303,13 +3315,13 @@ export type DedicatedServerBandwidthOrderableUltimateList =
 /** A structure describing informations bandwidth orderable for this dedicated server */
 export interface DedicatedServerBandwidthOrderable {
   /** Is bandwidth orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
   /** Bandwidth "platinum" orderable in mbps */
-  platinum?: DedicatedServerBandwidthOrderablePlatinumList | null;
+  platinum?: DedicatedServerBandwidthOrderablePlatinumList | null | undefined;
   /** Bandwidth "premium" orderable in mbps */
-  premium?: DedicatedServerBandwidthOrderablePremiumList | null;
+  premium?: DedicatedServerBandwidthOrderablePremiumList | null | undefined;
   /** Bandwidth "ultimate" orderable in mbps */
-  ultimate?: DedicatedServerBandwidthOrderableUltimateList | null;
+  ultimate?: DedicatedServerBandwidthOrderableUltimateList | null | undefined;
 }
 export interface ListDedicatedServerOrderableBandwidthvRackRequest {
   /** The internal name of your dedicated server */
@@ -3323,9 +3335,9 @@ export type DedicatedServerBandwidthvRackOrderableVrackList =
 /** A structure describing informations bandwidth orderable for this dedicated server */
 export interface DedicatedServerBandwidthvRackOrderable {
   /** Is bandwidth orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
   /** vRack Bandwidth orderable in mbps */
-  vrack?: DedicatedServerBandwidthvRackOrderableVrackList | null;
+  vrack?: DedicatedServerBandwidthvRackOrderableVrackList | null | undefined;
 }
 export interface ListDedicatedServerOrderableIpRequest {
   /** The internal name of your dedicated server */
@@ -3342,17 +3354,17 @@ export type DedicatedServerIpTypeOrderableEnum = "failover" | "static" | "unshie
 /** A structure describing informations about orderable IP address */
 export interface DedicatedServerIpOrderableDetails {
   /** Orderable IP blocks sizes */
-  blockSizes?: DedicatedServerIpOrderableDetailsBlockSizesList;
+  blockSizes?: DedicatedServerIpOrderableDetailsBlockSizesList | undefined;
   /** Are those IP included with your offer */
-  included?: boolean;
+  included?: boolean | undefined;
   /** Total number of IP that can be routed to this server */
-  ipNumber?: number | null;
+  ipNumber?: number | null | undefined;
   /** Total number of prefixes that can be routed to this server */
-  number?: number;
+  number?: number | undefined;
   /** Which option is required to order this type of IP */
-  optionRequired?: DedicatedServerOptionRequiredEnum | null;
+  optionRequired?: DedicatedServerOptionRequiredEnum | null | undefined;
   /** this IP type */
-  type?: DedicatedServerIpTypeOrderableEnum;
+  type?: DedicatedServerIpTypeOrderableEnum | undefined;
 }
 /** Orderable IP v4 details */
 export type DedicatedServerIpOrderableIpv4List = Array<DedicatedServerIpOrderableDetails>;
@@ -3361,9 +3373,9 @@ export type DedicatedServerIpOrderableIpv6List = Array<DedicatedServerIpOrderabl
 /** A structure describing informations about orderable IP address */
 export interface DedicatedServerIpOrderable {
   /** Orderable IP v4 details */
-  ipv4?: DedicatedServerIpOrderableIpv4List | null;
+  ipv4?: DedicatedServerIpOrderableIpv4List | null | undefined;
   /** Orderable IP v6 details */
-  ipv6?: DedicatedServerIpOrderableIpv6List | null;
+  ipv6?: DedicatedServerIpOrderableIpv6List | null | undefined;
 }
 export interface ListDedicatedServerOrderableSupportLevelRequest {
   /** The internal name of your dedicated server */
@@ -3377,9 +3389,9 @@ export type DedicatedServerSupportLevelOrderableLevelsList =
 /** A structure describing informations support level orderable for this dedicated server */
 export interface DedicatedServerSupportLevelOrderable {
   /** Support level orderable */
-  levels?: DedicatedServerSupportLevelOrderableLevelsList | null;
+  levels?: DedicatedServerSupportLevelOrderableLevelsList | null | undefined;
   /** Is a support level is orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
 }
 export interface ListDedicatedServerOrderableTrafficRequest {
   /** The internal name of your dedicated server */
@@ -3395,9 +3407,9 @@ export type DedicatedServerTrafficOrderableTrafficList = Array<DedicatedServerTr
 /** A structure describing informations bandwidth orderable for this dedicated server */
 export interface DedicatedServerTrafficOrderable {
   /** Is traffic orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
   /** traffic orderable */
-  traffic?: DedicatedServerTrafficOrderableTrafficList | null;
+  traffic?: DedicatedServerTrafficOrderableTrafficList | null | undefined;
 }
 export interface ListDedicatedServerOrderableUsbKeyRequest {
   /** The internal name of your dedicated server */
@@ -3411,13 +3423,13 @@ export type DedicatedServerUsbKeyOrderableDetailsCapacityList =
 /** A structure describing informations about orderable USB keys */
 export interface DedicatedServerUsbKeyOrderableDetails {
   /** Orderable USB keys capacity in gigabytes */
-  capacity?: DedicatedServerUsbKeyOrderableDetailsCapacityList;
+  capacity?: DedicatedServerUsbKeyOrderableDetailsCapacityList | undefined;
   /** Number of USB keys that can be ordered for this server */
-  number?: number;
+  number?: number | undefined;
   /** Which option is required to order an USB key */
-  optionRequired?: DedicatedServerOptionRequiredEnum | null;
+  optionRequired?: DedicatedServerOptionRequiredEnum | null | undefined;
   /** Is USB keys orderable for this server */
-  orderable?: boolean;
+  orderable?: boolean | undefined;
 }
 export interface ListDedicatedServerOsAvailabilitiesRequest {
   /** Hardware reference requested */
@@ -3454,21 +3466,21 @@ export type ListDedicatedServerRegionAvailabilitiesRequestRegionsList = Array<
 >;
 export interface ListDedicatedServerRegionAvailabilitiesRequest {
   /** If true, all regions are returned except those listed in regions parameter */
-  excludeRegions?: boolean;
+  excludeRegions?: boolean | undefined;
   /** The name of the gpu hardware part */
-  gpu?: string;
+  gpu?: string | undefined;
   /** The name of the memory hardware part */
-  memory?: string;
+  memory?: string | undefined;
   /** The plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** The names of regions */
-  regions?: ListDedicatedServerRegionAvailabilitiesRequestRegionsList;
+  regions?: ListDedicatedServerRegionAvailabilitiesRequestRegionsList | undefined;
   /** The name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** The name of the storage hardware part */
-  storage?: string;
+  storage?: string | undefined;
   /** The name of the system storage hardware part */
-  systemStorage?: string;
+  systemStorage?: string | undefined;
 }
 /** The availability */
 export type DedicatedServerAvailabilityEnum =
@@ -3514,9 +3526,9 @@ export type DedicatedServerAvailabilityZonesEnum =
 /** A structure describing the hardware availability for each availability zone */
 export interface DedicatedServerAvailabilityZones {
   /** The availability */
-  availability?: DedicatedServerAvailabilityEnum;
+  availability?: DedicatedServerAvailabilityEnum | undefined;
   /** The availability zone */
-  availabilityZone?: DedicatedServerAvailabilityZonesEnum;
+  availabilityZone?: DedicatedServerAvailabilityZonesEnum | undefined;
 }
 /** Availability zones */
 export type DedicatedServerAvailabilityByRegionAvailabilityZonesList =
@@ -3524,11 +3536,11 @@ export type DedicatedServerAvailabilityByRegionAvailabilityZonesList =
 /** A structure describing the hardware availability for each region */
 export interface DedicatedServerAvailabilityByRegion {
   /** The availability */
-  availability?: DedicatedServerAvailabilityEnum;
+  availability?: DedicatedServerAvailabilityEnum | undefined;
   /** Availability zones */
-  availabilityZones?: DedicatedServerAvailabilityByRegionAvailabilityZonesList;
+  availabilityZones?: DedicatedServerAvailabilityByRegionAvailabilityZonesList | undefined;
   /** The region */
-  region?: DedicatedServerAvailabilityRegionalizationEnum;
+  region?: DedicatedServerAvailabilityRegionalizationEnum | undefined;
 }
 /** The hardware availability for each region */
 export type DedicatedServerRegionAvailabilityRegionsList =
@@ -3536,21 +3548,21 @@ export type DedicatedServerRegionAvailabilityRegionsList =
 /** A structure describing the availabilities of dedicated server */
 export interface DedicatedServerRegionAvailability {
   /** Fully qualified and unique name of the hardware */
-  fqn?: string;
+  fqn?: string | undefined;
   /** Name of the gpu hardware part */
-  gpu?: string | null;
+  gpu?: string | null | undefined;
   /** Name of the memory hardware part */
-  memory?: string | null;
+  memory?: string | null | undefined;
   /** Plan code in which the hardware is involved */
-  planCode?: string;
+  planCode?: string | undefined;
   /** The hardware availability for each region */
-  regions?: DedicatedServerRegionAvailabilityRegionsList | null;
+  regions?: DedicatedServerRegionAvailabilityRegionsList | null | undefined;
   /** Name of the base hardware */
-  server?: string;
+  server?: string | undefined;
   /** Name of the storage hardware part */
-  storage?: string | null;
+  storage?: string | null | undefined;
   /** Name of the system storage hardware part */
-  systemStorage?: string | null;
+  systemStorage?: string | null | undefined;
 }
 export type ListDedicatedServerRegionAvailabilitiesResponseBodyList =
   Array<DedicatedServerRegionAvailability>;
@@ -3571,9 +3583,9 @@ export interface ListDedicatedServerSplaRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Filter the value of status property (=) */
-  status?: DedicatedServerSplaStatusEnum | (string & {});
+  status?: DedicatedServerSplaStatusEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: DedicatedServerSplaTypeEnum | (string & {});
+  type?: DedicatedServerSplaTypeEnum | (string & {}) | undefined;
 }
 export type ListDedicatedServerSplaResponseBodyList = Array<number>;
 export type ListDedicatedServerSplaResponse = ListDedicatedServerSplaResponseBodyList;
@@ -3581,9 +3593,9 @@ export interface ListDedicatedServerTaskRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Filter the value of function property (=) */
-  function?: DedicatedTaskFunctionEnum | (string & {});
+  function?: DedicatedTaskFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: DedicatedTaskStatusEnum | (string & {});
+  status?: DedicatedTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListDedicatedServerTaskResponseBodyList = Array<number>;
 export type ListDedicatedServerTaskResponse = ListDedicatedServerTaskResponseBodyList;
@@ -3600,9 +3612,9 @@ export interface ListDedicatedServerTaskAvailableTimeslotsRequest {
 /** A time slot for a planned intervention */
 export interface DedicatedPlannedInterventionTimeSlot {
   /** End date for the planned intervention */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Start date for the planned intervention */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export type ListDedicatedServerTaskAvailableTimeslotsResponseBodyList =
   Array<DedicatedPlannedInterventionTimeSlot>;
@@ -3619,9 +3631,9 @@ export interface ListDedicatedServerUpdateAllowedRequest {
 /** Dedicated server addon. */
 export interface DedicatedServerBillingAddon {
   /** Addon family */
-  family?: DedicatedServerAddonFamilyEnum;
+  family?: DedicatedServerAddonFamilyEnum | undefined;
   /** Plan code to order */
-  planCode?: string;
+  planCode?: string | undefined;
 }
 export type ListDedicatedServerUpdateAllowedResponseBodyList = Array<DedicatedServerBillingAddon>;
 export type ListDedicatedServerUpdateAllowedResponse =
@@ -3659,13 +3671,16 @@ export interface ListDedicatedServerVirtualNetworkInterfaceRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Filter the value of enabled property (=) */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter the value of mode property (=) */
-  mode?: DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum | (string & {});
+  mode?:
+    | DedicatedVirtualNetworkInterfaceVirtualNetworkInterfaceModeEnum
+    | (string & {})
+    | undefined;
   /** Filter the value of name property (=) */
-  name?: string;
+  name?: string | undefined;
   /** Filter the value of vrack property (=) */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export type ListDedicatedServerVirtualNetworkInterfaceResponseBodyList = Array<string>;
 export type ListDedicatedServerVirtualNetworkInterfaceResponse =
@@ -3679,28 +3694,28 @@ export type ListDedicatedServerVrackResponse = ListDedicatedServerVrackResponseB
 export interface PutDedicatedServerRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
-  bootId?: number | null;
+  bootId?: number | null | undefined;
   /** Ipxe script served on boot */
-  bootScript?: string | null;
+  bootScript?: string | null | undefined;
   /** EfiBootloader path */
-  efiBootloaderPath?: string | null;
+  efiBootloaderPath?: string | null | undefined;
   /** Icmp monitoring state */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** Prevent datacenter intervention */
-  noIntervention?: boolean;
+  noIntervention?: boolean | undefined;
   /** Custom email used to receive rescue credentials */
-  rescueMail?: string | null;
+  rescueMail?: string | null | undefined;
   /** Public SSH Key used in the rescue mode */
-  rescueSshKey?: string | null;
-  rootDevice?: string | null;
-  state?: DedicatedServerStateEnum | (string & {});
+  rescueSshKey?: string | null | undefined;
+  rootDevice?: string | null | undefined;
+  state?: DedicatedServerStateEnum | (string & {}) | undefined;
 }
 export interface PutDedicatedServerResponse {}
 export interface PutDedicatedServerBurstRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** indicates whether burstable bandwidth is currently active, allowing it to temporarily exceed the normally included bandwidth.OvhToInternet amount, within the limits indicated by the burst.capacity item. It can also be inactiveLocked when temporarily disabled due to overuse, capping it to the included non-burstable bandwidth capacity of bandwidth.OvhToInternet */
-  status?: DedicatedServerBurstStatusEnum | (string & {});
+  status?: DedicatedServerBurstStatusEnum | (string & {}) | undefined;
 }
 export interface PutDedicatedServerBurstResponse {}
 export interface PutDedicatedServerFeatureBackupFTPAccessRequest {
@@ -3709,17 +3724,17 @@ export interface PutDedicatedServerFeatureBackupFTPAccessRequest {
   /** The IP Block specific to this ACL */
   ipBlock: string;
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
-  cifs?: boolean;
+  cifs?: boolean | undefined;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** Whether to allow the NFS protocol for this ACL */
-  nfs?: boolean;
+  nfs?: boolean | undefined;
 }
 export interface PutDedicatedServerFeatureBackupFTPAccessResponse {}
 export interface PutDedicatedServerFeatureFirewallRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PutDedicatedServerFeatureFirewallResponse {}
 export interface PutDedicatedServerSecondaryDnsDomainRequest {
@@ -3728,14 +3743,14 @@ export interface PutDedicatedServerSecondaryDnsDomainRequest {
   /** domain on slave server */
   domain: string;
   /** master ip */
-  ipMaster?: string;
+  ipMaster?: string | undefined;
 }
 export interface PutDedicatedServerSecondaryDnsDomainResponse {}
 export interface PutDedicatedServerServiceInfosRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDedicatedServerServiceInfosResponse {}
 export interface PutDedicatedServerSplaRequest {
@@ -3744,7 +3759,7 @@ export interface PutDedicatedServerSplaRequest {
   /** License id */
   id: number;
   /** License serial number */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 export interface PutDedicatedServerSplaResponse {}
 export interface PutDedicatedServerUpgradeScheduleRequest {
@@ -3792,22 +3807,22 @@ export interface RevokeDedicatedServerSplaResponse {}
 /** A structure describing informations about installation custom */
 export interface DedicatedServerInstallCustom {
   /** Personnal hostname to use in server reinstallation */
-  customHostname?: string | null;
+  customHostname?: string | null | undefined;
   /** Disk group id to process install on (only available for some templates) */
-  diskGroupId?: number | null;
+  diskGroupId?: number | null | undefined;
   /** true if you want to install only on the first disk */
-  noRaid?: boolean | null;
+  noRaid?: boolean | null | undefined;
   /** the url to your custom install script */
-  postInstallationScriptLink?: string | null;
+  postInstallationScriptLink?: string | null | undefined;
   /** the return of your script if everythings ok. Advice: your script should return a unique validation string in case of succes. A good example is "loh1Xee7eo OK OK OK UGh8Ang1Gu */
-  postInstallationScriptReturn?: string | null;
+  postInstallationScriptReturn?: string | null | undefined;
   /** Number of devices to use for system's software RAID */
-  softRaidDevices?: number | null;
+  softRaidDevices?: number | null | undefined;
 }
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueString {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Metadata */
 export type StartDedicatedServerInstallRequestUserMetadataList =
@@ -3816,13 +3831,13 @@ export interface StartDedicatedServerInstallRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** parameters for default install */
-  details?: DedicatedServerInstallCustom;
+  details?: DedicatedServerInstallCustom | undefined;
   /** Partition scheme name */
-  partitionSchemeName?: string;
+  partitionSchemeName?: string | undefined;
   /** Template name */
   templateName: string;
   /** Metadata */
-  userMetadata?: StartDedicatedServerInstallRequestUserMetadataList;
+  userMetadata?: StartDedicatedServerInstallRequestUserMetadataList | undefined;
 }
 export interface TerminateDedicatedServerRequest {
   /** The internal name of your dedicated server */
@@ -3833,7 +3848,7 @@ export interface TestDedicatedServerFeaturesBmcRequest {
   /** The internal name of your dedicated server */
   serviceName: string;
   /** Result time to live in minutes */
-  ttl?: DedicatedServerCacheTTLEnum | (number & {});
+  ttl?: DedicatedServerCacheTTLEnum | (number & {}) | undefined;
   /** Test to execute on the BMC interface */
   type: DedicatedServerBmcTestTypeEnum | (string & {});
 }

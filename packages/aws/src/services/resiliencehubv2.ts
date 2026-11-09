@@ -213,37 +213,37 @@ export interface EksSource {
 export type ResourceConfiguration =
   | {
       resourceTags: ResourceTag[];
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
-      eks?: never;
-      designFileS3Url?: never;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
+      resourceTags?: undefined;
       cfnStackArn: string;
-      tfStateFileUrl?: never;
-      eks?: never;
-      designFileS3Url?: never;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
       tfStateFileUrl: string;
-      eks?: never;
-      designFileS3Url?: never;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
       eks: EksSource;
-      designFileS3Url?: never;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
-      eks?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
       designFileS3Url: string;
     };
 export interface CreateInputSourceRequest {
@@ -344,8 +344,8 @@ export interface FailedReportOutput {
   errorMessage?: string | undefined;
 }
 export type ReportOutput =
-  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: never }
-  | { s3ReportOutput?: never; failedReportOutput: FailedReportOutput };
+  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: undefined }
+  | { s3ReportOutput?: undefined; failedReportOutput: FailedReportOutput };
 export interface ReportGenerationResult {
   reportType: ReportType;
   status: ReportGenerationStatus;
@@ -725,8 +725,8 @@ export interface ObservabilityAlarmInput {
   alarmArn: string;
 }
 export type TestSourceInput =
-  | { successCriteriaAlarm: SuccessCriteriaAlarmInput; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: ObservabilityAlarmInput };
+  | { successCriteriaAlarm: SuccessCriteriaAlarmInput; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: ObservabilityAlarmInput };
 export type TestSourceInputList = TestSourceInput[];
 export interface DeleteTestSourcesRequest {
   testId: string;
@@ -1196,26 +1196,26 @@ export interface PolicyDeletedMetadata {
 export type PolicyEventMetadata =
   | {
       policyAttachedToService: PolicyAttachedToServiceMetadata;
-      policyDetachedFromService?: never;
-      policySharingRevoked?: never;
-      policyDeleted?: never;
+      policyDetachedFromService?: undefined;
+      policySharingRevoked?: undefined;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
+      policyAttachedToService?: undefined;
       policyDetachedFromService: PolicyDetachedFromServiceMetadata;
-      policySharingRevoked?: never;
-      policyDeleted?: never;
+      policySharingRevoked?: undefined;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
-      policyDetachedFromService?: never;
+      policyAttachedToService?: undefined;
+      policyDetachedFromService?: undefined;
       policySharingRevoked: PolicySharingRevokedMetadata;
-      policyDeleted?: never;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
-      policyDetachedFromService?: never;
-      policySharingRevoked?: never;
+      policyAttachedToService?: undefined;
+      policyDetachedFromService?: undefined;
+      policySharingRevoked?: undefined;
       policyDeleted: PolicyDeletedMetadata;
     };
 export interface PolicyEventDetails {
@@ -1422,401 +1422,401 @@ export interface AssertionDeletedMetadata {
 export type ServiceEventMetadata =
   | {
       serviceCreated: ServiceCreatedMetadata;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
+      serviceCreated?: undefined;
       serviceDeleted: ServiceDeletedMetadata;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
       serviceSystemAssociated: ServiceSystemAssociatedMetadata;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
       serviceSystemDisassociated: ServiceSystemDisassociatedMetadata;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
       serviceResourcesAssociated: ServiceResourcesAssociatedMetadata;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
       serviceResourcesDisassociated: ServiceResourcesDisassociatedMetadata;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
       serviceWorkflowUpdated: ServiceWorkflowUpdatedMetadata;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
       serviceInputSourcesUpdated: ServiceInputSourcesUpdatedMetadata;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
       servicePolicyAssociated: ServicePolicyAssociatedMetadata;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
       servicePolicyDisassociated: ServicePolicyDisassociatedMetadata;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
       serviceFunctionCreated: ServiceFunctionCreatedMetadata;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
       serviceFunctionUpdated: ServiceFunctionUpdatedMetadata;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
       serviceFunctionDeleted: ServiceFunctionDeletedMetadata;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
       serviceFunctionResourcesAdded: ServiceFunctionResourcesAddedMetadata;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
       serviceFunctionResourcesRemoved: ServiceFunctionResourcesRemovedMetadata;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
       serviceAchievabilityUpdated: ServiceAchievabilityUpdatedMetadata;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
       assertionCreated: AssertionCreatedMetadata;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
       assertionUpdated: AssertionUpdatedMetadata;
-      assertionDeleted?: never;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
       assertionDeleted: AssertionDeletedMetadata;
     };
 export interface ServiceEventDetails {
@@ -1985,101 +1985,101 @@ export interface SystemPolicyDisassociatedMetadata {
 export type SystemEventMetadata =
   | {
       systemCreated: SystemCreatedMetadata;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
+      systemCreated?: undefined;
       systemDeleted: SystemDeletedMetadata;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
       systemUserJourneyCreated: SystemUserJourneyCreatedMetadata;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
       systemUserJourneyUpdated: SystemUserJourneyUpdatedMetadata;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
       systemUserJourneyDeleted: SystemUserJourneyDeletedMetadata;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
       systemServiceAssociated: SystemServiceAssociatedMetadata;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
       systemServiceDisassociated: SystemServiceDisassociatedMetadata;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
       systemPolicyAssociated: SystemPolicyAssociatedMetadata;
-      systemPolicyDisassociated?: never;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
       systemPolicyDisassociated: SystemPolicyDisassociatedMetadata;
     };
 export interface SystemEventDetails {
@@ -2214,8 +2214,8 @@ export interface TestRunSourceEventError {
   errorMessage: string;
 }
 export type TestRunSourceEventDetail =
-  | { alarmStateChange: AlarmStateChangeDetail; error?: never }
-  | { alarmStateChange?: never; error: TestRunSourceEventError };
+  | { alarmStateChange: AlarmStateChangeDetail; error?: undefined }
+  | { alarmStateChange?: undefined; error: TestRunSourceEventError };
 export interface TestRunSourceEvent {
   timestamp: Date;
   sourceArn: string;
@@ -2251,8 +2251,8 @@ export interface TestRunObservabilityAlarmSummary {
   accountId: string;
 }
 export type TestRunSourceSummary =
-  | { successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: TestRunObservabilityAlarmSummary };
+  | { successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: TestRunObservabilityAlarmSummary };
 export type TestRunSourceSummaryList = TestRunSourceSummary[];
 export interface ListTestRunSourcesResponse {
   testRunSources: TestRunSourceSummary[];
@@ -2299,8 +2299,8 @@ export interface ObservabilityAlarmSummary {
   createdAt?: Date | undefined;
 }
 export type TestSourceSummary =
-  | { successCriteriaAlarm: SuccessCriteriaAlarmSummary; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: ObservabilityAlarmSummary };
+  | { successCriteriaAlarm: SuccessCriteriaAlarmSummary; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: ObservabilityAlarmSummary };
 export type TestSourceSummaryList = TestSourceSummary[];
 export interface ListTestSourcesResponse {
   testSources: TestSourceSummary[];

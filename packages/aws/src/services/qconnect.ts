@@ -195,13 +195,13 @@ export interface TagCondition {
 }
 export type AndConditions = TagCondition[];
 export type OrCondition =
-  | { andConditions: TagCondition[]; tagCondition?: never }
-  | { andConditions?: never; tagCondition: TagCondition };
+  | { andConditions: TagCondition[]; tagCondition?: undefined }
+  | { andConditions?: undefined; tagCondition: TagCondition };
 export type OrConditions = OrCondition[];
 export type TagFilter =
-  | { tagCondition: TagCondition; andConditions?: never; orConditions?: never }
-  | { tagCondition?: never; andConditions: TagCondition[]; orConditions?: never }
-  | { tagCondition?: never; andConditions?: never; orConditions: OrCondition[] };
+  | { tagCondition: TagCondition; andConditions?: undefined; orConditions?: undefined }
+  | { tagCondition?: undefined; andConditions: TagCondition[]; orConditions?: undefined }
+  | { tagCondition?: undefined; andConditions?: undefined; orConditions: OrCondition[] };
 export type MaxResults = number;
 export type KnowledgeBaseSearchType = string;
 export interface KnowledgeBaseAssociationConfigurationData {
@@ -308,8 +308,8 @@ export interface ToolConfiguration {
 }
 export type ToolConfigurationList = ToolConfiguration[];
 export type AgentTarget =
-  | { aiAgentId: string; applicationId?: never }
-  | { aiAgentId?: never; applicationId: string };
+  | { aiAgentId: string; applicationId?: undefined }
+  | { aiAgentId?: undefined; applicationId: string };
 export type MultiAgentExampleList = string[];
 export interface MultiAgentInstruction {
   instruction?: string | undefined;
@@ -326,8 +326,14 @@ export interface HandoffAgentConfiguration {
   immediateHandoff?: boolean | undefined;
 }
 export type MultiAgentConfiguration =
-  | { delegateAgentConfiguration: DelegateAgentConfiguration; handoffAgentConfiguration?: never }
-  | { delegateAgentConfiguration?: never; handoffAgentConfiguration: HandoffAgentConfiguration };
+  | {
+      delegateAgentConfiguration: DelegateAgentConfiguration;
+      handoffAgentConfiguration?: undefined;
+    }
+  | {
+      delegateAgentConfiguration?: undefined;
+      handoffAgentConfiguration: HandoffAgentConfiguration;
+    };
 export type MultiAgentConfigurationList = MultiAgentConfiguration[];
 export type GenericArn = string;
 export type JSONDocumentList = any[];
@@ -354,101 +360,101 @@ export interface CaseSummarizationAIAgentConfiguration {
 export type AIAgentConfiguration =
   | {
       manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
       answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
       selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
       emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
       emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
       emailGenerativeAnswerAIAgentConfiguration: EmailGenerativeAnswerAIAgentConfiguration;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
       orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
       noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration;
-      caseSummarizationAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
       caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration;
     };
 export type VisibilityStatus = string;
@@ -736,9 +742,9 @@ export interface ExternalBedrockKnowledgeBaseConfig {
   accessRoleArn: string;
 }
 export type AssistantAssociationInputData =
-  | { knowledgeBaseId: string; externalBedrockKnowledgeBaseConfig?: never }
+  | { knowledgeBaseId: string; externalBedrockKnowledgeBaseConfig?: undefined }
   | {
-      knowledgeBaseId?: never;
+      knowledgeBaseId?: undefined;
       externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
     };
 export interface CreateAssistantAssociationRequest {
@@ -755,10 +761,10 @@ export interface KnowledgeBaseAssociationData {
 export type AssistantAssociationOutputData =
   | {
       knowledgeBaseAssociation: KnowledgeBaseAssociationData;
-      externalBedrockKnowledgeBaseConfig?: never;
+      externalBedrockKnowledgeBaseConfig?: undefined;
     }
   | {
-      knowledgeBaseAssociation?: never;
+      knowledgeBaseAssociation?: undefined;
       externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
     };
 export interface AssistantAssociationData {
@@ -867,8 +873,8 @@ export interface WebCrawlerConfiguration {
 }
 export type ManagedSourceConfiguration = { webCrawlerConfiguration: WebCrawlerConfiguration };
 export type SourceConfiguration =
-  | { appIntegrations: AppIntegrationsConfiguration; managedSourceConfiguration?: never }
-  | { appIntegrations?: never; managedSourceConfiguration: ManagedSourceConfiguration };
+  | { appIntegrations: AppIntegrationsConfiguration; managedSourceConfiguration?: undefined }
+  | { appIntegrations?: undefined; managedSourceConfiguration: ManagedSourceConfiguration };
 export interface RenderingConfiguration {
   templateUri?: string | undefined;
 }
@@ -1025,10 +1031,15 @@ export interface PushMessageTemplateContent {
   baidu?: PushBaiduMessageTemplateContent | undefined;
 }
 export type MessageTemplateContentProvider =
-  | { email: EmailMessageTemplateContent; sms?: never; whatsApp?: never; push?: never }
-  | { email?: never; sms: SMSMessageTemplateContent; whatsApp?: never; push?: never }
-  | { email?: never; sms?: never; whatsApp: WhatsAppMessageTemplateContent; push?: never }
-  | { email?: never; sms?: never; whatsApp?: never; push: PushMessageTemplateContent };
+  | { email: EmailMessageTemplateContent; sms?: undefined; whatsApp?: undefined; push?: undefined }
+  | { email?: undefined; sms: SMSMessageTemplateContent; whatsApp?: undefined; push?: undefined }
+  | {
+      email?: undefined;
+      sms?: undefined;
+      whatsApp: WhatsAppMessageTemplateContent;
+      push?: undefined;
+    }
+  | { email?: undefined; sms?: undefined; whatsApp?: undefined; push: PushMessageTemplateContent };
 export type ChannelSubtype = string;
 export type LanguageCode = string;
 export type WhatsAppBusinessAccountId = string;
@@ -1565,9 +1576,9 @@ export interface ToolUseResultData {
   inputSchema?: any | undefined;
 }
 export type MessageData =
-  | { text: TextMessage; toolUseResult?: never; data?: never }
-  | { text?: never; toolUseResult: ToolUseResultData; data?: never }
-  | { text?: never; toolUseResult?: never; data: any };
+  | { text: TextMessage; toolUseResult?: undefined; data?: undefined }
+  | { text?: undefined; toolUseResult: ToolUseResultData; data?: undefined }
+  | { text?: undefined; toolUseResult?: undefined; data: any };
 export type Participant = string;
 export interface MessageOutput {
   value: MessageData;
@@ -1651,17 +1662,17 @@ export interface SuggestedMessageReference {
 export type DataReference =
   | {
       contentReference: ContentReference;
-      generativeReference?: never;
-      suggestedMessageReference?: never;
+      generativeReference?: undefined;
+      suggestedMessageReference?: undefined;
     }
   | {
-      contentReference?: never;
+      contentReference?: undefined;
       generativeReference: GenerativeReference;
-      suggestedMessageReference?: never;
+      suggestedMessageReference?: undefined;
     }
   | {
-      contentReference?: never;
-      generativeReference?: never;
+      contentReference?: undefined;
+      generativeReference?: undefined;
       suggestedMessageReference: SuggestedMessageReference;
     };
 export interface TextData {
@@ -1733,197 +1744,197 @@ export interface ProactiveRecommendationDataDetails {
 export type DataDetails =
   | {
       contentData: ContentDataDetails;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
+      contentData?: undefined;
       generativeData: GenerativeDataDetails;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
       intentDetectedData: IntentDetectedDataDetails;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
       sourceContentData: SourceContentDataDetails;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
       generativeChunkData: GenerativeChunkDataDetails;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
       emailResponseChunkData: EmailResponseChunkDataDetails;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
       emailOverviewChunkData: EmailOverviewChunkDataDetails;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
       emailGenerativeAnswerChunkData: EmailGenerativeAnswerChunkDataDetails;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
       caseSummarizationChunkData: CaseSummarizationChunkDataDetails;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
       suggestedMessageData: SuggestedMessageDataDetails;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
       notesData: NotesDataDetails;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
       notesChunkData: NotesChunkDataDetails;
-      proactiveRecommendationData?: never;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
       proactiveRecommendationData: ProactiveRecommendationDataDetails;
     };
 export interface DataSummary {
@@ -2358,10 +2369,20 @@ export interface SpanReasoningValue {
   value: string | redacted.Redacted<string>;
 }
 export type SpanMessageValue =
-  | { text: SpanTextValue; toolUse?: never; toolResult?: never; reasoning?: never }
-  | { text?: never; toolUse: SpanToolUseValue; toolResult?: never; reasoning?: never }
-  | { text?: never; toolUse?: never; toolResult: SpanToolResultValue; reasoning?: never }
-  | { text?: never; toolUse?: never; toolResult?: never; reasoning: SpanReasoningValue };
+  | { text: SpanTextValue; toolUse?: undefined; toolResult?: undefined; reasoning?: undefined }
+  | { text?: undefined; toolUse: SpanToolUseValue; toolResult?: undefined; reasoning?: undefined }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult: SpanToolResultValue;
+      reasoning?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoning: SpanReasoningValue;
+    };
 export type SpanMessageValueList = SpanMessageValue[];
 export interface SpanMessage {
   messageId: string;
@@ -2510,17 +2531,17 @@ export interface CaseSummarizationInputData {
 export type QueryInputData =
   | {
       queryTextInputData: QueryTextInputData;
-      intentInputData?: never;
-      caseSummarizationInputData?: never;
+      intentInputData?: undefined;
+      caseSummarizationInputData?: undefined;
     }
   | {
-      queryTextInputData?: never;
+      queryTextInputData?: undefined;
       intentInputData: IntentInputData;
-      caseSummarizationInputData?: never;
+      caseSummarizationInputData?: undefined;
     }
   | {
-      queryTextInputData?: never;
-      intentInputData?: never;
+      queryTextInputData?: undefined;
+      intentInputData?: undefined;
       caseSummarizationInputData: CaseSummarizationInputData;
     };
 export interface QueryAssistantRequest {
@@ -2579,197 +2600,197 @@ export interface FilterAttribute {
 export type RetrievalFilterConfiguration =
   | {
       andAll: RetrievalFilterConfiguration[];
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
+      andAll?: undefined;
       equals: FilterAttribute;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
+      andAll?: undefined;
+      equals?: undefined;
       greaterThan: FilterAttribute;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEquals: FilterAttribute;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
       in: FilterAttribute;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
       lessThan: FilterAttribute;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
       lessThanOrEquals: FilterAttribute;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
       listContains: FilterAttribute;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
       notEquals: FilterAttribute;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
       notIn: FilterAttribute;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
       orAll: RetrievalFilterConfiguration[];
-      startsWith?: never;
-      stringContains?: never;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
       startsWith: FilterAttribute;
-      stringContains?: never;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
       stringContains: FilterAttribute;
     };
 export interface RetrievalConfiguration {

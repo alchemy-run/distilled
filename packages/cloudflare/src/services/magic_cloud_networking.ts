@@ -4061,7 +4061,7 @@ export interface ListCatalogSyncPrebuiltPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CatalogSyncsPrebuiltPoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCatalogSyncsRequest {
   accountId: string;
@@ -4256,7 +4256,7 @@ export interface ListCatalogSyncsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CatalogSyncsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCloudIntegrationsRequest {
   accountId: string;
@@ -4344,7 +4344,7 @@ export interface ListCloudIntegrationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CloudIntegrationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOnRampAddressSpacesRequest {
   accountId: string;
@@ -5672,7 +5672,7 @@ export interface ListOnRampsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OnRampsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ResourcesListRequestResourceIdList = Array<string>;
 export type ResourcesListRequestResourceType =
@@ -6231,7 +6231,7 @@ export interface ListResourcesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourcesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CatalogSyncsEditRequestUpdateMode = "AUTO" | "MANUAL";
 export interface PatchCatalogSyncRequest {

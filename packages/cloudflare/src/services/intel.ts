@@ -420,7 +420,7 @@ export interface GetAttackSurfaceReportIssueTypeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AttackSurfaceReportIssueTypesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDomainRequest {
   /** Identifier. */
@@ -997,7 +997,7 @@ export interface ListIndicatorFeedsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: IndicatorFeedsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSinkholesRequest {
   /** An identifier for the resource. */
@@ -1024,7 +1024,7 @@ export interface ListSinkholesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SinkholesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload = "1";
 export interface PutIndicatorFeedSnapshotRequest {

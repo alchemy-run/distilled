@@ -161,7 +161,7 @@ export interface GetAssociationResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AssociationsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetMtlsCertificateRequest {
   /** Identifier. */
@@ -229,7 +229,7 @@ export interface ListMtlsCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateMtlsCertificateError = CertificateAlreadyExists | CloudflareOpError;
 /** Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/create/). */

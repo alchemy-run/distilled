@@ -36,7 +36,7 @@ const TELEMETRY = {
 /** The properties of custom domain for API portal */
 export interface ApiPortalCustomDomainProperties {
   /** The thumbprint of bound certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
 }
 export interface ApiPortalCustomDomainsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -49,7 +49,7 @@ export interface ApiPortalCustomDomainsCreateOrUpdateRequest {
   apiPortalName: string;
   /** The name of the API portal custom domain. */
   domainName: string;
-  properties?: ApiPortalCustomDomainProperties;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -58,27 +58,27 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource modification (UTC). */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApiPortalCustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalCustomDomainProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 /** The array of resource Ids of gateway to integrate with API portal. */
 export type ApiPortalPropertiesInputGatewayIdsList = Array<string>;
@@ -89,38 +89,38 @@ export type SsoPropertiesScopeList = Array<string>;
 /** Single sign-on related configuration */
 export interface SsoProperties {
   /** It defines the specific actions applications can be allowed to do on a user's behalf */
-  scope?: SsoPropertiesScopeList;
+  scope?: SsoPropertiesScopeList | undefined;
   /** The public identifier for the application */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The secret known only to the application and the authorization server */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The URI of Issuer Identifier */
-  issuerUri?: string;
+  issuerUri?: string | undefined;
 }
 /** Indicates whether the API try-out feature is enabled or disabled. When enabled, users can try out the API by sending requests and viewing responses in API portal. When disabled, users cannot try out the API. */
 export type ApiPortalPropertiesInputApiTryOutEnabledState = "Enabled" | "Disabled";
 /** API portal properties payload */
 export interface ApiPortalPropertiesInput {
   /** Indicates whether the API portal exposes endpoint. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
+  httpsOnly?: boolean | undefined;
   /** The array of resource Ids of gateway to integrate with API portal. */
-  gatewayIds?: ApiPortalPropertiesInputGatewayIdsList;
+  gatewayIds?: ApiPortalPropertiesInputGatewayIdsList | undefined;
   /** Collection of OpenAPI source URL locations. */
-  sourceUrls?: ApiPortalPropertiesInputSourceUrlsList;
-  ssoProperties?: SsoProperties;
+  sourceUrls?: ApiPortalPropertiesInputSourceUrlsList | undefined;
+  ssoProperties?: SsoProperties | undefined;
   /** Indicates whether the API try-out feature is enabled or disabled. When enabled, users can try out the API by sending requests and viewing responses in API portal. When disabled, users cannot try out the API. */
-  apiTryOutEnabledState?: ApiPortalPropertiesInputApiTryOutEnabledState | (string & {});
+  apiTryOutEnabledState?: ApiPortalPropertiesInputApiTryOutEnabledState | (string & {}) | undefined;
 }
 /** Sku of Azure Spring Apps */
 export interface Sku {
   /** Name of the Sku */
-  name?: string;
+  name?: string | undefined;
   /** Tier of the Sku */
-  tier?: string;
+  tier?: string | undefined;
   /** Current capacity of the target resource */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface ApiPortalsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -131,9 +131,9 @@ export interface ApiPortalsCreateOrUpdateRequest {
   serviceName: string;
   /** The name of API portal. */
   apiPortalName: string;
-  properties?: ApiPortalPropertiesInput;
+  properties?: ApiPortalPropertiesInput | undefined;
   /** Sku of the API portal resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** State of the API portal. */
 export type ApiPortalPropertiesProvisioningState =
@@ -149,16 +149,16 @@ export type ApiPortalPropertiesSourceUrlsList = Array<string>;
 /** Resource requests of the API portal */
 export interface ApiPortalResourceRequests {
   /** Cpu allocated to each API portal instance */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each API portal instance */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Collection of instances belong to the API portal */
 export interface ApiPortalInstance {
   /** Name of the API portal instance */
-  name?: string;
+  name?: string | undefined;
   /** Status of the API portal instance */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to API portal. */
 export type ApiPortalPropertiesInstancesList = Array<ApiPortalInstance>;
@@ -167,36 +167,36 @@ export type ApiPortalPropertiesApiTryOutEnabledState = "Enabled" | "Disabled";
 /** API portal properties payload */
 export interface ApiPortalProperties {
   /** State of the API portal. */
-  provisioningState?: ApiPortalPropertiesProvisioningState;
+  provisioningState?: ApiPortalPropertiesProvisioningState | undefined;
   /** Indicates whether the API portal exposes endpoint. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** URL of the API portal, exposed when 'public' is true. */
-  url?: string;
+  url?: string | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
+  httpsOnly?: boolean | undefined;
   /** The array of resource Ids of gateway to integrate with API portal. */
-  gatewayIds?: ApiPortalPropertiesGatewayIdsList;
+  gatewayIds?: ApiPortalPropertiesGatewayIdsList | undefined;
   /** Collection of OpenAPI source URL locations. */
-  sourceUrls?: ApiPortalPropertiesSourceUrlsList;
-  ssoProperties?: SsoProperties;
+  sourceUrls?: ApiPortalPropertiesSourceUrlsList | undefined;
+  ssoProperties?: SsoProperties | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: ApiPortalResourceRequests;
+  resourceRequests?: ApiPortalResourceRequests | undefined;
   /** Collection of instances belong to API portal. */
-  instances?: ApiPortalPropertiesInstancesList;
+  instances?: ApiPortalPropertiesInstancesList | undefined;
   /** Indicates whether the API try-out feature is enabled or disabled. When enabled, users can try out the API by sending requests and viewing responses in API portal. When disabled, users cannot try out the API. */
-  apiTryOutEnabledState?: ApiPortalPropertiesApiTryOutEnabledState;
+  apiTryOutEnabledState?: ApiPortalPropertiesApiTryOutEnabledState | undefined;
 }
 export interface ApiPortalsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalProperties | undefined;
   /** Sku of the API portal resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Non-sensitive properties for the APM */
 export type ApmPropertiesInputPropertiesMap = { [key: string]: string | undefined };
@@ -207,9 +207,9 @@ export interface ApmPropertiesInput {
   /** APM Type */
   type: string;
   /** Non-sensitive properties for the APM */
-  properties?: ApmPropertiesInputPropertiesMap;
+  properties?: ApmPropertiesInputPropertiesMap | undefined;
   /** Sensitive properties for the APM */
-  secrets?: ApmPropertiesInputSecretsMap;
+  secrets?: ApmPropertiesInputSecretsMap | undefined;
 }
 export interface ApmsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -221,7 +221,7 @@ export interface ApmsCreateOrUpdateRequest {
   /** The name of the APM */
   apmName: string;
   /** Properties of an APM */
-  properties?: ApmPropertiesInput;
+  properties?: ApmPropertiesInput | undefined;
 }
 /** State of the APM. */
 export type ApmPropertiesProvisioningState =
@@ -240,22 +240,22 @@ export interface ApmProperties {
   /** APM Type */
   type: string;
   /** State of the APM. */
-  provisioningState?: ApmPropertiesProvisioningState;
+  provisioningState?: ApmPropertiesProvisioningState | undefined;
   /** Non-sensitive properties for the APM */
-  properties?: ApmPropertiesPropertiesMap;
+  properties?: ApmPropertiesPropertiesMap | undefined;
   /** Sensitive properties for the APM */
-  secrets?: ApmPropertiesSecretsMap;
+  secrets?: ApmPropertiesSecretsMap | undefined;
 }
 export interface ApmsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of an APM */
-  properties?: ApmProperties;
+  properties?: ApmProperties | undefined;
 }
 /** Application accelerator properties payload */
 export interface ApplicationAcceleratorPropertiesInput {}
@@ -268,9 +268,9 @@ export interface ApplicationAcceleratorsCreateOrUpdateRequest {
   serviceName: string;
   /** The name of the application accelerator. */
   applicationAcceleratorName: string;
-  properties?: ApplicationAcceleratorPropertiesInput;
+  properties?: ApplicationAcceleratorPropertiesInput | undefined;
   /** Sku of the application accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** State of the application accelerator. */
 export type ApplicationAcceleratorPropertiesProvisioningState =
@@ -282,44 +282,44 @@ export type ApplicationAcceleratorPropertiesProvisioningState =
   | "Canceled";
 export interface ApplicationAcceleratorResourceRequests {
   /** Cpu allocated to each application accelerator component. 1 core can be represented by 1 or 1000m */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each application accelerator component. 1 GB can be represented by 1Gi or 1024Mi. */
-  memory?: string;
+  memory?: string | undefined;
   /** Instance count of the application accelerator component. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 export interface ApplicationAcceleratorInstance {
   /** Name of the Application Accelerator instance. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Application Accelerator instance. It can be Pending, Running, Succeeded, Failed, Unknown. */
-  status?: string;
+  status?: string | undefined;
 }
 export type ApplicationAcceleratorComponentInstancesList = Array<ApplicationAcceleratorInstance>;
 export interface ApplicationAcceleratorComponent {
-  name?: string;
-  resourceRequests?: ApplicationAcceleratorResourceRequests;
-  instances?: ApplicationAcceleratorComponentInstancesList;
+  name?: string | undefined;
+  resourceRequests?: ApplicationAcceleratorResourceRequests | undefined;
+  instances?: ApplicationAcceleratorComponentInstancesList | undefined;
 }
 /** Collection of components belong to application accelerator. */
 export type ApplicationAcceleratorPropertiesComponentsList = Array<ApplicationAcceleratorComponent>;
 /** Application accelerator properties payload */
 export interface ApplicationAcceleratorProperties {
   /** State of the application accelerator. */
-  provisioningState?: ApplicationAcceleratorPropertiesProvisioningState;
+  provisioningState?: ApplicationAcceleratorPropertiesProvisioningState | undefined;
   /** Collection of components belong to application accelerator. */
-  components?: ApplicationAcceleratorPropertiesComponentsList;
+  components?: ApplicationAcceleratorPropertiesComponentsList | undefined;
 }
 export interface ApplicationAcceleratorsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationAcceleratorProperties | undefined;
   /** Sku of the application accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Application Live View properties payload */
 export type ApplicationLiveViewPropertiesInput = ApplicationAcceleratorPropertiesInput;
@@ -332,7 +332,7 @@ export interface ApplicationLiveViewsCreateOrUpdateRequest {
   serviceName: string;
   /** The name of Application Live View. */
   applicationLiveViewName: string;
-  properties?: ApplicationAcceleratorPropertiesInput;
+  properties?: ApplicationAcceleratorPropertiesInput | undefined;
 }
 /** State of the Application Live View. */
 export type ApplicationLiveViewPropertiesProvisioningState =
@@ -345,64 +345,64 @@ export type ApplicationLiveViewPropertiesProvisioningState =
 /** The resource quantity for required CPU and Memory of Application Live View component */
 export interface ApplicationLiveViewResourceRequests {
   /** Cpu quantity allocated to each Application Live View component instance. 1 core can be represented by 1 or 1000m. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory quantity allocated to each Application Live View component instance. 1 GB can be represented by 1Gi or 1024Mi. */
-  memory?: string;
+  memory?: string | undefined;
   /** Desired instance count of Application Live View component instance. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** Collection of instances belong to the Application Live View */
 export interface ApplicationLiveViewInstance {
   /** Name of the Application Live View instance. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Application Live View instance. It can be Pending, Running, Succeeded, Failed, Unknown. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to Application Live View. */
 export type ApplicationLiveViewComponentInstancesList = Array<ApplicationLiveViewInstance>;
 /** Application Live View properties payload */
 export interface ApplicationLiveViewComponent {
   /** Name of the component. */
-  name?: unknown;
+  name?: unknown | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: ApplicationLiveViewResourceRequests;
+  resourceRequests?: ApplicationLiveViewResourceRequests | undefined;
   /** Collection of instances belong to Application Live View. */
-  instances?: ApplicationLiveViewComponentInstancesList;
+  instances?: ApplicationLiveViewComponentInstancesList | undefined;
 }
 /** Component details of Application Live View */
 export type ApplicationLiveViewPropertiesComponentsList = Array<ApplicationLiveViewComponent>;
 /** Application Live View properties payload */
 export interface ApplicationLiveViewProperties {
   /** State of the Application Live View. */
-  provisioningState?: ApplicationLiveViewPropertiesProvisioningState;
+  provisioningState?: ApplicationLiveViewPropertiesProvisioningState | undefined;
   /** Component details of Application Live View */
-  components?: ApplicationLiveViewPropertiesComponentsList;
+  components?: ApplicationLiveViewPropertiesComponentsList | undefined;
 }
 export interface ApplicationLiveViewsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationLiveViewProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationLiveViewProperties | undefined;
 }
 /** Collection of addons */
 export type AppResourcePropertiesInputAddonConfigsMap = { [key: string]: unknown | undefined };
 /** Temporary disk payload */
 export interface TemporaryDisk {
   /** Size of the temporary disk in GB */
-  sizeInGB?: number;
+  sizeInGB?: number | undefined;
   /** Mount path of the temporary disk */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 /** Persistent disk payload */
 export interface PersistentDiskInput {
   /** Size of the persistent disk in GB */
-  sizeInGB?: number;
+  sizeInGB?: number | undefined;
   /** Mount path of the persistent disk */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 /** The type of the underlying resource to mount as a persistent disk. */
 export type CustomPersistentDiskPropertiesType = "AzureFileVolume";
@@ -415,16 +415,16 @@ export interface CustomPersistentDiskProperties {
   /** The mount path of the persistent disk. */
   mountPath: string;
   /** Indicates whether the persistent disk is a readOnly one. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** If set to true, it will create and mount a dedicated directory for every individual app instance. */
-  enableSubPath?: boolean;
+  enableSubPath?: boolean | undefined;
   /** These are the mount options for a persistent disk. */
-  mountOptions?: CustomPersistentDiskPropertiesMountOptionsList;
+  mountOptions?: CustomPersistentDiskPropertiesMountOptionsList | undefined;
 }
 /** Custom persistent disk resource payload. */
 export interface CustomPersistentDiskResource {
   /** Properties of the custom persistent disk resource payload. */
-  customPersistentDiskProperties?: CustomPersistentDiskProperties;
+  customPersistentDiskProperties?: CustomPersistentDiskProperties | undefined;
   /** The resource id of Azure Spring Apps Storage resource. */
   storageId: string;
 }
@@ -435,14 +435,14 @@ export interface LoadedCertificate {
   /** Resource Id of loaded certificate */
   resourceId: string;
   /** Indicate whether the certificate will be loaded into default trust store, only work for Java runtime. */
-  loadTrustStore?: boolean;
+  loadTrustStore?: boolean | undefined;
 }
 /** Collection of loaded certificate resources list and a possible link for next page. */
 export type LoadedCertificateCollection = Array<LoadedCertificate>;
 /** Additional App settings in vnet injection instance */
 export interface AppVNetAddonsInput {
   /** Indicates whether the App in vnet injection instance exposes endpoint which could be accessed from internet. */
-  publicEndpoint?: boolean;
+  publicEndpoint?: boolean | undefined;
 }
 /** Type of the affinity, set this to Cookie to enable session affinity. */
 export type IngressSettingsSessionAffinity = "Cookie" | "None";
@@ -453,45 +453,45 @@ export type IngressSettingsClientAuthCertificatesList = Array<string>;
 /** Client-Certification Authentication. */
 export interface IngressSettingsClientAuth {
   /** Collection of certificate resource id. */
-  certificates?: IngressSettingsClientAuthCertificatesList;
+  certificates?: IngressSettingsClientAuthCertificatesList | undefined;
 }
 /** App ingress settings payload. */
 export interface IngressSettings {
   /** Ingress read time out in seconds. */
-  readTimeoutInSeconds?: number;
+  readTimeoutInSeconds?: number | undefined;
   /** Ingress send time out in seconds. */
-  sendTimeoutInSeconds?: number;
+  sendTimeoutInSeconds?: number | undefined;
   /** Type of the affinity, set this to Cookie to enable session affinity. */
-  sessionAffinity?: IngressSettingsSessionAffinity | (string & {});
+  sessionAffinity?: IngressSettingsSessionAffinity | (string & {}) | undefined;
   /** Time in seconds until the cookie expires. */
-  sessionCookieMaxAge?: number;
+  sessionCookieMaxAge?: number | undefined;
   /** How ingress should communicate with this app backend service. */
-  backendProtocol?: IngressSettingsBackendProtocol | (string & {});
+  backendProtocol?: IngressSettingsBackendProtocol | (string & {}) | undefined;
   /** Client-Certification Authentication. */
-  clientAuth?: IngressSettingsClientAuth;
+  clientAuth?: IngressSettingsClientAuth | undefined;
 }
 /** App resource properties payload */
 export interface AppResourcePropertiesInput {
   /** Indicates whether the App exposes public endpoint */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Collection of addons */
-  addonConfigs?: AppResourcePropertiesInputAddonConfigsMap;
+  addonConfigs?: AppResourcePropertiesInputAddonConfigsMap | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
+  httpsOnly?: boolean | undefined;
   /** Temporary disk settings */
-  temporaryDisk?: TemporaryDisk;
+  temporaryDisk?: TemporaryDisk | undefined;
   /** Persistent disk settings */
-  persistentDisk?: PersistentDiskInput;
+  persistentDisk?: PersistentDiskInput | undefined;
   /** List of custom persistent disks */
-  customPersistentDisks?: CustomPersistentDiskCollection;
+  customPersistentDisks?: CustomPersistentDiskCollection | undefined;
   /** Indicate if end to end TLS is enabled. */
-  enableEndToEndTLS?: boolean;
+  enableEndToEndTLS?: boolean | undefined;
   /** Collection of loaded certificates */
-  loadedCertificates?: LoadedCertificateCollection;
+  loadedCertificates?: LoadedCertificateCollection | undefined;
   /** Additional App settings in vnet injection instance */
-  vnetAddons?: AppVNetAddonsInput;
+  vnetAddons?: AppVNetAddonsInput | undefined;
   /** App ingress settings payload. */
-  ingressSettings?: IngressSettings;
+  ingressSettings?: IngressSettings | undefined;
 }
 /** Type of the managed identity */
 export type ManagedIdentityPropertiesInputType =
@@ -508,13 +508,13 @@ export type UserAssignedManagedIdentitiesInput = {
 /** Managed identity properties retrieved from ARM request headers. */
 export interface ManagedIdentityPropertiesInput {
   /** Type of the managed identity */
-  type?: ManagedIdentityPropertiesInputType | (string & {});
+  type?: ManagedIdentityPropertiesInputType | (string & {}) | undefined;
   /** Principal Id of system-assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id of system-assigned managed identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Properties of user-assigned managed identities */
-  userAssignedIdentities?: UserAssignedManagedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedManagedIdentitiesInput | undefined;
 }
 export interface AppsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -526,11 +526,11 @@ export interface AppsCreateOrUpdateRequest {
   /** The name of the App resource. */
   appName: string;
   /** Properties of the App resource */
-  properties?: AppResourcePropertiesInput;
+  properties?: AppResourcePropertiesInput | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityPropertiesInput;
+  identity?: ManagedIdentityPropertiesInput | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 /** Collection of addons */
 export type AppResourcePropertiesAddonConfigsMap = { [key: string]: unknown | undefined };
@@ -544,47 +544,47 @@ export type AppResourcePropertiesProvisioningState =
 /** Persistent disk payload */
 export interface PersistentDisk {
   /** Size of the persistent disk in GB */
-  sizeInGB?: number;
+  sizeInGB?: number | undefined;
   /** Size of the used persistent disk in GB */
-  usedInGB?: number;
+  usedInGB?: number | undefined;
   /** Mount path of the persistent disk */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 /** Additional App settings in vnet injection instance */
 export interface AppVNetAddons {
   /** Indicates whether the App in vnet injection instance exposes endpoint which could be accessed from internet. */
-  publicEndpoint?: boolean;
+  publicEndpoint?: boolean | undefined;
   /** URL of the App in vnet injection instance which could be accessed from internet */
-  publicEndpointUrl?: string;
+  publicEndpointUrl?: string | undefined;
 }
 /** App resource properties payload */
 export interface AppResourceProperties {
   /** Indicates whether the App exposes public endpoint */
-  public?: boolean;
+  public?: boolean | undefined;
   /** URL of the App */
-  url?: string;
+  url?: string | undefined;
   /** Collection of addons */
-  addonConfigs?: AppResourcePropertiesAddonConfigsMap;
+  addonConfigs?: AppResourcePropertiesAddonConfigsMap | undefined;
   /** Provisioning state of the App */
-  provisioningState?: AppResourcePropertiesProvisioningState;
+  provisioningState?: AppResourcePropertiesProvisioningState | undefined;
   /** Fully qualified dns Name. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
+  httpsOnly?: boolean | undefined;
   /** Temporary disk settings */
-  temporaryDisk?: TemporaryDisk;
+  temporaryDisk?: TemporaryDisk | undefined;
   /** Persistent disk settings */
-  persistentDisk?: PersistentDisk;
+  persistentDisk?: PersistentDisk | undefined;
   /** List of custom persistent disks */
-  customPersistentDisks?: CustomPersistentDiskCollection;
+  customPersistentDisks?: CustomPersistentDiskCollection | undefined;
   /** Indicate if end to end TLS is enabled. */
-  enableEndToEndTLS?: boolean;
+  enableEndToEndTLS?: boolean | undefined;
   /** Collection of loaded certificates */
-  loadedCertificates?: LoadedCertificateCollection;
+  loadedCertificates?: LoadedCertificateCollection | undefined;
   /** Additional App settings in vnet injection instance */
-  vnetAddons?: AppVNetAddons;
+  vnetAddons?: AppVNetAddons | undefined;
   /** App ingress settings payload. */
-  ingressSettings?: IngressSettings;
+  ingressSettings?: IngressSettings | undefined;
 }
 /** Type of the managed identity */
 export type ManagedIdentityPropertiesType =
@@ -595,9 +595,9 @@ export type ManagedIdentityPropertiesType =
 /** The details of the user-assigned managed identity assigned to an App. */
 export interface UserAssignedManagedIdentity {
   /** Principal Id of user-assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client Id of user-assigned managed identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User-assigned managed identities in key-value map. The key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UserAssignedManagedIdentities = {
@@ -606,28 +606,28 @@ export type UserAssignedManagedIdentities = {
 /** Managed identity properties retrieved from ARM request headers. */
 export interface ManagedIdentityProperties {
   /** Type of the managed identity */
-  type?: ManagedIdentityPropertiesType;
+  type?: ManagedIdentityPropertiesType | undefined;
   /** Principal Id of system-assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id of system-assigned managed identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Properties of user-assigned managed identities */
-  userAssignedIdentities?: UserAssignedManagedIdentities;
+  userAssignedIdentities?: UserAssignedManagedIdentities | undefined;
 }
 export interface AppsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the App resource */
-  properties?: AppResourceProperties;
+  properties?: AppResourceProperties | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityProperties;
+  identity?: ManagedIdentityProperties | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 export interface AppsGetResourceUploadUrlRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -642,9 +642,9 @@ export interface AppsGetResourceUploadUrlRequest {
 /** Resource upload definition payload */
 export interface ResourceUploadDefinition {
   /** Source relative path */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** Upload URL */
-  uploadUrl?: string;
+  uploadUrl?: string | undefined;
 }
 /** Binding parameters of the Binding resource */
 export type BindingResourcePropertiesInputBindingParametersMap = {
@@ -653,11 +653,11 @@ export type BindingResourcePropertiesInputBindingParametersMap = {
 /** Binding resource properties payload */
 export interface BindingResourcePropertiesInput {
   /** The Azure resource id of the bound resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The key of the bound resource */
-  key?: string;
+  key?: string | undefined;
   /** Binding parameters of the Binding resource */
-  bindingParameters?: BindingResourcePropertiesInputBindingParametersMap;
+  bindingParameters?: BindingResourcePropertiesInputBindingParametersMap | undefined;
 }
 export interface BindingsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -671,39 +671,39 @@ export interface BindingsCreateOrUpdateRequest {
   /** The name of the Binding resource. */
   bindingName: string;
   /** Properties of the Binding resource */
-  properties?: BindingResourcePropertiesInput;
+  properties?: BindingResourcePropertiesInput | undefined;
 }
 /** Binding parameters of the Binding resource */
 export type BindingResourcePropertiesBindingParametersMap = { [key: string]: string | undefined };
 /** Binding resource properties payload */
 export interface BindingResourceProperties {
   /** The name of the bound resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The standard Azure resource type of the bound resource */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The Azure resource id of the bound resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The key of the bound resource */
-  key?: string;
+  key?: string | undefined;
   /** Binding parameters of the Binding resource */
-  bindingParameters?: BindingResourcePropertiesBindingParametersMap;
+  bindingParameters?: BindingResourcePropertiesBindingParametersMap | undefined;
   /** The generated Spring Boot property file for this binding. The secret will be deducted. */
-  generatedProperties?: string;
+  generatedProperties?: string | undefined;
   /** Creation time of the Binding resource */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Update time of the Binding resource */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface BindingsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Binding resource */
-  properties?: BindingResourceProperties;
+  properties?: BindingResourceProperties | undefined;
 }
 /** Buildpack Binding Type */
 export type BuildpackBindingPropertiesInputBindingType =
@@ -720,16 +720,16 @@ export type BuildpackBindingLaunchPropertiesSecretsMap = { [key: string]: string
 /** Buildpack Binding Launch Properties */
 export interface BuildpackBindingLaunchProperties {
   /** Non-sensitive properties for launchProperties */
-  properties?: BuildpackBindingLaunchPropertiesPropertiesMap;
+  properties?: BuildpackBindingLaunchPropertiesPropertiesMap | undefined;
   /** Sensitive properties for launchProperties */
-  secrets?: BuildpackBindingLaunchPropertiesSecretsMap;
+  secrets?: BuildpackBindingLaunchPropertiesSecretsMap | undefined;
 }
 /** Properties of a buildpack binding */
 export interface BuildpackBindingPropertiesInput {
   /** Buildpack Binding Type */
-  bindingType?: BuildpackBindingPropertiesInputBindingType | (string & {});
+  bindingType?: BuildpackBindingPropertiesInputBindingType | (string & {}) | undefined;
   /** The object describes the buildpack binding launch properties */
-  launchProperties?: BuildpackBindingLaunchProperties;
+  launchProperties?: BuildpackBindingLaunchProperties | undefined;
 }
 export interface BuildpackBindingCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -745,7 +745,7 @@ export interface BuildpackBindingCreateOrUpdateRequest {
   /** The name of the Buildpack Binding Name */
   buildpackBindingName: string;
   /** Properties of a buildpack binding */
-  properties?: BuildpackBindingPropertiesInput;
+  properties?: BuildpackBindingPropertiesInput | undefined;
 }
 /** Buildpack Binding Type */
 export type BuildpackBindingPropertiesBindingType =
@@ -765,32 +765,32 @@ export type BuildpackBindingPropertiesProvisioningState =
 /** Properties of a buildpack binding */
 export interface BuildpackBindingProperties {
   /** Buildpack Binding Type */
-  bindingType?: BuildpackBindingPropertiesBindingType;
+  bindingType?: BuildpackBindingPropertiesBindingType | undefined;
   /** State of the Buildpack Binding. */
-  provisioningState?: BuildpackBindingPropertiesProvisioningState;
+  provisioningState?: BuildpackBindingPropertiesProvisioningState | undefined;
   /** The object describes the buildpack binding launch properties */
-  launchProperties?: BuildpackBindingLaunchProperties;
+  launchProperties?: BuildpackBindingLaunchProperties | undefined;
 }
 export interface BuildpackBindingCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of a buildpack binding */
-  properties?: BuildpackBindingProperties;
+  properties?: BuildpackBindingProperties | undefined;
 }
 /** Build service agent pool size properties */
 export interface BuildServiceAgentPoolSizePropertiesInput {
   /** The name of build service agent pool size */
-  name?: string;
+  name?: string | undefined;
 }
 /** Build service agent pool properties */
 export interface BuildServiceAgentPoolPropertiesInput {
   /** build service agent pool size properties */
-  poolSize?: BuildServiceAgentPoolSizePropertiesInput;
+  poolSize?: BuildServiceAgentPoolSizePropertiesInput | undefined;
 }
 export interface BuildServiceAgentPoolUpdatePutRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -804,64 +804,64 @@ export interface BuildServiceAgentPoolUpdatePutRequest {
   /** The name of the build service agent pool resource. */
   agentPoolName: string;
   /** build service agent pool properties */
-  properties?: BuildServiceAgentPoolPropertiesInput;
+  properties?: BuildServiceAgentPoolPropertiesInput | undefined;
 }
 /** Build service agent pool size properties */
 export interface BuildServiceAgentPoolSizeProperties {
   /** The name of build service agent pool size */
-  name?: string;
+  name?: string | undefined;
   /** The cpu property of build service agent pool size */
-  cpu?: string;
+  cpu?: string | undefined;
   /** The memory property of build service agent pool size */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Build service agent pool properties */
 export interface BuildServiceAgentPoolProperties {
   /** Provisioning state of the build service agent pool */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** build service agent pool size properties */
-  poolSize?: BuildServiceAgentPoolSizeProperties;
+  poolSize?: BuildServiceAgentPoolSizeProperties | undefined;
 }
 export interface BuildServiceAgentPoolUpdatePutResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** build service agent pool properties */
-  properties?: BuildServiceAgentPoolProperties;
+  properties?: BuildServiceAgentPoolProperties | undefined;
 }
 /** KPack ClusterStack properties payload */
 export interface StackProperties {
   /** Id of the ClusterStack. */
-  id?: string;
+  id?: string | undefined;
   /** Version of the ClusterStack */
-  version?: string;
+  version?: string | undefined;
 }
 /** Buildpack properties payload */
 export interface BuildpackProperties {
   /** Id of the buildpack */
-  id?: string;
+  id?: string | undefined;
 }
 /** Buildpacks in the buildpack group */
 export type BuildpacksGroupPropertiesBuildpacksList = Array<BuildpackProperties>;
 /** Buildpack group properties of the Builder */
 export interface BuildpacksGroupProperties {
   /** Buildpack group name */
-  name?: string;
+  name?: string | undefined;
   /** Buildpacks in the buildpack group */
-  buildpacks?: BuildpacksGroupPropertiesBuildpacksList;
+  buildpacks?: BuildpacksGroupPropertiesBuildpacksList | undefined;
 }
 /** Builder buildpack groups. */
 export type BuilderPropertiesInputBuildpackGroupsList = Array<BuildpacksGroupProperties>;
 /** KPack Builder properties payload */
 export interface BuilderPropertiesInput {
   /** Builder cluster stack property. */
-  stack?: StackProperties;
+  stack?: StackProperties | undefined;
   /** Builder buildpack groups. */
-  buildpackGroups?: BuilderPropertiesInputBuildpackGroupsList;
+  buildpackGroups?: BuilderPropertiesInputBuildpackGroupsList | undefined;
 }
 export interface BuildServiceBuilderCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -875,7 +875,7 @@ export interface BuildServiceBuilderCreateOrUpdateRequest {
   /** The name of the builder resource. */
   builderName: string;
   /** Property of the Builder resource. */
-  properties?: BuilderPropertiesInput;
+  properties?: BuilderPropertiesInput | undefined;
 }
 /** Builder provision status. */
 export type BuilderPropertiesProvisioningState =
@@ -889,31 +889,31 @@ export type BuilderPropertiesBuildpackGroupsList = Array<BuildpacksGroupProperti
 /** KPack Builder properties payload */
 export interface BuilderProperties {
   /** Builder provision status. */
-  provisioningState?: BuilderPropertiesProvisioningState;
+  provisioningState?: BuilderPropertiesProvisioningState | undefined;
   /** Builder cluster stack property. */
-  stack?: StackProperties;
+  stack?: StackProperties | undefined;
   /** Builder buildpack groups. */
-  buildpackGroups?: BuilderPropertiesBuildpackGroupsList;
+  buildpackGroups?: BuilderPropertiesBuildpackGroupsList | undefined;
 }
 export interface BuildServiceBuilderCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Property of the Builder resource. */
-  properties?: BuilderProperties;
+  properties?: BuilderProperties | undefined;
 }
 /** The runtime resource configuration of this build service. */
 export type BuildServicePropertiesInputResourceRequests = ApplicationAcceleratorPropertiesInput;
 /** Build service resource properties payload */
 export interface BuildServicePropertiesInput {
   /** The resource id of the container registry used in this build service. */
-  containerRegistry?: string;
+  containerRegistry?: string | undefined;
   /** The runtime resource configuration of this build service. */
-  resourceRequests?: ApplicationAcceleratorPropertiesInput;
+  resourceRequests?: ApplicationAcceleratorPropertiesInput | undefined;
 }
 export interface BuildServiceCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -925,7 +925,7 @@ export interface BuildServiceCreateOrUpdateRequest {
   /** The name of the build service resource. */
   buildServiceName: string;
   /** Properties of the build resource */
-  properties?: BuildServicePropertiesInput;
+  properties?: BuildServicePropertiesInput | undefined;
 }
 /** Provisioning state of the KPack build service */
 export type BuildServicePropertiesProvisioningState =
@@ -937,31 +937,31 @@ export type BuildServicePropertiesProvisioningState =
 /** The runtime resource configuration of this build service. */
 export interface BuildServicePropertiesResourceRequests {
   /** vCPU allocated to the entire build service node pool. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to the entire build service node pool. */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Build service resource properties payload */
 export interface BuildServiceProperties {
   /** The resource id of the container registry used in this build service. */
-  containerRegistry?: string;
+  containerRegistry?: string | undefined;
   /** The installed KPack version in this build service. */
-  kPackVersion?: string;
+  kPackVersion?: string | undefined;
   /** Provisioning state of the KPack build service */
-  provisioningState?: BuildServicePropertiesProvisioningState;
+  provisioningState?: BuildServicePropertiesProvisioningState | undefined;
   /** The runtime resource configuration of this build service. */
-  resourceRequests?: BuildServicePropertiesResourceRequests;
+  resourceRequests?: BuildServicePropertiesResourceRequests | undefined;
 }
 export interface BuildServiceCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildServiceProperties;
+  properties?: BuildServiceProperties | undefined;
 }
 /** The environment variables for this build */
 export type BuildPropertiesInputEnvMap = { [key: string]: string | undefined };
@@ -982,26 +982,26 @@ export type CertificateReferenceCollection = Array<CertificateReference>;
 /** Resource request payload of Build Resource. */
 export interface BuildResourceRequests {
   /** Optional Cpu allocated to the build resource. 1 core can be represented by 1 or 1000m. The default value is 1, this should not exceed build service agent pool cpu size. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Optional Memory allocated to the build resource. 1 GB can be represented by 1Gi or 1024Mi. The default value is 2Gi, this should not exceed build service agent pool memory size. */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Build resource properties payload */
 export interface BuildPropertiesInput {
   /** The relative path of source code */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** The resource id of builder to build the source code */
-  builder?: string;
+  builder?: string | undefined;
   /** The resource id of agent pool */
-  agentPool?: string;
+  agentPool?: string | undefined;
   /** The environment variables for this build */
-  env?: BuildPropertiesInputEnvMap;
+  env?: BuildPropertiesInputEnvMap | undefined;
   /** The APMs for this build */
-  apms?: ApmReferenceCollection;
+  apms?: ApmReferenceCollection | undefined;
   /** The CA Certificates for this build */
-  certificates?: CertificateReferenceCollection;
+  certificates?: CertificateReferenceCollection | undefined;
   /** The customized build resource for this build */
-  resourceRequests?: BuildResourceRequests;
+  resourceRequests?: BuildResourceRequests | undefined;
 }
 export interface BuildServiceCreateOrUpdateBuildRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1015,7 +1015,7 @@ export interface BuildServiceCreateOrUpdateBuildRequest {
   /** The name of the build resource. */
   buildName: string;
   /** Properties of the build resource */
-  properties?: BuildPropertiesInput;
+  properties?: BuildPropertiesInput | undefined;
 }
 /** Provisioning state of the KPack build result */
 export type BuildPropertiesProvisioningState =
@@ -1037,49 +1037,49 @@ export type TriggeredBuildResultProvisioningState =
 /** The build result triggered by a build */
 export interface TriggeredBuildResult {
   /** The unique build id of this build result */
-  id?: string;
+  id?: string | undefined;
   /** The provisioning state of this build result */
-  provisioningState?: TriggeredBuildResultProvisioningState;
+  provisioningState?: TriggeredBuildResultProvisioningState | undefined;
   /** The container image of this build result */
-  image?: string;
+  image?: string | undefined;
   /** The last transition time of this build result */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** The last transition reason of this build result */
-  lastTransitionReason?: string;
+  lastTransitionReason?: string | undefined;
   /** The last transition status of this build result */
-  lastTransitionStatus?: string;
+  lastTransitionStatus?: string | undefined;
 }
 /** Build resource properties payload */
 export interface BuildProperties {
   /** The relative path of source code */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** The resource id of builder to build the source code */
-  builder?: string;
+  builder?: string | undefined;
   /** The resource id of agent pool */
-  agentPool?: string;
+  agentPool?: string | undefined;
   /** Provisioning state of the KPack build result */
-  provisioningState?: BuildPropertiesProvisioningState;
+  provisioningState?: BuildPropertiesProvisioningState | undefined;
   /** The environment variables for this build */
-  env?: BuildPropertiesEnvMap;
+  env?: BuildPropertiesEnvMap | undefined;
   /** The APMs for this build */
-  apms?: ApmReferenceCollection;
+  apms?: ApmReferenceCollection | undefined;
   /** The CA Certificates for this build */
-  certificates?: CertificateReferenceCollection;
+  certificates?: CertificateReferenceCollection | undefined;
   /** The build result triggered by this build */
-  triggeredBuildResult?: TriggeredBuildResult;
+  triggeredBuildResult?: TriggeredBuildResult | undefined;
   /** The customized build resource for this build */
-  resourceRequests?: BuildResourceRequests;
+  resourceRequests?: BuildResourceRequests | undefined;
 }
 export interface BuildServiceCreateOrUpdateBuildResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildProperties;
+  properties?: BuildProperties | undefined;
 }
 export interface BuildServiceGetResourceUploadUrlRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1106,7 +1106,7 @@ export interface CertificatesCreateOrUpdateRequest {
   /** The name of the certificate resource. */
   certificateName: string;
   /** Properties of the certificate resource payload. */
-  properties?: CertificatePropertiesInput;
+  properties?: CertificatePropertiesInput | undefined;
 }
 /** The domain list of certificate. */
 export type CertificatePropertiesDnsNamesList = Array<string>;
@@ -1122,32 +1122,32 @@ export interface CertificateProperties {
   /** The type of the certificate source. */
   type: string;
   /** The thumbprint of certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The issuer of certificate. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The issue date of certificate. */
-  issuedDate?: string;
+  issuedDate?: string | undefined;
   /** The expiration date of certificate. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The activate date of certificate. */
-  activateDate?: string;
+  activateDate?: string | undefined;
   /** The subject name of certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** The domain list of certificate. */
-  dnsNames?: CertificatePropertiesDnsNamesList;
+  dnsNames?: CertificatePropertiesDnsNamesList | undefined;
   /** Provisioning state of the Certificate */
-  provisioningState?: CertificatePropertiesProvisioningState;
+  provisioningState?: CertificatePropertiesProvisioningState | undefined;
 }
 export interface CertificatesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the certificate resource payload. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface CheckServiceNameAvailabilityRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1162,18 +1162,18 @@ export interface CheckServiceNameAvailabilityRequest {
 /** Name availability result payload */
 export interface NameAvailability {
   /** Indicates whether the name is available */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Reason why the name is not available */
-  reason?: string;
+  reason?: string | undefined;
   /** Message why the name is not available */
-  message?: string;
+  message?: string | undefined;
 }
 /** The error code compose of code and message. */
 export interface Error {
   /** The code of error. */
-  code?: string;
+  code?: string | undefined;
   /** The message of error. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Collection of pattern of the repository */
 export type GitPatternRepositoryPatternList = Array<string>;
@@ -1184,25 +1184,25 @@ export interface GitPatternRepository {
   /** Name of the repository */
   name: string;
   /** Collection of pattern of the repository */
-  pattern?: GitPatternRepositoryPatternList;
+  pattern?: GitPatternRepositoryPatternList | undefined;
   /** URI of the repository */
   uri: string;
   /** Label of the repository */
-  label?: string;
+  label?: string | undefined;
   /** Searching path of the repository */
-  searchPaths?: GitPatternRepositorySearchPathsList;
+  searchPaths?: GitPatternRepositorySearchPathsList | undefined;
   /** Username of git repository basic auth. */
-  username?: string;
+  username?: string | undefined;
   /** Password of git repository basic auth. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Public sshKey of git repository. */
-  hostKey?: string;
+  hostKey?: string | undefined;
   /** SshKey algorithm of git repository. */
-  hostKeyAlgorithm?: string;
+  hostKeyAlgorithm?: string | undefined;
   /** Private sshKey algorithm of git repository. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Strict host key checking or not. */
-  strictHostKeyChecking?: boolean;
+  strictHostKeyChecking?: boolean | undefined;
 }
 /** Repositories of git. */
 export type ConfigServerGitPropertyRepositoriesList = Array<GitPatternRepository>;
@@ -1211,37 +1211,37 @@ export type ConfigServerGitPropertySearchPathsList = Array<string>;
 /** Property of git. */
 export interface ConfigServerGitProperty {
   /** Repositories of git. */
-  repositories?: ConfigServerGitPropertyRepositoriesList;
+  repositories?: ConfigServerGitPropertyRepositoriesList | undefined;
   /** URI of the repository */
   uri: string;
   /** Label of the repository */
-  label?: string;
+  label?: string | undefined;
   /** Searching path of the repository */
-  searchPaths?: ConfigServerGitPropertySearchPathsList;
+  searchPaths?: ConfigServerGitPropertySearchPathsList | undefined;
   /** Username of git repository basic auth. */
-  username?: string;
+  username?: string | undefined;
   /** Password of git repository basic auth. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Public sshKey of git repository. */
-  hostKey?: string;
+  hostKey?: string | undefined;
   /** SshKey algorithm of git repository. */
-  hostKeyAlgorithm?: string;
+  hostKeyAlgorithm?: string | undefined;
   /** Private sshKey algorithm of git repository. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Strict host key checking or not. */
-  strictHostKeyChecking?: boolean;
+  strictHostKeyChecking?: boolean | undefined;
 }
 /** The settings of config server. */
 export interface ConfigServerSettings {
   /** Property of git environment. */
-  gitProperty?: ConfigServerGitProperty;
+  gitProperty?: ConfigServerGitProperty | undefined;
 }
 /** Config server git properties payload */
 export interface ConfigServerPropertiesInput {
   /** Error when apply config server settings. */
-  error?: Error;
+  error?: Error | undefined;
   /** Settings of config server. */
-  configServer?: ConfigServerSettings;
+  configServer?: ConfigServerSettings | undefined;
 }
 export interface ConfigServersUpdatePatchRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1251,7 +1251,7 @@ export interface ConfigServersUpdatePatchRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Properties of the Config Server resource */
-  properties?: ConfigServerPropertiesInput;
+  properties?: ConfigServerPropertiesInput | undefined;
 }
 /** State of the config server. */
 export type ConfigServerPropertiesProvisioningState =
@@ -1263,22 +1263,22 @@ export type ConfigServerPropertiesProvisioningState =
 /** Config server git properties payload */
 export interface ConfigServerProperties {
   /** State of the config server. */
-  provisioningState?: ConfigServerPropertiesProvisioningState;
+  provisioningState?: ConfigServerPropertiesProvisioningState | undefined;
   /** Error when apply config server settings. */
-  error?: Error;
+  error?: Error | undefined;
   /** Settings of config server. */
-  configServer?: ConfigServerSettings;
+  configServer?: ConfigServerSettings | undefined;
 }
 export interface ConfigServersUpdatePatchResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Config Server resource */
-  properties?: ConfigServerProperties;
+  properties?: ConfigServerProperties | undefined;
 }
 export interface ConfigServersUpdatePutRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1288,18 +1288,18 @@ export interface ConfigServersUpdatePutRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Properties of the Config Server resource */
-  properties?: ConfigServerPropertiesInput;
+  properties?: ConfigServerPropertiesInput | undefined;
 }
 export interface ConfigServersUpdatePutResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Config Server resource */
-  properties?: ConfigServerProperties;
+  properties?: ConfigServerProperties | undefined;
 }
 /** The generation of the Application Configuration Service. */
 export type ConfigurationServicePropertiesInputGeneration = "Gen1" | "Gen2";
@@ -1320,39 +1320,39 @@ export interface ConfigurationServiceGitRepository {
   /** Label of the repository */
   label: string;
   /** Searching path of the repository */
-  searchPaths?: ConfigurationServiceGitRepositorySearchPathsList;
+  searchPaths?: ConfigurationServiceGitRepositorySearchPathsList | undefined;
   /** Username of git repository basic auth. */
-  username?: string;
+  username?: string | undefined;
   /** Password of git repository basic auth. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Public sshKey of git repository. */
-  hostKey?: string;
+  hostKey?: string | undefined;
   /** SshKey algorithm of git repository. */
-  hostKeyAlgorithm?: string;
+  hostKeyAlgorithm?: string | undefined;
   /** Private sshKey algorithm of git repository. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Strict host key checking or not. */
-  strictHostKeyChecking?: boolean;
+  strictHostKeyChecking?: boolean | undefined;
   /** Git libraries used to support various repository providers */
-  gitImplementation?: GitImplementation | (string & {});
+  gitImplementation?: GitImplementation | (string & {}) | undefined;
   /** Resource Id of CA certificate for https URL of Git repository. */
-  caCertResourceId?: string;
+  caCertResourceId?: string | undefined;
 }
 /** Repositories of Application Configuration Service git property. */
 export type ConfigurationServiceGitPropertyRepository = Array<ConfigurationServiceGitRepository>;
 /** Property of git environment. */
 export interface ConfigurationServiceGitProperty {
-  repositories?: ConfigurationServiceGitPropertyRepository;
+  repositories?: ConfigurationServiceGitPropertyRepository | undefined;
 }
 /** The settings of Application Configuration Service. */
 export interface ConfigurationServiceSettings {
-  gitProperty?: ConfigurationServiceGitProperty;
+  gitProperty?: ConfigurationServiceGitProperty | undefined;
 }
 /** Application Configuration Service properties payload */
 export interface ConfigurationServicePropertiesInput {
   /** The generation of the Application Configuration Service. */
-  generation?: ConfigurationServicePropertiesInputGeneration | (string & {});
-  settings?: ConfigurationServiceSettings;
+  generation?: ConfigurationServicePropertiesInputGeneration | (string & {}) | undefined;
+  settings?: ConfigurationServiceSettings | undefined;
 }
 export interface ConfigurationServicesCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1363,7 +1363,7 @@ export interface ConfigurationServicesCreateOrUpdateRequest {
   serviceName: string;
   /** The name of Application Configuration Service. */
   configurationServiceName: string;
-  properties?: ConfigurationServicePropertiesInput;
+  properties?: ConfigurationServicePropertiesInput | undefined;
 }
 /** State of the Application Configuration Service. */
 export type ConfigurationServicePropertiesProvisioningState =
@@ -1377,42 +1377,42 @@ export type ConfigurationServicePropertiesGeneration = "Gen1" | "Gen2";
 /** Resource request payload of Application Configuration Service */
 export interface ConfigurationServiceResourceRequests {
   /** Cpu allocated to each Application Configuration Service instance */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each Application Configuration Service instance */
-  memory?: string;
+  memory?: string | undefined;
   /** Instance count of the Application Configuration Service */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** Collection of instances belong to the Application Configuration Service */
 export interface ConfigurationServiceInstance {
   /** Name of the Application Configuration Service instance */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Application Configuration Service instance */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to Application Configuration Service. */
 export type ConfigurationServicePropertiesInstancesList = Array<ConfigurationServiceInstance>;
 /** Application Configuration Service properties payload */
 export interface ConfigurationServiceProperties {
   /** State of the Application Configuration Service. */
-  provisioningState?: ConfigurationServicePropertiesProvisioningState;
+  provisioningState?: ConfigurationServicePropertiesProvisioningState | undefined;
   /** The generation of the Application Configuration Service. */
-  generation?: ConfigurationServicePropertiesGeneration;
+  generation?: ConfigurationServicePropertiesGeneration | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: ConfigurationServiceResourceRequests;
+  resourceRequests?: ConfigurationServiceResourceRequests | undefined;
   /** Collection of instances belong to Application Configuration Service. */
-  instances?: ConfigurationServicePropertiesInstancesList;
-  settings?: ConfigurationServiceSettings;
+  instances?: ConfigurationServicePropertiesInstancesList | undefined;
+  settings?: ConfigurationServiceSettings | undefined;
 }
 export interface ConfigurationServicesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ConfigurationServiceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ConfigurationServiceProperties | undefined;
 }
 /** The credential for the container registry resource. */
 export interface ContainerRegistryCredentials {
@@ -1434,7 +1434,7 @@ export interface ContainerRegistriesCreateOrUpdateRequest {
   /** The name of the container registry. */
   containerRegistryName: string;
   /** Properties of the container registry resource payload. */
-  properties?: ContainerRegistryPropertiesInput;
+  properties?: ContainerRegistryPropertiesInput | undefined;
 }
 /** State of the Container Registry. */
 export type ContainerRegistryPropertiesProvisioningState =
@@ -1449,25 +1449,25 @@ export interface ContainerRegistryProperties {
   /** The credentials of the container registry resource. */
   credentials: ContainerRegistryCredentials;
   /** State of the Container Registry. */
-  provisioningState?: ContainerRegistryPropertiesProvisioningState;
+  provisioningState?: ContainerRegistryPropertiesProvisioningState | undefined;
 }
 export interface ContainerRegistriesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the container registry resource payload. */
-  properties?: ContainerRegistryProperties;
+  properties?: ContainerRegistryProperties | undefined;
 }
 /** Custom domain of app resource payload. */
 export interface CustomDomainPropertiesInput {
   /** The thumbprint of bound certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The bound certificate name of domain. */
-  certName?: string;
+  certName?: string | undefined;
 }
 export interface CustomDomainsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1481,7 +1481,7 @@ export interface CustomDomainsCreateOrUpdateRequest {
   /** The name of the custom domain resource. */
   domainName: string;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainPropertiesInput;
+  properties?: CustomDomainPropertiesInput | undefined;
 }
 /** Provisioning state of the Domain */
 export type CustomDomainPropertiesProvisioningState =
@@ -1493,24 +1493,24 @@ export type CustomDomainPropertiesProvisioningState =
 /** Custom domain of app resource payload. */
 export interface CustomDomainProperties {
   /** The thumbprint of bound certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The app name of domain. */
-  appName?: string;
+  appName?: string | undefined;
   /** The bound certificate name of domain. */
-  certName?: string;
+  certName?: string | undefined;
   /** Provisioning state of the Domain */
-  provisioningState?: CustomDomainPropertiesProvisioningState;
+  provisioningState?: CustomDomainPropertiesProvisioningState | undefined;
 }
 export interface CustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 /** Type of the customized accelerator. */
 export type CustomizedAcceleratorPropertiesInputAcceleratorType = "Accelerator" | "Fragment";
@@ -1524,26 +1524,26 @@ export interface AcceleratorGitRepository {
   /** Git repository URL for the accelerator. */
   url: string;
   /** Interval for checking for updates to Git or image repository. */
-  intervalInSeconds?: number;
+  intervalInSeconds?: number | undefined;
   /** Git repository branch to be used. */
-  branch?: string;
+  branch?: string | undefined;
   /** Git repository commit to be used. */
-  commit?: string;
+  commit?: string | undefined;
   /** Git repository tag to be used. */
-  gitTag?: string;
+  gitTag?: string | undefined;
   /** Properties of the auth setting payload. */
   authSetting: AcceleratorAuthSetting;
   /** Folder path inside the git repository to consider as the root of the accelerator or fragment. */
-  subPath?: string;
+  subPath?: string | undefined;
 }
 /** Customized accelerator properties payload */
 export interface CustomizedAcceleratorPropertiesInput {
   /** Type of the customized accelerator. */
-  acceleratorType?: CustomizedAcceleratorPropertiesInputAcceleratorType | (string & {});
-  displayName?: string;
-  description?: string;
-  iconUrl?: string;
-  acceleratorTags?: CustomizedAcceleratorPropertiesInputAcceleratorTagsList;
+  acceleratorType?: CustomizedAcceleratorPropertiesInputAcceleratorType | (string & {}) | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  iconUrl?: string | undefined;
+  acceleratorTags?: CustomizedAcceleratorPropertiesInputAcceleratorTagsList | undefined;
   gitRepository: AcceleratorGitRepository;
 }
 export interface CustomizedAcceleratorsCreateOrUpdateRequest {
@@ -1557,9 +1557,9 @@ export interface CustomizedAcceleratorsCreateOrUpdateRequest {
   applicationAcceleratorName: string;
   /** The name of the customized accelerator. */
   customizedAcceleratorName: string;
-  properties?: CustomizedAcceleratorPropertiesInput;
+  properties?: CustomizedAcceleratorPropertiesInput | undefined;
   /** Sku of the customized accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** State of the customized accelerator. */
 export type CustomizedAcceleratorPropertiesProvisioningState =
@@ -1577,28 +1577,28 @@ export type CustomizedAcceleratorPropertiesImportsList = Array<string>;
 /** Customized accelerator properties payload */
 export interface CustomizedAcceleratorProperties {
   /** State of the customized accelerator. */
-  provisioningState?: CustomizedAcceleratorPropertiesProvisioningState;
+  provisioningState?: CustomizedAcceleratorPropertiesProvisioningState | undefined;
   /** Type of the customized accelerator. */
-  acceleratorType?: CustomizedAcceleratorPropertiesAcceleratorType;
-  displayName?: string;
-  description?: string;
-  iconUrl?: string;
-  acceleratorTags?: CustomizedAcceleratorPropertiesAcceleratorTagsList;
+  acceleratorType?: CustomizedAcceleratorPropertiesAcceleratorType | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  iconUrl?: string | undefined;
+  acceleratorTags?: CustomizedAcceleratorPropertiesAcceleratorTagsList | undefined;
   /** Imports references all imports that this accelerator/fragment depends upon. */
-  imports?: CustomizedAcceleratorPropertiesImportsList;
+  imports?: CustomizedAcceleratorPropertiesImportsList | undefined;
   gitRepository: AcceleratorGitRepository;
 }
 export interface CustomizedAcceleratorsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: CustomizedAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: CustomizedAcceleratorProperties | undefined;
   /** Sku of the customized accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface DeleteApiPortalRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1635,7 +1635,7 @@ export interface DeleteApmRequest {
   apmName: string;
 }
 export interface DeleteApmResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAppRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1659,7 +1659,7 @@ export interface DeleteApplicationAcceleratorRequest {
   applicationAcceleratorName: string;
 }
 export interface DeleteApplicationAcceleratorResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApplicationLiveViewRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1672,7 +1672,7 @@ export interface DeleteApplicationLiveViewRequest {
   applicationLiveViewName: string;
 }
 export interface DeleteApplicationLiveViewResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1715,7 +1715,7 @@ export interface DeleteBuildServiceBuildRequest {
   buildName: string;
 }
 export interface DeleteBuildServiceBuildResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBuildServiceBuilderRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1763,7 +1763,7 @@ export interface DeleteContainerRegistryRequest {
   containerRegistryName: string;
 }
 export interface DeleteContainerRegistryResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1791,7 +1791,7 @@ export interface DeleteCustomizedAcceleratorRequest {
   customizedAcceleratorName: string;
 }
 export interface DeleteCustomizedAcceleratorResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDeploymentRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1817,7 +1817,7 @@ export interface DeleteDevToolPortalRequest {
   devToolPortalName: string;
 }
 export interface DeleteDevToolPortalResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteGatewayRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1892,14 +1892,14 @@ export interface UserSourceInfo {
   /** Type of the source uploaded */
   type: string;
   /** Version of the source */
-  version?: string;
+  version?: string | undefined;
 }
 /** Deployment resource request payload */
 export interface ResourceRequests {
   /** Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier. */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Collection of environment variables */
 export type DeploymentSettingsEnvironmentVariablesMap = { [key: string]: string | undefined };
@@ -1915,53 +1915,53 @@ export interface ProbeAction {
 /** Probe describes a health check to be performed against an App Instance to determine whether it is alive or ready to receive traffic. */
 export interface Probe {
   /** The action of the probe. */
-  probeAction?: ProbeAction;
+  probeAction?: ProbeAction | undefined;
   /** Indicate whether the probe is disabled. */
   disableProbe: boolean;
   /** Number of seconds after the App Instance has started before probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** How often (in seconds) to perform the probe. Minimum value is 1. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** Number of seconds after which the probe times out. Minimum value is 1. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Minimum value is 1. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** Minimum consecutive successes for the probe to be considered successful after having failed. Must be 1 for liveness and startup. Minimum value is 1. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
 }
 /** Container liveness and readiness probe settings */
 export interface ContainerProbeSettings {
   /** Indicates whether disable the liveness and readiness probe */
-  disableProbe?: boolean;
+  disableProbe?: boolean | undefined;
 }
 /** Deployment settings payload */
 export interface DeploymentSettings {
   /** The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later. */
-  resourceRequests?: ResourceRequests;
+  resourceRequests?: ResourceRequests | undefined;
   /** Collection of environment variables */
-  environmentVariables?: DeploymentSettingsEnvironmentVariablesMap;
+  environmentVariables?: DeploymentSettingsEnvironmentVariablesMap | undefined;
   /** Collection of ApmReferences */
-  apms?: ApmReferenceCollection;
+  apms?: ApmReferenceCollection | undefined;
   /** Collection of addons */
-  addonConfigs?: DeploymentSettingsAddonConfigsMap;
+  addonConfigs?: DeploymentSettingsAddonConfigsMap | undefined;
   /** Periodic probe of App Instance liveness. App Instance will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  livenessProbe?: Probe;
+  livenessProbe?: Probe | undefined;
   /** Periodic probe of App Instance service readiness. App Instance will be removed from service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  readinessProbe?: Probe;
+  readinessProbe?: Probe | undefined;
   /** StartupProbe indicates that the App Instance has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a App Instance's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  startupProbe?: Probe;
+  startupProbe?: Probe | undefined;
   /** Optional duration in seconds the App Instance needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the App Instance are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 90 seconds. */
-  terminationGracePeriodSeconds?: number;
-  containerProbeSettings?: ContainerProbeSettings;
+  terminationGracePeriodSeconds?: number | undefined;
+  containerProbeSettings?: ContainerProbeSettings | undefined;
 }
 /** Deployment resource properties payload */
 export interface DeploymentResourcePropertiesInput {
   /** Uploaded source information of the deployment. */
-  source?: UserSourceInfo;
+  source?: UserSourceInfo | undefined;
   /** Deployment settings of the Deployment */
-  deploymentSettings?: DeploymentSettings;
+  deploymentSettings?: DeploymentSettings | undefined;
   /** Indicates whether the Deployment is active */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface DeploymentsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1975,9 +1975,9 @@ export interface DeploymentsCreateOrUpdateRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourcePropertiesInput;
+  properties?: DeploymentResourcePropertiesInput | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Provisioning state of the Deployment */
 export type DeploymentResourcePropertiesProvisioningState =
@@ -1990,83 +1990,83 @@ export type DeploymentResourcePropertiesStatus = "Stopped" | "Running";
 /** Deployment instance payload */
 export interface DeploymentInstance {
   /** Name of the deployment instance */
-  name?: string;
+  name?: string | undefined;
   /** Status of the deployment instance */
-  status?: string;
+  status?: string | undefined;
   /** Failed reason of the deployment instance */
-  reason?: string;
+  reason?: string | undefined;
   /** Discovery status of the deployment instance */
-  discoveryStatus?: string;
+  discoveryStatus?: string | undefined;
   /** Start time of the deployment instance */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Availability zone information of the deployment instance */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Collection of instances belong to the Deployment */
 export type DeploymentResourcePropertiesInstancesList = Array<DeploymentInstance>;
 /** Deployment resource properties payload */
 export interface DeploymentResourceProperties {
   /** Uploaded source information of the deployment. */
-  source?: UserSourceInfo;
+  source?: UserSourceInfo | undefined;
   /** Deployment settings of the Deployment */
-  deploymentSettings?: DeploymentSettings;
+  deploymentSettings?: DeploymentSettings | undefined;
   /** Provisioning state of the Deployment */
-  provisioningState?: DeploymentResourcePropertiesProvisioningState;
+  provisioningState?: DeploymentResourcePropertiesProvisioningState | undefined;
   /** Status of the Deployment */
-  status?: DeploymentResourcePropertiesStatus;
+  status?: DeploymentResourcePropertiesStatus | undefined;
   /** Indicates whether the Deployment is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Collection of instances belong to the Deployment */
-  instances?: DeploymentResourcePropertiesInstancesList;
+  instances?: DeploymentResourcePropertiesInstancesList | undefined;
 }
 export interface DeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourceProperties;
+  properties?: DeploymentResourceProperties | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** It defines the specific actions applications can be allowed to do on a user's behalf */
 export type DevToolPortalSsoPropertiesScopesList = Array<string>;
 /** Single sign-on related configuration */
 export interface DevToolPortalSsoProperties {
   /** It defines the specific actions applications can be allowed to do on a user's behalf */
-  scopes?: DevToolPortalSsoPropertiesScopesList;
+  scopes?: DevToolPortalSsoPropertiesScopesList | undefined;
   /** The public identifier for the application */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The secret known only to the application and the authorization server */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The URI of a JSON file with generic OIDC provider configuration. */
-  metadataUrl?: string;
+  metadataUrl?: string | undefined;
 }
 /** State of the plugin */
 export type DevToolPortalFeatureDetailInputState = "Enabled" | "Disabled";
 /** Detail settings for Dev Tool Portal feature */
 export interface DevToolPortalFeatureDetailInput {
   /** State of the plugin */
-  state?: DevToolPortalFeatureDetailInputState | (string & {});
+  state?: DevToolPortalFeatureDetailInputState | (string & {}) | undefined;
 }
 /** Settings for Dev Tool Portal */
 export interface DevToolPortalFeatureSettingsInput {
   /** Detail of Accelerator plugin */
-  applicationAccelerator?: DevToolPortalFeatureDetailInput;
+  applicationAccelerator?: DevToolPortalFeatureDetailInput | undefined;
   /** Detail of App Live View plugin */
-  applicationLiveView?: DevToolPortalFeatureDetailInput;
+  applicationLiveView?: DevToolPortalFeatureDetailInput | undefined;
 }
 /** Dev Tool Portal properties payload */
 export interface DevToolPortalPropertiesInput {
   /** Indicates whether the resource exposes public endpoint */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Single sign-on related configuration */
-  ssoProperties?: DevToolPortalSsoProperties;
+  ssoProperties?: DevToolPortalSsoProperties | undefined;
   /** Settings for Dev Tool Portal */
-  features?: DevToolPortalFeatureSettingsInput;
+  features?: DevToolPortalFeatureSettingsInput | undefined;
 }
 export interface DevToolPortalsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2077,7 +2077,7 @@ export interface DevToolPortalsCreateOrUpdateRequest {
   serviceName: string;
   /** The name of Dev Tool Portal. */
   devToolPortalName: string;
-  properties?: DevToolPortalPropertiesInput;
+  properties?: DevToolPortalPropertiesInput | undefined;
 }
 /** State of the Dev Tool Portal. */
 export type DevToolPortalPropertiesProvisioningState =
@@ -2090,27 +2090,27 @@ export type DevToolPortalPropertiesProvisioningState =
 /** The resource quantity for required CPU and Memory of Dev Tool Portal */
 export interface DevToolPortalResourceRequests {
   /** Cpu quantity allocated to each Dev Tool Portal instance. 1 core can be represented by 1 or 1000m */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory quantity allocated to each Dev Tool Portal instance. 1 GB can be represented by 1Gi or 1024Mi. */
-  memory?: string;
+  memory?: string | undefined;
   /** Desired instance count of Dev Tool Portal. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** Collection of instances belong to the Dev Tool Portal. */
 export interface DevToolPortalInstance {
   /** Name of the Dev Tool Portal instance. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Dev Tool Portal instance. It can be Pending, Running, Succeeded, Failed, Unknown. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to Dev Tool Portal. */
 export type DevToolPortalComponentInstancesList = Array<DevToolPortalInstance>;
 export interface DevToolPortalComponent {
-  name?: string;
+  name?: string | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: DevToolPortalResourceRequests;
+  resourceRequests?: DevToolPortalResourceRequests | undefined;
   /** Collection of instances belong to Dev Tool Portal. */
-  instances?: DevToolPortalComponentInstancesList;
+  instances?: DevToolPortalComponentInstancesList | undefined;
 }
 /** Collection of components belong to Dev Tool Portal. */
 export type DevToolPortalPropertiesComponentsList = Array<DevToolPortalComponent>;
@@ -2119,41 +2119,41 @@ export type DevToolPortalFeatureDetailState = "Enabled" | "Disabled";
 /** Detail settings for Dev Tool Portal feature */
 export interface DevToolPortalFeatureDetail {
   /** State of the plugin */
-  state?: DevToolPortalFeatureDetailState;
+  state?: DevToolPortalFeatureDetailState | undefined;
   /** Route path to visit the plugin */
-  route?: string;
+  route?: string | undefined;
 }
 /** Settings for Dev Tool Portal */
 export interface DevToolPortalFeatureSettings {
   /** Detail of Accelerator plugin */
-  applicationAccelerator?: DevToolPortalFeatureDetail;
+  applicationAccelerator?: DevToolPortalFeatureDetail | undefined;
   /** Detail of App Live View plugin */
-  applicationLiveView?: DevToolPortalFeatureDetail;
+  applicationLiveView?: DevToolPortalFeatureDetail | undefined;
 }
 /** Dev Tool Portal properties payload */
 export interface DevToolPortalProperties {
   /** State of the Dev Tool Portal. */
-  provisioningState?: DevToolPortalPropertiesProvisioningState;
+  provisioningState?: DevToolPortalPropertiesProvisioningState | undefined;
   /** Collection of components belong to Dev Tool Portal. */
-  components?: DevToolPortalPropertiesComponentsList;
+  components?: DevToolPortalPropertiesComponentsList | undefined;
   /** Indicates whether the resource exposes public endpoint */
-  public?: boolean;
+  public?: boolean | undefined;
   /** URL of the resource, exposed when 'public' is true. */
-  url?: string;
+  url?: string | undefined;
   /** Single sign-on related configuration */
-  ssoProperties?: DevToolPortalSsoProperties;
+  ssoProperties?: DevToolPortalSsoProperties | undefined;
   /** Settings for Dev Tool Portal */
-  features?: DevToolPortalFeatureSettings;
+  features?: DevToolPortalFeatureSettings | undefined;
 }
 export interface DevToolPortalsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: DevToolPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: DevToolPortalProperties | undefined;
 }
 export interface DisableDeploymentRemoteDebuggingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2170,9 +2170,9 @@ export interface DisableDeploymentRemoteDebuggingRequest {
 /** Remote debugging config. */
 export interface RemoteDebugging {
   /** Application debugging port */
-  port?: number;
+  port?: number | undefined;
   /** Indicate if remote debugging is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface DisablePredefinedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2187,7 +2187,7 @@ export interface DisablePredefinedAcceleratorRequest {
   predefinedAcceleratorName: string;
 }
 export interface DisablePredefinedAcceleratorResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DisableServiceApmGloballyRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2200,7 +2200,7 @@ export interface DisableServiceApmGloballyRequest {
   resourceId: string;
 }
 export interface DisableServiceApmGloballyResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DisableServiceTestEndpointRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2223,7 +2223,7 @@ export interface EnableDeploymentRemoteDebuggingRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** Application debugging port. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface EnablePredefinedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2238,7 +2238,7 @@ export interface EnablePredefinedAcceleratorRequest {
   predefinedAcceleratorName: string;
 }
 export interface EnablePredefinedAcceleratorResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface EnableServiceApmGloballyRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2251,7 +2251,7 @@ export interface EnableServiceApmGloballyRequest {
   resourceId: string;
 }
 export interface EnableServiceApmGloballyResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface EnableServiceTestEndpointRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2264,15 +2264,15 @@ export interface EnableServiceTestEndpointRequest {
 /** Test keys payload */
 export interface TestKeys {
   /** Primary key */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary key */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Primary test endpoint */
-  primaryTestEndpoint?: string;
+  primaryTestEndpoint?: string | undefined;
   /** Secondary test endpoint */
-  secondaryTestEndpoint?: string;
+  secondaryTestEndpoint?: string | undefined;
   /** Indicates whether the test endpoint feature enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface FlushServiceVnetDnsSettingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2283,7 +2283,7 @@ export interface FlushServiceVnetDnsSettingRequest {
   serviceName: string;
 }
 export interface FlushServiceVnetDnsSettingResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of custom domain for Spring Cloud Gateway */
 export type GatewayCustomDomainProperties = ApiPortalCustomDomainProperties;
@@ -2298,22 +2298,22 @@ export interface GatewayCustomDomainsCreateOrUpdateRequest {
   gatewayName: string;
   /** The name of the Spring Cloud Gateway custom domain. */
   domainName: string;
-  properties?: ApiPortalCustomDomainProperties;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 export interface GatewayCustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalCustomDomainProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 /** OpenAPI properties of Spring Cloud Gateway route config. */
 export interface GatewayRouteConfigOpenApiProperties {
   /** The URI of OpenAPI specification. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Protocol of routed Azure Spring Apps applications. */
 export type GatewayRouteConfigPropertiesInputProtocol = "HTTP" | "HTTPS";
@@ -2326,23 +2326,23 @@ export type GatewayApiRouteTagsList = Array<string>;
 /** API route config of the Spring Cloud Gateway */
 export interface GatewayApiRoute {
   /** A title, will be applied to methods in the generated OpenAPI documentation. */
-  title?: string;
+  title?: string | undefined;
   /** A description, will be applied to methods in the generated OpenAPI documentation. */
-  description?: string;
+  description?: string | undefined;
   /** Full uri, will override `appName`. */
-  uri?: string;
+  uri?: string | undefined;
   /** Enable sso validation. */
-  ssoEnabled?: boolean;
+  ssoEnabled?: boolean | undefined;
   /** Pass currently-authenticated user's identity token to application service, default is 'false' */
-  tokenRelay?: boolean;
+  tokenRelay?: boolean | undefined;
   /** A number of conditions to evaluate a route for each request. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
-  predicates?: GatewayApiRoutePredicatesList;
+  predicates?: GatewayApiRoutePredicatesList | undefined;
   /** To modify the request before sending it to the target endpoint, or the received response. */
-  filters?: GatewayApiRouteFiltersList;
+  filters?: GatewayApiRouteFiltersList | undefined;
   /** Route processing order. */
-  order?: number;
+  order?: number | undefined;
   /** Classification tags, will be applied to methods in the generated OpenAPI documentation. */
-  tags?: GatewayApiRouteTagsList;
+  tags?: GatewayApiRouteTagsList | undefined;
 }
 /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
 export type GatewayRouteConfigPropertiesInputRoutesList = Array<GatewayApiRoute>;
@@ -2353,18 +2353,18 @@ export type GatewayRouteConfigPropertiesInputFiltersList = Array<string>;
 /** API route config of the Spring Cloud Gateway */
 export interface GatewayRouteConfigPropertiesInput {
   /** The resource Id of the Azure Spring Apps app, required unless route defines `uri`. */
-  appResourceId?: string;
-  openApi?: GatewayRouteConfigOpenApiProperties;
+  appResourceId?: string | undefined;
+  openApi?: GatewayRouteConfigOpenApiProperties | undefined;
   /** Protocol of routed Azure Spring Apps applications. */
-  protocol?: GatewayRouteConfigPropertiesInputProtocol | (string & {});
+  protocol?: GatewayRouteConfigPropertiesInputProtocol | (string & {}) | undefined;
   /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
-  routes?: GatewayRouteConfigPropertiesInputRoutesList;
+  routes?: GatewayRouteConfigPropertiesInputRoutesList | undefined;
   /** Enable Single Sign-On in app level. */
-  ssoEnabled?: boolean;
+  ssoEnabled?: boolean | undefined;
   /** A number of conditions to evaluate a route for each request in app level. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
-  predicates?: GatewayRouteConfigPropertiesInputPredicatesList;
+  predicates?: GatewayRouteConfigPropertiesInputPredicatesList | undefined;
   /** To modify the request before sending it to the target endpoint, or the received response in app level. */
-  filters?: GatewayRouteConfigPropertiesInputFiltersList;
+  filters?: GatewayRouteConfigPropertiesInputFiltersList | undefined;
 }
 export interface GatewayRouteConfigsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2377,7 +2377,7 @@ export interface GatewayRouteConfigsCreateOrUpdateRequest {
   gatewayName: string;
   /** The name of the Spring Cloud Gateway route config. */
   routeConfigName: string;
-  properties?: GatewayRouteConfigPropertiesInput;
+  properties?: GatewayRouteConfigPropertiesInput | undefined;
 }
 /** State of the Spring Cloud Gateway route config. */
 export type GatewayRouteConfigPropertiesProvisioningState =
@@ -2397,43 +2397,43 @@ export type GatewayRouteConfigPropertiesFiltersList = Array<string>;
 /** API route config of the Spring Cloud Gateway */
 export interface GatewayRouteConfigProperties {
   /** State of the Spring Cloud Gateway route config. */
-  provisioningState?: GatewayRouteConfigPropertiesProvisioningState;
+  provisioningState?: GatewayRouteConfigPropertiesProvisioningState | undefined;
   /** The resource Id of the Azure Spring Apps app, required unless route defines `uri`. */
-  appResourceId?: string;
-  openApi?: GatewayRouteConfigOpenApiProperties;
+  appResourceId?: string | undefined;
+  openApi?: GatewayRouteConfigOpenApiProperties | undefined;
   /** Protocol of routed Azure Spring Apps applications. */
-  protocol?: GatewayRouteConfigPropertiesProtocol;
+  protocol?: GatewayRouteConfigPropertiesProtocol | undefined;
   /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
-  routes?: GatewayRouteConfigPropertiesRoutesList;
+  routes?: GatewayRouteConfigPropertiesRoutesList | undefined;
   /** Enable Single Sign-On in app level. */
-  ssoEnabled?: boolean;
+  ssoEnabled?: boolean | undefined;
   /** A number of conditions to evaluate a route for each request in app level. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
-  predicates?: GatewayRouteConfigPropertiesPredicatesList;
+  predicates?: GatewayRouteConfigPropertiesPredicatesList | undefined;
   /** To modify the request before sending it to the target endpoint, or the received response in app level. */
-  filters?: GatewayRouteConfigPropertiesFiltersList;
+  filters?: GatewayRouteConfigPropertiesFiltersList | undefined;
 }
 export interface GatewayRouteConfigsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayRouteConfigProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayRouteConfigProperties | undefined;
 }
 /** API metadata property for Spring Cloud Gateway */
 export interface GatewayApiMetadataProperties {
   /** Title describing the context of the APIs available on the Gateway instance (default: `Spring Cloud Gateway for K8S`) */
-  title?: string;
+  title?: string | undefined;
   /** Detailed description of the APIs available on the Gateway instance (default: `Generated OpenAPI 3 document that describes the API routes configured.`) */
-  description?: string;
+  description?: string | undefined;
   /** Location of additional documentation for the APIs available on the Gateway instance */
-  documentation?: string;
+  documentation?: string | undefined;
   /** Version of APIs available on this Gateway instance (default: `unspecified`). */
-  version?: string;
+  version?: string | undefined;
   /** Base URL that API consumers will use to access APIs on the Gateway instance. */
-  serverUrl?: string;
+  serverUrl?: string | undefined;
 }
 /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
 export type GatewayCorsPropertiesAllowedOriginsList = Array<string>;
@@ -2448,19 +2448,19 @@ export type GatewayCorsPropertiesExposedHeadersList = Array<string>;
 /** Cross-Origin Resource Sharing property */
 export interface GatewayCorsProperties {
   /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
-  allowedOrigins?: GatewayCorsPropertiesAllowedOriginsList;
+  allowedOrigins?: GatewayCorsPropertiesAllowedOriginsList | undefined;
   /** Allowed origin patterns to make cross-site requests. */
-  allowedOriginPatterns?: GatewayCorsPropertiesAllowedOriginPatternsList;
+  allowedOriginPatterns?: GatewayCorsPropertiesAllowedOriginPatternsList | undefined;
   /** Allowed HTTP methods on cross-site requests. The special value `*` allows all methods. If not set, `GET` and `HEAD` are allowed by default. */
-  allowedMethods?: GatewayCorsPropertiesAllowedMethodsList;
+  allowedMethods?: GatewayCorsPropertiesAllowedMethodsList | undefined;
   /** Allowed headers in cross-site requests. The special value `*` allows actual requests to send any header. */
-  allowedHeaders?: GatewayCorsPropertiesAllowedHeadersList;
+  allowedHeaders?: GatewayCorsPropertiesAllowedHeadersList | undefined;
   /** How long, in seconds, the response from a pre-flight request can be cached by clients. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Whether user credentials are supported on cross-site requests. Valid values: `true`, `false`. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
   /** HTTP response headers to expose for cross-site requests. */
-  exposedHeaders?: GatewayCorsPropertiesExposedHeadersList;
+  exposedHeaders?: GatewayCorsPropertiesExposedHeadersList | undefined;
 }
 /** Collection of certificate resource Ids in Azure Spring Apps. */
 export type GatewayPropertiesInputClientAuthCertificatesList = Array<string>;
@@ -2469,9 +2469,12 @@ export type GatewayPropertiesInputClientAuthCertificateVerification = "Enabled" 
 /** Client-Certification Authentication. */
 export interface GatewayPropertiesInputClientAuth {
   /** Collection of certificate resource Ids in Azure Spring Apps. */
-  certificates?: GatewayPropertiesInputClientAuthCertificatesList;
+  certificates?: GatewayPropertiesInputClientAuthCertificatesList | undefined;
   /** Whether to enable certificate verification or not */
-  certificateVerification?: GatewayPropertiesInputClientAuthCertificateVerification | (string & {});
+  certificateVerification?:
+    | GatewayPropertiesInputClientAuthCertificateVerification
+    | (string & {})
+    | undefined;
 }
 /** Non-sensitive properties */
 export type GatewayPropertiesInputEnvironmentVariablesPropertiesMap = {
@@ -2484,34 +2487,34 @@ export type GatewayPropertiesInputEnvironmentVariablesSecretsMap = {
 /** Environment variables of Spring Cloud Gateway */
 export interface GatewayPropertiesInputEnvironmentVariables {
   /** Non-sensitive properties */
-  properties?: GatewayPropertiesInputEnvironmentVariablesPropertiesMap;
+  properties?: GatewayPropertiesInputEnvironmentVariablesPropertiesMap | undefined;
   /** Sensitive properties */
-  secrets?: GatewayPropertiesInputEnvironmentVariablesSecretsMap;
+  secrets?: GatewayPropertiesInputEnvironmentVariablesSecretsMap | undefined;
 }
 /** Resource request payload of Spring Cloud Gateway. */
 export interface GatewayResourceRequests {
   /** Cpu allocated to each Spring Cloud Gateway instance. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each Spring Cloud Gateway instance. */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Spring Cloud Gateway properties payload */
 export interface GatewayPropertiesInput {
   /** Indicates whether the Spring Cloud Gateway exposes endpoint. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
-  ssoProperties?: SsoProperties;
-  apiMetadataProperties?: GatewayApiMetadataProperties;
-  corsProperties?: GatewayCorsProperties;
+  httpsOnly?: boolean | undefined;
+  ssoProperties?: SsoProperties | undefined;
+  apiMetadataProperties?: GatewayApiMetadataProperties | undefined;
+  corsProperties?: GatewayCorsProperties | undefined;
   /** Client-Certification Authentication. */
-  clientAuth?: GatewayPropertiesInputClientAuth;
+  clientAuth?: GatewayPropertiesInputClientAuth | undefined;
   /** Collection of ApmReferences in service level */
-  apms?: ApmReferenceCollection;
+  apms?: ApmReferenceCollection | undefined;
   /** Environment variables of Spring Cloud Gateway */
-  environmentVariables?: GatewayPropertiesInputEnvironmentVariables;
+  environmentVariables?: GatewayPropertiesInputEnvironmentVariables | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: GatewayResourceRequests;
+  resourceRequests?: GatewayResourceRequests | undefined;
 }
 export interface GatewaysCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2522,9 +2525,9 @@ export interface GatewaysCreateOrUpdateRequest {
   serviceName: string;
   /** The name of Spring Cloud Gateway. */
   gatewayName: string;
-  properties?: GatewayPropertiesInput;
+  properties?: GatewayPropertiesInput | undefined;
   /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** State of the Spring Cloud Gateway. */
 export type GatewayPropertiesProvisioningState =
@@ -2540,9 +2543,9 @@ export type GatewayPropertiesClientAuthCertificateVerification = "Enabled" | "Di
 /** Client-Certification Authentication. */
 export interface GatewayPropertiesClientAuth {
   /** Collection of certificate resource Ids in Azure Spring Apps. */
-  certificates?: GatewayPropertiesClientAuthCertificatesList;
+  certificates?: GatewayPropertiesClientAuthCertificatesList | undefined;
   /** Whether to enable certificate verification or not */
-  certificateVerification?: GatewayPropertiesClientAuthCertificateVerification;
+  certificateVerification?: GatewayPropertiesClientAuthCertificateVerification | undefined;
 }
 /** Non-sensitive properties */
 export type GatewayPropertiesEnvironmentVariablesPropertiesMap = {
@@ -2553,73 +2556,73 @@ export type GatewayPropertiesEnvironmentVariablesSecretsMap = { [key: string]: s
 /** Environment variables of Spring Cloud Gateway */
 export interface GatewayPropertiesEnvironmentVariables {
   /** Non-sensitive properties */
-  properties?: GatewayPropertiesEnvironmentVariablesPropertiesMap;
+  properties?: GatewayPropertiesEnvironmentVariablesPropertiesMap | undefined;
   /** Sensitive properties */
-  secrets?: GatewayPropertiesEnvironmentVariablesSecretsMap;
+  secrets?: GatewayPropertiesEnvironmentVariablesSecretsMap | undefined;
 }
 /** Collection of instances belong to the Spring Cloud Gateway */
 export interface GatewayInstance {
   /** Name of the Spring Cloud Gateway instance */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Spring Cloud Gateway instance */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to Spring Cloud Gateway. */
 export type GatewayPropertiesInstancesList = Array<GatewayInstance>;
 /** Properties of the Spring Cloud Gateway Operator. */
 export interface GatewayOperatorResourceRequests {
   /** Cpu allocated to each Spring Cloud Gateway Operator instance. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each Spring Cloud Gateway Operator instance. */
-  memory?: string;
+  memory?: string | undefined;
   /** Instance count of the Spring Cloud Gateway Operator. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** Collection of instances belong to Spring Cloud Gateway operator. */
 export type GatewayOperatorPropertiesInstancesList = Array<GatewayInstance>;
 /** Properties of the Spring Cloud Gateway Operator. */
 export interface GatewayOperatorProperties {
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: GatewayOperatorResourceRequests;
+  resourceRequests?: GatewayOperatorResourceRequests | undefined;
   /** Collection of instances belong to Spring Cloud Gateway operator. */
-  instances?: GatewayOperatorPropertiesInstancesList;
+  instances?: GatewayOperatorPropertiesInstancesList | undefined;
 }
 /** Spring Cloud Gateway properties payload */
 export interface GatewayProperties {
   /** State of the Spring Cloud Gateway. */
-  provisioningState?: GatewayPropertiesProvisioningState;
+  provisioningState?: GatewayPropertiesProvisioningState | undefined;
   /** Indicates whether the Spring Cloud Gateway exposes endpoint. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** URL of the Spring Cloud Gateway, exposed when 'public' is true. */
-  url?: string;
+  url?: string | undefined;
   /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
-  ssoProperties?: SsoProperties;
-  apiMetadataProperties?: GatewayApiMetadataProperties;
-  corsProperties?: GatewayCorsProperties;
+  httpsOnly?: boolean | undefined;
+  ssoProperties?: SsoProperties | undefined;
+  apiMetadataProperties?: GatewayApiMetadataProperties | undefined;
+  corsProperties?: GatewayCorsProperties | undefined;
   /** Client-Certification Authentication. */
-  clientAuth?: GatewayPropertiesClientAuth;
+  clientAuth?: GatewayPropertiesClientAuth | undefined;
   /** Collection of ApmReferences in service level */
-  apms?: ApmReferenceCollection;
+  apms?: ApmReferenceCollection | undefined;
   /** Environment variables of Spring Cloud Gateway */
-  environmentVariables?: GatewayPropertiesEnvironmentVariables;
+  environmentVariables?: GatewayPropertiesEnvironmentVariables | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: GatewayResourceRequests;
+  resourceRequests?: GatewayResourceRequests | undefined;
   /** Collection of instances belong to Spring Cloud Gateway. */
-  instances?: GatewayPropertiesInstancesList;
-  operatorProperties?: GatewayOperatorProperties;
+  instances?: GatewayPropertiesInstancesList | undefined;
+  operatorProperties?: GatewayOperatorProperties | undefined;
 }
 export interface GatewaysCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayProperties | undefined;
   /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GenerateDeploymentHeapDumpRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2633,11 +2636,11 @@ export interface GenerateDeploymentHeapDumpRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** App instance name */
-  appInstance?: string;
+  appInstance?: string | undefined;
   /** Your target file path in your own BYOS */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Duration of your JFR. 1 min can be represented by 1m or 60s. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export interface GenerateDeploymentHeapDumpResponse {}
 export interface GenerateDeploymentThreadDumpRequest {
@@ -2652,11 +2655,11 @@ export interface GenerateDeploymentThreadDumpRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** App instance name */
-  appInstance?: string;
+  appInstance?: string | undefined;
   /** Your target file path in your own BYOS */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Duration of your JFR. 1 min can be represented by 1m or 60s. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export interface GenerateDeploymentThreadDumpResponse {}
 export interface GetApiPortalRequest {
@@ -2671,15 +2674,15 @@ export interface GetApiPortalRequest {
 }
 export interface GetApiPortalResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalProperties | undefined;
   /** Sku of the API portal resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetApiPortalCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2695,13 +2698,13 @@ export interface GetApiPortalCustomDomainRequest {
 }
 export interface GetApiPortalCustomDomainResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalCustomDomainProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 export interface GetApmRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2715,14 +2718,14 @@ export interface GetApmRequest {
 }
 export interface GetApmResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of an APM */
-  properties?: ApmProperties;
+  properties?: ApmProperties | undefined;
 }
 export interface GetAppRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2734,22 +2737,22 @@ export interface GetAppRequest {
   /** The name of the App resource. */
   appName: string;
   /** Indicates whether sync status */
-  syncStatus?: string;
+  syncStatus?: string | undefined;
 }
 export interface GetAppResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the App resource */
-  properties?: AppResourceProperties;
+  properties?: AppResourceProperties | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityProperties;
+  identity?: ManagedIdentityProperties | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetApplicationAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2763,15 +2766,15 @@ export interface GetApplicationAcceleratorRequest {
 }
 export interface GetApplicationAcceleratorResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationAcceleratorProperties | undefined;
   /** Sku of the application accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetApplicationLiveViewRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2785,13 +2788,13 @@ export interface GetApplicationLiveViewRequest {
 }
 export interface GetApplicationLiveViewResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationLiveViewProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationLiveViewProperties | undefined;
 }
 export interface GetBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2807,14 +2810,14 @@ export interface GetBindingRequest {
 }
 export interface GetBindingResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Binding resource */
-  properties?: BindingResourceProperties;
+  properties?: BindingResourceProperties | undefined;
 }
 export interface GetBuildpackBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2832,14 +2835,14 @@ export interface GetBuildpackBindingRequest {
 }
 export interface GetBuildpackBindingResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of a buildpack binding */
-  properties?: BuildpackBindingProperties;
+  properties?: BuildpackBindingProperties | undefined;
 }
 export interface GetBuildServiceAgentPoolRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2855,14 +2858,14 @@ export interface GetBuildServiceAgentPoolRequest {
 }
 export interface GetBuildServiceAgentPoolResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** build service agent pool properties */
-  properties?: BuildServiceAgentPoolProperties;
+  properties?: BuildServiceAgentPoolProperties | undefined;
 }
 export interface GetBuildServiceBuildRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2878,14 +2881,14 @@ export interface GetBuildServiceBuildRequest {
 }
 export interface GetBuildServiceBuildResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildProperties;
+  properties?: BuildProperties | undefined;
 }
 export interface GetBuildServiceBuilderRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2901,14 +2904,14 @@ export interface GetBuildServiceBuilderRequest {
 }
 export interface GetBuildServiceBuilderResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Property of the Builder resource. */
-  properties?: BuilderProperties;
+  properties?: BuilderProperties | undefined;
 }
 export interface GetBuildServiceBuildResultRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2936,41 +2939,41 @@ export type BuildStagePropertiesStatus = "NotStarted" | "Running" | "Succeeded" 
 /** The build stage (init-container and container) resources in build pod. */
 export interface BuildStageProperties {
   /** The name of this build stage resource. */
-  name?: string;
+  name?: string | undefined;
   /** The provisioning state of this build stage resource. */
-  status?: BuildStagePropertiesStatus;
+  status?: BuildStagePropertiesStatus | undefined;
   /** The exit code of this build init container. */
-  exitCode?: string;
+  exitCode?: string | undefined;
   /** The reason of this build init container. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** All of the build stage (init-container and container) resources in build pod. */
 export type BuildResultPropertiesBuildStagesList = Array<BuildStageProperties>;
 /** Build result resource properties payload */
 export interface BuildResultProperties {
   /** The name of this build result */
-  name?: string;
+  name?: string | undefined;
   /** Provisioning state of the KPack build result */
-  provisioningState?: BuildResultPropertiesProvisioningState;
+  provisioningState?: BuildResultPropertiesProvisioningState | undefined;
   /** Error when build is failed. */
-  error?: Error;
+  error?: Error | undefined;
   /** The build pod name which can be used to get the build log streaming. */
-  buildPodName?: string;
+  buildPodName?: string | undefined;
   /** All of the build stage (init-container and container) resources in build pod. */
-  buildStages?: BuildResultPropertiesBuildStagesList;
+  buildStages?: BuildResultPropertiesBuildStagesList | undefined;
   /** The container registry image of this build result. */
-  image?: string;
+  image?: string | undefined;
 }
 export interface GetBuildServiceBuildResultResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build result resource */
-  properties?: BuildResultProperties;
+  properties?: BuildResultProperties | undefined;
 }
 export interface GetBuildServiceBuildResultLogRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2989,7 +2992,7 @@ export interface GetBuildServiceBuildResultLogRequest {
 /** Build result log resource properties payload */
 export interface BuildResultLog {
   /** The public download URL of this build result log */
-  blobUrl?: string;
+  blobUrl?: string | undefined;
 }
 export interface GetBuildServiceBuildServiceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3003,14 +3006,14 @@ export interface GetBuildServiceBuildServiceRequest {
 }
 export interface GetBuildServiceBuildServiceResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildServiceProperties;
+  properties?: BuildServiceProperties | undefined;
 }
 export interface GetBuildServiceSupportedBuildpackRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3027,17 +3030,17 @@ export interface GetBuildServiceSupportedBuildpackRequest {
 /** Supported buildpack resource properties */
 export interface SupportedBuildpackResourceProperties {
   /** The id of supported buildpack */
-  buildpackId?: string;
+  buildpackId?: string | undefined;
 }
 export interface GetBuildServiceSupportedBuildpackResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: SupportedBuildpackResourceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: SupportedBuildpackResourceProperties | undefined;
 }
 export interface GetBuildServiceSupportedStackRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3054,19 +3057,19 @@ export interface GetBuildServiceSupportedStackRequest {
 /** Supported stack resource properties */
 export interface SupportedStackResourceProperties {
   /** The id of supported stack */
-  stackId?: string;
+  stackId?: string | undefined;
   /** The version of supported stack */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetBuildServiceSupportedStackResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: SupportedStackResourceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: SupportedStackResourceProperties | undefined;
 }
 export interface GetCertificateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3080,14 +3083,14 @@ export interface GetCertificateRequest {
 }
 export interface GetCertificateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the certificate resource payload. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface GetConfigServerRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3099,14 +3102,14 @@ export interface GetConfigServerRequest {
 }
 export interface GetConfigServerResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Config Server resource */
-  properties?: ConfigServerProperties;
+  properties?: ConfigServerProperties | undefined;
 }
 export interface GetConfigurationServiceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3120,13 +3123,13 @@ export interface GetConfigurationServiceRequest {
 }
 export interface GetConfigurationServiceResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ConfigurationServiceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ConfigurationServiceProperties | undefined;
 }
 export interface GetContainerRegistryRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3140,14 +3143,14 @@ export interface GetContainerRegistryRequest {
 }
 export interface GetContainerRegistryResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the container registry resource payload. */
-  properties?: ContainerRegistryProperties;
+  properties?: ContainerRegistryProperties | undefined;
 }
 export interface GetCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3163,14 +3166,14 @@ export interface GetCustomDomainRequest {
 }
 export interface GetCustomDomainResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 export interface GetCustomizedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3186,15 +3189,15 @@ export interface GetCustomizedAcceleratorRequest {
 }
 export interface GetCustomizedAcceleratorResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: CustomizedAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: CustomizedAcceleratorProperties | undefined;
   /** Sku of the customized accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetDeploymentRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3210,16 +3213,16 @@ export interface GetDeploymentRequest {
 }
 export interface GetDeploymentResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourceProperties;
+  properties?: DeploymentResourceProperties | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetDeploymentLogFileUrlRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3262,13 +3265,13 @@ export interface GetDevToolPortalRequest {
 }
 export interface GetDevToolPortalResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: DevToolPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: DevToolPortalProperties | undefined;
 }
 export interface GetGatewayRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3282,15 +3285,15 @@ export interface GetGatewayRequest {
 }
 export interface GetGatewayResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayProperties | undefined;
   /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetGatewayCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3306,13 +3309,13 @@ export interface GetGatewayCustomDomainRequest {
 }
 export interface GetGatewayCustomDomainResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalCustomDomainProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 export interface GetGatewayRouteConfigRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3328,13 +3331,13 @@ export interface GetGatewayRouteConfigRequest {
 }
 export interface GetGatewayRouteConfigResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayRouteConfigProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayRouteConfigProperties | undefined;
 }
 export interface GetMonitoringSettingsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3353,33 +3356,33 @@ export type MonitoringSettingPropertiesProvisioningState =
 /** Application Insights agent versions properties payload */
 export interface ApplicationInsightsAgentVersions {
   /** Indicates the version of application insight java agent */
-  java?: string;
+  java?: string | undefined;
 }
 /** Monitoring Setting properties payload */
 export interface MonitoringSettingProperties {
   /** State of the Monitoring Setting. */
-  provisioningState?: MonitoringSettingPropertiesProvisioningState;
+  provisioningState?: MonitoringSettingPropertiesProvisioningState | undefined;
   /** Error when apply Monitoring Setting changes. */
-  error?: Error;
+  error?: Error | undefined;
   /** Indicates whether enable the trace functionality, which will be deprecated since api version 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if monitoringSettings enabled or not */
-  traceEnabled?: boolean;
+  traceEnabled?: boolean | undefined;
   /** Target application insight instrumentation key, null or whitespace include empty will disable monitoringSettings */
-  appInsightsInstrumentationKey?: string;
+  appInsightsInstrumentationKey?: string | undefined;
   /** Indicates the sampling rate of application insight agent, should be in range [0.0, 100.0] */
-  appInsightsSamplingRate?: number;
+  appInsightsSamplingRate?: number | undefined;
   /** Indicates the versions of application insight agent */
-  appInsightsAgentVersions?: ApplicationInsightsAgentVersions;
+  appInsightsAgentVersions?: ApplicationInsightsAgentVersions | undefined;
 }
 export interface GetMonitoringSettingsResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Monitoring Setting resource */
-  properties?: MonitoringSettingProperties;
+  properties?: MonitoringSettingProperties | undefined;
 }
 export interface GetPredefinedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3406,25 +3409,25 @@ export type PredefinedAcceleratorPropertiesState = "Enabled" | "Disabled";
 /** Predefined accelerator properties payload */
 export interface PredefinedAcceleratorProperties {
   /** Provisioning state of the predefined accelerator. */
-  provisioningState?: PredefinedAcceleratorPropertiesProvisioningState;
-  displayName?: string;
-  description?: string;
-  iconUrl?: string;
-  acceleratorTags?: PredefinedAcceleratorPropertiesAcceleratorTagsList;
+  provisioningState?: PredefinedAcceleratorPropertiesProvisioningState | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  iconUrl?: string | undefined;
+  acceleratorTags?: PredefinedAcceleratorPropertiesAcceleratorTagsList | undefined;
   /** State of the predefined accelerator. */
-  state?: PredefinedAcceleratorPropertiesState;
+  state?: PredefinedAcceleratorPropertiesState | undefined;
 }
 export interface GetPredefinedAcceleratorResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: PredefinedAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: PredefinedAcceleratorProperties | undefined;
   /** Sku of the predefined accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetServiceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3454,7 +3457,7 @@ export type NetworkProfileOutboundIPsPublicIPsList = Array<string>;
 /** Desired outbound IP resources for Azure Spring Apps resource. */
 export interface NetworkProfileOutboundIPs {
   /** A list of public IP addresses. */
-  publicIPs?: NetworkProfileOutboundIPsPublicIPsList;
+  publicIPs?: NetworkProfileOutboundIPsPublicIPsList | undefined;
 }
 /** The ip list of required traffic */
 export type RequiredTrafficIpsList = Array<string>;
@@ -3465,98 +3468,98 @@ export type RequiredTrafficDirection = "Inbound" | "Outbound";
 /** Required inbound or outbound traffic for Azure Spring Apps resource. */
 export interface RequiredTraffic {
   /** The protocol of required traffic */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The port of required traffic */
-  port?: number;
+  port?: number | undefined;
   /** The ip list of required traffic */
-  ips?: RequiredTrafficIpsList;
+  ips?: RequiredTrafficIpsList | undefined;
   /** The FQDN list of required traffic */
-  fqdns?: RequiredTrafficFqdnsList;
+  fqdns?: RequiredTrafficFqdnsList | undefined;
   /** The direction of required traffic */
-  direction?: RequiredTrafficDirection;
+  direction?: RequiredTrafficDirection | undefined;
 }
 /** Required inbound or outbound traffics for Azure Spring Apps resource. */
 export type NetworkProfileRequiredTrafficsList = Array<RequiredTraffic>;
 /** Ingress configuration payload for Azure Spring Apps resource. */
 export interface IngressConfig {
   /** Ingress read time out in seconds. */
-  readTimeoutInSeconds?: number;
+  readTimeoutInSeconds?: number | undefined;
 }
 /** Service network profile payload */
 export interface NetworkProfile {
   /** Fully qualified resource Id of the subnet to host Azure Spring Apps Service Runtime */
-  serviceRuntimeSubnetId?: string;
+  serviceRuntimeSubnetId?: string | undefined;
   /** Fully qualified resource Id of the subnet to host customer apps in Azure Spring Apps */
-  appSubnetId?: string;
+  appSubnetId?: string | undefined;
   /** Azure Spring Apps service reserved CIDR */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** Name of the resource group containing network resources of Azure Spring Apps Service Runtime */
-  serviceRuntimeNetworkResourceGroup?: string;
+  serviceRuntimeNetworkResourceGroup?: string | undefined;
   /** Name of the resource group containing network resources for customer apps in Azure Spring Apps */
-  appNetworkResourceGroup?: string;
+  appNetworkResourceGroup?: string | undefined;
   /** Desired outbound IP resources for Azure Spring Apps resource. */
-  outboundIPs?: NetworkProfileOutboundIPs;
+  outboundIPs?: NetworkProfileOutboundIPs | undefined;
   /** Required inbound or outbound traffics for Azure Spring Apps resource. */
-  requiredTraffics?: NetworkProfileRequiredTrafficsList;
+  requiredTraffics?: NetworkProfileRequiredTrafficsList | undefined;
   /** Ingress configuration payload for Azure Spring Apps resource. */
-  ingressConfig?: IngressConfig;
+  ingressConfig?: IngressConfig | undefined;
   /** The egress traffic type of Azure Spring Apps VNet instances. */
-  outboundType?: string;
+  outboundType?: string | undefined;
 }
 /** Additional Service settings in vnet injection instance */
 export interface ServiceVNetAddons {
   /** Indicates whether the log stream in vnet injection instance could be accessed from internet. */
-  logStreamPublicEndpoint?: boolean;
+  logStreamPublicEndpoint?: boolean | undefined;
   /** Indicates whether the data plane components(log stream, app connect, remote debugging) in vnet injection instance could be accessed from internet. */
-  dataPlanePublicEndpoint?: boolean;
+  dataPlanePublicEndpoint?: boolean | undefined;
 }
 /** Power state of the Service */
 export type ClusterResourcePropertiesPowerState = "Running" | "Stopped";
 /** Purchasing 3rd Party product for one Azure Spring Apps instance */
 export interface MarketplaceResource {
   /** The plan id of the 3rd Party Artifact that is being procured. */
-  plan?: string;
+  plan?: string | undefined;
   /** The publisher id of the 3rd Party Artifact that is being bought. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The 3rd Party artifact that is being procured. */
-  product?: string;
+  product?: string | undefined;
 }
 /** Service properties payload */
 export interface ClusterResourceProperties {
   /** Provisioning state of the Service */
-  provisioningState?: ClusterResourcePropertiesProvisioningState;
+  provisioningState?: ClusterResourcePropertiesProvisioningState | undefined;
   /** Network profile of the Service */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Additional Service settings in vnet injection instance */
-  vnetAddons?: ServiceVNetAddons;
+  vnetAddons?: ServiceVNetAddons | undefined;
   /** Version of the Service */
-  version?: number;
+  version?: number | undefined;
   /** ServiceInstanceEntity Id which uniquely identifies a created resource */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** Power state of the Service */
-  powerState?: ClusterResourcePropertiesPowerState;
-  zoneRedundant?: boolean;
+  powerState?: ClusterResourcePropertiesPowerState | undefined;
+  zoneRedundant?: boolean | undefined;
   /** Fully qualified dns name of the service instance */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Purchasing 3rd party product of the Service resource. */
-  marketplaceResource?: MarketplaceResource;
+  marketplaceResource?: MarketplaceResource | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetServiceRegistryRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3578,39 +3581,39 @@ export type ServiceRegistryPropertiesProvisioningState =
 /** Resource request payload of Service Registry */
 export interface ServiceRegistryResourceRequests {
   /** Cpu allocated to each Service Registry instance */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Memory allocated to each Service Registry instance */
-  memory?: string;
+  memory?: string | undefined;
   /** Instance count of the Service Registry */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** Collection of instances belong to the Service Registry */
 export interface ServiceRegistryInstance {
   /** Name of the Service Registry instance */
-  name?: string;
+  name?: string | undefined;
   /** Status of the Service Registry instance */
-  status?: string;
+  status?: string | undefined;
 }
 /** Collection of instances belong to Service Registry. */
 export type ServiceRegistryPropertiesInstancesList = Array<ServiceRegistryInstance>;
 /** Service Registry properties payload */
 export interface ServiceRegistryProperties {
   /** State of the Service Registry. */
-  provisioningState?: ServiceRegistryPropertiesProvisioningState;
+  provisioningState?: ServiceRegistryPropertiesProvisioningState | undefined;
   /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: ServiceRegistryResourceRequests;
+  resourceRequests?: ServiceRegistryResourceRequests | undefined;
   /** Collection of instances belong to Service Registry. */
-  instances?: ServiceRegistryPropertiesInstancesList;
+  instances?: ServiceRegistryPropertiesInstancesList | undefined;
 }
 export interface GetServiceRegistryResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ServiceRegistryProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ServiceRegistryProperties | undefined;
 }
 export interface GetStorageRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3631,14 +3634,14 @@ export interface StorageProperties {
 }
 export interface GetStorageResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the storage resource payload. */
-  properties?: StorageProperties;
+  properties?: StorageProperties | undefined;
 }
 export interface ListApiPortalCustomDomainsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3653,22 +3656,22 @@ export interface ListApiPortalCustomDomainsRequest {
 /** Custom domain of the API portal */
 export interface ApiPortalCustomDomainResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalCustomDomainProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalCustomDomainProperties | undefined;
 }
 /** Collection of API portal custom domain resources */
 export type ApiPortalCustomDomainResourceCollectionValueList = Array<ApiPortalCustomDomainResource>;
 /** Object that includes an array of API portal custom domain resources and a possible link for next set */
 export interface ApiPortalCustomDomainResourceCollection {
   /** Collection of API portal custom domain resources */
-  value?: ApiPortalCustomDomainResourceCollectionValueList;
+  value?: ApiPortalCustomDomainResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiPortalsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3681,24 +3684,24 @@ export interface ListApiPortalsRequest {
 /** API portal resource */
 export interface ApiPortalResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApiPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApiPortalProperties | undefined;
   /** Sku of the API portal resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of API portal resources */
 export type ApiPortalResourceCollectionValueList = Array<ApiPortalResource>;
 /** Object that includes an array of API portal resources and a possible link for next set */
 export interface ApiPortalResourceCollection {
   /** Collection of API portal resources */
-  value?: ApiPortalResourceCollectionValueList;
+  value?: ApiPortalResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApmsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3711,23 +3714,23 @@ export interface ListApmsRequest {
 /** APM Resource object */
 export interface ApmResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of an APM */
-  properties?: ApmProperties;
+  properties?: ApmProperties | undefined;
 }
 /** Collection of APM resources */
 export type ApmResourceCollectionValueList = Array<ApmResource>;
 /** Object that includes an array of APM resources and a possible link for next set */
 export interface ApmResourceCollection {
   /** Collection of APM resources */
-  value?: ApmResourceCollectionValueList;
+  value?: ApmResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApmSecretKeysRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3744,7 +3747,7 @@ export type ApmSecretKeysValueList = Array<string>;
 /** Keys of APM sensitive properties */
 export interface ApmSecretKeys {
   /** Collection of the keys for the APM sensitive properties */
-  value?: ApmSecretKeysValueList;
+  value?: ApmSecretKeysValueList | undefined;
 }
 export interface ListApplicationAcceleratorsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3757,15 +3760,15 @@ export interface ListApplicationAcceleratorsRequest {
 /** Application accelerator resource */
 export interface ApplicationAcceleratorResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationAcceleratorProperties | undefined;
   /** Sku of the application accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of application accelerator resources */
 export type ApplicationAcceleratorResourceCollectionValueList =
@@ -3773,9 +3776,9 @@ export type ApplicationAcceleratorResourceCollectionValueList =
 /** Object that includes an array of application accelerator resources and a possible link for next set */
 export interface ApplicationAcceleratorResourceCollection {
   /** Collection of application accelerator resources */
-  value?: ApplicationAcceleratorResourceCollectionValueList;
+  value?: ApplicationAcceleratorResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationLiveViewsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3788,22 +3791,22 @@ export interface ListApplicationLiveViewsRequest {
 /** Application Live View resource */
 export interface ApplicationLiveViewResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ApplicationLiveViewProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationLiveViewProperties | undefined;
 }
 /** Collection of Application Live View resources */
 export type ApplicationLiveViewResourceCollectionValueList = Array<ApplicationLiveViewResource>;
 /** Object that includes an array of Application Live View resources and a possible link for next set */
 export interface ApplicationLiveViewResourceCollection {
   /** Collection of Application Live View resources */
-  value?: ApplicationLiveViewResourceCollectionValueList;
+  value?: ApplicationLiveViewResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAppsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3816,27 +3819,27 @@ export interface ListAppsRequest {
 /** App resource payload */
 export interface AppResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the App resource */
-  properties?: AppResourceProperties;
+  properties?: AppResourceProperties | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityProperties;
+  identity?: ManagedIdentityProperties | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 /** Collection of App resources */
 export type AppResourceCollectionValueList = Array<AppResource>;
 /** Object that includes an array of App resources and a possible link for next set */
 export interface AppResourceCollection {
   /** Collection of App resources */
-  value?: AppResourceCollectionValueList;
+  value?: AppResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBindingsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3851,23 +3854,23 @@ export interface ListBindingsRequest {
 /** Binding resource payload */
 export interface BindingResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Binding resource */
-  properties?: BindingResourceProperties;
+  properties?: BindingResourceProperties | undefined;
 }
 /** Collection of Binding resources */
 export type BindingResourceCollectionValueList = Array<BindingResource>;
 /** Object that includes an array of Binding resources and a possible link for next set */
 export interface BindingResourceCollection {
   /** Collection of Binding resources */
-  value?: BindingResourceCollectionValueList;
+  value?: BindingResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildpackBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3884,23 +3887,23 @@ export interface ListBuildpackBindingRequest {
 /** Buildpack Binding Resource object */
 export interface BuildpackBindingResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of a buildpack binding */
-  properties?: BuildpackBindingProperties;
+  properties?: BuildpackBindingProperties | undefined;
 }
 /** Collection of BuildpackBinding resources */
 export type BuildpackBindingResourceCollectionValueList = Array<BuildpackBindingResource>;
 /** Object that includes an array of BuildpackBinding resources and a possible link for next set */
 export interface BuildpackBindingResourceCollection {
   /** Collection of BuildpackBinding resources */
-  value?: BuildpackBindingResourceCollectionValueList;
+  value?: BuildpackBindingResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildpackBindingForClusterRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3923,23 +3926,23 @@ export interface ListBuildServiceAgentPoolRequest {
 /** The build service agent pool resource */
 export interface BuildServiceAgentPoolResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** build service agent pool properties */
-  properties?: BuildServiceAgentPoolProperties;
+  properties?: BuildServiceAgentPoolProperties | undefined;
 }
 /** Collection of build service agent pool resource */
 export type BuildServiceAgentPoolResourceCollectionValueList = Array<BuildServiceAgentPoolResource>;
 /** Object that includes an array of build service agent pool resources and a possible link for next set */
 export interface BuildServiceAgentPoolResourceCollection {
   /** Collection of build service agent pool resource */
-  value?: BuildServiceAgentPoolResourceCollectionValueList;
+  value?: BuildServiceAgentPoolResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceBuilderRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3954,23 +3957,23 @@ export interface ListBuildServiceBuilderRequest {
 /** KPack Builder resource */
 export interface BuilderResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Property of the Builder resource. */
-  properties?: BuilderProperties;
+  properties?: BuilderProperties | undefined;
 }
 /** Collection of Builder resources */
 export type BuilderResourceCollectionValueList = Array<BuilderResource>;
 /** Object that includes an array of Builder resources and a possible link for next set */
 export interface BuilderResourceCollection {
   /** Collection of Builder resources */
-  value?: BuilderResourceCollectionValueList;
+  value?: BuilderResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceBuilderDeploymentsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3989,7 +3992,7 @@ export type DeploymentListDeploymentsList = Array<string>;
 /** A list of deployments resource ids. */
 export interface DeploymentList {
   /** A list of deployment resource ids. */
-  deployments?: DeploymentListDeploymentsList;
+  deployments?: DeploymentListDeploymentsList | undefined;
 }
 export interface ListBuildServiceBuildResultsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4006,23 +4009,23 @@ export interface ListBuildServiceBuildResultsRequest {
 /** Build result resource payload */
 export interface BuildResult {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build result resource */
-  properties?: BuildResultProperties;
+  properties?: BuildResultProperties | undefined;
 }
 /** Collection of Build result resources */
 export type BuildResultCollectionValueList = Array<BuildResult>;
 /** Object that includes an array of Build result resources and a possible link for next set */
 export interface BuildResultCollection {
   /** Collection of Build result resources */
-  value?: BuildResultCollectionValueList;
+  value?: BuildResultCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceBuildsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4037,23 +4040,23 @@ export interface ListBuildServiceBuildsRequest {
 /** Build resource payload */
 export interface Build {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildProperties;
+  properties?: BuildProperties | undefined;
 }
 /** Collection of Build resources */
 export type BuildCollectionValueList = Array<Build>;
 /** Object that includes an array of Build resources and a possible link for next set */
 export interface BuildCollection {
   /** Collection of Build resources */
-  value?: BuildCollectionValueList;
+  value?: BuildCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceBuildServicesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4066,23 +4069,23 @@ export interface ListBuildServiceBuildServicesRequest {
 /** Build service resource payload */
 export interface BuildService {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the build resource */
-  properties?: BuildServiceProperties;
+  properties?: BuildServiceProperties | undefined;
 }
 /** Collection of Build service resources */
 export type BuildServiceCollectionValueList = Array<BuildService>;
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
-  value?: BuildServiceCollectionValueList;
+  value?: BuildServiceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceSupportedBuildpacksRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4097,22 +4100,22 @@ export interface ListBuildServiceSupportedBuildpacksRequest {
 /** Supported buildpack resource payload */
 export interface SupportedBuildpackResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: SupportedBuildpackResourceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: SupportedBuildpackResourceProperties | undefined;
 }
 /** Collection of supported buildpacks resources */
 export type SupportedBuildpacksCollectionValueList = Array<SupportedBuildpackResource>;
 /** Object that includes an array of supported buildpacks resources and a possible link for next set */
 export interface SupportedBuildpacksCollection {
   /** Collection of supported buildpacks resources */
-  value?: SupportedBuildpacksCollectionValueList;
+  value?: SupportedBuildpacksCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceSupportedStacksRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4127,22 +4130,22 @@ export interface ListBuildServiceSupportedStacksRequest {
 /** Supported stack resource payload */
 export interface SupportedStackResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: SupportedStackResourceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: SupportedStackResourceProperties | undefined;
 }
 /** Collection of supported stacks resources */
 export type SupportedStacksCollectionValueList = Array<SupportedStackResource>;
 /** Object that includes an array of supported stacks resources and a possible link for next set */
 export interface SupportedStacksCollection {
   /** Collection of supported stacks resources */
-  value?: SupportedStacksCollectionValueList;
+  value?: SupportedStacksCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificatesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4155,23 +4158,23 @@ export interface ListCertificatesRequest {
 /** Certificate resource payload. */
 export interface CertificateResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the certificate resource payload. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** The certificate resources list. */
 export type CertificateResourceCollectionValueList = Array<CertificateResource>;
 /** Collection compose of certificate resources list and a possible link for next page. */
 export interface CertificateResourceCollection {
   /** The certificate resources list. */
-  value?: CertificateResourceCollectionValueList;
+  value?: CertificateResourceCollectionValueList | undefined;
   /** The link to next page of certificate list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationServicesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4184,22 +4187,22 @@ export interface ListConfigurationServicesRequest {
 /** Application Configuration Service resource */
 export interface ConfigurationServiceResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ConfigurationServiceProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ConfigurationServiceProperties | undefined;
 }
 /** Collection of configuration service resources */
 export type ConfigurationServiceResourceCollectionValueList = Array<ConfigurationServiceResource>;
 /** Object that includes an array of configuration service resources and a possible link for next set */
 export interface ConfigurationServiceResourceCollection {
   /** Collection of configuration service resources */
-  value?: ConfigurationServiceResourceCollectionValueList;
+  value?: ConfigurationServiceResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerRegistriesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4212,23 +4215,23 @@ export interface ListContainerRegistriesRequest {
 /** Container registry resource payload. */
 export interface ContainerRegistryResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the container registry resource payload. */
-  properties?: ContainerRegistryProperties;
+  properties?: ContainerRegistryProperties | undefined;
 }
 /** The container registry resources list. */
 export type ContainerRegistryResourceCollectionValueList = Array<ContainerRegistryResource>;
 /** Collection compose of container registry resources list and a possible link for next page. */
 export interface ContainerRegistryResourceCollection {
   /** The container registry resources list. */
-  value?: ContainerRegistryResourceCollectionValueList;
+  value?: ContainerRegistryResourceCollectionValueList | undefined;
   /** The link to next page of storage list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomDomainsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4243,23 +4246,23 @@ export interface ListCustomDomainsRequest {
 /** Custom domain resource payload. */
 export interface CustomDomainResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 /** The custom domain resources list. */
 export type CustomDomainResourceCollectionValueList = Array<CustomDomainResource>;
 /** Collection compose of a custom domain resources list and a possible link for next page. */
 export interface CustomDomainResourceCollection {
   /** The custom domain resources list. */
-  value?: CustomDomainResourceCollectionValueList;
+  value?: CustomDomainResourceCollectionValueList | undefined;
   /** The link to next page of custom domain list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomizedAcceleratorsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4274,20 +4277,20 @@ export interface ListCustomizedAcceleratorsRequest {
 /** Customized accelerator resource */
 export interface CustomizedAcceleratorResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: CustomizedAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: CustomizedAcceleratorProperties | undefined;
   /** Sku of the customized accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export type CustomizedAcceleratorResourceCollectionValueList = Array<CustomizedAcceleratorResource>;
 export interface CustomizedAcceleratorResourceCollection {
-  value?: CustomizedAcceleratorResourceCollectionValueList;
-  nextLink?: string;
+  value?: CustomizedAcceleratorResourceCollectionValueList | undefined;
+  nextLink?: string | undefined;
 }
 export type ListDeploymentForClusterRequestVersionList = Array<string>;
 export interface ListDeploymentForClusterRequest {
@@ -4298,32 +4301,32 @@ export interface ListDeploymentForClusterRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Version of the deployments to be listed */
-  version?: ListDeploymentForClusterRequestVersionList;
+  version?: ListDeploymentForClusterRequestVersionList | undefined;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Deployment resource payload */
 export interface DeploymentResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourceProperties;
+  properties?: DeploymentResourceProperties | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of Deployment resources */
 export type DeploymentResourceCollectionValueList = Array<DeploymentResource>;
 /** Object that includes an array of App resources and a possible link for next set */
 export interface DeploymentResourceCollection {
   /** Collection of Deployment resources */
-  value?: DeploymentResourceCollectionValueList;
+  value?: DeploymentResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListDeploymentsRequestVersionList = Array<string>;
 export interface ListDeploymentsRequest {
@@ -4336,7 +4339,7 @@ export interface ListDeploymentsRequest {
   /** The name of the App resource. */
   appName: string;
   /** Version of the deployments to be listed */
-  version?: ListDeploymentsRequestVersionList;
+  version?: ListDeploymentsRequestVersionList | undefined;
 }
 export interface ListDevToolPortalsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4349,22 +4352,22 @@ export interface ListDevToolPortalsRequest {
 /** Dev Tool Portal resource */
 export interface DevToolPortalResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: DevToolPortalProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: DevToolPortalProperties | undefined;
 }
 /** Collection of Dev Tool Portal resources */
 export type DevToolPortalResourceCollectionValueList = Array<DevToolPortalResource>;
 /** Object that includes an array of Dev Tool Portal resources and a possible link for next set */
 export interface DevToolPortalResourceCollection {
   /** Collection of Dev Tool Portal resources */
-  value?: DevToolPortalResourceCollectionValueList;
+  value?: DevToolPortalResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayCustomDomainsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4383,9 +4386,9 @@ export type GatewayCustomDomainResourceCollectionValueList = Array<ApiPortalCust
 /** Object that includes an array of Spring Cloud Gateway custom domain resources and a possible link for next set */
 export interface GatewayCustomDomainResourceCollection {
   /** Collection of Spring Cloud Gateway custom domain resources */
-  value?: GatewayCustomDomainResourceCollectionValueList;
+  value?: GatewayCustomDomainResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayEnvSecretsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4413,22 +4416,22 @@ export interface ListGatewayRouteConfigsRequest {
 /** Spring Cloud Gateway route config resource */
 export interface GatewayRouteConfigResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayRouteConfigProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayRouteConfigProperties | undefined;
 }
 /** Collection of Spring Cloud Gateway route config resources */
 export type GatewayRouteConfigResourceCollectionValueList = Array<GatewayRouteConfigResource>;
 /** Object that includes an array of Spring Cloud Gateway route config resources and a possible link for next set */
 export interface GatewayRouteConfigResourceCollection {
   /** Collection of Spring Cloud Gateway route config resources */
-  value?: GatewayRouteConfigResourceCollectionValueList;
+  value?: GatewayRouteConfigResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewaysRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4441,47 +4444,47 @@ export interface ListGatewaysRequest {
 /** Spring Cloud Gateway resource */
 export interface GatewayResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: GatewayProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: GatewayProperties | undefined;
   /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of gateway resources */
 export type GatewayResourceCollectionValueList = Array<GatewayResource>;
 /** Object that includes an array of gateway resources and a possible link for next set */
 export interface GatewayResourceCollection {
   /** Collection of gateway resources */
-  value?: GatewayResourceCollectionValueList;
+  value?: GatewayResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationDetailActionType = "Internal";
 /** Specifications of the Log for Azure Monitoring */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -4492,76 +4495,76 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Specifications of the Dimension of metrics */
 export interface MetricDimension {
   /** Name of the dimension */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether this dimension should be included for the Shoebox export scenario */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
 /** Specifications of the Metrics for Azure Monitoring */
 export interface MetricSpecification {
   /** Name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit that makes sense for the metric */
-  unit?: string;
+  unit?: string | undefined;
   /** Name of the metric category that the metric belongs to. A metric can only belong to a single category. */
-  category?: string;
+  category?: string | undefined;
   /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Supported aggregation types */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** Supported time grain types */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Dimensions of the metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Name of the MDM namespace. Optional. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Service specification payload */
 export interface ServiceSpecification {
   /** Specifications of the Log for Azure Monitoring */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Specifications of the Metrics for Azure Monitoring */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Extra Operation properties */
 export interface OperationProperties {
   /** Service specifications of the operation */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationDetailActionType;
+  actionType?: OperationDetailActionType | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
-  value?: AvailableOperationsValueList;
+  value?: AvailableOperationsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPredefinedAcceleratorsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4576,20 +4579,20 @@ export interface ListPredefinedAcceleratorsRequest {
 /** Predefined accelerator resource */
 export interface PredefinedAcceleratorResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: PredefinedAcceleratorProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: PredefinedAcceleratorProperties | undefined;
   /** Sku of the predefined accelerator resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export type PredefinedAcceleratorResourceCollectionValueList = Array<PredefinedAcceleratorResource>;
 export interface PredefinedAcceleratorResourceCollection {
-  value?: PredefinedAcceleratorResourceCollectionValueList;
-  nextLink?: string;
+  value?: PredefinedAcceleratorResourceCollectionValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListRuntimeVersionRuntimeVersionsRequest {}
 /** The raw value which could be passed to deployment CRUD operations. */
@@ -4599,17 +4602,17 @@ export type SupportedRuntimeVersionPlatform = "Java" | ".NET Core";
 /** Supported deployment runtime version descriptor. */
 export interface SupportedRuntimeVersion {
   /** The raw value which could be passed to deployment CRUD operations. */
-  value?: SupportedRuntimeVersionValue;
+  value?: SupportedRuntimeVersionValue | undefined;
   /** The platform of this runtime version (possible values: "Java" or ".NET"). */
-  platform?: SupportedRuntimeVersionPlatform;
+  platform?: SupportedRuntimeVersionPlatform | undefined;
   /** The detailed version (major.minor) of the platform. */
-  version?: string;
+  version?: string | undefined;
 }
 /** A list of all supported runtime versions. */
 export type AvailableRuntimeVersionsValueList = Array<SupportedRuntimeVersion>;
 export interface AvailableRuntimeVersions {
   /** A list of all supported runtime versions. */
-  value?: AvailableRuntimeVersionsValueList;
+  value?: AvailableRuntimeVersionsValueList | undefined;
 }
 export interface ListServiceBySubscriptionRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4620,29 +4623,29 @@ export type ServiceResourceTagsMap = { [key: string]: string | undefined };
 /** Service resource */
 export interface ServiceResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: ServiceResourceTagsMap;
+  tags?: ServiceResourceTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of Service resources */
 export type ServiceResourceListValueList = Array<ServiceResource>;
 /** Object that includes an array of Service resources and a possible link for next set */
 export interface ServiceResourceList {
   /** Collection of Service resources */
-  value?: ServiceResourceListValueList;
+  value?: ServiceResourceListValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceGloballyEnabledApmsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4657,7 +4660,7 @@ export type GloballyEnabledApmsValueList = Array<string>;
 /** Globally enabled APMs payload */
 export interface GloballyEnabledApms {
   /** Collection of the globally enabled APMs */
-  value?: GloballyEnabledApmsValueList;
+  value?: GloballyEnabledApmsValueList | undefined;
 }
 export interface ListServiceRegistriesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4670,22 +4673,22 @@ export interface ListServiceRegistriesRequest {
 /** Service Registry resource */
 export interface ServiceRegistryResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ServiceRegistryProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ServiceRegistryProperties | undefined;
 }
 /** Collection of Service Registry resources */
 export type ServiceRegistryResourceCollectionValueList = Array<ServiceRegistryResource>;
 /** Object that includes an array of Service Registry resources and a possible link for next set */
 export interface ServiceRegistryResourceCollection {
   /** Collection of Service Registry resources */
-  value?: ServiceRegistryResourceCollectionValueList;
+  value?: ServiceRegistryResourceCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4704,16 +4707,16 @@ export interface ListServiceSupportedApmTypesRequest {
 /** Supported APM type */
 export interface SupportedApmType {
   /** The name of the supported APM type */
-  name?: string;
+  name?: string | undefined;
 }
 /** Collection of the supported APM type */
 export type SupportedApmTypesValueList = Array<SupportedApmType>;
 /** Supported APM types payload */
 export interface SupportedApmTypes {
   /** Collection of the supported APM type */
-  value?: SupportedApmTypesValueList;
+  value?: SupportedApmTypesValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceSupportedServerVersionsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4726,20 +4729,20 @@ export interface ListServiceSupportedServerVersionsRequest {
 /** Supported server version. */
 export interface SupportedServerVersion {
   /** The raw server version value which could be passed to deployment CRUD operations. */
-  value?: string;
+  value?: string | undefined;
   /** The server name. */
-  server?: string;
+  server?: string | undefined;
   /** The Server version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Collection of the supported server versions. */
 export type SupportedServerVersionsValueList = Array<SupportedServerVersion>;
 /** Supported server versions. */
 export interface SupportedServerVersions {
   /** Collection of the supported server versions. */
-  value?: SupportedServerVersionsValueList;
+  value?: SupportedServerVersionsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceTestKeysRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4760,11 +4763,11 @@ export interface SkuCapacity {
   /** Gets or sets the minimum. */
   minimum: number;
   /** Gets or sets the maximum. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Gets or sets the default. */
-  default?: number;
+  default?: number | undefined;
   /** Gets or sets the type of the scale. */
-  scaleType?: SkuCapacityScaleType;
+  scaleType?: SkuCapacityScaleType | undefined;
 }
 /** Gets the set of locations that the SKU is available. */
 export type ResourceSkuLocationsList = Array<string>;
@@ -4774,29 +4777,29 @@ export type ResourceSkuLocationInfoZonesList = Array<string>;
 export type ResourceSkuZoneDetailsNameList = Array<string>;
 export interface ResourceSkuCapabilities {
   /** Gets an invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** Gets an invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Gets a list of capabilities that are available for the SKU in the specified list of zones. */
 export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapabilities>;
 /** Details of capabilities available to a SKU in specific zones */
 export interface ResourceSkuZoneDetails {
   /** Gets the set of zones that the SKU is available in with the specified capabilities. */
-  name?: ResourceSkuZoneDetailsNameList;
+  name?: ResourceSkuZoneDetailsNameList | undefined;
   /** Gets a list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities?: ResourceSkuZoneDetailsCapabilitiesList;
+  capabilities?: ResourceSkuZoneDetailsCapabilitiesList | undefined;
 }
 /** Gets details of capabilities available to a SKU in specific zones. */
 export type ResourceSkuLocationInfoZoneDetailsList = Array<ResourceSkuZoneDetails>;
 /** Locations and availability zones where the SKU is available */
 export interface ResourceSkuLocationInfo {
   /** Gets location of the SKU */
-  location?: string;
+  location?: string | undefined;
   /** Gets list of availability zones where the SKU is supported. */
-  zones?: ResourceSkuLocationInfoZonesList;
+  zones?: ResourceSkuLocationInfoZonesList | undefined;
   /** Gets details of capabilities available to a SKU in specific zones. */
-  zoneDetails?: ResourceSkuLocationInfoZoneDetailsList;
+  zoneDetails?: ResourceSkuLocationInfoZoneDetailsList | undefined;
 }
 /** Gets a list of locations and availability zones in those locations where the SKU is available. */
 export type ResourceSkuLocationInfoList = Array<ResourceSkuLocationInfo>;
@@ -4811,50 +4814,50 @@ export type ResourceSkuRestrictionInfoZonesList = Array<string>;
 /** Information about the restriction where the SKU cannot be used */
 export interface ResourceSkuRestrictionInfo {
   /** Gets locations where the SKU is restricted */
-  locations?: ResourceSkuRestrictionInfoLocationsList;
+  locations?: ResourceSkuRestrictionInfoLocationsList | undefined;
   /** Gets list of availability zones where the SKU is restricted. */
-  zones?: ResourceSkuRestrictionInfoZonesList;
+  zones?: ResourceSkuRestrictionInfoZonesList | undefined;
 }
 /** Gets the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription' */
 export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** Restrictions where the SKU cannot be used */
 export interface ResourceSkuRestrictions {
   /** Gets the type of restrictions. Possible values include: 'Location', 'Zone' */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** Gets the value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ResourceSkuRestrictionsValuesList;
+  values?: ResourceSkuRestrictionsValuesList | undefined;
   /** Gets the information about the restriction where the SKU cannot be used. */
-  restrictionInfo?: ResourceSkuRestrictionInfo;
+  restrictionInfo?: ResourceSkuRestrictionInfo | undefined;
   /** Gets the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription' */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** Gets the restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
 /** Describes an available Azure Spring Apps SKU. */
 export interface ResourceSku {
   /** Gets the type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Gets the name of SKU. */
-  name?: string;
+  name?: string | undefined;
   /** Gets the tier of SKU. */
-  tier?: string;
+  tier?: string | undefined;
   /** Gets the capacity of SKU. */
-  capacity?: SkuCapacity;
+  capacity?: SkuCapacity | undefined;
   /** Gets the set of locations that the SKU is available. */
-  locations?: ResourceSkuLocationsList;
+  locations?: ResourceSkuLocationsList | undefined;
   /** Gets a list of locations and availability zones in those locations where the SKU is available. */
-  locationInfo?: ResourceSkuLocationInfoList;
+  locationInfo?: ResourceSkuLocationInfoList | undefined;
   /** Gets the restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuRestrictionsList;
+  restrictions?: ResourceSkuRestrictionsList | undefined;
 }
 /** Collection of resource SKU */
 export type ResourceSkuCollectionValueList = Array<ResourceSku>;
 /** Object that includes an array of Azure Spring Apps SKU and a possible link for next set */
 export interface ResourceSkuCollection {
   /** Collection of resource SKU */
-  value?: ResourceSkuCollectionValueList;
+  value?: ResourceSkuCollectionValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStoragesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4867,38 +4870,38 @@ export interface ListStoragesRequest {
 /** Storage resource payload. */
 export interface StorageResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the storage resource payload. */
-  properties?: StorageProperties;
+  properties?: StorageProperties | undefined;
 }
 /** The storage resources list. */
 export type StorageResourceCollectionValueList = Array<StorageResource>;
 /** Collection compose of storage resources list and a possible link for next page. */
 export interface StorageResourceCollection {
   /** The storage resources list. */
-  value?: StorageResourceCollectionValueList;
+  value?: StorageResourceCollectionValueList | undefined;
   /** The link to next page of storage list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Application Insights agent versions properties payload */
 export type ApplicationInsightsAgentVersionsInput = ApplicationAcceleratorPropertiesInput;
 /** Monitoring Setting properties payload */
 export interface MonitoringSettingPropertiesInput {
   /** Error when apply Monitoring Setting changes. */
-  error?: Error;
+  error?: Error | undefined;
   /** Indicates whether enable the trace functionality, which will be deprecated since api version 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if monitoringSettings enabled or not */
-  traceEnabled?: boolean;
+  traceEnabled?: boolean | undefined;
   /** Target application insight instrumentation key, null or whitespace include empty will disable monitoringSettings */
-  appInsightsInstrumentationKey?: string;
+  appInsightsInstrumentationKey?: string | undefined;
   /** Indicates the sampling rate of application insight agent, should be in range [0.0, 100.0] */
-  appInsightsSamplingRate?: number;
+  appInsightsSamplingRate?: number | undefined;
   /** Indicates the versions of application insight agent */
-  appInsightsAgentVersions?: ApplicationAcceleratorPropertiesInput;
+  appInsightsAgentVersions?: ApplicationAcceleratorPropertiesInput | undefined;
 }
 export interface MonitoringSettingsUpdatePatchRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4908,18 +4911,18 @@ export interface MonitoringSettingsUpdatePatchRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Properties of the Monitoring Setting resource */
-  properties?: MonitoringSettingPropertiesInput;
+  properties?: MonitoringSettingPropertiesInput | undefined;
 }
 export interface MonitoringSettingsUpdatePatchResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Monitoring Setting resource */
-  properties?: MonitoringSettingProperties;
+  properties?: MonitoringSettingProperties | undefined;
 }
 export interface MonitoringSettingsUpdatePutRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4929,18 +4932,18 @@ export interface MonitoringSettingsUpdatePutRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Properties of the Monitoring Setting resource */
-  properties?: MonitoringSettingPropertiesInput;
+  properties?: MonitoringSettingPropertiesInput | undefined;
 }
 export interface MonitoringSettingsUpdatePutResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Monitoring Setting resource */
-  properties?: MonitoringSettingProperties;
+  properties?: MonitoringSettingProperties | undefined;
 }
 /** Type of the test key */
 export type RegenerateServiceTestKeyRequestKeyType = "Primary" | "Secondary";
@@ -4978,7 +4981,7 @@ export interface RestartGatewayRequest {
   gatewayName: string;
 }
 export interface RestartGatewayResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface ServiceRegistriesCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4992,42 +4995,42 @@ export interface ServiceRegistriesCreateOrUpdateRequest {
 }
 export interface ServiceRegistriesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
-  properties?: ServiceRegistryProperties;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ServiceRegistryProperties | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Service network profile payload */
 export interface NetworkProfileInput {
   /** Fully qualified resource Id of the subnet to host Azure Spring Apps Service Runtime */
-  serviceRuntimeSubnetId?: string;
+  serviceRuntimeSubnetId?: string | undefined;
   /** Fully qualified resource Id of the subnet to host customer apps in Azure Spring Apps */
-  appSubnetId?: string;
+  appSubnetId?: string | undefined;
   /** Azure Spring Apps service reserved CIDR */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** Name of the resource group containing network resources of Azure Spring Apps Service Runtime */
-  serviceRuntimeNetworkResourceGroup?: string;
+  serviceRuntimeNetworkResourceGroup?: string | undefined;
   /** Name of the resource group containing network resources for customer apps in Azure Spring Apps */
-  appNetworkResourceGroup?: string;
+  appNetworkResourceGroup?: string | undefined;
   /** Ingress configuration payload for Azure Spring Apps resource. */
-  ingressConfig?: IngressConfig;
+  ingressConfig?: IngressConfig | undefined;
   /** The egress traffic type of Azure Spring Apps VNet instances. */
-  outboundType?: string;
+  outboundType?: string | undefined;
 }
 /** Service properties payload */
 export interface ClusterResourcePropertiesInput {
   /** Network profile of the Service */
-  networkProfile?: NetworkProfileInput;
+  networkProfile?: NetworkProfileInput | undefined;
   /** Additional Service settings in vnet injection instance */
-  vnetAddons?: ServiceVNetAddons;
-  zoneRedundant?: boolean;
+  vnetAddons?: ServiceVNetAddons | undefined;
+  zoneRedundant?: boolean | undefined;
   /** Purchasing 3rd party product of the Service resource. */
-  marketplaceResource?: MarketplaceResource;
+  marketplaceResource?: MarketplaceResource | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5037,32 +5040,32 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourcePropertiesInput;
+  properties?: ClusterResourcePropertiesInput | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Collection of Deployment name. */
 export type SetAppActiveDeploymentsRequestActiveDeploymentNamesList = Array<string>;
@@ -5076,22 +5079,22 @@ export interface SetAppActiveDeploymentsRequest {
   /** The name of the App resource. */
   appName: string;
   /** Collection of Deployment name. */
-  activeDeploymentNames?: SetAppActiveDeploymentsRequestActiveDeploymentNamesList;
+  activeDeploymentNames?: SetAppActiveDeploymentsRequestActiveDeploymentNamesList | undefined;
 }
 export interface SetAppActiveDeploymentsResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the App resource */
-  properties?: AppResourceProperties;
+  properties?: AppResourceProperties | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityProperties;
+  identity?: ManagedIdentityProperties | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 export interface StartDeploymentRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5118,11 +5121,11 @@ export interface StartDeploymentJFRRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** App instance name */
-  appInstance?: string;
+  appInstance?: string | undefined;
   /** Your target file path in your own BYOS */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Duration of your JFR. 1 min can be represented by 1m or 60s. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export interface StartDeploymentJFRResponse {}
 export interface StartServiceRequest {
@@ -5166,18 +5169,18 @@ export interface StoragesCreateOrUpdateRequest {
   /** The name of the storage resource. */
   storageName: string;
   /** Properties of the storage resource payload. */
-  properties?: StorageProperties;
+  properties?: StorageProperties | undefined;
 }
 export interface StoragesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the storage resource payload. */
-  properties?: StorageProperties;
+  properties?: StorageProperties | undefined;
 }
 export interface UpdateAppRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5189,26 +5192,26 @@ export interface UpdateAppRequest {
   /** The name of the App resource. */
   appName: string;
   /** Properties of the App resource */
-  properties?: AppResourcePropertiesInput;
+  properties?: AppResourcePropertiesInput | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityPropertiesInput;
+  identity?: ManagedIdentityPropertiesInput | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 export interface UpdateAppResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the App resource */
-  properties?: AppResourceProperties;
+  properties?: AppResourceProperties | undefined;
   /** The Managed Identity type of the app resource */
-  identity?: ManagedIdentityProperties;
+  identity?: ManagedIdentityProperties | undefined;
   /** The GEO location of the application, always the same with its parent resource */
-  location?: string;
+  location?: string | undefined;
 }
 export interface UpdateBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5222,18 +5225,18 @@ export interface UpdateBindingRequest {
   /** The name of the Binding resource. */
   bindingName: string;
   /** Properties of the Binding resource */
-  properties?: BindingResourcePropertiesInput;
+  properties?: BindingResourcePropertiesInput | undefined;
 }
 export interface UpdateBindingResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Binding resource */
-  properties?: BindingResourceProperties;
+  properties?: BindingResourceProperties | undefined;
 }
 export interface UpdateCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5247,18 +5250,18 @@ export interface UpdateCustomDomainRequest {
   /** The name of the custom domain resource. */
   domainName: string;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainPropertiesInput;
+  properties?: CustomDomainPropertiesInput | undefined;
 }
 export interface UpdateCustomDomainResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the custom domain resource. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 export interface UpdateDeploymentRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5272,22 +5275,22 @@ export interface UpdateDeploymentRequest {
   /** The name of the Deployment resource. */
   deploymentName: string;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourcePropertiesInput;
+  properties?: DeploymentResourcePropertiesInput | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface UpdateDeploymentResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** Properties of the Deployment resource */
-  properties?: DeploymentResourceProperties;
+  properties?: DeploymentResourceProperties | undefined;
   /** Sku of the Deployment resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -5299,32 +5302,32 @@ export interface UpdateServiceRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourcePropertiesInput;
+  properties?: ClusterResourcePropertiesInput | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  systemData?: SystemData;
+  type?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The GEO location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** Properties of the Service resource */
-  properties?: ClusterResourceProperties;
+  properties?: ClusterResourceProperties | undefined;
   /** Sku of the Service resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface ValidateApiPortalDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5341,9 +5344,9 @@ export interface ValidateApiPortalDomainRequest {
 /** Validation result for custom domain. */
 export interface CustomDomainValidateResult {
   /** Indicates if domain name is valid. */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Message of why domain name is invalid. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ValidateAppDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5365,27 +5368,27 @@ export interface ValidateConfigServerRequest {
   /** The name of the Service resource. */
   serviceName: string;
   /** Property of git environment. */
-  gitProperty?: ConfigServerGitProperty;
+  gitProperty?: ConfigServerGitProperty | undefined;
 }
 /** The detail error messages of the record */
 export type ConfigServerSettingsErrorRecordMessagesList = Array<string>;
 /** Error record of the config server settings */
 export interface ConfigServerSettingsErrorRecord {
   /** The name of the config server settings error record */
-  name?: string;
+  name?: string | undefined;
   /** The uri of the config server settings error record */
-  uri?: string;
+  uri?: string | undefined;
   /** The detail error messages of the record */
-  messages?: ConfigServerSettingsErrorRecordMessagesList;
+  messages?: ConfigServerSettingsErrorRecordMessagesList | undefined;
 }
 /** The detail validation results */
 export type ConfigServerSettingsValidateResultDetailsList = Array<ConfigServerSettingsErrorRecord>;
 /** Validation result for config server settings */
 export interface ConfigServerSettingsValidateResult {
   /** Indicate if the config server settings are valid */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** The detail validation results */
-  details?: ConfigServerSettingsValidateResultDetailsList;
+  details?: ConfigServerSettingsValidateResultDetailsList | undefined;
 }
 export interface ValidateConfigurationServiceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5396,16 +5399,16 @@ export interface ValidateConfigurationServiceRequest {
   serviceName: string;
   /** The name of Application Configuration Service. */
   configurationServiceName: string;
-  gitProperty?: ConfigurationServiceGitProperty;
+  gitProperty?: ConfigurationServiceGitProperty | undefined;
 }
 /** Detailed validation messages. */
 export type ValidationMessagesMessagesList = Array<string>;
 /** Validate messages of the configuration service git repositories */
 export interface ValidationMessages {
   /** The name of the configuration service git repository. */
-  name?: string;
+  name?: string | undefined;
   /** Detailed validation messages. */
-  messages?: ValidationMessagesMessagesList;
+  messages?: ValidationMessagesMessagesList | undefined;
 }
 /** The detail validation results */
 export type ConfigurationServiceGitPropertyValidateResultGitReposValidationResultList =
@@ -5413,13 +5416,15 @@ export type ConfigurationServiceGitPropertyValidateResultGitReposValidationResul
 /** Validation result for configuration service settings */
 export interface ConfigurationServiceGitPropertyValidateResult {
   /** Indicate if the configuration service settings are valid */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** The detail validation results */
-  gitReposValidationResult?: ConfigurationServiceGitPropertyValidateResultGitReposValidationResultList;
+  gitReposValidationResult?:
+    | ConfigurationServiceGitPropertyValidateResultGitReposValidationResultList
+    | undefined;
 }
 /** Validation result for configuration service settings */
 export interface ConfigurationServiceSettingsValidateResult {
-  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult;
+  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult | undefined;
 }
 export interface ValidateConfigurationServiceResourceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5430,12 +5435,12 @@ export interface ValidateConfigurationServiceResourceRequest {
   serviceName: string;
   /** The name of Application Configuration Service. */
   configurationServiceName: string;
-  properties?: ConfigurationServicePropertiesInput;
+  properties?: ConfigurationServicePropertiesInput | undefined;
 }
 /** Validation result for configuration service settings */
 export interface ValidateConfigurationServiceResourceResponse {
-  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult;
-  location?: string;
+  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult | undefined;
+  location?: string | undefined;
 }
 export interface ValidateContainerRegistryRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5452,10 +5457,10 @@ export interface ValidateContainerRegistryRequest {
 /** Validation result for container registry properties */
 export interface ContainerRegistryValidateResult {
   /** Indicate if the container registry properties are valid */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Detailed validation messages. */
-  message?: string;
-  location?: string;
+  message?: string | undefined;
+  location?: string | undefined;
 }
 /** Type of the customized accelerator. */
 export type ValidateCustomizedAcceleratorRequestAcceleratorType = "Accelerator" | "Fragment";
@@ -5472,11 +5477,11 @@ export interface ValidateCustomizedAcceleratorRequest {
   /** The name of the customized accelerator. */
   customizedAcceleratorName: string;
   /** Type of the customized accelerator. */
-  acceleratorType?: ValidateCustomizedAcceleratorRequestAcceleratorType | (string & {});
-  displayName?: string;
-  description?: string;
-  iconUrl?: string;
-  acceleratorTags?: ValidateCustomizedAcceleratorRequestAcceleratorTagsList;
+  acceleratorType?: ValidateCustomizedAcceleratorRequestAcceleratorType | (string & {}) | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  iconUrl?: string | undefined;
+  acceleratorTags?: ValidateCustomizedAcceleratorRequestAcceleratorTagsList | undefined;
   gitRepository: AcceleratorGitRepository;
 }
 /** State of the customized accelerator validation result */
@@ -5484,10 +5489,10 @@ export type CustomizedAcceleratorValidateResultState = "Valid" | "Invalid";
 /** Validation result for customized accelerator properties */
 export interface CustomizedAcceleratorValidateResult {
   /** State of the customized accelerator validation result */
-  state?: CustomizedAcceleratorValidateResultState;
+  state?: CustomizedAcceleratorValidateResultState | undefined;
   /** The detail validation results */
-  errorMessage?: string;
-  location?: string;
+  errorMessage?: string | undefined;
+  location?: string | undefined;
 }
 export interface ValidateGatewayDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */

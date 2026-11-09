@@ -211,10 +211,30 @@ export type StringValue = string;
 export type StringListMemberValue = string;
 export type StringValueList = string[];
 export type MemoryRecordMetadataValue =
-  | { stringValue: string; stringListValue?: never; numberValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue: string[]; numberValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue?: never; numberValue: number; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue?: never; numberValue?: never; dateTimeValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: undefined;
+      numberValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue: string[];
+      numberValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      numberValue: number;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      numberValue?: undefined;
+      dateTimeValue: Date;
+    };
 export type MemoryRecordMetadataMap = { [key: string]: MemoryRecordMetadataValue | undefined };
 export interface MemoryRecordCreateInput {
   requestIdentifier: string;
@@ -228,8 +248,8 @@ export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export type RecordExpiryDurationDays = number;
 export type RecordExpiryAction = "REMOVE" | (string & {});
 export type RecordExpirySpecification =
-  | { recordExpiryDurationDays: number; action?: never }
-  | { recordExpiryDurationDays?: never; action: RecordExpiryAction };
+  | { recordExpiryDurationDays: number; action?: undefined }
+  | { recordExpiryDurationDays?: undefined; action: RecordExpiryAction };
 export interface BatchCreateMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordCreateInput[];
@@ -285,8 +305,8 @@ export interface BatchUpdateMemoryRecordsOutput {
 export type UserTokenType = string | redacted.Redacted<string>;
 export type UserIdType = string;
 export type UserIdentifier =
-  | { userToken: string | redacted.Redacted<string>; userId?: never }
-  | { userToken?: never; userId: string };
+  | { userToken: string | redacted.Redacted<string>; userId?: undefined }
+  | { userToken?: undefined; userId: string };
 export type RequestUri = string;
 export interface CompleteResourceTokenAuthRequest {
   userIdentifier: UserIdentifier;
@@ -329,9 +349,9 @@ export interface PerVariantOnlineEvaluationConfig {
 }
 export type PerVariantOnlineEvaluationConfigList = PerVariantOnlineEvaluationConfig[];
 export type ABTestEvaluationConfig =
-  | { onlineEvaluationConfigArn: string; perVariantOnlineEvaluationConfig?: never }
+  | { onlineEvaluationConfigArn: string; perVariantOnlineEvaluationConfig?: undefined }
   | {
-      onlineEvaluationConfigArn?: never;
+      onlineEvaluationConfigArn?: undefined;
       perVariantOnlineEvaluationConfig: PerVariantOnlineEvaluationConfig[];
     };
 export type RoleArn = string;
@@ -391,9 +411,9 @@ export interface MemoryJsonData {
   content: any;
 }
 export type PayloadType =
-  | { conversational: Conversational; blob?: never; json?: never }
-  | { conversational?: never; blob: any; json?: never }
-  | { conversational?: never; blob?: never; json: MemoryJsonData };
+  | { conversational: Conversational; blob?: undefined; json?: undefined }
+  | { conversational?: undefined; blob: any; json?: undefined }
+  | { conversational?: undefined; blob?: undefined; json: MemoryJsonData };
 export type PayloadTypeList = PayloadType[];
 export type EventId = string;
 export type BranchName = string;
@@ -461,16 +481,51 @@ export interface OAuth2Authentication {
   username?: string | undefined;
 }
 export type LinkedAccountOAuth2 =
-  | { google: OAuth2Authentication; apple?: never; x?: never; telegram?: never; github?: never }
-  | { google?: never; apple: OAuth2Authentication; x?: never; telegram?: never; github?: never }
-  | { google?: never; apple?: never; x: OAuth2Authentication; telegram?: never; github?: never }
-  | { google?: never; apple?: never; x?: never; telegram: OAuth2Authentication; github?: never }
-  | { google?: never; apple?: never; x?: never; telegram?: never; github: OAuth2Authentication };
+  | {
+      google: OAuth2Authentication;
+      apple?: undefined;
+      x?: undefined;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple: OAuth2Authentication;
+      x?: undefined;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x: OAuth2Authentication;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x?: undefined;
+      telegram: OAuth2Authentication;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x?: undefined;
+      telegram?: undefined;
+      github: OAuth2Authentication;
+    };
 export type LinkedAccount =
-  | { email: LinkedAccountEmail; sms?: never; developerJwt?: never; oAuth2?: never }
-  | { email?: never; sms: LinkedAccountSms; developerJwt?: never; oAuth2?: never }
-  | { email?: never; sms?: never; developerJwt: LinkedAccountDeveloperJwt; oAuth2?: never }
-  | { email?: never; sms?: never; developerJwt?: never; oAuth2: LinkedAccountOAuth2 };
+  | { email: LinkedAccountEmail; sms?: undefined; developerJwt?: undefined; oAuth2?: undefined }
+  | { email?: undefined; sms: LinkedAccountSms; developerJwt?: undefined; oAuth2?: undefined }
+  | {
+      email?: undefined;
+      sms?: undefined;
+      developerJwt: LinkedAccountDeveloperJwt;
+      oAuth2?: undefined;
+    }
+  | { email?: undefined; sms?: undefined; developerJwt?: undefined; oAuth2: LinkedAccountOAuth2 };
 export type LinkedAccountList = LinkedAccount[];
 export interface EmbeddedCryptoWallet {
   network: CryptoWalletNetwork;
@@ -650,8 +705,8 @@ export type SpanIds = string[];
 export type TraceId = string;
 export type TraceIds = string[];
 export type EvaluationTarget =
-  | { spanIds: string[]; traceIds?: never }
-  | { spanIds?: never; traceIds: string[] };
+  | { spanIds: string[]; traceIds?: undefined }
+  | { spanIds?: undefined; traceIds: string[] };
 export interface SpanContext {
   sessionId: string;
   traceId?: string | undefined;
@@ -819,8 +874,8 @@ export interface OnlineEvaluationConfigSource {
   timeRange?: SessionFilterConfig | undefined;
 }
 export type DataSourceConfig =
-  | { cloudWatchLogs: CloudWatchLogsSource; onlineEvaluationConfigSource?: never }
-  | { cloudWatchLogs?: never; onlineEvaluationConfigSource: OnlineEvaluationConfigSource };
+  | { cloudWatchLogs: CloudWatchLogsSource; onlineEvaluationConfigSource?: undefined }
+  | { cloudWatchLogs?: undefined; onlineEvaluationConfigSource: OnlineEvaluationConfigSource };
 export type OptionalLogGroupName = string;
 export type LogStreamName = string;
 export type MetricsNamespace = string;
@@ -1083,8 +1138,8 @@ export interface EfsConfiguration {
   fileSystemArn: string;
 }
 export type ToolsFileSystemConfiguration =
-  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: never }
-  | { s3FilesConfiguration?: never; efsConfiguration: EfsConfiguration };
+  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: undefined }
+  | { s3FilesConfiguration?: undefined; efsConfiguration: EfsConfiguration };
 export type ToolsFileSystemConfigurations = ToolsFileSystemConfiguration[];
 export interface GetBrowserSessionResponse {
   browserIdentifier: string;
@@ -1213,8 +1268,8 @@ export interface SystemPromptConfigurationBundle {
   systemPromptJsonPath: string;
 }
 export type SystemPromptConfig =
-  | { text: string | redacted.Redacted<string>; configurationBundle?: never }
-  | { text?: never; configurationBundle: SystemPromptConfigurationBundle };
+  | { text: string | redacted.Redacted<string>; configurationBundle?: undefined }
+  | { text?: undefined; configurationBundle: SystemPromptConfigurationBundle };
 export type LogGroupArnList = string[];
 export type ServiceName = string;
 export type ServiceNameList = string[];
@@ -1230,9 +1285,9 @@ export type CloudWatchLogsFilterOperator =
   | (string & {});
 export type FilterStringValue = string;
 export type FilterValue =
-  | { stringValue: string; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; doubleValue: number; booleanValue?: never }
-  | { stringValue?: never; doubleValue?: never; booleanValue: boolean };
+  | { stringValue: string; doubleValue?: undefined; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue: number; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue?: undefined; booleanValue: boolean };
 export interface CloudWatchLogsFilter {
   key: string;
   operator: CloudWatchLogsFilterOperator;
@@ -1260,26 +1315,26 @@ export interface OnlineEvaluationTraceConfig {
 export type AgentTracesConfig =
   | {
       sessionSpans: any[];
-      cloudwatchLogs?: never;
-      batchEvaluation?: never;
-      onlineEvaluation?: never;
+      cloudwatchLogs?: undefined;
+      batchEvaluation?: undefined;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
+      sessionSpans?: undefined;
       cloudwatchLogs: CloudWatchLogsTraceConfig;
-      batchEvaluation?: never;
-      onlineEvaluation?: never;
+      batchEvaluation?: undefined;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
-      cloudwatchLogs?: never;
+      sessionSpans?: undefined;
+      cloudwatchLogs?: undefined;
       batchEvaluation: BatchEvaluationTraceConfig;
-      onlineEvaluation?: never;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
-      cloudwatchLogs?: never;
-      batchEvaluation?: never;
+      sessionSpans?: undefined;
+      cloudwatchLogs?: undefined;
+      batchEvaluation?: undefined;
       onlineEvaluation: OnlineEvaluationTraceConfig;
     };
 export interface RecommendationEvaluatorReference {
@@ -1316,8 +1371,8 @@ export interface ToolDescriptionConfigurationBundle {
   tools: ConfigurationBundleToolEntry[];
 }
 export type ToolDescriptionSource =
-  | { toolDescriptionText: ToolDescriptionTextInput; configurationBundle?: never }
-  | { toolDescriptionText?: never; configurationBundle: ToolDescriptionConfigurationBundle };
+  | { toolDescriptionText: ToolDescriptionTextInput; configurationBundle?: undefined }
+  | { toolDescriptionText?: undefined; configurationBundle: ToolDescriptionConfigurationBundle };
 export interface ToolDescriptionRecommendationConfig {
   toolDescription: ToolDescriptionSource;
   agentTraces: AgentTracesConfig;
@@ -1325,10 +1380,10 @@ export interface ToolDescriptionRecommendationConfig {
 export type RecommendationConfig =
   | {
       systemPromptRecommendationConfig: SystemPromptRecommendationConfig;
-      toolDescriptionRecommendationConfig?: never;
+      toolDescriptionRecommendationConfig?: undefined;
     }
   | {
-      systemPromptRecommendationConfig?: never;
+      systemPromptRecommendationConfig?: undefined;
       toolDescriptionRecommendationConfig: ToolDescriptionRecommendationConfig;
     };
 export interface RecommendationResultConfigurationBundle {
@@ -1360,10 +1415,10 @@ export interface ToolDescriptionRecommendationResult {
 export type RecommendationResult =
   | {
       systemPromptRecommendationResult: SystemPromptRecommendationResult;
-      toolDescriptionRecommendationResult?: never;
+      toolDescriptionRecommendationResult?: undefined;
     }
   | {
-      systemPromptRecommendationResult?: never;
+      systemPromptRecommendationResult?: undefined;
       toolDescriptionRecommendationResult: ToolDescriptionRecommendationResult;
     };
 export interface GetRecommendationResponse {
@@ -1450,8 +1505,8 @@ export interface StripePrivyTokenRequestInput {
   includeAuthorizationSignature?: boolean | undefined;
 }
 export type PaymentTokenRequestInput =
-  | { coinbaseCdpTokenRequest: CoinbaseCdpTokenRequestInput; stripePrivyTokenRequest?: never }
-  | { coinbaseCdpTokenRequest?: never; stripePrivyTokenRequest: StripePrivyTokenRequestInput };
+  | { coinbaseCdpTokenRequest: CoinbaseCdpTokenRequestInput; stripePrivyTokenRequest?: undefined }
+  | { coinbaseCdpTokenRequest?: undefined; stripePrivyTokenRequest: StripePrivyTokenRequestInput };
 export interface GetResourcePaymentTokenRequest {
   workloadIdentityToken: string | redacted.Redacted<string>;
   resourceCredentialProviderName: string;
@@ -1472,8 +1527,14 @@ export interface StripePrivyTokenResponseOutput {
   basicAuthToken: string | redacted.Redacted<string>;
 }
 export type PaymentTokenResponseOutput =
-  | { coinbaseCdpTokenResponse: CoinbaseCdpTokenResponseOutput; stripePrivyTokenResponse?: never }
-  | { coinbaseCdpTokenResponse?: never; stripePrivyTokenResponse: StripePrivyTokenResponseOutput };
+  | {
+      coinbaseCdpTokenResponse: CoinbaseCdpTokenResponseOutput;
+      stripePrivyTokenResponse?: undefined;
+    }
+  | {
+      coinbaseCdpTokenResponse?: undefined;
+      stripePrivyTokenResponse: StripePrivyTokenResponseOutput;
+    };
 export interface GetResourcePaymentTokenResponse {
   paymentTokenResponse: PaymentTokenResponseOutput;
 }
@@ -1499,8 +1560,8 @@ export interface GetWorkloadAccessTokenForUserIdResponse {
   workloadAccessToken: string | redacted.Redacted<string>;
 }
 export type IngestPayloadType =
-  | { conversational: Conversational; json?: never }
-  | { conversational?: never; json: MemoryJsonData };
+  | { conversational: Conversational; json?: undefined }
+  | { conversational?: undefined; json: MemoryJsonData };
 export type IngestPayloadList = IngestPayloadType[];
 export interface InlineMemoryContent {
   payload: IngestPayloadType[];
@@ -1600,82 +1661,82 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type InvokeAgentRuntimeCommandStreamOutput =
   | {
       chunk: ResponseChunk;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       accessDeniedException: AccessDeniedException;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
       internalServerException: InternalServerException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      validationException?: never;
-      runtimeClientError?: never;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       validationException: ValidationException;
-      runtimeClientError?: never;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
       runtimeClientError: RuntimeClientError;
     };
 export interface InvokeAgentRuntimeCommandResponse {
@@ -1730,82 +1791,82 @@ export interface ScreenshotArguments {
 export type BrowserAction =
   | {
       mouseClick: MouseClickArguments;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
+      mouseClick?: undefined;
       mouseMove: MouseMoveArguments;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
       mouseDrag: MouseDragArguments;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
       mouseScroll: MouseScrollArguments;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
       keyType: KeyTypeArguments;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
       keyPress: KeyPressArguments;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
       keyShortcut: KeyShortcutArguments;
-      screenshot?: never;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
       screenshot: ScreenshotArguments;
     };
 export interface InvokeBrowserRequest {
@@ -1850,82 +1911,82 @@ export interface ScreenshotResult {
 export type BrowserActionResult =
   | {
       mouseClick: MouseClickResult;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
+      mouseClick?: undefined;
       mouseMove: MouseMoveResult;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
       mouseDrag: MouseDragResult;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
       mouseScroll: MouseScrollResult;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
       keyType: KeyTypeResult;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
       keyPress: KeyPressResult;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
       keyShortcut: KeyShortcutResult;
-      screenshot?: never;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
       screenshot: ScreenshotResult;
     };
 export interface InvokeBrowserResponse {
@@ -2017,82 +2078,82 @@ export interface CodeInterpreterResult {
 export type CodeInterpreterStreamOutput =
   | {
       result: CodeInterpreterResult;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
+      result?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       internalServerException: InternalServerException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      validationException?: never;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      validationException?: never;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       validationException: ValidationException;
     };
 export interface InvokeCodeInterpreterResponse {
@@ -2115,8 +2176,8 @@ export interface HarnessToolUseBlock {
   serverName?: string | undefined;
 }
 export type HarnessToolResultContentBlock =
-  | { text: string | redacted.Redacted<string>; json?: never }
-  | { text?: never; json: any };
+  | { text: string | redacted.Redacted<string>; json?: undefined }
+  | { text?: undefined; json: any };
 export type HarnessToolResultContentBlocks = HarnessToolResultContentBlock[];
 export type HarnessToolUseStatus = "success" | "error" | (string & {});
 export interface HarnessToolResultBlock {
@@ -2130,21 +2191,31 @@ export interface HarnessReasoningTextBlock {
   signature?: string | undefined;
 }
 export type HarnessReasoningContentBlock =
-  | { reasoningText: HarnessReasoningTextBlock; redactedContent?: never }
-  | { reasoningText?: never; redactedContent: Uint8Array };
+  | { reasoningText: HarnessReasoningTextBlock; redactedContent?: undefined }
+  | { reasoningText?: undefined; redactedContent: Uint8Array };
 export type HarnessContentBlock =
   | {
       text: string | redacted.Redacted<string>;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
     }
-  | { text?: never; toolUse: HarnessToolUseBlock; toolResult?: never; reasoningContent?: never }
-  | { text?: never; toolUse?: never; toolResult: HarnessToolResultBlock; reasoningContent?: never }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse: HarnessToolUseBlock;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult: HarnessToolResultBlock;
+      reasoningContent?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: HarnessReasoningContentBlock;
     };
 export type HarnessContentBlocks = HarnessContentBlock[];
@@ -2206,26 +2277,26 @@ export interface HarnessLiteLlmModelConfig {
 export type HarnessModelConfiguration =
   | {
       bedrockModelConfig: HarnessBedrockModelConfig;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
+      bedrockModelConfig?: undefined;
       openAiModelConfig: HarnessOpenAiModelConfig;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
       geminiModelConfig: HarnessGeminiModelConfig;
-      liteLlmModelConfig?: never;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
       liteLlmModelConfig: HarnessLiteLlmModelConfig;
     };
 export type HarnessSystemContentBlock = { text: string | redacted.Redacted<string> };
@@ -2271,9 +2342,9 @@ export interface OAuthCredentialProvider {
   defaultReturnUrl?: string | undefined;
 }
 export type HarnessGatewayOutboundAuth =
-  | { awsIam: Record<string, never>; none?: never; oauth?: never }
-  | { awsIam?: never; none: Record<string, never>; oauth?: never }
-  | { awsIam?: never; none?: never; oauth: OAuthCredentialProvider };
+  | { awsIam: Record<string, never>; none?: undefined; oauth?: undefined }
+  | { awsIam?: undefined; none: Record<string, never>; oauth?: undefined }
+  | { awsIam?: undefined; none?: undefined; oauth: OAuthCredentialProvider };
 export interface HarnessAgentCoreGatewayConfig {
   gatewayArn: string;
   outboundAuth?: HarnessGatewayOutboundAuth | undefined;
@@ -2290,37 +2361,37 @@ export interface HarnessAgentCoreCodeInterpreterConfig {
 export type HarnessToolConfiguration =
   | {
       remoteMcp: HarnessRemoteMcpConfig;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
+      remoteMcp?: undefined;
       agentCoreBrowser: HarnessAgentCoreBrowserConfig;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
       agentCoreGateway: HarnessAgentCoreGatewayConfig;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
       inlineFunction: HarnessInlineFunctionConfig;
-      agentCoreCodeInterpreter?: never;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
       agentCoreCodeInterpreter: HarnessAgentCoreCodeInterpreterConfig;
     };
 export interface HarnessTool {
@@ -2350,10 +2421,10 @@ export interface HarnessSkillAwsSkillsSource {
   paths?: string[] | undefined;
 }
 export type HarnessSkill =
-  | { path: string; s3?: never; git?: never; awsSkills?: never }
-  | { path?: never; s3: HarnessSkillS3Source; git?: never; awsSkills?: never }
-  | { path?: never; s3?: never; git: HarnessSkillGitSource; awsSkills?: never }
-  | { path?: never; s3?: never; git?: never; awsSkills: HarnessSkillAwsSkillsSource };
+  | { path: string; s3?: undefined; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3: HarnessSkillS3Source; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git: HarnessSkillGitSource; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git?: undefined; awsSkills: HarnessSkillAwsSkillsSource };
 export type HarnessSkills = HarnessSkill[];
 export type HarnessAllowedTool = string;
 export type HarnessAllowedTools = string[];
@@ -2391,8 +2462,8 @@ export interface HarnessToolResultBlockStart {
   status?: HarnessToolUseStatus | undefined;
 }
 export type HarnessContentBlockStart =
-  | { toolUse: HarnessToolUseBlockStart; toolResult?: never }
-  | { toolUse?: never; toolResult: HarnessToolResultBlockStart };
+  | { toolUse: HarnessToolUseBlockStart; toolResult?: undefined }
+  | { toolUse?: undefined; toolResult: HarnessToolResultBlockStart };
 export interface HarnessContentBlockStartEvent {
   contentBlockIndex: number;
   start: HarnessContentBlockStart;
@@ -2401,50 +2472,54 @@ export interface HarnessToolUseBlockDelta {
   input: string | redacted.Redacted<string>;
 }
 export type HarnessToolResultBlockDelta =
-  | { text: string | redacted.Redacted<string>; json?: never }
-  | { text?: never; json: any };
+  | { text: string | redacted.Redacted<string>; json?: undefined }
+  | { text?: undefined; json: any };
 export type HarnessToolResultBlocksDelta = HarnessToolResultBlockDelta[];
 export type HarnessReasoningContentBlockDelta =
-  | { text: string; redactedContent?: never; signature?: never }
-  | { text?: never; redactedContent: Uint8Array | redacted.Redacted<Uint8Array>; signature?: never }
-  | { text?: never; redactedContent?: never; signature: string };
+  | { text: string; redactedContent?: undefined; signature?: undefined }
+  | {
+      text?: undefined;
+      redactedContent: Uint8Array | redacted.Redacted<Uint8Array>;
+      signature?: undefined;
+    }
+  | { text?: undefined; redactedContent?: undefined; signature: string };
 export interface HarnessToolResultMetadataBlockDelta {
   metadata: string | redacted.Redacted<string>;
 }
 export type HarnessContentBlockDelta =
   | {
       text: string | redacted.Redacted<string>;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       toolUse: HarnessToolUseBlockDelta;
-      toolResult?: never;
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
+      text?: undefined;
+      toolUse?: undefined;
       toolResult: HarnessToolResultBlockDelta[];
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: HarnessReasoningContentBlockDelta;
-      toolResultMetadata?: never;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
       toolResultMetadata: HarnessToolResultMetadataBlockDelta;
     };
 export interface HarnessContentBlockDeltaEvent {
@@ -2507,122 +2582,122 @@ export interface HarnessHookEvent {
 export type InvokeHarnessStreamOutput =
   | {
       messageStart: HarnessMessageStartEvent;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
+      messageStart?: undefined;
       contentBlockStart: HarnessContentBlockStartEvent;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
       contentBlockDelta: HarnessContentBlockDeltaEvent;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
       contentBlockStop: HarnessContentBlockStopEvent;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
       messageStop: HarnessMessageStopEvent;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
       metadata: HarnessMetadataEvent;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       runtimeClientError: RuntimeClientError;
-      hookEvent?: never;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
       hookEvent: HarnessHookEvent;
     };
 export interface InvokeHarnessResponse {
@@ -2934,8 +3009,8 @@ export interface MppPaymentInput {
   buyerPaysGasFees?: boolean | undefined;
 }
 export type PaymentInput =
-  | { cryptoX402: CryptoX402PaymentInput; mpp?: never }
-  | { cryptoX402?: never; mpp: MppPaymentInput };
+  | { cryptoX402: CryptoX402PaymentInput; mpp?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentInput };
 export interface ProcessPaymentRequest {
   userId?: string | undefined;
   agentName?: string | undefined;
@@ -2959,8 +3034,8 @@ export interface MppPaymentOutput {
   paymentCredential: string | redacted.Redacted<string>;
 }
 export type PaymentOutput =
-  | { cryptoX402: CryptoX402PaymentOutput; mpp?: never }
-  | { cryptoX402?: never; mpp: MppPaymentOutput };
+  | { cryptoX402: CryptoX402PaymentOutput; mpp?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentOutput };
 export interface ProcessPaymentResponse {
   processPaymentId: string;
   paymentManagerArn: string;

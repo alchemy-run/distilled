@@ -233,8 +233,8 @@ export interface MultiPolygonGeometryInput {
   Coordinates: number[][][][];
 }
 export type AreaOfInterestGeometry =
-  | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: never }
-  | { PolygonGeometry?: never; MultiPolygonGeometry: MultiPolygonGeometryInput };
+  | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: undefined }
+  | { PolygonGeometry?: undefined; MultiPolygonGeometry: MultiPolygonGeometryInput };
 export type AreaOfInterest = { AreaOfInterestGeometry: AreaOfInterestGeometry };
 export interface EoCloudCoverInput {
   LowerBound: number;
@@ -264,50 +264,50 @@ export interface LandsatCloudCoverLandInput {
 export type Property =
   | {
       EoCloudCover: EoCloudCoverInput;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
+      EoCloudCover?: undefined;
       ViewOffNadir: ViewOffNadirInput;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
       ViewSunAzimuth: ViewSunAzimuthInput;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
       ViewSunElevation: ViewSunElevationInput;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
       Platform: PlatformInput;
-      LandsatCloudCoverLand?: never;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
       LandsatCloudCoverLand: LandsatCloudCoverLandInput;
     };
 export interface PropertyFilter {
@@ -400,101 +400,101 @@ export interface LandCoverSegmentationConfigInput {}
 export type JobConfigInput =
   | {
       BandMathConfig: BandMathConfigInput;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
+      BandMathConfig?: undefined;
       ResamplingConfig: ResamplingConfigInput;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
       TemporalStatisticsConfig: TemporalStatisticsConfigInput;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
       CloudRemovalConfig: CloudRemovalConfigInput;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
       ZonalStatisticsConfig: ZonalStatisticsConfigInput;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
       GeoMosaicConfig: GeoMosaicConfigInput;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
       StackConfig: StackConfigInput;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
       CloudMaskingConfig: CloudMaskingConfigInput;
-      LandCoverSegmentationConfig?: never;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
       LandCoverSegmentationConfig: LandCoverSegmentationConfigInput;
     };
 export interface OutputBand {
@@ -595,8 +595,8 @@ export interface MapMatchingConfig {
   TimestampAttributeName: string;
 }
 export type VectorEnrichmentJobConfig =
-  | { ReverseGeocodingConfig: ReverseGeocodingConfig; MapMatchingConfig?: never }
-  | { ReverseGeocodingConfig?: never; MapMatchingConfig: MapMatchingConfig };
+  | { ReverseGeocodingConfig: ReverseGeocodingConfig; MapMatchingConfig?: undefined }
+  | { ReverseGeocodingConfig?: undefined; MapMatchingConfig: MapMatchingConfig };
 export type VectorEnrichmentJobErrorType = string;
 export interface VectorEnrichmentJobErrorDetails {
   ErrorType?: string | undefined;

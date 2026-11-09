@@ -193,8 +193,8 @@ export type EngineType = string;
 export type String2000 = string;
 export type StringFree65000 = string;
 export type Definition =
-  | { s3Location: string; content?: never }
-  | { s3Location?: never; content: string };
+  | { s3Location: string; content?: undefined }
+  | { s3Location?: undefined; content: string };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
@@ -224,8 +224,8 @@ export interface DataSetExportItem {
 }
 export type DataSetExportList = DataSetExportItem[];
 export type DataSetExportConfig =
-  | { s3Location: string; dataSets?: never }
-  | { s3Location?: never; dataSets: DataSetExportItem[] };
+  | { s3Location: string; dataSets?: undefined }
+  | { s3Location?: undefined; dataSets: DataSetExportItem[] };
 export type KMSKeyId = string;
 export interface CreateDataSetExportTaskRequest {
   applicationId: string;
@@ -271,10 +271,10 @@ export interface PsAttributes {
   encoding?: string | undefined;
 }
 export type DatasetOrgAttributes =
-  | { vsam: VsamAttributes; gdg?: never; po?: never; ps?: never }
-  | { vsam?: never; gdg: GdgAttributes; po?: never; ps?: never }
-  | { vsam?: never; gdg?: never; po: PoAttributes; ps?: never }
-  | { vsam?: never; gdg?: never; po?: never; ps: PsAttributes };
+  | { vsam: VsamAttributes; gdg?: undefined; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg: GdgAttributes; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po: PoAttributes; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po?: undefined; ps: PsAttributes };
 export interface RecordLength {
   min: number;
   max: number;
@@ -292,8 +292,8 @@ export interface DataSetImportItem {
 }
 export type DataSetImportList = DataSetImportItem[];
 export type DataSetImportConfig =
-  | { s3Location: string; dataSets?: never }
-  | { s3Location?: never; dataSets: DataSetImportItem[] };
+  | { s3Location: string; dataSets?: undefined }
+  | { s3Location?: undefined; dataSets: DataSetImportItem[] };
 export interface CreateDataSetImportTaskRequest {
   applicationId: string;
   importConfig: DataSetImportConfig;
@@ -323,8 +323,8 @@ export interface FsxStorageConfiguration {
   mountPoint: string;
 }
 export type StorageConfiguration =
-  | { efs: EfsStorageConfiguration; fsx?: never }
-  | { efs?: never; fsx: FsxStorageConfiguration };
+  | { efs: EfsStorageConfiguration; fsx?: undefined }
+  | { efs?: undefined; fsx: FsxStorageConfiguration };
 export type StorageConfigurationList = StorageConfiguration[];
 export type CapacityValue = number;
 export interface HighAvailabilityConfig {
@@ -439,8 +439,8 @@ export interface ScriptBatchJobIdentifier {
   scriptName: string;
 }
 export type JobIdentifier =
-  | { fileName: string; scriptName?: never }
-  | { fileName?: never; scriptName: string };
+  | { fileName: string; scriptName?: undefined }
+  | { fileName?: undefined; scriptName: string };
 export interface S3BatchJobIdentifier {
   bucket: string;
   keyPrefix?: string | undefined;
@@ -461,26 +461,26 @@ export interface RestartBatchJobIdentifier {
 export type BatchJobIdentifier =
   | {
       fileBatchJobIdentifier: FileBatchJobIdentifier;
-      scriptBatchJobIdentifier?: never;
-      s3BatchJobIdentifier?: never;
-      restartBatchJobIdentifier?: never;
+      scriptBatchJobIdentifier?: undefined;
+      s3BatchJobIdentifier?: undefined;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
       scriptBatchJobIdentifier: ScriptBatchJobIdentifier;
-      s3BatchJobIdentifier?: never;
-      restartBatchJobIdentifier?: never;
+      s3BatchJobIdentifier?: undefined;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
-      scriptBatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
+      scriptBatchJobIdentifier?: undefined;
       s3BatchJobIdentifier: S3BatchJobIdentifier;
-      restartBatchJobIdentifier?: never;
+      restartBatchJobIdentifier?: undefined;
     }
   | {
-      fileBatchJobIdentifier?: never;
-      scriptBatchJobIdentifier?: never;
-      s3BatchJobIdentifier?: never;
+      fileBatchJobIdentifier?: undefined;
+      scriptBatchJobIdentifier?: undefined;
+      s3BatchJobIdentifier?: undefined;
       restartBatchJobIdentifier: RestartBatchJobIdentifier;
     };
 export interface GetBatchJobExecutionResponse {
@@ -523,10 +523,10 @@ export interface PsDetailAttributes {
   encoding: string;
 }
 export type DatasetDetailOrgAttributes =
-  | { vsam: VsamDetailAttributes; gdg?: never; po?: never; ps?: never }
-  | { vsam?: never; gdg: GdgDetailAttributes; po?: never; ps?: never }
-  | { vsam?: never; gdg?: never; po: PoDetailAttributes; ps?: never }
-  | { vsam?: never; gdg?: never; po?: never; ps: PsDetailAttributes };
+  | { vsam: VsamDetailAttributes; gdg?: undefined; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg: GdgDetailAttributes; po?: undefined; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po: PoDetailAttributes; ps?: undefined }
+  | { vsam?: undefined; gdg?: undefined; po?: undefined; ps: PsDetailAttributes };
 export interface GetDataSetDetailsResponse {
   dataSetName: string;
   dataSetOrg?: DatasetDetailOrgAttributes | undefined;
@@ -681,8 +681,8 @@ export interface ScriptBatchJobDefinition {
   scriptName: string;
 }
 export type BatchJobDefinition =
-  | { fileBatchJobDefinition: FileBatchJobDefinition; scriptBatchJobDefinition?: never }
-  | { fileBatchJobDefinition?: never; scriptBatchJobDefinition: ScriptBatchJobDefinition };
+  | { fileBatchJobDefinition: FileBatchJobDefinition; scriptBatchJobDefinition?: undefined }
+  | { fileBatchJobDefinition?: undefined; scriptBatchJobDefinition: ScriptBatchJobDefinition };
 export type BatchJobDefinitions = BatchJobDefinition[];
 export interface ListBatchJobDefinitionsResponse {
   batchJobDefinitions: BatchJobDefinition[];

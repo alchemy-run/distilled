@@ -232,7 +232,7 @@ export interface ListCustomTrustStoresResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CustomTrustStoreListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TotalTlsEditRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export interface UpdateTotalTlRequest {

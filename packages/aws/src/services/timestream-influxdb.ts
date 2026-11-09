@@ -476,8 +476,8 @@ export interface InfluxDBv2Parameters {
 export type LogFormats = "full" | (string & {});
 export type DataFusionRuntimeType = "multi-thread" | "multi-thread-alt" | (string & {});
 export type PercentOrAbsoluteLong =
-  | { percent: string; absolute?: never }
-  | { percent?: never; absolute: number };
+  | { percent: string; absolute?: undefined }
+  | { percent?: undefined; absolute: number };
 export type PluginRepositorySecretArn = string;
 export interface InfluxDBv3CoreParameters {
   queryFileLimit?: number | undefined;
@@ -579,11 +579,19 @@ export interface InfluxDBv3EnterpriseParameters {
   catalogSyncInterval?: Duration | undefined;
 }
 export type Parameters =
-  | { InfluxDBv2: InfluxDBv2Parameters; InfluxDBv3Core?: never; InfluxDBv3Enterprise?: never }
-  | { InfluxDBv2?: never; InfluxDBv3Core: InfluxDBv3CoreParameters; InfluxDBv3Enterprise?: never }
   | {
-      InfluxDBv2?: never;
-      InfluxDBv3Core?: never;
+      InfluxDBv2: InfluxDBv2Parameters;
+      InfluxDBv3Core?: undefined;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core: InfluxDBv3CoreParameters;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core?: undefined;
       InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters;
     };
 export interface CreateDbParameterGroupInput {

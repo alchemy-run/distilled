@@ -213,9 +213,9 @@ export interface PortRange {
   endPort: number;
 }
 export type PortSpecification =
-  | { port: number; range?: never; allPorts?: never }
-  | { port?: never; range: PortRange; allPorts?: never }
-  | { port?: never; range?: never; allPorts: Record<string, never> };
+  | { port: number; range?: undefined; allPorts?: undefined }
+  | { port?: undefined; range: PortRange; allPorts?: undefined }
+  | { port?: undefined; range?: undefined; allPorts: Record<string, never> };
 export type ListOfPortSpecification = PortSpecification[];
 export interface CreateMicrovmAuthTokenRequest {
   microvmIdentifier: string;
@@ -238,8 +238,8 @@ export interface CloudWatchLogging {
   logStream?: string | undefined;
 }
 export type Logging =
-  | { disabled: LoggingDisabled; cloudWatch?: never }
-  | { disabled?: never; cloudWatch: CloudWatchLogging };
+  | { disabled: LoggingDisabled; cloudWatch?: undefined }
+  | { disabled?: undefined; cloudWatch: CloudWatchLogging };
 export type NetworkConnector = string;
 export type NetworkConnectorList = string[];
 export type Architecture = "ARM_64" | (string & {});

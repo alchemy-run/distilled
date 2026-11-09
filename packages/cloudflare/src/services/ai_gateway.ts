@@ -2787,7 +2787,7 @@ export interface ListAiGatewaysResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCustomProvidersRequest {
   accountId: string;
@@ -2821,7 +2821,7 @@ export interface ListCustomProvidersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CustomProvidersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDatasetsRequest {
   accountId: string;
@@ -2873,7 +2873,7 @@ export interface ListDatasetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatasetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDeploymentsDynamicRoutingRequest {
   accountId: string;
@@ -3098,7 +3098,7 @@ export interface ListEvaluationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EvaluationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type EvaluationTypesListRequestOrderByDirection = "asc" | "desc";
 export interface ListEvaluationTypesRequest {
@@ -3123,7 +3123,7 @@ export interface ListEvaluationTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EvaluationTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type LogsListRequestDirection = "asc" | "desc";
 export type LogsListRequestFiltersList = Array<string>;
@@ -3196,7 +3196,7 @@ export interface ListLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProviderConfigsRequest {
   accountId: string;
@@ -3223,7 +3223,7 @@ export interface ListProviderConfigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProviderConfigsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListVersionsDynamicRoutingRequest {
   accountId: string;

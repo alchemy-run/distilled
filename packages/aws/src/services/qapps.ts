@@ -279,10 +279,30 @@ export type DocumentAttributeStringValue = string;
 export type PlatoString = string;
 export type DocumentAttributeStringListValue = string[];
 export type DocumentAttributeValue =
-  | { stringValue: string; stringListValue?: never; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue: string[]; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue: number; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue?: never; dateValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue: string[];
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue: number;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue: Date;
+    };
 export interface DocumentAttribute {
   name: string;
   value: DocumentAttributeValue;
@@ -340,37 +360,37 @@ export interface FormInputCardInput {
 export type CardInput =
   | {
       textInput: TextInputCardInput;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
+      textInput?: undefined;
       qQuery: QQueryCardInput;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
       qPlugin: QPluginCardInput;
-      fileUpload?: never;
-      formInput?: never;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
       fileUpload: FileUploadCardInput;
-      formInput?: never;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
       formInput: FormInputCardInput;
     };
 export type CardList = CardInput[];
@@ -560,37 +580,37 @@ export interface FormInputCard {
 export type Card =
   | {
       textInput: TextInputCard;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
+      textInput?: undefined;
       qQuery: QQueryCard;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
       qPlugin: QPluginCard;
-      fileUpload?: never;
-      formInput?: never;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
       fileUpload: FileUploadCard;
-      formInput?: never;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
       formInput: FormInputCard;
     };
 export type CardModelList = Card[];
@@ -767,8 +787,8 @@ export interface ConversationMessage {
 }
 export type MessageList = ConversationMessage[];
 export type PredictQAppInputOptions =
-  | { conversation: ConversationMessage[]; problemStatement?: never }
-  | { conversation?: never; problemStatement: string };
+  | { conversation: ConversationMessage[]; problemStatement?: undefined }
+  | { conversation?: undefined; problemStatement: string };
 export interface PredictQAppInput {
   instanceId: string;
   options?: PredictQAppInputOptions | undefined;

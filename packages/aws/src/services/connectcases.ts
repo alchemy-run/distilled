@@ -157,13 +157,28 @@ export type FieldId = string;
 export type OperandOne = { fieldId: string };
 export interface EmptyOperandValue {}
 export type OperandTwo =
-  | { stringValue: string; booleanValue?: never; doubleValue?: never; emptyValue?: never }
-  | { stringValue?: never; booleanValue: boolean; doubleValue?: never; emptyValue?: never }
-  | { stringValue?: never; booleanValue?: never; doubleValue: number; emptyValue?: never }
   | {
-      stringValue?: never;
-      booleanValue?: never;
-      doubleValue?: never;
+      stringValue: string;
+      booleanValue?: undefined;
+      doubleValue?: undefined;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue: boolean;
+      doubleValue?: undefined;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue?: undefined;
+      doubleValue: number;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue?: undefined;
+      doubleValue?: undefined;
       emptyValue: EmptyOperandValue;
     };
 export interface BooleanOperands {
@@ -175,10 +190,10 @@ export interface CompoundCondition {
   conditions: BooleanCondition[];
 }
 export type BooleanCondition =
-  | { equalTo: BooleanOperands; notEqualTo?: never; andAll?: never; orAll?: never }
-  | { equalTo?: never; notEqualTo: BooleanOperands; andAll?: never; orAll?: never }
-  | { equalTo?: never; notEqualTo?: never; andAll: CompoundCondition; orAll?: never }
-  | { equalTo?: never; notEqualTo?: never; andAll?: never; orAll: CompoundCondition };
+  | { equalTo: BooleanOperands; notEqualTo?: undefined; andAll?: undefined; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo: BooleanOperands; andAll?: undefined; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo?: undefined; andAll: CompoundCondition; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo?: undefined; andAll?: undefined; orAll: CompoundCondition };
 export type BooleanConditionList = BooleanCondition[];
 export interface RequiredCaseRule {
   defaultValue: boolean;
@@ -201,9 +216,9 @@ export interface HiddenCaseRule {
   conditions: BooleanCondition[];
 }
 export type CaseRuleDetails =
-  | { required: RequiredCaseRule; fieldOptions?: never; hidden?: never }
-  | { required?: never; fieldOptions: FieldOptionsCaseRule; hidden?: never }
-  | { required?: never; fieldOptions?: never; hidden: HiddenCaseRule };
+  | { required: RequiredCaseRule; fieldOptions?: undefined; hidden?: undefined }
+  | { required?: undefined; fieldOptions: FieldOptionsCaseRule; hidden?: undefined }
+  | { required?: undefined; fieldOptions?: undefined; hidden: HiddenCaseRule };
 export type CaseRuleDescription = string;
 export type Deleted = boolean;
 export type CreatedTime = Date;
@@ -301,37 +316,37 @@ export interface EmptyFieldValue {}
 export type FieldValueUnion =
   | {
       stringValue: string;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
+      stringValue?: undefined;
       doubleValue: number;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
       booleanValue: boolean;
-      emptyValue?: never;
-      userArnValue?: never;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
       emptyValue: EmptyFieldValue;
-      userArnValue?: never;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
       userArnValue: string;
     };
 export interface FieldValue {
@@ -342,8 +357,8 @@ export type FieldValueList = FieldValue[];
 export type UserArn = string;
 export type CustomEntity = string | redacted.Redacted<string>;
 export type UserUnion =
-  | { userArn: string; customEntity?: never }
-  | { userArn?: never; customEntity: string | redacted.Redacted<string> };
+  | { userArn: string; customEntity?: undefined }
+  | { userArn?: undefined; customEntity: string | redacted.Redacted<string> };
 export type MutableTagKey = string;
 export type TagValueString = string;
 export type MutableTags = { [key: string]: string | undefined };
@@ -459,50 +474,50 @@ export interface CustomInputContent {
 export type RelatedItemInputContent =
   | {
       contact: Contact;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentContent;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileContent;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaInputContent;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseInputContent;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomInputContent;
     };
 export interface CreateRelatedItemRequest {
@@ -616,37 +631,37 @@ export type AuditEventFieldId = string;
 export type AuditEventFieldValueUnion =
   | {
       stringValue: string;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
+      stringValue?: undefined;
       doubleValue: number;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
       booleanValue: boolean;
-      emptyValue?: never;
-      userArnValue?: never;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
       emptyValue: EmptyFieldValue;
-      userArnValue?: never;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
       userArnValue: string;
     };
 export interface AuditEventField {
@@ -883,108 +898,108 @@ export interface ConnectCaseFilter {
 export type FieldFilter =
   | {
       equalTo: FieldValue;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
+      equalTo?: undefined;
       contains: FieldValue;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
+      equalTo?: undefined;
+      contains?: undefined;
       greaterThan: FieldValue;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEqualTo: FieldValue;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
       lessThan: FieldValue;
-      lessThanOrEqualTo?: never;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
       lessThanOrEqualTo: FieldValue;
     };
 export type CustomFieldsFilterList = CustomFieldsFilter[];
 export type CustomFieldsFilter =
-  | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
-  | { field?: never; not: CustomFieldsFilter; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; andAll: CustomFieldsFilter[]; orAll?: never }
-  | { field?: never; not?: never; andAll?: never; orAll: CustomFieldsFilter[] };
+  | { field: FieldFilter; not?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not: CustomFieldsFilter; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; andAll: CustomFieldsFilter[]; orAll?: undefined }
+  | { field?: undefined; not?: undefined; andAll?: undefined; orAll: CustomFieldsFilter[] };
 export interface CustomFilter {
   fields?: CustomFieldsFilter | undefined;
 }
 export type RelatedItemTypeFilter =
   | {
       contact: ContactFilter;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentFilter;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileFilter;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaFilter;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseFilter;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomFilter;
     };
 export type RelatedItemFilterList = RelatedItemTypeFilter[];
@@ -1032,50 +1047,50 @@ export interface CustomContent {
 export type RelatedItemContent =
   | {
       contact: ContactContent;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentContent;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileContent;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaContent;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseContent;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomContent;
     };
 export interface SearchAllRelatedItemsResponseItem {
@@ -1100,11 +1115,17 @@ export interface TagValue {
 export type TagFilter = { equalTo: TagValue };
 export type CaseFilterList = CaseFilter[];
 export type CaseFilter =
-  | { field: FieldFilter; not?: never; tag?: never; andAll?: never; orAll?: never }
-  | { field?: never; not: CaseFilter; tag?: never; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; tag: TagFilter; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; tag?: never; andAll: CaseFilter[]; orAll?: never }
-  | { field?: never; not?: never; tag?: never; andAll?: never; orAll: CaseFilter[] };
+  | { field: FieldFilter; not?: undefined; tag?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not: CaseFilter; tag?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; tag: TagFilter; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; tag?: undefined; andAll: CaseFilter[]; orAll?: undefined }
+  | {
+      field?: undefined;
+      not?: undefined;
+      tag?: undefined;
+      andAll?: undefined;
+      orAll: CaseFilter[];
+    };
 export interface Sort {
   fieldId: string;
   sortOrder: string;
@@ -1202,8 +1223,8 @@ export interface CustomUpdateContent {
   fields: FieldValue[];
 }
 export type RelatedItemUpdateContent =
-  | { comment: CommentUpdateContent; custom?: never }
-  | { comment?: never; custom: CustomUpdateContent };
+  | { comment: CommentUpdateContent; custom?: undefined }
+  | { comment?: undefined; custom: CustomUpdateContent };
 export interface UpdateRelatedItemRequest {
   domainId: string;
   caseId: string;

@@ -1137,7 +1137,7 @@ export interface ListConsumersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConsumersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListQueuesRequest {
   /** A Resource identifier. */
@@ -1210,7 +1210,7 @@ export interface ListQueuesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SubscriptionsListRequestDirection = "asc" | "desc";
 export type SubscriptionsListRequestOrder = "created_at" | "name" | "enabled" | "source";
@@ -1348,7 +1348,7 @@ export interface ListSubscriptionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubscriptionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface MessagesPeekRequest {
   /** A Resource identifier. */

@@ -710,8 +710,8 @@ export interface DeleteEntitiesInfo {
   entityIds: string[];
 }
 export type InlinePayload =
-  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: never }
-  | { upsertEntitiesInfo?: never; deleteEntitiesInfo: DeleteEntitiesInfo };
+  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: undefined }
+  | { upsertEntitiesInfo?: undefined; deleteEntitiesInfo: DeleteEntitiesInfo };
 export interface InputConfiguration {
   s3Object?: S3Object | undefined;
   inlinePayload?: InlinePayload | undefined;

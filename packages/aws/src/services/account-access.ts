@@ -147,8 +147,8 @@ export interface CreateApplicationResponse {
 export type UserId = string;
 export type GroupId = string;
 export type IdentityCenterPrincipal =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type Principal = { identityCenter: IdentityCenterPrincipal };
 export type RoleArn = string;
 export interface PrincipalRoleEntitlement {
@@ -241,8 +241,8 @@ export interface ListApplicationsResponse {
   nextToken?: string | undefined;
 }
 export type IdentityCenterPrincipalFilter =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type PrincipalFilter = { identityCenter: IdentityCenterPrincipalFilter };
 export interface PrincipalRoleEntitlementFilter {
   principal?: PrincipalFilter | undefined;

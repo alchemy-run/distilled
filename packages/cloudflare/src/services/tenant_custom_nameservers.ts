@@ -80,7 +80,7 @@ export interface DeleteTenantCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTenantCustomNameserverRequest {
   /** Tenant identifier tag. */
@@ -112,7 +112,7 @@ export interface GetTenantCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateTenantCustomNameserverError = CloudflareOpError;
 /** Adds a custom nameserver for a tenant. */

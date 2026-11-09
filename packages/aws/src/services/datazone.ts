@@ -230,8 +230,8 @@ export interface SsoUserProfileDetails {
   lastName?: string | redacted.Redacted<string> | undefined;
 }
 export type UserProfileDetails =
-  | { iam: IamUserProfileDetails; sso?: never }
-  | { iam?: never; sso: SsoUserProfileDetails };
+  | { iam: IamUserProfileDetails; sso?: undefined }
+  | { iam?: undefined; sso: SsoUserProfileDetails };
 export interface SubscribedUser {
   id?: string | undefined;
   details?: UserProfileDetails | undefined;
@@ -247,10 +247,10 @@ export interface SubscribedIamPrincipal {
   principalArn?: string | undefined;
 }
 export type SubscribedPrincipal =
-  | { project: SubscribedProject; user?: never; group?: never; iam?: never }
-  | { project?: never; user: SubscribedUser; group?: never; iam?: never }
-  | { project?: never; user?: never; group: SubscribedGroup; iam?: never }
-  | { project?: never; user?: never; group?: never; iam: SubscribedIamPrincipal };
+  | { project: SubscribedProject; user?: undefined; group?: undefined; iam?: undefined }
+  | { project?: undefined; user: SubscribedUser; group?: undefined; iam?: undefined }
+  | { project?: undefined; user?: undefined; group: SubscribedGroup; iam?: undefined }
+  | { project?: undefined; user?: undefined; group?: undefined; iam: SubscribedIamPrincipal };
 export type SubscribedPrincipals = SubscribedPrincipal[];
 export type ListingId = string;
 export type ListingName = string;
@@ -295,8 +295,8 @@ export interface SubscribedProductListing {
   assetListings?: AssetInDataProductListingItem[] | undefined;
 }
 export type SubscribedListingItem =
-  | { assetListing: SubscribedAssetListing; productListing?: never }
-  | { assetListing?: never; productListing: SubscribedProductListing };
+  | { assetListing: SubscribedAssetListing; productListing?: undefined }
+  | { assetListing?: undefined; productListing: SubscribedProductListing };
 export interface SubscribedListing {
   id: string;
   revision?: string | undefined;
@@ -343,8 +343,8 @@ export interface OwnerGroupProperties {
   groupIdentifier: string;
 }
 export type OwnerProperties =
-  | { user: OwnerUserProperties; group?: never }
-  | { user?: never; group: OwnerGroupProperties };
+  | { user: OwnerUserProperties; group?: undefined }
+  | { user?: undefined; group: OwnerGroupProperties };
 export interface AddEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
@@ -377,8 +377,8 @@ export type ManagedPolicyType =
   | (string & {});
 export interface AllUsersGrantFilter {}
 export type UserPolicyGrantPrincipal =
-  | { userIdentifier: string; allUsersGrantFilter?: never }
-  | { userIdentifier?: never; allUsersGrantFilter: AllUsersGrantFilter };
+  | { userIdentifier: string; allUsersGrantFilter?: undefined }
+  | { userIdentifier?: undefined; allUsersGrantFilter: AllUsersGrantFilter };
 export type GroupPolicyGrantPrincipal = { groupIdentifier: string };
 export type ProjectDesignation =
   | "OWNER"
@@ -405,10 +405,30 @@ export interface DomainUnitPolicyGrantPrincipal {
   domainUnitGrantFilter?: DomainUnitGrantFilter | undefined;
 }
 export type PolicyGrantPrincipal =
-  | { user: UserPolicyGrantPrincipal; group?: never; project?: never; domainUnit?: never }
-  | { user?: never; group: GroupPolicyGrantPrincipal; project?: never; domainUnit?: never }
-  | { user?: never; group?: never; project: ProjectPolicyGrantPrincipal; domainUnit?: never }
-  | { user?: never; group?: never; project?: never; domainUnit: DomainUnitPolicyGrantPrincipal };
+  | {
+      user: UserPolicyGrantPrincipal;
+      group?: undefined;
+      project?: undefined;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group: GroupPolicyGrantPrincipal;
+      project?: undefined;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group?: undefined;
+      project: ProjectPolicyGrantPrincipal;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group?: undefined;
+      project?: undefined;
+      domainUnit: DomainUnitPolicyGrantPrincipal;
+    };
 export interface CreateDomainUnitPolicyGrantDetail {
   includeChildDomainUnits?: boolean | undefined;
 }
@@ -448,226 +468,226 @@ export interface UseAssetTypePolicyGrantDetail {
 export type PolicyGrantDetail =
   | {
       createDomainUnit: CreateDomainUnitPolicyGrantDetail;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
+      createDomainUnit?: undefined;
       overrideDomainUnitOwners: OverrideDomainUnitOwnersPolicyGrantDetail;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
       addToProjectMemberPool: AddToProjectMemberPoolPolicyGrantDetail;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
       overrideProjectOwners: OverrideProjectOwnersPolicyGrantDetail;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
       createGlossary: CreateGlossaryPolicyGrantDetail;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
       createFormType: CreateFormTypePolicyGrantDetail;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
       createAssetType: CreateAssetTypePolicyGrantDetail;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
       createProject: CreateProjectPolicyGrantDetail;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
       createEnvironmentProfile: CreateEnvironmentProfilePolicyGrantDetail;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
       delegateCreateEnvironmentProfile: Unit;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
       createEnvironment: Unit;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
       createEnvironmentFromBlueprint: Unit;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
       createProjectFromProjectProfile: CreateProjectFromProjectProfilePolicyGrantDetail;
-      useAssetType?: never;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
       useAssetType: UseAssetTypePolicyGrantDetail;
     };
 export interface AddPolicyGrantInput {
@@ -800,8 +820,8 @@ export interface CustomAccountPoolHandler {
   lambdaExecutionRoleArn?: string | undefined;
 }
 export type AccountSource =
-  | { accounts: AccountInfo[]; customAccountPoolHandler?: never }
-  | { accounts?: never; customAccountPoolHandler: CustomAccountPoolHandler };
+  | { accounts: AccountInfo[]; customAccountPoolHandler?: undefined }
+  | { accounts?: undefined; customAccountPoolHandler: CustomAccountPoolHandler };
 export interface CreateAccountPoolInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -939,184 +959,184 @@ export interface NotLikeExpression {
 export type RowFilterExpression =
   | {
       equalTo: EqualToExpression;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
+      equalTo?: undefined;
       notEqualTo: NotEqualToExpression;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
       greaterThan: GreaterThanExpression;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
       lessThan: LessThanExpression;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
       greaterThanOrEqualTo: GreaterThanOrEqualToExpression;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
       lessThanOrEqualTo: LessThanOrEqualToExpression;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
       isNull: IsNullExpression;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
       isNotNull: IsNotNullExpression;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
       in: InExpression;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
       notIn: NotInExpression;
-      like?: never;
-      notLike?: never;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
       like: LikeExpression;
-      notLike?: never;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
       notLike: NotLikeExpression;
     };
 export type RowFilterList = RowFilter[];
 export type RowFilter =
-  | { expression: RowFilterExpression; and?: never; or?: never }
-  | { expression?: never; and: RowFilter[]; or?: never }
-  | { expression?: never; and?: never; or: RowFilter[] };
+  | { expression: RowFilterExpression; and?: undefined; or?: undefined }
+  | { expression?: undefined; and: RowFilter[]; or?: undefined }
+  | { expression?: undefined; and?: undefined; or: RowFilter[] };
 export interface RowFilterConfiguration {
   rowFilter: RowFilter;
   sensitive?: boolean | undefined;
 }
 export type AssetFilterConfiguration =
-  | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: never }
-  | { columnConfiguration?: never; rowConfiguration: RowFilterConfiguration };
+  | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: undefined }
+  | { columnConfiguration?: undefined; rowConfiguration: RowFilterConfiguration };
 export interface CreateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
@@ -1317,8 +1337,8 @@ export interface IamPropertiesInput {
   roleArn?: string | undefined;
 }
 export type RedshiftStorageProperties =
-  | { clusterName: string; workgroupName?: never }
-  | { clusterName?: never; workgroupName: string };
+  | { clusterName: string; workgroupName?: undefined }
+  | { clusterName?: undefined; workgroupName: string };
 export type Password = string | redacted.Redacted<string>;
 export type Username = string;
 export interface UsernamePassword {
@@ -1326,8 +1346,8 @@ export interface UsernamePassword {
   username: string;
 }
 export type RedshiftCredentials =
-  | { secretArn: string; usernamePassword?: never }
-  | { secretArn?: never; usernamePassword: UsernamePassword };
+  | { secretArn: string; usernamePassword?: undefined }
+  | { secretArn?: undefined; usernamePassword: UsernamePassword };
 export interface LineageSyncSchedule {
   schedule?: string | undefined;
 }
@@ -1502,290 +1522,290 @@ export interface GitPropertiesInput {
 export type ConnectionPropertiesInput =
   | {
       athenaProperties: AthenaPropertiesInput;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesInput;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       hyperPodProperties: HyperPodPropertiesInput;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
       iamProperties: IamPropertiesInput;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesInput;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesInput;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       sparkGlueProperties: SparkGluePropertiesInput;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
       s3Properties: S3PropertiesInput;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesInput;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesInput;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesInput;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesInput;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesInput;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
       lakehouseProperties: LakehousePropertiesInput;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesInput;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesInput;
     };
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
@@ -2001,290 +2021,290 @@ export interface GitPropertiesOutput {
 export type ConnectionPropertiesOutput =
   | {
       athenaProperties: AthenaPropertiesOutput;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesOutput;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       hyperPodProperties: HyperPodPropertiesOutput;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
       iamProperties: IamPropertiesOutput;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesOutput;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesOutput;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       sparkGlueProperties: SparkGluePropertiesOutput;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
       s3Properties: S3PropertiesOutput;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesOutput;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesOutput;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesOutput;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
       lakehouseProperties: LakehousePropertiesOutput;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesOutput;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesOutput;
     };
 export interface CreateConnectionOutput {
@@ -2396,8 +2416,8 @@ export interface RedshiftServerlessStorage {
   workgroupName: string;
 }
 export type RedshiftStorage =
-  | { redshiftClusterSource: RedshiftClusterStorage; redshiftServerlessSource?: never }
-  | { redshiftClusterSource?: never; redshiftServerlessSource: RedshiftServerlessStorage };
+  | { redshiftClusterSource: RedshiftClusterStorage; redshiftServerlessSource?: undefined }
+  | { redshiftClusterSource?: undefined; redshiftServerlessSource: RedshiftServerlessStorage };
 export interface RedshiftRunConfigurationInput {
   dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
@@ -2414,17 +2434,17 @@ export interface SageMakerRunConfigurationInput {
 export type DataSourceConfigurationInput =
   | {
       glueRunConfiguration: GlueRunConfigurationInput;
-      redshiftRunConfiguration?: never;
-      sageMakerRunConfiguration?: never;
+      redshiftRunConfiguration?: undefined;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
       redshiftRunConfiguration: RedshiftRunConfigurationInput;
-      sageMakerRunConfiguration?: never;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
-      redshiftRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
+      redshiftRunConfiguration?: undefined;
       sageMakerRunConfiguration: SageMakerRunConfigurationInput;
     };
 export interface RecommendationConfiguration {
@@ -2487,17 +2507,17 @@ export interface SageMakerRunConfigurationOutput {
 export type DataSourceConfigurationOutput =
   | {
       glueRunConfiguration: GlueRunConfigurationOutput;
-      redshiftRunConfiguration?: never;
-      sageMakerRunConfiguration?: never;
+      redshiftRunConfiguration?: undefined;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
       redshiftRunConfiguration: RedshiftRunConfigurationOutput;
-      sageMakerRunConfiguration?: never;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
-      redshiftRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
+      redshiftRunConfiguration?: undefined;
       sageMakerRunConfiguration: SageMakerRunConfigurationOutput;
     };
 export type DataSourceRunStatus =
@@ -2605,8 +2625,8 @@ export interface DomainUnitGroupProperties {
   groupId?: string | undefined;
 }
 export type DomainUnitOwnerProperties =
-  | { user: DomainUnitUserProperties; group?: never }
-  | { user?: never; group: DomainUnitGroupProperties };
+  | { user: DomainUnitUserProperties; group?: undefined }
+  | { user?: undefined; group: DomainUnitGroupProperties };
 export type DomainUnitOwners = DomainUnitOwnerProperties[];
 export type DomainUnitIds = string[];
 export interface CreateDomainUnitOutput {
@@ -2712,8 +2732,8 @@ export interface CloudFormationProperties {
   templateUrl: string;
 }
 export type ProvisioningProperties =
-  | { cloudFormation: CloudFormationProperties; manual?: never }
-  | { cloudFormation?: never; manual: Record<string, never> };
+  | { cloudFormation: CloudFormationProperties; manual?: undefined }
+  | { cloudFormation?: undefined; manual: Record<string, never> };
 export interface DeploymentProperties {
   startTimeoutMinutes?: number | undefined;
   endTimeoutMinutes?: number | undefined;
@@ -3006,8 +3026,8 @@ export interface EnvironmentConfigurationUserParameter {
 }
 export type EnvironmentConfigurationUserParametersList = EnvironmentConfigurationUserParameter[];
 export type Member =
-  | { userIdentifier: string; groupIdentifier?: never }
-  | { userIdentifier?: never; groupIdentifier: string };
+  | { userIdentifier: string; groupIdentifier?: undefined }
+  | { userIdentifier?: undefined; groupIdentifier: string };
 export type UserDesignation =
   | "PROJECT_OWNER"
   | "PROJECT_CONTRIBUTOR"
@@ -3114,13 +3134,13 @@ export interface EnvironmentConfigurationParametersDetails {
   resolvedParameters?: EnvironmentConfigurationParameter[] | undefined;
 }
 export type AwsAccount =
-  | { awsAccountId: string; awsAccountIdPath?: never }
-  | { awsAccountId?: never; awsAccountIdPath: string };
+  | { awsAccountId: string; awsAccountIdPath?: undefined }
+  | { awsAccountId?: undefined; awsAccountIdPath: string };
 export type AccountPoolList = string[];
 export type RegionName = string;
 export type Region =
-  | { regionName: string; regionNamePath?: never }
-  | { regionName?: never; regionNamePath: string };
+  | { regionName: string; regionNamePath?: undefined }
+  | { regionName?: undefined; regionNamePath: string };
 const Region = /*@__PURE__*/ __L.at(__c234, 0);
 export type DeploymentOrder = number;
 export interface EnvironmentConfiguration {
@@ -3203,10 +3223,10 @@ export interface GlossaryTermEnforcementDetail {
 export type RuleDetail =
   | {
       metadataFormEnforcementDetail: MetadataFormEnforcementDetail;
-      glossaryTermEnforcementDetail?: never;
+      glossaryTermEnforcementDetail?: undefined;
     }
   | {
-      metadataFormEnforcementDetail?: never;
+      metadataFormEnforcementDetail?: undefined;
       glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail;
     };
 export interface CreateRuleInput {
@@ -3321,10 +3341,10 @@ export interface SubscribedIamPrincipalInput {
   identifier?: string | undefined;
 }
 export type SubscribedPrincipalInput =
-  | { project: SubscribedProjectInput; user?: never; group?: never; iam?: never }
-  | { project?: never; user: SubscribedUserInput; group?: never; iam?: never }
-  | { project?: never; user?: never; group: SubscribedGroupInput; iam?: never }
-  | { project?: never; user?: never; group?: never; iam: SubscribedIamPrincipalInput };
+  | { project: SubscribedProjectInput; user?: undefined; group?: undefined; iam?: undefined }
+  | { project?: undefined; user: SubscribedUserInput; group?: undefined; iam?: undefined }
+  | { project?: undefined; user?: undefined; group: SubscribedGroupInput; iam?: undefined }
+  | { project?: undefined; user?: undefined; group?: undefined; iam: SubscribedIamPrincipalInput };
 export type SubscribedPrincipalInputs = SubscribedPrincipalInput[];
 export interface SubscribedListingInput {
   identifier: string;
@@ -3487,8 +3507,8 @@ export interface RedshiftSelfGrantStatusOutput {
   selfGrantStatusDetails: SelfGrantStatusDetail[];
 }
 export type SelfGrantStatusOutput =
-  | { glueSelfGrantStatus: GlueSelfGrantStatusOutput; redshiftSelfGrantStatus?: never }
-  | { glueSelfGrantStatus?: never; redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
+  | { glueSelfGrantStatus: GlueSelfGrantStatusOutput; redshiftSelfGrantStatus?: undefined }
+  | { glueSelfGrantStatus?: undefined; redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
 export interface DeleteDataSourceOutput {
   id: string;
   status?: DataSourceStatus | undefined;
@@ -4253,8 +4273,8 @@ export interface DataProductListing {
   items?: ListingSummary[] | undefined;
 }
 export type ListingItem =
-  | { assetListing: AssetListing; dataProductListing?: never }
-  | { assetListing?: never; dataProductListing: DataProductListing };
+  | { assetListing: AssetListing; dataProductListing?: undefined }
+  | { assetListing?: undefined; dataProductListing: DataProductListing };
 export interface GetListingOutput {
   domainId: string;
   id: string;
@@ -4908,8 +4928,8 @@ export interface OwnerGroupPropertiesOutput {
   groupId?: string | undefined;
 }
 export type OwnerPropertiesOutput =
-  | { user: OwnerUserPropertiesOutput; group?: never }
-  | { user?: never; group: OwnerGroupPropertiesOutput };
+  | { user: OwnerUserPropertiesOutput; group?: undefined }
+  | { user?: undefined; group: OwnerGroupPropertiesOutput };
 export type EntityOwners = OwnerPropertiesOutput[];
 export interface ListEntityOwnersOutput {
   owners: OwnerPropertiesOutput[];
@@ -5318,8 +5338,8 @@ export interface GroupDetails {
   groupId: string;
 }
 export type MemberDetails =
-  | { user: UserDetails; group?: never }
-  | { user?: never; group: GroupDetails };
+  | { user: UserDetails; group?: undefined }
+  | { user?: undefined; group: GroupDetails };
 export interface ProjectMember {
   memberDetails: MemberDetails;
   designation: UserDesignation;
@@ -5666,17 +5686,17 @@ export interface Filter {
 }
 export type FilterList = FilterClause[];
 export type FilterClause =
-  | { filter: Filter; and?: never; or?: never }
-  | { filter?: never; and: FilterClause[]; or?: never }
-  | { filter?: never; and?: never; or: FilterClause[] };
+  | { filter: Filter; and?: undefined; or?: undefined }
+  | { filter?: undefined; and: FilterClause[]; or?: undefined }
+  | { filter?: undefined; and?: undefined; or: FilterClause[] };
 export interface EntityPattern {
   entityType: GraphEntityType;
   identifier: string;
   filters?: FilterClause | undefined;
 }
 export type MatchClause =
-  | { relationPattern: RelationPattern; entityPattern?: never }
-  | { relationPattern?: never; entityPattern: EntityPattern };
+  | { relationPattern: RelationPattern; entityPattern?: undefined }
+  | { relationPattern?: undefined; entityPattern: EntityPattern };
 export type MatchClauses = MatchClause[];
 export type FormNameList = string[];
 export interface AdditionalAttributes {
@@ -5918,26 +5938,26 @@ export interface DataProductResultItem {
 export type SearchInventoryResultItem =
   | {
       glossaryItem: GlossaryItem;
-      glossaryTermItem?: never;
-      assetItem?: never;
-      dataProductItem?: never;
+      glossaryTermItem?: undefined;
+      assetItem?: undefined;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
+      glossaryItem?: undefined;
       glossaryTermItem: GlossaryTermItem;
-      assetItem?: never;
-      dataProductItem?: never;
+      assetItem?: undefined;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
-      glossaryTermItem?: never;
+      glossaryItem?: undefined;
+      glossaryTermItem?: undefined;
       assetItem: AssetItem;
-      dataProductItem?: never;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
-      glossaryTermItem?: never;
-      assetItem?: never;
+      glossaryItem?: undefined;
+      glossaryTermItem?: undefined;
+      assetItem?: undefined;
       dataProductItem: DataProductResultItem;
     };
 export type SearchInventoryResultItems = SearchInventoryResultItem[];
@@ -6036,8 +6056,8 @@ export interface DataProductListingItem {
   items?: ListingSummaryItem[] | undefined;
 }
 export type SearchResultItem =
-  | { assetListing: AssetListingItem; dataProductListing?: never }
-  | { assetListing?: never; dataProductListing: DataProductListingItem };
+  | { assetListing: AssetListingItem; dataProductListing?: undefined }
+  | { assetListing?: undefined; dataProductListing: DataProductListingItem };
 export type SearchResultItems = SearchResultItem[];
 export type AggregationAttributeValue = string;
 export type AggregationAttributeDisplayValue = string;
@@ -6111,9 +6131,13 @@ export interface LineageNodeTypeItem {
   formsOutput: { [key: string]: FormEntryOutput | undefined };
 }
 export type SearchTypesResultItem =
-  | { assetTypeItem: AssetTypeItem; formTypeItem?: never; lineageNodeTypeItem?: never }
-  | { assetTypeItem?: never; formTypeItem: FormTypeData; lineageNodeTypeItem?: never }
-  | { assetTypeItem?: never; formTypeItem?: never; lineageNodeTypeItem: LineageNodeTypeItem };
+  | { assetTypeItem: AssetTypeItem; formTypeItem?: undefined; lineageNodeTypeItem?: undefined }
+  | { assetTypeItem?: undefined; formTypeItem: FormTypeData; lineageNodeTypeItem?: undefined }
+  | {
+      assetTypeItem?: undefined;
+      formTypeItem?: undefined;
+      lineageNodeTypeItem: LineageNodeTypeItem;
+    };
 export type SearchTypesResultItems = SearchTypesResultItem[];
 export interface SearchTypesOutput {
   items?: SearchTypesResultItem[] | undefined;
@@ -6213,8 +6237,8 @@ export interface S3FilesLocation {
   fileList: S3File[];
 }
 export type SourceLocation =
-  | { s3: string | redacted.Redacted<string>; s3Files?: never }
-  | { s3?: never; s3Files: S3FilesLocation };
+  | { s3: string | redacted.Redacted<string>; s3Files?: undefined }
+  | { s3?: undefined; s3Files: S3FilesLocation };
 export interface StartNotebookImportInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -6435,170 +6459,170 @@ export interface GitPropertiesPatch {
 export type ConnectionPropertiesPatch =
   | {
       athenaProperties: AthenaPropertiesPatch;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesPatch;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       iamProperties: IamPropertiesPatch;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesPatch;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesPatch;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       s3Properties: S3PropertiesPatch;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesPatch;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesPatch;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesPatch;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       lakehouseProperties: LakehousePropertiesPatch;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesPatch;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesPatch;
     };
 export interface UpdateConnectionInput {

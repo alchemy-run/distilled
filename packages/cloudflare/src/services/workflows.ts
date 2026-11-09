@@ -190,7 +190,7 @@ export interface BulkInstanceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesCreateRequestInstanceRetentionErrorRetention = string | number;
 export type InstancesCreateRequestInstanceRetentionSuccessRetention = string | number;
@@ -806,7 +806,7 @@ export interface ListInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListVersionsRequest {
   accountId: string;
@@ -836,7 +836,7 @@ export interface ListVersionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: VersionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWorkflowsRequest {
   accountId: string;
@@ -868,7 +868,7 @@ export interface ListWorkflowsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesStatusEditRequestStatus = "pause" | "resume" | "terminate" | "restart";
 export type InstancesStatusEditRequestFromType = "do" | "sleep" | "waitForEvent";

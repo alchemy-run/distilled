@@ -364,8 +364,8 @@ export interface SmimeSigningScheme {
   SignatureFormat?: SignatureFormat | undefined;
 }
 export type SigningScheme =
-  | { DefaultScheme: DefaultSigningScheme; SmimeScheme?: never }
-  | { DefaultScheme?: never; SmimeScheme: SmimeSigningScheme };
+  | { DefaultScheme: DefaultSigningScheme; SmimeScheme?: undefined }
+  | { DefaultScheme?: undefined; SmimeScheme: SmimeSigningScheme };
 export interface MessageSecurityOptions {
   SigningScheme?: SigningScheme | undefined;
 }

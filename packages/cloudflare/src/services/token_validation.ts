@@ -165,7 +165,7 @@ export interface BulkCreateRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type RulesBulkEditRequestBodyItemAction = "log" | "block";
 export interface RulesBulkEditRequestBodyItemPositionAPIShieldIndex {
@@ -272,7 +272,7 @@ export interface BulkPatchRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ConfigurationCreateRequestCredentialsKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"
@@ -994,7 +994,7 @@ export interface ListConfigurationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConfigurationListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type RulesListRequestAction = "log" | "block";
 export type RulesListRequestTokenConfigurationList = Array<string>;
@@ -1062,7 +1062,7 @@ export interface ListRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ConfigurationEditRequestTokenSourcesList = Array<string>;
 export interface PatchConfigurationRequest {

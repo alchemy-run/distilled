@@ -223,8 +223,8 @@ export interface ContainerSecuritySummary {
   DeliveryOptionId?: string | undefined;
 }
 export type FrameworkSummary =
-  | { AMISecuritySummary: AMISecuritySummary; ContainerSecuritySummary?: never }
-  | { AMISecuritySummary?: never; ContainerSecuritySummary: ContainerSecuritySummary };
+  | { AMISecuritySummary: AMISecuritySummary; ContainerSecuritySummary?: undefined }
+  | { AMISecuritySummary?: undefined; ContainerSecuritySummary: ContainerSecuritySummary };
 export type AssessmentResult = "PASS" | "FAIL" | (string & {});
 export type ControlAssessmentResult =
   | "PASS"
@@ -345,8 +345,8 @@ export interface ContainerSecurityFilters {
   DeliveryOptionId?: string | undefined;
 }
 export type FrameworkFilters =
-  | { AMISecurityFilters: AMISecurityFilters; ContainerSecurityFilters?: never }
-  | { AMISecurityFilters?: never; ContainerSecurityFilters: ContainerSecurityFilters };
+  | { AMISecurityFilters: AMISecurityFilters; ContainerSecurityFilters?: undefined }
+  | { AMISecurityFilters?: undefined; ContainerSecurityFilters: ContainerSecurityFilters };
 export type ListAssessmentsMaxResultInteger = number;
 export interface ListAssessmentsRequest {
   Catalog: string;
@@ -857,82 +857,82 @@ export interface OfferSetFilters {
 export type EntityTypeFilters =
   | {
       DataProductFilters: DataProductFilters;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
+      DataProductFilters?: undefined;
       SaaSProductFilters: SaaSProductFilters;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
       AmiProductFilters: AmiProductFilters;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
       OfferFilters: OfferFilters;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
       ContainerProductFilters: ContainerProductFilters;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
       ResaleAuthorizationFilters: ResaleAuthorizationFilters;
-      MachineLearningProductFilters?: never;
-      OfferSetFilters?: never;
+      MachineLearningProductFilters?: undefined;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
       MachineLearningProductFilters: MachineLearningProductFilters;
-      OfferSetFilters?: never;
+      OfferSetFilters?: undefined;
     }
   | {
-      DataProductFilters?: never;
-      SaaSProductFilters?: never;
-      AmiProductFilters?: never;
-      OfferFilters?: never;
-      ContainerProductFilters?: never;
-      ResaleAuthorizationFilters?: never;
-      MachineLearningProductFilters?: never;
+      DataProductFilters?: undefined;
+      SaaSProductFilters?: undefined;
+      AmiProductFilters?: undefined;
+      OfferFilters?: undefined;
+      ContainerProductFilters?: undefined;
+      ResaleAuthorizationFilters?: undefined;
+      MachineLearningProductFilters?: undefined;
       OfferSetFilters: OfferSetFilters;
     };
 export type DataProductSortBy =
@@ -1044,82 +1044,82 @@ export interface OfferSetSort {
 export type EntityTypeSort =
   | {
       DataProductSort: DataProductSort;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
+      DataProductSort?: undefined;
       SaaSProductSort: SaaSProductSort;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
       AmiProductSort: AmiProductSort;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
       OfferSort: OfferSort;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
       ContainerProductSort: ContainerProductSort;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
       ResaleAuthorizationSort: ResaleAuthorizationSort;
-      MachineLearningProductSort?: never;
-      OfferSetSort?: never;
+      MachineLearningProductSort?: undefined;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
       MachineLearningProductSort: MachineLearningProductSort;
-      OfferSetSort?: never;
+      OfferSetSort?: undefined;
     }
   | {
-      DataProductSort?: never;
-      SaaSProductSort?: never;
-      AmiProductSort?: never;
-      OfferSort?: never;
-      ContainerProductSort?: never;
-      ResaleAuthorizationSort?: never;
-      MachineLearningProductSort?: never;
+      DataProductSort?: undefined;
+      SaaSProductSort?: undefined;
+      AmiProductSort?: undefined;
+      OfferSort?: undefined;
+      ContainerProductSort?: undefined;
+      ResaleAuthorizationSort?: undefined;
+      MachineLearningProductSort?: undefined;
       OfferSetSort: OfferSetSort;
     };
 export interface ListEntitiesRequest {

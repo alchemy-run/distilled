@@ -272,37 +272,37 @@ export interface ReservationUtilizationQuery {
 export type QueryParameters =
   | {
       costAndUsage: CostAndUsageQuery;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
+      costAndUsage?: undefined;
       savingsPlansCoverage: SavingsPlansCoverageQuery;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
       savingsPlansUtilization: SavingsPlansUtilizationQuery;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
       reservationCoverage: ReservationCoverageQuery;
-      reservationUtilization?: never;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
       reservationUtilization: ReservationUtilizationQuery;
     };
 export type VisualType = "LINE" | "BAR" | "STACK" | (string & {});
@@ -312,8 +312,8 @@ export interface GraphDisplayConfig {
 export type GraphDisplayConfigMap = { [key: string]: GraphDisplayConfig | undefined };
 export interface TableDisplayConfigStruct {}
 export type DisplayConfig =
-  | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: never }
-  | { graph?: never; table: TableDisplayConfigStruct };
+  | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: undefined }
+  | { graph?: undefined; table: TableDisplayConfigStruct };
 export interface WidgetConfig {
   queryParameters: QueryParameters;
   displayConfig: DisplayConfig;

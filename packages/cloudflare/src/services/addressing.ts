@@ -791,7 +791,7 @@ export interface ListAddressMapsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AddressMapsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixBgpPrefixesRequest {
   /** Identifier of a Cloudflare account. */
@@ -823,7 +823,7 @@ export interface ListPrefixBgpPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesBgpPrefixesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixDelegationsRequest {
   /** Identifier of a Cloudflare account. */
@@ -848,7 +848,7 @@ export interface ListPrefixDelegationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesDelegationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixesRequest {
   /** Identifier of a Cloudflare account. */
@@ -895,7 +895,7 @@ export interface ListPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixServiceBindingsRequest {
   /** Identifier of a Cloudflare account. */
@@ -928,7 +928,7 @@ export interface ListPrefixServiceBindingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesServiceBindingsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRegionalHostnameRegionsRequest {
   /** Identifier. */
@@ -945,7 +945,7 @@ export interface ListRegionalHostnameRegionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionalHostnamesRegionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRegionalHostnamesRequest {
   /** Identifier. */
@@ -966,7 +966,7 @@ export interface ListRegionalHostnamesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionalHostnamesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListServicesRequest {
   /** Identifier of a Cloudflare account. */
@@ -983,7 +983,7 @@ export interface ListServicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ServicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchAddressMapRequest {
   /** Identifier of a Cloudflare account. */

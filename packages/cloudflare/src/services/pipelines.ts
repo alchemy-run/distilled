@@ -1781,7 +1781,7 @@ export type ListResponseResultsList = Array<ListResponseResultsItem>;
 export interface ListPipelinesResponse {
   results: ListResponseResultsList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SinksListRequestDirection = "asc" | "desc";
 export type SinksListRequestOrderBy = "name" | "created_at";
@@ -2007,7 +2007,7 @@ export interface ListSinksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SinksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StreamsListRequestDirection = "asc" | "desc";
 export type StreamsListRequestOrderBy = "name" | "created_at";
@@ -2196,7 +2196,7 @@ export interface ListStreamsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StreamsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -2223,7 +2223,7 @@ export interface ListV1PipelineResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListV1ResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StreamsUpdateRequestHttpCorsOriginsList = Array<string>;
 export interface StreamsUpdateRequestHttpCors {

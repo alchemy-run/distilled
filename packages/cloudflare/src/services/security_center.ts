@@ -271,7 +271,7 @@ export interface ListByInsightInsightAuditLogResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InsightsAuditLogsListByInsightResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListByInsightInsightAuditLogForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -338,7 +338,7 @@ export interface ListInsightAuditLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InsightsAuditLogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListInsightAuditLogsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

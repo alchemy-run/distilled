@@ -466,7 +466,7 @@ export interface CreateUserGroupMemberResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteOauthClientRequest {
   /** Account identifier tag. */
@@ -858,7 +858,7 @@ export interface ListOauthClientsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OauthClientsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOauthScopesRequest {}
 export type OauthScopesListResultItemScopesList = Array<string>;
@@ -877,7 +877,7 @@ export interface ListOauthScopesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OauthScopesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPermissionGroupsRequest {
   /** Account identifier tag. */
@@ -903,7 +903,7 @@ export interface ListPermissionGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PermissionGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListResourceGroupsRequest {
   /** Account identifier tag. */
@@ -939,7 +939,7 @@ export interface ListResourceGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourceGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSsosRequest {
   /** Account identifier tag. */
@@ -970,7 +970,7 @@ export interface ListSsosResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SsoListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UserGroupsMembersListRequestDirection = "asc" | "desc";
 export interface ListUserGroupMembersRequest {
@@ -1001,7 +1001,7 @@ export interface ListUserGroupMembersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UserGroupsListRequestDirection = "asc" | "desc";
 export interface ListUserGroupsRequest {
@@ -1079,7 +1079,7 @@ export interface ListUserGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OauthClientsUpdateRequestAllowedCorsOriginsList = Array<string>;
 export type OauthClientsUpdateRequestGrantTypesItem = "authorization_code" | "refresh_token";
@@ -1400,7 +1400,7 @@ export interface UpdateUserGroupMemberResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BeginVerificationSsoError = CloudflareOpError;
 /** Validates the user has added the DNS TXT record required for validating ownership of the domain they are trying to set up a connector for. */

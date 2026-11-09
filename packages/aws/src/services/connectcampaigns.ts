@@ -212,17 +212,17 @@ export interface AgentlessDialerConfig {
 export type DialerConfig =
   | {
       progressiveDialerConfig: ProgressiveDialerConfig;
-      predictiveDialerConfig?: never;
-      agentlessDialerConfig?: never;
+      predictiveDialerConfig?: undefined;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
       predictiveDialerConfig: PredictiveDialerConfig;
-      agentlessDialerConfig?: never;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
-      predictiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
+      predictiveDialerConfig?: undefined;
       agentlessDialerConfig: AgentlessDialerConfig;
     };
 export type ContactFlowId = string;

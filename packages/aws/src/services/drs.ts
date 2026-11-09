@@ -512,8 +512,8 @@ export interface WaitStepConfiguration {
   waitDurationMinutes: number;
 }
 export type RecoveryPlanStepConfiguration =
-  | { serverStepConfiguration: ServerStepConfiguration; waitStepConfiguration?: never }
-  | { serverStepConfiguration?: never; waitStepConfiguration: WaitStepConfiguration };
+  | { serverStepConfiguration: ServerStepConfiguration; waitStepConfiguration?: undefined }
+  | { serverStepConfiguration?: undefined; waitStepConfiguration: WaitStepConfiguration };
 export interface CreateRecoveryPlanStepRequest {
   recoveryPlanArn: string;
   stepName: string;
@@ -998,9 +998,9 @@ export interface ExecutionServerStepConfiguration {
 export type RecoveryPlanExecutionStepConfiguration =
   | {
       executionServerStepConfiguration: ExecutionServerStepConfiguration;
-      waitStepConfiguration?: never;
+      waitStepConfiguration?: undefined;
     }
-  | { executionServerStepConfiguration?: never; waitStepConfiguration: WaitStepConfiguration };
+  | { executionServerStepConfiguration?: undefined; waitStepConfiguration: WaitStepConfiguration };
 export interface RecoveryPlanExecutionStep {
   recoveryPlanExecutionStepArn: string;
   stepIndex: number;

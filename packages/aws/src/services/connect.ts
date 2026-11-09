@@ -828,8 +828,8 @@ export type FileName = string;
 export type FileSizeInBytes = number;
 export type FileStatusType = "APPROVED" | "REJECTED" | "PROCESSING" | "FAILED" | (string & {});
 export type CreatedByInfo =
-  | { ConnectUserArn: string; AWSIdentityArn?: never }
-  | { ConnectUserArn?: never; AWSIdentityArn: string };
+  | { ConnectUserArn: string; AWSIdentityArn?: undefined }
+  | { ConnectUserArn?: undefined; AWSIdentityArn: string };
 export type FileUseCaseType =
   | "CONTACT_ANALYSIS"
   | "EMAIL_MESSAGE"
@@ -1419,8 +1419,8 @@ export interface EvaluationFormQuestionAutomationAnswerSource {
   SourceType: EvaluationFormQuestionAutomationAnswerSourceType;
 }
 export type EvaluationFormNumericQuestionAutomation =
-  | { PropertyValue: NumericQuestionPropertyValueAutomation; AnswerSource?: never }
-  | { PropertyValue?: never; AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
+  | { PropertyValue: NumericQuestionPropertyValueAutomation; AnswerSource?: undefined }
+  | { PropertyValue?: undefined; AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
 export interface EvaluationFormNumericQuestionProperties {
   MinValue: number;
   MaxValue: number;
@@ -1510,26 +1510,26 @@ export interface EvaluationFormMultiSelectQuestionProperties {
 export type EvaluationFormQuestionTypeProperties =
   | {
       Numeric: EvaluationFormNumericQuestionProperties;
-      SingleSelect?: never;
-      Text?: never;
-      MultiSelect?: never;
+      SingleSelect?: undefined;
+      Text?: undefined;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
+      Numeric?: undefined;
       SingleSelect: EvaluationFormSingleSelectQuestionProperties;
-      Text?: never;
-      MultiSelect?: never;
+      Text?: undefined;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
-      SingleSelect?: never;
+      Numeric?: undefined;
+      SingleSelect?: undefined;
       Text: EvaluationFormTextQuestionProperties;
-      MultiSelect?: never;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
-      SingleSelect?: never;
-      Text?: never;
+      Numeric?: undefined;
+      SingleSelect?: undefined;
+      Text?: undefined;
       MultiSelect: EvaluationFormMultiSelectQuestionProperties;
     };
 export type EvaluationFormItemEnablementSourceType = "QUESTION_REF_ID" | (string & {});
@@ -1555,8 +1555,8 @@ export interface EvaluationFormItemEnablementExpression {
   Comparator: EvaluationFormItemSourceValuesComparator;
 }
 export type EvaluationFormItemEnablementConditionOperand =
-  | { Expression: EvaluationFormItemEnablementExpression; Condition?: never }
-  | { Expression?: never; Condition: EvaluationFormItemEnablementCondition };
+  | { Expression: EvaluationFormItemEnablementExpression; Condition?: undefined }
+  | { Expression?: undefined; Condition: EvaluationFormItemEnablementCondition };
 export type EvaluationFormItemEnablementConditionOperandList =
   EvaluationFormItemEnablementConditionOperand[];
 export type EvaluationFormItemEnablementOperator = "OR" | "AND" | (string & {});
@@ -1599,8 +1599,8 @@ export interface EvaluationFormQuestion {
   MetricConfiguration?: EvaluationFormMetricConfiguration | undefined;
 }
 export type EvaluationFormItem =
-  | { Section: EvaluationFormSection; Question?: never }
-  | { Section?: never; Question: EvaluationFormQuestion };
+  | { Section: EvaluationFormSection; Question?: undefined }
+  | { Section?: undefined; Question: EvaluationFormQuestion };
 export type EvaluationFormItemsList = EvaluationFormItem[];
 export type EvaluationFormScoringMode =
   | "QUESTION_ONLY"
@@ -3518,37 +3518,37 @@ export type EvaluationAnswerDataStringValueList = string[];
 export type EvaluationAnswerData =
   | {
       StringValue: string;
-      NumericValue?: never;
-      StringValues?: never;
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      NumericValue?: undefined;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       NumericValue: number;
-      StringValues?: never;
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
       StringValues: string[];
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
-      StringValues?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
+      StringValues?: undefined;
       DateTimeValue: string;
-      NotApplicable?: never;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
-      StringValues?: never;
-      DateTimeValue?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
       NotApplicable: boolean;
     };
 export type EvaluationSuggestedAnswerStatus =
@@ -3588,8 +3588,8 @@ export interface EvaluationContactLensAnswerAnalysisDetails {
   MatchedRuleCategories?: EvaluationAutomationRuleCategory[] | undefined;
 }
 export type EvaluationQuestionAnswerAnalysisDetails =
-  | { GenAI: EvaluationGenAIAnswerAnalysisDetails; ContactLens?: never }
-  | { GenAI?: never; ContactLens: EvaluationContactLensAnswerAnalysisDetails };
+  | { GenAI: EvaluationGenAIAnswerAnalysisDetails; ContactLens?: undefined }
+  | { GenAI?: undefined; ContactLens: EvaluationContactLensAnswerAnalysisDetails };
 export interface EvaluationSuggestedAnswer {
   Value?: EvaluationAnswerData | undefined;
   Status: EvaluationSuggestedAnswerStatus;
@@ -5733,145 +5733,145 @@ export interface ContactAnalysisReference {
 export type ReferenceSummary =
   | {
       Url: UrlReference;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
+      Url?: undefined;
       Attachment: AttachmentReference;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
+      Url?: undefined;
+      Attachment?: undefined;
       EmailMessage: EmailMessageReference;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
       EmailMessageRedacted: EmailMessageReference;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
       EmailMessagePlainText: EmailMessageReference;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
       EmailMessagePlainTextRedacted: EmailMessageReference;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
       String: StringReference;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
       Number: NumberReference;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
       Date: DateReference;
-      Email?: never;
-      ContactAnalysis?: never;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
       Email: EmailReference;
-      ContactAnalysis?: never;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
       ContactAnalysis: ContactAnalysisReference;
     };
 export type ReferenceSummaryList = ReferenceSummary[];
@@ -6542,65 +6542,65 @@ export interface RealTimeContactAnalysisSegmentExtractedInformation {
 export type RealtimeContactAnalysisSegment =
   | {
       Transcript: RealTimeContactAnalysisSegmentTranscript;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
+      Transcript?: undefined;
       Categories: RealTimeContactAnalysisSegmentCategories;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
       Issues: RealTimeContactAnalysisSegmentIssues;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
       Event: RealTimeContactAnalysisSegmentEvent;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
       Attachments: RealTimeContactAnalysisSegmentAttachments;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
       PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary;
-      ExtractedInformation?: never;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
       ExtractedInformation: RealTimeContactAnalysisSegmentExtractedInformation;
     };
 export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
@@ -9177,8 +9177,11 @@ export type ParticipantTimerType = "IDLE" | "DISCONNECT_NONCUSTOMER" | (string &
 export type ParticipantTimerAction = "Unset" | (string & {});
 export type ParticipantTimerDurationInMinutes = number;
 export type ParticipantTimerValue =
-  | { ParticipantTimerAction: ParticipantTimerAction; ParticipantTimerDurationInMinutes?: never }
-  | { ParticipantTimerAction?: never; ParticipantTimerDurationInMinutes: number };
+  | {
+      ParticipantTimerAction: ParticipantTimerAction;
+      ParticipantTimerDurationInMinutes?: undefined;
+    }
+  | { ParticipantTimerAction?: undefined; ParticipantTimerDurationInMinutes: number };
 export interface ParticipantTimerConfiguration {
   ParticipantRole: TimerEligibleParticipantRoles;
   TimerType: ParticipantTimerType;

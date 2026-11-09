@@ -73,10 +73,10 @@ export class PaymentRequired
 export type CreateNetworkRequestAwsAvailabilityZoneIdsList = Array<string>;
 export interface CreateNetworkRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  awsAvailabilityZoneIds?: CreateNetworkRequestAwsAvailabilityZoneIdsList;
+  slug?: string | undefined;
+  awsAvailabilityZoneIds?: CreateNetworkRequestAwsAvailabilityZoneIdsList | undefined;
   /** The CIDR block of the network */
   cidr: string;
   /** The name of the network */
@@ -106,38 +106,38 @@ export interface Network {
   /** The ID of the AWS Account in which the network exists. */
   awsAccountId: string;
   /** The IDs of the AWS Availability Zones in which the network exists, if specified during creation. */
-  awsAvailabilityZoneIds?: NetworkAwsAvailabilityZoneIdsList;
+  awsAvailabilityZoneIds?: NetworkAwsAvailabilityZoneIdsList | undefined;
   /** The AWS Region in which the network exists. */
   awsRegion: string;
   /** The CIDR range of the Network. */
   cidr: string;
   /** The date at which the Network was created, represented as a UNIX timestamp since EPOCH. */
   createdAt: number;
-  egressIpAddresses?: NetworkEgressIpAddressesList;
+  egressIpAddresses?: NetworkEgressIpAddressesList | undefined;
   /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
-  hostedZones?: NetworkHostedZones;
+  hostedZones?: NetworkHostedZones | undefined;
   /** The unique identifier of the Network. */
   id: string;
   /** The name of the network. */
   name: string;
   /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
-  peeringConnections?: NetworkHostedZones;
+  peeringConnections?: NetworkHostedZones | undefined;
   /** Metadata about any projects associated with the Network. */
-  projects?: NetworkProjects;
+  projects?: NetworkProjects | undefined;
   /** The Vercel region in which the Network exists. */
-  region?: string;
+  region?: string | undefined;
   /** The status of the Network. */
   status: NetworkStatus;
   /** The unique identifier of the Team that owns the Network. */
   teamId: string;
   /** The ID of the VPC which hosts the network. */
-  vpcId?: string;
+  vpcId?: string | undefined;
 }
 export interface CreatePrivateLinkEndpointRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The project ID to create the PrivateLink endpoint for. */
   projectId: string;
   /** The name of the PrivateLink endpoint, used as its label in the Vercel dashboard. */
@@ -147,7 +147,7 @@ export interface CreatePrivateLinkEndpointRequest {
   /** The name of the AWS VPC endpoint service to connect to. Its AWS region is read from the name; when that region differs from the one behind `vercelRegion`, the service must allow cross-region access. */
   awsServiceName: string;
   /** Whether to resolve the endpoint service through its private DNS names, which are then returned in `privateDnsNames`. Defaults to `false`, in which case the endpoint is reachable through the DNS names in `awsDnsEntries`. */
-  enablePrivateDns?: boolean;
+  enablePrivateDns?: boolean | undefined;
 }
 /** The regional DNS names assigned to the endpoint by AWS. Use these to reach the service when private DNS is not enabled. */
 export type PrivateLinkEndpointAwsDnsEntriesList = Array<string>;
@@ -165,7 +165,7 @@ export type PrivateLinkEndpointStatus =
 /** A PrivateLink endpoint, which connects a project to an AWS VPC endpoint service in a single region so that traffic reaches the service over AWS PrivateLink rather than the public internet. */
 export interface PrivateLinkEndpoint {
   /** The regional DNS names assigned to the endpoint by AWS. Use these to reach the service when private DNS is not enabled. */
-  awsDnsEntries?: PrivateLinkEndpointAwsDnsEntriesList;
+  awsDnsEntries?: PrivateLinkEndpointAwsDnsEntriesList | undefined;
   /** The AWS VPC endpoint service the endpoint connects to. */
   awsServiceName: string;
   /** Timestamp in milliseconds since the UNIX epoch for when the endpoint was created. */
@@ -175,13 +175,13 @@ export interface PrivateLinkEndpoint {
   /** The name of the PrivateLink endpoint, shown in the Vercel dashboard. */
   name: string;
   /** The private DNS names of the endpoint service, populated when private DNS is enabled for the endpoint. */
-  privateDnsNames?: PrivateLinkEndpointPrivateDnsNamesList;
+  privateDnsNames?: PrivateLinkEndpointPrivateDnsNamesList | undefined;
   /** The identifier of the project the PrivateLink endpoint belongs to. */
   projectId: string;
   /** The current state of the endpoint. - `creating`: the endpoint is being created. - `pending-acceptance`: waiting for the endpoint service owner to accept the connection. Only occurs for services that require manual acceptance. - `provisioning`: the connection was accepted and AWS is finishing setup. - `available`: the endpoint is fully provisioned and ready to use. - `rejected`: the endpoint service owner rejected the connection. - `failed`: the endpoint could not be provisioned. - `deleting`: the endpoint is being deleted. */
   status: PrivateLinkEndpointStatus;
   /** A human-readable explanation of why the endpoint could not be provisioned. Only set when `status` is `failed`, and absent for every other status including `rejected`, since AWS does not report a rejection reason. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The identifier of the team that owns the PrivateLink endpoint. */
   teamId: string;
   /** Timestamp in milliseconds since the UNIX epoch for when the endpoint was last updated. */
@@ -189,15 +189,15 @@ export interface PrivateLinkEndpoint {
   /** The Vercel region the endpoint is provisioned in. */
   vercelRegion: string;
   /** The identifier of the underlying AWS VPC endpoint. Absent until AWS has created the endpoint. */
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface DeleteNetworkRequest {
   /** The ID of the network to delete */
   networkId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteNetworkResponse {}
 export interface DeletePrivateLinkEndpointRequest {
@@ -206,24 +206,24 @@ export interface DeletePrivateLinkEndpointRequest {
   /** The project ID the PrivateLink endpoint belongs to. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeletePrivateLinkEndpointResponse = unknown;
 export interface ListNetworksRequest {
   /** Whether to include Hosted Zones in the response */
-  includeHostedZones?: boolean;
+  includeHostedZones?: boolean | undefined;
   /** Whether to include VPC Peering connections in the response */
-  includePeeringConnections?: boolean;
+  includePeeringConnections?: boolean | undefined;
   /** Whether to include projects in the response */
-  includeProjects?: boolean;
+  includeProjects?: boolean | undefined;
   /** The query to use as a filter for returned networks */
-  search?: string;
+  search?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListNetworksResponseBodyList = Array<Network>;
 export type ListNetworksResponse = ListNetworksResponseBodyList;
@@ -231,9 +231,9 @@ export interface ListPrivateLinkEndpointsRequest {
   /** The project ID to list PrivateLink endpoints for. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListPrivateLinkEndpointsResponseBodyList = Array<PrivateLinkEndpoint>;
 export type ListPrivateLinkEndpointsResponse = ListPrivateLinkEndpointsResponseBodyList;
@@ -241,9 +241,9 @@ export interface ReadNetworkRequest {
   /** The unique identifier of the Secure Compute network */
   networkId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ReadPrivateLinkEndpointRequest {
   /** The unique identifier of the PrivateLink endpoint. */
@@ -251,17 +251,17 @@ export interface ReadPrivateLinkEndpointRequest {
   /** The project ID the PrivateLink endpoint belongs to. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateNetworkRequest {
   /** The unique identifier of the Secure Compute network */
   networkId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the Secure Compute network */
   name: string;
 }
@@ -271,29 +271,29 @@ export interface UpdatePrivateLinkEndpointRequest {
   /** The project ID the PrivateLink endpoint belongs to. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** A new name for the PrivateLink endpoint. When omitted, the current name is kept. */
-  name?: string;
+  name?: string | undefined;
   /** When `true`, resolves the endpoint service through its private DNS names, which are then returned in `privateDnsNames`. When `false`, clears them. When omitted, the current setting is kept. At least one of `name` or `enablePrivateDns` must be provided. */
-  enablePrivateDns?: boolean;
+  enablePrivateDns?: boolean | undefined;
 }
 export type UpdateStaticIpsRequestRegionsList = Array<string>;
 export interface UpdateStaticIpsRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Whether to use Static IPs for builds. */
-  builds?: boolean;
-  regions?: UpdateStaticIpsRequestRegionsList;
+  builds?: boolean | undefined;
+  regions?: UpdateStaticIpsRequestRegionsList | undefined;
 }
 export type UpdateStaticIpsResponseBodyItemAwsSubnetIdsList = Array<string>;
 export interface UpdateStaticIpsResponseBodyItemAws {
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   subnetIds: UpdateStaticIpsResponseBodyItemAwsSubnetIdsList;
 }
 export type UpdateStaticIpsResponseBodyItemEnvIdCase1 = "preview" | "production";
@@ -301,11 +301,11 @@ export type UpdateStaticIpsResponseBodyItemEnvId =
   | string
   | UpdateStaticIpsResponseBodyItemEnvIdCase1;
 export interface UpdateStaticIpsResponseBodyItem {
-  aws?: UpdateStaticIpsResponseBodyItemAws;
+  aws?: UpdateStaticIpsResponseBodyItemAws | undefined;
   buildsEnabled: boolean;
   connectConfigurationId: string;
   createdAt: number;
-  dc?: string;
+  dc?: string | undefined;
   envId: UpdateStaticIpsResponseBodyItemEnvId;
   passive: boolean;
   updatedAt: number;

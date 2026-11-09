@@ -335,8 +335,8 @@ export type ApplicationPolicyType =
   | (string & {});
 export type CustomObjectIdentifier = string;
 export type ApplicationPolicy =
-  | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: never }
-  | { PolicyType?: never; PolicyObjectIdentifier: string };
+  | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: undefined }
+  | { PolicyType?: undefined; PolicyObjectIdentifier: string };
 export type ApplicationPolicyList = ApplicationPolicy[];
 export interface ApplicationPolicies {
   Critical?: boolean | undefined;
@@ -363,8 +363,8 @@ export interface KeyUsagePropertyFlags {
   Sign?: boolean | undefined;
 }
 export type KeyUsageProperty =
-  | { PropertyType: KeyUsagePropertyType; PropertyFlags?: never }
-  | { PropertyType?: never; PropertyFlags: KeyUsagePropertyFlags };
+  | { PropertyType: KeyUsagePropertyType; PropertyFlags?: undefined }
+  | { PropertyType?: undefined; PropertyFlags: KeyUsagePropertyFlags };
 export type PrivateKeyAlgorithm = "RSA" | "ECDH_P256" | "ECDH_P384" | "ECDH_P521" | (string & {});
 export interface PrivateKeyAttributesV3 {
   MinimalKeyLength: number;
@@ -484,9 +484,9 @@ export interface TemplateV4 {
   Extensions: ExtensionsV4;
 }
 export type TemplateDefinition =
-  | { TemplateV2: TemplateV2; TemplateV3?: never; TemplateV4?: never }
-  | { TemplateV2?: never; TemplateV3: TemplateV3; TemplateV4?: never }
-  | { TemplateV2?: never; TemplateV3?: never; TemplateV4: TemplateV4 };
+  | { TemplateV2: TemplateV2; TemplateV3?: undefined; TemplateV4?: undefined }
+  | { TemplateV2?: undefined; TemplateV3: TemplateV3; TemplateV4?: undefined }
+  | { TemplateV2?: undefined; TemplateV3?: undefined; TemplateV4: TemplateV4 };
 export interface CreateTemplateRequest {
   ConnectorArn: string;
   Name: string;

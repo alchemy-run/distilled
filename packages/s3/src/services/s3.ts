@@ -3703,9 +3703,9 @@ export interface AnalyticsAndOperator {
   Tags?: Tag[] | undefined;
 }
 export type AnalyticsFilter =
-  | { Prefix: string; Tag?: never; And?: never }
-  | { Prefix?: never; Tag: Tag; And?: never }
-  | { Prefix?: never; Tag?: never; And: AnalyticsAndOperator };
+  | { Prefix: string; Tag?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag: Tag; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; And: AnalyticsAndOperator };
 export type StorageClassAnalysisSchemaVersion = "V_1" | (string & {});
 export type AnalyticsS3ExportFileFormat = "CSV" | (string & {});
 export interface AnalyticsS3BucketDestination {
@@ -4079,10 +4079,10 @@ export interface MetricsAndOperator {
   AccessPointArn?: string | undefined;
 }
 export type MetricsFilter =
-  | { Prefix: string; Tag?: never; AccessPointArn?: never; And?: never }
-  | { Prefix?: never; Tag: Tag; AccessPointArn?: never; And?: never }
-  | { Prefix?: never; Tag?: never; AccessPointArn: string; And?: never }
-  | { Prefix?: never; Tag?: never; AccessPointArn?: never; And: MetricsAndOperator };
+  | { Prefix: string; Tag?: undefined; AccessPointArn?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag: Tag; AccessPointArn?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; AccessPointArn: string; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; AccessPointArn?: undefined; And: MetricsAndOperator };
 export interface MetricsConfiguration {
   Id: string;
   Filter?: MetricsFilter | undefined;
@@ -5679,11 +5679,41 @@ export interface ProgressEvent {
 export interface ContinuationEvent {}
 export interface EndEvent {}
 export type SelectObjectContentEventStream =
-  | { Records: RecordsEvent; Stats?: never; Progress?: never; Cont?: never; End?: never }
-  | { Records?: never; Stats: StatsEvent; Progress?: never; Cont?: never; End?: never }
-  | { Records?: never; Stats?: never; Progress: ProgressEvent; Cont?: never; End?: never }
-  | { Records?: never; Stats?: never; Progress?: never; Cont: ContinuationEvent; End?: never }
-  | { Records?: never; Stats?: never; Progress?: never; Cont?: never; End: EndEvent };
+  | {
+      Records: RecordsEvent;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats: StatsEvent;
+      Progress?: undefined;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress: ProgressEvent;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont: ContinuationEvent;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont?: undefined;
+      End: EndEvent;
+    };
 export interface SelectObjectContentOutput {
   Payload?: stream.Stream<SelectObjectContentEventStream, Error, never> | undefined;
 }

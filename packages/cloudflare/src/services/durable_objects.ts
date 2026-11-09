@@ -86,7 +86,7 @@ export interface ListNamespaceObjectsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesObjectsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNamespacesRequest {
   /** Identifier. */
@@ -120,7 +120,7 @@ export interface ListNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListNamespaceObjectsError =
   | NamespaceNotFound

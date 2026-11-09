@@ -26,63 +26,63 @@ const TELEMETRY = {
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 export type NetworkAccessNetworkAccessType = "UNSPECIFIED" | "OPEN" | "BLOCKED" | "ALLOWLIST";
 export interface NetworkAccess {
-  networkAccessType?: NetworkAccessNetworkAccessType | (string & {});
-  allowedCidrs?: StringList;
-  allowedDomains?: StringList;
+  networkAccessType?: NetworkAccessNetworkAccessType | (string & {}) | undefined;
+  allowedCidrs?: StringList | undefined;
+  allowedDomains?: StringList | undefined;
 }
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
   /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 export interface StringMap2 {
-  contents?: StringMap;
+  contents?: StringMap | undefined;
 }
 /** One source of environment variables for a Sandbox container or exec. */
 export interface SecretSource {
   /** Server-side Secret, resolved on the worker. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Plaintext values sent directly to the worker. Must not be persisted. */
-  env?: StringMap2;
+  env?: StringMap2 | undefined;
 }
 export type SecretSourceList = Array<SecretSource>;
 export interface CreateTaskContainerRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Logical container name. */
-  containerName?: string;
-  imageId?: string;
-  args?: StringList;
-  env?: StringMap;
-  workdir?: string;
+  containerName?: string | undefined;
+  imageId?: string | undefined;
+  args?: StringList | undefined;
+  env?: StringMap | undefined;
+  workdir?: string | undefined;
   /** Secret IDs to inject into the container as environment variables. */
-  secretIds?: StringList;
+  secretIds?: StringList | undefined;
   /** Volumes to mount into the container. */
-  volumeMounts?: VolumeMountList;
+  volumeMounts?: VolumeMountList | undefined;
   /** Outbound network policy for the sidecar, independent of the main container. When unset, defaults to open network access. BLOCKED is not accepted: a blocked sidecar has no IP and cannot reach the main container. */
-  networkAccess?: NetworkAccess;
+  networkAccess?: NetworkAccess | undefined;
   /** Optional PTY info for sidecar. */
-  ptyInfo?: PTYInfo;
+  ptyInfo?: PTYInfo | undefined;
   /** Memory, in MiB, the sidecar consumes from the sandbox's sidecar memory reserve (experimental option vm_sidecar_memory_reserve_mib); unset consumes whatever is left of it. Ignored without a reserve. */
-  memoryReserveConsumeMib?: number;
+  memoryReserveConsumeMib?: number | undefined;
   /** Applied in order. Cannot be combined with secret_ids or env. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 export interface CreateTaskContainerResponse {
   /** Fully qualified container ID (for example, ctr-<ulid>). */
@@ -91,10 +91,10 @@ export interface CreateTaskContainerResponse {
   containerName: string;
 }
 export interface GetTaskContainerRequest {
-  taskId?: string;
-  containerName?: string;
+  taskId?: string | undefined;
+  containerName?: string | undefined;
   /** Include the latest terminated container if the name is no longer active. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -123,9 +123,9 @@ export interface GenericResult {
   /** Pickled traceback object. */
   tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
   propagationReason: string;
 }
@@ -133,34 +133,34 @@ export interface TaskContainerInfo {
   containerId: string;
   containerName: string;
   status: string;
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export interface GetTaskContainerResponse {
-  container?: TaskContainerInfo;
+  container?: TaskContainerInfo | undefined;
 }
 export interface ListTaskContainerRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Include all tracked terminated containers in addition to active ones. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
 export type TaskContainerInfoList = Array<TaskContainerInfo>;
 export interface ListTaskContainerResponse {
   containers: TaskContainerInfoList;
 }
 export interface SandboxStdinWriteV2Request {
-  taskId?: string;
-  offset?: string;
-  data?: string;
-  eof?: boolean;
+  taskId?: string | undefined;
+  offset?: string | undefined;
+  data?: string | undefined;
+  eof?: boolean | undefined;
 }
 export interface SandboxStdinWriteV2Response {}
 export type SandboxStdioFileDescriptor =
   | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT"
   | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR";
 export interface SandboxStdioReadV2Request {
-  taskId?: string;
-  offset?: string;
-  fileDescriptor?: SandboxStdioFileDescriptor | (string & {});
+  taskId?: string | undefined;
+  offset?: string | undefined;
+  fileDescriptor?: SandboxStdioFileDescriptor | (string & {}) | undefined;
 }
 export interface SandboxStdioReadV2Response {
   data: string;
@@ -172,23 +172,23 @@ export interface SandboxStdioReadV2Stream {
   items: SandboxStdioReadV2ResponseList;
 }
 export interface SandboxWaitUntilReadyRequest {
-  taskId?: string;
-  timeout?: number;
+  taskId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxWaitUntilReadyResponse {
   readyAt: number;
 }
 export interface TaskExecPollRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to wait on. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecPollResponse {
   /** The exit code of the command. */
-  code?: number;
+  code?: number | undefined;
   /** The signal that terminated the command. */
-  signal?: number;
+  signal?: number | undefined;
 }
 export type TaskExecStdoutConfig =
   | "TASK_EXEC_STDOUT_CONFIG_DEVNULL"
@@ -199,38 +199,38 @@ export type TaskExecStderrConfig =
   | "TASK_EXEC_STDERR_CONFIG_STDOUT";
 export interface TaskExecStartRequest {
   /** The ID of the task to execute the command in. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Execution ID. This ID will be used to identify the execution for other requests and ensure exec commands are idempotent. */
-  execId?: string;
+  execId?: string | undefined;
   /** Command arguments to execute. */
-  commandArgs?: StringList;
+  commandArgs?: StringList | undefined;
   /** Configures how the stdout of the command will be handled. */
-  stdoutConfig?: TaskExecStdoutConfig | (string & {});
+  stdoutConfig?: TaskExecStdoutConfig | (string & {}) | undefined;
   /** Configures how the stderr of the command will be handled. */
-  stderrConfig?: TaskExecStderrConfig | (string & {});
+  stderrConfig?: TaskExecStderrConfig | (string & {}) | undefined;
   /** Timeout in seconds for the exec'd command to exit. If the command does not exit within this duration, the command will be killed. This is NOT the timeout for the ExecStartRequest RPC to complete. */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
   /** Working directory for the command. */
-  workdir?: string;
+  workdir?: string | undefined;
   /** Secret IDs to mount into the task. */
-  secretIds?: StringList;
+  secretIds?: StringList | undefined;
   /** PTY info for the command. */
-  ptyInfo?: PTYInfo;
+  ptyInfo?: PTYInfo | undefined;
   /** Enable debugging capabilities on the container runtime. Used only for internal debugging. */
-  runtimeDebug?: boolean;
+  runtimeDebug?: boolean | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** Environment variables to set directly for the exec'd command. */
-  env?: StringMap;
+  env?: StringMap | undefined;
   /** Applied in order. Cannot be combined with secret_ids or env. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 export interface TaskExecStartResponse {}
 export interface TaskExecStdinStatusRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to query. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecStdinStatusResponse {
   /** Number of bytes the server has accepted for this exec so far. A streaming client that lost its connection should resume sending at this offset. */
@@ -240,14 +240,14 @@ export interface TaskExecStdinStatusResponse {
 }
 export interface TaskExecStdinWriteRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to write to. */
-  execId?: string;
+  execId?: string | undefined;
   /** The offset to start writing to. This is used to resume writing from the last write position if the connection is closed and reopened. */
-  offset?: string;
-  data?: string;
+  offset?: string | undefined;
+  data?: string | undefined;
   /** If true, close the stdin stream after writing any provided data. This signals EOF to the exec'd process. */
-  eof?: boolean;
+  eof?: boolean | undefined;
 }
 export interface TaskExecStdinWriteResponse {}
 export type TaskExecStdioFileDescriptor =
@@ -255,13 +255,13 @@ export type TaskExecStdioFileDescriptor =
   | "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR";
 export interface TaskExecStdioReadRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to read from. */
-  execId?: string;
+  execId?: string | undefined;
   /** The offset to start reading from. This is used to resume reading from the last read position if the connection is closed and reopened. */
-  offset?: string;
+  offset?: string | undefined;
   /** Which file descriptor to read from. */
-  fileDescriptor?: TaskExecStdioFileDescriptor | (string & {});
+  fileDescriptor?: TaskExecStdioFileDescriptor | (string & {}) | undefined;
 }
 export interface TaskExecStdioReadResponse {
   /** The data read from the file descriptor. */
@@ -274,114 +274,114 @@ export interface TaskExecStdioReadStream {
 }
 export interface TaskExecWaitRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to wait on. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecWaitResponse {
   /** The exit code of the command. */
-  code?: number;
+  code?: number | undefined;
   /** The signal that terminated the command. */
-  signal?: number;
+  signal?: number | undefined;
 }
 export interface TaskMountDirectoryRequest {
-  taskId?: string;
-  path?: string;
-  imageId?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
+  imageId?: string | undefined;
   /** Customer-supplied encryption key used to decrypt CSEK-encrypted image metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskMountDirectoryResponse {}
 export interface TaskReloadVolumesRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskReloadVolumesResponse {}
 export interface TaskSetNetworkAccessRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Replaces the task's network access policy. Only ALLOWLIST is currently supported; open access is expressed as an allow-all allowlist. */
-  networkAccess?: NetworkAccess;
+  networkAccess?: NetworkAccess | undefined;
 }
 export interface TaskSetNetworkAccessResponse {}
 export interface ExperimentalOutboundPolicyHeaderReplacement {
   /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
-  domain?: string;
+  domain?: string | undefined;
   /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type ExperimentalOutboundPolicyHeaderReplacementList =
   Array<ExperimentalOutboundPolicyHeaderReplacement>;
 /** Experimental policy for outbound traffic from a sandbox: header replacements. */
 export interface ExperimentalOutboundPolicy {
   /** Replace headers in outbound HTTPS requests, potentially with secret values. */
-  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList;
+  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList | undefined;
 }
 export interface TaskSetOutboundPolicyRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Replaces the task's experimental outbound policy. */
-  experimentalOutboundPolicy?: ExperimentalOutboundPolicy;
+  experimentalOutboundPolicy?: ExperimentalOutboundPolicy | undefined;
 }
 export interface TaskSetOutboundPolicyResponse {}
 export interface TaskSnapshotDirectoryRequest {
-  taskId?: string;
-  path?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
   /** A unique ID to ensure idempotency of directory snapshot requests. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Lifetime for the resulting image, in seconds. When set, the image's expires_at is a hard cutoff: it is fixed at creation time and is not extended on use. When unset, the resulting image gets the legacy retention policy: a 30-day TTL that is bumped forward by 30 days on every use, so active images effectively never expire. Sentinel: -1 means "no expiry" (the image never expires). 0 and other negative values are invalid and rejected by the server. */
-  ttlSeconds?: string;
+  ttlSeconds?: string | undefined;
   /** Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskSnapshotDirectoryResponse {
   imageId: string;
 }
 export interface TaskSnapshotFilesystemRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** A unique ID to ensure idempotency of filesystem snapshot requests. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Lifetime for the resulting image, in seconds. Must be set. When positive, the image expiry is a hard cutoff: it is fixed at creation time and is not extended on use. Sentinel: -1 means "no expiry" (the image never expires). 0 and other negative values are invalid and rejected by the server. */
-  ttlSeconds?: string;
+  ttlSeconds?: string | undefined;
   /** Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskSnapshotFilesystemResponse {
   imageId: string;
 }
 export interface TaskSnapshotMemoryRequest {
-  taskId?: string;
-  idempotencyKey?: string;
+  taskId?: string | undefined;
+  idempotencyKey?: string | undefined;
 }
 export interface TaskSnapshotMemoryResponse {
   snapshotId: string;
 }
 export interface TaskUnmountDirectoryRequest {
-  taskId?: string;
-  path?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskUnmountDirectoryResponse {}
 export interface TerminateTaskContainerRequest {
-  taskId?: string;
-  containerId?: string;
+  taskId?: string | undefined;
+  containerId?: string | undefined;
 }
 export interface TerminateTaskContainerResponse {}
 export interface WaitTaskContainerRequest {
-  taskId?: string;
-  containerId?: string;
-  timeout?: number;
+  taskId?: string | undefined;
+  containerId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface WaitTaskContainerResponse {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export type CreateTaskContainerError = ModalOpError;
 /** Create an additional container for a task. */

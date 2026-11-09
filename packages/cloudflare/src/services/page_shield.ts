@@ -356,7 +356,7 @@ export interface ListConnectionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConnectionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CookiesListRequestDirection = "asc" | "desc";
 export type CookiesListRequestExport = "csv";
@@ -420,7 +420,7 @@ export interface ListCookiesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CookiesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPoliciesRequest {
   /** Identifier */
@@ -446,7 +446,7 @@ export interface ListPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ScriptsListRequestDirection = "asc" | "desc";
 export type ScriptsListRequestExport = "csv";
@@ -521,7 +521,7 @@ export interface ListScriptsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ScriptsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PutPageShieldRequest {
   /** Identifier */

@@ -65,7 +65,7 @@ export interface CreateCourseChapterRequest {
   /** The unique identifier of the course to create the chapter in (e.g., "course_XXXXX"). */
   course_id: string;
   /** The display title of the chapter (e.g., "Module 1: Introduction"). */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 /** An individual learning unit within a chapter, which can contain text, video, PDF, or assessment content. */
 export interface CourseChapterLessonsItem {
@@ -99,10 +99,10 @@ export interface GetCourseChapterRequest {
   id: string;
 }
 export interface ListCourseChapterRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   course_id: string;
 }
 /** A grouping of related lessons within a course, used to organize content into sections. */

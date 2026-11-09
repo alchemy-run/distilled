@@ -953,7 +953,7 @@ export interface GetCaptionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CaptionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetCaptionLanguageRequest {
   /** Identifier. */
@@ -1039,7 +1039,7 @@ export interface GetKeyResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: KeysGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetLiveInputRequest {
   /** Identifier. */
@@ -1260,7 +1260,7 @@ export interface ListLiveInputOutputsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LiveInputsOutputsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListLiveInputsRequest {
   /** Identifier. */
@@ -1406,7 +1406,7 @@ export interface ListStreamsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWatermarksRequest {
   /** The account identifier tag. */
@@ -1418,7 +1418,7 @@ export interface ListWatermarksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WatermarksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchAudioTrackRequest {
   /** The account identifier tag. */

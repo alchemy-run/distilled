@@ -992,7 +992,7 @@ export interface CreateCf1SiteResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type Cf1SitesRampsCreateRequestBodyItemType =
   | "gre"
@@ -1050,7 +1050,7 @@ export interface CreateCf1SiteRampResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesRampsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ConnectorsCreateRequestDevice {
   id?: string | undefined;
@@ -1953,7 +1953,7 @@ export interface CreateSiteLanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesLansCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export interface CreateSitesAppConfigurationRequest {
@@ -2074,7 +2074,7 @@ export interface CreateSiteWanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesWansCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteAppRequest {
   /** Identifier */
@@ -3910,7 +3910,7 @@ export interface GetPcapOwnershipResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PcapsOwnershipGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetRouteRequest {
   /** Identifier */
@@ -4195,7 +4195,7 @@ export interface ListAppsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListBgpFilterProfilesRequest {
   /** Identifier */
@@ -4258,7 +4258,7 @@ export interface ListCf1SiteRampsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesRampsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCf1SitesRequest {
   /** Identifier */
@@ -4271,7 +4271,7 @@ export interface ListCf1SitesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCfInterconnectsRequest {
   /** Identifier */
@@ -4491,7 +4491,7 @@ export interface ListConnectorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConnectorsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListConnectorsInterruptsRequest {
   accountId: string;
@@ -5214,7 +5214,7 @@ export interface ListPcapsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PcapsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRoutesRequest {
   /** Identifier */
@@ -5311,7 +5311,7 @@ export interface ListSiteAclsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesAclsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSiteLansRequest {
   /** Identifier */
@@ -5405,7 +5405,7 @@ export interface ListSiteLansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesLansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSitesRequest {
   /** Identifier */
@@ -5434,7 +5434,7 @@ export interface ListSitesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSitesAppConfigurationRequest {
   /** Identifier */
@@ -5511,7 +5511,7 @@ export interface ListSiteWansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesWansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AppsEditRequestHostnamesList = Array<string>;
 export type AppsEditRequestIpSubnetsList = Array<string>;

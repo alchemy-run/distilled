@@ -405,7 +405,7 @@ export interface ListDatabasesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DatabaseEditRequestReadReplicationMode = "auto" | "disabled";
 export interface DatabaseEditRequestReadReplication {
@@ -505,7 +505,7 @@ export interface QueryDatabaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseQueryResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DatabaseRawRequestParamsList = Array<unknown>;
 export type DatabaseRawRequestBatchItemParamsList = Array<unknown>;
@@ -573,7 +573,7 @@ export interface RawDatabaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseRawResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RestoreDatabaseTimeTravelRequest {
   /** Account identifier tag. */

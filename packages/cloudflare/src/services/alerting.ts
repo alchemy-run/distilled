@@ -588,7 +588,7 @@ export interface GetDestinationPagerdutyResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DestinationsPagerdutyGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDestinationWebhookRequest {
   /** The account id */
@@ -1005,7 +1005,7 @@ export interface ListDestinationWebhooksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DestinationsWebhooksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListHistoriesRequest {
   /** The account id */
@@ -1045,7 +1045,7 @@ export interface ListHistoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HistoryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPoliciesRequest {
   /** The account id */
@@ -1339,7 +1339,7 @@ export interface ListPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSilencesRequest {
   /** The account id */
@@ -1364,7 +1364,7 @@ export interface ListSilencesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SilencesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateDestinationWebhookRequest {
   /** The account id */
@@ -1679,7 +1679,7 @@ export interface UpdateSilenceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SilencesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateDestinationPagerdutyError = InvalidRoute | CloudflareOpError;
 /** Creates a new token for integrating with PagerDuty. */

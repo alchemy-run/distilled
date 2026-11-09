@@ -222,8 +222,8 @@ export interface PipeSourceRabbitMQBrokerParameters {
 export type KafkaTopicName = string | redacted.Redacted<string>;
 export type MSKStartPosition = string;
 export type MSKAccessCredentials =
-  | { SaslScram512Auth: string; ClientCertificateTlsAuth?: never }
-  | { SaslScram512Auth?: never; ClientCertificateTlsAuth: string };
+  | { SaslScram512Auth: string; ClientCertificateTlsAuth?: undefined }
+  | { SaslScram512Auth?: undefined; ClientCertificateTlsAuth: string };
 export interface PipeSourceManagedStreamingKafkaParameters {
   TopicName: string | redacted.Redacted<string>;
   StartingPosition?: string | undefined;
@@ -238,26 +238,26 @@ export type KafkaBootstrapServers = (string | redacted.Redacted<string>)[];
 export type SelfManagedKafkaAccessConfigurationCredentials =
   | {
       BasicAuth: string;
-      SaslScram512Auth?: never;
-      SaslScram256Auth?: never;
-      ClientCertificateTlsAuth?: never;
+      SaslScram512Auth?: undefined;
+      SaslScram256Auth?: undefined;
+      ClientCertificateTlsAuth?: undefined;
     }
   | {
-      BasicAuth?: never;
+      BasicAuth?: undefined;
       SaslScram512Auth: string;
-      SaslScram256Auth?: never;
-      ClientCertificateTlsAuth?: never;
+      SaslScram256Auth?: undefined;
+      ClientCertificateTlsAuth?: undefined;
     }
   | {
-      BasicAuth?: never;
-      SaslScram512Auth?: never;
+      BasicAuth?: undefined;
+      SaslScram512Auth?: undefined;
       SaslScram256Auth: string;
-      ClientCertificateTlsAuth?: never;
+      ClientCertificateTlsAuth?: undefined;
     }
   | {
-      BasicAuth?: never;
-      SaslScram512Auth?: never;
-      SaslScram256Auth?: never;
+      BasicAuth?: undefined;
+      SaslScram512Auth?: undefined;
+      SaslScram256Auth?: undefined;
       ClientCertificateTlsAuth: string;
     };
 export type SubnetId = string | redacted.Redacted<string>;

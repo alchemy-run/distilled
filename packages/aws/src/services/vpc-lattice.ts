@@ -177,7 +177,9 @@ export type RuleIdentifier = string;
 export type HttpMethod = string;
 export type PathMatchExact = string;
 export type PathMatchPrefix = string;
-export type PathMatchType = { exact: string; prefix?: never } | { exact?: never; prefix: string };
+export type PathMatchType =
+  | { exact: string; prefix?: undefined }
+  | { exact?: undefined; prefix: string };
 export interface PathMatch {
   match: PathMatchType;
   caseSensitive?: boolean | undefined;
@@ -187,9 +189,9 @@ export type HeaderMatchExact = string;
 export type HeaderMatchPrefix = string;
 export type HeaderMatchContains = string;
 export type HeaderMatchType =
-  | { exact: string; prefix?: never; contains?: never }
-  | { exact?: never; prefix: string; contains?: never }
-  | { exact?: never; prefix?: never; contains: string };
+  | { exact: string; prefix?: undefined; contains?: undefined }
+  | { exact?: undefined; prefix: string; contains?: undefined }
+  | { exact?: undefined; prefix?: undefined; contains: string };
 export interface HeaderMatch {
   name: string;
   match: HeaderMatchType;
@@ -218,8 +220,8 @@ export interface FixedResponseAction {
   statusCode: number;
 }
 export type RuleAction =
-  | { forward: ForwardAction; fixedResponse?: never }
-  | { forward?: never; fixedResponse: FixedResponseAction };
+  | { forward: ForwardAction; fixedResponse?: undefined }
+  | { forward?: undefined; fixedResponse: FixedResponseAction };
 export interface RuleUpdate {
   ruleIdentifier: string;
   match?: RuleMatch | undefined;
@@ -342,10 +344,30 @@ export interface CidrResource {
   cidrRanges?: string[] | undefined;
 }
 export type ResourceConfigurationDefinition =
-  | { dnsResource: DnsResource; ipResource?: never; arnResource?: never; cidrResource?: never }
-  | { dnsResource?: never; ipResource: IpResource; arnResource?: never; cidrResource?: never }
-  | { dnsResource?: never; ipResource?: never; arnResource: ArnResource; cidrResource?: never }
-  | { dnsResource?: never; ipResource?: never; arnResource?: never; cidrResource: CidrResource };
+  | {
+      dnsResource: DnsResource;
+      ipResource?: undefined;
+      arnResource?: undefined;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource: IpResource;
+      arnResource?: undefined;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource?: undefined;
+      arnResource: ArnResource;
+      cidrResource?: undefined;
+    }
+  | {
+      dnsResource?: undefined;
+      ipResource?: undefined;
+      arnResource?: undefined;
+      cidrResource: CidrResource;
+    };
 export type DomainVerificationIdentifier = string;
 export interface CreateResourceConfigurationRequest {
   name: string;

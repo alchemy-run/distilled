@@ -364,7 +364,7 @@ export interface UrlInfoBrandProtectionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UrlInfoResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BulkQueryError = CloudflareOpError;
 /** Return a success message after creating new saved string queries in bulk. */

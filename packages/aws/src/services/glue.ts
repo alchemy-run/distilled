@@ -7214,8 +7214,8 @@ export type SearchFilterOperator =
 export type SearchFilterStringValue = string;
 export type SearchFilterLongValue = number;
 export type SearchFilterValue =
-  | { StringValue: string; LongValue?: never }
-  | { StringValue?: never; LongValue: number };
+  | { StringValue: string; LongValue?: undefined }
+  | { StringValue?: undefined; LongValue: number };
 export interface SearchAttributeFilter {
   Attribute: string;
   Operator: SearchFilterOperator;
@@ -7231,26 +7231,26 @@ export interface SearchMapFilter {
 export type SearchFilterClause =
   | {
       AndAllFilters: SearchFilterClause[];
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
-      MapFilter?: never;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
+      AndAllFilters?: undefined;
       OrAnyFilters: SearchFilterClause[];
-      AttributeFilter?: never;
-      MapFilter?: never;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
       AttributeFilter: SearchAttributeFilter;
-      MapFilter?: never;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
       MapFilter: SearchMapFilter;
     };
 export interface SearchAssetsInput {

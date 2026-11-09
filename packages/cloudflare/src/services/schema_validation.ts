@@ -254,7 +254,7 @@ export interface ListSchemasResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SchemasListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingOperationsRequest {
   /** Identifier. */
@@ -276,7 +276,7 @@ export interface ListSettingOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsOperationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchSchemaRequest {
   /** Identifier. */

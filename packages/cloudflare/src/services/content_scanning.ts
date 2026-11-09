@@ -93,7 +93,7 @@ export interface CreatePayloadResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PayloadsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeletePayloadRequest {
   /** Defines an identifier. */
@@ -107,7 +107,7 @@ export interface DeletePayloadResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PayloadsDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DisableContentScanningRequest {
   /** Defines an identifier. */
@@ -151,7 +151,7 @@ export interface ListPayloadsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PayloadsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UpdateRequestValue = "enabled" | "disabled";
 export interface UpdateRequest {

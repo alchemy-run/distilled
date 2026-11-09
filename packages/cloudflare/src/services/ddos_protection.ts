@@ -148,7 +148,7 @@ export interface BulkCreateAdvancedTcpProtectionPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionPrefixesBulkCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkDeleteAdvancedTcpProtectionAllowlistsRequest {
   /** Identifier. */
@@ -556,7 +556,7 @@ export interface ListAdvancedTcpProtectionAllowlistsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionAllowlistListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAdvancedTcpProtectionPrefixesRequest {
   /** Identifier. */
@@ -578,7 +578,7 @@ export interface ListAdvancedTcpProtectionPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionPrefixesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAdvancedTcpProtectionSynProtectionFiltersRequest {
   /** Identifier. */
@@ -612,7 +612,7 @@ export interface ListAdvancedTcpProtectionSynProtectionFiltersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionSynProtectionFiltersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAdvancedTcpProtectionSynProtectionRulesRequest {
   /** Identifier. */
@@ -652,7 +652,7 @@ export interface ListAdvancedTcpProtectionSynProtectionRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionSynProtectionRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAdvancedTcpProtectionTcpFlowProtectionFiltersRequest {
   /** Identifier. */
@@ -676,7 +676,7 @@ export interface ListAdvancedTcpProtectionTcpFlowProtectionFiltersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionTcpFlowProtectionFiltersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAdvancedTcpProtectionTcpFlowProtectionRulesRequest {
   /** Identifier. */
@@ -714,7 +714,7 @@ export interface ListAdvancedTcpProtectionTcpFlowProtectionRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AdvancedTcpProtectionTcpFlowProtectionRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchAdvancedTcpProtectionAllowlistItemRequest {
   /** Identifier. */

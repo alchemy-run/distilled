@@ -206,7 +206,7 @@ export interface ListAccountsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccountTypesRequest {
   tenantId: string;
@@ -216,7 +216,7 @@ export interface ListAccountTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListMembershipsRequest {
   tenantId: string;
@@ -231,7 +231,7 @@ export interface ListMembershipsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MembershipsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GetEntitlementError = CloudflareOpError;
 /** Retrieves the innate and custom entitlement allocations available to this tenant. */

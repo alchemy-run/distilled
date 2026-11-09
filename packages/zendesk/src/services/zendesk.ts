@@ -88,39 +88,39 @@ export interface AutocompleteGroupsRequest {
 }
 export interface GroupObject {
   /** The time the group was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If the group is the default one for the account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Deleted groups get marked as such */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The description of the group */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when creating groups */
-  id?: number;
+  id?: number | undefined;
   /** If true, the group is public. If false, the group is private. You can't change a private group to a public group */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** The name of the group */
   name: string;
   /** The time of the last update of the group */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of the group */
-  url?: string;
+  url?: string | undefined;
 }
 export type GroupsResponseGroupsList = Array<GroupObject>;
 export interface GroupsResponse {
-  groups?: GroupsResponseGroupsList;
+  groups?: GroupsResponseGroupsList | undefined;
 }
 export interface AutocompleteOrganizationsRequest {
   /** A substring of an organization to search for */
   name: string;
   /** The id of a lookup relationship field. The type of field is determined by the `source` param */
-  field_id?: string;
+  field_id?: string | undefined;
   /** If a `field_id` is provided, this specifies the type of the field. For example, if the field is on a "zen:user", it references a field on a user */
-  source?: string;
+  source?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 /** An array of domain names associated with this organization */
 export type OrganizationObjectDomainNamesList = Array<string>;
@@ -135,125 +135,125 @@ export type OrganizationObjectTagsList = Array<string>;
 export type OrganizationObjectTicketRestriction = "restricted" | "organization";
 export interface OrganizationObject {
   /** The time the organization was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Any details obout the organization, such as the address */
-  details?: string | null;
+  details?: string | null | undefined;
   /** An array of domain names associated with this organization */
-  domain_names?: OrganizationObjectDomainNamesList;
+  domain_names?: OrganizationObjectDomainNamesList | undefined;
   /** A unique external id to associate organizations to an external record. The id is case-insensitive. For example, "company1" and "Company1" are considered the same */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** New tickets from users in this organization are automatically put in this group */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Automatically assigned when the organization is created */
-  id?: number;
+  id?: number | undefined;
   /** A unique name for the organization */
   name: string;
   /** Any notes you have about the organization */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Custom fields for this organization. See [Custom organization fields](/api-reference/ticketing/organizations/organizations/#custom-organization-fields) */
-  organization_fields?: OrganizationObjectOrganizationFieldsMap | null;
+  organization_fields?: OrganizationObjectOrganizationFieldsMap | null | undefined;
   /** End users in this organization are able to comment on each other's tickets */
-  shared_comments?: boolean;
+  shared_comments?: boolean | undefined;
   /** End users in this organization are able to see each other's tickets. This property will be deprecated in the future. Use `ticket_restriction` instead. */
-  shared_tickets?: boolean;
+  shared_tickets?: boolean | undefined;
   /** The tags of the organization */
-  tags?: OrganizationObjectTagsList;
+  tags?: OrganizationObjectTagsList | undefined;
   /** Which tickets end users in this organization can see. Possible values are "restricted" or "organization". Takes precedence over the `shared_tickets` property. */
-  ticket_restriction?: OrganizationObjectTicketRestriction;
+  ticket_restriction?: OrganizationObjectTicketRestriction | undefined;
   /** The time of the last update of the organization */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this organization */
-  url?: string;
+  url?: string | undefined;
 }
 export type OrganizationsResponseOrganizationsList = Array<OrganizationObject>;
 export interface OrganizationsResponse {
-  count?: number;
-  next_page?: string | null;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
   organizations: OrganizationsResponseOrganizationsList;
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface AutocompleteProblemsRequest {
   /** The text to search for */
-  text?: string;
+  text?: string | undefined;
 }
 export type ListTicketProblemsResponse = { [key: string]: unknown | undefined };
 export type AutocompleteProblemsResponse = ListTicketProblemsResponse;
 export interface AutocompleteTagsRequest {
   /** A substring of a tag to search for */
-  name?: string;
+  name?: string | undefined;
 }
 export interface AutocompleteTicketsRequest {
   /** The text used to match ticket subjects. */
-  name?: string;
+  name?: string | undefined;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
   /** The id of a lookup relationship field. The type of field is determined by the `source` param */
-  field_id?: string;
+  field_id?: string | undefined;
   /** If a `field_id` is provided, this specifies the type of the field. For example, if the field is on a "zen:user", it references a field on a user */
-  source?: string;
+  source?: string | undefined;
 }
 /** The ids of users currently CC'ed on the ticket */
 export type TicketObjectOutputCollaboratorIdsList = Array<number>;
 export interface AttachmentBaseObject {
   /** The content type of the image. Example value: "image/png" */
-  content_type?: string;
+  content_type?: string | undefined;
   /** A full URL where the attachment image file can be downloaded. The file may be hosted externally so take care not to inadvertently send Zendesk authentication credentials. See [Working with url properties](/documentation/api-basics/best-practices/working-with-url-properties/) */
-  content_url?: string;
+  content_url?: string | undefined;
   /** If true, the attachment has been deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The name of the image file */
-  file_name?: string;
+  file_name?: string | undefined;
   /** The height of the image file in pixels. If height is unknown, returns null */
-  height?: number;
+  height?: number | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** If true, the attachment is excluded from the attachment list and the attachment's URL can be referenced within the comment of a ticket. Default is false */
-  inline?: boolean;
+  inline?: boolean | undefined;
   /** If true, you can download an attachment flagged as malware. If false, you can't download such an attachment. */
-  malware_access_override?: boolean;
+  malware_access_override?: boolean | undefined;
   /** The result of the malware scan. There is a delay between the time the attachment is uploaded and when the malware scan is completed. Usually the scan is done within a few seconds, but high load conditions can delay the scan results. Possible values: "malware_found", "malware_not_found", "failed_to_scan", "not_scanned" */
-  malware_scan_result?: string;
+  malware_scan_result?: string | undefined;
   /** The URL the attachment image file has been mapped to */
-  mapped_content_url?: string;
+  mapped_content_url?: string | undefined;
   /** The size of the image file in bytes */
-  size?: number;
+  size?: number | undefined;
   /** A URL to access the attachment details */
-  url?: string;
+  url?: string | undefined;
   /** The width of the image file in pixels. If width is unknown, returns null */
-  width?: number;
+  width?: number | undefined;
 }
 /** An array of attachment objects. Note that photo thumbnails do not have thumbnails */
 export type AttachmentObjectThumbnailsList = Array<AttachmentBaseObject>;
 /** A file represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
 export interface AttachmentObject {
   /** The content type of the image. Example value: "image/png" */
-  content_type?: string;
+  content_type?: string | undefined;
   /** A full URL where the attachment image file can be downloaded. The file may be hosted externally so take care not to inadvertently send Zendesk authentication credentials. See [Working with url properties](/documentation/api-basics/best-practices/working-with-url-properties/) */
-  content_url?: string;
+  content_url?: string | undefined;
   /** If true, the attachment has been deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The name of the image file */
-  file_name?: string;
+  file_name?: string | undefined;
   /** The height of the image file in pixels. If height is unknown, returns null */
-  height?: number;
+  height?: number | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** If true, the attachment is excluded from the attachment list and the attachment's URL can be referenced within the comment of a ticket. Default is false */
-  inline?: boolean;
+  inline?: boolean | undefined;
   /** If true, you can download an attachment flagged as malware. If false, you can't download such an attachment. */
-  malware_access_override?: boolean;
+  malware_access_override?: boolean | undefined;
   /** The result of the malware scan. There is a delay between the time the attachment is uploaded and when the malware scan is completed. Usually the scan is done within a few seconds, but high load conditions can delay the scan results. Possible values: "malware_found", "malware_not_found", "failed_to_scan", "not_scanned" */
-  malware_scan_result?: string;
+  malware_scan_result?: string | undefined;
   /** The URL the attachment image file has been mapped to */
-  mapped_content_url?: string;
+  mapped_content_url?: string | undefined;
   /** The size of the image file in bytes */
-  size?: number;
+  size?: number | undefined;
   /** A URL to access the attachment details */
-  url?: string;
+  url?: string | undefined;
   /** The width of the image file in pixels. If width is unknown, returns null */
-  width?: number;
+  width?: number | undefined;
   /** An array of attachment objects. Note that photo thumbnails do not have thumbnails */
-  thumbnails?: AttachmentObjectThumbnailsList;
+  thumbnails?: AttachmentObjectThumbnailsList | undefined;
 }
 /** Attachments, if any. See [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) */
 export type TicketCommentObjectAttachmentsList = Array<AttachmentObject>;
@@ -266,44 +266,44 @@ export type TicketAuditViaObjectSourceMap = { [key: string]: unknown | undefined
 /** Describes how the object was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
 export interface TicketAuditViaObject {
   /** This tells you how the ticket or event was created. Examples: "web", "mobile", "rule", "system" */
-  channel?: string;
+  channel?: string | undefined;
   /** For some channels a source object gives more information about how or why the ticket or event was created */
-  source?: TicketAuditViaObjectSourceMap;
+  source?: TicketAuditViaObjectSourceMap | undefined;
 }
 export interface TicketCommentObject {
   /** Internal flag for adding short URLs to the comment */
-  add_short_url?: boolean;
+  add_short_url?: boolean | undefined;
   /** Attachments, if any. See [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) */
-  attachments?: TicketCommentObjectAttachmentsList;
+  attachments?: TicketCommentObjectAttachmentsList | undefined;
   /** The id of the ticket audit record. See [Show Audit](/api-reference/ticketing/tickets/ticket_audits/#show-audit) */
-  audit_id?: number;
+  audit_id?: number | undefined;
   /** The id of the comment author. If null or omitted on create, defaults to the authenticated user. See [Author id](#author-id) */
-  author_id?: number | null;
+  author_id?: number | null | undefined;
   /** The comment string. See [Bodies](#bodies) */
-  body?: string;
+  body?: string | undefined;
   /** Internal channel back identifier for the comment */
-  channel_back?: string;
+  channel_back?: string | undefined;
   /** Internal channel source identifier for the comment */
-  channel_source_id?: string | null;
+  channel_source_id?: string | null | undefined;
   /** The time the comment was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The comment formatted as HTML. See [Bodies](#bodies) */
-  html_body?: string;
+  html_body?: string | undefined;
   /** Automatically assigned when the comment is created */
-  id?: number;
+  id?: number | undefined;
   /** System information (web client, IP address, etc.) and comment flags, if any. See [Comment flags](#comment-flags) */
-  metadata?: TicketCommentObjectMetadataMap;
+  metadata?: TicketCommentObjectMetadataMap | undefined;
   /** The comment presented as plain text. See [Bodies](#bodies) */
-  plain_body?: string;
+  plain_body?: string | undefined;
   /** true if a public comment; false if an internal note. The initial value set on ticket creation persists for any additional comment unless you change it */
-  public?: boolean;
+  public?: boolean | undefined;
   /** The locale code to translate the comment body to. */
-  translate_to?: string | null;
+  translate_to?: string | null | undefined;
   /** `Comment` or `VoiceComment`. The JSON object for adding voice comments to tickets is different. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets) */
-  type?: string;
+  type?: string | undefined;
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
-  uploads?: TicketCommentObjectUploadsList;
-  via?: TicketAuditViaObject;
+  uploads?: TicketCommentObjectUploadsList | undefined;
+  via?: TicketAuditViaObject | undefined;
 }
 export type TicketFieldValueInputValueCase3List = Array<string>;
 /** The value to assign to the custom field. Type depends on the field configuration: - Text/textarea: string - Checkbox: boolean or "true"/"false" string - Dropdown/tagger: string or array of strings (multi-select) - Number/decimal: number or string representation - Date: string (ISO 8601 format) - Lookup: the target record's id, or an id prefixed with `external_id:` or `name:` - Multi-lookup: an array of target record ids, up to `max_selections` entries. Each write replaces the entire set of selections. Unresolved ids are silently dropped. See [Setting multi-lookup field values](/api-reference/ticketing/lookup_relationships/lookup_relationships/#setting-multi-lookup-field-values) */
@@ -317,7 +317,7 @@ export interface TicketFieldValueInput {
   /** The ID of the custom field */
   id: number;
   /** The value to assign to the custom field. Type depends on the field configuration: - Text/textarea: string - Checkbox: boolean or "true"/"false" string - Dropdown/tagger: string or array of strings (multi-select) - Number/decimal: number or string representation - Date: string (ISO 8601 format) - Lookup: the target record's id, or an id prefixed with `external_id:` or `name:` - Multi-lookup: an array of target record ids, up to `max_selections` entries. Each write replaces the entire set of selections. Unresolved ids are silently dropped. See [Setting multi-lookup field values](/api-reference/ticketing/lookup_relationships/lookup_relationships/#setting-multi-lookup-field-values) */
-  value?: TicketFieldValueInputValue;
+  value?: TicketFieldValueInputValue | undefined;
 }
 /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
 export type TicketObjectOutputCustomFieldsList = Array<TicketFieldValueInput>;
@@ -348,139 +348,139 @@ export type TicketObjectOutputType = "problem" | "incident" | "question" | "task
 /** This tells you how the ticket or event was created. Examples: "web", "mobile", "rule", "system". May be a string name or an integer channel ID. */
 export type ViaObjectChannel = string | number;
 export interface ViaObjectSourceFrom {
-  address?: string | null;
-  id?: number | null;
-  name?: string | null;
-  title?: string | null;
+  address?: string | null | undefined;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  title?: string | null | undefined;
 }
 export interface ViaObjectSourceTo {
-  address?: string;
-  name?: string;
+  address?: string | undefined;
+  name?: string | undefined;
 }
 /** For some channels a source object gives more information about how or why the ticket or event was created */
 export interface ViaObjectSource {
-  from?: ViaObjectSourceFrom;
-  rel?: string | null;
-  to?: ViaObjectSourceTo;
+  from?: ViaObjectSourceFrom | undefined;
+  rel?: string | null | undefined;
+  to?: ViaObjectSourceTo | undefined;
   [key: string]: unknown;
 }
 /** An object explaining how the ticket was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
 export interface ViaObject {
   /** This tells you how the ticket or event was created. Examples: "web", "mobile", "rule", "system". May be a string name or an integer channel ID. */
-  channel?: ViaObjectChannel;
+  channel?: ViaObjectChannel | undefined;
   /** For some channels a source object gives more information about how or why the ticket or event was created */
-  source?: ViaObjectSource;
+  source?: ViaObjectSource | undefined;
 }
 export interface TicketObjectOutput {
   /** Permission for agents to add add attachments to a comment. Defaults to true */
-  allow_attachments?: boolean;
+  allow_attachments?: boolean | undefined;
   /** Is false if channelback is disabled, true otherwise. Only applicable for channels framework ticket */
-  allow_channelback?: boolean;
+  allow_channelback?: boolean | undefined;
   /** The agent currently assigned to the ticket */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** The id of the brand this ticket is associated with. See [Setting up multiple brands](https://support.zendesk.com/hc/en-us/articles/4408829476378) */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: TicketObjectOutputCollaboratorIdsList;
-  comment?: TicketCommentObject;
+  collaborator_ids?: TicketObjectOutputCollaboratorIdsList | undefined;
+  comment?: TicketCommentObject | undefined;
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
-  custom_fields?: TicketObjectOutputCustomFieldsList;
+  custom_fields?: TicketObjectOutputCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket. See [custom ticket statuses](#custom-ticket-statuses) */
-  custom_status_id?: number | null;
+  custom_status_id?: number | null | undefined;
   /** The first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment). On create, can be set directly as an alternative to `comment`. Silently ignored on update. */
-  description?: string;
+  description?: string | undefined;
   /** If this is a ticket of type "task" it has a due date. Due date format uses [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** The ids of agents or end users currently CC'ed on the ticket. See [CCs and followers resources](https://support.zendesk.com/hc/en-us/articles/4408822451482) in the Support Help Center */
-  email_cc_ids?: TicketObjectOutputEmailCcIdsList;
+  email_cc_ids?: TicketObjectOutputEmailCcIdsList | undefined;
   /** An encoded string representing the ticket's unique identifier */
-  encoded_id?: string;
+  encoded_id?: string | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Alias for custom_fields. Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  fields?: TicketObjectOutputFieldsList;
+  fields?: TicketObjectOutputFieldsList | undefined;
   /** The ids of agents currently following the ticket. Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  follower_ids?: TicketObjectOutputFollowerIdsList;
+  follower_ids?: TicketObjectOutputFollowerIdsList | undefined;
   /** The ids of the followups created from this ticket. Ids are only visible once the ticket is closed */
-  followup_ids?: TicketObjectOutputFollowupIdsList;
+  followup_ids?: TicketObjectOutputFollowupIdsList | undefined;
   /** The topic in the Zendesk Web portal this ticket originated from, if any. The Web portal is deprecated */
-  forum_topic_id?: number;
+  forum_topic_id?: number | undefined;
   /** If true, the ticket's [via type](/documentation/ticketing/reference-guides/via-object-reference/) is a messaging channel. */
-  from_messaging_channel?: boolean;
+  from_messaging_channel?: boolean | undefined;
   /** A Unix timestamp that represents the most accurate reading of when this record was last updated. It is updated for all ticket updates, including system updates */
-  generated_timestamp?: number;
+  generated_timestamp?: number | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Is true if a ticket is a problem type and has one or more incidents linked to it. Otherwise, the value is false. */
-  has_incidents?: boolean;
+  has_incidents?: boolean | undefined;
   /** Automatically assigned when the ticket is created */
-  id?: number;
+  id?: number | undefined;
   /** Is true if any comments are public, false otherwise */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** The organization of the requester. You can only specify the ID of an organization associated with the requester. See [Organization Memberships](/api-reference/ticketing/organizations/organization_memberships/) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The urgency with which the ticket should be addressed */
-  priority?: TicketObjectOutputPriority | null;
+  priority?: TicketObjectOutputPriority | null | undefined;
   /** For tickets of type "incident", the ID of the problem the incident is linked to */
-  problem_id?: number | null;
+  problem_id?: number | null | undefined;
   /** The dynamic content placeholder, if present, or the "subject" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/). When set on create or update, overrides the `subject` field. */
-  raw_subject?: string;
+  raw_subject?: string | undefined;
   /** The original recipient e-mail address of the ticket. Notification emails for the ticket are sent from this address */
-  recipient?: string;
+  recipient?: string | undefined;
   /** The user who requested this ticket */
-  requester_id?: number | null;
+  requester_id?: number | null | undefined;
   /** The predicted satisfaction probability score */
-  satisfaction_probability?: number;
+  satisfaction_probability?: number | undefined;
   /** The satisfaction rating of the ticket, if it exists, or the state of satisfaction, "offered" or "unoffered". The value is null for plan types that don't support CSAT */
-  satisfaction_rating?: TicketObjectOutputSatisfactionRatingMap;
+  satisfaction_rating?: TicketObjectOutputSatisfactionRatingMap | undefined;
   /** An array of the numeric IDs of sharing agreements. Note that this replaces any existing agreements */
-  sharing_agreement_ids?: TicketObjectOutputSharingAgreementIdsList;
+  sharing_agreement_ids?: TicketObjectOutputSharingAgreementIdsList | undefined;
   /** The state of the ticket. If your account has activated custom ticket statuses, this is the ticket's status category. See [custom ticket statuses](#custom-ticket-statuses) */
-  status?: TicketObjectOutputStatus;
+  status?: TicketObjectOutputStatus | undefined;
   /** The value of the subject field for this ticket. See [Subject](/api-reference/ticketing/tickets/tickets/#subject) */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket. If not specified, defaults to the authenticated user. */
-  submitter_id?: number | null;
+  submitter_id?: number | null | undefined;
   /** The type of support that handled the ticket */
-  support_type?: TicketObjectOutputSupportType | null;
+  support_type?: TicketObjectOutputSupportType | null | undefined;
   /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
-  tags?: TicketObjectOutputTags;
+  tags?: TicketObjectOutputTags | undefined;
   /** Enterprise only. The id of the ticket form to render for the ticket */
-  ticket_form_id?: number | null;
+  ticket_form_id?: number | null | undefined;
   /** The type of this ticket */
-  type?: TicketObjectOutputType | null;
+  type?: TicketObjectOutputType | null | undefined;
   /** When this record last got updated. It is updated only if the update generates a [ticket event](#incremental-ticket-event-export) */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this ticket */
-  url?: string;
-  via?: ViaObject;
+  url?: string | undefined;
+  via?: ViaObject | undefined;
 }
 export type TicketsResponseOutputTicketsList = Array<TicketObjectOutput>;
 export interface TicketsResponseOutput {
-  tickets?: TicketsResponseOutputTicketsList;
+  tickets?: TicketsResponseOutputTicketsList | undefined;
 }
 export type AutocompleteUsersRequestFilter = "assignable" | "requester";
 export type AutocompleteUsersRequestBrandIdCase0 = "all";
 export type AutocompleteUsersRequestBrandId = AutocompleteUsersRequestBrandIdCase0 | number;
 export interface AutocompleteUsersRequest {
   /** The name to search for the user. You must specify either `name` or `phone`. */
-  name?: string;
+  name?: string | undefined;
   /** The phone number to search for the user. You must specify either `name` or `phone`. */
-  phone?: string;
+  phone?: string | undefined;
   /** Filter to apply to autocomplete results. */
-  filter?: AutocompleteUsersRequestFilter | (string & {});
+  filter?: AutocompleteUsersRequestFilter | (string & {}) | undefined;
   /** The id of a lookup relationship field. The type of field is determined by the `source` param */
-  field_id?: string;
+  field_id?: string | undefined;
   /** If a `field_id` is provided, this specifies the type of the field. For example, if the field is on a "zen:user", it references a field on a user */
-  source?: string;
+  source?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** Number of results to return. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** When brand separation is enabled, scopes the autocomplete results to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- search all users across all brands (no brand filtering applied). * 0 -- restrict the autocomplete results to account-scoped (brand-less) users only. * A numeric brand id -- if the brand has user separation enabled, autocomplete returns only end users belonging to that brand. Agents and admins are not included in the results when filtering by a specific brand. If the brand does not have user separation enabled, the request falls back to account scope (0). */
-  brand_id?: AutocompleteUsersRequestBrandId;
+  brand_id?: AutocompleteUsersRequestBrandId | undefined;
 }
 /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
 export type UserForAdminAgentBrandIdsList = Array<number>;
@@ -491,7 +491,7 @@ export type UserForAdminSeparationScope = "account" | "brand";
 /** The brand separation scope for the user. Only present when the account has brand separation enabled. For end users, indicates whether they are scoped to the full account or a specific brand. Staff users (agents and admins) always have `scope: "account"`. */
 export interface UserForAdminSeparation {
   /** The id of the brand the user is scoped to. Only present when "scope" is "brand". */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** The separation scope. "account" means account-level access; "brand" means access limited to a specific brand. */
   scope: UserForAdminSeparationScope;
 }
@@ -510,130 +510,130 @@ export type UserForAdminTagsList = Array<string>;
 export type UserForAdminUserFieldsMap = { [key: string]: unknown | undefined };
 export interface UserForAdmin {
   /** false if the user has been deleted */
-  active?: boolean;
+  active?: boolean | undefined;
   /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
-  agent_brand_ids?: UserForAdminAgentBrandIdsList;
+  agent_brand_ids?: UserForAdminAgentBrandIdsList | undefined;
   /** An alias displayed to end users */
-  alias?: string;
+  alias?: string | undefined;
   /** Whether or not the user is a chat-only agent */
-  chat_only?: boolean;
+  chat_only?: boolean | undefined;
   /** The time the user was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A custom role if the user is an agent on the Enterprise plan or above */
-  custom_role_id?: number | null;
+  custom_role_id?: number | null | undefined;
   /** The id of the user's default group */
-  default_group_id?: number;
+  default_group_id?: number | undefined;
   /** Any details you want to store about the user, such as an address */
-  details?: string;
+  details?: string | undefined;
   /** The user's primary email address. *Writeable on create only. On update, a secondary email is added. See [Email Address](#email-address) */
-  email?: string;
+  email?: string | undefined;
   /** A unique identifier from another system. The API treats the id as case insensitive. Example: "ian1" and "IAN1" are the same value. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The time zone for the user */
-  iana_time_zone?: string;
+  iana_time_zone?: string | undefined;
   /** Automatically assigned when the user is created */
-  id?: number;
+  id?: number | undefined;
   /** Last time the user signed in to Zendesk Support or made an API request using an API token */
-  last_login_at?: string;
+  last_login_at?: string | undefined;
   /** The user's locale. A BCP-47 compliant tag for the locale. If both "locale" and "locale_id" are present on create or update, "locale_id" is ignored and only "locale" is used. */
-  locale?: string;
+  locale?: string | undefined;
   /** The user's language identifier */
-  locale_id?: number;
+  locale_id?: number | undefined;
   /** Designates whether the user has forum moderation capabilities */
-  moderator?: boolean;
+  moderator?: boolean | undefined;
   /** The user's name */
   name: string;
   /** Any notes you want to store about the user */
-  notes?: string;
+  notes?: string | undefined;
   /** true if the user can only create private comments */
-  only_private_comments?: boolean;
+  only_private_comments?: boolean | undefined;
   /** The id of the user's organization. If the user has more than one [organization memberships](/api-reference/ticketing/organizations/organization_memberships/), the id of the user's default organization. If updating, see [Organization ID](#organization-id) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The user's primary phone number. See [Phone Number](#phone-number) below */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
-  photo?: UserForAdminPhotoMap | null;
+  photo?: UserForAdminPhotoMap | null | undefined;
   /** A URL pointing to the user's profile picture. */
-  remote_photo_url?: string;
+  remote_photo_url?: string | undefined;
   /** This parameter is inert and has no effect. It may be deprecated in the future. Previously, this parameter determined whether a user could access a CSV report in a legacy Guide dashboard. This dashboard has been removed. See [Announcing Guide legacy reporting upgrade to Explore](https://support.zendesk.com/hc/en-us/articles/4762263171610-Announcing-Guide-legacy-reporting-upgrade-to-Explore-) */
-  report_csv?: boolean;
+  report_csv?: boolean | undefined;
   /** If the agent has any restrictions; false for admins and unrestricted agents, true for other agents */
-  restricted_agent?: boolean;
+  restricted_agent?: boolean | undefined;
   /** The user's role. Possible values are "end-user", "agent", or "admin" */
-  role?: string;
+  role?: string | undefined;
   /** The user's role id. 0 for a custom agent, 1 for a light agent, 2 for a chat agent, 3 for a chat agent added to the Support account as a contributor ([Chat Phase 4](https://support.zendesk.com/hc/en-us/articles/4408836197658#topic_p1h_sx4_pgb)), 4 for an admin, and 5 for a billing admin */
-  role_type?: number | null;
+  role_type?: number | null | undefined;
   /** The brand separation scope for the user. Only present when the account has brand separation enabled. For end users, indicates whether they are scoped to the full account or a specific brand. Staff users (agents and admins) always have `scope: "account"`. */
-  separation?: UserForAdminSeparation;
+  separation?: UserForAdminSeparation | undefined;
   /** If the user is shared from a different Zendesk Support instance. Shared users can be added to organizations but cannot be modified through update requests. Any attempt to update a shared user results in a 403 Forbidden error. Ticket sharing accounts only */
-  shared?: boolean;
+  shared?: boolean | undefined;
   /** If the user is a shared agent from a different Zendesk Support instance. Ticket sharing accounts only */
-  shared_agent?: boolean;
+  shared_agent?: boolean | undefined;
   /** Whether the `phone` number is shared or not. See [Phone Number](#phone-number) below */
-  shared_phone_number?: boolean | null;
+  shared_phone_number?: boolean | null | undefined;
   /** The user's signature. Only agents and admins can have signatures */
-  signature?: string;
+  signature?: string | undefined;
   /** If the agent is suspended. Tickets from suspended users are also suspended, and these users cannot sign in to the end user portal */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Channel-level suspension state for the user. The value is null if the user has no active channel-level suspension */
-  suspension_details?: UserForAdminSuspensionDetails | null;
+  suspension_details?: UserForAdminSuspensionDetails | null | undefined;
   /** The user's tags. Only present if your account has user tagging enabled */
-  tags?: UserForAdminTagsList;
+  tags?: UserForAdminTagsList | undefined;
   /** Specifies which tickets the user has access to. Possible values are: "organization", "groups", "assigned", "requested", null. "groups" and "assigned" are valid only for agents. If you pass an invalid value to an end user (for example, "groups"), they will be assigned to "requested", regardless of their previous access */
-  ticket_restriction?: string | null;
+  ticket_restriction?: string | null | undefined;
   /** The user's time zone. See [Time Zone](#time-zone) */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** If two factor authentication is enabled */
-  two_factor_auth_enabled?: boolean | null;
+  two_factor_auth_enabled?: boolean | null | undefined;
   /** The time the user was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The user's API url */
-  url?: string;
+  url?: string | undefined;
   /** Values of custom fields in the user's profile. See [User Fields](#user-fields) */
-  user_fields?: UserForAdminUserFieldsMap;
+  user_fields?: UserForAdminUserFieldsMap | undefined;
   /** Any of the user's identities is verified. See [User Identities](/api-reference/ticketing/users/user_identities) */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
 export type UserForEndUserPhotoMap = { [key: string]: unknown | undefined };
 export interface UserForEndUser {
   /** The time the user was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The primary email address of this user. If the primary email address is not [verified](https://support.zendesk.com/hc/en-us/articles/4408886752410), the secondary email address is used */
-  email?: string;
+  email?: string | undefined;
   /** The time zone for the user */
-  iana_time_zone?: string;
+  iana_time_zone?: string | undefined;
   /** Automatically assigned when creating users */
-  id?: number;
+  id?: number | undefined;
   /** The locale for this user */
-  locale?: string;
+  locale?: string | undefined;
   /** The language identifier for this user */
-  locale_id?: number;
+  locale_id?: number | undefined;
   /** The name of the user */
   name: string;
   /** The id of the user's organization. If the user has more than one [organization memberships](/api-reference/ticketing/organizations/organization_memberships/), the id of the user's default organization. If updating, see [Organization ID](/api-reference/ticketing/users/users/#organization-id) */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** The primary phone number of this user. See [Phone Number](/api-reference/ticketing/users/users/#phone-number) in the Users API */
-  phone?: string;
+  phone?: string | undefined;
   /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
-  photo?: UserForEndUserPhotoMap;
+  photo?: UserForEndUserPhotoMap | undefined;
   /** The role of the user. Possible values: `"end-user"`, `"agent"`, `"admin"` */
-  role?: string;
+  role?: string | undefined;
   /** Whether the `phone` number is shared or not. See [Phone Number](/api-reference/ticketing/users/users/#phone-number) in the Users API */
-  shared_phone_number?: boolean;
+  shared_phone_number?: boolean | undefined;
   /** The time-zone of this user */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** The time of the last update of the user */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this user */
-  url?: string;
+  url?: string | undefined;
   /** Any of the user's identities is verified. See [User Identities](/api-reference/ticketing/users/user_identities) */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export type UserObject = UserForAdmin | UserForEndUser;
 export type UsersResponseUsersList = Array<UserObject>;
 export interface UsersResponse {
-  users?: UsersResponseUsersList;
+  users?: UsersResponseUsersList | undefined;
 }
 export type BatchOperateTriggerCategoriesRequestJobAction = "patch";
 export interface TriggerCategoryBatchRequest {
@@ -643,48 +643,50 @@ export interface TriggerCategoryBatchRequest {
 export type BatchOperateTriggerCategoriesRequestJobItemsTriggerCategoriesList =
   Array<TriggerCategoryBatchRequest>;
 export interface TriggerBatchRequest {
-  active?: boolean;
-  category_id?: string;
+  active?: boolean | undefined;
+  category_id?: string | undefined;
   id: string;
-  position?: number;
+  position?: number | undefined;
 }
 export type BatchOperateTriggerCategoriesRequestJobItemsTriggersList = Array<TriggerBatchRequest>;
 export interface BatchOperateTriggerCategoriesRequestJobItems {
-  trigger_categories?: BatchOperateTriggerCategoriesRequestJobItemsTriggerCategoriesList;
-  triggers?: BatchOperateTriggerCategoriesRequestJobItemsTriggersList;
+  trigger_categories?:
+    | BatchOperateTriggerCategoriesRequestJobItemsTriggerCategoriesList
+    | undefined;
+  triggers?: BatchOperateTriggerCategoriesRequestJobItemsTriggersList | undefined;
 }
 export interface BatchOperateTriggerCategoriesRequestJob {
-  action?: BatchOperateTriggerCategoriesRequestJobAction | (string & {});
-  items?: BatchOperateTriggerCategoriesRequestJobItems;
+  action?: BatchOperateTriggerCategoriesRequestJobAction | (string & {}) | undefined;
+  items?: BatchOperateTriggerCategoriesRequestJobItems | undefined;
 }
 export interface BatchOperateTriggerCategoriesRequest {
-  job?: BatchOperateTriggerCategoriesRequestJob;
+  job?: BatchOperateTriggerCategoriesRequestJob | undefined;
 }
 export interface BatchErrorItem {
   code: string;
-  detail?: string;
-  id?: string;
-  links?: unknown;
-  source?: unknown;
-  status?: string;
+  detail?: string | undefined;
+  id?: string | undefined;
+  links?: unknown | undefined;
+  source?: unknown | undefined;
+  status?: string | undefined;
   title: string;
-  trigger_id?: string;
+  trigger_id?: string | undefined;
 }
 export type BatchJobResponseOutputErrorsList = Array<BatchErrorItem>;
 export interface TriggerCategory {
-  created_at?: string;
-  id?: string;
-  name?: string;
-  position?: number;
-  updated_at?: string;
+  created_at?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  position?: number | undefined;
+  updated_at?: string | undefined;
 }
 export type BatchJobResponseOutputResultsTriggerCategoriesList = Array<TriggerCategory>;
 export type TriggerActionObjectValueCase2Item = string | number;
 export type TriggerActionObjectValueCase2List = Array<TriggerActionObjectValueCase2Item>;
 export type TriggerActionObjectValue = string | number | TriggerActionObjectValueCase2List;
 export interface TriggerActionObject {
-  field?: string;
-  value?: TriggerActionObjectValue;
+  field?: string | undefined;
+  value?: TriggerActionObjectValue | undefined;
 }
 /** An array of actions describing what the ticket trigger will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
 export type TriggerObjectOutputActionsList = Array<TriggerActionObject>;
@@ -692,9 +694,9 @@ export type TriggerConditionObjectValueCase2Item = string | number;
 export type TriggerConditionObjectValueCase2List = Array<TriggerConditionObjectValueCase2Item>;
 export type TriggerConditionObjectValue = string | number | TriggerConditionObjectValueCase2List;
 export interface TriggerConditionObject {
-  field?: string;
-  operator?: string;
-  value?: TriggerConditionObjectValue;
+  field?: string | undefined;
+  operator?: string | undefined;
+  value?: TriggerConditionObjectValue | undefined;
 }
 /** Legacy format for conditions (deprecated). Use conditions.all instead */
 export type TriggerObjectOutputAllList = Array<TriggerConditionObject>;
@@ -704,8 +706,8 @@ export type TriggerConditionsObjectAllList = Array<TriggerConditionObject>;
 export type TriggerConditionsObjectAnyList = Array<TriggerConditionObject>;
 /** An object that describes the circumstances under which the trigger performs its actions. See [Conditions reference](/documentation/ticketing/reference-guides/conditions-reference) */
 export interface TriggerConditionsObject {
-  all?: TriggerConditionsObjectAllList | null;
-  any?: TriggerConditionsObjectAnyList | null;
+  all?: TriggerConditionsObjectAllList | null | undefined;
+  any?: TriggerConditionsObjectAnyList | null | undefined;
 }
 /** Access restriction for this trigger. A null value allows unrestricted access */
 export type TriggerObjectOutputRestrictionMap = { [key: string]: unknown | undefined };
@@ -713,52 +715,52 @@ export interface TriggerObjectOutput {
   /** An array of actions describing what the ticket trigger will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
   actions: TriggerObjectOutputActionsList;
   /** Whether the ticket trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.all instead */
-  all?: TriggerObjectOutputAllList;
+  all?: TriggerObjectOutputAllList | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.any instead */
-  any?: TriggerObjectOutputAnyList;
+  any?: TriggerObjectOutputAnyList | undefined;
   /** The ID of the brand the ticket trigger belongs to */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** The ID of the category the ticket trigger belongs to */
-  category_id?: string | null;
-  conditions?: TriggerConditionsObject;
+  category_id?: string | null | undefined;
+  conditions?: TriggerConditionsObject | undefined;
   /** The time the ticket trigger was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the ticket trigger is a standard trigger */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of the ticket trigger */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** Position of the ticket trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the ticket trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Access restriction for this trigger. A null value allows unrestricted access */
-  restriction?: TriggerObjectOutputRestrictionMap | null;
+  restriction?: TriggerObjectOutputRestrictionMap | null | undefined;
   /** The title of the ticket trigger */
   title: string;
   /** The time of the last update of the ticket trigger */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The url of the ticket trigger */
-  url?: string;
+  url?: string | undefined;
 }
 export type BatchJobResponseOutputResultsTriggersList = Array<TriggerObjectOutput>;
 export interface BatchJobResponseOutputResults {
-  trigger_categories?: BatchJobResponseOutputResultsTriggerCategoriesList;
-  triggers?: BatchJobResponseOutputResultsTriggersList;
+  trigger_categories?: BatchJobResponseOutputResultsTriggerCategoriesList | undefined;
+  triggers?: BatchJobResponseOutputResultsTriggersList | undefined;
 }
 export type BatchJobResponseOutputStatus = "complete" | "failed";
 export interface BatchJobResponseOutput {
-  errors?: BatchJobResponseOutputErrorsList;
-  results?: BatchJobResponseOutputResults;
-  status?: BatchJobResponseOutputStatus;
+  errors?: BatchJobResponseOutputErrorsList | undefined;
+  results?: BatchJobResponseOutputResults | undefined;
+  status?: BatchJobResponseOutputStatus | undefined;
 }
 export type BulkDeleteAutomationsRequestIdsList = Array<number>;
 export interface BulkDeleteAutomationsRequest {
   /** The IDs of the automations to delete */
-  ids?: BulkDeleteAutomationsRequestIdsList;
+  ids?: BulkDeleteAutomationsRequestIdsList | undefined;
 }
 export interface BulkDeleteAutomationsResponse {}
 export interface BulkDeleteSessionsByUserIdRequest {
@@ -808,24 +810,24 @@ export interface JobStatusObjectResultsCase1 {
 export type JobStatusObjectResults = JobStatusObjectResultsCase0List | JobStatusObjectResultsCase1;
 export interface JobStatusObject {
   /** Automatically assigned when the job is queued */
-  id?: string;
+  id?: string | undefined;
   /** The type of the job */
-  job_type?: string;
+  job_type?: string | undefined;
   /** Message from the job worker, if any */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Number of tasks that have already been completed */
-  progress?: number | null;
+  progress?: number | null | undefined;
   /** Result data from processed tasks. See [Results](#results) below */
-  results?: JobStatusObjectResults;
+  results?: JobStatusObjectResults | undefined;
   /** The current status. One of the following: "queued", "working", "failed", "completed" */
-  status?: string;
+  status?: string | undefined;
   /** The total number of tasks this job is batching through */
-  total?: number | null;
+  total?: number | null | undefined;
   /** The URL to poll for status updates */
-  url?: string;
+  url?: string | undefined;
 }
 export interface JobStatusResponse {
-  job_status?: JobStatusObject;
+  job_status?: JobStatusObject | undefined;
 }
 export interface BulkDeleteViewsRequest {
   /** The IDs of the views to delete */
@@ -838,14 +840,14 @@ export interface BulkPermanentlyDeleteTicketsRequest {
 }
 export interface BulkRecoverSuspendedTicketsRequestAuthor {
   /** Email address to identify the author */
-  email?: string;
+  email?: string | undefined;
   /** User ID to set as the author of recovered tickets */
-  id?: number;
+  id?: number | undefined;
 }
 export interface BulkRecoverSuspendedTicketsRequest {
   /** Comma-separated list of suspended ticket IDs to recover */
   ids: string;
-  author?: BulkRecoverSuspendedTicketsRequestAuthor;
+  author?: BulkRecoverSuspendedTicketsRequestAuthor | undefined;
 }
 export interface BulkRestoreDeletedTicketsRequest {
   /** Comma-separated list of ticket ids */
@@ -854,15 +856,17 @@ export interface BulkRestoreDeletedTicketsRequest {
 export type BulkRestoreDeletedTicketsResponse = string;
 export interface SkillBasedRoutingAttributeValueObjectInput {
   /** Id of the associated attribute */
-  attribute_id?: string;
+  attribute_id?: string | undefined;
   /** The name of the attribute value */
-  name?: string;
+  name?: string | undefined;
 }
 export type BulkSkillBasedRoutingAttributeValueJobInputAttributesAttributeValuesList =
   Array<SkillBasedRoutingAttributeValueObjectInput>;
 /** The attribute values to update. See [Attribute Values](#attribute-values). `agent_skill_priority` is optional. If not provided, it keeps the current priority or defaults to `NORMAL` when adding new attribute values. */
 export interface BulkSkillBasedRoutingAttributeValueJobInputAttributes {
-  attribute_values?: BulkSkillBasedRoutingAttributeValueJobInputAttributesAttributeValuesList;
+  attribute_values?:
+    | BulkSkillBasedRoutingAttributeValueJobInputAttributesAttributeValuesList
+    | undefined;
 }
 /** The list of agent ids */
 export type BulkSkillBasedRoutingAttributeValueJobInputItemsList = Array<number>;
@@ -875,18 +879,18 @@ export interface BulkSkillBasedRoutingAttributeValueJobInput {
   items: BulkSkillBasedRoutingAttributeValueJobInputItemsList;
 }
 export interface BulkSetAgentAttributeValuesJobRequest {
-  job?: BulkSkillBasedRoutingAttributeValueJobInput;
+  job?: BulkSkillBasedRoutingAttributeValueJobInput | undefined;
 }
 export interface BulkUpdateDefaultCustomStatusRequest {
   /** The comma-separated list of custom ticket status ids to be set as default for their status categories */
-  ids?: string;
+  ids?: string | undefined;
 }
 export type BulkUpdateDefaultCustomStatusResponse2 = unknown;
 export interface ChangeOwnPasswordRequest {
   /** The id of the user */
   user_id: number;
   /** Sets the active brand context for the password change. Used to scope the session to the correct brand when the account has multiple active brands. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 export type ChangeOwnPasswordResponse = string;
 export interface CheckHostMappingValidityRequest {
@@ -899,13 +903,13 @@ export interface CheckHostMappingValidityRequest {
 export type HostMappingObjectExpectedCnamesList = Array<string>;
 export interface HostMappingObject {
   /** The canonical name record for a host mapping */
-  cname?: string;
+  cname?: string | undefined;
   /** Array of expected CNAME records for host mapping(s) of a given brand */
-  expected_cnames?: HostMappingObjectExpectedCnamesList;
+  expected_cnames?: HostMappingObjectExpectedCnamesList | undefined;
   /** Whether a host mapping is valid or not for a given brand */
-  is_valid?: boolean;
+  is_valid?: boolean | undefined;
   /** Reason why a host mapping is valid or not */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface CheckHostMappingValidityForExistingBrandRequest {
   /** The ID of the brand */
@@ -919,38 +923,38 @@ export interface ClientGenerateSecretRequest {
 export type OAuthClientObjectRedirectUriList = Array<string>;
 export interface OAuthClientObject {
   /** The company name displayed when users are asked to grant access to your application. */
-  company?: string;
+  company?: string | undefined;
   /** The time the client was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A short description of your client that is displayed to users when they are considering approving access to your application */
-  description?: string;
+  description?: string | undefined;
   /** Whether this client is globally accessible. See [Set up a global OAuth client](/documentation/apps/publish-your-app-or-theme/global_oauth_intro/) */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The unique identifier for this client */
   identifier: string;
   /** Either "public" or "confidential". Specifies whether the OAuth client operates in a public environment where credentials cannot be securely stored, or on secure servers that can safely store credentials. See [Client types](/documentation/ticketing/working-with-oauth/oauth-pkce/#client-types) */
-  kind?: string;
+  kind?: string | undefined;
   /** The API logo url of this record */
-  logo_url?: string;
+  logo_url?: string | undefined;
   /** The name of this client */
   name: string;
   /** An array of the valid redirect URIs for this client */
-  redirect_uri?: OAuthClientObjectRedirectUriList;
+  redirect_uri?: OAuthClientObjectRedirectUriList | undefined;
   /** A space-separated list of allowed scopes for this client. Defines the maximum set of scopes the client is permitted to request during the OAuth authorization flow. When set, the client can only request scopes included in this list. If a client requests a scope not included in its allowed scopes, the request fails with a `400 Bad Request` response and an `invalid_scope` error. If not set, no scope restrictions are applied. For the full list of valid scope values, see [Scopes](/api-reference/ticketing/oauth/grant_type_tokens/#scope). */
-  scope?: string;
+  scope?: string | undefined;
   /** The client secret. Generated automatically on creation and returned in full only at that time */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The time of the last update of the client */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this record */
-  url?: string;
+  url?: string | undefined;
   /** The id of the admin who created the client */
   user_id: number;
 }
 export interface OauthClientResponse {
-  client?: OAuthClientObject;
+  client?: OAuthClientObject | undefined;
 }
 export interface CloneTicketFormRequest {
   /** The ID of the ticket form */
@@ -968,52 +972,52 @@ export type TicketFormObjectRestrictedBrandIdsList = Array<number>;
 export type TicketFormObjectTicketFieldIdsList = Array<number>;
 export interface TicketFormObject {
   /** If the form is set as active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Array of condition sets for agent workspaces */
-  agent_conditions?: TicketFormObjectAgentConditionsList;
+  agent_conditions?: TicketFormObjectAgentConditionsList | undefined;
   /** The time the ticket form was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Is the form the default form for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The time the ticket form was deleted */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** The name of the form that is displayed to an end user */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Array of condition sets for end user products */
-  end_user_conditions?: TicketFormObjectEndUserConditionsList;
+  end_user_conditions?: TicketFormObjectEndUserConditionsList | undefined;
   /** Is the form visible to the end user */
-  end_user_visible?: boolean;
+  end_user_visible?: boolean | undefined;
   /** Automatically assigned when creating ticket form */
-  id?: number;
+  id?: number | undefined;
   /** Is the form available for use in all brands on this account */
-  in_all_brands?: boolean;
+  in_all_brands?: boolean | undefined;
   /** The name of the form */
   name: string;
   /** The position of this form among other forms in the account, i.e. dropdown */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the "display_name" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_display_name?: string;
+  raw_display_name?: string | undefined;
   /** The dynamic content placeholder, if present, or the "name" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_name?: string;
+  raw_name?: string | undefined;
   /** IDs of all brands that this ticket form is restricted to */
-  restricted_brand_ids?: TicketFormObjectRestrictedBrandIdsList;
+  restricted_brand_ids?: TicketFormObjectRestrictedBrandIdsList | undefined;
   /** IDs of all ticket fields which are in this ticket form. The products use the order of the IDs to show the field values in the tickets */
-  ticket_field_ids?: TicketFormObjectTicketFieldIdsList;
+  ticket_field_ids?: TicketFormObjectTicketFieldIdsList | undefined;
   /** The time of the last update of the ticket form */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the ticket form */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TicketFormResponse {
-  ticket_form?: TicketFormObject;
+  ticket_form?: TicketFormObject | undefined;
 }
 export interface CountActivitiesRequest {}
 export interface ActivitiesCountResponseCount {
-  refreshed_at?: string;
-  value?: number;
+  refreshed_at?: string | undefined;
+  value?: number | undefined;
 }
 export interface ActivitiesCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountAuditsForTicketRequest {
   /** The ID of the ticket */
@@ -1021,7 +1025,7 @@ export interface CountAuditsForTicketRequest {
 }
 export type TicketAuditsCountResponseCount = ActivitiesCountResponseCount;
 export interface TicketAuditsCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountCustomObjectRecordsRequest {
   /** The key of a custom object */
@@ -1029,51 +1033,51 @@ export interface CountCustomObjectRecordsRequest {
 }
 export interface CountCustomObjectRecordsResponseCountValue {
   /** The time the last count was performed */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   /** Number of records at the time of the latest count operation */
-  value?: number;
+  value?: number | undefined;
 }
 export type CountCustomObjectRecordsResponseCountMap = {
   [key: string]: CountCustomObjectRecordsResponseCountValue | undefined;
 };
 export interface CountCustomObjectRecordsResponse {
-  count?: CountCustomObjectRecordsResponseCountMap;
+  count?: CountCustomObjectRecordsResponseCountMap | undefined;
 }
 export interface CountDeletedUsersRequest {}
 export type CountResponseCount = ActivitiesCountResponseCount;
 export interface CountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountGroupsRequest {}
 export interface GroupsCountObjectCount {
   /** Timestamp that indicates when the count was last updated */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   /** Approximate count of groups */
-  value?: number;
+  value?: number | undefined;
 }
 export interface GroupsCountObject {
-  count?: GroupsCountObjectCount;
+  count?: GroupsCountObjectCount | undefined;
 }
 export type CountGroupUsersRequestRoleList = Array<string>;
 export interface CountGroupUsersRequest {
   /** The ID of the group */
   group_id: number;
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: CountGroupUsersRequestRoleList;
+  role__?: CountGroupUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
 }
 export interface CountOrganizationsRequest {
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export type CountOrganizationObject = ActivitiesCountResponseCount;
 export interface CountOrganizationResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountOrganizationTicketsRequest {
   /** The ID of an organization */
@@ -1081,40 +1085,40 @@ export interface CountOrganizationTicketsRequest {
 }
 export type CountOrganizationTicketsResponseCount = ActivitiesCountResponseCount;
 export interface CountOrganizationTicketsResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export type CountOrganizationUsersRequestRoleList = Array<string>;
 export interface CountOrganizationUsersRequest {
   /** The ID of an organization */
   organization_id: number;
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: CountOrganizationUsersRequestRoleList;
+  role__?: CountOrganizationUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
 }
 export interface CountSatisfactionRatingsRequest {}
 export type SatisfactionRatingsCountResponseCount = ActivitiesCountResponseCount;
 export interface SatisfactionRatingsCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountSearchResultsRequest {
   /** The search query */
   query: string;
 }
 export interface SearchCountResponse {
-  count?: number;
+  count?: number | undefined;
 }
 export interface CountTagsRequest {}
 export interface TagCountObject {
   /** The time that the count value was last refreshed */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   /** The count of tags created in the last 24 hours */
-  value?: number;
+  value?: number | undefined;
 }
 export interface TagCountResponse {
-  count?: TagCountObject;
+  count?: TagCountObject | undefined;
 }
 export interface CountTicketCommentsRequest {
   /** The ID of the ticket */
@@ -1122,17 +1126,17 @@ export interface CountTicketCommentsRequest {
 }
 export type TicketCommentsCountResponseCount = ActivitiesCountResponseCount;
 export interface TicketCommentsCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountTicketFieldsRequest {}
 export type TicketFieldCountResponseCount = ActivitiesCountResponseCount;
 export interface TicketFieldCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountTicketsRequest {}
 export type CountTicketsResponseCount = ActivitiesCountResponseCount;
 export interface CountTicketsResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountUserAssignedTicketsRequest {
   /** The id of the user */
@@ -1140,7 +1144,7 @@ export interface CountUserAssignedTicketsRequest {
 }
 export type CountUserAssignedTicketsResponseCount = ActivitiesCountResponseCount;
 export interface CountUserAssignedTicketsResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountUserCCDTicketsRequest {
   /** The id of the user */
@@ -1148,7 +1152,7 @@ export interface CountUserCCDTicketsRequest {
 }
 export type CountUserCCDTicketsResponseCount = ActivitiesCountResponseCount;
 export interface CountUserCCDTicketsResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 export interface CountUserGroupsRequest {
   /** The id of the user */
@@ -1163,18 +1167,18 @@ export type CountUsersRequestBrandIdCase0 = "all";
 export type CountUsersRequestBrandId = CountUsersRequestBrandIdCase0 | number;
 export interface CountUsersRequest {
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: CountUsersRequestRoleList;
+  role__?: CountUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
   /** When brand separation is enabled, scopes the count to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- count all users across all brands (no brand filtering applied). * 0 -- count only account-scoped (brand-less) users. * A numeric brand id -- if the brand has user separation enabled, count end users belonging to that brand plus all agents and admins (who are account-level and always included). If the brand does not have user separation enabled, the request falls back to account scope (0). */
-  brand_id?: CountUsersRequestBrandId;
+  brand_id?: CountUsersRequestBrandId | undefined;
 }
 export interface CountViewsRequest {}
 export type ViewsCountResponseCount = ActivitiesCountResponseCount;
 export interface ViewsCountResponse {
-  count?: ActivitiesCountResponseCount;
+  count?: ActivitiesCountResponseCount | undefined;
 }
 /** The comparison operator to use. Not all field types support all operators. */
 export type AccessRuleConditionOperator =
@@ -1192,11 +1196,11 @@ export type AccessRuleConditionOperator =
 export type AccessRuleConditionValue = string | number | number | boolean;
 export interface AccessRuleCondition {
   /** The field to evaluate in the condition */
-  field?: string;
+  field?: string | undefined;
   /** The comparison operator to use. Not all field types support all operators. */
-  operator?: AccessRuleConditionOperator | (string & {});
+  operator?: AccessRuleConditionOperator | (string & {}) | undefined;
   /** The value to compare against. Can be null for terminal operators like 'present' and 'not_present' */
-  value?: AccessRuleConditionValue | null;
+  value?: AccessRuleConditionValue | null | undefined;
 }
 /** All conditions must be true (AND logic) */
 export type CreateAccessRuleRequestAccessRuleConditionsAllList = Array<AccessRuleCondition>;
@@ -1205,22 +1209,22 @@ export type CreateAccessRuleRequestAccessRuleConditionsAnyList = Array<AccessRul
 /** The conditions that define when this rule applies */
 export interface CreateAccessRuleRequestAccessRuleConditions {
   /** All conditions must be true (AND logic) */
-  all?: CreateAccessRuleRequestAccessRuleConditionsAllList;
+  all?: CreateAccessRuleRequestAccessRuleConditionsAllList | undefined;
   /** Any condition can be true (OR logic) */
-  any?: CreateAccessRuleRequestAccessRuleConditionsAnyList;
+  any?: CreateAccessRuleRequestAccessRuleConditionsAnyList | undefined;
 }
 export interface CreateAccessRuleRequestAccessRule {
   /** The conditions that define when this rule applies */
-  conditions?: CreateAccessRuleRequestAccessRuleConditions;
+  conditions?: CreateAccessRuleRequestAccessRuleConditions | undefined;
   /** A description of what this access rule does */
-  description?: string;
+  description?: string | undefined;
   /** The title of the access rule */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateAccessRuleRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  access_rule?: CreateAccessRuleRequestAccessRule;
+  access_rule?: CreateAccessRuleRequestAccessRule | undefined;
 }
 /** All conditions must be true (AND logic) */
 export type AccessRuleConditionsAllList = Array<AccessRuleCondition>;
@@ -1229,43 +1233,43 @@ export type AccessRuleConditionsAnyList = Array<AccessRuleCondition>;
 /** The conditions that define when this rule applies */
 export interface AccessRuleConditions {
   /** All conditions must be true (AND logic) */
-  all?: AccessRuleConditionsAllList;
+  all?: AccessRuleConditionsAllList | undefined;
   /** Any condition can be true (OR logic) */
-  any?: AccessRuleConditionsAnyList;
+  any?: AccessRuleConditionsAnyList | undefined;
 }
 export interface AccessRule {
   /** The conditions that define when this rule applies */
-  conditions?: AccessRuleConditions;
+  conditions?: AccessRuleConditions | undefined;
   /** When the access rule was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A description of what this access rule does */
-  description?: string;
+  description?: string | undefined;
   /** The access rule ID */
-  id?: number;
+  id?: number | undefined;
   /** The title of the access rule */
-  title?: string;
+  title?: string | undefined;
   /** When the access rule was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface AccessRuleResponse {
-  access_rule?: AccessRule;
+  access_rule?: AccessRule | undefined;
 }
 export interface CreateApprovalRequestRequestApprovalRequestsItem {
   /** The id of the group assigned to review and approve the request */
-  assignee_group_id?: number | null;
+  assignee_group_id?: number | null | undefined;
   /** The id of the user assigned to review and approve the request */
-  assignee_user_id?: number | null;
+  assignee_user_id?: number | null | undefined;
 }
 /** Parallel approval requests only. One entry per approval request to create, up to five. Each entry must specify exactly one of `assignee_user_id` or `assignee_group_id`. Can't be used with a top-level `assignee_user_id` or `assignee_group_id`. */
 export type CreateApprovalRequestRequestApprovalRequestsList =
   Array<CreateApprovalRequestRequestApprovalRequestsItem>;
 export interface CreateApprovalRequestRequest {
   /** Parallel approval requests only. One entry per approval request to create, up to five. Each entry must specify exactly one of `assignee_user_id` or `assignee_group_id`. Can't be used with a top-level `assignee_user_id` or `assignee_group_id`. */
-  approval_requests?: CreateApprovalRequestRequestApprovalRequestsList | null;
+  approval_requests?: CreateApprovalRequestRequestApprovalRequestsList | null | undefined;
   /** Single approval request only. The id of the group assigned to review and approve the request. Can't be used with an `approval_requests` array. */
-  assignee_group_id?: number | null;
+  assignee_group_id?: number | null | undefined;
   /** Single approval request only. The id of the user assigned to review and approve the request. Can't be used with an `approval_requests` array. */
-  assignee_user_id?: number | null;
+  assignee_user_id?: number | null | undefined;
   /** Details and context for the approval request. Shared by all approval requests created in the call. */
   message: string;
   /** Subject line for the approval request. Shared by all approval requests created in the call. */
@@ -1284,36 +1288,36 @@ export type ApprovalRequestObjectOriginationType =
   | "UNKNOWN_ORIGINATION";
 export interface ApprovalRequestObject {
   /** Unique identifier (ULID) of the parent workflow instance. Approval requests created together as a parallel group share the same value. */
-  approval_workflow_instance_id?: string;
+  approval_workflow_instance_id?: string | undefined;
   /** The id of the group assigned to review the request */
-  assignee_group_id?: number | null;
+  assignee_group_id?: number | null | undefined;
   /** The id of the user assigned to respond to the request. Also referred to as the `approver` */
-  assignee_user_id?: number | null;
+  assignee_user_id?: number | null | undefined;
   /** The ISO 8601 formatted date-time when the approval request was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The id of the user who created the approval request */
-  created_by_id?: number;
+  created_by_id?: number | undefined;
   /** Unique identifier for the approval request (ULID format) */
-  id?: string;
+  id?: string | undefined;
   /** Details and context for the approval request */
-  message?: string;
+  message?: string | undefined;
   /** How the approval request was created */
-  origination_type?: ApprovalRequestObjectOriginationType | null;
+  origination_type?: ApprovalRequestObjectOriginationType | null | undefined;
   /** Current status of the approval request */
-  status?: string;
+  status?: string | undefined;
   /** Subject line for the approval request */
-  subject?: string;
+  subject?: string | undefined;
   /** The id of the ticket this approval request is attached to */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
 }
 /** The created approval requests. Present for parallel requests. */
 export type ApprovalRequestCreateResponseApprovalRequestsList = Array<ApprovalRequestObject>;
 /** Response returned when creating approval requests. A single request returns the created approval request under the `approval_request` key. A parallel request returns an array of the created approval requests under the `approval_requests` key. Exactly one of these keys is present. Every approval request in a parallel approvals array shares the same `approval_workflow_instance_id`. */
 export interface ApprovalRequestCreateResponse {
   /** The created approval request. Present for single requests. */
-  approval_request?: ApprovalRequestObject | null;
+  approval_request?: ApprovalRequestObject | null | undefined;
   /** The created approval requests. Present for parallel requests. */
-  approval_requests?: ApprovalRequestCreateResponseApprovalRequestsList | null;
+  approval_requests?: ApprovalRequestCreateResponseApprovalRequestsList | null | undefined;
 }
 export interface CreateAssociatedMacroAttachmentRequest {
   /** The ID of the macro */
@@ -1321,36 +1325,36 @@ export interface CreateAssociatedMacroAttachmentRequest {
 }
 export interface MacroAttachmentObject {
   /** The content type of the image. Example value: "image/png" */
-  content_type?: string;
+  content_type?: string | undefined;
   /** A full URL where the attachment image file can be downloaded */
-  content_url?: string;
+  content_url?: string | undefined;
   /** The time when this attachment was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The name of the image file */
-  filename?: string;
+  filename?: string | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** The size of the image file in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface MacroAttachmentResponse {
-  macro_attachment?: MacroAttachmentObject;
+  macro_attachment?: MacroAttachmentObject | undefined;
 }
 export interface CreateAttributeRequest {}
 export interface SkillBasedRoutingAttributeObject {
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when an attribute is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the attribute */
   name: string;
   /** When this record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the attribute */
-  url?: string;
+  url?: string | undefined;
 }
 export interface SkillBasedRoutingAttributeResponse {
-  attribute?: SkillBasedRoutingAttributeObject;
+  attribute?: SkillBasedRoutingAttributeObject | undefined;
 }
 export interface CreateAttributeValueRequest {
   /** The ID of the skill-based routing attribute */
@@ -1360,39 +1364,39 @@ export interface CreateAttributeValueRequest {
 export type SkillBasedRoutingAttributeValueObjectAgentSkillPriority = "NORMAL" | "HIGH";
 export interface SkillBasedRoutingAttributeValueObject {
   /** The priority of the agent skill for this attribute value */
-  agent_skill_priority?: SkillBasedRoutingAttributeValueObjectAgentSkillPriority;
+  agent_skill_priority?: SkillBasedRoutingAttributeValueObjectAgentSkillPriority | undefined;
   /** Id of the associated attribute */
-  attribute_id?: string;
+  attribute_id?: string | undefined;
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when an attribute value is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the attribute value */
-  name?: string;
+  name?: string | undefined;
   /** When this record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the attribute value */
-  url?: string;
+  url?: string | undefined;
 }
 export interface SkillBasedRoutingAttributeValueResponse {
-  attribute_value?: SkillBasedRoutingAttributeValueObject;
+  attribute_value?: SkillBasedRoutingAttributeValueObject | undefined;
 }
 export interface CreateAutomationRequest {}
 export interface ActionObject {
   /** The name of a ticket field to modify */
-  field?: string;
+  field?: string | undefined;
   /** The new value of the field */
-  value?: string;
+  value?: string | undefined;
 }
 /** An object describing what the automation will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
 export type AutomationObjectActionsList = Array<ActionObject>;
 export interface ConditionObject {
   /** The name of a ticket field */
-  field?: string;
+  field?: string | undefined;
   /** A comparison operator */
-  operator?: string;
+  operator?: string | undefined;
   /** The value of a ticket field */
-  value?: string;
+  value?: string | undefined;
 }
 /** Logical AND. Tickets must fulfill all of the conditions to be considered matching */
 export type ConditionsObjectAllList = Array<ConditionObject>;
@@ -1401,52 +1405,52 @@ export type ConditionsObjectAnyList = Array<ConditionObject>;
 /** An object that describes the conditions under which the automation will execute. See [Conditions reference](/documentation/ticketing/reference-guides/conditions-reference) */
 export interface ConditionsObject {
   /** Logical AND. Tickets must fulfill all of the conditions to be considered matching */
-  all?: ConditionsObjectAllList;
+  all?: ConditionsObjectAllList | undefined;
   /** Logical OR. Tickets may satisfy any of the conditions to be considered matching */
-  any?: ConditionsObjectAnyList;
+  any?: ConditionsObjectAnyList | undefined;
 }
 export interface AutomationObject {
   /** An object describing what the automation will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
-  actions?: AutomationObjectActionsList;
+  actions?: AutomationObjectActionsList | undefined;
   /** Whether the automation is active */
-  active?: boolean;
-  conditions?: ConditionsObject;
+  active?: boolean | undefined;
+  conditions?: ConditionsObject | undefined;
   /** The time the automation was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the automation is a default automation */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** The position of the automation which specifies the order it will be executed */
-  position?: number;
+  position?: number | undefined;
   /** The raw title of the automation */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The title of the automation */
-  title?: string;
+  title?: string | undefined;
   /** The time of the last update of the automation */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface AutomationResponse {
-  automation?: AutomationObject;
+  automation?: AutomationObject | undefined;
 }
 export interface BookmarkInput {
   /** The id of the ticket the bookmark is for. */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
 }
 export interface CreateBookmarkRequest {
-  bookmark?: BookmarkInput;
+  bookmark?: BookmarkInput | undefined;
 }
 export interface BookmarkObjectOutput {
   /** The time the bookmark was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when the bookmark is created */
-  id?: number;
-  ticket?: TicketObjectOutput;
+  id?: number | undefined;
+  ticket?: TicketObjectOutput | undefined;
   /** The API url of this bookmark */
-  url?: string;
+  url?: string | undefined;
 }
 export interface BookmarkResponseOutput {
-  bookmark?: BookmarkObjectOutput;
+  bookmark?: BookmarkObjectOutput | undefined;
 }
 /** A file represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
 export interface AttachmentObjectInput {}
@@ -1454,29 +1458,29 @@ export interface AttachmentObjectInput {}
 export type BrandObjectInputUserSeparation = "account" | "brand";
 export interface BrandObjectInput {
   /** If the brand is set as active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The url of the brand */
-  brand_url?: string;
+  brand_url?: string | undefined;
   /** Is the brand the default brand for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** If the brand has a Help Center */
-  has_help_center?: boolean;
+  has_help_center?: boolean | undefined;
   /** The hostmapping to this brand, if any. Only admins view this property. */
-  host_mapping?: string;
+  host_mapping?: string | undefined;
   /** If the brand object is deleted or not */
-  is_deleted?: boolean;
-  logo?: AttachmentObjectInput;
+  is_deleted?: boolean | undefined;
+  logo?: AttachmentObjectInput | undefined;
   /** The name of the brand */
   name: string;
   /** The signature template for a brand */
-  signature_template?: string;
+  signature_template?: string | undefined;
   /** The subdomain of the brand */
   subdomain: string;
   /** The user separation scope for the brand. When set to "brand", users created on this brand are isolated to it. When set to "account", users are shared across all account-scoped brands. */
-  user_separation?: BrandObjectInputUserSeparation | (string & {});
+  user_separation?: BrandObjectInputUserSeparation | (string & {}) | undefined;
 }
 export interface CreateBrandRequest {
-  brand?: BrandObjectInput;
+  brand?: BrandObjectInput | undefined;
 }
 /** The state of the Help Center */
 export type BrandObjectHelpCenterState = "enabled" | "disabled" | "restricted";
@@ -1486,103 +1490,103 @@ export type BrandObjectTicketFormIdsList = Array<number>;
 export type BrandObjectUserSeparation = "account" | "brand";
 export interface BrandObject {
   /** If the brand is set as active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The url of the brand */
-  brand_url?: string;
+  brand_url?: string | undefined;
   /** The time the brand was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Is the brand the default brand for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** If the brand has a Help Center */
-  has_help_center?: boolean;
+  has_help_center?: boolean | undefined;
   /** The state of the Help Center */
-  help_center_state?: BrandObjectHelpCenterState;
+  help_center_state?: BrandObjectHelpCenterState | undefined;
   /** The hostmapping to this brand, if any. Only admins view this property. */
-  host_mapping?: string;
+  host_mapping?: string | undefined;
   /** The ID automatically assigned when the brand is created */
-  id?: number;
+  id?: number | undefined;
   /** If the brand object is deleted or not */
-  is_deleted?: boolean;
-  logo?: AttachmentObject;
+  is_deleted?: boolean | undefined;
+  logo?: AttachmentObject | undefined;
   /** The name of the brand */
   name: string;
   /** The signature template for a brand */
-  signature_template?: string;
+  signature_template?: string | undefined;
   /** The subdomain of the brand */
   subdomain: string;
   /** The ids of ticket forms that are available for use by a brand */
-  ticket_form_ids?: BrandObjectTicketFormIdsList;
+  ticket_form_ids?: BrandObjectTicketFormIdsList | undefined;
   /** The time of the last update of the brand */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this brand */
-  url?: string;
+  url?: string | undefined;
   /** The user separation scope for the brand. When set to "brand", users created on this brand are isolated to it. When set to "account", users are shared across all account-scoped brands. */
-  user_separation?: BrandObjectUserSeparation;
+  user_separation?: BrandObjectUserSeparation | undefined;
 }
 export interface BrandResponse {
-  brand?: BrandObject;
+  brand?: BrandObject | undefined;
 }
 export interface CustomObjectCreateInput {
   /** Whether this object allows file attachments */
-  allows_attachments?: boolean;
+  allows_attachments?: boolean | undefined;
   /** Whether this object allows photo uploads */
-  allows_photos?: boolean;
+  allows_photos?: boolean | undefined;
   /** A description of the custom object */
-  description?: string;
+  description?: string | undefined;
   /** Whether to include this object in list views */
-  include_in_list_view?: boolean;
+  include_in_list_view?: boolean | undefined;
   /** Unique identifier. Writable on create only */
-  key?: string;
+  key?: string | undefined;
   /** Display name for the object */
-  title?: string;
+  title?: string | undefined;
   /** Pluralized version of the object's title */
-  title_pluralized?: string;
+  title_pluralized?: string | undefined;
 }
 export interface CreateCustomObjectRequest {
-  custom_object?: CustomObjectCreateInput;
+  custom_object?: CustomObjectCreateInput | undefined;
 }
 export interface CustomObject {
   /** If true, file attachments can be added to the object's records. If false, new attachments can't be added to the object's records, but existing attachments on records can still be viewed and downloaded */
-  allows_attachments?: boolean;
+  allows_attachments?: boolean | undefined;
   /** If true, photos can be uploaded to the records of the object. If false, new photos cannot be uploaded but existing photos can still be viewed and removed */
-  allows_photos?: boolean;
+  allows_photos?: boolean | undefined;
   /** The time the object type was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Id of a user who created the object */
-  created_by_user_id?: string;
+  created_by_user_id?: string | undefined;
   /** User-defined description of the object */
-  description?: string;
+  description?: string | undefined;
   /** A flag setting the visibility of the object in the agent's list view. If true, all agents and admins have viewing access to the object in the Custom objects record page in the Agent Workspace. If false, only admins have viewing access */
   include_in_list_view: boolean;
   /** A user-defined unique identifier. Writable on create only */
   key: string;
   /** The dynamic content placeholder, if present, or the "raw_description" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the "title" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The dynamic content placeholder, if present, or the "raw_title_pluralized" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title_pluralized?: string;
+  raw_title_pluralized?: string | undefined;
   /** User-defined display name for the object */
   title: string;
   /** User-defined pluralized version of the object's title */
   title_pluralized: string;
   /** The time of the last update of the object */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Id of the last user who updated the object */
-  updated_by_user_id?: string;
+  updated_by_user_id?: string | undefined;
   /** Direct link to the specific custom object */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CustomObjectResponse {
-  custom_object?: CustomObject;
+  custom_object?: CustomObject | undefined;
 }
 export interface CustomFieldOptionObjectInput {
   /** Whether selecting this option allows solving the ticket when the field is required to solve */
-  allow_solving?: boolean;
+  allow_solving?: boolean | undefined;
   /** Name of the dropdown option */
   name: string;
   /** Position of the dropdown option */
-  position?: number;
+  position?: number | undefined;
   /** Value of the dropdown option */
   value: string;
 }
@@ -1599,79 +1603,80 @@ export type CustomObjectFieldPropertiesObjectInputRollupAggregationType =
 /** A set of field-specific properties. For the standard::name field, this includes autonumbering and uniqueness settings (which can't be used together). For currency fields, this includes the allowed currency code. For parent fields, includes the `cascade_permissions_enabled` setting. For roll-up summary fields, includes the aggregation configuration. */
 export interface CustomObjectFieldPropertiesObjectInput {
   /** An array containing exactly one [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code (for example, ["USD"]). The currency code can't be changed after the field is created. */
-  allowed_currencies?: CustomObjectFieldPropertiesObjectInputAllowedCurrenciesList;
+  allowed_currencies?: CustomObjectFieldPropertiesObjectInputAllowedCurrenciesList | undefined;
   /** Turns autonumbering on or off */
-  autoincrement_enabled?: boolean;
+  autoincrement_enabled?: boolean | undefined;
   /** The next number in the autonumbering sequence. It can't be negative or less than the current autonumbering value */
-  autoincrement_next_sequence?: number;
+  autoincrement_next_sequence?: number | undefined;
   /** Sets the number of digits for autogenerated numbers. Valid values are 0-9 */
-  autoincrement_padding?: number;
+  autoincrement_padding?: number | undefined;
   /** A prefix to autogenerated numbers that can't exceed 30 characters */
-  autoincrement_prefix?: string;
+  autoincrement_prefix?: string | undefined;
   /** Parent fields only. If true, permissions for the child object's records cascade from the parent record. When enabled, agents must provide a parent record context to list or search child records. Only one parent field per child object can have this setting enabled. Default: false. */
-  cascade_permissions_enabled?: boolean;
+  cascade_permissions_enabled?: boolean | undefined;
   /** Turns uniqueness on or off */
-  is_unique?: boolean;
+  is_unique?: boolean | undefined;
   /** Roll-up fields only. The key of the field on the child object to aggregate. Not required for COUNT */
-  rollup_aggregated_field?: string | null;
+  rollup_aggregated_field?: string | null | undefined;
   /** Roll-up fields only. The aggregation operation to apply to child records. One of: "COUNT", "SUM", "MIN", "MAX" */
   rollup_aggregation_type?:
     | CustomObjectFieldPropertiesObjectInputRollupAggregationType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Roll-up fields only. The Zendesk resource name (ZRN) of the child object whose records are aggregated. Example: "zen:custom_object:order_item". The child object must have a parent-child relationship with this field's object */
-  rollup_child_object?: string;
+  rollup_child_object?: string | undefined;
   /** Roll-up fields only. Optional filter conditions (using `all`/`any` arrays) to restrict which child records are included in the aggregation. Uses the same DSL as lookup relationship filters */
-  rollup_filter_criteria?: unknown | null;
+  rollup_filter_criteria?: unknown | null | undefined;
 }
 export interface CustomObjectFieldInput {
   /** If true, this field is available for use */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Required and presented for a custom field of type "dropdown". Each option is represented by an object with a `name` and `value` property */
-  custom_field_options?: CustomObjectFieldInputCustomFieldOptionsList;
+  custom_field_options?: CustomObjectFieldInputCustomFieldOptionsList | undefined;
   /** User-defined description of this field's purpose */
-  description?: string;
+  description?: string | undefined;
   /** A unique key that identifies this custom field. This is used for updating the field and referencing in placeholders. The key must consist of only letters, numbers, and underscores. It can't be only numbers */
   key: string;
   /** Ordering of the field relative to other fields */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Regular expression field only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string | null;
+  regexp_for_validation?: string | null | undefined;
   /** A filter definition that allows your autocomplete to filter down results */
-  relationship_filter?: unknown;
+  relationship_filter?: unknown | undefined;
   /** Optional for custom field of type "checkbox"; not presented otherwise. */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the custom field */
   title: string;
   /** The custom field type: "checkbox", "currency", "date", "decimal", "dropdown", "integer", ["lookup"](/api-reference/ticketing/lookup_relationships/lookup_relationships/), "multiselect", ["parent"](/api-reference/custom-data/custom-objects/custom_object_fields/#about-parent-relationship-fields) (custom objects only), "regexp", "text", or "textarea" */
   type: string;
-  properties?: CustomObjectFieldPropertiesObjectInput;
+  properties?: CustomObjectFieldPropertiesObjectInput | undefined;
   /** A representation of what type of object the field references. For lookup fields, options are "zen:user", "zen:organization", "zen:ticket", "zen:article", "zen:brand", and "zen:custom_object:{key}" where key is a custom object key. For example "zen:custom_object:apartment". For parent fields, valid options are "zen:user", "zen:organization", "zen:ticket", and "zen:custom_object:{key}". Cannot be changed after creation. */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
   /** If true, the field must have a value when creating or updating custom object records. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export interface CreateCustomObjectFieldRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  custom_object_field?: CustomObjectFieldInput;
+  custom_object_field?: CustomObjectFieldInput | undefined;
 }
 export interface CustomFieldOptionObject {
   /** Whether selecting this option allows solving the ticket when the field is required to solve */
-  allow_solving?: boolean;
+  allow_solving?: boolean | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** Name of the dropdown option */
   name: string;
   /** Position of the dropdown option */
-  position?: number;
+  position?: number | undefined;
   /** Raw name of the dropdown option */
-  raw_name?: string;
+  raw_name?: string | undefined;
   /** URL of the dropdown option */
-  url?: string;
+  url?: string | undefined;
   /** Value of the dropdown option */
   value: string;
 }
@@ -1688,119 +1693,119 @@ export type CustomObjectFieldPropertiesObjectRollupAggregationType =
 /** A set of field-specific properties. For the standard::name field, this includes autonumbering and uniqueness settings (which can't be used together). For currency fields, this includes the allowed currency code. For parent fields, includes the `cascade_permissions_enabled` setting. For roll-up summary fields, includes the aggregation configuration. */
 export interface CustomObjectFieldPropertiesObject {
   /** An array containing exactly one [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code (for example, ["USD"]). The currency code can't be changed after the field is created. */
-  allowed_currencies?: CustomObjectFieldPropertiesObjectAllowedCurrenciesList;
+  allowed_currencies?: CustomObjectFieldPropertiesObjectAllowedCurrenciesList | undefined;
   /** Turns autonumbering on or off */
-  autoincrement_enabled?: boolean;
+  autoincrement_enabled?: boolean | undefined;
   /** The next number in the autonumbering sequence. It can't be negative or less than the current autonumbering value */
-  autoincrement_next_sequence?: number;
+  autoincrement_next_sequence?: number | undefined;
   /** Sets the number of digits for autogenerated numbers. Valid values are 0-9 */
-  autoincrement_padding?: number;
+  autoincrement_padding?: number | undefined;
   /** A prefix to autogenerated numbers that can't exceed 30 characters */
-  autoincrement_prefix?: string;
+  autoincrement_prefix?: string | undefined;
   /** Parent fields only. If true, permissions for the child object's records cascade from the parent record. When enabled, agents must provide a parent record context to list or search child records. Only one parent field per child object can have this setting enabled. Default: false. */
-  cascade_permissions_enabled?: boolean;
+  cascade_permissions_enabled?: boolean | undefined;
   /** Turns uniqueness on or off */
-  is_unique?: boolean;
+  is_unique?: boolean | undefined;
   /** Roll-up fields only. The key of the field on the child object to aggregate. Not required for COUNT */
-  rollup_aggregated_field?: string | null;
+  rollup_aggregated_field?: string | null | undefined;
   /** Roll-up fields only. Read-only. The display title of the aggregated child field */
-  rollup_aggregated_field_title?: string;
+  rollup_aggregated_field_title?: string | undefined;
   /** Roll-up fields only. The aggregation operation to apply to child records. One of: "COUNT", "SUM", "MIN", "MAX" */
-  rollup_aggregation_type?: CustomObjectFieldPropertiesObjectRollupAggregationType;
+  rollup_aggregation_type?: CustomObjectFieldPropertiesObjectRollupAggregationType | undefined;
   /** Roll-up fields only. The Zendesk resource name (ZRN) of the child object whose records are aggregated. Example: "zen:custom_object:order_item". The child object must have a parent-child relationship with this field's object */
-  rollup_child_object?: string;
+  rollup_child_object?: string | undefined;
   /** Roll-up fields only. Optional filter conditions (using `all`/`any` arrays) to restrict which child records are included in the aggregation. Uses the same DSL as lookup relationship filters */
-  rollup_filter_criteria?: unknown | null;
+  rollup_filter_criteria?: unknown | null | undefined;
 }
 export interface CustomObjectField {
   /** If true, this field is available for use */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The time the field was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Required and presented for a custom field of type "dropdown". Each option is represented by an object with a `name` and `value` property */
-  custom_field_options?: CustomObjectFieldCustomFieldOptionsList;
+  custom_field_options?: CustomObjectFieldCustomFieldOptionsList | undefined;
   /** User-defined description of this field's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** A unique key that identifies this custom field. This is used for updating the field and referencing in placeholders. The key must consist of only letters, numbers, and underscores. It can't be only numbers */
   key: string;
   /** Ordering of the field relative to other fields */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Regular expression field only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string | null;
+  regexp_for_validation?: string | null | undefined;
   /** A filter definition that allows your autocomplete to filter down results */
-  relationship_filter?: unknown;
+  relationship_filter?: unknown | undefined;
   /** If true, only active and position values of this field can be changed */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Optional for custom field of type "checkbox"; not presented otherwise. */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the custom field */
   title: string;
   /** The custom field type: "checkbox", "currency", "date", "decimal", "dropdown", "integer", ["lookup"](/api-reference/ticketing/lookup_relationships/lookup_relationships/), "multiselect", ["parent"](/api-reference/custom-data/custom-objects/custom_object_fields/#about-parent-relationship-fields) (custom objects only), "regexp", "text", or "textarea" */
   type: string;
   /** The time of the last update of the field */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL for this resource */
-  url?: string;
-  properties?: CustomObjectFieldPropertiesObject;
+  url?: string | undefined;
+  properties?: CustomObjectFieldPropertiesObject | undefined;
   /** If true, the field value cannot be set or updated by API consumers. Currently only applies to roll-up summary fields, where the value is computed automatically. */
-  readonly?: boolean;
+  readonly?: boolean | undefined;
   /** A representation of what type of object the field references. For lookup fields, options are "zen:user", "zen:organization", "zen:ticket", "zen:article", "zen:brand", and "zen:custom_object:{key}" where key is a custom object key. For example "zen:custom_object:apartment". For parent fields, valid options are "zen:user", "zen:organization", "zen:ticket", and "zen:custom_object:{key}". Cannot be changed after creation. */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
   /** If true, the field must have a value when creating or updating custom object records. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export interface CustomObjectFieldResponse {
-  custom_object_field?: CustomObjectField;
+  custom_object_field?: CustomObjectField | undefined;
 }
 export type CustomObjectRecordInputCustomObjectFieldsMap = { [key: string]: unknown | undefined };
 /** The record photo represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/). The `allows_photos` property must be set to true for the object. Record photos are publicly accessible via the photo `content_url`. */
 export type CustomObjectRecordInputPhotoMap = { [key: string]: unknown | undefined };
 export interface CustomObjectRecordInput {
-  custom_object_fields?: CustomObjectRecordInputCustomObjectFieldsMap;
+  custom_object_fields?: CustomObjectRecordInputCustomObjectFieldsMap | undefined;
   /** An id you can use to link custom object records to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The record photo represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/). The `allows_photos` property must be set to true for the object. Record photos are publicly accessible via the photo `content_url`. */
-  photo?: CustomObjectRecordInputPhotoMap | null;
+  photo?: CustomObjectRecordInputPhotoMap | null | undefined;
 }
 export interface CreateCustomObjectRecordRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  custom_object_record?: CustomObjectRecordInput;
+  custom_object_record?: CustomObjectRecordInput | undefined;
 }
 export type CustomObjectRecordCustomObjectFieldsMap = { [key: string]: unknown | undefined };
 /** The record photo represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/). The `allows_photos` property must be set to true for the object. Record photos are publicly accessible via the photo `content_url`. */
 export type CustomObjectRecordPhotoMap = { [key: string]: unknown | undefined };
 export interface CustomObjectRecord {
   /** The time the object was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Id of a user who created the object */
-  created_by_user_id?: string;
-  custom_object_fields?: CustomObjectRecordCustomObjectFieldsMap;
+  created_by_user_id?: string | undefined;
+  custom_object_fields?: CustomObjectRecordCustomObjectFieldsMap | undefined;
   /** A user-defined unique identifier */
-  custom_object_key?: string;
+  custom_object_key?: string | undefined;
   /** An id you can use to link custom object records to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** User-defined display name for the object. If autonumbering is selected for the custom object's name field, the name isn't allowed because it's automatically generated. If uniqueness is enabled, the name must be unique. */
   name: string;
   /** The record photo represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/). The `allows_photos` property must be set to true for the object. Record photos are publicly accessible via the photo `content_url`. */
-  photo?: CustomObjectRecordPhotoMap | null;
+  photo?: CustomObjectRecordPhotoMap | null | undefined;
   /** The time of the last update of the object */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Id of the last user who updated the object */
-  updated_by_user_id?: string;
+  updated_by_user_id?: string | undefined;
   /** Direct link to the specific custom object */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CustomObjectRecordResponse {
-  custom_object_record?: CustomObjectRecord;
+  custom_object_record?: CustomObjectRecord | undefined;
 }
 export interface CreateCustomObjectRecordAttachmentRequest {
   /** The key of a custom object */
@@ -1819,206 +1824,206 @@ export type CustomObjectRecordAttachmentMalwareScanStatus =
 /** A file attachment associated with a custom object record */
 export interface CustomObjectRecordAttachment {
   /** The content type of the file */
-  content_type?: string;
+  content_type?: string | undefined;
   /** A full URL where the attachment file can be downloaded. The file may be hosted externally so take care not to inadvertently send Zendesk authentication credentials. */
-  content_url?: string;
+  content_url?: string | undefined;
   /** The date and time when the attachment was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The name of the user who created the attachment */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The ID of the custom object record this attachment belongs to */
-  custom_object_record_id?: string;
+  custom_object_record_id?: string | undefined;
   /** The name of the attachment file */
-  filename?: string;
+  filename?: string | undefined;
   /** Automatically assigned when created */
-  id?: string;
+  id?: string | undefined;
   /** If true, you can download an attachment flagged as malware. If false, you can't download such an attachment. */
-  malware_access_override?: boolean;
+  malware_access_override?: boolean | undefined;
   /** The date and time when the malware scan was completed */
-  malware_scan_completed_at?: string | null;
+  malware_scan_completed_at?: string | null | undefined;
   /** The result of the malware scan. There is a delay between the time the attachment is uploaded and when the malware scan is completed. */
-  malware_scan_status?: CustomObjectRecordAttachmentMalwareScanStatus;
+  malware_scan_status?: CustomObjectRecordAttachmentMalwareScanStatus | undefined;
   /** The size of the file in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface CustomObjectRecordAttachmentResponse {
-  custom_object_record_attachment?: CustomObjectRecordAttachment;
+  custom_object_record_attachment?: CustomObjectRecordAttachment | undefined;
 }
 export interface CreateCustomRoleRequest {}
 /** Configuration settings for the role. See [Configuration](#configuration) */
 export interface CustomRoleConfigurationObject {
   /** What level of actions access the agent has. Allowed values: "none", "workflows_and_zendesk", "all" */
-  actions_access?: string;
+  actions_access?: string | undefined;
   /** Whether or not the agent can assign agent statuses */
-  assign_agent_statuses?: boolean;
+  assign_agent_statuses?: boolean | undefined;
   /** Whether or not the agent can assign tickets to any group */
-  assign_tickets_to_any_group?: boolean;
+  assign_tickets_to_any_group?: boolean | undefined;
   /** What kind of ticket brands the agent can access. Allowed values: "all", "within-brands", "selected-brands" */
-  brands_ticket_access?: string;
+  brands_ticket_access?: string | undefined;
   /** What the agent can do with capacity rules. Allowed values: "none", "all", "view-and-assign" */
-  capacity_rules_access?: string;
+  capacity_rules_access?: string | undefined;
   /** What level of access the agent has to change management. Allowed values: "none", "view", "full" */
-  change_management_access?: string;
+  change_management_access?: string | undefined;
   /** Whether or not the agent has access to Chat */
-  chat_access?: boolean;
+  chat_access?: boolean | undefined;
   /** Whether or not the agent can view lists of user profiles. Allowed values: "full", "none" */
-  end_user_list_access?: string;
+  end_user_list_access?: string | undefined;
   /** What the agent can do with end-user profiles. Allowed values: "edit", "edit-within-org", "full", "readonly" */
-  end_user_profile_access?: string;
+  end_user_profile_access?: string | undefined;
   /** Whether or not the agent can execute IT asset management actions */
-  execute_it_asset_management_actions?: boolean;
+  execute_it_asset_management_actions?: boolean | undefined;
   /** Allowed values: "edit", "full", "none", "readonly" */
-  explore_access?: string;
+  explore_access?: string | undefined;
   /** Whether or not the agent can export views */
-  export_views?: boolean;
+  export_views?: boolean | undefined;
   /** The kind of access the agent has to the community in the help center. Allowed values: "edit-topics", "full", "readonly" */
-  forum_access?: string;
+  forum_access?: string | undefined;
   /** Whether or not the agent can access community content restricted by organization or visibility settings */
-  forum_access_restricted_content?: boolean;
+  forum_access_restricted_content?: boolean | undefined;
   /** Whether or not the agent can add or modify groups */
-  group_access?: boolean;
+  group_access?: boolean | undefined;
   /** What kind of ticket groups the agent can access. Allowed values: "all", "within-groups", "selected-groups" */
-  groups_ticket_access?: string;
+  groups_ticket_access?: string | undefined;
   /** Whether or not the agent can access IT asset management */
-  it_asset_management_access?: boolean;
+  it_asset_management_access?: boolean | undefined;
   /** Whether or not the agent is a light agent */
-  light_agent?: boolean;
+  light_agent?: boolean | undefined;
   /** What the agent can do with macros. Allowed values: "full", "manage-group", "manage-personal", "readonly" */
-  macro_access?: string;
+  macro_access?: string | undefined;
   /** Whether the agent can manage API credentials */
-  manage_api_credentials?: boolean;
+  manage_api_credentials?: boolean | undefined;
   /** Whether or not the agent can manage business rules */
-  manage_business_rules?: boolean;
+  manage_business_rules?: boolean | undefined;
   /** Whether or not the agent can manage change management configuration */
-  manage_change_management_configuration?: boolean;
+  manage_change_management_configuration?: boolean | undefined;
   /** Whether or not the agent can view, add, and edit contextual workspaces */
-  manage_contextual_workspaces?: boolean;
+  manage_contextual_workspaces?: boolean | undefined;
   /** What level of access the agent has to deletion schedules. Allowed values: "all", "readonly", "none" */
-  manage_deletion_schedules?: string;
+  manage_deletion_schedules?: string | undefined;
   /** Whether or not the agent can access dynamic content */
-  manage_dynamic_content?: boolean;
+  manage_dynamic_content?: boolean | undefined;
   /** Whether or not the agent can manage channels and extensions */
-  manage_extensions_and_channels?: boolean;
+  manage_extensions_and_channels?: boolean | undefined;
   /** Whether or not the agent can manage Facebook pages */
-  manage_facebook?: boolean;
+  manage_facebook?: boolean | undefined;
   /** Whether or not the agent can manage IP bans */
-  manage_ip_bans?: boolean;
+  manage_ip_bans?: boolean | undefined;
   /** Whether or not the agent can manage IT asset configuration */
-  manage_it_asset_configuration?: boolean;
+  manage_it_asset_configuration?: boolean | undefined;
   /** Whether or not the agent can manage macro content suggestions */
-  manage_macro_content_suggestions?: boolean;
+  manage_macro_content_suggestions?: boolean | undefined;
   /** Whether or not the agent can manage malicious attachments */
-  manage_malicious_attachments?: boolean;
+  manage_malicious_attachments?: boolean | undefined;
   /** Whether or not the agent can create and manage organization fields */
-  manage_organization_fields?: boolean;
+  manage_organization_fields?: boolean | undefined;
   /** Whether or not the agent can manage support apps */
-  manage_support_apps?: boolean;
+  manage_support_apps?: boolean | undefined;
   /** Whether or not the agent can create and manage ticket fields */
-  manage_ticket_fields?: boolean;
+  manage_ticket_fields?: boolean | undefined;
   /** Whether or not the agent can create and manage ticket forms */
-  manage_ticket_forms?: boolean;
+  manage_ticket_forms?: boolean | undefined;
   /** Whether or not the agent can manage ticket settings such as comments, attachments, followers, assignments, and notifications */
-  manage_ticket_settings?: boolean;
+  manage_ticket_settings?: boolean | undefined;
   /** Whether or not the agent can create and manage user fields */
-  manage_user_fields?: boolean;
+  manage_user_fields?: boolean | undefined;
   /** Whether or not the agent can manage their own contact information */
-  manage_user_own_contacts?: boolean;
+  manage_user_own_contacts?: boolean | undefined;
   /** Whether or not the agent can manage their own forwarding numbers */
-  manage_user_own_forwarding_numbers?: boolean;
+  manage_user_own_forwarding_numbers?: boolean | undefined;
   /** Whether or not the agent can manage their own profile photo */
-  manage_user_own_photo?: boolean;
+  manage_user_own_photo?: boolean | undefined;
   /** Whether or not the agent can mask end user email addresses */
-  mask_end_user_email?: boolean;
+  mask_end_user_email?: boolean | undefined;
   /** Whether or not the agent can mask end user names */
-  mask_end_user_name?: boolean;
+  mask_end_user_name?: boolean | undefined;
   /** Whether or not the agent can mask end user phone numbers */
-  mask_end_user_phone?: boolean;
+  mask_end_user_phone?: boolean | undefined;
   /** Whether or not the agent can moderate forums */
-  moderate_forums?: boolean;
+  moderate_forums?: boolean | undefined;
   /** Whether or not the agent can modify closed tickets */
-  modify_closed_tickets?: boolean;
+  modify_closed_tickets?: boolean | undefined;
   /** Whether or not the agent can add or modify organizations */
-  organization_editing?: boolean;
+  organization_editing?: boolean | undefined;
   /** Whether or not the agent can add or modify organization notes */
-  organization_notes_editing?: boolean;
+  organization_notes_editing?: boolean | undefined;
   /** Whether or not the agent can read macro content suggestions */
-  read_macro_content_suggestions?: boolean;
+  read_macro_content_suggestions?: boolean | undefined;
   /** What the agent can do with reports. Allowed values: "full", "none", "readonly" */
-  report_access?: string;
+  report_access?: string | undefined;
   /** Whether or not the agent can contribute to side conversations */
-  side_conversation_create?: boolean;
+  side_conversation_create?: boolean | undefined;
   /** What kind of tickets the agent can access. Allowed values: "all", "assigned-only", "within-groups", "within-groups-and-public-groups", "within-organization" */
-  ticket_access?: string;
+  ticket_access?: string | undefined;
   /** What type of comments the agent can make. Allowed values: "public", "none" */
-  ticket_comment_access?: string;
+  ticket_comment_access?: string | undefined;
   /** Whether or not the agent can delete tickets */
-  ticket_deletion?: boolean;
+  ticket_deletion?: boolean | undefined;
   /** Whether or not the agent can edit ticket properties */
-  ticket_editing?: boolean;
+  ticket_editing?: boolean | undefined;
   /** Whether or not the agent can merge tickets */
-  ticket_merge?: boolean;
+  ticket_merge?: boolean | undefined;
   /** Whether or not the agent can edit ticket tags */
-  ticket_tag_editing?: boolean;
+  ticket_tag_editing?: boolean | undefined;
   /** Whether or not the agent can access X (formerly Twitter) searches */
-  twitter_search_access?: boolean;
+  twitter_search_access?: boolean | undefined;
   /** Whether or not the agent can update their own alias */
-  update_user_own_alias?: boolean;
+  update_user_own_alias?: boolean | undefined;
   /** Whether or not the agent can update their own name */
-  update_user_own_name?: boolean;
+  update_user_own_name?: boolean | undefined;
   /** Whether or not the agent can update their own signature */
-  update_user_own_signature?: boolean;
+  update_user_own_signature?: boolean | undefined;
   /** Whether or not the agent can use Admin Copilot conversational assistance */
-  use_conversational_assistance?: boolean;
+  use_conversational_assistance?: boolean | undefined;
   /** What the agent can do with customer lists. Allowed values: "full", "manage-group", "manage-personal", "none", "readonly" */
-  user_view_access?: string;
+  user_view_access?: string | undefined;
   /** What the agent can do with views. Allowed values: "full", "manage-group", "manage-personal", "playonly", "readonly" */
-  view_access?: string;
+  view_access?: string | undefined;
   /** Whether or not the agent can view access logs */
-  view_access_logs?: boolean;
+  view_access_logs?: boolean | undefined;
   /** Whether or not the agent can view audit logs */
-  view_audit_logs?: boolean;
+  view_audit_logs?: boolean | undefined;
   /** Whether or not the agent can view deleted tickets */
-  view_deleted_tickets?: boolean;
+  view_deleted_tickets?: boolean | undefined;
   /** Whether or not the agent can view and apply filters to tickets */
-  view_filter_tickets?: boolean;
+  view_filter_tickets?: boolean | undefined;
   /** Whether or not the agent can view reduced counts */
-  view_reduced_count?: boolean;
+  view_reduced_count?: boolean | undefined;
   /** Whether or not the agent can answer and place calls to end users */
-  voice_access?: boolean;
+  voice_access?: boolean | undefined;
   /** Whether or not the agent can view details about calls on the Talk dashboard */
-  voice_dashboard_access?: boolean;
+  voice_dashboard_access?: boolean | undefined;
 }
 export interface CustomRoleObject {
-  configuration?: CustomRoleConfigurationObject;
+  configuration?: CustomRoleConfigurationObject | undefined;
   /** The time the record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A description of the role */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned on creation */
-  id?: number;
+  id?: number | undefined;
   /** Name of the custom role */
   name: string;
   /** The user's role. 0 stands for a custom agent, 1 for a light agent, 2 for a chat agent, 3 for a contributor, 4 for an admin and 5 for a billing admin. See [Understanding standard agent roles in Zendesk Support](https://support.zendesk.com/hc/en-us/articles/4409155971354-Understanding-standard-agent-roles-in-Zendesk-Support) in Zendesk help */
   role_type: number;
   /** The number of team members assigned to this role */
-  team_member_count?: number;
+  team_member_count?: number | undefined;
   /** The time the record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CustomRoleResponse {
-  custom_role?: CustomRoleObject;
+  custom_role?: CustomRoleObject | undefined;
 }
 /** The status category the custom ticket status belongs to */
 export type CustomStatusCreateInputStatusCategory = "new" | "open" | "pending" | "hold" | "solved";
 export interface CustomStatusCreateInput {
   /** True if the custom status is set as active; inactive if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The dynamic content placeholder, if present, or the "agent_label" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
   agent_label: string;
   /** The dynamic content placeholder, if present, or the "description" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  description?: string;
+  description?: string | undefined;
   /** The dynamic content placeholder, if present, or the "end_user_description" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  end_user_description?: string;
+  end_user_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the "end_user_label" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
   end_user_label: string;
   /** The status category the custom ticket status belongs to */
@@ -2031,168 +2036,168 @@ export interface CreateCustomStatusRequest {
 export type CustomStatusObjectStatusCategory = "new" | "open" | "pending" | "hold" | "solved";
 export interface CustomStatusObject {
   /** If true, the custom status is set to active, If false, the custom status is set to inactive */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The label displayed to agents. Maximum length is 48 characters */
   agent_label: string;
   /** The date and time the custom ticket status was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the custom status is set to default. If false, the custom status is set to non-default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of when the user should select this custom ticket status */
-  description?: string;
+  description?: string | undefined;
   /** The description displayed to end users */
-  end_user_description?: string;
+  end_user_description?: string | undefined;
   /** The label displayed to end users. Maximum length is 48 characters */
-  end_user_label?: string;
+  end_user_label?: string | undefined;
   /** Automatically assigned when the custom ticket status is created */
-  id?: number;
+  id?: number | undefined;
   /** The dynamic content placeholder. If the dynamic content placeholder is not available, this is the "agent_label" value. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_agent_label?: string;
+  raw_agent_label?: string | undefined;
   /** The dynamic content placeholder. If the dynamic content placeholder is not available, this is the "description" value. [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder. If the dynamic content placeholder is not available, this is the "end_user_description" value. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_end_user_description?: string;
+  raw_end_user_description?: string | undefined;
   /** The dynamic content placeholder. If the dynamic content placeholder is not available, this is the "end_user_label" value. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_end_user_label?: string;
+  raw_end_user_label?: string | undefined;
   /** The status category the custom ticket status belongs to */
   status_category: CustomStatusObjectStatusCategory;
   /** The date and time the custom ticket status was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CustomStatusResponse {
-  custom_status?: CustomStatusObject;
+  custom_status?: CustomStatusObject | undefined;
 }
 export interface CreateCustomTaskItemRequestTaskItem {
   /** The description of the task item */
-  description?: string;
+  description?: string | undefined;
   /** The name of the task item */
   name: string;
 }
 export interface CreateCustomTaskItemRequest {
   /** The id of the task list */
   task_list_id: string;
-  task_item?: CreateCustomTaskItemRequestTaskItem;
+  task_item?: CreateCustomTaskItemRequestTaskItem | undefined;
 }
 export interface TaskItemInstanceObject {
   /** The time the task item was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the task item */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when the task item is created */
-  id?: string;
+  id?: string | undefined;
   /** Whether the task item has been completed */
-  is_completed?: boolean;
+  is_completed?: boolean | undefined;
   /** Whether the task item was created directly on the task list without a template. Auto-set by the server; not writable. */
-  is_custom?: boolean;
+  is_custom?: boolean | undefined;
   /** The name of the task item */
   name: string;
   /** The time the task item was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API URL of this task item */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TaskItemInstanceResponse {
-  task_item?: TaskItemInstanceObject;
+  task_item?: TaskItemInstanceObject | undefined;
 }
 export interface DeletionScheduleInput {
   /** Whether the deletion schedule is active */
-  active?: boolean;
-  conditions?: ConditionsObject;
+  active?: boolean | undefined;
+  conditions?: ConditionsObject | undefined;
   /** The description of the deletion schedule */
-  description?: string;
+  description?: string | undefined;
   /** Represents the entity the schedule will delete. Cannot be modified after schedule creation. Can be one of `'zen:ticket'`, `'zen:user'`, `'zen:attachment'`, `'zen:bot_only_conversation'`, or `'zen:custom_object:CUSTOM_OBJECT_KEY'`. */
-  object?: string;
+  object?: string | undefined;
   /** The title of the deletion schedule */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateDeletionScheduleRequest {
-  deletion_schedule?: DeletionScheduleInput;
+  deletion_schedule?: DeletionScheduleInput | undefined;
 }
 export interface DeletionSchedule {
   /** Whether the deletion schedule is active */
-  active?: boolean;
-  conditions?: ConditionsObject;
+  active?: boolean | undefined;
+  conditions?: ConditionsObject | undefined;
   /** The time the deletion schedule was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Whether the deletion schedule is the default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of the deletion schedule */
-  description?: string;
+  description?: string | undefined;
   /** The id of the deletion schedule */
-  id?: number;
+  id?: number | undefined;
   /** Represents the entity the schedule will delete. Cannot be modified after schedule creation. Can be one of `'zen:ticket'`, `'zen:user'`, `'zen:attachment'`, `'zen:bot_only_conversation'`, or `'zen:custom_object:CUSTOM_OBJECT_KEY'`. */
-  object?: string;
+  object?: string | undefined;
   /** The title of the deletion schedule */
-  title?: string;
+  title?: string | undefined;
   /** The time the deletion schedule was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Url for obtaining the deletion schedule JSON */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateDeletionScheduleResponse {
-  deletion_schedule?: DeletionSchedule;
+  deletion_schedule?: DeletionSchedule | undefined;
 }
 export interface CreateDynamicContentRequest {}
 export interface DynamicContentVariantObject {
   /** If the variant is active and usable */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The content of the variant */
   content: string;
   /** When the variant was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If the variant is the default for the item it belongs to */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Automatically assigned when the variant is created */
-  id?: number;
+  id?: number | undefined;
   /** An active locale */
   locale_id: number;
   /** If the variant is outdated */
-  outdated?: boolean;
+  outdated?: boolean | undefined;
   /** When the variant was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of the variant */
-  url?: string;
+  url?: string | undefined;
 }
 /** All variants within this item. See [Dynamic Content Item Variants](/api-reference/ticketing/ticket-management/dynamic_content_item_variants/) */
 export type DynamicContentObjectVariantsList = Array<DynamicContentVariantObject>;
 export interface DynamicContentObject {
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The default locale for the item. Must be one of the [locales the account has active](/api-reference/ticketing/account-configuration/locales/#list-locales). */
   default_locale_id: number;
   /** Automatically assigned when creating items */
-  id?: number;
+  id?: number | undefined;
   /** The unique name of the item */
   name: string;
   /** Indicates the item has outdated variants within it */
-  outdated?: boolean;
+  outdated?: boolean | undefined;
   /** Automatically generated placeholder for the item, derived from name */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /** When this record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this item */
-  url?: string;
+  url?: string | undefined;
   /** All variants within this item. See [Dynamic Content Item Variants](/api-reference/ticketing/ticket-management/dynamic_content_item_variants/) */
   variants: DynamicContentObjectVariantsList;
 }
 export interface DynamicContentResponse {
-  item?: DynamicContentObject;
+  item?: DynamicContentObject | undefined;
 }
 export interface CreateDynamicContentVariantRequest {
   /** The ID of the dynamic content item */
   dynamic_content_item_id: number;
 }
 export interface DynamicContentVariantResponse {
-  variant?: DynamicContentVariantObject;
+  variant?: DynamicContentVariantObject | undefined;
 }
 export type CreateEndUserIdentityRequestType = "email" | "phone_number";
 export interface CreateEndUserIdentityRequest {
   /** The id of the user */
   user_id: number;
   /** Filters results by one or more identity types using the format `?type[]={type}&type[]={type}` */
-  type__?: CreateEndUserIdentityRequestType | (string & {});
+  type__?: CreateEndUserIdentityRequestType | (string & {}) | undefined;
   /** When brand separation is enabled, associates the new identity with the specified brand. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 /** Indicates whether the identity is owned or shared. Only returned to non-end-user callers. */
 export type UserIdentityObjectOwnership = "owned" | "shared";
@@ -2212,44 +2217,44 @@ export type UserIdentityObjectType =
 export type UserIdentityObjectVerificationMethod = "none" | "low" | "sso" | "embed" | "full";
 export interface UserIdentityObject {
   /** The brand ID associated with this identity. Only present when brand separation is enabled. */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** The time the identity was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Email identity type only. Indicates if Zendesk sends notifications to the email address. See [Deliverable state](#deliverable-state) */
-  deliverable_state?: string;
+  deliverable_state?: string | undefined;
   /** Automatically assigned on creation */
-  id?: number;
+  id?: number | undefined;
   /** Indicates whether the identity is owned or shared. Only returned to non-end-user callers. */
-  ownership?: UserIdentityObjectOwnership;
+  ownership?: UserIdentityObjectOwnership | undefined;
   /** If the identity is the primary identity. *Writable only when creating, not when updating. Use the [Make Identity Primary](#make-identity-primary) endpoint instead */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The type of this identity */
   type: UserIdentityObjectType;
   /** The number of times a soft-bounce response was received at that address */
-  undeliverable_count?: number;
+  undeliverable_count?: number | undefined;
   /** The time the identity was updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this identity */
-  url?: string;
+  url?: string | undefined;
   /** The id of the user */
   user_id: number;
   /** The identifier for this identity, such as an email address */
   value: string;
   /** Indicates the state of user identity verification. See [Verification method](#verification-method). */
-  verification_method?: UserIdentityObjectVerificationMethod;
+  verification_method?: UserIdentityObjectVerificationMethod | undefined;
   /** If the identity has been verified. Deprecated. Use `verification_method` as a more accurate representation of a user's state of verification. */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** The last time a full verification flow was completed for the identity */
-  verified_at?: string | null;
+  verified_at?: string | null | undefined;
 }
 export interface UserIdentityResponse {
-  identity?: UserIdentityObject;
+  identity?: UserIdentityObject | undefined;
 }
 export interface CreateGroupRequestGroup {
   /** The description of the group */
-  description?: string;
+  description?: string | undefined;
   /** If true, the group is public. If false, the group is private. You can't change a private group to a public group */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** The name of the group */
   name: string;
 }
@@ -2257,11 +2262,11 @@ export interface CreateGroupRequest {
   group: CreateGroupRequestGroup;
 }
 export interface GroupResponse {
-  group?: GroupObject;
+  group?: GroupObject | undefined;
 }
 export interface CreateGroupMembershipRequestGroupMembership {
   /** If true, tickets assigned directly to the agent will assume this membership's group */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The id of a group */
   group_id: number;
   /** The id of an agent */
@@ -2272,22 +2277,22 @@ export interface CreateGroupMembershipRequest {
 }
 export interface GroupMembershipObject {
   /** The time the group was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, tickets assigned directly to the agent will assume this membership's group */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The id of a group */
   group_id: number;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The time of the last update of the group */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this record */
-  url?: string;
+  url?: string | undefined;
   /** The id of an agent */
   user_id: number;
 }
 export interface GroupMembershipResponse {
-  group_membership?: GroupMembershipObject;
+  group_membership?: GroupMembershipObject | undefined;
 }
 export interface CreateGroupSLAPolicyRequest {}
 export type GroupSLAPolicyFilterConditionObjectValueItem = string | number;
@@ -2296,98 +2301,98 @@ export type GroupSLAPolicyFilterConditionObjectValueList =
   Array<GroupSLAPolicyFilterConditionObjectValueItem>;
 export interface GroupSLAPolicyFilterConditionObject {
   /** The name of a ticket field */
-  field?: string;
+  field?: string | undefined;
   /** A comparison operator */
-  operator?: string;
+  operator?: string | undefined;
   /** The value of a ticket field */
-  value?: GroupSLAPolicyFilterConditionObjectValueList;
+  value?: GroupSLAPolicyFilterConditionObjectValueList | undefined;
 }
 export type GroupSLAPolicyFilterObjectAllList = Array<GroupSLAPolicyFilterConditionObject>;
 /** An object that describes the conditions a ticket must match for a Group SLA policy to be applied to the ticket. See [Filter](#filter). */
 export interface GroupSLAPolicyFilterObject {
-  all?: GroupSLAPolicyFilterObjectAllList;
+  all?: GroupSLAPolicyFilterObjectAllList | undefined;
 }
 export interface GroupSLAPolicyMetricObject {
   /** Whether the metric targets are being measured in business hours or calendar hours */
-  business_hours?: boolean;
+  business_hours?: boolean | undefined;
   /** The definition of the time that is being measured */
-  metric?: string;
+  metric?: string | undefined;
   /** Priority that a ticket must match */
-  priority?: string;
+  priority?: string | undefined;
   /** The time within which the end-state for a metric should be met */
-  target?: number;
+  target?: number | undefined;
 }
 /** Array of [policy metric](#policy-metric) objects */
 export type GroupSLAPolicyObjectPolicyMetricsList = Array<GroupSLAPolicyMetricObject>;
 export interface GroupSLAPolicyObject {
   /** The time the Group SLA policy was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the Group SLA policy */
-  description?: string;
+  description?: string | undefined;
   filter: GroupSLAPolicyFilterObject;
   /** Automatically assigned when created */
-  id?: string;
+  id?: string | undefined;
   /** Array of [policy metric](#policy-metric) objects */
-  policy_metrics?: GroupSLAPolicyObjectPolicyMetricsList;
+  policy_metrics?: GroupSLAPolicyObjectPolicyMetricsList | undefined;
   /** Position of the Group SLA policy. This position determines the order in which policies are matched to tickets. If not specified, the Group SLA policy is added at the last position */
-  position?: number;
+  position?: number | undefined;
   /** The title of the Group SLA policy */
   title: string;
   /** The time of the last update of the Group SLA policy */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the Group SLA policy record */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GroupSLAPolicyResponse {
-  group_sla_policy?: GroupSLAPolicyObject;
+  group_sla_policy?: GroupSLAPolicyObject | undefined;
 }
 /** User-defined custom asset fields and values */
 export type ItamAssetInputCustomFieldValuesMap = { [key: string]: unknown | undefined };
 /** The asset's purchase cost. */
 export interface ItamAssetInputPurchaseCost {
   /** The purchase cost as a decimal number in the major unit of the currency specified in the `currency` field. For example, 9.99 represents $9.99 when currency is "USD" */
-  amount?: number;
+  amount?: number | undefined;
   /** The ISO 4217 currency code (for example, USD, EUR) */
-  currency?: string;
+  currency?: string | undefined;
 }
 export interface ItamAssetInput {
   /** The tag for the asset */
-  asset_tag?: string | null;
+  asset_tag?: string | null | undefined;
   /** Id of the asset type */
   asset_type_id: string;
   /** User-defined custom asset fields and values */
-  custom_field_values?: ItamAssetInputCustomFieldValuesMap;
+  custom_field_values?: ItamAssetInputCustomFieldValuesMap | undefined;
   /** An id you can use to link an asset to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Id of the asset location */
-  location_id?: string | null;
+  location_id?: string | null | undefined;
   /** The asset's manufacturer name */
-  manufacturer?: string | null;
+  manufacturer?: string | null | undefined;
   /** The asset's model name */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Display name for the asset */
   name: string;
   /** The asset's notes */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Id of the organization the asset is associated with */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The asset's purchase cost. */
-  purchase_cost?: ItamAssetInputPurchaseCost | null;
+  purchase_cost?: ItamAssetInputPurchaseCost | null | undefined;
   /** The asset's purchase date */
-  purchase_date?: string | null;
+  purchase_date?: string | null | undefined;
   /** The asset's serial number */
-  serial_number?: string | null;
+  serial_number?: string | null | undefined;
   /** Id of current status of the asset */
   status_id: string;
   /** Id of the user the asset is assigned to */
-  user_id?: number | null;
+  user_id?: number | null | undefined;
   /** The asset's vendor name */
-  vendor?: string | null;
+  vendor?: string | null | undefined;
   /** The asset's warranty expiration date */
-  warranty_expiration?: string | null;
+  warranty_expiration?: string | null | undefined;
 }
 export interface CreateItamAssetRequest {
-  asset?: ItamAssetInput;
+  asset?: ItamAssetInput | undefined;
 }
 /** User-defined custom asset fields and values */
 export type ItamAssetCustomFieldValuesMap = { [key: string]: unknown | undefined };
@@ -2395,106 +2400,106 @@ export type ItamAssetCustomFieldValuesMap = { [key: string]: unknown | undefined
 export type ItamAssetPurchaseCost = ItamAssetInputPurchaseCost;
 export interface ItamAsset {
   /** The tag for the asset */
-  asset_tag?: string | null;
+  asset_tag?: string | null | undefined;
   /** Direct link to the asset's asset type icon */
-  asset_type_icon_url?: string | null;
+  asset_type_icon_url?: string | null | undefined;
   /** Id of the asset type */
   asset_type_id: string;
   /** The time the asset record was added */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The id of the user who created the asset */
-  created_by_user_id?: number;
+  created_by_user_id?: number | undefined;
   /** User-defined custom asset fields and values */
-  custom_field_values?: ItamAssetCustomFieldValuesMap;
+  custom_field_values?: ItamAssetCustomFieldValuesMap | undefined;
   /** An id you can use to link an asset to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** Id of the asset location */
-  location_id?: string | null;
+  location_id?: string | null | undefined;
   /** The asset's manufacturer name */
-  manufacturer?: string | null;
+  manufacturer?: string | null | undefined;
   /** The asset's model name */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Display name for the asset */
   name: string;
   /** The asset's notes */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Id of the organization the asset is associated with */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The asset's purchase cost. */
-  purchase_cost?: ItamAssetInputPurchaseCost | null;
+  purchase_cost?: ItamAssetInputPurchaseCost | null | undefined;
   /** The asset's purchase date */
-  purchase_date?: string | null;
+  purchase_date?: string | null | undefined;
   /** The asset's serial number */
-  serial_number?: string | null;
+  serial_number?: string | null | undefined;
   /** Id of current status of the asset */
   status_id: string;
   /** The time of the asset's last update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The id of the user who last updated the asset */
-  updated_by_user_id?: number;
+  updated_by_user_id?: number | undefined;
   /** Direct link to the specific asset */
-  url?: string;
+  url?: string | undefined;
   /** Id of the user the asset is assigned to */
-  user_id?: number | null;
+  user_id?: number | null | undefined;
   /** The asset's vendor name */
-  vendor?: string | null;
+  vendor?: string | null | undefined;
   /** The asset's warranty expiration date */
-  warranty_expiration?: string | null;
+  warranty_expiration?: string | null | undefined;
 }
 export interface ItamAssetResponse {
-  asset?: ItamAsset;
+  asset?: ItamAsset | undefined;
 }
 /** Sets or removes the asset type's icon. Setting an icon requires a `multipart/form-data` request with a file field named `asset_type[photo][uploaded_data]` -- see the "Adding a photo" code sample. Pass `null` to remove the existing icon via a normal JSON request. */
 export type ItamAssetTypeInputPhotoMap = { [key: string]: unknown | undefined };
 export interface ItamAssetTypeInput {
   /** A description of the asset type */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An id you can use to link asset types to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** A unique display name for the asset type */
   name: string;
   /** The id of the parent asset type within the hierarchy tree. If omitted on create, defaults to the base asset type. Cannot be changed after the asset type is created. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Sets or removes the asset type's icon. Setting an icon requires a `multipart/form-data` request with a file field named `asset_type[photo][uploaded_data]` -- see the "Adding a photo" code sample. Pass `null` to remove the existing icon via a normal JSON request. */
-  photo?: ItamAssetTypeInputPhotoMap | null;
+  photo?: ItamAssetTypeInputPhotoMap | null | undefined;
 }
 export interface CreateItamAssetTypeRequest {
-  asset_type?: ItamAssetTypeInput;
+  asset_type?: ItamAssetTypeInput | undefined;
 }
 /** Custom field keys associated with the asset type */
 export type ItamAssetTypeOutputFieldKeysList = Array<string>;
 export interface ItamAssetTypeOutput {
   /** The id of the user who created the asset type */
-  created_by_user_id?: number;
+  created_by_user_id?: number | undefined;
   /** A description of the asset type */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Direct link to the icon used to represent this asset type, inherited from the nearest ancestor asset type that has one set if this asset type has none */
-  display_icon_url?: string | null;
+  display_icon_url?: string | null | undefined;
   /** An id you can use to link asset types to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Custom field keys associated with the asset type */
-  field_keys?: ItamAssetTypeOutputFieldKeysList;
+  field_keys?: ItamAssetTypeOutputFieldKeysList | undefined;
   /** The depth within the hierarchy tree. Valid values: 1, 2, and 3 */
-  hierarchy_depth?: number;
+  hierarchy_depth?: number | undefined;
   /** Direct link to the asset type's own icon, if one is set */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** Whether this asset type is a standard asset type. Standard asset types cannot be modified. */
-  is_standard?: boolean;
+  is_standard?: boolean | undefined;
   /** A unique display name for the asset type */
   name: string;
   /** The id of the parent asset type within the hierarchy tree. If omitted on create, defaults to the base asset type. Cannot be changed after the asset type is created. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** The id of the user who last updated the asset type */
-  updated_by_user_id?: number;
+  updated_by_user_id?: number | undefined;
   /** Direct link to the specific asset type */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ItamAssetTypeResponseOutput {
-  asset_type?: ItamAssetTypeOutput;
+  asset_type?: ItamAssetTypeOutput | undefined;
 }
 export type CreateItamFieldRequestAssetTypeIdsCase0List = Array<string>;
 export type CreateItamFieldRequestAssetTypeIdsCase1 = "all" | "none";
@@ -2504,37 +2509,37 @@ export type CreateItamFieldRequestAssetTypeIds =
   | CreateItamFieldRequestAssetTypeIdsCase1;
 export interface CreateItamFieldRequest {
   /** Array of asset type ids, "all", or "none". If "none", the field isn't attached to any asset type. */
-  asset_type_ids?: CreateItamFieldRequestAssetTypeIds;
-  field?: CustomObjectFieldInput;
+  asset_type_ids?: CreateItamFieldRequestAssetTypeIds | undefined;
+  field?: CustomObjectFieldInput | undefined;
 }
 export interface ItamAssetFieldResponse {
-  field?: CustomObjectField;
+  field?: CustomObjectField | undefined;
 }
 export interface ItamAssetLocationInput {
   /** An id you can use to connect a location to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Display name for the location */
   name: string;
 }
 export interface CreateItamLocationRequest {
-  location?: ItamAssetLocationInput;
+  location?: ItamAssetLocationInput | undefined;
 }
 export interface ItamAssetLocation {
   /** The time the location record was added */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An id you can use to connect a location to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** Display name for the location */
   name: string;
   /** The time of the location's last update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Direct link to the specific location */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ItamAssetLocationResponse {
-  location?: ItamAssetLocation;
+  location?: ItamAssetLocation | undefined;
 }
 /** The status category. One of available, in_use, unavailable, or end_of_life */
 export type CreateItamStatusRequestStatusCategory =
@@ -2546,39 +2551,39 @@ export interface CreateItamStatusRequestStatus {
   /** The status category. One of available, in_use, unavailable, or end_of_life */
   category: CreateItamStatusRequestStatusCategory | (string & {});
   /** Description of the status */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An id you can use to connect a status to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Display name for the status */
   name: string;
 }
 export interface CreateItamStatusRequest {
-  status?: CreateItamStatusRequestStatus;
+  status?: CreateItamStatusRequestStatus | undefined;
 }
 /** The status category. One of available, in_use, unavailable, or end_of_life */
 export type ItamAssetStatusCategory = "available" | "in_use" | "unavailable" | "end_of_life";
 export interface ItamAssetStatus {
   /** The status category. One of available, in_use, unavailable, or end_of_life */
-  category?: ItamAssetStatusCategory;
+  category?: ItamAssetStatusCategory | undefined;
   /** The time the status record was added */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Description of the status */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An id you can use to connect a status to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** Whether this is a standard, predefined status. Standard statuses can't be modified. */
-  is_standard?: boolean;
+  is_standard?: boolean | undefined;
   /** Display name for the status */
   name: string;
   /** The time of the status's last update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Direct link to the specific status */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ItamAssetStatusResponse {
-  status?: ItamAssetStatus;
+  status?: ItamAssetStatus | undefined;
 }
 /** Each action describes what the macro will do */
 export type MacroInputActionsList = Array<ActionObject>;
@@ -2587,27 +2592,27 @@ export type MacroInputRestrictionIdsList = Array<number>;
 /** Who may access this macro. Will be null when everyone in the account can access it */
 export interface MacroInputRestriction {
   /** The numeric ID of the group or user */
-  id?: number;
+  id?: number | undefined;
   /** The numeric IDs of the groups */
-  ids?: MacroInputRestrictionIdsList;
+  ids?: MacroInputRestrictionIdsList | undefined;
   /** Allowed values are Group or User */
-  type?: string;
+  type?: string | undefined;
   [key: string]: unknown;
 }
 export interface MacroInput {
   /** Each action describes what the macro will do */
   actions: MacroInputActionsList;
   /** Useful for determining if the macro should be displayed */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The description of the macro */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Who may access this macro. Will be null when everyone in the account can access it */
-  restriction?: MacroInputRestriction | null;
+  restriction?: MacroInputRestriction | null | undefined;
   /** The title of the macro */
   title: string;
 }
 export interface CreateMacroRequest {
-  macro?: MacroInput;
+  macro?: MacroInput | undefined;
 }
 /** Each action describes what the macro will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
 export type MacroObjectActionsList = Array<ActionObject>;
@@ -2617,44 +2622,44 @@ export interface MacroObject {
   /** Each action describes what the macro will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
   actions: MacroObjectActionsList;
   /** Useful for determining if the macro should be displayed */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The time the macro was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the macro is a default macro */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of the macro */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The id automatically assigned when a macro is created */
-  id?: number;
+  id?: number | undefined;
   /** The position of the macro */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the macro */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Access to this macro. A null value allows unrestricted access for all users in the account */
-  restriction?: MacroObjectRestrictionMap | null;
+  restriction?: MacroObjectRestrictionMap | null | undefined;
   /** The title of the macro */
   title: string;
   /** The time of the last update of the macro */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** A URL to access the macro's details */
-  url?: string;
+  url?: string | undefined;
   /** The app installation that requires each macro, if present */
-  app_installation?: string | null;
+  app_installation?: string | null | undefined;
   /** The macro categories */
-  categories?: string | null;
+  categories?: string | null | undefined;
   /** Permissions for each macro */
-  permissions?: string | null;
+  permissions?: string | null | undefined;
   /** The number of times each macro has been used in the past hour */
-  usage_1h?: number;
+  usage_1h?: number | undefined;
   /** The number of times each macro has been used in the past week */
-  usage_7d?: number;
+  usage_7d?: number | undefined;
   /** The number of times each macro has been used in the past day */
-  usage_24h?: number;
+  usage_24h?: number | undefined;
   /** The number of times each macro has been used in the past thirty days */
-  usage_30d?: number;
+  usage_30d?: number | undefined;
 }
 export interface CreateMacroResponse {
-  macro?: MacroObject;
+  macro?: MacroObject | undefined;
 }
 export interface CreateMacroAttachmentRequest {}
 export interface CreateManyDynamicContentVariantsRequest {
@@ -2663,7 +2668,7 @@ export interface CreateManyDynamicContentVariantsRequest {
 }
 export type DynamicContentVariantsResponseVariantsList = Array<DynamicContentVariantObject>;
 export interface DynamicContentVariantsResponse {
-  variants?: DynamicContentVariantsResponseVariantsList;
+  variants?: DynamicContentVariantsResponseVariantsList | undefined;
 }
 export interface CreateManyOrganizationMembershipsRequest {}
 export interface CreateManyOrganizationsRequest {}
@@ -2687,17 +2692,17 @@ export type UserIdentityInputType =
 export type UserIdentityInputVerificationMethod = "none" | "low" | "sso" | "embed" | "full";
 export interface UserIdentityInput {
   /** Write-only ownership control for the Shared Email EAP. When true, attempts `owned` first and falls back to `shared` on an ownership conflict. Ignored unless the account has the Shared Email EAP enabled. Mutually exclusive with `ownership`; requests that supply both keys are rejected. */
-  auto_ownership?: boolean;
+  auto_ownership?: boolean | undefined;
   /** Write-only ownership control for the Shared Email EAP. Ignored unless the account has the Shared Email EAP enabled. Mutually exclusive with `auto_ownership`; requests that supply both keys are rejected. */
-  ownership?: UserIdentityInputOwnership | (string & {});
+  ownership?: UserIdentityInputOwnership | (string & {}) | undefined;
   /** If the identity is the primary identity. Writable only when creating, not when updating. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   type: UserIdentityInputType | (string & {});
   value: string;
   /** Indicates the state of user identity verification. */
-  verification_method?: UserIdentityInputVerificationMethod | (string & {});
+  verification_method?: UserIdentityInputVerificationMethod | (string & {}) | undefined;
   /** If the identity has been verified. Deprecated. Use `verification_method` as a more accurate representation of a user's state of verification. */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export type UserCreateInputIdentitiesList = Array<UserIdentityInput>;
 export interface UserCreateInputOrganization {
@@ -2727,73 +2732,73 @@ export type UserCreateInputTagsList = Array<string>;
 export type UserCreateInputUserFieldsMap = { [key: string]: unknown | undefined };
 export interface UserCreateInput {
   /** The id of the brand to assign to the user */
-  active_brand_id?: number | null;
-  agent_brand_ids?: UserCreateInputAgentBrandIdsList;
+  active_brand_id?: number | null | undefined;
+  agent_brand_ids?: UserCreateInputAgentBrandIdsList | undefined;
   /** An alias displayed to end users */
-  alias?: string | null;
+  alias?: string | null | undefined;
   /** Write-only ownership control for the Shared Email EAP. When true, automatic ownership is applied only to the identity created from `email`. Ignored unless the account has the Shared Email EAP enabled. */
-  auto_ownership?: boolean;
+  auto_ownership?: boolean | undefined;
   /** A custom role if the user is an agent on the Enterprise plan or above */
-  custom_role_id?: number | null;
+  custom_role_id?: number | null | undefined;
   /** The id of the user's default group */
-  default_group_id?: number | null;
+  default_group_id?: number | null | undefined;
   /** Any details you want to store about the user, such as an address */
-  details?: string | null;
-  email?: string;
+  details?: string | null | undefined;
+  email?: string | undefined;
   /** A unique identifier from another system */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the user's default group. Alias for default_group_id */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** The ids of the groups to assign to the user */
-  group_ids?: UserCreateInputGroupIdsList;
-  identities?: UserCreateInputIdentitiesList;
+  group_ids?: UserCreateInputGroupIdsList | undefined;
+  identities?: UserCreateInputIdentitiesList | undefined;
   /** The user's language preference. Alias for locale. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The user's locale. A BCP-47 compliant tag for the locale. If both "locale" and "locale_id" are present on create or update, "locale_id" is ignored and only "locale" is used. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The user's language identifier */
-  locale_id?: number | null;
+  locale_id?: number | null | undefined;
   /** Designates whether the user has forum moderation capabilities */
-  moderator?: boolean | null;
+  moderator?: boolean | null | undefined;
   name: string;
   /** Any notes you want to store about the user */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** true if the user can only create private comments */
-  only_private_comments?: boolean | null;
-  organization?: UserCreateInputOrganization;
+  only_private_comments?: boolean | null | undefined;
+  organization?: UserCreateInputOrganization | undefined;
   /** The id of the user's organization */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The ids of the user's organizations */
-  organization_ids?: UserCreateInputOrganizationIdsList | null;
+  organization_ids?: UserCreateInputOrganizationIdsList | null | undefined;
   /** The name of the user's organization (deprecated, use organization object instead) */
-  organization_name?: string | null;
+  organization_name?: string | null | undefined;
   /** The user's password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's primary phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** A URL pointing to the user's profile picture */
-  remote_photo_url?: string | null;
-  role?: string;
+  remote_photo_url?: string | null | undefined;
+  role?: string | undefined;
   /** Assigns the end user to a specific brand when brand separation is enabled. Only applicable to end users (not agents or admins). Immutable after creation. */
-  separation?: UserCreateInputSeparation;
+  separation?: UserCreateInputSeparation | undefined;
   /** Whether the phone number is shared or not */
-  shared_phone_number?: boolean | null;
+  shared_phone_number?: boolean | null | undefined;
   /** The user's signature. Only agents and admins can have signatures */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** If true, the user won't receive a verification email */
-  skip_verify_email?: boolean | null;
+  skip_verify_email?: boolean | null | undefined;
   /** If the user is suspended */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** The user's tags */
-  tags?: UserCreateInputTagsList | null;
+  tags?: UserCreateInputTagsList | null | undefined;
   /** Specifies which tickets the user has access to */
-  ticket_restriction?: string | null;
+  ticket_restriction?: string | null | undefined;
   /** The user's time zone */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
   /** Values of custom fields in the user's profile */
-  user_fields?: UserCreateInputUserFieldsMap | null;
+  user_fields?: UserCreateInputUserFieldsMap | null | undefined;
   /** Any of the user's identities is verified */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
 }
 export type UserMergeInputAgentBrandIdsList = Array<number>;
 export type UserMergeInputGroupIdsList = Array<number>;
@@ -2805,45 +2810,45 @@ export type UserMergeInputTagsList = Array<string>;
 export type UserMergeInputUserFieldsMap = { [key: string]: unknown | undefined };
 /** Variant for create_or_update when identifying an existing user by id, email, or external_id. No fields are strictly required since the caller may use any of these identifiers. */
 export interface UserMergeInput {
-  active_brand_id?: number | null;
-  agent_brand_ids?: UserMergeInputAgentBrandIdsList;
-  alias?: string | null;
-  custom_role_id?: number | null;
-  default_group_id?: number | null;
-  details?: string | null;
-  email?: string;
-  external_id?: string | null;
-  group_id?: number | null;
-  group_ids?: UserMergeInputGroupIdsList;
+  active_brand_id?: number | null | undefined;
+  agent_brand_ids?: UserMergeInputAgentBrandIdsList | undefined;
+  alias?: string | null | undefined;
+  custom_role_id?: number | null | undefined;
+  default_group_id?: number | null | undefined;
+  details?: string | null | undefined;
+  email?: string | undefined;
+  external_id?: string | null | undefined;
+  group_id?: number | null | undefined;
+  group_ids?: UserMergeInputGroupIdsList | undefined;
   /** The user's id */
-  id?: number;
-  identities?: UserMergeInputIdentitiesList;
-  language?: string | null;
-  locale?: string | null;
-  locale_id?: number | null;
-  moderator?: boolean | null;
-  name?: string;
-  notes?: string | null;
-  only_private_comments?: boolean | null;
-  organization?: UserCreateInputOrganization;
-  organization_id?: number | null;
-  organization_ids?: UserMergeInputOrganizationIdsList | null;
-  organization_name?: string | null;
+  id?: number | undefined;
+  identities?: UserMergeInputIdentitiesList | undefined;
+  language?: string | null | undefined;
+  locale?: string | null | undefined;
+  locale_id?: number | null | undefined;
+  moderator?: boolean | null | undefined;
+  name?: string | undefined;
+  notes?: string | null | undefined;
+  only_private_comments?: boolean | null | undefined;
+  organization?: UserCreateInputOrganization | undefined;
+  organization_id?: number | null | undefined;
+  organization_ids?: UserMergeInputOrganizationIdsList | null | undefined;
+  organization_name?: string | null | undefined;
   /** The user's password */
-  password?: string | Redacted.Redacted<string>;
-  phone?: string | null;
-  remote_photo_url?: string | null;
-  role?: string;
-  shared_phone_number?: boolean | null;
-  signature?: string | null;
-  skip_verify_email?: boolean | null;
-  suspended?: boolean | null;
-  tags?: UserMergeInputTagsList | null;
-  ticket_restriction?: string | null;
-  time_zone?: string | null;
+  password?: string | Redacted.Redacted<string> | undefined;
+  phone?: string | null | undefined;
+  remote_photo_url?: string | null | undefined;
+  role?: string | undefined;
+  shared_phone_number?: boolean | null | undefined;
+  signature?: string | null | undefined;
+  skip_verify_email?: boolean | null | undefined;
+  suspended?: boolean | null | undefined;
+  tags?: UserMergeInputTagsList | null | undefined;
+  ticket_restriction?: string | null | undefined;
+  time_zone?: string | null | undefined;
   /** Values of custom fields in the user's profile */
-  user_fields?: UserMergeInputUserFieldsMap | null;
-  verified?: boolean | null;
+  user_fields?: UserMergeInputUserFieldsMap | null | undefined;
+  verified?: boolean | null | undefined;
 }
 export type UserInput = UserCreateInput | UserMergeInput;
 export type CreateManyUsersRequestUsersList = Array<UserInput>;
@@ -2857,21 +2862,21 @@ export interface ObjectTriggerObjectInput {
   /** An array of actions the trigger does when its conditions are met. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
   actions: ObjectTriggerObjectInputActionsList;
   /** Whether the trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   conditions: TriggerConditionsObject;
   /** The description of the trigger */
-  description?: string;
+  description?: string | undefined;
   /** Position of the trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The title of the trigger */
   title: string;
 }
 export interface CreateObjectTriggerRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  trigger?: ObjectTriggerObjectInput;
+  trigger?: ObjectTriggerObjectInput | undefined;
 }
 /** An array of actions the trigger does when its conditions are met. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
 export type ObjectTriggerObjectActionsList = Array<TriggerActionObject>;
@@ -2879,29 +2884,29 @@ export interface ObjectTriggerObject {
   /** An array of actions the trigger does when its conditions are met. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
   actions: ObjectTriggerObjectActionsList;
   /** Whether the trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   conditions: TriggerConditionsObject;
   /** The time the trigger was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Always false for object triggers */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of the trigger */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** Position of the trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The title of the trigger */
   title: string;
   /** The time of the last update of the trigger */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The url of the trigger */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ObjectTriggerResponse {
-  trigger?: ObjectTriggerObject;
+  trigger?: ObjectTriggerObject | undefined;
 }
 /** An array of domain names associated with this organization */
 export type OrganizationObjectInputDomainNamesList = Array<string>;
@@ -2916,112 +2921,112 @@ export type OrganizationObjectInputTagsList = Array<string>;
 export type OrganizationObjectInputTicketRestriction = "restricted" | "organization";
 export interface OrganizationObjectInput {
   /** Any details obout the organization, such as the address */
-  details?: string | null;
+  details?: string | null | undefined;
   /** An array of domain names associated with this organization */
-  domain_names?: OrganizationObjectInputDomainNamesList;
+  domain_names?: OrganizationObjectInputDomainNamesList | undefined;
   /** A unique external id to associate organizations to an external record. The id is case-insensitive. For example, "company1" and "Company1" are considered the same */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** New tickets from users in this organization are automatically put in this group */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Automatically assigned when the organization is created */
-  id?: number;
+  id?: number | undefined;
   /** A unique name for the organization */
   name: string;
   /** Any notes you have about the organization */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Custom fields for this organization. See [Custom organization fields](/api-reference/ticketing/organizations/organizations/#custom-organization-fields) */
-  organization_fields?: OrganizationObjectInputOrganizationFieldsMap | null;
+  organization_fields?: OrganizationObjectInputOrganizationFieldsMap | null | undefined;
   /** End users in this organization are able to comment on each other's tickets */
-  shared_comments?: boolean;
+  shared_comments?: boolean | undefined;
   /** End users in this organization are able to see each other's tickets. This property will be deprecated in the future. Use `ticket_restriction` instead. */
-  shared_tickets?: boolean;
+  shared_tickets?: boolean | undefined;
   /** The tags of the organization */
-  tags?: OrganizationObjectInputTagsList;
+  tags?: OrganizationObjectInputTagsList | undefined;
   /** Which tickets end users in this organization can see. Possible values are "restricted" or "organization". Takes precedence over the `shared_tickets` property. */
-  ticket_restriction?: OrganizationObjectInputTicketRestriction | (string & {});
+  ticket_restriction?: OrganizationObjectInputTicketRestriction | (string & {}) | undefined;
 }
 export interface CreateOrganizationRequest {
   organization: OrganizationObjectInput;
 }
 export interface OrganizationResponse {
-  organization?: OrganizationObject;
+  organization?: OrganizationObject | undefined;
 }
 export interface CreateOrganizationFieldRequest {}
 /** Required and presented for a custom field of type "dropdown". Each option is represented by an object with a `name` and `value` property */
 export type OrganizationFieldObjectCustomFieldOptionsList = Array<CustomFieldOptionObject>;
 export interface OrganizationFieldObject {
   /** If true, this field is available for use */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The time the field was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Required and presented for a custom field of type "dropdown". Each option is represented by an object with a `name` and `value` property */
-  custom_field_options?: OrganizationFieldObjectCustomFieldOptionsList;
+  custom_field_options?: OrganizationFieldObjectCustomFieldOptionsList | undefined;
   /** User-defined description of this field's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** A unique key that identifies this custom field. This is used for updating the field and referencing in placeholders. The key must consist of only letters, numbers, and underscores. It can't be only numbers */
   key: string;
   /** Ordering of the field relative to other fields */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Regular expression field only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string | null;
+  regexp_for_validation?: string | null | undefined;
   /** A filter definition that allows your autocomplete to filter down results */
-  relationship_filter?: unknown;
+  relationship_filter?: unknown | undefined;
   /** If true, only active and position values of this field can be changed */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Optional for custom field of type "checkbox"; not presented otherwise. */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the custom field */
   title: string;
   /** The custom field type: "checkbox", "currency", "date", "decimal", "dropdown", "integer", ["lookup"](/api-reference/ticketing/lookup_relationships/lookup_relationships/), "multiselect", ["parent"](/api-reference/custom-data/custom-objects/custom_object_fields/#about-parent-relationship-fields) (custom objects only), "regexp", "text", or "textarea" */
   type: string;
   /** The time of the last update of the field */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL for this resource */
-  url?: string;
+  url?: string | undefined;
   /** A representation of what type of object the field references. Options are "zen:user", "zen:organization", "zen:ticket", and "zen:custom_object:{key}" where key is a custom object key. For example "zen:custom_object:apartment". */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
 }
 export interface OrganizationFieldResponse {
-  organization_field?: OrganizationFieldObject;
+  organization_field?: OrganizationFieldObject | undefined;
 }
 export interface CreateOrganizationMembershipRequest {}
 export interface OrganizationMembershipObject {
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Denotes whether this is the default organization membership for the user. If false, returns `null` */
   default: boolean | null;
   /** Automatically assigned when the membership is created */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the organization associated with this user, in this membership */
   organization_id: number;
   /** The name of the organization associated with this user, in this membership */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** When this record last got updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this membership */
-  url?: string;
+  url?: string | undefined;
   /** The ID of the user for whom this membership belongs */
   user_id: number;
   /** Denotes whether the user can or cannot have access to all organization's tickets. */
-  view_tickets?: boolean;
+  view_tickets?: boolean | undefined;
 }
 export interface OrganizationMembershipResponse {
-  organization_membership?: OrganizationMembershipObject;
+  organization_membership?: OrganizationMembershipObject | undefined;
 }
 export interface CreateOrganizationMergeRequestOrganizationMerge {
   /** The id of the winning organization. */
-  winner_id?: number;
+  winner_id?: number | undefined;
 }
 export interface CreateOrganizationMergeRequest {
   /** The ID of an organization */
   organization_id: number;
-  organization_merge?: CreateOrganizationMergeRequestOrganizationMerge;
+  organization_merge?: CreateOrganizationMergeRequestOrganizationMerge | undefined;
 }
 export type OrganizationMergeResponseOrganizationMergeStatus =
   | "new"
@@ -3036,29 +3041,29 @@ export interface OrganizationMergeResponseOrganizationMerge {
   winner_id: number;
 }
 export interface OrganizationMergeResponse {
-  organization_merge?: OrganizationMergeResponseOrganizationMerge;
+  organization_merge?: OrganizationMergeResponseOrganizationMerge | undefined;
 }
 export interface OrganizationSubscriptionInput {
   /** The ID of the organization */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** The ID of the user */
-  user_id?: number;
+  user_id?: number | undefined;
 }
 export interface CreateOrganizationSubscriptionRequest {
-  organization_subscription?: OrganizationSubscriptionInput;
+  organization_subscription?: OrganizationSubscriptionInput | undefined;
 }
 export interface OrganizationSubscriptionObject {
   /** The date the organization subscription was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ID of the organization subscription */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the organization */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** The ID of the user */
-  user_id?: number;
+  user_id?: number | undefined;
 }
 export interface OrganizationSubscriptionResponse {
-  organization_subscription?: OrganizationSubscriptionObject;
+  organization_subscription?: OrganizationSubscriptionObject | undefined;
 }
 export type CreateOrUpdateManyUsersRequestUsersList = Array<UserInput>;
 export interface CreateOrUpdateManyUsersRequest {
@@ -3070,13 +3075,13 @@ export interface CreateOrUpdateTicketFieldOptionRequest {
   ticket_field_id: number;
 }
 export interface CustomFieldOptionResponse {
-  custom_field_option?: CustomFieldOptionObject;
+  custom_field_option?: CustomFieldOptionObject | undefined;
 }
 export interface CreateOrUpdateUserRequest {
   user: UserInput;
 }
 export interface UserResponse {
-  user?: UserObject;
+  user?: UserObject | undefined;
 }
 export interface CreateOrUpdateUserFieldOptionRequest {
   /** The ID or key of the user field */
@@ -3084,68 +3089,68 @@ export interface CreateOrUpdateUserFieldOptionRequest {
 }
 export interface CreateQueueRequest {}
 export interface QueueObjectDefinitionAllItem {
-  field?: string;
-  operator?: string;
-  value?: string;
+  field?: string | undefined;
+  operator?: string | undefined;
+  value?: string | undefined;
 }
 export type QueueObjectDefinitionAllList = Array<QueueObjectDefinitionAllItem>;
 export type QueueObjectDefinitionAnyItem = QueueObjectDefinitionAllItem;
 export type QueueObjectDefinitionAnyList = Array<QueueObjectDefinitionAllItem>;
 /** Conditions when queue could be applied */
 export interface QueueObjectDefinition {
-  all?: QueueObjectDefinitionAllList;
-  any?: QueueObjectDefinitionAnyList;
+  all?: QueueObjectDefinitionAllList | undefined;
+  any?: QueueObjectDefinitionAnyList | undefined;
 }
 export interface QueueObjectPrimaryGroupsGroupsItem {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type QueueObjectPrimaryGroupsGroupsList = Array<QueueObjectPrimaryGroupsGroupsItem>;
 /** Primary group ids linked to the queue */
 export interface QueueObjectPrimaryGroups {
-  count?: number;
-  groups?: QueueObjectPrimaryGroupsGroupsList;
+  count?: number | undefined;
+  groups?: QueueObjectPrimaryGroupsGroupsList | undefined;
 }
 export type QueueObjectSecondaryGroupsGroupsItem = QueueObjectPrimaryGroupsGroupsItem;
 export type QueueObjectSecondaryGroupsGroupsList = Array<QueueObjectPrimaryGroupsGroupsItem>;
 /** Secondary group ids linked to the queue */
 export interface QueueObjectSecondaryGroups {
-  count?: number;
-  groups?: QueueObjectSecondaryGroupsGroupsList;
+  count?: number | undefined;
+  groups?: QueueObjectSecondaryGroupsGroupsList | undefined;
 }
 export interface QueueObject {
   /** The time the queue was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Conditions when queue could be applied */
-  definition?: QueueObjectDefinition;
+  definition?: QueueObjectDefinition | undefined;
   /** The description of the queue */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when creating queue */
-  id?: string;
+  id?: string | undefined;
   /** The name of the queue */
-  name?: string;
+  name?: string | undefined;
   /** The queue-applied order */
-  order?: number;
+  order?: number | undefined;
   /** Primary group ids linked to the queue */
-  primary_groups?: QueueObjectPrimaryGroups;
+  primary_groups?: QueueObjectPrimaryGroups | undefined;
   /** The queue-applied priority */
-  priority?: number;
+  priority?: number | undefined;
   /** Secondary group ids linked to the queue */
-  secondary_groups?: QueueObjectSecondaryGroups;
+  secondary_groups?: QueueObjectSecondaryGroups | undefined;
   /** The time of the queue's last update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API URL of the queue */
-  url?: string;
+  url?: string | undefined;
 }
 export interface QueueResponse {
-  queue?: QueueObject;
+  queue?: QueueObject | undefined;
 }
 export interface CreateRequestRequest {}
 /** The ids of users currently CC'ed on the ticket */
 export type RequestObjectCollaboratorIdsList = Array<number>;
 export interface RequestObjectCustomFieldsItem {
-  id?: number;
-  value?: string;
+  id?: number | undefined;
+  value?: string | undefined;
 }
 /** Custom fields for the request. See [Setting custom field values](/api-reference/ticketing/tickets/tickets/#setting-custom-field-values) in the Tickets doc */
 export type RequestObjectCustomFieldsList = Array<RequestObjectCustomFieldsItem>;
@@ -3153,57 +3158,57 @@ export type RequestObjectCustomFieldsList = Array<RequestObjectCustomFieldsItem>
 export type RequestObjectEmailCcIdsList = Array<number>;
 export interface RequestObject {
   /** The id of the assignee if the field is visible to end users */
-  assignee_id?: number;
+  assignee_id?: number | undefined;
   /** If true, an end user can mark the request as solved. See [Update Request](/api-reference/ticketing/tickets/ticket-requests/#update-request) */
-  can_be_solved_by_me?: boolean;
+  can_be_solved_by_me?: boolean | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: RequestObjectCollaboratorIdsList;
+  collaborator_ids?: RequestObjectCollaboratorIdsList | undefined;
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Custom fields for the request. See [Setting custom field values](/api-reference/ticketing/tickets/tickets/#setting-custom-field-values) in the Tickets doc */
-  custom_fields?: RequestObjectCustomFieldsList;
+  custom_fields?: RequestObjectCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket */
-  custom_status_id?: number;
+  custom_status_id?: number | undefined;
   /** Read-only first comment on the request. When [creating a request](#create-request), use `comment` to set the description */
-  description?: string;
+  description?: string | undefined;
   /** When the task is due (only applies if the request is of type "task") */
-  due_at?: string;
+  due_at?: string | undefined;
   /** The ids of users who are currently email CCs on the ticket. See [CCs and followers resources](https://support.zendesk.com/hc/en-us/articles/4408822451482) in the Support Help Center */
-  email_cc_ids?: RequestObjectEmailCcIdsList;
+  email_cc_ids?: RequestObjectEmailCcIdsList | undefined;
   /** The id of the original ticket if this request is a follow-up ticket. See [Create Request](#create-request) */
-  followup_source_id?: number;
+  followup_source_id?: number | undefined;
   /** The id of the assigned group if the field is visible to end users */
-  group_id?: number;
+  group_id?: number | undefined;
   /** Automatically assigned when creating requests */
-  id?: number;
+  id?: number | undefined;
   /** Is true if any comments are public, false otherwise */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** The organization of the requester */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** The priority of the request, "low", "normal", "high", "urgent" */
-  priority?: string;
+  priority?: string | undefined;
   /** The original recipient e-mail address of the request */
-  recipient?: string;
+  recipient?: string | undefined;
   /** The id of the requester */
-  requester_id?: number;
+  requester_id?: number | undefined;
   /** Whether or not request is solved (an end user can set this if "can_be_solved_by_me", above, is true for that user) */
-  solved?: boolean;
+  solved?: boolean | undefined;
   /** The state of the request, "new", "open", "pending", "hold", "solved", "closed" */
-  status?: string;
+  status?: string | undefined;
   /** The value of the subject field for this request if the subject field is visible to end users; a truncated version of the description otherwise */
   subject: string;
   /** The numeric id of the ticket form associated with this request if the form is visible to end users - only applicable for enterprise accounts */
-  ticket_form_id?: number;
+  ticket_form_id?: number | undefined;
   /** The type of the request, "question", "incident", "problem", "task" */
-  type?: string;
+  type?: string | undefined;
   /** When this record last got updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this request */
-  url?: string;
-  via?: TicketAuditViaObject;
+  url?: string | undefined;
+  via?: TicketAuditViaObject | undefined;
 }
 export interface RequestResponse {
-  request?: RequestObject;
+  request?: RequestObject | undefined;
 }
 export interface CreateRequestUserRequest {
   user: UserInput;
@@ -3219,7 +3224,7 @@ export type CreateSavedSearchRequestType =
   | "article";
 export interface CreateSavedSearchRequest {
   /** A JSON-stringified array of filter field IDs to persist alongside the search. Optional. */
-  filters?: string;
+  filters?: string | undefined;
   /** The name given by the agent to the saved search. Must be 255 characters or less. */
   name: string;
   /** The search query string. Must be 2000 characters or less. */
@@ -3238,7 +3243,7 @@ export interface SavedSearchObject {
   /** The time the saved search was created */
   created_at: string;
   /** A JSON-stringified array of filter field IDs to persist alongside the search. Optional. */
-  filters?: string;
+  filters?: string | undefined;
   /** Automatically assigned UUID when the saved search is created */
   id: string;
   /** The name given by the agent to the saved search */
@@ -3248,34 +3253,34 @@ export interface SavedSearchObject {
   /** The type of object the search applies to */
   type: SavedSearchObjectType;
   /** The time the saved search was last updated. Only present after an update. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface SavedSearchResponse {
-  saved_search?: SavedSearchObject;
+  saved_search?: SavedSearchObject | undefined;
 }
 export interface CreateSharingAgreementRequest {}
 export interface SharingAgreementObject {
   /** The time the record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** Name of this sharing agreement */
-  name?: string;
+  name?: string | undefined;
   /** Can be one of the following: "jira", null */
-  partner_name?: string | null;
+  partner_name?: string | null | undefined;
   /** Subdomain of the remote account or null if not associated with an account */
-  remote_subdomain?: string;
+  remote_subdomain?: string | undefined;
   /** Can be one of the following: "accepted", "declined", "pending", "inactive", "failed", "ssl_error", "configuration_error" */
-  status?: string;
+  status?: string | undefined;
   /** Can be one of the following: "inbound", "outbound" */
-  type?: string;
+  type?: string | undefined;
   /** The time the record was updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the sharing agreement record */
-  url?: string;
+  url?: string | undefined;
 }
 export interface SharingAgreementResponse {
-  sharing_agreement?: SharingAgreementObject;
+  sharing_agreement?: SharingAgreementObject | undefined;
 }
 export interface CreateSLAPolicyRequest {}
 export type SLAPolicyFilterConditionObjectValueCase1Item = string | number;
@@ -3287,60 +3292,60 @@ export type SLAPolicyFilterConditionObjectValue =
   | SLAPolicyFilterConditionObjectValueCase1List;
 export interface SLAPolicyFilterConditionObject {
   /** The name of a ticket field */
-  field?: string;
+  field?: string | undefined;
   /** A comparison operator */
-  operator?: string;
+  operator?: string | undefined;
   /** The value of a ticket field */
-  value?: SLAPolicyFilterConditionObjectValue;
+  value?: SLAPolicyFilterConditionObjectValue | undefined;
 }
 export type SLAPolicyFilterObjectAllList = Array<SLAPolicyFilterConditionObject>;
 export type SLAPolicyFilterObjectAnyList = Array<SLAPolicyFilterConditionObject>;
 /** An object that describes the conditions that a ticket must match in order for an SLA policy to be applied to that ticket. See [Filter](#filter). */
 export interface SLAPolicyFilterObject {
-  all?: SLAPolicyFilterObjectAllList;
-  any?: SLAPolicyFilterObjectAnyList;
+  all?: SLAPolicyFilterObjectAllList | undefined;
+  any?: SLAPolicyFilterObjectAnyList | undefined;
 }
 export type SLAPolicyMetricObject = GroupSLAPolicyMetricObject;
 /** Array of [Policy Metric](#policy-metric) objects */
 export type SLAPolicyObjectPolicyMetricsList = Array<GroupSLAPolicyMetricObject>;
 export interface SLAPolicyObject {
   /** The time the SLA policy was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the SLA policy */
-  description?: string;
+  description?: string | undefined;
   filter: SLAPolicyFilterObject;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** Array of [Policy Metric](#policy-metric) objects */
-  policy_metrics?: SLAPolicyObjectPolicyMetricsList;
+  policy_metrics?: SLAPolicyObjectPolicyMetricsList | undefined;
   /** Position of the SLA policy that determines the order they will be matched. If not specified, the SLA policy is added as the last position */
-  position?: number;
+  position?: number | undefined;
   /** The title of the SLA policy */
   title: string;
   /** The time of the last update of the SLA policy */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the SLA policy record */
-  url?: string;
+  url?: string | undefined;
 }
 export interface SLAPolicyResponse {
-  sla_policy?: SLAPolicyObject;
+  sla_policy?: SLAPolicyObject | undefined;
 }
 export interface CreateSubticketRequestSubticketComment {
   /** The first comment body */
   body: string;
   /** Whether the first comment is public. Defaults to false. */
-  public?: boolean;
+  public?: boolean | undefined;
 }
 /** The initial status of the subticket. Supported values are new, open, pending, and hold. */
 export type CreateSubticketRequestSubticketStatus = "new" | "open" | "pending" | "hold";
 export interface CreateSubticketRequestSubticket {
   /** The id of the assignee */
-  assignee_id?: number;
+  assignee_id?: number | undefined;
   comment: CreateSubticketRequestSubticketComment;
   /** The id of the requester. Defaults to the current user when omitted. */
-  requester_id?: number;
+  requester_id?: number | undefined;
   /** The initial status of the subticket. Supported values are new, open, pending, and hold. */
-  status?: CreateSubticketRequestSubticketStatus | (string & {});
+  status?: CreateSubticketRequestSubticketStatus | (string & {}) | undefined;
   /** The subject of the subticket */
   subject: string;
 }
@@ -3353,39 +3358,39 @@ export interface CreateSubticketRequest {
 }
 export interface SubticketCreateResponseSubticket {
   /** The id of the created subticket */
-  id?: number;
+  id?: number | undefined;
 }
 export interface TaskObjectLinkUserObject {
   /** The id of the user */
-  id?: number;
+  id?: number | undefined;
   /** The name of the user */
-  name?: string;
+  name?: string | undefined;
 }
 /** The linked object type */
 export type TaskObjectLinkObjectObjectType = "Ticket";
 export interface TaskObjectLinkObject {
   /** The time the link was created */
-  created_at?: string;
-  created_by?: TaskObjectLinkUserObject;
+  created_at?: string | undefined;
+  created_by?: TaskObjectLinkUserObject | undefined;
   /** The id of the task object link */
-  id?: string;
+  id?: string | undefined;
   /** The linked ticket status. The value is null when the linked ticket is private. */
-  linked_object_status?: string | null;
+  linked_object_status?: string | null | undefined;
   /** The linked ticket id. The value is null when the linked ticket is private. */
-  nice_id?: number | null;
+  nice_id?: number | null | undefined;
   /** The linked object type */
-  object_type?: TaskObjectLinkObjectObjectType;
+  object_type?: TaskObjectLinkObjectObjectType | undefined;
   /** Whether the linked ticket is private to the requester */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The id of the linked task item */
-  task_item_instance_id?: string;
+  task_item_instance_id?: string | undefined;
   /** The time the link was last updated */
-  updated_at?: string;
-  updated_by?: TaskObjectLinkUserObject;
+  updated_at?: string | undefined;
+  updated_by?: TaskObjectLinkUserObject | undefined;
 }
 export interface SubticketCreateResponse {
-  subticket?: SubticketCreateResponseSubticket;
-  task_object_link?: TaskObjectLinkObject;
+  subticket?: SubticketCreateResponseSubticket | undefined;
+  task_object_link?: TaskObjectLinkObject | undefined;
 }
 export interface CreateSupportAddressRequest {}
 /** Whether all of the required CNAME records are set. Possible values: "unknown", "verified", "failed" */
@@ -3400,213 +3405,213 @@ export type SupportAddressObjectForwardingStatus = "unknown" | "waiting" | "veri
 export type SupportAddressObjectSpfStatus = "unknown" | "verified" | "failed";
 export interface SupportAddressObject {
   /** The ID of the [brand](/api-reference/ticketing/account-configuration/brands/) */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** Whether all of the required CNAME records are set. Possible values: "unknown", "verified", "failed" */
-  cname_status?: SupportAddressObjectCnameStatus;
+  cname_status?: SupportAddressObjectCnameStatus | undefined;
   /** When the address was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Whether the address is the account's default support address */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Verification statuses for the domain and CNAME records. Possible types: "verified", "failed" */
-  dns_results?: SupportAddressObjectDnsResults;
+  dns_results?: SupportAddressObjectDnsResults | undefined;
   /** Verification string to be added as a TXT record to the domain. Possible types: string or null. */
-  domain_verification_code?: string;
+  domain_verification_code?: string | undefined;
   /** Whether the domain verification record is valid. Possible values: "unknown", "verified", "failed" */
-  domain_verification_status?: SupportAddressObjectDomainVerificationStatus;
+  domain_verification_status?: SupportAddressObjectDomainVerificationStatus | undefined;
   /** The email address. You can't change the email address of an existing support address. */
   email: string;
   /** Status of email forwarding. Possible values: "unknown", "waiting", "verified", or "failed" */
-  forwarding_status?: SupportAddressObjectForwardingStatus;
+  forwarding_status?: SupportAddressObjectForwardingStatus | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** The name for the address */
-  name?: string;
+  name?: string | undefined;
   /** Whether the SPF record is set up correctly. Possible values: "unknown", "verified", "failed" */
-  spf_status?: SupportAddressObjectSpfStatus;
+  spf_status?: SupportAddressObjectSpfStatus | undefined;
   /** When the address was updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface SupportAddressResponse {
-  recipient_address?: SupportAddressObject;
+  recipient_address?: SupportAddressObject | undefined;
 }
 export interface CreateTargetRequest {}
 export interface TargetObject {
   /** Whether or not the target is activated */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The time the target was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** A name for the target */
   title: string;
   /** A pre-defined target, such as "basecamp_target". See the additional attributes for the type that follow */
   type: string;
   /** Can be filled if it is a "message" resource */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The 37Signals password for the Basecamp account (only writable) */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the project in Basecamp where updates should be pushed */
-  project_id?: string;
+  project_id?: string | undefined;
   /** "todo" or "message" */
-  resource?: string;
+  resource?: string | undefined;
   /** The URL of your Basecamp account, including protocol and path */
-  target_url?: string;
+  target_url?: string | undefined;
   /** Can be filled if it is a "todo" resource */
-  todo_list_id?: string;
+  todo_list_id?: string | undefined;
   /** Get the API token from My info > Show your tokens > Token for feed readers or the Basecamp API in your Basecamp account */
-  token?: string;
+  token?: string | undefined;
   /** The 37Signals username of the account you use to log in to Basecamp */
-  username?: string;
-  preserve_format?: boolean;
-  room?: string;
-  ssl?: boolean;
-  subdomain?: string;
-  api_id?: string;
+  username?: string | undefined;
+  preserve_format?: boolean | undefined;
+  room?: string | undefined;
+  ssl?: boolean | undefined;
+  subdomain?: string | undefined;
+  api_id?: string | undefined;
   /** Read-only */
-  attribute?: string;
-  from?: string;
+  attribute?: string | undefined;
+  from?: string | undefined;
   /** Read-only */
-  method?: string;
-  to?: string;
-  us_small_business_account?: string;
-  email?: string;
-  subject?: string;
-  api_token?: string | Redacted.Redacted<string>;
-  account_name?: string;
-  owner_by?: string;
-  requested_by?: string;
-  story_labels?: string;
-  story_title?: string;
-  story_type?: string;
+  method?: string | undefined;
+  to?: string | undefined;
+  us_small_business_account?: string | undefined;
+  email?: string | undefined;
+  subject?: string | undefined;
+  api_token?: string | Redacted.Redacted<string> | undefined;
+  account_name?: string | undefined;
+  owner_by?: string | undefined;
+  requested_by?: string | undefined;
+  story_labels?: string | undefined;
+  story_title?: string | undefined;
+  story_type?: string | undefined;
   /** only writable */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** "application/json", "application/xml", or "application/x-www-form-urlencoded" */
-  content_type?: string;
-  group_id?: string;
+  content_type?: string | undefined;
+  group_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface TargetResponse {
-  target?: TargetObject;
+  target?: TargetObject | undefined;
 }
 /** To create a task list from a template, provide `task_list_template_id`. To create a custom task list without a template, provide `name` (and optionally `description`). */
 export interface CreateTaskListRequestTaskList {
   /** The description of the custom task list. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the custom task list. Required if `task_list_template_id` is not provided. */
-  name?: string;
+  name?: string | undefined;
   /** The id of the task list template to attach to the ticket. Required if not creating a custom task list. */
-  task_list_template_id?: string;
+  task_list_template_id?: string | undefined;
 }
 export interface CreateTaskListRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** To create a task list from a template, provide `task_list_template_id`. To create a custom task list without a template, provide `name` (and optionally `description`). */
-  task_list?: CreateTaskListRequestTaskList;
+  task_list?: CreateTaskListRequestTaskList | undefined;
 }
 export interface TaskListObject {
   /** The time the task list was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the task list */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when a task list is created */
-  id?: string;
+  id?: string | undefined;
   /** Whether the task list is required. If true, the ticket can't be solved until all tasks are completed. */
-  is_required?: boolean;
+  is_required?: boolean | undefined;
   /** The name of the task list. Required when creating a custom task list (without a template). */
-  name?: string;
+  name?: string | undefined;
   /** The number of tasks in the task list */
-  task_count?: number;
+  task_count?: number | undefined;
   /** The id of the task list template used to create the task list. The value is `null` for custom task lists. You can specify this property only when creating a task list */
-  task_list_template_id?: string | null;
+  task_list_template_id?: string | null | undefined;
   /** The ID of the ticket that the task list is attached to */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
   /** The time the task list was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type TaskListByTicketIdResponseTaskListsList = Array<TaskListObject>;
 export interface TaskListByTicketIdResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  task_lists?: TaskListByTicketIdResponseTaskListsList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  task_lists?: TaskListByTicketIdResponseTaskListsList | undefined;
 }
 /** A task is an item in a task list template. */
 export interface TaskObjectInput {
   /** The description of the task */
-  description?: string;
+  description?: string | undefined;
   /** The name of the task */
   name: string;
   /** The position of the task in the task list template */
-  position?: number;
+  position?: number | undefined;
   /** Whether the task is required to complete the task list */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** The tasks for the task list template. Only present for some endpoints. */
 export type TaskListTemplateObjectInputTasksList = Array<TaskObjectInput>;
 export interface TaskListTemplateObjectInput {
   /** The description of the task list template */
-  description?: string;
+  description?: string | undefined;
   /** Whether the task list template is active and available for use by agents, or inactive and unavailable for use */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the task list template is required. When a task list is created from a required template, tickets cannot be solved until all tasks in the task list are completed. */
-  is_required?: boolean;
+  is_required?: boolean | undefined;
   /** The name of the task list template */
   name: string;
   /** The tasks for the task list template. Only present for some endpoints. */
-  tasks?: TaskListTemplateObjectInputTasksList;
+  tasks?: TaskListTemplateObjectInputTasksList | undefined;
 }
 export interface CreateTaskListTemplateRequest {
-  task_list_template?: TaskListTemplateObjectInput;
+  task_list_template?: TaskListTemplateObjectInput | undefined;
 }
 /** A task is an item in a task list template. */
 export interface TaskObject {
   /** The time the task was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the task */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when the task is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the task */
   name: string;
   /** The position of the task in the task list template */
-  position?: number;
+  position?: number | undefined;
   /** Whether the task is required to complete the task list */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The time the task was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The tasks for the task list template. Only present for some endpoints. */
 export type TaskListTemplateObjectTasksList = Array<TaskObject>;
 export interface TaskListTemplateObject {
   /** The time the task list template was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the task list template */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when the task list template is created */
-  id?: string;
+  id?: string | undefined;
   /** Whether the task list template is active and available for use by agents, or inactive and unavailable for use */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the task list template is required. When a task list is created from a required template, tickets cannot be solved until all tasks in the task list are completed. */
-  is_required?: boolean;
+  is_required?: boolean | undefined;
   /** The name of the task list template */
   name: string;
   /** The number of tasks in the task list template */
-  task_count?: number;
+  task_count?: number | undefined;
   /** The tasks for the task list template. Only present for some endpoints. */
-  tasks?: TaskListTemplateObjectTasksList;
+  tasks?: TaskListTemplateObjectTasksList | undefined;
   /** The time the task list template was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the task list template */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TaskListTemplateResponse {
-  task_list_template?: TaskListTemplateObject;
+  task_list_template?: TaskListTemplateObject | undefined;
 }
 /** System metadata for the request, typically set by internal clients */
 export type CreateTicketRequestSystemMetadataMap = { [key: string]: unknown | undefined };
 export interface CollaboratorObject {
-  email?: string;
-  name?: string;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
 export type TicketObjectInputAdditionalCollaboratorsList = Array<CollaboratorObject>;
@@ -3622,33 +3627,33 @@ export type TicketCommentObjectInputUploadsList = Array<string>;
 export type TicketAuditViaObjectInput = AttachmentObjectInput;
 export interface TicketCommentObjectInput {
   /** Internal flag for adding short URLs to the comment */
-  add_short_url?: boolean;
+  add_short_url?: boolean | undefined;
   /** The id of the comment author. If null or omitted on create, defaults to the authenticated user. See [Author id](#author-id) */
-  author_id?: number | null;
+  author_id?: number | null | undefined;
   /** The comment string. See [Bodies](#bodies) */
-  body?: string;
+  body?: string | undefined;
   /** Internal channel back identifier for the comment */
-  channel_back?: string;
+  channel_back?: string | undefined;
   /** Internal channel source identifier for the comment */
-  channel_source_id?: string | null;
+  channel_source_id?: string | null | undefined;
   /** The comment formatted as HTML. See [Bodies](#bodies) */
-  html_body?: string;
+  html_body?: string | undefined;
   /** true if a public comment; false if an internal note. The initial value set on ticket creation persists for any additional comment unless you change it */
-  public?: boolean;
+  public?: boolean | undefined;
   /** The locale code to translate the comment body to. */
-  translate_to?: string | null;
+  translate_to?: string | null | undefined;
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
-  uploads?: TicketCommentObjectInputUploadsList;
-  via?: AttachmentObjectInput;
+  uploads?: TicketCommentObjectInputUploadsList | undefined;
+  via?: AttachmentObjectInput | undefined;
 }
 /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
 export type TicketObjectInputCustomFieldsList = Array<TicketFieldValueInput>;
 export type EmailCCObjectAction = "put" | "delete";
 export interface EmailCCObject {
-  action?: EmailCCObjectAction | (string & {});
-  user_email?: string;
-  user_id?: number;
-  user_name?: string | null;
+  action?: EmailCCObjectAction | (string & {}) | undefined;
+  user_email?: string | undefined;
+  user_id?: number | undefined;
+  user_name?: string | null | undefined;
 }
 /** Write only. An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
 export type TicketObjectInputEmailCcsList = Array<EmailCCObject>;
@@ -3656,10 +3661,10 @@ export type TicketObjectInputEmailCcsList = Array<EmailCCObject>;
 export type TicketObjectInputFieldsList = Array<TicketFieldValueInput>;
 export type FollowerObjectAction = "put" | "delete";
 export interface FollowerObject {
-  action?: FollowerObjectAction | (string & {});
-  user_email?: string;
-  user_id?: number;
-  user_name?: string | null;
+  action?: FollowerObjectAction | (string & {}) | undefined;
+  user_email?: string | undefined;
+  user_id?: number | undefined;
+  user_name?: string | null | undefined;
 }
 /** Write only. An array of objects that represents agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-followers). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
 export type TicketObjectInputFollowersList = Array<FollowerObject>;
@@ -3672,19 +3677,19 @@ export type TicketObjectInputPriority = "urgent" | "high" | "normal" | "low";
 /** User creation attributes */
 export interface TicketObjectInputRequesterCase2 {
   /** The user's primary email address */
-  email?: string;
+  email?: string | undefined;
   /** The user's locale (e.g., "en-US") */
-  locale?: string;
+  locale?: string | undefined;
   /** The user's locale ID */
-  locale_id?: number;
+  locale_id?: number | undefined;
   /** The user's name */
-  name?: string;
+  name?: string | undefined;
   /** The organization ID to associate with the user */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** The user's role (e.g., "end-user", "agent", "admin") */
-  role?: string;
+  role?: string | undefined;
   /** Whether the user's email is verified */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 /** Write only. Alternative to requester_id for specifying the ticket requester. Can be provided as: - Email string: "user@example.com" - User ID integer: 12345 - User object: {name: "John Doe", email: "john@example.com"} If both requester and requester_id are provided, requester_id takes precedence. When creating a ticket, if the user doesn't exist, they may be created automatically depending on account settings. */
 export type TicketObjectInputRequester = string | number | TicketObjectInputRequesterCase2;
@@ -3693,9 +3698,9 @@ export type TicketObjectInputSharingAgreementIdsList = Array<number>;
 export type SharingAgreementInputCustomFieldsList = Array<TicketFieldValueInput>;
 /** A sharing agreement configuration to apply to a ticket */
 export interface SharingAgreementInput {
-  custom_fields?: SharingAgreementInputCustomFieldsList;
+  custom_fields?: SharingAgreementInputCustomFieldsList | undefined;
   /** The ID of the sharing agreement */
-  id?: number;
+  id?: number | undefined;
 }
 export type TicketObjectInputSharingAgreementsCase1List = Array<SharingAgreementInput>;
 /** Write only. Sharing agreement configuration for the ticket. Accepts a single object or an array of objects. */
@@ -3708,220 +3713,220 @@ export type TicketObjectInputStatus = "new" | "open" | "pending" | "hold" | "sol
 export type TicketObjectInputSupportType = "agent" | "ai_agent";
 /** Write only. System metadata for the ticket, typically set by internal clients */
 export interface TicketObjectInputSystemMetadata {
-  client?: string;
-  ip_address?: string;
+  client?: string | undefined;
+  ip_address?: string | undefined;
 }
 /** An array of tag strings */
 export type TicketObjectInputTagsCase0List = Array<string>;
 /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
 export type TicketObjectInputTags = TicketObjectInputTagsCase0List | string;
 export interface TicketObjectInputTdeWorkspacePreviousWorkspace {
-  id?: number;
-  title?: string;
+  id?: number | undefined;
+  title?: string | undefined;
 }
 export type TicketObjectInputTdeWorkspaceType = "ADD" | "CHANGE" | "DELETE";
 export type TicketObjectInputTdeWorkspaceWorkspace = TicketObjectInputTdeWorkspacePreviousWorkspace;
 /** Write only. TDE workspace information for the ticket */
 export interface TicketObjectInputTdeWorkspace {
-  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
-  type?: TicketObjectInputTdeWorkspaceType | (string & {});
-  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
+  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
+  type?: TicketObjectInputTdeWorkspaceType | (string & {}) | undefined;
+  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
 }
 /** Write only. A TPE voice comment for Talk Partner Edition tickets */
 export interface TicketObjectInputTpeVoiceComment {
-  agent_id?: number | null;
-  answering_machine_detection_status?: string | null;
-  app_id?: number;
-  app_name?: string | null;
-  author_id?: number;
-  call_connected_at?: string | null;
-  call_disposition?: string | null;
-  call_ended_at?: string | null;
-  call_id?: number;
-  call_recording_consent?: string | null;
-  call_recording_consent_action?: string | null;
-  call_recording_consent_keypress?: string | null;
-  call_started_at?: string;
-  call_type?: string | null;
-  callback_number?: string | null;
-  callback_requested_at?: string | null;
-  completion_status?: string | null;
-  connection_attempts?: number | null;
-  consultation_time?: number | null;
-  direction?: string;
-  disconnection_reason?: string | null;
-  dnis?: string | null;
-  duration?: number | null;
-  end_user_id?: number | null;
-  end_user_location?: string | null;
-  exceeded_queue_time?: boolean | null;
-  extension?: string | null;
-  external_id?: string;
-  from_line?: string;
-  from_line_nickname?: string | null;
-  hold_time?: number | null;
-  intent?: string | null;
-  ivr_destination_group_name?: string | null;
-  ivr_time_spent?: number | null;
-  language?: string | null;
-  line_type?: string;
-  longest_hold_time?: number | null;
-  number_of_holds?: number | null;
-  outside_business_hours?: boolean | null;
-  overflowed_to?: string | null;
-  phone_name?: string | null;
-  public?: boolean;
-  quality_score?: number | null;
-  queue_name?: string | null;
-  queue_time?: number | null;
-  recorded?: boolean;
-  recording_time?: number | null;
-  recording_type?: string;
-  recording_url?: string | null;
-  sentiment_agent?: string | null;
-  sentiment_call?: string | null;
-  sentiment_customer?: string | null;
-  sentiment_trend?: string | null;
-  short_summary?: string | null;
-  summary?: string | null;
-  talk_time?: number | null;
-  time_to_answer?: number | null;
-  title?: string;
-  to_line?: string;
-  to_line_nickname?: string | null;
-  transcript?: string | null;
-  via_id?: number;
-  video_recording_url?: string | null;
-  voicemail?: boolean | null;
-  voicemail_requested_at?: string | null;
-  wait_time?: number | null;
+  agent_id?: number | null | undefined;
+  answering_machine_detection_status?: string | null | undefined;
+  app_id?: number | undefined;
+  app_name?: string | null | undefined;
+  author_id?: number | undefined;
+  call_connected_at?: string | null | undefined;
+  call_disposition?: string | null | undefined;
+  call_ended_at?: string | null | undefined;
+  call_id?: number | undefined;
+  call_recording_consent?: string | null | undefined;
+  call_recording_consent_action?: string | null | undefined;
+  call_recording_consent_keypress?: string | null | undefined;
+  call_started_at?: string | undefined;
+  call_type?: string | null | undefined;
+  callback_number?: string | null | undefined;
+  callback_requested_at?: string | null | undefined;
+  completion_status?: string | null | undefined;
+  connection_attempts?: number | null | undefined;
+  consultation_time?: number | null | undefined;
+  direction?: string | undefined;
+  disconnection_reason?: string | null | undefined;
+  dnis?: string | null | undefined;
+  duration?: number | null | undefined;
+  end_user_id?: number | null | undefined;
+  end_user_location?: string | null | undefined;
+  exceeded_queue_time?: boolean | null | undefined;
+  extension?: string | null | undefined;
+  external_id?: string | undefined;
+  from_line?: string | undefined;
+  from_line_nickname?: string | null | undefined;
+  hold_time?: number | null | undefined;
+  intent?: string | null | undefined;
+  ivr_destination_group_name?: string | null | undefined;
+  ivr_time_spent?: number | null | undefined;
+  language?: string | null | undefined;
+  line_type?: string | undefined;
+  longest_hold_time?: number | null | undefined;
+  number_of_holds?: number | null | undefined;
+  outside_business_hours?: boolean | null | undefined;
+  overflowed_to?: string | null | undefined;
+  phone_name?: string | null | undefined;
+  public?: boolean | undefined;
+  quality_score?: number | null | undefined;
+  queue_name?: string | null | undefined;
+  queue_time?: number | null | undefined;
+  recorded?: boolean | undefined;
+  recording_time?: number | null | undefined;
+  recording_type?: string | undefined;
+  recording_url?: string | null | undefined;
+  sentiment_agent?: string | null | undefined;
+  sentiment_call?: string | null | undefined;
+  sentiment_customer?: string | null | undefined;
+  sentiment_trend?: string | null | undefined;
+  short_summary?: string | null | undefined;
+  summary?: string | null | undefined;
+  talk_time?: number | null | undefined;
+  time_to_answer?: number | null | undefined;
+  title?: string | undefined;
+  to_line?: string | undefined;
+  to_line_nickname?: string | null | undefined;
+  transcript?: string | null | undefined;
+  via_id?: number | undefined;
+  video_recording_url?: string | null | undefined;
+  voicemail?: boolean | null | undefined;
+  voicemail_requested_at?: string | null | undefined;
+  wait_time?: number | null | undefined;
 }
 /** The type of this ticket */
 export type TicketObjectInputType = "problem" | "incident" | "question" | "task";
 /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
 export interface TicketObjectInputVoiceComment {
   /** The agent who answered the call */
-  answered_by_id?: number | null;
+  answered_by_id?: number | null | undefined;
   /** Duration of the call in seconds */
-  call_duration?: number;
+  call_duration?: number | undefined;
   /** Incoming phone number */
-  from?: string;
+  from?: string | undefined;
   /** Location of the caller */
-  location?: string | null;
+  location?: string | null | undefined;
   /** URL of the recording */
-  recording_url?: string | null;
+  recording_url?: string | null | undefined;
   /** Dialed phone number */
-  to?: string;
+  to?: string | undefined;
   /** Transcription of the call */
-  transcription_text?: string | null;
+  transcription_text?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface TicketObjectInput {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
-  additional_collaborators?: TicketObjectInputAdditionalCollaboratorsList;
+  additional_collaborators?: TicketObjectInputAdditionalCollaboratorsList | undefined;
   /** Write only. The email address of the agent to assign the ticket to */
-  assignee_email?: string;
+  assignee_email?: string | undefined;
   /** The agent currently assigned to the ticket */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** Write only. An array of the IDs of attribute values to be associated with the ticket */
-  attribute_value_ids?: TicketObjectInputAttributeValueIdsList;
+  attribute_value_ids?: TicketObjectInputAttributeValueIdsList | undefined;
   /** The id of the brand this ticket is associated with. See [Setting up multiple brands](https://support.zendesk.com/hc/en-us/articles/4408829476378) */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: TicketObjectInputCollaboratorIdsList;
+  collaborator_ids?: TicketObjectInputCollaboratorIdsList | undefined;
   /** Write only. Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
-  collaborators?: TicketObjectInputCollaboratorsList;
-  comment?: TicketCommentObjectInput;
+  collaborators?: TicketObjectInputCollaboratorsList | undefined;
+  comment?: TicketCommentObjectInput | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
-  custom_fields?: TicketObjectInputCustomFieldsList;
+  custom_fields?: TicketObjectInputCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket. See [custom ticket statuses](#custom-ticket-statuses) */
-  custom_status_id?: number | null;
+  custom_status_id?: number | null | undefined;
   /** The first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment). On create, can be set directly as an alternative to `comment`. Silently ignored on update. */
-  description?: string;
+  description?: string | undefined;
   /** If this is a ticket of type "task" it has a due date. Due date format uses [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Write only. An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  email_ccs?: TicketObjectInputEmailCcsList | null;
+  email_ccs?: TicketObjectInputEmailCcsList | null | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Alias for custom_fields. Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  fields?: TicketObjectInputFieldsList;
+  fields?: TicketObjectInputFieldsList | undefined;
   /** Write only. An array of objects that represents agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-followers). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  followers?: TicketObjectInputFollowersList;
+  followers?: TicketObjectInputFollowersList | undefined;
   /** The topic in the Zendesk Web portal this ticket originated from, if any. The Web portal is deprecated */
-  forum_topic_id?: number;
+  forum_topic_id?: number | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Write only. A single macro ID to be recorded in the ticket audit */
-  macro_id?: number;
+  macro_id?: number | undefined;
   /** Write only. List of macro IDs to be recorded in the ticket audit */
-  macro_ids?: TicketObjectInputMacroIdsList;
+  macro_ids?: TicketObjectInputMacroIdsList | undefined;
   /** Write only. Metadata for the audit. In the `audit` object, the data is specified in the `custom` property of the `metadata` object. See [Setting Metadata](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-metadata) */
-  metadata?: TicketObjectInputMetadataMap;
+  metadata?: TicketObjectInputMetadataMap | undefined;
   /** The organization of the requester. You can only specify the ID of an organization associated with the requester. See [Organization Memberships](/api-reference/ticketing/organizations/organization_memberships/) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** Write only. The Zendesk Resource Name (ZRN) of the origin for this ticket */
-  origin_zrn?: string;
+  origin_zrn?: string | undefined;
   /** The urgency with which the ticket should be addressed */
-  priority?: TicketObjectInputPriority | (string & {}) | null;
+  priority?: TicketObjectInputPriority | (string & {}) | null | undefined;
   /** For tickets of type "incident", the ID of the problem the incident is linked to */
-  problem_id?: number | null;
+  problem_id?: number | null | undefined;
   /** The dynamic content placeholder, if present, or the "subject" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/). When set on create or update, overrides the `subject` field. */
-  raw_subject?: string;
+  raw_subject?: string | undefined;
   /** The original recipient e-mail address of the ticket. Notification emails for the ticket are sent from this address */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Write only. Alternative to requester_id for specifying the ticket requester. Can be provided as: - Email string: "user@example.com" - User ID integer: 12345 - User object: {name: "John Doe", email: "john@example.com"} If both requester and requester_id are provided, requester_id takes precedence. When creating a ticket, if the user doesn't exist, they may be created automatically depending on account settings. */
-  requester?: TicketObjectInputRequester;
+  requester?: TicketObjectInputRequester | undefined;
   /** The user who requested this ticket */
-  requester_id?: number | null;
+  requester_id?: number | null | undefined;
   /** Write only. Optional boolean. When true and an `updated_stamp` date is included, protects against ticket update collisions and returns a message to let you know if one occurs. See [Protecting against ticket update collisions](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#protecting-against-ticket-update-collisions). A value of false has the same effect as true. Omit the property to force the updates to not be safe */
-  safe_update?: boolean;
+  safe_update?: boolean | undefined;
   /** An array of the numeric IDs of sharing agreements. Note that this replaces any existing agreements */
-  sharing_agreement_ids?: TicketObjectInputSharingAgreementIdsList;
+  sharing_agreement_ids?: TicketObjectInputSharingAgreementIdsList | undefined;
   /** Write only. Sharing agreement configuration for the ticket. Accepts a single object or an array of objects. */
-  sharing_agreements?: TicketObjectInputSharingAgreements;
+  sharing_agreements?: TicketObjectInputSharingAgreements | undefined;
   /** The state of the ticket. If your account has activated custom ticket statuses, this is the ticket's status category. See [custom ticket statuses](#custom-ticket-statuses) */
-  status?: TicketObjectInputStatus | (string & {});
+  status?: TicketObjectInputStatus | (string & {}) | undefined;
   /** The value of the subject field for this ticket. See [Subject](/api-reference/ticketing/tickets/tickets/#subject) */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket. If not specified, defaults to the authenticated user. */
-  submitter_id?: number | null;
+  submitter_id?: number | null | undefined;
   /** The type of support that handled the ticket */
-  support_type?: TicketObjectInputSupportType | (string & {}) | null;
+  support_type?: TicketObjectInputSupportType | (string & {}) | null | undefined;
   /** Write only. The ID of the suspended ticket being recovered */
-  suspended_ticket_id?: number;
+  suspended_ticket_id?: number | undefined;
   /** Write only. The suspension type ID when recovering a suspended ticket */
-  suspension_type_id?: number;
+  suspension_type_id?: number | undefined;
   /** Write only. System metadata for the ticket, typically set by internal clients */
-  system_metadata?: TicketObjectInputSystemMetadata;
+  system_metadata?: TicketObjectInputSystemMetadata | undefined;
   /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
-  tags?: TicketObjectInputTags;
+  tags?: TicketObjectInputTags | undefined;
   /** Write only. TDE workspace information for the ticket */
-  tde_workspace?: TicketObjectInputTdeWorkspace;
+  tde_workspace?: TicketObjectInputTdeWorkspace | undefined;
   /** Enterprise only. The id of the ticket form to render for the ticket */
-  ticket_form_id?: number | null;
+  ticket_form_id?: number | null | undefined;
   /** Write only. A TPE voice comment for Talk Partner Edition tickets */
-  tpe_voice_comment?: TicketObjectInputTpeVoiceComment;
+  tpe_voice_comment?: TicketObjectInputTpeVoiceComment | undefined;
   /** The type of this ticket */
-  type?: TicketObjectInputType | (string & {}) | null;
+  type?: TicketObjectInputType | (string & {}) | null | undefined;
   /** Write only. Datetime of last update received from API. See the `safe_update` property */
-  updated_stamp?: string;
+  updated_stamp?: string | undefined;
   /** Write only. The id of a closed ticket when creating a follow-up ticket. See [Creating a follow-up ticket](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#creating-a-follow-up-ticket) */
-  via_followup_source_id?: number;
+  via_followup_source_id?: number | undefined;
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
-  via_id?: number;
+  via_id?: number | undefined;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketObjectInputVoiceComment;
+  voice_comment?: TicketObjectInputVoiceComment | undefined;
 }
 export interface CreateTicketRequest {
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** System metadata for the request, typically set by internal clients */
-  system_metadata?: CreateTicketRequestSystemMetadataMap;
+  system_metadata?: CreateTicketRequestSystemMetadataMap | undefined;
   ticket: TicketObjectInput;
 }
 export interface TicketResponseOutput {
-  ticket?: TicketObjectOutput;
+  ticket?: TicketObjectOutput | undefined;
 }
 export interface CreateTicketContentPinRequestTicketContentPin {
   /** The id of the content to pin */
@@ -3929,55 +3934,55 @@ export interface CreateTicketContentPinRequestTicketContentPin {
   /** The type of content being pinned. */
   content_type: string;
   /** The locale for the content pin. This is required only for articles. */
-  locale?: string;
+  locale?: string | undefined;
   /** The id of the ticket to which the content pin will be added */
   ticket_id: string;
 }
 export interface CreateTicketContentPinRequest {
-  ticket_content_pin?: CreateTicketContentPinRequestTicketContentPin;
+  ticket_content_pin?: CreateTicketContentPinRequestTicketContentPin | undefined;
 }
 export interface TicketContentPin {
   /** The ID of the account that owns the content pin. */
-  account_id?: number;
+  account_id?: number | undefined;
   /** The ID of the content that is pinned. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** The type of content that is pinned. Example: external_content */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The timestamp when the content pin was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The unique identifier for the content pin. */
-  id?: string;
+  id?: string | undefined;
   /** The locale of the content pin. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the ticket associated with the content pin. */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** The URL to access the pinned content. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateTicketContentPinResponse {
-  ticket_content_pin?: TicketContentPin;
+  ticket_content_pin?: TicketContentPin | undefined;
 }
 /** An option for a "tagger" or "multiselect" custom ticket field. */
 export interface TicketFieldOptionInput {
   /** Whether the option is selected by default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The presentation name of the option */
-  name?: string;
+  name?: string | undefined;
   /** The dynamic content placeholder, if present, or the `name` value if not */
-  raw_name?: string;
+  raw_name?: string | undefined;
   /** The tag value applied to the ticket when the option is selected */
-  value?: string;
+  value?: string | undefined;
 }
 /** Required for a custom ticket field of type "multiselect" or "tagger" */
 export type TicketFieldInputCustomFieldOptionsList = Array<TicketFieldOptionInput>;
 /** A single condition used to filter lookup relationship autocomplete results. */
 export interface TicketFieldRelationshipFilterCondition {
   /** The field the condition applies to */
-  field?: string;
+  field?: string | undefined;
   /** The comparison operator for the condition */
-  operator?: string;
+  operator?: string | undefined;
   /** The value or values to compare against. Accepts a string, an array of strings, or `null`. Intentionally left untyped: OpenAPI 3.0.3 cannot express a `string | array | null` union (there is no `type: "null"`, and `nullable` requires a sibling `type`), so any narrower schema would wrongly reject one of the three valid forms. The permitted set is documented here rather than enforced by the schema. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type TicketFieldInputRelationshipFilterAllList =
   Array<TicketFieldRelationshipFilterCondition>;
@@ -3985,8 +3990,8 @@ export type TicketFieldInputRelationshipFilterAnyList =
   Array<TicketFieldRelationshipFilterCondition>;
 /** A filter definition that allows your autocomplete to filter results */
 export interface TicketFieldInputRelationshipFilter {
-  all?: TicketFieldInputRelationshipFilterAllList;
-  any?: TicketFieldInputRelationshipFilterAnyList;
+  all?: TicketFieldInputRelationshipFilterAllList | undefined;
+  any?: TicketFieldInputRelationshipFilterAnyList | undefined;
 }
 /** The type of the ticket field. Determines which additional attributes are relevant (for example `custom_field_options` is required for `tagger` and `multiselect`). Defaults to `text` when not specified. Editable only on creation. */
 export type TicketFieldInputType =
@@ -4006,47 +4011,47 @@ export type TicketFieldInputType =
 /** The writable attributes accepted when creating a ticket field. */
 export interface TicketFieldInput {
   /** Whether this field is available */
-  active?: boolean;
+  active?: boolean | undefined;
   /** A description of the ticket field that only agents can see */
-  agent_description?: string;
+  agent_description?: string | undefined;
   /** If true, the field is shown to agents by default. If false, the field is hidden alongside infrequently used fields. Classic interface only */
-  collapsed_for_agents?: boolean;
+  collapsed_for_agents?: boolean | undefined;
   /** Required for a custom ticket field of type "multiselect" or "tagger" */
-  custom_field_options?: TicketFieldInputCustomFieldOptionsList;
+  custom_field_options?: TicketFieldInputCustomFieldOptionsList | undefined;
   /** Describes the purpose of the ticket field to users */
-  description?: string;
+  description?: string | undefined;
   /** Whether this field is editable by end users in the help center */
-  editable_in_portal?: boolean;
+  editable_in_portal?: boolean | undefined;
   /** The relative position of the ticket field on a ticket. Note that for accounts with ticket forms, positions are controlled by the different forms */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title_in_portal` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title_in_portal?: string;
+  raw_title_in_portal?: string | undefined;
   /** For "regexp" fields only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string;
+  regexp_for_validation?: string | undefined;
   /** A filter definition that allows your autocomplete to filter results */
-  relationship_filter?: TicketFieldInputRelationshipFilter;
+  relationship_filter?: TicketFieldInputRelationshipFilter | undefined;
   /** Required for `lookup` and `multi_lookup` fields. A representation of what type of object the field references. Options are "zen:user", "zen:organization", "zen:ticket", or "zen:custom_object:{key}" where key is a custom object key. Can't be changed after the field is created. */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
   /** If true, agents must enter a value in the field to change the ticket status to solved */
-  required?: boolean;
+  required?: boolean | undefined;
   /** If true, end users must enter a value in the field to create the request */
-  required_in_portal?: boolean;
+  required_in_portal?: boolean | undefined;
   /** For system ticket fields of type "priority" and "status". Defaults to 0. A "priority" sub type of 1 removes the "Low" and "Urgent" options. A "status" sub type of 1 adds the "On-Hold" option */
-  sub_type_id?: number;
+  sub_type_id?: number | undefined;
   /** For "checkbox" fields only. A tag added to tickets when the checkbox field is selected */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the ticket field */
   title: string;
   /** The title of the ticket field for end users in the help center */
-  title_in_portal?: string;
+  title_in_portal?: string | undefined;
   /** The type of the ticket field. Determines which additional attributes are relevant (for example `custom_field_options` is required for `tagger` and `multiselect`). Defaults to `text` when not specified. Editable only on creation. */
-  type?: TicketFieldInputType | (string & {});
+  type?: TicketFieldInputType | (string & {}) | undefined;
   /** Whether this field is visible to end users in the help center */
-  visible_in_portal?: boolean;
+  visible_in_portal?: boolean | undefined;
 }
 export interface CreateTicketFieldRequest {
   ticket_field: TicketFieldInput;
@@ -4062,106 +4067,106 @@ export type TicketFieldCustomStatusObjectStatusCategory =
   | "solved";
 export interface TicketFieldCustomStatusObject {
   /** If true, if the custom status is set to active. If false, the custom status is set to inactive */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The label displayed to agents */
-  agent_label?: string;
+  agent_label?: string | undefined;
   /** The date and time at which the custom ticket status was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the custom status is set to default. If false, the custom status is set to non-default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of when the user should select this custom ticket status */
-  description?: string;
+  description?: string | undefined;
   /** The description displayed to end users */
-  end_user_description?: string;
+  end_user_description?: string | undefined;
   /** The label displayed to end users */
-  end_user_label?: string;
+  end_user_label?: string | undefined;
   /** Automatically assigned when the custom ticket status is created */
-  id?: number;
+  id?: number | undefined;
   /** The status category the custom ticket status belongs to */
-  status_category?: TicketFieldCustomStatusObjectStatusCategory;
+  status_category?: TicketFieldCustomStatusObjectStatusCategory | undefined;
   /** The date and time at which the custom ticket status was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** List of customized ticket statuses. Only present for a system ticket field of type "custom_status" */
 export type TicketFieldObjectCustomStatusesList = Array<TicketFieldCustomStatusObject>;
 export interface SystemFieldOptionObject {
   /** Name of the system field option */
-  name?: string;
+  name?: string | undefined;
   /** Value of the system field option */
-  value?: string;
+  value?: string | undefined;
 }
 /** Presented for a system ticket field of type "tickettype", "priority" or "status" */
 export type TicketFieldObjectSystemFieldOptionsList = Array<SystemFieldOptionObject>;
 export interface TicketFieldObject {
   /** Whether this field is available */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether this field is editable by agents */
-  agent_can_edit?: boolean;
+  agent_can_edit?: boolean | undefined;
   /** A description of the ticket field that only agents can see */
-  agent_description?: string;
+  agent_description?: string | undefined;
   /** If true, the field is shown to agents by default. If false, the field is hidden alongside infrequently used fields. Classic interface only */
-  collapsed_for_agents?: boolean;
+  collapsed_for_agents?: boolean | undefined;
   /** The time the custom ticket field was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Name of the app that created the ticket field, or a null value if no app created the ticket field */
-  creator_app_name?: string;
+  creator_app_name?: string | undefined;
   /** The id of the user that created the ticket field, or a value of "-1" if an app created the ticket field */
-  creator_user_id?: number;
+  creator_user_id?: number | undefined;
   /** Required and presented for a custom ticket field of type "multiselect" or "tagger" */
-  custom_field_options?: TicketFieldObjectCustomFieldOptionsList;
+  custom_field_options?: TicketFieldObjectCustomFieldOptionsList | undefined;
   /** List of customized ticket statuses. Only present for a system ticket field of type "custom_status" */
-  custom_statuses?: TicketFieldObjectCustomStatusesList;
+  custom_statuses?: TicketFieldObjectCustomStatusesList | undefined;
   /** Describes the purpose of the ticket field to users */
-  description?: string;
+  description?: string | undefined;
   /** Whether this field is editable by end users in Help Center */
-  editable_in_portal?: boolean;
+  editable_in_portal?: boolean | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** A unique key that identifies the ticket field. System-managed fields use a `standard::` prefix. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Present for [multi_lookup](/api-reference/ticketing/lookup_relationships/lookup_relationships/#about-multi-lookup-relationship-fields) fields only. The maximum number of target records the field accepts. Defaults to 20 */
-  max_selections?: number;
+  max_selections?: number | undefined;
   /** The relative position of the ticket field on a ticket. Note that for accounts with ticket forms, positions are controlled by the different forms */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder if present, or the `description` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder if present, or the `title` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The dynamic content placeholder if present, or the "title_in_portal" value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title_in_portal?: string;
+  raw_title_in_portal?: string | undefined;
   /** For "regexp" fields only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string | null;
+  regexp_for_validation?: string | null | undefined;
   /** A filter definition that allows your autocomplete to filter down results */
-  relationship_filter?: unknown;
+  relationship_filter?: unknown | undefined;
   /** Present for "lookup" and "multi_lookup" fields. A representation of what type of object the field references. Options are "zen:user", "zen:organization", "zen:ticket", or "zen:custom_object:{key}", where key is a custom object key. For example, "zen:custom_object:apartment". */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
   /** If false, this field is a system field that must be present on all tickets */
-  removable?: boolean;
+  removable?: boolean | undefined;
   /** If true, agents must enter a value in the field to change the ticket status to solved */
-  required?: boolean;
+  required?: boolean | undefined;
   /** If true, end users must enter a value in the field to create the request */
-  required_in_portal?: boolean;
+  required_in_portal?: boolean | undefined;
   /** For system ticket fields of type "priority" and "status". Defaults to 0. A "priority" sub type of 1 removes the "Low" and "Urgent" options. A "status" sub type of 1 adds the "On-Hold" option */
-  sub_type_id?: number;
+  sub_type_id?: number | undefined;
   /** Presented for a system ticket field of type "tickettype", "priority" or "status" */
-  system_field_options?: TicketFieldObjectSystemFieldOptionsList;
+  system_field_options?: TicketFieldObjectSystemFieldOptionsList | undefined;
   /** For "checkbox" fields only. A tag added to tickets when the checkbox field is selected */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The title of the ticket field */
   title: string;
   /** The title of the ticket field for end users in Help Center */
-  title_in_portal?: string;
+  title_in_portal?: string | undefined;
   /** System or custom field type. Editable for custom field types and only on creation. See [Create Ticket Field](#create-ticket-field) */
   type: string;
   /** The time the custom ticket field was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL for this resource */
-  url?: string;
+  url?: string | undefined;
   /** Whether this field is visible to end users in Help Center */
-  visible_in_portal?: boolean;
+  visible_in_portal?: boolean | undefined;
 }
 export interface TicketFieldResponse {
-  ticket_field?: TicketFieldObject;
+  ticket_field?: TicketFieldObject | undefined;
 }
 export interface CreateTicketFormRequest {}
 export interface TicketFormStatusesCreateParams {
@@ -4176,26 +4181,28 @@ export interface CreateTicketFormStatusesRequest {
 }
 export interface TicketFormStatusObject {
   /** The id of the associated custom status */
-  custom_status_id?: number;
+  custom_status_id?: number | undefined;
   /** Automatically assigned when creating a ticket form */
-  id?: string;
+  id?: string | undefined;
   /** The id of the associated ticket form */
-  ticket_form_id?: number;
+  ticket_form_id?: number | undefined;
 }
 export type TicketFormStatusesResponseTicketFormStatusesList = Array<TicketFormStatusObject>;
 export interface TicketFormStatusesResponse {
-  ticket_form_statuses?: TicketFormStatusesResponseTicketFormStatusesList;
+  ticket_form_statuses?: TicketFormStatusesResponseTicketFormStatusesList | undefined;
 }
 export interface CreateTicketFormStatusesForCustomStatusRequestTicketFormStatusItem {
   /** The id of the ticket form */
-  ticket_form_id?: number;
+  ticket_form_id?: number | undefined;
 }
 export type CreateTicketFormStatusesForCustomStatusRequestTicketFormStatusList =
   Array<CreateTicketFormStatusesForCustomStatusRequestTicketFormStatusItem>;
 export interface CreateTicketFormStatusesForCustomStatusRequest {
   /** The id of the custom status */
   custom_status_id: number;
-  ticket_form_status?: CreateTicketFormStatusesForCustomStatusRequestTicketFormStatusList;
+  ticket_form_status?:
+    | CreateTicketFormStatusesForCustomStatusRequestTicketFormStatusList
+    | undefined;
 }
 export interface CreateTicketFromTweetRequest {}
 export type CreateTicketFromTweetResponse = string;
@@ -4264,9 +4271,9 @@ export type TicketCreateVoicemailTicketInputInputTdeWorkspaceWorkspace =
   TicketObjectInputTdeWorkspacePreviousWorkspace;
 /** Write only. TDE workspace information for the ticket */
 export interface TicketCreateVoicemailTicketInputInputTdeWorkspace {
-  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
-  type?: TicketCreateVoicemailTicketInputInputTdeWorkspaceType | (string & {});
-  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
+  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
+  type?: TicketCreateVoicemailTicketInputInputTdeWorkspaceType | (string & {}) | undefined;
+  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
 }
 /** Write only. A TPE voice comment for Talk Partner Edition tickets */
 export type TicketCreateVoicemailTicketInputInputTpeVoiceComment = TicketObjectInputTpeVoiceComment;
@@ -4284,25 +4291,28 @@ export type TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType =
 /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
 export interface TicketCreateVoicemailTicketInputInputVoiceComment {
   /** The agent who answered the call */
-  answered_by_id?: number | null;
+  answered_by_id?: number | null | undefined;
   /** Duration of the call in seconds */
-  call_duration?: number;
+  call_duration?: number | undefined;
   /** Incoming phone number */
-  from?: string;
+  from?: string | undefined;
   /** Location of the caller */
-  location?: string | null;
+  location?: string | null | undefined;
   /** URL of the recording */
-  recording_url?: string | null;
+  recording_url?: string | null | undefined;
   /** Dialed phone number */
-  to?: string;
+  to?: string | undefined;
   /** Transcription of the call */
-  transcription_text?: string | null;
+  transcription_text?: string | null | undefined;
   /** Whether the voice comment is public */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Type of recording */
-  recording_type?: TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType | (string & {});
+  recording_type?:
+    | TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType
+    | (string & {})
+    | undefined;
   /** Timestamp of the call starting time */
-  started_at?: string;
+  started_at?: string | undefined;
   [key: string]: unknown;
 }
 /** An array of tags to add to the ticket */
@@ -4311,110 +4321,116 @@ export type TicketCreateVoicemailTicketInputInputAdditionalTagsList = Array<stri
 export type TicketCreateVoicemailTicketInputInputRemoveTagsList = Array<string>;
 export interface TicketCreateVoicemailTicketInputInput {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
-  additional_collaborators?: TicketCreateVoicemailTicketInputInputAdditionalCollaboratorsList;
+  additional_collaborators?:
+    | TicketCreateVoicemailTicketInputInputAdditionalCollaboratorsList
+    | undefined;
   /** Write only. The email address of the agent to assign the ticket to */
-  assignee_email?: string;
+  assignee_email?: string | undefined;
   /** The agent currently assigned to the ticket */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** Write only. An array of the IDs of attribute values to be associated with the ticket */
-  attribute_value_ids?: TicketCreateVoicemailTicketInputInputAttributeValueIdsList;
+  attribute_value_ids?: TicketCreateVoicemailTicketInputInputAttributeValueIdsList | undefined;
   /** The id of the brand this ticket is associated with. See [Setting up multiple brands](https://support.zendesk.com/hc/en-us/articles/4408829476378) */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: TicketCreateVoicemailTicketInputInputCollaboratorIdsList;
+  collaborator_ids?: TicketCreateVoicemailTicketInputInputCollaboratorIdsList | undefined;
   /** Write only. Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
-  collaborators?: TicketCreateVoicemailTicketInputInputCollaboratorsList;
-  comment?: TicketCommentObjectInput;
+  collaborators?: TicketCreateVoicemailTicketInputInputCollaboratorsList | undefined;
+  comment?: TicketCommentObjectInput | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
-  custom_fields?: TicketCreateVoicemailTicketInputInputCustomFieldsList;
+  custom_fields?: TicketCreateVoicemailTicketInputInputCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket. See [custom ticket statuses](#custom-ticket-statuses) */
-  custom_status_id?: number | null;
+  custom_status_id?: number | null | undefined;
   /** The first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment). On create, can be set directly as an alternative to `comment`. Silently ignored on update. */
-  description?: string;
+  description?: string | undefined;
   /** If this is a ticket of type "task" it has a due date. Due date format uses [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Write only. An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  email_ccs?: TicketCreateVoicemailTicketInputInputEmailCcsList | null;
+  email_ccs?: TicketCreateVoicemailTicketInputInputEmailCcsList | null | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Alias for custom_fields. Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  fields?: TicketCreateVoicemailTicketInputInputFieldsList;
+  fields?: TicketCreateVoicemailTicketInputInputFieldsList | undefined;
   /** Write only. An array of objects that represents agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-followers). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  followers?: TicketCreateVoicemailTicketInputInputFollowersList;
+  followers?: TicketCreateVoicemailTicketInputInputFollowersList | undefined;
   /** The topic in the Zendesk Web portal this ticket originated from, if any. The Web portal is deprecated */
-  forum_topic_id?: number;
+  forum_topic_id?: number | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Write only. A single macro ID to be recorded in the ticket audit */
-  macro_id?: number;
+  macro_id?: number | undefined;
   /** Write only. List of macro IDs to be recorded in the ticket audit */
-  macro_ids?: TicketCreateVoicemailTicketInputInputMacroIdsList;
+  macro_ids?: TicketCreateVoicemailTicketInputInputMacroIdsList | undefined;
   /** Write only. Metadata for the audit. In the `audit` object, the data is specified in the `custom` property of the `metadata` object. See [Setting Metadata](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-metadata) */
-  metadata?: TicketCreateVoicemailTicketInputInputMetadataMap;
+  metadata?: TicketCreateVoicemailTicketInputInputMetadataMap | undefined;
   /** The organization of the requester. You can only specify the ID of an organization associated with the requester. See [Organization Memberships](/api-reference/ticketing/organizations/organization_memberships/) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** Write only. The Zendesk Resource Name (ZRN) of the origin for this ticket */
-  origin_zrn?: string;
+  origin_zrn?: string | undefined;
   /** The urgency with which the ticket should be addressed */
-  priority?: TicketCreateVoicemailTicketInputInputPriority | (string & {}) | null;
+  priority?: TicketCreateVoicemailTicketInputInputPriority | (string & {}) | null | undefined;
   /** For tickets of type "incident", the ID of the problem the incident is linked to */
-  problem_id?: number | null;
+  problem_id?: number | null | undefined;
   /** The dynamic content placeholder, if present, or the "subject" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/). When set on create or update, overrides the `subject` field. */
-  raw_subject?: string;
+  raw_subject?: string | undefined;
   /** The original recipient e-mail address of the ticket. Notification emails for the ticket are sent from this address */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Write only. Alternative to requester_id for specifying the ticket requester. Can be provided as: - Email string: "user@example.com" - User ID integer: 12345 - User object: {name: "John Doe", email: "john@example.com"} If both requester and requester_id are provided, requester_id takes precedence. When creating a ticket, if the user doesn't exist, they may be created automatically depending on account settings. */
-  requester?: TicketCreateVoicemailTicketInputInputRequester;
+  requester?: TicketCreateVoicemailTicketInputInputRequester | undefined;
   /** The user who requested this ticket */
-  requester_id?: number | null;
+  requester_id?: number | null | undefined;
   /** Write only. Optional boolean. When true and an `updated_stamp` date is included, protects against ticket update collisions and returns a message to let you know if one occurs. See [Protecting against ticket update collisions](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#protecting-against-ticket-update-collisions). A value of false has the same effect as true. Omit the property to force the updates to not be safe */
-  safe_update?: boolean;
+  safe_update?: boolean | undefined;
   /** An array of the numeric IDs of sharing agreements. Note that this replaces any existing agreements */
-  sharing_agreement_ids?: TicketCreateVoicemailTicketInputInputSharingAgreementIdsList;
+  sharing_agreement_ids?: TicketCreateVoicemailTicketInputInputSharingAgreementIdsList | undefined;
   /** Write only. Sharing agreement configuration for the ticket. Accepts a single object or an array of objects. */
-  sharing_agreements?: TicketCreateVoicemailTicketInputInputSharingAgreements;
+  sharing_agreements?: TicketCreateVoicemailTicketInputInputSharingAgreements | undefined;
   /** The state of the ticket. If your account has activated custom ticket statuses, this is the ticket's status category. See [custom ticket statuses](#custom-ticket-statuses) */
-  status?: TicketCreateVoicemailTicketInputInputStatus | (string & {});
+  status?: TicketCreateVoicemailTicketInputInputStatus | (string & {}) | undefined;
   /** The value of the subject field for this ticket. See [Subject](/api-reference/ticketing/tickets/tickets/#subject) */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket. If not specified, defaults to the authenticated user. */
-  submitter_id?: number | null;
+  submitter_id?: number | null | undefined;
   /** The type of support that handled the ticket */
-  support_type?: TicketCreateVoicemailTicketInputInputSupportType | (string & {}) | null;
+  support_type?:
+    | TicketCreateVoicemailTicketInputInputSupportType
+    | (string & {})
+    | null
+    | undefined;
   /** Write only. The ID of the suspended ticket being recovered */
-  suspended_ticket_id?: number;
+  suspended_ticket_id?: number | undefined;
   /** Write only. The suspension type ID when recovering a suspended ticket */
-  suspension_type_id?: number;
+  suspension_type_id?: number | undefined;
   /** Write only. System metadata for the ticket, typically set by internal clients */
-  system_metadata?: TicketObjectInputSystemMetadata;
+  system_metadata?: TicketObjectInputSystemMetadata | undefined;
   /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
-  tags?: TicketCreateVoicemailTicketInputInputTags;
+  tags?: TicketCreateVoicemailTicketInputInputTags | undefined;
   /** Write only. TDE workspace information for the ticket */
-  tde_workspace?: TicketCreateVoicemailTicketInputInputTdeWorkspace;
+  tde_workspace?: TicketCreateVoicemailTicketInputInputTdeWorkspace | undefined;
   /** Enterprise only. The id of the ticket form to render for the ticket */
-  ticket_form_id?: number | null;
+  ticket_form_id?: number | null | undefined;
   /** Write only. A TPE voice comment for Talk Partner Edition tickets */
-  tpe_voice_comment?: TicketObjectInputTpeVoiceComment;
+  tpe_voice_comment?: TicketObjectInputTpeVoiceComment | undefined;
   /** The type of this ticket */
-  type?: TicketCreateVoicemailTicketInputInputType | (string & {}) | null;
+  type?: TicketCreateVoicemailTicketInputInputType | (string & {}) | null | undefined;
   /** Write only. Datetime of last update received from API. See the `safe_update` property */
-  updated_stamp?: string;
+  updated_stamp?: string | undefined;
   /** Write only. The id of a closed ticket when creating a follow-up ticket. See [Creating a follow-up ticket](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#creating-a-follow-up-ticket) */
-  via_followup_source_id?: number;
+  via_followup_source_id?: number | undefined;
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
-  via_id?: number;
+  via_id?: number | undefined;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketCreateVoicemailTicketInputInputVoiceComment;
+  voice_comment?: TicketCreateVoicemailTicketInputInputVoiceComment | undefined;
   /** An array of tags to add to the ticket */
-  additional_tags?: TicketCreateVoicemailTicketInputInputAdditionalTagsList;
+  additional_tags?: TicketCreateVoicemailTicketInputInputAdditionalTagsList | undefined;
   /** An array of tags to remove from the ticket */
-  remove_tags?: TicketCreateVoicemailTicketInputInputRemoveTagsList;
+  remove_tags?: TicketCreateVoicemailTicketInputInputRemoveTagsList | undefined;
 }
 export interface CreateTicketOrVoicemailTicketRequest {
   /** Optional value such as the ID of the agent that will see the newly created ticket. */
-  display_to_agent?: number;
+  display_to_agent?: number | undefined;
   /** Ticket object that lists the values to set when the ticket is created */
-  ticket?: TicketCreateVoicemailTicketInputInput;
+  ticket?: TicketCreateVoicemailTicketInputInput | undefined;
 }
 export interface CreateTicketSatisfactionRatingRequest {
   /** The id of the ticket */
@@ -4424,19 +4440,19 @@ export interface SatisfactionRatingObject {
   /** The id of agent assigned to at the time of rating */
   assignee_id: number;
   /** The comment received with this rating, if available */
-  comment?: string;
+  comment?: string | undefined;
   /** The time the satisfaction rating got created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The id of group assigned to at the time of rating */
   group_id: number;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The reason for a bad rating given by the requester in a follow-up question. Satisfaction reasons must be [enabled](https://support.zendesk.com/hc/en-us/articles/4408886173338) */
-  reason?: string;
+  reason?: string | undefined;
   /** The default reasons the user can select from a list menu for giving a negative rating. See [Reason codes](/api-reference/ticketing/ticket-management/satisfaction_reasons/#reason-codes) in the Satisfaction Reasons API. Can only be set on ratings with a `score` of "bad". Responses don't include this property */
-  reason_code?: number;
+  reason_code?: number | undefined;
   /** id for the reason the user gave a negative rating. Can only be set on ratings with a `score` of "bad". To get a descriptive value for the id, use the [Show Reason for Satisfaction Rating](/api-reference/ticketing/ticket-management/satisfaction_reasons/#show-reason-for-satisfaction-rating) endpoint */
-  reason_id?: number;
+  reason_id?: number | undefined;
   /** The id of ticket requester submitting the rating */
   requester_id: number;
   /** The rating "offered", "unoffered", "good" or "bad". For POST requests, only "good" or "bad" are valid */
@@ -4444,40 +4460,40 @@ export interface SatisfactionRatingObject {
   /** The id of ticket being rated */
   ticket_id: number;
   /** The time the satisfaction rating got updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this rating */
-  url?: string;
+  url?: string | undefined;
 }
 export type SatisfactionRatingResponseSatisfactionRatingList = Array<SatisfactionRatingObject>;
 export interface SatisfactionRatingResponse {
-  satisfaction_rating?: SatisfactionRatingResponseSatisfactionRatingList;
+  satisfaction_rating?: SatisfactionRatingResponseSatisfactionRatingList | undefined;
 }
 export interface CreateTokenForGrantTypeRequest {}
 export interface OAuthTokenForGrantTypesObject {
   /** The access token */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Number of seconds the access token is valid. Must be greater than or equal to 300 seconds (5 minutes) and less than or equal to 172,800 seconds (2 days), or less than refresh_token_expires_in, whichever is smallest. Defaults to null for clients created before April 30, 2026. Clients created on or after that date have a default value of 1,800 seconds (30 minutes). */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The refresh token */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** Number of seconds the refresh token is valid. Must be greater than or equal to 604,800 seconds (7 days) or `expires_in` (if given), and less than or equal to 7,776,000 seconds (90 days). Defaults to 2,592,000 seconds (30 days) */
-  refresh_token_expires_in?: number;
+  refresh_token_expires_in?: number | undefined;
   /** The valid scopes for this token. See [Scope](#scope) below */
-  scope?: string;
+  scope?: string | undefined;
   /** Type of the access token, for example "bearer" */
-  token_type?: string;
+  token_type?: string | undefined;
 }
 export interface CreateTrialAccountRequest {}
 export interface TrialAccountObject {
   /** The name of the account */
-  name?: string;
+  name?: string | undefined;
   /** The subdomain of the account */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** The URL of the account */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TrialAccountResponse {
-  account?: TrialAccountObject;
+  account?: TrialAccountObject | undefined;
 }
 /** An array of actions describing what the ticket trigger will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
 export type TriggerObjectInputActionsList = Array<TriggerActionObject>;
@@ -4487,8 +4503,8 @@ export type TriggerObjectInputAllList = Array<TriggerConditionObject>;
 export type TriggerObjectInputAnyList = Array<TriggerConditionObject>;
 /** A category to create and assign to the trigger */
 export interface TriggerObjectInputCategory {
-  name?: string;
-  position?: number;
+  name?: string | undefined;
+  position?: number | undefined;
 }
 /** Access restriction for this trigger. A null value allows unrestricted access */
 export type TriggerObjectInputRestrictionMap = { [key: string]: unknown | undefined };
@@ -4496,44 +4512,44 @@ export interface TriggerObjectInput {
   /** An array of actions describing what the ticket trigger will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
   actions: TriggerObjectInputActionsList;
   /** Whether the ticket trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.all instead */
-  all?: TriggerObjectInputAllList;
+  all?: TriggerObjectInputAllList | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.any instead */
-  any?: TriggerObjectInputAnyList;
+  any?: TriggerObjectInputAnyList | undefined;
   /** The ID of the brand the ticket trigger belongs to */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** A category to create and assign to the trigger */
-  category?: TriggerObjectInputCategory;
+  category?: TriggerObjectInputCategory | undefined;
   /** The ID of the category the ticket trigger belongs to */
-  category_id?: string | null;
-  conditions?: TriggerConditionsObject;
+  category_id?: string | null | undefined;
+  conditions?: TriggerConditionsObject | undefined;
   /** The description of the ticket trigger */
-  description?: string;
+  description?: string | undefined;
   /** Position of the ticket trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the ticket trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Access restriction for this trigger. A null value allows unrestricted access */
-  restriction?: TriggerObjectInputRestrictionMap | null;
+  restriction?: TriggerObjectInputRestrictionMap | null | undefined;
   /** The title of the ticket trigger */
   title: string;
 }
 export interface CreateTriggerRequest {
-  trigger?: TriggerObjectInput;
+  trigger?: TriggerObjectInput | undefined;
 }
 export interface TriggerResponseOutput {
-  trigger?: TriggerObjectOutput;
+  trigger?: TriggerObjectOutput | undefined;
 }
 export interface CreateTriggerCategoryRequestTriggerCategory {
   name: string;
-  position?: number;
+  position?: number | undefined;
 }
 export interface CreateTriggerCategoryRequest {
-  trigger_category?: CreateTriggerCategoryRequestTriggerCategory;
+  trigger_category?: CreateTriggerCategoryRequestTriggerCategory | undefined;
 }
 export interface TriggerCategoryResponse {
-  trigger_category?: TriggerCategory;
+  trigger_category?: TriggerCategory | undefined;
 }
 export interface CreateUserRequest {
   user: UserInput;
@@ -4543,49 +4559,49 @@ export interface CreateUserFieldRequest {}
 export type UserFieldObjectCustomFieldOptionsList = Array<CustomFieldOptionObject>;
 export interface UserFieldObject {
   /** If true, this field is available for use */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The time the field was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Required and presented for a custom field of type "dropdown". Each option is represented by an object with a `name` and `value` property */
-  custom_field_options?: UserFieldObjectCustomFieldOptionsList;
+  custom_field_options?: UserFieldObjectCustomFieldOptionsList | undefined;
   /** User-defined description of this field's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** A unique key that identifies this custom field. This is used for updating the field and referencing in placeholders. The key must consist of only letters, numbers, and underscores. It can't be only numbers */
   key: string;
   /** Ordering of the field relative to other fields */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Regular expression field only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string | null;
+  regexp_for_validation?: string | null | undefined;
   /** A filter definition that allows your autocomplete to filter down results */
-  relationship_filter?: unknown;
+  relationship_filter?: unknown | undefined;
   /** If true, only active and position values of this field can be changed */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Optional for custom field of type "checkbox"; not presented otherwise. */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the custom field */
   title: string;
   /** The custom field type: "checkbox", "currency", "date", "decimal", "dropdown", "integer", ["lookup"](/api-reference/ticketing/lookup_relationships/lookup_relationships/), "multiselect", ["parent"](/api-reference/custom-data/custom-objects/custom_object_fields/#about-parent-relationship-fields) (custom objects only), "regexp", "text", or "textarea" */
   type: string;
   /** The time of the last update of the field */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL for this resource */
-  url?: string;
+  url?: string | undefined;
   /** A representation of what type of object the field references. Options are "zen:user", "zen:organization", "zen:ticket", and "zen:custom_object:{key}" where key is a custom object key. For example "zen:custom_object:apartment". */
-  relationship_target_type?: string;
+  relationship_target_type?: string | undefined;
 }
 export interface UserFieldResponse {
-  user_field?: UserFieldObject;
+  user_field?: UserFieldObject | undefined;
 }
 /** Group membership object. Note that user_id is derived from the URL path parameter and should not be included in the request body */
 export interface CreateUserGroupMembershipRequestGroupMembership {
   /** If true, tickets assigned directly to the agent will assume this membership's group */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The id of a group */
   group_id: number;
 }
@@ -4599,7 +4615,7 @@ export interface CreateUserIdentityRequest {
   /** The id of the user */
   user_id: number;
   /** When the account has multiple active brands, sets the active brand context for the created identity. Used to scope verification emails to the correct brand. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 export interface CreateUserOrganizationMembershipRequest {
   /** The id of the user */
@@ -4616,12 +4632,12 @@ export type CreateUserSuspensionRequestSuspensionSuspendedChannelsList = Array<
   CreateUserSuspensionRequestSuspensionSuspendedChannelsItem | (string & {})
 >;
 export interface CreateUserSuspensionRequestSuspension {
-  additional_comments?: string;
-  reason?: CreateUserSuspensionRequestSuspensionReason | (string & {});
+  additional_comments?: string | undefined;
+  reason?: CreateUserSuspensionRequestSuspensionReason | (string & {}) | undefined;
   /** The Zendesk resource name (ZRN) of the system actor creating the suspension, such as the messaging trigger subsystem. Only usable by system users; agents don't set this. */
-  suspended_by_actor_zrn?: string;
+  suspended_by_actor_zrn?: string | undefined;
   /** Only accepted when the account has the messaging channel suspension feature enabled. See [Announcing user suspension from messaging channels only](https://support.zendesk.com/hc/en-us/articles/10575252020250-Announcing-user-suspension-from-messaging-channels-only). */
-  suspended_channels?: CreateUserSuspensionRequestSuspensionSuspendedChannelsList;
+  suspended_channels?: CreateUserSuspensionRequestSuspensionSuspendedChannelsList | undefined;
 }
 export interface CreateUserSuspensionRequest {
   /** The id of the user */
@@ -4640,31 +4656,31 @@ export type SuspendedByActorObjectZrnType = "agent" | "messaging_trigger";
 /** The actor that created or last updated the suspension. Present for both human agents and system actors (for example, the messaging trigger subsystem). Empty (`{}`) when the suspension has no recorded actor. */
 export interface SuspendedByActorObject {
   /** The actor's unique identifier. A numeric user id (as a string) for agents, or a ZRN unique ID for system actors. */
-  id?: string;
+  id?: string | undefined;
   /** The type of actor that created or updated the suspension. */
-  zrn_type?: SuspendedByActorObjectZrnType;
+  zrn_type?: SuspendedByActorObjectZrnType | undefined;
 }
 export type SuspensionObjectSuspendedChannelsItem = "all" | "messaging";
 /** Only present when the account has the messaging channel suspension feature enabled. See [Announcing user suspension from messaging channels only](https://support.zendesk.com/hc/en-us/articles/10575252020250-Announcing-user-suspension-from-messaging-channels-only). */
 export type SuspensionObjectSuspendedChannelsList = Array<SuspensionObjectSuspendedChannelsItem>;
 export interface SuspendedUserSummaryObject {
-  email?: string;
-  id?: number;
-  name?: string;
+  email?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export interface SuspensionObject {
-  additional_comments?: string | null;
+  additional_comments?: string | null | undefined;
   /** Automatically assigned when the suspension is created */
-  id?: string;
+  id?: string | undefined;
   /** Not required on create/update; `null` when omitted. */
-  reason?: SuspensionObjectReason | null;
-  suspended_at?: string;
+  reason?: SuspensionObjectReason | null | undefined;
+  suspended_at?: string | undefined;
   /** The agent who created the suspension. Empty (`{}`) when the suspension was created internally by Zendesk, not by an agent. */
-  suspended_by?: QueueObjectPrimaryGroupsGroupsItem;
-  suspended_by_actor?: SuspendedByActorObject;
+  suspended_by?: QueueObjectPrimaryGroupsGroupsItem | undefined;
+  suspended_by_actor?: SuspendedByActorObject | undefined;
   /** Only present when the account has the messaging channel suspension feature enabled. See [Announcing user suspension from messaging channels only](https://support.zendesk.com/hc/en-us/articles/10575252020250-Announcing-user-suspension-from-messaging-channels-only). */
-  suspended_channels?: SuspensionObjectSuspendedChannelsList;
-  suspended_user?: SuspendedUserSummaryObject;
+  suspended_channels?: SuspensionObjectSuspendedChannelsList | undefined;
+  suspended_user?: SuspendedUserSummaryObject | undefined;
 }
 export interface SuspensionResponse {
   suspension: SuspensionObject;
@@ -4684,46 +4700,46 @@ export type ViewObjectExecutionMap = { [key: string]: unknown | undefined };
 export type ViewObjectRestrictionMap = { [key: string]: unknown | undefined };
 export interface ViewObject {
   /** Whether the view is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Describes how the view is constructed. See [Conditions reference](/documentation/ticketing/reference-guides/conditions-reference) */
-  conditions?: ViewObjectConditionsMap;
+  conditions?: ViewObjectConditionsMap | undefined;
   /** The time the view was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** If true, the view is a default view */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The description of the view */
-  description?: string;
+  description?: string | undefined;
   /** Describes how the view should be executed. See [Execution](#execution) */
-  execution?: ViewObjectExecutionMap;
+  execution?: ViewObjectExecutionMap | undefined;
   /** Automatically assigned when created */
-  id?: number;
+  id?: number | undefined;
   /** The position of the view */
-  position?: number;
+  position?: number | undefined;
   /** Who may access this view. Is null when everyone in the account can access it */
-  restriction?: ViewObjectRestrictionMap;
+  restriction?: ViewObjectRestrictionMap | undefined;
   /** The title of the view */
-  title?: string;
+  title?: string | undefined;
   /** The time the view was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface ViewResponse {
-  columns?: ViewResponseColumnsList;
-  groups?: ViewResponseGroupsList;
-  rows?: ViewResponseRowsList;
-  view?: ViewObject;
+  columns?: ViewResponseColumnsList | undefined;
+  groups?: ViewResponseGroupsList | undefined;
+  rows?: ViewResponseRowsList | undefined;
+  view?: ViewObject | undefined;
 }
 export type WorkspaceInputMacrosList = Array<number>;
 export interface WorkspaceInput {
-  conditions?: ConditionsObject;
+  conditions?: ConditionsObject | undefined;
   /** User-defined description of this workspace's purpose */
-  description?: string;
-  macros?: WorkspaceInputMacrosList;
-  ticket_form_id?: number;
+  description?: string | undefined;
+  macros?: WorkspaceInputMacrosList | undefined;
+  ticket_form_id?: number | undefined;
   /** The title of the workspace */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateWorkspaceRequest {
-  workspace?: WorkspaceInput;
+  workspace?: WorkspaceInput | undefined;
 }
 export type WorkspaceObjectAppsItemMap = { [key: string]: unknown | undefined };
 /** The apps associated to this workspace */
@@ -4736,37 +4752,37 @@ export type WorkspaceObjectMacrosList = Array<number>;
 export type WorkspaceObjectSelectedMacrosList = Array<MacroObject>;
 export interface WorkspaceObject {
   /** If true, this workspace is available for use */
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** The apps associated to this workspace */
-  apps?: WorkspaceObjectAppsList;
-  conditions?: ConditionsObject;
+  apps?: WorkspaceObjectAppsList | undefined;
+  conditions?: ConditionsObject | undefined;
   /** The time the workspace was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** User-defined description of this workspace's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The ids of the macros associated to this workspace */
-  macro_ids?: WorkspaceObjectMacroIdsList;
+  macro_ids?: WorkspaceObjectMacroIdsList | undefined;
   /** The ids of the macros associated to this workspace */
-  macros?: WorkspaceObjectMacrosList;
+  macros?: WorkspaceObjectMacrosList | undefined;
   /** Ordering of the workspace relative to other workspaces */
-  position?: number;
+  position?: number | undefined;
   /** If true, the order of apps within the workspace will be preserved */
-  prefer_workspace_app_order?: boolean;
+  prefer_workspace_app_order?: boolean | undefined;
   /** An array of the macro objects that will be used in this workspace. See [Macros](/api-reference/ticketing/business-rules/macros/) */
-  selected_macros?: WorkspaceObjectSelectedMacrosList;
+  selected_macros?: WorkspaceObjectSelectedMacrosList | undefined;
   /** The id of the ticket web form associated to this workspace */
-  ticket_form_id?: number;
+  ticket_form_id?: number | undefined;
   /** The title of the workspace */
-  title?: string;
+  title?: string | undefined;
   /** The time of the last update of the workspace */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL for this resource */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateWorkspaceResponse {
-  workspace?: WorkspaceObject;
+  workspace?: WorkspaceObject | undefined;
 }
 export interface CustomObjectFieldsLimitRequest {
   /** The key of a custom object */
@@ -4774,36 +4790,36 @@ export interface CustomObjectFieldsLimitRequest {
 }
 export interface CustomObjectLimitsResponse {
   /** The current numnber of the requested resource */
-  count?: number;
+  count?: number | undefined;
   /** The maximum allowed number for the requested resource */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type CustomObjectRecordBulkJobsRequestJobItemsItem = CustomObjectRecordInput | string;
 /** An array of record objects for job actions that create, update, or set. An array of strings for job actions that delete. */
 export type CustomObjectRecordBulkJobsRequestJobItemsList =
   Array<CustomObjectRecordBulkJobsRequestJobItemsItem>;
 export interface CustomObjectRecordBulkJobsRequestJob {
-  action?: string;
+  action?: string | undefined;
   /** An array of record objects for job actions that create, update, or set. An array of strings for job actions that delete. */
-  items?: CustomObjectRecordBulkJobsRequestJobItemsList;
+  items?: CustomObjectRecordBulkJobsRequestJobItemsList | undefined;
 }
 export interface CustomObjectRecordBulkJobsRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  job?: CustomObjectRecordBulkJobsRequestJob;
+  job?: CustomObjectRecordBulkJobsRequestJob | undefined;
 }
 export type CustomObjectRecordsJobsResponseJobStatusResultsList = Array<CustomObjectRecord>;
 export interface CustomObjectRecordsJobsResponseJobStatus {
-  id?: string;
-  message?: string | null;
-  progress?: number | null;
-  results?: CustomObjectRecordsJobsResponseJobStatusResultsList | null;
-  status?: string;
-  total?: number;
-  url?: string;
+  id?: string | undefined;
+  message?: string | null | undefined;
+  progress?: number | null | undefined;
+  results?: CustomObjectRecordsJobsResponseJobStatusResultsList | null | undefined;
+  status?: string | undefined;
+  total?: number | undefined;
+  url?: string | undefined;
 }
 export interface CustomObjectRecordsJobsResponse {
-  job_status?: CustomObjectRecordsJobsResponseJobStatus;
+  job_status?: CustomObjectRecordsJobsResponseJobStatus | undefined;
 }
 export interface CustomObjectRecordsLimitRequest {}
 export interface CustomObjectsLimitRequest {}
@@ -4895,9 +4911,9 @@ export interface DeleteCustomObjectRecordByExternalIdOrNameRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The external id of a custom object record */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The name of a custom object record */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteCustomObjectRecordByExternalIdOrNameResponse {}
 export interface DeleteCustomRoleRequest {
@@ -5002,13 +5018,13 @@ export interface DeleteManyObjectTriggersResponse {}
 export type DeleteManyOrganizationMembershipsRequestIdsList = Array<number>;
 export interface DeleteManyOrganizationMembershipsRequest {
   /** The IDs of the organization memberships to delete */
-  ids?: DeleteManyOrganizationMembershipsRequestIdsList;
+  ids?: DeleteManyOrganizationMembershipsRequestIdsList | undefined;
 }
 export interface DeleteManyOrganizationsRequest {
   /** A list of organization ids */
-  ids?: string;
+  ids?: string | undefined;
   /** A list of external ids */
-  external_ids?: string;
+  external_ids?: string | undefined;
 }
 export interface DeleteManyTriggersRequest {
   /** A comma separated list of trigger IDs */
@@ -5092,7 +5108,7 @@ export interface DeleteTagsTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Comma-separated list of tags to remove from the ticket. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export interface DeleteTargetRequest {
   /** The ID of the target */
@@ -5119,13 +5135,13 @@ export interface DeleteTicketContentPinRequest {
   content_pin_id: string;
 }
 export interface DeleteTicketContentPinResponse {
-  ticket_content_pin?: TicketContentPin;
+  ticket_content_pin?: TicketContentPin | undefined;
 }
 export interface DeleteTicketFieldRequest {
   /** The ID of the ticket field */
   ticket_field_id: number;
   /** If true, displays the `creator_user_id` and `creator_app_name` properties. If the ticket field is created by an app, `creator_app_name` is the name of the app and `creator_user_id` is `-1`. If the ticket field is not created by an app, then `creator_app_name` is null */
-  creator?: boolean;
+  creator?: boolean | undefined;
 }
 export interface DeleteTicketFieldResponse {}
 export interface DeleteTicketFieldOptionRequest {
@@ -5153,7 +5169,7 @@ export interface DeleteTicketFormStatusesRequest {
   /** The ID of the ticket form */
   ticket_form_id: number;
   /** List of ids to delete */
-  id?: DeleteTicketFormStatusesRequestIdList;
+  id?: DeleteTicketFormStatusesRequestIdList | undefined;
 }
 export interface DeleteTicketFormStatusesResponse {}
 export interface DeleteTicketPermanentlyRequest {
@@ -5235,11 +5251,11 @@ export type DestroyManyUsersRequestBrandIdCase0 = "0";
 export type DestroyManyUsersRequestBrandId = DestroyManyUsersRequestBrandIdCase0 | number;
 export interface DestroyManyUsersRequest {
   /** Id of the users to delete. Comma separated */
-  ids?: string;
+  ids?: string | undefined;
   /** External Id of the users to delete. Comma separated */
-  external_ids?: string;
+  external_ids?: string | undefined;
   /** Scopes the deletion of users matched by `external_ids` to a specific brand or to account-scoped (brand-less) users. Only applicable when the account has brand separation enabled (`brand_user_separation_eap`); ignored otherwise so existing numeric callers continue to behave as before. Accepted values: * `0` -- restrict the lookup to account-scoped (brand-less) users only. * A numeric brand id -- restrict to that brand. Brands without `user_separation` enabled collapse to account scope (`0`). Rejected with `400 Bad Request`: * `all` -- cross-brand deletion is not supported on this endpoint. * Any other non-numeric string. * A numeric brand id that does not exist on the account. * Combining `brand_id` with `ids` (use `external_ids` instead -- `ids` are globally unique so brand scoping is meaningless). When `external_ids` is provided without `brand_id`, the request defaults to account scope (`0`). When forwarded to the bulk-delete background job, the resolved brand id is always passed as an Integer (`0` for account scope; the brand id otherwise) for backward compatibility with existing job consumers. */
-  brand_id?: DestroyManyUsersRequestBrandId;
+  brand_id?: DestroyManyUsersRequestBrandId | undefined;
 }
 export type DestroyManyWorkspacesRequestIdsList = Array<number>;
 export interface DestroyManyWorkspacesRequest {
@@ -5250,20 +5266,20 @@ export type DestroyManyWorkspacesResponse = string;
 export interface DetectBestLocaleRequest {}
 export interface LocaleObject {
   /** The ISO 8601 formatted date-time the locale was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The unique ID of the locale */
-  id?: number;
+  id?: number | undefined;
   /** The name of the locale */
-  locale?: string;
+  locale?: string | undefined;
   /** The name of the language */
-  name?: string;
+  name?: string | undefined;
   /** The ISO 8601 formatted date-time when the locale was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL of the locale record */
-  url?: string;
+  url?: string | undefined;
 }
 export interface LocaleResponse {
-  locale?: LocaleObject;
+  locale?: LocaleObject | undefined;
 }
 export interface DownloadCustomObjectRecordAttachmentRequest {
   /** The key of a custom object */
@@ -5273,7 +5289,7 @@ export interface DownloadCustomObjectRecordAttachmentRequest {
   /** The id of a custom object record attachment */
   id: string;
   /** If true, the attachment content is displayed inline in the browser. If false or omitted, the attachment is downloaded as a file. */
-  inline?: boolean;
+  inline?: boolean | undefined;
 }
 export interface DownloadCustomObjectRecordAttachmentResponse {}
 export interface DownloadMacroAttachmentRequest {
@@ -5284,11 +5300,11 @@ export interface DownloadMacroAttachmentResponse {}
 /** Cursor pagination parameters (JSON:API style) */
 export interface DynamicContentListVariantsRequestPageCase1 {
   /** Cursor token for next page */
-  after?: string;
+  after?: string | undefined;
   /** Cursor token for previous page */
-  before?: string;
+  before?: string | undefined;
   /** Number of records per page */
-  size?: number;
+  size?: number | undefined;
 }
 export type DynamicContentListVariantsRequestPage =
   | number
@@ -5297,11 +5313,11 @@ export interface DynamicContentListVariantsRequest {
   /** The ID of the dynamic content item */
   dynamic_content_item_id: number;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: DynamicContentListVariantsRequestPage;
+  page?: DynamicContentListVariantsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ExecuteViewRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -5310,46 +5326,46 @@ export interface ExecuteViewRequest {
   /** The ID of the view, or one of the string aliases `"incoming"`, `"my"`, or `"my_groups"`. */
   view_id: string;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ExecuteViewRequestPage;
+  page?: ExecuteViewRequestPage | undefined;
   /** The ticket field used for sorting. This will either be a title or a custom field id. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The direction the tickets are sorted. May be one of 'asc' or 'desc' */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
   /** A comma-separated list of sideloads to exclude from the response. */
-  exclude?: string;
+  exclude?: string | undefined;
   /** The ticket field used for grouping. This will either be a title or a custom field id. */
-  group_by?: string;
+  group_by?: string | undefined;
 }
 export interface ExportAuditLogsRequest {
   /** Filter audit logs by the source type. For example, user or rule */
-  filter_source_type_?: string;
+  filter_source_type_?: string | undefined;
   /** Filter audit logs by the source id. Requires `filter[source_type]` to also be set. */
-  filter_source_id_?: number;
+  filter_source_id_?: number | undefined;
   /** Filter audit logs by the actor id */
-  filter_actor_id_?: number;
+  filter_actor_id_?: number | undefined;
   /** Filter audit logs by the ip address */
-  filter_ip_address_?: string;
+  filter_ip_address_?: string | undefined;
   /** Filter audit logs by the time of creation. When used, you must specify `filter[created_at]` twice in your request, first with the start time and again with an end time */
-  filter_created_at_?: string;
+  filter_created_at_?: string | undefined;
   /** Filter audit logs by the action */
-  filter_action_?: string;
+  filter_action_?: string | undefined;
 }
 export interface ExportAuditLogsResponse {}
 export interface ExportIncrementalOrganizationRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute */
   start_time: number;
   /** The number of records to return per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ExportIncrementalOrganizationsResponseOrganizationsList = Array<OrganizationObject>;
 export interface ExportIncrementalOrganizationsResponse {
-  count?: number;
-  end_of_stream?: boolean;
-  end_time?: number;
-  next_page?: string | null;
-  organizations?: ExportIncrementalOrganizationsResponseOrganizationsList;
+  count?: number | undefined;
+  end_of_stream?: boolean | undefined;
+  end_time?: number | undefined;
+  next_page?: string | null | undefined;
+  organizations?: ExportIncrementalOrganizationsResponseOrganizationsList | undefined;
 }
 export interface ExportIncrementalSampleRequest {
   /** The resource requested for incremental sample export */
@@ -5360,69 +5376,69 @@ export interface ExportIncrementalSampleRequest {
 export type TimeBasedExportIncrementalTicketsResponseOutputTicketsList = Array<TicketObjectOutput>;
 /** See [Tickets](/api-reference/ticketing/tickets/tickets/) for a detailed example. */
 export interface TimeBasedExportIncrementalTicketsResponseOutput {
-  count?: number;
-  end_of_stream?: boolean;
-  end_time?: number;
-  next_page?: string | null;
-  tickets?: TimeBasedExportIncrementalTicketsResponseOutputTicketsList;
+  count?: number | undefined;
+  end_of_stream?: boolean | undefined;
+  end_time?: number | undefined;
+  next_page?: string | null | undefined;
+  tickets?: TimeBasedExportIncrementalTicketsResponseOutputTicketsList | undefined;
 }
 export interface ExportIncrementalSkilBasedRoutingAttributeRequest {}
 export interface IncrementalSkillBasedRoutingAttributeValue {
   /** Id of the associated attribute */
-  attribute_id?: string;
+  attribute_id?: string | undefined;
   /** Automatically assigned when an attribute value is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the attribute value */
-  name?: string;
+  name?: string | undefined;
   /** The time the attribute value was created, updated, or deleted */
-  time?: string;
+  time?: string | undefined;
   /** One of "create", "update", or "delete" */
-  type?: string;
+  type?: string | undefined;
 }
 /** Routing attribute values */
 export type IncrementalSkillBasedRoutingAttributeValuesList =
   Array<IncrementalSkillBasedRoutingAttributeValue>;
 export interface IncrementalSkillBasedRoutingAttribute {
   /** Automatically assigned when an attribute is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the attribute */
-  name?: string;
+  name?: string | undefined;
   /** The time the attribute was created, updated, or deleted */
-  time?: string;
+  time?: string | undefined;
   /** One of "create", "update", or "delete" */
-  type?: string;
+  type?: string | undefined;
 }
 /** Routing attributes */
 export type IncrementalSkillBasedRoutingAttributesList =
   Array<IncrementalSkillBasedRoutingAttribute>;
 export interface IncrementalSkillBasedRoutingInstanceValue {
   /** Id of the associated attribute value */
-  attribute_value_id?: string;
+  attribute_value_id?: string | undefined;
   /** Automatically assigned when an instance value is created */
-  id?: string;
+  id?: string | undefined;
   /** Id of the associated agent or ticket */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** The time the instance value was created or deleted */
-  time?: string;
+  time?: string | undefined;
   /** One of "associate_agent", "unassociate_agent", "associate_ticket", or "unassociate_ticket" */
-  type?: string;
+  type?: string | undefined;
 }
 /** Routing instance values */
 export type IncrementalSkillBasedRoutingInstanceValuesList =
   Array<IncrementalSkillBasedRoutingInstanceValue>;
 export interface IncrementalSkillBasedRouting {
   /** Routing attribute values */
-  attribute_values?: IncrementalSkillBasedRoutingAttributeValuesList;
+  attribute_values?: IncrementalSkillBasedRoutingAttributeValuesList | undefined;
   /** Routing attributes */
-  attributes?: IncrementalSkillBasedRoutingAttributesList;
+  attributes?: IncrementalSkillBasedRoutingAttributesList | undefined;
   /** The number of results returned for the current request */
-  count?: number;
+  count?: number | undefined;
   /** The most recent resource creation time present in this result set in Unix epoch time */
-  end_time?: number;
+  end_time?: number | undefined;
   /** Routing instance values */
-  instance_values?: IncrementalSkillBasedRoutingInstanceValuesList;
+  instance_values?: IncrementalSkillBasedRoutingInstanceValuesList | undefined;
   /** The URL that should be called to get the next set of results */
-  next_page?: string;
+  next_page?: string | undefined;
 }
 export interface ExportIncrementalSkilBasedRoutingAttributeValueRequest {}
 export interface ExportIncrementalSkilBasedRoutingInstanceValueRequest {}
@@ -5430,80 +5446,80 @@ export interface ExportSearchResultsRequest {
   /** The search query. See [Query basics](#query-basics) above. For details on the query syntax, see the [Zendesk Support search reference](https://support.zendesk.com/hc/en-us/articles/4408886879258) */
   query: string;
   /** The number of results shown in a page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** The cursor token for fetching the next page of results. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** The object type returned by the export query. Can be `ticket`, `organization`, `user`, or `group`. */
   filter_type_: string;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. The available sideloads depend on the search result types. */
-  include?: string;
+  include?: string | undefined;
 }
 /** The links to the previous and next entries via the cursor ids in the metadata. */
 export interface SearchExportResponseLinks {
   /** The url to the next entry via the cursor. */
-  next?: string | null;
+  next?: string | null | undefined;
   /** The url to the previous entry via the cursor. */
-  prev?: string | null;
+  prev?: string | null | undefined;
 }
 /** Metadata for the export query response. */
 export interface SearchExportResponseMeta {
   /** The cursor id for the next object. */
-  after_cursor?: string | null;
+  after_cursor?: string | null | undefined;
   /** The cursor id for the previous object. */
-  before_cursor?: string | null;
+  before_cursor?: string | null | undefined;
   /** Whether there are more items yet to be returned by the cursor. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface SearchResultObject {
   /** When the resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Flag to indicate whether this is the default resource */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Flag to indicate whether or not resource has been deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The description of the resource */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the resource */
-  id?: number;
+  id?: number | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource */
-  result_type?: string;
+  result_type?: string | undefined;
   /** When the resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The url of the resource */
-  url?: string;
+  url?: string | undefined;
 }
 /** May consist of tickets, users, groups, or organizations, as specified by the `result_type` property in each result object */
 export type SearchExportResponseResultsList = Array<SearchResultObject>;
 export interface SearchExportResponse {
   /** The facets corresponding to the search query */
-  facets?: string | null;
+  facets?: string | null | undefined;
   /** The links to the previous and next entries via the cursor ids in the metadata. */
-  links?: SearchExportResponseLinks;
+  links?: SearchExportResponseLinks | undefined;
   /** Metadata for the export query response. */
-  meta?: SearchExportResponseMeta;
+  meta?: SearchExportResponseMeta | undefined;
   /** May consist of tickets, users, groups, or organizations, as specified by the `result_type` property in each result object */
-  results?: SearchExportResponseResultsList;
+  results?: SearchExportResponseResultsList | undefined;
 }
 export interface ExportSuspendedTicketsRequest {}
 export interface SuspendedTicketsExportResponseExport {
-  status?: string;
-  view_id?: string;
+  status?: string | undefined;
+  view_id?: string | undefined;
 }
 export interface SuspendedTicketsExportResponse {
-  export?: SuspendedTicketsExportResponseExport;
+  export?: SuspendedTicketsExportResponseExport | undefined;
 }
 export interface ExportViewRequest {
   /** The ID of the view */
   view_id: number;
 }
 export interface ViewExportResponseExport {
-  status?: string;
-  view_id?: number;
+  status?: string | undefined;
+  view_id?: number | undefined;
 }
 export interface ViewExportResponse {
-  export?: ViewExportResponseExport;
+  export?: ViewExportResponseExport | undefined;
 }
 export type CustomObjectRecordFilteredSearchConditionFieldKeyValueCase2Item = string | number;
 export type CustomObjectRecordFilteredSearchConditionFieldKeyValueCase2List =
@@ -5513,15 +5529,15 @@ export type CustomObjectRecordFilteredSearchConditionFieldKeyValue =
   | number
   | CustomObjectRecordFilteredSearchConditionFieldKeyValueCase2List;
 export interface CustomObjectRecordFilteredSearchConditionFieldKey {
-  operator?: string;
-  value?: CustomObjectRecordFilteredSearchConditionFieldKeyValue;
+  operator?: string | undefined;
+  value?: CustomObjectRecordFilteredSearchConditionFieldKeyValue | undefined;
 }
 export interface CustomObjectRecordFilteredSearchCondition {
-  field_key?: CustomObjectRecordFilteredSearchConditionFieldKey | null;
+  field_key?: CustomObjectRecordFilteredSearchConditionFieldKey | null | undefined;
   [key: string]: unknown;
 }
 export interface CustomObjectRecordsFilteredSearchRequestBasic {
-  filter?: CustomObjectRecordFilteredSearchCondition;
+  filter?: CustomObjectRecordFilteredSearchCondition | undefined;
 }
 export type CustomObjectRecordFilterExpressionLevel1FieldKeyValueCase2Item = string | number;
 export type CustomObjectRecordFilterExpressionLevel1FieldKeyValueCase2List =
@@ -5531,11 +5547,11 @@ export type CustomObjectRecordFilterExpressionLevel1FieldKeyValue =
   | number
   | CustomObjectRecordFilterExpressionLevel1FieldKeyValueCase2List;
 export interface CustomObjectRecordFilterExpressionLevel1FieldKey {
-  operator?: string;
-  value?: CustomObjectRecordFilterExpressionLevel1FieldKeyValue;
+  operator?: string | undefined;
+  value?: CustomObjectRecordFilterExpressionLevel1FieldKeyValue | undefined;
 }
 export interface CustomObjectRecordFilterExpressionLevel1 {
-  field_key?: CustomObjectRecordFilterExpressionLevel1FieldKey | null;
+  field_key?: CustomObjectRecordFilterExpressionLevel1FieldKey | null | undefined;
   [key: string]: unknown;
 }
 export type CustomObjectRecordFilterExpressionLevel2Case1AndList =
@@ -5614,11 +5630,11 @@ export type CustomObjectRecordsFilteredSearchRequestComplexFilterAndList =
 export type CustomObjectRecordsFilteredSearchRequestComplexFilterOrList =
   Array<CustomObjectRecordFilterExpression>;
 export interface CustomObjectRecordsFilteredSearchRequestComplexFilter {
-  _and?: CustomObjectRecordsFilteredSearchRequestComplexFilterAndList;
-  _or?: CustomObjectRecordsFilteredSearchRequestComplexFilterOrList;
+  _and?: CustomObjectRecordsFilteredSearchRequestComplexFilterAndList | undefined;
+  _or?: CustomObjectRecordsFilteredSearchRequestComplexFilterOrList | undefined;
 }
 export interface CustomObjectRecordsFilteredSearchRequestComplex {
-  filter?: CustomObjectRecordsFilteredSearchRequestComplexFilter;
+  filter?: CustomObjectRecordsFilteredSearchRequestComplexFilter | undefined;
 }
 export type FilteredSearchCustomObjectRecordsRequestBody =
   | CustomObjectRecordsFilteredSearchRequestBasic
@@ -5627,16 +5643,16 @@ export interface FilteredSearchCustomObjectRecordsRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The query parameter is used to search text-based fields for records that match specific query terms. The query can be multiple words or numbers. Every record that matches the beginning of any word or number in the query string is returned.<br/><br/> Fuzzy search is supported for the following text-based field types: Text fields, Multi Line Text fields, and RegExp fields.<br/><br/> For example, you might want to search for records related to Tesla vehicles: `query=Tesla`. In this example the API would return every record for the given custom object where any of the supported text fields contain the word 'Tesla'.<br/><br/> You can include multiple words or numbers in your search. For example: `query=Tesla Honda 2020`. This search phrase would be URL encoded as `query=Tesla%20Honda%202020` and return every record for the custom object for which any of the supported text fields contained 'Tesla', 'Honda', or '2020'. */
-  query?: string;
+  query?: string | undefined;
   /** One of "name", "created_at", "updated_at", "-name", "-created_at", or "-updated_at". The "-" denotes the sort will be descending. Defaults to sorting by relevance. */
-  sort?: string;
+  sort?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many records should be returned in the response. You can specify up to 100 records per page. */
-  page_size_?: number;
-  body?: FilteredSearchCustomObjectRecordsRequestBody;
+  page_size_?: number | undefined;
+  body?: FilteredSearchCustomObjectRecordsRequestBody | undefined;
 }
 export type CustomObjectRecordsResponseCustomObjectRecordsList = Array<CustomObjectRecord>;
 export interface CustomObjectRecordsResponseLinks {
@@ -5650,10 +5666,10 @@ export interface CustomObjectRecordsResponseMeta {
 }
 export interface CustomObjectRecordsResponse {
   /** The number of results returned for the current request */
-  count?: number;
-  custom_object_records?: CustomObjectRecordsResponseCustomObjectRecordsList;
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
+  count?: number | undefined;
+  custom_object_records?: CustomObjectRecordsResponseCustomObjectRecordsList | undefined;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
 }
 export type ItamAssetFilteredSearchConditionFieldKeyValueCase2Item = string | number;
 export type ItamAssetFilteredSearchConditionFieldKeyValueCase2List =
@@ -5663,50 +5679,50 @@ export type ItamAssetFilteredSearchConditionFieldKeyValue =
   | number
   | ItamAssetFilteredSearchConditionFieldKeyValueCase2List;
 export interface ItamAssetFilteredSearchConditionFieldKey {
-  operator?: string;
-  value?: ItamAssetFilteredSearchConditionFieldKeyValue;
+  operator?: string | undefined;
+  value?: ItamAssetFilteredSearchConditionFieldKeyValue | undefined;
 }
 export interface ItamAssetFilteredSearchCondition {
-  field_key?: ItamAssetFilteredSearchConditionFieldKey | null;
+  field_key?: ItamAssetFilteredSearchConditionFieldKey | null | undefined;
   [key: string]: unknown;
 }
 export interface ItamAssetFilteredSearchRequestBasic {
-  filter?: ItamAssetFilteredSearchCondition;
+  filter?: ItamAssetFilteredSearchCondition | undefined;
 }
 export type ItamAssetFilteredSearchRequestComplexFilterAndList =
   Array<ItamAssetFilteredSearchCondition>;
 export type ItamAssetFilteredSearchRequestComplexFilterOrList =
   Array<ItamAssetFilteredSearchCondition>;
 export interface ItamAssetFilteredSearchRequestComplexFilter {
-  _and?: ItamAssetFilteredSearchRequestComplexFilterAndList;
-  _or?: ItamAssetFilteredSearchRequestComplexFilterOrList;
+  _and?: ItamAssetFilteredSearchRequestComplexFilterAndList | undefined;
+  _or?: ItamAssetFilteredSearchRequestComplexFilterOrList | undefined;
 }
 export interface ItamAssetFilteredSearchRequestComplex {
-  filter?: ItamAssetFilteredSearchRequestComplexFilter;
+  filter?: ItamAssetFilteredSearchRequestComplexFilter | undefined;
 }
 export type FilteredSearchItamAssetsRequestBody =
   | ItamAssetFilteredSearchRequestBasic
   | ItamAssetFilteredSearchRequestComplex;
 export interface FilteredSearchItamAssetsRequest {
   /** Lists the search terms, separated by a space, used to identify the asset records. */
-  query?: string;
+  query?: string | undefined;
   /** Orders the returned records by: `name`, `created_at`, or `updated_at`. Defaults to sorting by relevance. Prepending `-` (`-name`, `-created_at`, or `-updated_at`) sorts the results in descending order by that value. */
-  sort?: string;
+  sort?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many assets should be returned in the response, up to 100 assets per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
   body: FilteredSearchItamAssetsRequestBody;
 }
 export type ItamAssetsResponseAssetsList = Array<ItamAsset>;
 export type ItamAssetsResponseLinks = CustomObjectRecordsResponseLinks;
 export type ItamAssetsResponseMeta = CustomObjectRecordsResponseMeta;
 export interface ItamAssetsResponse {
-  assets?: ItamAssetsResponseAssetsList;
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
+  assets?: ItamAssetsResponseAssetsList | undefined;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
 }
 export interface GetAccessRuleRequest {
   /** The key of a custom object */
@@ -5719,203 +5735,204 @@ export interface GetAccountEmailSettingsRequest {}
 export type AccountSettingsEmailObjectEmailSenderAuthenticationProfile = "default" | "enhanced";
 /** Email settings */
 export interface AccountSettingsEmailObject {
-  accept_wildcard_emails?: boolean;
-  custom_dkim_domain?: boolean;
+  accept_wildcard_emails?: boolean | undefined;
+  custom_dkim_domain?: boolean | undefined;
   /** Whether incoming email is subjected to sender authentication checks (SPF, DKIM). This setting is deprecated and will be removed soon. It can still be turned on, but after it's on you can't turn it off */
-  email_sender_authentication?: boolean;
+  email_sender_authentication?: boolean | undefined;
   /** The sender authentication profile in use. */
   email_sender_authentication_profile?:
     | AccountSettingsEmailObjectEmailSenderAuthenticationProfile
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether email status and delivery information is shown in the Agent Workspace */
-  email_status?: boolean;
-  email_template_photos?: boolean;
-  email_template_selection?: boolean;
-  gmail_actions?: boolean;
-  html_mail_template?: string;
-  mail_delimiter?: string;
-  modern_email_template?: boolean;
+  email_status?: boolean | undefined;
+  email_template_photos?: boolean | undefined;
+  email_template_selection?: boolean | undefined;
+  gmail_actions?: boolean | undefined;
+  html_mail_template?: string | undefined;
+  mail_delimiter?: string | undefined;
+  modern_email_template?: boolean | undefined;
   /** Whether a separate ticket is created for each support address that receives the same inbound email. [Learn about multi-recipient email tickets](https://support.zendesk.com/hc/en-us/articles/10584454777370) */
-  multi_recipient_email_tickets?: boolean;
-  no_mail_delimiter?: boolean;
-  personalized_replies?: boolean;
-  rich_content_in_emails?: boolean;
-  send_gmail_messages_via_gmail?: boolean;
-  text_mail_template?: string;
+  multi_recipient_email_tickets?: boolean | undefined;
+  no_mail_delimiter?: boolean | undefined;
+  personalized_replies?: boolean | undefined;
+  rich_content_in_emails?: boolean | undefined;
+  send_gmail_messages_via_gmail?: boolean | undefined;
+  text_mail_template?: string | undefined;
 }
 export interface EmailSettingsResponseSettings {
-  email?: AccountSettingsEmailObject;
+  email?: AccountSettingsEmailObject | undefined;
 }
 export interface EmailSettingsResponse {
-  settings?: EmailSettingsResponseSettings;
+  settings?: EmailSettingsResponseSettings | undefined;
 }
 export interface GetAccountSettingsRequest {
   /** Legacy CSRF token. Ignored by API. */
-  authenticity_token?: string;
+  authenticity_token?: string | undefined;
 }
 /** The active features for an account. See [Active Features](#active-features) */
 export interface AccountSettingsActiveFeaturesObject {
-  agent_forwarding?: boolean;
-  allow_ccs?: boolean;
-  allow_email_template_customization?: boolean;
-  automatic_answers?: boolean;
-  bcc_archiving?: boolean;
-  benchmark_opt_out?: boolean;
-  business_hours?: boolean;
-  chat?: boolean;
-  chat_about_my_ticket?: boolean;
-  csat_reason_code?: boolean;
-  custom_dkim_domain?: boolean;
-  customer_context_as_default?: boolean;
-  customer_satisfaction?: boolean;
-  customer_satisfaction_survey?: boolean;
-  dynamic_contents?: boolean;
-  explore?: boolean;
-  explore_on_support_ent_plan?: boolean;
-  explore_on_support_pro_plan?: boolean;
-  facebook?: boolean;
-  facebook_login?: boolean;
-  fallback_composer?: boolean;
-  forum_analytics?: boolean;
-  good_data_and_explore?: boolean;
-  google_login?: boolean;
-  is_abusive?: boolean;
-  light_agents?: boolean;
-  markdown?: boolean;
-  on_hold_status?: boolean;
-  organization_access_enabled?: boolean;
-  rich_content_in_emails?: boolean;
-  sandbox?: boolean;
-  satisfaction_prediction?: boolean;
-  suspended_ticket_notification?: boolean;
-  ticket_forms?: boolean;
-  ticket_tagging?: boolean;
-  topic_suggestion?: boolean;
-  twitter?: boolean;
-  twitter_login?: boolean;
-  user_org_fields?: boolean;
-  user_tagging?: boolean;
-  voice?: boolean;
+  agent_forwarding?: boolean | undefined;
+  allow_ccs?: boolean | undefined;
+  allow_email_template_customization?: boolean | undefined;
+  automatic_answers?: boolean | undefined;
+  bcc_archiving?: boolean | undefined;
+  benchmark_opt_out?: boolean | undefined;
+  business_hours?: boolean | undefined;
+  chat?: boolean | undefined;
+  chat_about_my_ticket?: boolean | undefined;
+  csat_reason_code?: boolean | undefined;
+  custom_dkim_domain?: boolean | undefined;
+  customer_context_as_default?: boolean | undefined;
+  customer_satisfaction?: boolean | undefined;
+  customer_satisfaction_survey?: boolean | undefined;
+  dynamic_contents?: boolean | undefined;
+  explore?: boolean | undefined;
+  explore_on_support_ent_plan?: boolean | undefined;
+  explore_on_support_pro_plan?: boolean | undefined;
+  facebook?: boolean | undefined;
+  facebook_login?: boolean | undefined;
+  fallback_composer?: boolean | undefined;
+  forum_analytics?: boolean | undefined;
+  good_data_and_explore?: boolean | undefined;
+  google_login?: boolean | undefined;
+  is_abusive?: boolean | undefined;
+  light_agents?: boolean | undefined;
+  markdown?: boolean | undefined;
+  on_hold_status?: boolean | undefined;
+  organization_access_enabled?: boolean | undefined;
+  rich_content_in_emails?: boolean | undefined;
+  sandbox?: boolean | undefined;
+  satisfaction_prediction?: boolean | undefined;
+  suspended_ticket_notification?: boolean | undefined;
+  ticket_forms?: boolean | undefined;
+  ticket_tagging?: boolean | undefined;
+  topic_suggestion?: boolean | undefined;
+  twitter?: boolean | undefined;
+  twitter_login?: boolean | undefined;
+  user_org_fields?: boolean | undefined;
+  user_tagging?: boolean | undefined;
+  voice?: boolean | undefined;
 }
 /** Configuration for the agent workspace. See [Agents](#agents) */
 export interface AccountSettingsAgentObject {
-  agent_home?: boolean;
-  agent_workspace?: boolean;
-  aw_self_serve_migration_enabled?: boolean;
-  focus_mode?: boolean;
+  agent_home?: boolean | undefined;
+  agent_workspace?: boolean | undefined;
+  aw_self_serve_migration_enabled?: boolean | undefined;
+  focus_mode?: boolean | undefined;
   /** Deprecated. Idle timeout is now managed via Admin Center status timeout settings. */
-  idle_timeout_enabled?: boolean;
-  unified_agent_statuses?: boolean;
+  idle_timeout_enabled?: boolean | undefined;
+  unified_agent_statuses?: boolean | undefined;
 }
 /** API configuration options. See [API](#api) */
 export interface AccountSettingsApiObject {
-  accepted_api_agreement?: boolean;
-  api_password_access_end_users?: boolean;
-  api_token_access?: string;
+  accepted_api_agreement?: boolean | undefined;
+  api_password_access_end_users?: boolean | undefined;
+  api_token_access?: string | undefined;
 }
 /** Apps configuration options. See [Apps](#apps) */
 export interface AccountSettingsAppsObject {
-  create_private?: boolean;
-  create_public?: boolean;
-  use?: boolean;
+  create_private?: boolean | undefined;
+  create_public?: boolean | undefined;
+  use?: boolean | undefined;
 }
 /** Billing configuration options. See [Billing](#billing) */
 export interface AccountSettingsBillingObject {
-  backend?: string;
+  backend?: string | undefined;
 }
 /** Branding settings. See [Branding](#branding) */
 export interface AccountSettingsBrandingObject {
-  favicon_url?: string | null;
-  header_color?: string;
-  header_logo_url?: string | null;
-  page_background_color?: string;
-  tab_background_color?: string;
-  text_color?: string;
+  favicon_url?: string | null | undefined;
+  header_color?: string | undefined;
+  header_logo_url?: string | null | undefined;
+  page_background_color?: string | undefined;
+  tab_background_color?: string | undefined;
+  text_color?: string | undefined;
 }
 /** Brand settings. See [Brands](#brands) */
 export interface AccountSettingsBrandsObject {
-  default_brand_id?: number;
-  end_user_across_brand_requests?: boolean;
+  default_brand_id?: number | undefined;
+  end_user_across_brand_requests?: boolean | undefined;
   /** Controls how end users are associated with brands when upgraded to agents. */
-  end_user_upgrade_brand_association_behavior?: string;
+  end_user_upgrade_brand_association_behavior?: string | undefined;
   /** Controls how new agents are associated with brands. Determines the default brand assignment for newly created agents. */
-  new_agent_brand_association_behavior?: string;
-  require_brand_on_new_tickets?: boolean;
+  new_agent_brand_association_behavior?: string | undefined;
+  require_brand_on_new_tickets?: boolean | undefined;
 }
 export interface AccountSettingsCdnObjectHostsItem {
-  name?: string;
-  url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export type AccountSettingsCdnObjectHostsList = Array<AccountSettingsCdnObjectHostsItem>;
 /** CDN settings */
 export interface AccountSettingsCdnObject {
-  cdn_provider?: string;
-  fallback_cdn_provider?: string;
-  hosts?: AccountSettingsCdnObjectHostsList;
+  cdn_provider?: string | undefined;
+  fallback_cdn_provider?: string | undefined;
+  hosts?: AccountSettingsCdnObjectHostsList | undefined;
 }
 /** Zendesk Chat settings. See [Chat](#chat) */
 export interface AccountSettingsChatObject {
-  available?: boolean;
-  enabled?: boolean;
-  integrated?: boolean;
-  maximum_request_count?: number;
-  welcome_message?: string;
+  available?: boolean | undefined;
+  enabled?: boolean | undefined;
+  integrated?: boolean | undefined;
+  maximum_request_count?: number | undefined;
+  welcome_message?: string | undefined;
 }
 /** Cross Sell settings */
 export interface AccountSettingsCrossSellObject {
-  show_chat_tooltip?: boolean;
-  xsell_source?: string | null;
+  show_chat_tooltip?: boolean | undefined;
+  xsell_source?: string | null | undefined;
 }
 /** End user device settings. See [Device Metadata](#device-metadata) */
 export interface AccountSettingsDeviceObject {
-  enabled?: boolean;
-  hide_ip?: boolean;
-  hide_location?: boolean;
+  enabled?: boolean | undefined;
+  hide_ip?: boolean | undefined;
+  hide_location?: boolean | undefined;
 }
 /** Google Apps configuration. See [G Suite](#g-suite) */
 export interface AccountSettingsGoogleAppsObject {
-  has_google_apps?: boolean;
-  has_google_apps_admin?: boolean;
+  has_google_apps?: boolean | undefined;
+  has_google_apps_admin?: boolean | undefined;
 }
 /** Group configuration */
 export interface AccountSettingsGroupObject {
-  check_group_name_uniqueness?: boolean;
+  check_group_name_uniqueness?: boolean | undefined;
 }
 /** Account's knowledge management and search capabilities. See [Knowledge](#knowledge) */
 export interface AccountSettingsKnowledgeObject {
-  default_search_filters_brands?: string;
-  default_search_filters_categories?: string;
-  default_search_filters_external_content_sources?: string;
-  default_search_filters_locales?: string;
-  default_search_filters_sections?: string;
-  generative_answers?: boolean;
-  require_article_templates?: boolean;
-  search_articles?: boolean;
-  search_community_posts?: boolean;
-  search_external_content?: boolean;
+  default_search_filters_brands?: string | undefined;
+  default_search_filters_categories?: string | undefined;
+  default_search_filters_external_content_sources?: string | undefined;
+  default_search_filters_locales?: string | undefined;
+  default_search_filters_sections?: string | undefined;
+  generative_answers?: boolean | undefined;
+  require_article_templates?: boolean | undefined;
+  search_articles?: boolean | undefined;
+  search_community_posts?: boolean | undefined;
+  search_external_content?: boolean | undefined;
 }
 /** Account limits configuration. See [Limits](#limits) */
 export interface AccountSettingsLimitsObject {
-  attachment_size?: number;
+  attachment_size?: number | undefined;
 }
 export type AccountSettingsLocalizationObjectLocaleIdsList = Array<number>;
 /** Internationalization configuration settings. See [Localization](#localization) */
 export interface AccountSettingsLocalizationObject {
-  locale_ids?: AccountSettingsLocalizationObjectLocaleIdsList;
+  locale_ids?: AccountSettingsLocalizationObjectLocaleIdsList | undefined;
 }
 /** Support UI settings. See [Lotus](#lotus) */
 export interface AccountSettingsLotusObject {
-  pod_id?: number;
-  prefer_lotus?: boolean;
-  reporting?: boolean;
+  pod_id?: number | undefined;
+  prefer_lotus?: boolean | undefined;
+  reporting?: boolean | undefined;
 }
 export interface AccountSettingsMessageInactivityObjectDefaultLocalizedMessages {
   /** The first pre-solved message */
-  pre_solved_message_1?: string;
+  pre_solved_message_1?: string | undefined;
   /** The second pre-solved message */
-  pre_solved_message_2?: string;
+  pre_solved_message_2?: string | undefined;
   /** The solved message */
-  solved_message?: string;
+  solved_message?: string | undefined;
 }
 /** Array of strings, tags added to ticket with each reminder. Can be empty */
 export type AccountSettingsMessageInactivityObjectRemindersItemTagsList = Array<string>;
@@ -5923,46 +5940,48 @@ export interface AccountSettingsMessageInactivityObjectRemindersItem {
   /** Mandatory message for the reminder */
   message: string;
   /** Array of strings, tags added to ticket with each reminder. Can be empty */
-  tags?: AccountSettingsMessageInactivityObjectRemindersItemTagsList;
+  tags?: AccountSettingsMessageInactivityObjectRemindersItemTagsList | undefined;
   /** Ticket status id, available and mandatory for the 2nd and 3rd reminders, if the reminder is configured. The field can be null to indicate no status change */
-  ticket_status_id?: number | null;
+  ticket_status_id?: number | null | undefined;
   /** Reminder timeout in seconds, available and mandatory for the 2nd and 3rd reminders, if the reminder is configured */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
 }
 export type AccountSettingsMessageInactivityObjectRemindersList =
   Array<AccountSettingsMessageInactivityObjectRemindersItem>;
 /** Auto-release capacity settings. See [Messaging inactivity](#messaging-inactivity) */
 export interface AccountSettingsMessageInactivityObject {
-  default_localized_messages?: AccountSettingsMessageInactivityObjectDefaultLocalizedMessages;
+  default_localized_messages?:
+    | AccountSettingsMessageInactivityObjectDefaultLocalizedMessages
+    | undefined;
   /** Whether the messaging inactivity feature is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether messaging session should end with the final reminder */
-  end_session?: boolean;
-  reminders?: AccountSettingsMessageInactivityObjectRemindersList;
+  end_session?: boolean | undefined;
+  reminders?: AccountSettingsMessageInactivityObjectRemindersList | undefined;
   /** Ticket status id to apply on the ticket when it is marked as inactive */
-  ticket_status_id?: number;
+  ticket_status_id?: number | undefined;
   /** Timeout in minutes after which the ticket will be marked as inactive */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** Account metrics settings. See [Metrics](#metrics) */
 export interface AccountSettingsMetricsObject {
-  account_size?: string;
+  account_size?: string | undefined;
 }
 /** Onboarding settings */
 export interface AccountSettingsOnboardingObject {
-  checklist_onboarding_version?: number;
-  onboarding_segments?: string | null;
-  product_sign_up?: string | null;
+  checklist_onboarding_version?: number | undefined;
+  onboarding_segments?: string | null | undefined;
+  product_sign_up?: string | null | undefined;
 }
 /** Configuration for routing. See [Routing](#routing) */
 export interface AccountSettingsRoutingObject {
-  autorouting_tag?: string;
-  enabled?: boolean;
-  max_email_capacity?: number;
-  max_messaging_capacity?: number;
-  reassignment_messaging_enabled?: boolean;
-  reassignment_messaging_timeout?: number;
-  reassignment_talk_timeout?: number;
+  autorouting_tag?: string | undefined;
+  enabled?: boolean | undefined;
+  max_email_capacity?: number | undefined;
+  max_messaging_capacity?: number | undefined;
+  reassignment_messaging_enabled?: boolean | undefined;
+  reassignment_messaging_timeout?: number | undefined;
+  reassignment_talk_timeout?: number | undefined;
 }
 export type AccountSettingsRuleObjectSkillBasedFilteredViewsItemMap = {
   [key: string]: unknown | undefined;
@@ -5971,126 +5990,126 @@ export type AccountSettingsRuleObjectSkillBasedFilteredViewsList =
   Array<AccountSettingsRuleObjectSkillBasedFilteredViewsItemMap>;
 /** Rules settings for triggers, macros, views, and automations. See [Rules](#rules) */
 export interface AccountSettingsRuleObject {
-  macro_most_used?: boolean;
-  macro_order?: string;
-  skill_based_filtered_views?: AccountSettingsRuleObjectSkillBasedFilteredViewsList;
-  using_skill_based_routing?: boolean;
+  macro_most_used?: boolean | undefined;
+  macro_order?: string | undefined;
+  skill_based_filtered_views?: AccountSettingsRuleObjectSkillBasedFilteredViewsList | undefined;
+  using_skill_based_routing?: boolean | undefined;
 }
 /** Side conversations settings */
 export interface AccountSettingsSideConversationsObject {
-  email_channel?: boolean;
-  msteams_channel?: boolean;
-  show_in_context_panel?: boolean;
-  slack_channel?: boolean;
-  tickets_channel?: boolean;
+  email_channel?: boolean | undefined;
+  msteams_channel?: boolean | undefined;
+  show_in_context_panel?: boolean | undefined;
+  slack_channel?: boolean | undefined;
+  tickets_channel?: boolean | undefined;
 }
 /** Account statistics settings. See [Statistics](#statistics) */
 export interface AccountSettingsStatisticsObject {
-  forum?: boolean;
-  rule_usage?: boolean;
-  search?: boolean;
+  forum?: boolean | undefined;
+  rule_usage?: boolean | undefined;
+  search?: boolean | undefined;
 }
 /** Ticket form settings. See [Ticket Form](#ticket-form) */
 export interface AccountSettingsTicketFormObject {
-  raw_ticket_forms_instructions?: string;
-  ticket_forms_instructions?: string;
+  raw_ticket_forms_instructions?: string | undefined;
+  ticket_forms_instructions?: string | undefined;
 }
 /** Ticket settings. See [Tickets](#tickets) */
 export interface AccountSettingsTicketObject {
-  accepted_new_collaboration_tos?: boolean;
-  agent_collision?: boolean;
-  agent_invitation_enabled?: boolean;
-  agent_ticket_deletion?: boolean;
-  allow_group_reset?: boolean;
-  assign_default_organization?: boolean;
-  assign_tickets_upon_solve?: boolean;
-  auto_translation_enabled?: boolean;
-  auto_updated_ccs_followers_rules?: boolean;
-  chat_sla_enablement?: boolean;
-  collaboration?: boolean;
-  comments_public_by_default?: boolean;
-  default_solved_ticket_reassignment_strategy?: string;
-  default_to_draft_mode?: boolean;
-  email_attachments?: boolean;
-  email_redact_attachments_when_placeholders_disallow?: boolean;
-  emoji_autocompletion?: boolean;
-  follower_and_email_cc_collaborations?: boolean;
-  has_color_text?: boolean;
-  is_first_comment_private_enabled?: boolean;
-  light_agent_email_ccs_allowed?: boolean;
-  list_empty_views?: boolean;
-  list_newest_comments_first?: boolean;
-  markdown_ticket_comments?: boolean;
-  maximum_personal_views_to_list?: number;
-  modern_ticket_reassignment?: boolean;
-  private_attachments?: boolean;
-  rich_text_comments?: boolean;
-  show_modern_ticket_reassignment?: boolean;
-  status_hold?: boolean;
-  tagging?: boolean;
-  using_skill_based_routing?: boolean;
+  accepted_new_collaboration_tos?: boolean | undefined;
+  agent_collision?: boolean | undefined;
+  agent_invitation_enabled?: boolean | undefined;
+  agent_ticket_deletion?: boolean | undefined;
+  allow_group_reset?: boolean | undefined;
+  assign_default_organization?: boolean | undefined;
+  assign_tickets_upon_solve?: boolean | undefined;
+  auto_translation_enabled?: boolean | undefined;
+  auto_updated_ccs_followers_rules?: boolean | undefined;
+  chat_sla_enablement?: boolean | undefined;
+  collaboration?: boolean | undefined;
+  comments_public_by_default?: boolean | undefined;
+  default_solved_ticket_reassignment_strategy?: string | undefined;
+  default_to_draft_mode?: boolean | undefined;
+  email_attachments?: boolean | undefined;
+  email_redact_attachments_when_placeholders_disallow?: boolean | undefined;
+  emoji_autocompletion?: boolean | undefined;
+  follower_and_email_cc_collaborations?: boolean | undefined;
+  has_color_text?: boolean | undefined;
+  is_first_comment_private_enabled?: boolean | undefined;
+  light_agent_email_ccs_allowed?: boolean | undefined;
+  list_empty_views?: boolean | undefined;
+  list_newest_comments_first?: boolean | undefined;
+  markdown_ticket_comments?: boolean | undefined;
+  maximum_personal_views_to_list?: number | undefined;
+  modern_ticket_reassignment?: boolean | undefined;
+  private_attachments?: boolean | undefined;
+  rich_text_comments?: boolean | undefined;
+  show_modern_ticket_reassignment?: boolean | undefined;
+  status_hold?: boolean | undefined;
+  tagging?: boolean | undefined;
+  using_skill_based_routing?: boolean | undefined;
 }
 /** X (formerly Twitter) settings. See [X](#x-formerly-twitter) */
 export interface AccountSettingsTwitterObject {
-  shorten_url?: string;
+  shorten_url?: string | undefined;
 }
 /** User settings. See [Users](#users) */
 export interface AccountSettingsUserObject {
-  agent_created_welcome_emails?: boolean;
-  end_user_phone_number_validation?: boolean;
-  have_gravatars_enabled?: boolean;
-  language_selection?: boolean;
-  multiple_organizations?: boolean;
-  tagging?: boolean;
-  time_zone_selection?: boolean;
+  agent_created_welcome_emails?: boolean | undefined;
+  end_user_phone_number_validation?: boolean | undefined;
+  have_gravatars_enabled?: boolean | undefined;
+  language_selection?: boolean | undefined;
+  multiple_organizations?: boolean | undefined;
+  tagging?: boolean | undefined;
+  time_zone_selection?: boolean | undefined;
 }
 /** Zendesk Talk settings. See [Voice](#voice) */
 export interface AccountSettingsVoiceObject {
-  agent_confirmation_when_forwarding?: boolean;
-  agent_wrap_up_after_calls?: boolean;
-  enabled?: boolean;
-  logging?: boolean;
-  maximum_queue_size?: number;
-  maximum_queue_wait_time?: number;
-  only_during_business_hours?: boolean;
-  outbound_enabled?: boolean;
-  recordings_public?: boolean;
-  uk_mobile_forwarding?: boolean;
+  agent_confirmation_when_forwarding?: boolean | undefined;
+  agent_wrap_up_after_calls?: boolean | undefined;
+  enabled?: boolean | undefined;
+  logging?: boolean | undefined;
+  maximum_queue_size?: number | undefined;
+  maximum_queue_wait_time?: number | undefined;
+  only_during_business_hours?: boolean | undefined;
+  outbound_enabled?: boolean | undefined;
+  recordings_public?: boolean | undefined;
+  uk_mobile_forwarding?: boolean | undefined;
 }
 export interface AccountSettingsObject {
-  active_features?: AccountSettingsActiveFeaturesObject;
-  agents?: AccountSettingsAgentObject;
-  api?: AccountSettingsApiObject;
-  apps?: AccountSettingsAppsObject;
-  billing?: AccountSettingsBillingObject;
-  branding?: AccountSettingsBrandingObject;
-  brands?: AccountSettingsBrandsObject;
-  cdn?: AccountSettingsCdnObject;
-  chat?: AccountSettingsChatObject;
-  cross_sell?: AccountSettingsCrossSellObject;
-  device_metadata?: AccountSettingsDeviceObject;
-  email?: AccountSettingsEmailObject;
-  google_apps?: AccountSettingsGoogleAppsObject;
-  groups?: AccountSettingsGroupObject;
-  knowledge?: AccountSettingsKnowledgeObject;
-  limits?: AccountSettingsLimitsObject;
-  localization?: AccountSettingsLocalizationObject;
-  lotus?: AccountSettingsLotusObject;
-  messaging_inactivity?: AccountSettingsMessageInactivityObject;
-  metrics?: AccountSettingsMetricsObject;
-  onboarding?: AccountSettingsOnboardingObject;
-  routing?: AccountSettingsRoutingObject;
-  rule?: AccountSettingsRuleObject;
-  side_conversations?: AccountSettingsSideConversationsObject;
-  statistics?: AccountSettingsStatisticsObject;
-  ticket_form?: AccountSettingsTicketFormObject;
-  tickets?: AccountSettingsTicketObject;
-  twitter?: AccountSettingsTwitterObject;
-  user?: AccountSettingsUserObject;
-  voice?: AccountSettingsVoiceObject;
+  active_features?: AccountSettingsActiveFeaturesObject | undefined;
+  agents?: AccountSettingsAgentObject | undefined;
+  api?: AccountSettingsApiObject | undefined;
+  apps?: AccountSettingsAppsObject | undefined;
+  billing?: AccountSettingsBillingObject | undefined;
+  branding?: AccountSettingsBrandingObject | undefined;
+  brands?: AccountSettingsBrandsObject | undefined;
+  cdn?: AccountSettingsCdnObject | undefined;
+  chat?: AccountSettingsChatObject | undefined;
+  cross_sell?: AccountSettingsCrossSellObject | undefined;
+  device_metadata?: AccountSettingsDeviceObject | undefined;
+  email?: AccountSettingsEmailObject | undefined;
+  google_apps?: AccountSettingsGoogleAppsObject | undefined;
+  groups?: AccountSettingsGroupObject | undefined;
+  knowledge?: AccountSettingsKnowledgeObject | undefined;
+  limits?: AccountSettingsLimitsObject | undefined;
+  localization?: AccountSettingsLocalizationObject | undefined;
+  lotus?: AccountSettingsLotusObject | undefined;
+  messaging_inactivity?: AccountSettingsMessageInactivityObject | undefined;
+  metrics?: AccountSettingsMetricsObject | undefined;
+  onboarding?: AccountSettingsOnboardingObject | undefined;
+  routing?: AccountSettingsRoutingObject | undefined;
+  rule?: AccountSettingsRuleObject | undefined;
+  side_conversations?: AccountSettingsSideConversationsObject | undefined;
+  statistics?: AccountSettingsStatisticsObject | undefined;
+  ticket_form?: AccountSettingsTicketFormObject | undefined;
+  tickets?: AccountSettingsTicketObject | undefined;
+  twitter?: AccountSettingsTwitterObject | undefined;
+  user?: AccountSettingsUserObject | undefined;
+  voice?: AccountSettingsVoiceObject | undefined;
 }
 export interface AccountSettingsResponse {
-  settings?: AccountSettingsObject;
+  settings?: AccountSettingsObject | undefined;
 }
 export interface GetActivityRequest {
   /** The activity ID */
@@ -6102,39 +6121,39 @@ export type ActivityObjectObjectMap = { [key: string]: unknown | undefined };
 export type ActivityObjectTargetMap = { [key: string]: unknown | undefined };
 export interface ActivityObject {
   /** The full user record of the user responsible for the ticket activity. See [Users](/api-reference/ticketing/users/users/) */
-  actor?: UserObject;
+  actor?: UserObject | undefined;
   /** The id of the user responsible for the ticket activity. An `actor_id` of "-1" is a Zendesk system user, such as an automations action. */
-  actor_id?: number;
+  actor_id?: number | undefined;
   /** When the record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned on creation */
-  id?: number;
+  id?: number | undefined;
   /** The content of the activity. Can be a ticket, comment, or change. */
-  object?: ActivityObjectObjectMap;
+  object?: ActivityObjectObjectMap | undefined;
   /** The target of the activity, a ticket. */
-  target?: ActivityObjectTargetMap;
+  target?: ActivityObjectTargetMap | undefined;
   /** Description of the activity */
-  title?: string;
+  title?: string | undefined;
   /** When the record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of the activity */
-  url?: string;
+  url?: string | undefined;
   /** The full user record of the agent making the request. See [Users](/api-reference/ticketing/users/users/) */
-  user?: UserObject;
+  user?: UserObject | undefined;
   /** The id of the agent making the request */
-  user_id?: number;
+  user_id?: number | undefined;
   /** The type of activity. Can be "tickets.assignment", "tickets.comment", or "tickets.priority_increase" */
-  verb?: string;
+  verb?: string | undefined;
 }
 export interface ActivityResponse {
-  activity?: ActivityObject;
+  activity?: ActivityObject | undefined;
 }
 export interface GetAttachmentRequest {
   /** The ID of the attachment */
   attachment_id: number;
 }
 export interface AttachmentResponse {
-  attachment?: AttachmentObject;
+  attachment?: AttachmentObject | undefined;
 }
 export interface GetAttributeRequest {
   /** The ID of the skill-based routing attribute */
@@ -6152,32 +6171,32 @@ export interface GetAuditLogRequest {
 }
 export interface AuditLogObject {
   /** Type of change made. Possible values are "create", "destroy", "exported", "login", and "update" */
-  action?: string;
+  action?: string | undefined;
   /** Localized string of action field */
-  action_label?: string;
+  action_label?: string | undefined;
   /** id of the user or system that initiated the change */
-  actor_id?: number;
+  actor_id?: number | undefined;
   /** Name of the user or system that initiated the change */
-  actor_name?: string;
+  actor_name?: string | undefined;
   /** The description of the change that occurred */
-  change_description?: string;
+  change_description?: string | undefined;
   /** The time the audit got created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The id automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The IP address of the user doing the audit */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** The id of the item being audited */
-  source_id?: number;
+  source_id?: number | undefined;
   /** The name of the item being audited */
-  source_label?: string;
+  source_label?: string | undefined;
   /** Item type being audited. Typically describes the system where the change was initiated. Possible values vary based on your account's Zendesk products and activity. Common values include "apitoken", "rule", "ticket", "user", and "zendesk/app_market/app". The "rule" value is used for [automations](https://support.zendesk.com/hc/en-us/articles/4408832701850), [macros](https://support.zendesk.com/hc/en-us/articles/4408844187034), [triggers](https://support.zendesk.com/hc/en-us/articles/4408822236058), [views](https://support.zendesk.com/hc/en-us/articles/4408888828570), and other automated business rules */
-  source_type?: string;
+  source_type?: string | undefined;
   /** The URL to access the audit log */
-  url?: string;
+  url?: string | undefined;
 }
 export interface AuditLogResponse {
-  audit_log?: AuditLogObject;
+  audit_log?: AuditLogObject | undefined;
 }
 export interface GetAutomationRequest {
   /** The ID of the automation */
@@ -6195,47 +6214,47 @@ export interface BrandAgentObject {
   /** The id of a brand */
   brand_id: number;
   /** The time the brand membership was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** The time of the last update of the brand membership */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this record */
-  url?: string;
+  url?: string | undefined;
   /** The id of an agent */
   user_id: number;
 }
 export interface BrandAgentResponse {
-  brand_agent?: BrandAgentObject;
+  brand_agent?: BrandAgentObject | undefined;
 }
 export interface GetChangesToTicketRequest {
   /** The ID of the macro */
   macro_id: number;
   /** If true, normalizes the newline formatting of the macro's comment to more closely match the formatting produced by the ticket comment editor */
-  normalize_comment?: boolean;
+  normalize_comment?: boolean | undefined;
 }
 export type MacroApplyTicketResponseResultTicketCommentScopedBodyItemList = Array<string>;
 export type MacroApplyTicketResponseResultTicketCommentScopedBodyList =
   Array<MacroApplyTicketResponseResultTicketCommentScopedBodyItemList>;
 export interface MacroApplyTicketResponseResultTicketComment {
-  body?: string;
-  public?: boolean;
-  scoped_body?: MacroApplyTicketResponseResultTicketCommentScopedBodyList;
+  body?: string | undefined;
+  public?: boolean | undefined;
+  scoped_body?: MacroApplyTicketResponseResultTicketCommentScopedBodyList | undefined;
 }
 export type MacroApplyTicketResponseResultTicketFields = RequestObjectCustomFieldsItem;
 export interface MacroApplyTicketResponseResultTicket {
-  assignee_id?: number;
-  comment?: MacroApplyTicketResponseResultTicketComment;
-  fields?: RequestObjectCustomFieldsItem;
-  group_id?: number;
-  id?: number;
-  url?: string;
+  assignee_id?: number | undefined;
+  comment?: MacroApplyTicketResponseResultTicketComment | undefined;
+  fields?: RequestObjectCustomFieldsItem | undefined;
+  group_id?: number | undefined;
+  id?: number | undefined;
+  url?: string | undefined;
 }
 export interface MacroApplyTicketResponseResult {
-  ticket?: MacroApplyTicketResponseResultTicket;
+  ticket?: MacroApplyTicketResponseResultTicket | undefined;
 }
 export interface MacroApplyTicketResponse {
-  result?: MacroApplyTicketResponseResult;
+  result?: MacroApplyTicketResponseResult | undefined;
 }
 export interface GetClientRequest {
   /** The ID of the OAuth client */
@@ -6248,7 +6267,7 @@ export interface GetCommentRequest {
   ticket_comment_id: number;
 }
 export interface TicketCommentResponse {
-  comment?: TicketCommentObject;
+  comment?: TicketCommentObject | undefined;
 }
 export interface GetCountryRequest {
   /** The ID of the country */
@@ -6256,7 +6275,7 @@ export interface GetCountryRequest {
 }
 export interface CountryObject {
   /** International calling code */
-  calling_code?: string;
+  calling_code?: string | undefined;
   /** ISO country code */
   code: string;
   /** Unique identifier for the country */
@@ -6264,62 +6283,62 @@ export interface CountryObject {
   /** Country name */
   name: string;
   /** Geographic region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetCountryResponse {
-  country?: CountryObject;
+  country?: CountryObject | undefined;
 }
 export interface GetCurrentLocaleRequest {}
 export interface GetCurrentlyAuthenticatedSessionRequest {}
 export interface SessionObject {
   /** When the session was created */
-  authenticated_at?: string | null;
+  authenticated_at?: string | null | undefined;
   /** Automatically assigned when the session is created */
   id: number;
   /** The last approximate time this session was seen. This does not update on every request. */
-  last_seen_at?: string | null;
+  last_seen_at?: string | null | undefined;
   /** The API URL of this session */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The id of the user */
-  user_id?: number | null;
+  user_id?: number | null | undefined;
 }
 export type SessionResponseSessionList = Array<SessionObject>;
 export interface SessionResponse {
-  session?: SessionResponseSessionList;
+  session?: SessionResponseSessionList | undefined;
 }
 export interface GetCurrentTokenRequest {}
 /** An array of the valid scopes for this token. See [Scopes](#scopes) below */
 export type OauthTokenObjectScopesList = Array<string>;
 export interface OauthTokenObject {
   /** The id of the client this token belongs to */
-  client_id?: number;
+  client_id?: number | undefined;
   /** The time the token was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the token will expire */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The refresh token, if generated */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The time the refresh token will expire */
-  refresh_token_expires_at?: string;
+  refresh_token_expires_at?: string | undefined;
   /** An array of the valid scopes for this token. See [Scopes](#scopes) below */
-  scopes?: OauthTokenObjectScopesList;
+  scopes?: OauthTokenObjectScopesList | undefined;
   /** The access token */
-  token?: string;
+  token?: string | undefined;
   /** The API url of this record */
-  url?: string;
+  url?: string | undefined;
   /** The latest time this token was used for authentication */
-  used_at?: string;
+  used_at?: string | undefined;
   /** The id of the user this token authenticates as */
-  user_id?: number;
+  user_id?: number | undefined;
 }
 export interface OAuthTokenResponse {
-  token?: OauthTokenObject;
+  token?: OauthTokenObject | undefined;
 }
 export interface GetCurrentUserRequest {
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
 }
 /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
 export type CurrentUserResponseUserAgentBrandIdsList = Array<number>;
@@ -6329,7 +6348,7 @@ export type CurrentUserResponseUserSeparationScope = "account" | "brand";
 /** The brand separation scope for the user. Only present when the account has brand separation enabled. For end users, indicates whether they are scoped to the full account or a specific brand. Staff users (agents and admins) always have `scope: "account"`. */
 export interface CurrentUserResponseUserSeparation {
   /** The id of the brand the user is scoped to. Only present when "scope" is "brand". */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** The separation scope. "account" means account-level access; "brand" means access limited to a specific brand. */
   scope: CurrentUserResponseUserSeparationScope;
 }
@@ -6348,100 +6367,100 @@ export type CurrentUserResponseUserTagsList = Array<string>;
 export type CurrentUserResponseUserUserFieldsMap = { [key: string]: unknown | undefined };
 export interface CurrentUserResponseUser {
   /** false if the user has been deleted */
-  active?: boolean;
+  active?: boolean | undefined;
   /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
-  agent_brand_ids?: CurrentUserResponseUserAgentBrandIdsList;
+  agent_brand_ids?: CurrentUserResponseUserAgentBrandIdsList | undefined;
   /** An alias displayed to end users */
-  alias?: string;
+  alias?: string | undefined;
   /** Whether or not the user is a chat-only agent */
-  chat_only?: boolean;
+  chat_only?: boolean | undefined;
   /** The time the user was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A custom role if the user is an agent on the Enterprise plan or above */
-  custom_role_id?: number | null;
+  custom_role_id?: number | null | undefined;
   /** The id of the user's default group */
-  default_group_id?: number;
+  default_group_id?: number | undefined;
   /** Any details you want to store about the user, such as an address */
-  details?: string;
+  details?: string | undefined;
   /** The user's primary email address. *Writeable on create only. On update, a secondary email is added. See [Email Address](#email-address) */
-  email?: string;
+  email?: string | undefined;
   /** A unique identifier from another system. The API treats the id as case insensitive. Example: "ian1" and "IAN1" are the same value. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The time zone for the user */
-  iana_time_zone?: string;
+  iana_time_zone?: string | undefined;
   /** Automatically assigned when the user is created */
-  id?: number;
+  id?: number | undefined;
   /** Last time the user signed in to Zendesk Support or made an API request using an API token */
-  last_login_at?: string;
+  last_login_at?: string | undefined;
   /** The user's locale. A BCP-47 compliant tag for the locale. If both "locale" and "locale_id" are present on create or update, "locale_id" is ignored and only "locale" is used. */
-  locale?: string;
+  locale?: string | undefined;
   /** The user's language identifier */
-  locale_id?: number;
+  locale_id?: number | undefined;
   /** Designates whether the user has forum moderation capabilities */
-  moderator?: boolean;
+  moderator?: boolean | undefined;
   /** The user's name */
-  name?: string;
+  name?: string | undefined;
   /** Any notes you want to store about the user */
-  notes?: string;
+  notes?: string | undefined;
   /** true if the user can only create private comments */
-  only_private_comments?: boolean;
+  only_private_comments?: boolean | undefined;
   /** The id of the user's organization. If the user has more than one [organization memberships](/api-reference/ticketing/organizations/organization_memberships/), the id of the user's default organization. If updating, see [Organization ID](#organization-id) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The user's primary phone number. See [Phone Number](#phone-number) below */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
-  photo?: CurrentUserResponseUserPhotoMap;
+  photo?: CurrentUserResponseUserPhotoMap | undefined;
   /** A URL pointing to the user's profile picture. */
-  remote_photo_url?: string;
+  remote_photo_url?: string | undefined;
   /** This parameter is inert and has no effect. It may be deprecated in the future. Previously, this parameter determined whether a user could access a CSV report in a legacy Guide dashboard. This dashboard has been removed. See [Announcing Guide legacy reporting upgrade to Explore](https://support.zendesk.com/hc/en-us/articles/4762263171610-Announcing-Guide-legacy-reporting-upgrade-to-Explore-) */
-  report_csv?: boolean;
+  report_csv?: boolean | undefined;
   /** If the agent has any restrictions; false for admins and unrestricted agents, true for other agents */
-  restricted_agent?: boolean;
+  restricted_agent?: boolean | undefined;
   /** The user's role. Possible values are "end-user", "agent", or "admin" */
-  role?: string;
+  role?: string | undefined;
   /** The user's role id. 0 for a custom agent, 1 for a light agent, 2 for a chat agent, 3 for a chat agent added to the Support account as a contributor ([Chat Phase 4](https://support.zendesk.com/hc/en-us/articles/4408836197658#topic_p1h_sx4_pgb)), 4 for an admin, and 5 for a billing admin */
-  role_type?: number | null;
+  role_type?: number | null | undefined;
   /** The brand separation scope for the user. Only present when the account has brand separation enabled. For end users, indicates whether they are scoped to the full account or a specific brand. Staff users (agents and admins) always have `scope: "account"`. */
-  separation?: CurrentUserResponseUserSeparation;
+  separation?: CurrentUserResponseUserSeparation | undefined;
   /** If the user is shared from a different Zendesk Support instance. Shared users can be added to organizations but cannot be modified through update requests. Any attempt to update a shared user results in a 403 Forbidden error. Ticket sharing accounts only */
-  shared?: boolean;
+  shared?: boolean | undefined;
   /** If the user is a shared agent from a different Zendesk Support instance. Ticket sharing accounts only */
-  shared_agent?: boolean;
+  shared_agent?: boolean | undefined;
   /** Whether the `phone` number is shared or not. See [Phone Number](#phone-number) below */
-  shared_phone_number?: boolean | null;
+  shared_phone_number?: boolean | null | undefined;
   /** The user's signature. Only agents and admins can have signatures */
-  signature?: string;
+  signature?: string | undefined;
   /** If the agent is suspended. Tickets from suspended users are also suspended, and these users cannot sign in to the end user portal */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Channel-level suspension state for the user. The value is null if the user has no active channel-level suspension */
-  suspension_details?: CurrentUserResponseUserSuspensionDetails | null;
+  suspension_details?: CurrentUserResponseUserSuspensionDetails | null | undefined;
   /** The user's tags. Only present if your account has user tagging enabled */
-  tags?: CurrentUserResponseUserTagsList;
+  tags?: CurrentUserResponseUserTagsList | undefined;
   /** Specifies which tickets the user has access to. Possible values are: "organization", "groups", "assigned", "requested", null. "groups" and "assigned" are valid only for agents. If you pass an invalid value to an end user (for example, "groups"), they will be assigned to "requested", regardless of their previous access */
-  ticket_restriction?: string | null;
+  ticket_restriction?: string | null | undefined;
   /** The user's time zone. See [Time Zone](#time-zone) */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** If two factor authentication is enabled */
-  two_factor_auth_enabled?: boolean | null;
+  two_factor_auth_enabled?: boolean | null | undefined;
   /** The time the user was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The user's API url */
-  url?: string;
+  url?: string | undefined;
   /** Values of custom fields in the user's profile. See [User Fields](#user-fields) */
-  user_fields?: CurrentUserResponseUserUserFieldsMap;
+  user_fields?: CurrentUserResponseUserUserFieldsMap | undefined;
   /** Any of the user's identities is verified. See [User Identities](/api-reference/ticketing/users/user_identities) */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** CSRF token required by some Zendesk APIs. */
-  authenticity_token?: string;
+  authenticity_token?: string | undefined;
   [key: string]: unknown;
 }
 export interface CurrentUserResponse {
-  user?: CurrentUserResponseUser;
+  user?: CurrentUserResponseUser | undefined;
 }
 export interface GetCurrentUserSettingsRequest {}
 /** Admin Center UI settings */
 export interface UserSettingsResponseSettingsAdminCenter {
-  has_admin_center_side_nav_open?: boolean;
+  has_admin_center_side_nav_open?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
@@ -6456,14 +6475,18 @@ export type UserSettingsResponseSettingsLotusAgentWorkspaceThemePreferenceForCon
 /** Lotus UI settings for onboarding, tooltips, and feature preferences */
 export interface UserSettingsResponseSettingsLotus {
   /** Agent workspace theme preference (0=light, 1=dark, 2=system) */
-  agent_workspace_theme_preference?: UserSettingsResponseSettingsLotusAgentWorkspaceThemePreference;
+  agent_workspace_theme_preference?:
+    | UserSettingsResponseSettingsLotusAgentWorkspaceThemePreference
+    | undefined;
   /** Theme preference for conversation panel (0=light, 1=dark, 2=system) */
-  agent_workspace_theme_preference_for_conversation_panel?: UserSettingsResponseSettingsLotusAgentWorkspaceThemePreferenceForConversationPanel;
-  keyboard_shortcuts_enabled?: boolean;
-  macro_shortcuts_enabled?: boolean;
-  show_onboarding_tooltips?: boolean;
+  agent_workspace_theme_preference_for_conversation_panel?:
+    | UserSettingsResponseSettingsLotusAgentWorkspaceThemePreferenceForConversationPanel
+    | undefined;
+  keyboard_shortcuts_enabled?: boolean | undefined;
+  macro_shortcuts_enabled?: boolean | undefined;
+  show_onboarding_tooltips?: boolean | undefined;
   /** Whether user is eligible for 2FA */
-  two_factor_authentication?: boolean;
+  two_factor_authentication?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
@@ -6471,25 +6494,25 @@ export type UserSettingsResponseSettingsSharedViewsOrderList = Array<number>;
 /** User settings */
 export interface UserSettingsResponseSettings {
   /** Admin Center UI settings */
-  admin_center?: UserSettingsResponseSettingsAdminCenter;
+  admin_center?: UserSettingsResponseSettingsAdminCenter | undefined;
   /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
-  agent_home_pinned_views?: UserSettingsResponseSettingsAgentHomePinnedViewsList | null;
+  agent_home_pinned_views?: UserSettingsResponseSettingsAgentHomePinnedViewsList | null | undefined;
   /** Lotus UI settings for onboarding, tooltips, and feature preferences */
-  lotus?: UserSettingsResponseSettingsLotus;
+  lotus?: UserSettingsResponseSettingsLotus | undefined;
   /** Order of shared views (array of view IDs) */
-  shared_views_order?: UserSettingsResponseSettingsSharedViewsOrderList | null;
+  shared_views_order?: UserSettingsResponseSettingsSharedViewsOrderList | null | undefined;
 }
 export interface UserSettingsResponse {
   /** User settings */
-  settings?: UserSettingsResponseSettings;
+  settings?: UserSettingsResponseSettings | undefined;
 }
 export interface GetCustomObjectRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Include permission metadata in the response */
-  include_permissions_metadata?: boolean;
+  include_permissions_metadata?: boolean | undefined;
   /** Include UI path in the response */
-  include_ui_path?: boolean;
+  include_ui_path?: boolean | undefined;
 }
 export interface GetCustomObjectFieldRequest {
   /** The key of a custom object */
@@ -6497,7 +6520,7 @@ export interface GetCustomObjectFieldRequest {
   /** The key or id of a custom object field */
   custom_object_field_key_or_id: string;
   /** If true, returns standard fields in addition to custom fields. */
-  include_standard_fields?: boolean;
+  include_standard_fields?: boolean | undefined;
 }
 export interface GetCustomObjectRecordRequest {
   /** The key of a custom object */
@@ -6521,8 +6544,8 @@ export interface GetDeletedUserRequest {
 export type DeletedUserObjectSeparationScope = "account" | "brand";
 /** Brand separation information for the deleted user */
 export interface DeletedUserObjectSeparation {
-  brand_id?: number;
-  scope?: DeletedUserObjectSeparationScope;
+  brand_id?: number | undefined;
+  scope?: DeletedUserObjectSeparationScope | undefined;
 }
 export interface DeletedUserObject {
   active: boolean;
@@ -6537,21 +6560,21 @@ export interface DeletedUserObject {
   photo: unknown | null;
   role: string;
   /** Brand separation information for the deleted user */
-  separation?: DeletedUserObjectSeparation | null;
+  separation?: DeletedUserObjectSeparation | null | undefined;
   shared_phone_number: string | null;
   time_zone: string;
   updated_at: string;
   url: string;
 }
 export interface DeletedUserResponse {
-  deleted_user?: DeletedUserObject;
+  deleted_user?: DeletedUserObject | undefined;
 }
 export interface GetDeletionScheduleRequest {
   /** The id of the deletion schedule */
   deletion_schedule_id: number;
 }
 export interface GetDeletionScheduleResponse {
-  deletion_schedule?: DeletionSchedule;
+  deletion_schedule?: DeletionSchedule | undefined;
 }
 export interface GetDerivedMacroRequest {
   /** The ID of the macro to replicate */
@@ -6560,7 +6583,7 @@ export interface GetDerivedMacroRequest {
   ticket_id: number;
 }
 export interface MacroResponse {
-  macro?: MacroObject;
+  macro?: MacroObject | undefined;
 }
 export interface GetDynamicContentItemRequest {
   /** The ID of the dynamic content item */
@@ -6579,46 +6602,46 @@ export interface GetEmailNotificationRequest {
 /** Details about the delivery status */
 export interface RecipientObjectDeliveryStatus {
   /** The delivery status code (SMTP code and DSN code) */
-  code?: string;
+  code?: string | undefined;
   /** The delivery status id */
-  id?: number;
+  id?: number | undefined;
   /** The delivery status description */
-  message?: string;
+  message?: string | undefined;
   /** The delivery status type (key) */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RecipientObject {
   /** Details about the delivery status */
-  delivery_status?: RecipientObjectDeliveryStatus;
+  delivery_status?: RecipientObjectDeliveryStatus | undefined;
   /** The recipient's email address */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The recipient's user id */
-  user_id?: number;
+  user_id?: number | undefined;
 }
 /** The list of recipients associated to this email notification */
 export type EmailNotificationObjectRecipientsList = Array<RecipientObject>;
 export interface EmailNotificationObject {
   /** The comment ID associated to this email notification */
-  comment_id?: number;
+  comment_id?: number | undefined;
   /** When this email notification was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The email ID of this email notification */
-  email_id?: string;
+  email_id?: string | undefined;
   /** The value of the Message-Id header of the email */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The notification id of this email notification */
-  notification_id?: number;
+  notification_id?: number | undefined;
   /** The list of recipients associated to this email notification */
-  recipients?: EmailNotificationObjectRecipientsList;
+  recipients?: EmailNotificationObjectRecipientsList | undefined;
   /** The ticket ID associated to this email notification */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** When this email notification was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this email notification */
-  url?: string;
+  url?: string | undefined;
 }
 export interface EmailNotificationResponse {
-  email_notification?: EmailNotificationObject;
+  email_notification?: EmailNotificationObject | undefined;
 }
 export interface GetEndUserIdentityRequest {
   /** The id of the user */
@@ -6632,28 +6655,28 @@ export interface GetGlobalClientRequest {
 }
 export interface GlobalClientObject {
   /** The company that users are asked to approve access to */
-  company?: string;
+  company?: string | undefined;
   /** A short description of the client */
-  description?: string;
+  description?: string | undefined;
   /** Automatically assigned when the client is created */
-  id?: number;
+  id?: number | undefined;
   /** The unique identifier for the client */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The kind of client, public or confidential */
-  kind?: string;
+  kind?: string | undefined;
   /** The API logo url of this record */
-  logo_url?: string;
+  logo_url?: string | undefined;
   /** The name of the client */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GlobalClientResponse {
-  global_client?: GlobalClientObject;
+  global_client?: GlobalClientObject | undefined;
 }
 export interface GetGroupByIdRequest {
   /** The ID of the group */
   group_id: number;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. */
-  include?: string;
+  include?: string | undefined;
 }
 export interface GetGroupMembershipByIdRequest {
   /** The ID of the group membership */
@@ -6665,35 +6688,35 @@ export interface GetGroupSLAPolicyRequest {
 }
 export interface GetGroupSLAPolicyFilterDefinitionItemsRequest {}
 export interface GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsItem {
-  title?: string;
-  value?: string;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList =
   Array<GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsItem>;
 export interface GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListItem {
-  title?: string;
-  value?: number | null;
+  title?: string | undefined;
+  value?: number | null | undefined;
 }
 export type GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList =
   Array<GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListItem>;
 export interface GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValues {
-  list?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList;
-  type?: string;
+  list?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList | undefined;
+  type?: string | undefined;
 }
 export interface GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItem {
-  group?: string;
-  operators?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList;
-  title?: string;
-  value?: string;
-  values?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValues;
+  group?: string | undefined;
+  operators?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
+  values?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemValues | undefined;
 }
 export type GroupSLAPolicyFilterDefinitionResponseDefinitionsAllList =
   Array<GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItem>;
 export interface GroupSLAPolicyFilterDefinitionResponseDefinitions {
-  all?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllList;
+  all?: GroupSLAPolicyFilterDefinitionResponseDefinitionsAllList | undefined;
 }
 export interface GroupSLAPolicyFilterDefinitionResponse {
-  definitions?: GroupSLAPolicyFilterDefinitionResponseDefinitions;
+  definitions?: GroupSLAPolicyFilterDefinitionResponseDefinitions | undefined;
 }
 export interface GetItamAssetRequest {
   /** The id of the asset */
@@ -6739,19 +6762,19 @@ export interface GetMacroAttachmentRequest {
 }
 export interface GetManyDynamicContentsRequest {
   /** Identifiers for the dynamic contents */
-  identifiers?: string;
+  identifiers?: string | undefined;
 }
 export type DynamicContentsResponseItemsList = Array<DynamicContentObject>;
 export interface DynamicContentsResponse {
-  items?: DynamicContentsResponseItemsList;
+  items?: DynamicContentsResponseItemsList | undefined;
 }
 export interface GetManyEmailNotificationsRequest {
   /** Comma-separated list of notification ids. One of ids, comment_ids, or ticket_ids is required. */
-  ids?: string;
+  ids?: string | undefined;
   /** Comma-separated list of comment ids. One of ids, comment_ids, or ticket_ids is required. */
-  comment_ids?: string;
+  comment_ids?: string | undefined;
   /** Comma-separated list of ticket ids. One of ids, comment_ids, or ticket_ids is required. */
-  ticket_ids?: string;
+  ticket_ids?: string | undefined;
 }
 export interface GetManyJobStatusesRequest {
   /** Comma-separated list of job status ids. */
@@ -6763,49 +6786,49 @@ export interface JobStatusesResponse {
 }
 export interface GetManyOrganizationsRequest {
   /** A list of organization ids */
-  ids?: string;
+  ids?: string | undefined;
   /** A list of external ids */
-  external_ids?: string;
+  external_ids?: string | undefined;
 }
 export interface GetManyTicketFieldsRequest {
   /** Comma-separated list of ticket field IDs to retrieve. Up to 100 values accepted. Either `ids` or `keys` can be used, but not both. */
-  ids?: string;
+  ids?: string | undefined;
   /** Comma-separated list of ticket field keys to retrieve. Up to 100 values accepted. Use field keys like 'priority', 'status', 'subject' instead of numeric IDs. Either `ids` or `keys` can be used, but not both. */
-  keys?: string;
+  keys?: string | undefined;
   /** If true, includes creator information in the response. */
-  creator?: boolean;
+  creator?: boolean | undefined;
   /** If true, excludes sub-selection options from dropdown fields in the response. */
-  exclude_sub_selection_options?: boolean;
+  exclude_sub_selection_options?: boolean | undefined;
 }
 export type TicketFieldsShowManyResponseTicketFieldsList = Array<TicketFieldObject>;
 export interface TicketFieldsShowManyResponse {
   /** Total count when not using cursor pagination */
-  count?: number;
+  count?: number | undefined;
   /** URL or cursor to the next page when paginated; null otherwise */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** URL or cursor to the previous page when paginated; null otherwise */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   ticket_fields: TicketFieldsShowManyResponseTicketFieldsList;
 }
 export interface GetManyTicketFormsRequest {
   /** IDs of the ticket forms to be shown */
   ids: string;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
   /** true returns active ticket forms; false returns inactive ticket forms. If not present, returns both */
-  active?: boolean;
+  active?: boolean | undefined;
   /** true returns ticket forms where `end_user_visible`; false returns ticket forms that are not end-user visible. If not present, returns both */
-  end_user_visible?: boolean;
+  end_user_visible?: boolean | undefined;
   /** true returns the default ticket form when the criteria defined by the parameters results in a set without active and end-user visible ticket forms */
-  fallback_to_default?: boolean;
+  fallback_to_default?: boolean | undefined;
   /** true returns the ticket forms of the brand specified by the url's subdomain */
-  associated_to_brand?: boolean;
+  associated_to_brand?: boolean | undefined;
 }
 export type TicketFormsResponseTicketFormsList = Array<TicketFormObject>;
 export interface TicketFormsResponse {
-  ticket_forms?: TicketFormsResponseTicketFormsList;
+  ticket_forms?: TicketFormsResponseTicketFormsList | undefined;
 }
 export interface GetManyTicketFormStatusesRequest {
   /** Ticket form status ids to retrieve records for */
@@ -6813,29 +6836,29 @@ export interface GetManyTicketFormStatusesRequest {
 }
 export interface GetManyUserFieldsRequest {
   /** Comma-separated list of user field keys to retrieve. */
-  keys?: string;
+  keys?: string | undefined;
 }
 export type UserFieldsResponseUserFieldsList = Array<UserFieldObject>;
 export interface UserFieldsResponse {
   /** Total count of records retrieved */
-  count?: number;
+  count?: number | undefined;
   /** URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   user_fields: UserFieldsResponseUserFieldsList;
 }
 export interface GetManyUsersRequest {
   /** Accepts a comma-separated list of up to 100 user ids. */
-  ids?: string;
+  ids?: string | undefined;
   /** Accepts a comma-separated list of up to 100 external ids. */
-  external_ids?: string;
+  external_ids?: string | undefined;
   /** If true, returns inactive or deleted users. */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
   /** When brand separation is enabled and `external_ids` is provided, scopes the lookup to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Omitting `brand_id` always uses account scope (0), regardless of account or Agent Workspace defaults. Accepted values when used with `external_ids`: * 0 -- restrict the lookup to account-scoped (brand-less) users only. * A numeric brand id -- if the brand has user separation enabled, return only users belonging to that brand; account-scoped agents and admins are excluded. If the brand does not have user separation enabled, the request resolves to account scope (0), including account-scoped agents and end users. * "all" -- invalid for `show_many` lookups. When `ids` is provided instead of `external_ids`, numeric brand scopes are accepted but filtering is not applied because user IDs are globally unique. `brand_id=all` is rejected consistently with the other many-user endpoints. */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
 }
 export interface GetMonitoredTwitterHandleRequest {
   /** The ID of the custom agent role */
@@ -6843,28 +6866,28 @@ export interface GetMonitoredTwitterHandleRequest {
 }
 export interface TwitterChannelObject {
   /** If replies are allowed for this handle */
-  allow_reply?: boolean;
+  allow_reply?: boolean | undefined;
   /** The profile image url of the handle */
-  avatar_url?: string;
+  avatar_url?: string | undefined;
   /** What brand the handle is associated with */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** If replies are allowed for this handle */
-  can_reply?: boolean;
+  can_reply?: boolean | undefined;
   /** The time the handle was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned upon creation */
   id: number;
   /** The profile name of the handle */
-  name?: string;
+  name?: string | undefined;
   /** The X handle */
   screen_name: string;
   /** The country's code */
   twitter_user_id: number;
   /** The time of the last update of the handle */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface TwitterChannelResponse {
-  monitored_twitter_handle?: TwitterChannelObject;
+  monitored_twitter_handle?: TwitterChannelObject | undefined;
 }
 export interface GetObjectTriggerRequest {
   /** The key of a custom object */
@@ -6876,11 +6899,11 @@ export interface GetOrganizationRequest {
   /** The ID of an organization */
   organization_id: number;
   /** Include additional related data. Supported values: `lookup_relationship_fields`. */
-  include?: string;
+  include?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export interface GetOrganizationFieldRequest {
   /** The ID or key of the organization field */
@@ -6912,27 +6935,27 @@ export interface GetPermissionPolicyRequest {
 }
 export interface PermissionAction {
   /** Whether this action is allowed for the role */
-  allowed?: boolean;
+  allowed?: boolean | undefined;
   /** Optional access rule ID that further restricts this permission. Use null when no rule applies. */
-  rule_id?: number | null;
+  rule_id?: number | null | undefined;
 }
 /** Permission settings for different record operations */
 export interface PermissionPolicyRecords {
-  create?: PermissionAction;
-  delete?: PermissionAction;
-  read?: PermissionAction;
-  update?: PermissionAction;
+  create?: PermissionAction | undefined;
+  delete?: PermissionAction | undefined;
+  read?: PermissionAction | undefined;
+  update?: PermissionAction | undefined;
 }
 export interface PermissionPolicy {
   /** The policy ID (e.g., 'custom-role-123' or 'end-user') */
-  id?: string;
+  id?: string | undefined;
   /** Permission settings for different record operations */
-  records?: PermissionPolicyRecords;
+  records?: PermissionPolicyRecords | undefined;
   /** The name of the role this policy applies to */
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface PermissionPolicyResponse {
-  policy?: PermissionPolicy;
+  policy?: PermissionPolicy | undefined;
 }
 export interface GetQueueByIdRequest {
   /** The id of the omnichannel routing queue */
@@ -6942,31 +6965,31 @@ export interface GetRelationshipFilterDefinitionsRequest {
   /** The target type for which you would like to see filter definitions. The options are "zen:user", "zen:ticket", "zen:organization", and "zen:custom_object:CUSTOM_OBJECT_KEY" */
   target_type: string;
   /** The source type for which you would like to see filter definitions. The options are "zen:user", "zen:ticket", and "zen:organization" */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 export interface TriggerConditionDefinitionObjectAllOperatorsItem {
-  terminal?: boolean;
-  title?: string;
-  value?: string;
+  terminal?: boolean | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type TriggerConditionDefinitionObjectAllOperatorsList =
   Array<TriggerConditionDefinitionObjectAllOperatorsItem>;
 export interface TriggerConditionDefinitionObjectAllValuesItem {
-  enabled?: boolean;
-  title?: string;
-  value?: string;
+  enabled?: boolean | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type TriggerConditionDefinitionObjectAllValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface TriggerConditionDefinitionObjectAll {
-  group?: string;
-  nullable?: boolean;
-  operators?: TriggerConditionDefinitionObjectAllOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: TriggerConditionDefinitionObjectAllValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: TriggerConditionDefinitionObjectAllOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: TriggerConditionDefinitionObjectAllValuesList | undefined;
 }
 export type RelationshipFilterDefinitionConditionsAllList =
   Array<TriggerConditionDefinitionObjectAll>;
@@ -6975,22 +6998,22 @@ export type TriggerConditionDefinitionObjectAnyOperatorsItem =
 export type TriggerConditionDefinitionObjectAnyOperatorsList =
   Array<TriggerConditionDefinitionObjectAllOperatorsItem>;
 export interface TriggerConditionDefinitionObjectAny {
-  group?: string;
-  nullable?: boolean;
-  operators?: TriggerConditionDefinitionObjectAnyOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: TriggerConditionDefinitionObjectAnyOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
 }
 export type RelationshipFilterDefinitionConditionsAnyList =
   Array<TriggerConditionDefinitionObjectAny>;
 export interface RelationshipFilterDefinition {
-  conditions_all?: RelationshipFilterDefinitionConditionsAllList;
-  conditions_any?: RelationshipFilterDefinitionConditionsAnyList;
+  conditions_all?: RelationshipFilterDefinitionConditionsAllList | undefined;
+  conditions_any?: RelationshipFilterDefinitionConditionsAnyList | undefined;
 }
 export interface RelationshipFilterDefinitionResponse {
-  definitions?: RelationshipFilterDefinition;
+  definitions?: RelationshipFilterDefinition | undefined;
 }
 export interface GetRequestRequest {
   /** The ID of the request */
@@ -7001,25 +7024,25 @@ export interface GetResourceCollectionRequest {
   resource_collection_id: number;
 }
 export interface ResourceCollectionObjectResourcesItem {
-  deleted?: boolean;
-  identifier?: string;
-  resource_id?: number;
-  type?: string;
+  deleted?: boolean | undefined;
+  identifier?: string | undefined;
+  resource_id?: number | undefined;
+  type?: string | undefined;
 }
 /** Array of resource metadata objects. See [Resource objects](#resource-objects) */
 export type ResourceCollectionObjectResourcesList = Array<ResourceCollectionObjectResourcesItem>;
 export interface ResourceCollectionObject {
   /** When the resource collection was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** id for the resource collection. Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** Array of resource metadata objects. See [Resource objects](#resource-objects) */
-  resources?: ResourceCollectionObjectResourcesList;
+  resources?: ResourceCollectionObjectResourcesList | undefined;
   /** Last time the resource collection was updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface ResourceCollectionResponse {
-  resource_collection?: ResourceCollectionObject;
+  resource_collection?: ResourceCollectionObject | undefined;
 }
 export interface GetSatisfactionRatingRequest {
   /** The id of the satisfaction rating to retrieve */
@@ -7031,29 +7054,29 @@ export interface GetSatisfactionRatingsRequest {
 }
 export interface SatisfactionReasonObject {
   /** The time the reason was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the reason was deleted */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** The dynamic content placeholder, if present, or the current "value", if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_value?: string;
+  raw_value?: string | undefined;
   /** An account-level code for referencing the reason. Custom reasons are assigned an auto-incrementing integer (non-system reason codes begin at 1000). See [Reason codes](#reason-codes) */
-  reason_code?: number;
+  reason_code?: number | undefined;
   /** The time the reason was updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** API URL for the resource */
-  url?: string;
+  url?: string | undefined;
   /** Translated value of the reason in the account locale */
   value: string;
 }
 export type SatisfactionReasonResponseReasonList = Array<SatisfactionReasonObject>;
 export interface SatisfactionReasonResponse {
-  reason?: SatisfactionReasonResponseReasonList;
+  reason?: SatisfactionReasonResponseReasonList | undefined;
 }
 export interface GetSecuritySettingsRequest {
   /** When brand separation is enabled, scopes the security settings to the specified brand. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 /** Describes how long the account can be assumed */
 export type SecuritySettingsObjectAssumptionDuration =
@@ -7070,32 +7093,32 @@ export type SecuritySettingsObjectAuthenticationAgentSecurityPolicyName =
   | "recommended"
   | "custom";
 export interface SecuritySettingsObjectAuthenticationAgentPassword {
-  disallow_local_part_from_email?: boolean;
-  failed_attempts_allowed?: number;
-  is_available?: boolean;
-  max_sequence?: number | null;
-  password_complexity?: number;
-  password_duration?: number | null;
-  password_history_length?: number | null;
+  disallow_local_part_from_email?: boolean | undefined;
+  failed_attempts_allowed?: number | undefined;
+  is_available?: boolean | undefined;
+  max_sequence?: number | null | undefined;
+  password_complexity?: number | undefined;
+  password_duration?: number | null | undefined;
+  password_history_length?: number | null | undefined;
   /** If must include letters in mixed case */
-  password_in_mixed_case?: boolean;
-  password_length?: number;
+  password_in_mixed_case?: boolean | undefined;
+  password_length?: number | undefined;
 }
 export interface SecuritySettingsObjectAuthenticationAgent {
-  enforce_sso?: boolean;
-  google_login?: boolean;
-  office_365_login?: boolean;
-  primary_external_auth?: string | null;
-  remote_login?: boolean;
-  security_policy_id?: number;
-  security_policy_name?: SecuritySettingsObjectAuthenticationAgentSecurityPolicyName;
-  sso_auto_redirect?: boolean;
-  two_factor_enforce?: boolean;
-  zendesk_login?: boolean;
-  office_365_allowed_tids?: string;
-  office_365_enforce_tid?: boolean;
-  password?: SecuritySettingsObjectAuthenticationAgentPassword;
-  remote_bypass?: number;
+  enforce_sso?: boolean | undefined;
+  google_login?: boolean | undefined;
+  office_365_login?: boolean | undefined;
+  primary_external_auth?: string | null | undefined;
+  remote_login?: boolean | undefined;
+  security_policy_id?: number | undefined;
+  security_policy_name?: SecuritySettingsObjectAuthenticationAgentSecurityPolicyName | undefined;
+  sso_auto_redirect?: boolean | undefined;
+  two_factor_enforce?: boolean | undefined;
+  zendesk_login?: boolean | undefined;
+  office_365_allowed_tids?: string | undefined;
+  office_365_enforce_tid?: boolean | undefined;
+  password?: SecuritySettingsObjectAuthenticationAgentPassword | undefined;
+  remote_bypass?: number | undefined;
 }
 export type SecuritySettingsObjectAuthenticationEndUserSecurityPolicyName =
   | "low"
@@ -7104,65 +7127,65 @@ export type SecuritySettingsObjectAuthenticationEndUserSecurityPolicyName =
   | "recommended"
   | "custom";
 export interface SecuritySettingsObjectAuthenticationEndUser {
-  enforce_sso?: boolean;
-  google_login?: boolean;
-  office_365_login?: boolean;
-  primary_external_auth?: string | null;
-  remote_login?: boolean;
-  security_policy_id?: number;
-  security_policy_name?: SecuritySettingsObjectAuthenticationEndUserSecurityPolicyName;
-  sso_auto_redirect?: boolean;
-  two_factor_enforce?: boolean;
-  zendesk_login?: boolean;
-  facebook_login?: boolean;
+  enforce_sso?: boolean | undefined;
+  google_login?: boolean | undefined;
+  office_365_login?: boolean | undefined;
+  primary_external_auth?: string | null | undefined;
+  remote_login?: boolean | undefined;
+  security_policy_id?: number | undefined;
+  security_policy_name?: SecuritySettingsObjectAuthenticationEndUserSecurityPolicyName | undefined;
+  sso_auto_redirect?: boolean | undefined;
+  two_factor_enforce?: boolean | undefined;
+  zendesk_login?: boolean | undefined;
+  facebook_login?: boolean | undefined;
 }
 /** Describes how users authenticate. See [Authentication](#authentication) */
 export interface SecuritySettingsObjectAuthentication {
-  agent?: SecuritySettingsObjectAuthenticationAgent;
-  end_user?: SecuritySettingsObjectAuthenticationEndUser;
+  agent?: SecuritySettingsObjectAuthenticationAgent | undefined;
+  end_user?: SecuritySettingsObjectAuthenticationEndUser | undefined;
 }
 /** Describes IP addresses restrictions. See [IP Restrictions](#ip-restrictions) */
 export interface SecuritySettingsObjectIp {
-  enable_agent_ip_restrictions?: boolean;
-  ip_ranges?: string;
-  ip_restriction_enabled?: boolean;
+  enable_agent_ip_restrictions?: boolean | undefined;
+  ip_ranges?: string | undefined;
+  ip_restriction_enabled?: boolean | undefined;
 }
 export interface SecuritySettingsObject {
   /** If administrators are allowed to set passwords for users. When disabled, administrators can only reset passwords */
-  admins_can_set_user_passwords?: boolean;
+  admins_can_set_user_passwords?: boolean | undefined;
   /** The period of inactivity in minutes, before a team member is automatically signed out */
-  agent_session_timeout?: number;
+  agent_session_timeout?: number | undefined;
   /** If account assumption is enabled */
-  assumable?: boolean;
+  assumable?: boolean | undefined;
   /** Indicates if an account is always assumable, based on account type (e.g. always true for a trial account) */
-  assumable_account_type?: boolean;
+  assumable_account_type?: boolean | undefined;
   /** Describes how long the account can be assumed */
-  assumption_duration?: SecuritySettingsObjectAssumptionDuration;
+  assumption_duration?: SecuritySettingsObjectAssumptionDuration | undefined;
   /** The time when assumption option expires */
-  assumption_expiration?: string | null;
+  assumption_expiration?: string | null | undefined;
   /** Describes how users authenticate. See [Authentication](#authentication) */
-  authentication?: SecuritySettingsObjectAuthentication;
+  authentication?: SecuritySettingsObjectAuthentication | undefined;
   /** If Content Security Policy blocking is enabled */
-  csp_blocking_enabled?: boolean;
+  csp_blocking_enabled?: boolean | undefined;
   /** If a notification is sent on password change for admins, agents and end users */
-  email_agent_when_sensitive_fields_changed?: boolean;
+  email_agent_when_sensitive_fields_changed?: boolean | undefined;
   /** The period of inactivity in minutes, before an end user is automatically signed out */
-  end_user_session_timeout?: number;
+  end_user_session_timeout?: number | undefined;
   /** Describes IP addresses restrictions. See [IP Restrictions](#ip-restrictions) */
-  ip?: SecuritySettingsObjectIp;
+  ip?: SecuritySettingsObjectIp | undefined;
   /** The maximum session duration, which is the maximum amount of time in minutes a team member can stay signed in. The session will expire after this duration or the inactivity timeout */
-  maximum_session_duration?: number;
+  maximum_session_duration?: number | undefined;
   /** If maximum session duration for team members is enabled */
-  maximum_session_duration_enabled?: boolean;
+  maximum_session_duration_enabled?: boolean | undefined;
   /** If admins and agents can use the Zendesk Support mobile app */
-  mobile_app_access?: boolean;
+  mobile_app_access?: boolean | undefined;
   /** The period of inactivity in minutes, before a mobile app user gets signed out */
-  mobile_app_session_timeout?: number;
+  mobile_app_session_timeout?: number | undefined;
   /** The time when the two-factor authentication setting was last updated */
-  two_factor_last_update?: string;
+  two_factor_last_update?: string | undefined;
 }
 export interface SecuritySettingsResponse {
-  security_settings?: SecuritySettingsObject;
+  security_settings?: SecuritySettingsObject | undefined;
 }
 export interface GetSessionRequest {
   /** The id of the user */
@@ -7184,22 +7207,22 @@ export type SLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsItem =
 export type SLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList =
   Array<GroupSLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsItem>;
 export interface SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListItem {
-  title?: string;
-  value?: string | null;
+  title?: string | undefined;
+  value?: string | null | undefined;
 }
 export type SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList =
   Array<SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListItem>;
 export interface SLAPolicyFilterDefinitionResponseDefinitionsAllItemValues {
-  list?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList;
-  type?: string;
+  list?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListList | undefined;
+  type?: string | undefined;
 }
 export interface SLAPolicyFilterDefinitionResponseDefinitionsAllItem {
-  group?: string;
-  operators?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList;
-  target?: string | null;
-  title?: string;
-  value?: string;
-  values?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemValues;
+  group?: string | undefined;
+  operators?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemOperatorsList | undefined;
+  target?: string | null | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
+  values?: SLAPolicyFilterDefinitionResponseDefinitionsAllItemValues | undefined;
 }
 export type SLAPolicyFilterDefinitionResponseDefinitionsAllList =
   Array<SLAPolicyFilterDefinitionResponseDefinitionsAllItem>;
@@ -7212,25 +7235,25 @@ export type SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValuesListItem =
 export type SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValuesListList =
   Array<SLAPolicyFilterDefinitionResponseDefinitionsAllItemValuesListItem>;
 export interface SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValues {
-  list?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValuesListList;
-  type?: string;
+  list?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValuesListList | undefined;
+  type?: string | undefined;
 }
 export interface SLAPolicyFilterDefinitionResponseDefinitionsAnyItem {
-  group?: string;
-  operators?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemOperatorsList;
-  target?: string | null;
-  title?: string;
-  value?: string;
-  values?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValues;
+  group?: string | undefined;
+  operators?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemOperatorsList | undefined;
+  target?: string | null | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
+  values?: SLAPolicyFilterDefinitionResponseDefinitionsAnyItemValues | undefined;
 }
 export type SLAPolicyFilterDefinitionResponseDefinitionsAnyList =
   Array<SLAPolicyFilterDefinitionResponseDefinitionsAnyItem>;
 export interface SLAPolicyFilterDefinitionResponseDefinitions {
-  all?: SLAPolicyFilterDefinitionResponseDefinitionsAllList;
-  any?: SLAPolicyFilterDefinitionResponseDefinitionsAnyList;
+  all?: SLAPolicyFilterDefinitionResponseDefinitionsAllList | undefined;
+  any?: SLAPolicyFilterDefinitionResponseDefinitionsAnyList | undefined;
 }
 export interface SLAPolicyFilterDefinitionResponse {
-  definitions?: SLAPolicyFilterDefinitionResponseDefinitions;
+  definitions?: SLAPolicyFilterDefinitionResponseDefinitions | undefined;
 }
 export interface GetSourcesByTargetRequest {
   /** The type of object the relationship field is targeting. The options are "zen:user", "zen:ticket", "zen:organization", and "zen:custom_object:CUSTOM_OBJECT_KEY" */
@@ -7255,52 +7278,52 @@ export interface GetSuspendedTicketsRequest {
 export type SuspendedTicketObjectAttachmentsList = Array<AttachmentObject>;
 export interface AuthorObject {
   /** The author email */
-  email?: string;
+  email?: string | undefined;
   /** The author id */
-  id?: number;
+  id?: number | undefined;
   /** The author name */
-  name?: string;
+  name?: string | undefined;
 }
 /** The error messages if any associated to this suspended ticket */
 export type SuspendedTicketObjectErrorMessagesList = Array<unknown>;
 export interface SuspendedTicketObject {
   /** The attachments, if any associated to this suspended ticket. See [Attachments](/api-reference/ticketing/tickets/ticket-attachments/) */
-  attachments?: SuspendedTicketObjectAttachmentsList | null;
+  attachments?: SuspendedTicketObjectAttachmentsList | null | undefined;
   /** The author id (if available), name and email */
-  author?: AuthorObject;
+  author?: AuthorObject | undefined;
   /** The id of the brand this ticket is associated with. Only applicable for Enterprise accounts */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** Why the ticket was suspended */
-  cause?: string;
+  cause?: string | undefined;
   /** The ID of the cause */
-  cause_id?: number;
+  cause_id?: number | undefined;
   /** The content that was flagged */
-  content?: string;
+  content?: string | undefined;
   /** Sanitized HTML content when the suspended ticket was created from rich content. Omitted for plain-text suspended tickets. */
-  content_html?: string;
+  content_html?: string | undefined;
   /** The ticket ID this suspended email is associated with, if available */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The error messages if any associated to this suspended ticket */
-  error_messages?: SuspendedTicketObjectErrorMessagesList | null;
+  error_messages?: SuspendedTicketObjectErrorMessagesList | null | undefined;
   /** Automatically assigned */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the email, if available */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The original recipient e-mail address of the ticket */
-  recipient?: string;
+  recipient?: string | undefined;
   /** The value of the subject field for this ticket */
-  subject?: string;
+  subject?: string | undefined;
   /** The ticket ID this suspended email is associated with, if available */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** When the ticket was assigned */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of this ticket */
-  url?: string;
-  via?: ViaObject;
+  url?: string | undefined;
+  via?: ViaObject | undefined;
 }
 export type SuspendedTicketsResponseSuspendedTicketsList = Array<SuspendedTicketObject>;
 export interface SuspendedTicketsResponse {
-  suspended_tickets?: SuspendedTicketsResponseSuspendedTicketsList;
+  suspended_tickets?: SuspendedTicketsResponseSuspendedTicketsList | undefined;
 }
 export interface GetTargetRequest {
   /** The ID of the target */
@@ -7312,24 +7335,24 @@ export interface GetTargetFailureRequest {
 }
 export interface TargetFailureObject {
   /** Number of times the target failed consecutively */
-  consecutive_failure_count?: number;
+  consecutive_failure_count?: number | undefined;
   /** Time of the failure */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ID of the target failure */
-  id?: number;
+  id?: number | undefined;
   /** The raw message of the target request */
-  raw_request?: string;
+  raw_request?: string | undefined;
   /** The raw response of the failure */
-  raw_response?: string;
+  raw_response?: string | undefined;
   /** HTTP status code of the target failure */
-  status_code?: number;
+  status_code?: number | undefined;
   /** Name of the target failure */
-  target_name?: string;
+  target_name?: string | undefined;
   /** The API url of the failure record */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TargetFailureResponse {
-  target_failure?: TargetFailureObject;
+  target_failure?: TargetFailureObject | undefined;
 }
 export interface GetTaskItemRequest {
   /** The id of the task list */
@@ -7343,26 +7366,26 @@ export interface GetTaskListInstanceRequest {
 }
 export interface TaskListInstanceObject {
   /** The time the task list was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the task list */
-  description?: string;
+  description?: string | undefined;
   /** The id automatically assigned to the task list when it is created */
-  id?: string;
+  id?: string | undefined;
   /** If true, all tasks in the task list have been completed */
-  is_completed?: boolean;
+  is_completed?: boolean | undefined;
   /** Whether the task list is required. If true, the ticket can't be solved until all tasks are complete. */
-  is_required?: boolean;
+  is_required?: boolean | undefined;
   /** The name of the task list */
-  name?: string;
+  name?: string | undefined;
   /** The number of tasks in the task list */
-  task_count?: number;
+  task_count?: number | undefined;
   /** The id of the ticket associated with the task list */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
   /** The time the task list was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface TaskListInstanceResponse {
-  task_list?: TaskListInstanceObject;
+  task_list?: TaskListInstanceObject | undefined;
 }
 export interface GetTaskListsForTicketRequest {
   /** The ID of the ticket */
@@ -7378,20 +7401,20 @@ export interface GetTasksByTaskListTemplateIdRequest {
 }
 export type TasksByTaskListTemplateIdResponseTasksList = Array<TaskObject>;
 export interface TasksByTaskListTemplateIdResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  tasks?: TasksByTaskListTemplateIdResponseTasksList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  tasks?: TasksByTaskListTemplateIdResponseTasksList | undefined;
 }
 export interface GetTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** When true, returns a reduced ticket payload (omits null custom fields). */
-  reduced_payload_size?: boolean;
+  reduced_payload_size?: boolean | undefined;
   /** When true, removes duplicate custom field entries from the response. */
-  remove_duplicate_fields?: boolean;
+  remove_duplicate_fields?: boolean | undefined;
 }
 export interface GetTicketAfterChangesRequest {
   /** The ID of the ticket */
@@ -7399,7 +7422,7 @@ export interface GetTicketAfterChangesRequest {
   /** The ID of the macro */
   macro_id: number;
   /** If true, normalizes the newline formatting of the macro's comment to more closely match the formatting produced by the ticket comment editor */
-  normalize_comment?: boolean;
+  normalize_comment?: boolean | undefined;
 }
 export interface GetTicketAuditRequest {
   /** The ID of the ticket */
@@ -7414,21 +7437,21 @@ export type TicketAuditObjectEventsList = Array<TicketAuditObjectEventsItemMap>;
 export type TicketAuditObjectMetadataMap = { [key: string]: unknown | undefined };
 export interface TicketAuditObject {
   /** The user who created the audit */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The time the audit was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An array of the events that happened in this audit. See the [Ticket Audit events reference](/documentation/ticketing/reference-guides/ticket-audit-events-reference) */
-  events?: TicketAuditObjectEventsList;
+  events?: TicketAuditObjectEventsList | undefined;
   /** Automatically assigned when creating audits */
-  id?: number;
+  id?: number | undefined;
   /** Metadata for the audit, custom and system data */
-  metadata?: TicketAuditObjectMetadataMap;
+  metadata?: TicketAuditObjectMetadataMap | undefined;
   /** The ID of the associated ticket */
-  ticket_id?: number;
-  via?: TicketAuditViaObject;
+  ticket_id?: number | undefined;
+  via?: TicketAuditViaObject | undefined;
 }
 export interface TicketAuditResponse {
-  audit?: TicketAuditObject;
+  audit?: TicketAuditObject | undefined;
 }
 export interface GetTicketByMessagingConversationIdRequest {
   /** The id of the Sunshine Conversations conversation. */
@@ -7438,7 +7461,7 @@ export interface GetTicketfieldRequest {
   /** The ID of the ticket field */
   ticket_field_id: number;
   /** If true, displays the `creator_user_id` and `creator_app_name` properties. If the ticket field is created by an app, `creator_app_name` is the name of the app and `creator_user_id` is `-1`. If the ticket field is not created by an app, then `creator_app_name` is null */
-  creator?: boolean;
+  creator?: boolean | undefined;
 }
 export interface GetTicketFieldOptionRequest {
   /** The ID of the ticket field */
@@ -7456,63 +7479,63 @@ export interface GetTicketMetricsRequest {
 }
 export interface TicketMetricTimeObject {
   /** Time in business hours */
-  business?: number;
+  business?: number | undefined;
   /** Time in calendar hours */
-  calendar?: number;
+  calendar?: number | undefined;
 }
 export interface TicketMetricObject {
   /** Number of minutes the agent spent waiting during calendar and business hours */
-  agent_wait_time_in_minutes?: TicketMetricTimeObject;
+  agent_wait_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** When the ticket was assigned */
-  assigned_at?: string;
+  assigned_at?: string | undefined;
   /** Number of assignees the ticket had */
-  assignee_stations?: number;
+  assignee_stations?: number | undefined;
   /** When the assignee last updated the ticket */
-  assignee_updated_at?: string;
+  assignee_updated_at?: string | undefined;
   /** When the record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the ticket's custom status was last updated */
-  custom_status_updated_at?: string;
+  custom_status_updated_at?: string | undefined;
   /** Number of minutes to the first resolution time during calendar and business hours */
-  first_resolution_time_in_minutes?: TicketMetricTimeObject;
+  first_resolution_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** Number of minutes to the full resolution during calendar and business hours */
-  full_resolution_time_in_minutes?: TicketMetricTimeObject;
+  full_resolution_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** Number of groups the ticket passed through */
-  group_stations?: number;
+  group_stations?: number | undefined;
   /** Automatically assigned when the client is created */
-  id?: number;
+  id?: number | undefined;
   /** When the ticket was initially assigned */
-  initially_assigned_at?: string;
+  initially_assigned_at?: string | undefined;
   /** When the latest comment was added */
-  latest_comment_added_at?: string;
+  latest_comment_added_at?: string | undefined;
   /** Number of minutes on hold */
-  on_hold_time_in_minutes?: TicketMetricTimeObject;
+  on_hold_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** Total number of times the ticket was reopened */
-  reopens?: number;
+  reopens?: number | undefined;
   /** The number of public replies added to a ticket by an agent */
-  replies?: number;
+  replies?: number | undefined;
   /** Number of minutes to the first reply during calendar and business hours */
-  reply_time_in_minutes?: TicketMetricTimeObject;
+  reply_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** Number of seconds to the first reply during calendar hours, only available for Messaging tickets */
-  reply_time_in_seconds?: TicketMetricTimeObject;
+  reply_time_in_seconds?: TicketMetricTimeObject | undefined;
   /** When the requester last updated the ticket */
-  requester_updated_at?: string;
+  requester_updated_at?: string | undefined;
   /** Number of minutes the requester spent waiting during calendar and business hours */
-  requester_wait_time_in_minutes?: TicketMetricTimeObject;
+  requester_wait_time_in_minutes?: TicketMetricTimeObject | undefined;
   /** When the ticket was solved */
-  solved_at?: string;
+  solved_at?: string | undefined;
   /** When the status of the ticket was last updated */
-  status_updated_at?: string;
+  status_updated_at?: string | undefined;
   /** Id of the associated ticket */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** When the record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The API url of the ticket metric */
-  url?: string;
+  url?: string | undefined;
 }
 export type TicketMetricsByTicketMetricIdResponseTicketMetricList = Array<TicketMetricObject>;
 export interface TicketMetricsByTicketMetricIdResponse {
-  ticket_metric?: TicketMetricsByTicketMetricIdResponseTicketMetricList;
+  ticket_metric?: TicketMetricsByTicketMetricIdResponseTicketMetricList | undefined;
 }
 export interface GetTicketMetricsByTicketRequest {
   /** The ID of the ticket */
@@ -7522,18 +7545,18 @@ export interface GettingTwicketStatusRequest {
   /** The ID of the comment */
   comment_id: number;
   /** Optional comment ids to retrieve tweet information for only particular comments */
-  ids?: string;
+  ids?: string | undefined;
 }
 export interface TwitterChannelTwicketStatusResponseStatusesItem {
-  favorited?: boolean;
-  id?: number;
-  retweeted?: boolean;
-  user_followed?: boolean;
+  favorited?: boolean | undefined;
+  id?: number | undefined;
+  retweeted?: boolean | undefined;
+  user_followed?: boolean | undefined;
 }
 export type TwitterChannelTwicketStatusResponseStatusesList =
   Array<TwitterChannelTwicketStatusResponseStatusesItem>;
 export interface TwitterChannelTwicketStatusResponse {
-  statuses?: TwitterChannelTwicketStatusResponseStatusesList;
+  statuses?: TwitterChannelTwicketStatusResponseStatusesList | undefined;
 }
 export interface GetTokenRequest {
   /** The ID of the OAuth token */
@@ -7550,15 +7573,15 @@ export interface GetTriggerCategoryByIdRequest {
 export interface GetTriggerLimitsRequest {}
 export interface TriggerLimitsResponse {
   /** The number of active ticket triggers on the account */
-  count?: number;
+  count?: number | undefined;
   /** The maximum number of active ticket triggers allowed on the account's plan */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface GetUserRequest {
   /** The id of the user */
   user_id: number;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
 }
 export interface GetUserBrandAgentByIdRequest {
   /** The id of the user */
@@ -7570,7 +7593,7 @@ export interface GetUserComplianceDeletionStatusesRequest {
   /** The id of the user */
   user_id: number;
   /** Area of compliance */
-  application?: string;
+  application?: string | undefined;
 }
 export interface ComplianceDeletionStatusObject {
   account_subdomain: string;
@@ -7583,7 +7606,9 @@ export interface ComplianceDeletionStatusObject {
 export type ComplianceDeletionStatusesResponseComplianceDeletionStatusesList =
   Array<ComplianceDeletionStatusObject>;
 export interface ComplianceDeletionStatusesResponse {
-  compliance_deletion_statuses?: ComplianceDeletionStatusesResponseComplianceDeletionStatusesList;
+  compliance_deletion_statuses?:
+    | ComplianceDeletionStatusesResponseComplianceDeletionStatusesList
+    | undefined;
 }
 export interface GetUserEntitlementsFullRequest {
   /** The id of the user */
@@ -7591,20 +7616,20 @@ export interface GetUserEntitlementsFullRequest {
 }
 export interface UserEntitlementObject {
   /** Whether the entitlement is active for the product */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** The role name for the product entitlement */
-  name?: string;
+  name?: string | undefined;
 }
 /** Entitlements for Zendesk products (Live Chat, Explore, Voice, Knowledge) */
 export interface UserEntitlementsFullResponseEntitlements {
-  chat?: UserEntitlementObject;
-  explore?: UserEntitlementObject;
-  guide?: UserEntitlementObject;
-  talk?: UserEntitlementObject;
+  chat?: UserEntitlementObject | undefined;
+  explore?: UserEntitlementObject | undefined;
+  guide?: UserEntitlementObject | undefined;
+  talk?: UserEntitlementObject | undefined;
 }
 export interface UserEntitlementsFullResponse {
   /** Entitlements for Zendesk products (Live Chat, Explore, Voice, Knowledge) */
-  entitlements?: UserEntitlementsFullResponseEntitlements;
+  entitlements?: UserEntitlementsFullResponseEntitlements | undefined;
 }
 export interface GetUserFieldRequest {
   /** The ID or key of the user field */
@@ -7634,7 +7659,7 @@ export interface GetUserPasswordRequirementsRequest {
 }
 export type UserPasswordRequirementsResponseRequirementsList = Array<string>;
 export interface UserPasswordRequirementsResponse {
-  requirements?: UserPasswordRequirementsResponseRequirementsList;
+  requirements?: UserPasswordRequirementsResponseRequirementsList | undefined;
 }
 export interface GetUserRelatedRequest {
   /** The id of the user */
@@ -7642,16 +7667,16 @@ export interface GetUserRelatedRequest {
 }
 export interface UserRelatedObject {
   /** Count of assigned tickets */
-  assigned_tickets?: number;
+  assigned_tickets?: number | undefined;
   /** Count of collaborated tickets */
-  ccd_tickets?: number;
+  ccd_tickets?: number | undefined;
   /** Count of organization subscriptions */
-  organization_subscriptions?: number;
+  organization_subscriptions?: number | undefined;
   /** Count of requested tickets */
-  requested_tickets?: number;
+  requested_tickets?: number | undefined;
 }
 export interface UserRelatedResponse {
-  user_related?: UserRelatedObject;
+  user_related?: UserRelatedObject | undefined;
 }
 export interface GetUserSuspensionRequest {
   /** The id of the user */
@@ -7661,7 +7686,7 @@ export interface GetViewRequest {
   /** The ID of the view, or one of the string aliases `"incoming"`, `"my"`, or `"my_groups"`. */
   view_id: string;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
 }
 export interface GetViewCountRequest {
   /** The ID of the view, or one of the string aliases `"incoming"`, `"my"`, or `"my_groups"`. */
@@ -7669,20 +7694,20 @@ export interface GetViewCountRequest {
 }
 export interface ViewCountObject {
   /** Only active views if true, inactive views if false, all views if null. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** false if the cached data is stale and the system is still loading and caching new data */
-  fresh?: boolean;
+  fresh?: boolean | undefined;
   /** A pretty-printed text approximation of the view count */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The API url of the count */
-  url?: string;
+  url?: string | undefined;
   /** The cached number of tickets in the view. Can also be null if the system is loading and caching new data. Not to be confused with 0 tickets */
-  value?: number | null;
+  value?: number | null | undefined;
   /** The id of the view */
-  view_id?: number;
+  view_id?: number | undefined;
 }
 export interface ViewCountResponse {
-  view_count?: ViewCountObject;
+  view_count?: ViewCountObject | undefined;
 }
 export interface GetViewCountsRequest {
   /** List of view's ids separated by commas. */
@@ -7690,33 +7715,33 @@ export interface GetViewCountsRequest {
 }
 export type ViewCountsResponseViewCountsList = Array<ViewCountObject>;
 export interface ViewCountsResponse {
-  view_counts?: ViewCountsResponseViewCountsList;
+  view_counts?: ViewCountsResponseViewCountsList | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The id of the workspace */
   workspace_id: number;
 }
 export interface GetWorkspaceResponse {
-  workspace?: WorkspaceObject;
+  workspace?: WorkspaceObject | undefined;
 }
 export interface GlobalOAuthClientsTokenSummaryRequest {
   /** The id of the global OAuth client */
-  global_client_id?: number;
+  global_client_id?: number | undefined;
   /** If true, includes expired tokens in summary */
-  include_expired?: boolean;
+  include_expired?: boolean | undefined;
 }
 export interface GlobalClientTokenSummaryObject {
   /** Automatically assigned when the client is created */
-  id?: number;
+  id?: number | undefined;
   /** Date and time in ISO 8601 format of last token usage for a client */
-  last_used_at?: string;
+  last_used_at?: string | undefined;
   /** Account tokens count for client */
-  tokens_count?: number;
+  tokens_count?: number | undefined;
 }
 export type GlobalClientsTokenSummaryResponseGlobalClientsList =
   Array<GlobalClientTokenSummaryObject>;
 export interface GlobalClientsTokenSummaryResponse {
-  global_clients?: GlobalClientsTokenSummaryResponseGlobalClientsList;
+  global_clients?: GlobalClientsTokenSummaryResponseGlobalClientsList | undefined;
 }
 export type GroupMembershipBulkCreateRequestGroupMembershipsItem =
   CreateGroupMembershipRequestGroupMembership;
@@ -7729,7 +7754,7 @@ export interface GroupMembershipBulkCreateRequest {
 }
 export interface GroupMembershipBulkDeleteRequest {
   /** Id of the group memberships to delete. Comma separated */
-  ids?: string;
+  ids?: string | undefined;
 }
 export interface GroupMembershipSetDefaultRequest {
   /** The id of the user */
@@ -7739,7 +7764,7 @@ export interface GroupMembershipSetDefaultRequest {
 }
 export type GroupMembershipsResponseGroupMembershipsList = Array<GroupMembershipObject>;
 export interface GroupMembershipsResponse {
-  group_memberships?: GroupMembershipsResponseGroupMembershipsList;
+  group_memberships?: GroupMembershipsResponseGroupMembershipsList | undefined;
 }
 /** Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
 export type TicketImportInputInputCollaboratorsList = Array<CollaboratorObject>;
@@ -7747,52 +7772,52 @@ export type TicketImportInputInputCollaboratorsList = Array<CollaboratorObject>;
 export type TicketImportInputInputCommentUploadsList = Array<string>;
 export interface TicketImportInputInputComment {
   /** The comment string value */
-  value?: string;
+  value?: string | undefined;
   /** Internal flag for adding short URLs to the comment */
-  add_short_url?: boolean;
+  add_short_url?: boolean | undefined;
   /** The id of the comment author. If null or omitted on create, defaults to the authenticated user. See [Author id](#author-id) */
-  author_id?: number | null;
+  author_id?: number | null | undefined;
   /** The comment string. See [Bodies](#bodies) */
-  body?: string;
+  body?: string | undefined;
   /** Internal channel back identifier for the comment */
-  channel_back?: string;
+  channel_back?: string | undefined;
   /** Internal channel source identifier for the comment */
-  channel_source_id?: string | null;
+  channel_source_id?: string | null | undefined;
   /** The comment formatted as HTML. See [Bodies](#bodies) */
-  html_body?: string;
+  html_body?: string | undefined;
   /** true if a public comment; false if an internal note. The initial value set on ticket creation persists for any additional comment unless you change it */
-  public?: boolean;
+  public?: boolean | undefined;
   /** The locale code to translate the comment body to. */
-  translate_to?: string | null;
+  translate_to?: string | null | undefined;
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
-  uploads?: TicketImportInputInputCommentUploadsList;
-  via?: AttachmentObjectInput;
+  uploads?: TicketImportInputInputCommentUploadsList | undefined;
+  via?: AttachmentObjectInput | undefined;
   [key: string]: unknown;
 }
 /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
 export type TicketImportInputInputCommentsItemUploadsList = Array<string>;
 export interface TicketImportInputInputCommentsItem {
   /** The comment string value */
-  value?: string;
+  value?: string | undefined;
   /** Internal flag for adding short URLs to the comment */
-  add_short_url?: boolean;
+  add_short_url?: boolean | undefined;
   /** The id of the comment author. If null or omitted on create, defaults to the authenticated user. See [Author id](#author-id) */
-  author_id?: number | null;
+  author_id?: number | null | undefined;
   /** The comment string. See [Bodies](#bodies) */
-  body?: string;
+  body?: string | undefined;
   /** Internal channel back identifier for the comment */
-  channel_back?: string;
+  channel_back?: string | undefined;
   /** Internal channel source identifier for the comment */
-  channel_source_id?: string | null;
+  channel_source_id?: string | null | undefined;
   /** The comment formatted as HTML. See [Bodies](#bodies) */
-  html_body?: string;
+  html_body?: string | undefined;
   /** true if a public comment; false if an internal note. The initial value set on ticket creation persists for any additional comment unless you change it */
-  public?: boolean;
+  public?: boolean | undefined;
   /** The locale code to translate the comment body to. */
-  translate_to?: string | null;
+  translate_to?: string | null | undefined;
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
-  uploads?: TicketImportInputInputCommentsItemUploadsList;
-  via?: AttachmentObjectInput;
+  uploads?: TicketImportInputInputCommentsItemUploadsList | undefined;
+  via?: AttachmentObjectInput | undefined;
   [key: string]: unknown;
 }
 /** The conversation between requesters, collaborators, and agents */
@@ -7820,70 +7845,70 @@ export type TicketImportInputInputViaSourceMap = { [key: string]: unknown | unde
 /** An object explaining how the ticket was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
 export interface TicketImportInputInputVia {
   /** This tells you how the ticket or event was created */
-  channel?: string;
+  channel?: string | undefined;
   /** For some channels a source object gives more information about how or why the ticket or event was created */
-  source?: TicketImportInputInputViaSourceMap;
+  source?: TicketImportInputInputViaSourceMap | undefined;
 }
 export interface TicketImportInputInput {
   /** The agent currently assigned to the ticket */
-  assignee_id?: number;
+  assignee_id?: number | undefined;
   /** The id of the brand this ticket is associated with. If not specified, the ticket is assigned to the default brand */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
-  collaborators?: TicketImportInputInputCollaboratorsList;
-  comment?: TicketImportInputInputComment;
+  collaborators?: TicketImportInputInputCollaboratorsList | undefined;
+  comment?: TicketImportInputInputComment | undefined;
   /** The conversation between requesters, collaborators, and agents */
-  comments?: TicketImportInputInputCommentsList;
+  comments?: TicketImportInputInputCommentsList | undefined;
   /** The time the ticket was created (for historical imports) */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  custom_fields?: TicketImportInputInputCustomFieldsList;
+  custom_fields?: TicketImportInputInputCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket */
-  custom_status_id?: number;
+  custom_status_id?: number | undefined;
   /** Read-only first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment) */
-  description?: string;
+  description?: string | undefined;
   /** An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-email-ccs) */
-  email_ccs?: TicketImportInputInputEmailCcsList | null;
+  email_ccs?: TicketImportInputInputEmailCcsList | null | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string;
+  external_id?: string | undefined;
   /** An array of objects that represent agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-followers) */
-  followers?: TicketImportInputInputFollowersList;
+  followers?: TicketImportInputInputFollowersList | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number;
-  priority?: TicketPriorityEnum | (string & {});
+  group_id?: number | undefined;
+  priority?: TicketPriorityEnum | (string & {}) | undefined;
   /** The original recipient e-mail address of the ticket */
-  recipient?: string;
+  recipient?: string | undefined;
   /** The user who requested this ticket */
-  requester_id?: number;
+  requester_id?: number | undefined;
   /** The time the ticket was solved (for historical imports) */
-  solved_at?: string;
+  solved_at?: string | undefined;
   /** The state of the ticket */
-  status?: TicketImportInputInputStatus | (string & {});
+  status?: TicketImportInputInputStatus | (string & {}) | undefined;
   /** The value of the subject field for this ticket */
-  subject?: string;
+  subject?: string | undefined;
   /** The array of tags applied to this ticket */
-  tags?: TicketImportInputInputTagsList;
+  tags?: TicketImportInputInputTagsList | undefined;
   /** The time the ticket was last updated (for historical imports) */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** An object explaining how the ticket was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
-  via?: TicketImportInputInputVia;
+  via?: TicketImportInputInputVia | undefined;
 }
 export interface ImportTicketRequest {
   /** If `true`, any ticket created with a `closed` status bypasses the normal ticket lifecycle and will be created directly in your ticket archive */
-  archive_immediately?: boolean;
-  ticket?: TicketImportInputInput;
+  archive_immediately?: boolean | undefined;
+  ticket?: TicketImportInputInput | undefined;
 }
 export interface IncrementalCustomObjectRecordExportCursorRequest {
   /** The key identifier for the custom object */
   custom_object_key: string;
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute. Required on the initial export request; not required on subsequent cursor-based pagination requests */
-  start_time?: number;
+  start_time?: number | undefined;
   /** The cursor pointer to work with for all subsequent exports after the initial request */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of records to return per page (default 1000, maximum 1000) */
-  per_page?: number;
+  per_page?: number | undefined;
   /** If true, exclude deleted records from the export */
-  filter_exclude_deleted_?: boolean;
+  filter_exclude_deleted_?: boolean | undefined;
 }
 /** Custom field values. For deleted records, field values will be "[DELETED]" unless exclude_deleted filter is used. */
 export type IncrementalCustomObjectRecordsResponseCustomObjectRecordsItemCustomObjectFieldsMap = {
@@ -7891,25 +7916,27 @@ export type IncrementalCustomObjectRecordsResponseCustomObjectRecordsItemCustomO
 };
 export interface IncrementalCustomObjectRecordsResponseCustomObjectRecordsItem {
   /** The time the object was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Id of a user who created the object */
-  created_by_user_id?: string;
+  created_by_user_id?: string | undefined;
   /** Custom field values. For deleted records, field values will be "[DELETED]" unless exclude_deleted filter is used. */
-  custom_object_fields?: IncrementalCustomObjectRecordsResponseCustomObjectRecordsItemCustomObjectFieldsMap;
+  custom_object_fields?:
+    | IncrementalCustomObjectRecordsResponseCustomObjectRecordsItemCustomObjectFieldsMap
+    | undefined;
   /** A user-defined unique identifier for the custom object */
-  custom_object_key?: string;
+  custom_object_key?: string | undefined;
   /** An id you can use to link custom object records to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Automatically assigned upon creation */
-  id?: string;
+  id?: string | undefined;
   /** User-defined display name for the object. May be "[DELETED]" for deleted records. */
-  name?: string;
+  name?: string | undefined;
   /** The time of the last update of the object */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Id of the last user who updated the object */
-  updated_by_user_id?: string;
+  updated_by_user_id?: string | undefined;
   /** Direct link to the specific custom object record */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of custom object records that have changed since the start time. */
 export type IncrementalCustomObjectRecordsResponseCustomObjectRecordsList =
@@ -7917,37 +7944,37 @@ export type IncrementalCustomObjectRecordsResponseCustomObjectRecordsList =
 /** Applied filters for the export */
 export interface IncrementalCustomObjectRecordsResponseFilter {
   /** Whether deleted records were excluded from the export */
-  exclude_deleted?: boolean;
+  exclude_deleted?: boolean | undefined;
 }
 /** Metadata about the export operation */
 export interface IncrementalCustomObjectRecordsResponseMeta {
   /** Indicates whether there are more records to export after this page */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 /** Response for incremental export of custom object records. See [Custom Object Records](/api-reference/custom-data/custom-objects/custom_object_records/) for detailed information about custom object record properties. */
 export interface IncrementalCustomObjectRecordsResponse {
   /** Cursor value for the next page. Use this value for the cursor parameter in the next request. */
-  after_cursor?: string | null;
+  after_cursor?: string | null | undefined;
   /** URL to fetch the next page of results. Null if this is the last page. */
-  after_url?: string | null;
+  after_url?: string | null | undefined;
   /** Cursor value for the previous page. Null if this is the first page. */
-  before_cursor?: string | null;
+  before_cursor?: string | null | undefined;
   /** URL to fetch the previous page of results. Null if this is the first page. */
-  before_url?: string | null;
+  before_url?: string | null | undefined;
   /** Array of custom object records that have changed since the start time. */
-  custom_object_records?: IncrementalCustomObjectRecordsResponseCustomObjectRecordsList;
+  custom_object_records?: IncrementalCustomObjectRecordsResponseCustomObjectRecordsList | undefined;
   /** Applied filters for the export */
-  filter?: IncrementalCustomObjectRecordsResponseFilter | null;
+  filter?: IncrementalCustomObjectRecordsResponseFilter | null | undefined;
   /** Metadata about the export operation */
-  meta?: IncrementalCustomObjectRecordsResponseMeta;
+  meta?: IncrementalCustomObjectRecordsResponseMeta | undefined;
 }
 export interface IncrementalTicketEventsRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute */
   start_time: number;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. Supports `comment_events` to include full comment data in the response. */
-  include?: string;
+  include?: string | undefined;
 }
 /** The metric being tracked */
 export type TicketMetricEventBaseObjectMetric =
@@ -7970,84 +7997,84 @@ export type TicketMetricEventBaseObjectType =
   | "measure";
 export interface TicketMetricEventBaseObject {
   /** If true, the event has been deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Automatically assigned when the record is created */
-  id?: number;
+  id?: number | undefined;
   /** The instance of the metric associated with the event. See [instance_id](#instance_id) */
-  instance_id?: number;
+  instance_id?: number | undefined;
   /** The metric being tracked */
-  metric?: TicketMetricEventBaseObjectMetric;
+  metric?: TicketMetricEventBaseObjectMetric | undefined;
   /** Id of the associated ticket */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** The time the event occurred */
-  time?: string;
+  time?: string | undefined;
   /** The type of the metric event. See [Ticket metric event types reference](/documentation/ticketing/reference-guides/ticket-metric-event-types-reference) */
-  type?: TicketMetricEventBaseObjectType;
+  type?: TicketMetricEventBaseObjectType | undefined;
 }
 export type ExportIncrementalTicketEventsResponseTicketEventsList =
   Array<TicketMetricEventBaseObject>;
 export interface ExportIncrementalTicketEventsResponse {
-  count?: number;
-  end_of_stream?: boolean;
-  end_time?: number;
-  next_page?: string | null;
-  ticket_events?: ExportIncrementalTicketEventsResponseTicketEventsList;
+  count?: number | undefined;
+  end_of_stream?: boolean | undefined;
+  end_time?: number | undefined;
+  next_page?: string | null | undefined;
+  ticket_events?: ExportIncrementalTicketEventsResponseTicketEventsList | undefined;
 }
 export interface IncrementalTicketExportCursorRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute. Required on the initial export request; not required on subsequent cursor-based pagination requests */
-  start_time?: number;
+  start_time?: number | undefined;
   /** The cursor pointer to work with for all subsequent exports after the initial request */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
 }
 export type CursorBasedExportIncrementalTicketsResponseOutputTicketsList =
   Array<TicketObjectOutput>;
 /** See [Tickets](/api-reference/ticketing/tickets/tickets/) for a detailed example. */
 export interface CursorBasedExportIncrementalTicketsResponseOutput {
-  after_cursor?: string | null;
-  after_url?: string | null;
-  before_cursor?: string | null;
-  before_url?: string | null;
-  end_of_stream?: boolean;
-  tickets?: CursorBasedExportIncrementalTicketsResponseOutputTicketsList;
+  after_cursor?: string | null | undefined;
+  after_url?: string | null | undefined;
+  before_cursor?: string | null | undefined;
+  before_url?: string | null | undefined;
+  end_of_stream?: boolean | undefined;
+  tickets?: CursorBasedExportIncrementalTicketsResponseOutputTicketsList | undefined;
 }
 export interface IncrementalTicketExportTimeRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute */
   start_time: number;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
 }
 export interface IncrementalUserExportCursorRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute. Required on the initial export request; not required on subsequent cursor-based pagination requests */
-  start_time?: number;
+  start_time?: number | undefined;
   /** The cursor pointer to work with for all subsequent exports after the initial request */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of records to return per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type CursorBasedExportIncrementalUsersResponseUsersList = Array<UserObject>;
 export interface CursorBasedExportIncrementalUsersResponse {
-  after_cursor?: string | null;
-  after_url?: string | null;
-  before_cursor?: string | null;
-  before_url?: string | null;
-  end_of_stream?: boolean;
-  users?: CursorBasedExportIncrementalUsersResponseUsersList;
+  after_cursor?: string | null | undefined;
+  after_url?: string | null | undefined;
+  before_cursor?: string | null | undefined;
+  before_url?: string | null | undefined;
+  end_of_stream?: boolean | undefined;
+  users?: CursorBasedExportIncrementalUsersResponseUsersList | undefined;
 }
 export interface IncrementalUserExportTimeRequest {
   /** The time to start the incremental export from. Must be at least one minute in the past. Data isn't provided for the most recent minute */
   start_time: number;
   /** The number of records to return per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type TimeBasedExportIncrementalUsersResponseUsersList = Array<UserObject>;
 export interface TimeBasedExportIncrementalUsersResponse {
-  count?: number;
-  end_of_stream?: boolean;
-  end_time?: number;
-  next_page?: string | null;
-  users?: TimeBasedExportIncrementalUsersResponseUsersList;
+  count?: number | undefined;
+  end_of_stream?: boolean | undefined;
+  end_time?: number | undefined;
+  next_page?: string | null | undefined;
+  users?: TimeBasedExportIncrementalUsersResponseUsersList | undefined;
 }
 export type ItamAssetBulkJobsRequestJobAction =
   | "create"
@@ -8058,25 +8085,25 @@ export type ItamAssetBulkJobsRequestJobItemsItem = ItamAssetInput | string;
 /** An array of asset objects for job actions that create or update. An array of strings for job actions that delete. */
 export type ItamAssetBulkJobsRequestJobItemsList = Array<ItamAssetBulkJobsRequestJobItemsItem>;
 export interface ItamAssetBulkJobsRequestJob {
-  action?: ItamAssetBulkJobsRequestJobAction | (string & {});
+  action?: ItamAssetBulkJobsRequestJobAction | (string & {}) | undefined;
   /** An array of asset objects for job actions that create or update. An array of strings for job actions that delete. */
-  items?: ItamAssetBulkJobsRequestJobItemsList;
+  items?: ItamAssetBulkJobsRequestJobItemsList | undefined;
 }
 export interface ItamAssetBulkJobsRequest {
-  job?: ItamAssetBulkJobsRequestJob;
+  job?: ItamAssetBulkJobsRequestJob | undefined;
 }
 export type ItamAssetBulkJobResponseJobStatusResultsList = Array<ItamAsset>;
 export interface ItamAssetBulkJobResponseJobStatus {
-  id?: string;
-  message?: string | null;
-  progress?: number | null;
-  results?: ItamAssetBulkJobResponseJobStatusResultsList | null;
-  status?: string;
-  total?: number;
-  url?: string;
+  id?: string | undefined;
+  message?: string | null | undefined;
+  progress?: number | null | undefined;
+  results?: ItamAssetBulkJobResponseJobStatusResultsList | null | undefined;
+  status?: string | undefined;
+  total?: number | undefined;
+  url?: string | undefined;
 }
 export interface ItamAssetBulkJobResponse {
-  job_status?: ItamAssetBulkJobResponseJobStatus;
+  job_status?: ItamAssetBulkJobResponseJobStatus | undefined;
 }
 /** The object type to link. The only supported value is Ticket. */
 export type LinkExistingTicketRequestLinkObjectType = "Ticket";
@@ -8094,43 +8121,43 @@ export interface LinkExistingTicketRequest {
   link: LinkExistingTicketRequestLink;
 }
 export interface TaskObjectLinkResponse {
-  task_object_link?: TaskObjectLinkObject;
+  task_object_link?: TaskObjectLinkObject | undefined;
 }
 export interface ListAccessRuleDefinitionsRequest {
   /** The key of a custom object */
   custom_object_key: string;
 }
 export interface AccessRuleFieldDefinitionMetadata {
-  collection_key?: string;
-  field_id?: number | null;
-  item_key?: string;
-  source?: string | null;
-  url?: string;
+  collection_key?: string | undefined;
+  field_id?: number | null | undefined;
+  item_key?: string | undefined;
+  source?: string | null | undefined;
+  url?: string | undefined;
 }
 export interface AccessRuleFieldDefinitionOperatorsItem {
-  format?: string;
-  terminal?: boolean;
-  title?: string;
-  value?: string;
+  format?: string | undefined;
+  terminal?: boolean | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type AccessRuleFieldDefinitionOperatorsList = Array<AccessRuleFieldDefinitionOperatorsItem>;
 export interface AccessRuleFieldDefinitionValuesItem {
-  dynamic?: boolean;
-  enabled?: boolean;
-  title?: string;
-  value?: string;
+  dynamic?: boolean | undefined;
+  enabled?: boolean | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type AccessRuleFieldDefinitionValuesList = Array<AccessRuleFieldDefinitionValuesItem>;
 export interface AccessRuleFieldDefinition {
-  group?: string;
-  metadata?: AccessRuleFieldDefinitionMetadata;
-  nullable?: boolean;
-  operators?: AccessRuleFieldDefinitionOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: AccessRuleFieldDefinitionValuesList;
+  group?: string | undefined;
+  metadata?: AccessRuleFieldDefinitionMetadata | undefined;
+  nullable?: boolean | undefined;
+  operators?: AccessRuleFieldDefinitionOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: AccessRuleFieldDefinitionValuesList | undefined;
 }
 /** Available field definitions for 'all' conditions (AND logic) */
 export type AccessRuleDefinitionsResponseDefinitionsConditionsAllList =
@@ -8140,12 +8167,12 @@ export type AccessRuleDefinitionsResponseDefinitionsConditionsAnyList =
   Array<AccessRuleFieldDefinition>;
 export interface AccessRuleDefinitionsResponseDefinitions {
   /** Available field definitions for 'all' conditions (AND logic) */
-  conditions_all?: AccessRuleDefinitionsResponseDefinitionsConditionsAllList;
+  conditions_all?: AccessRuleDefinitionsResponseDefinitionsConditionsAllList | undefined;
   /** Available field definitions for 'any' conditions (OR logic) */
-  conditions_any?: AccessRuleDefinitionsResponseDefinitionsConditionsAnyList;
+  conditions_any?: AccessRuleDefinitionsResponseDefinitionsConditionsAnyList | undefined;
 }
 export interface AccessRuleDefinitionsResponse {
-  definitions?: AccessRuleDefinitionsResponseDefinitions;
+  definitions?: AccessRuleDefinitionsResponseDefinitions | undefined;
 }
 export interface ListAccessRulesRequest {
   /** The key of a custom object */
@@ -8153,99 +8180,99 @@ export interface ListAccessRulesRequest {
 }
 export type AccessRulesResponseAccessRulesList = Array<AccessRule>;
 export interface AccessRulesResponse {
-  access_rules?: AccessRulesResponseAccessRulesList;
+  access_rules?: AccessRulesResponseAccessRulesList | undefined;
 }
 export interface ListAccountAttributesRequest {
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/api-reference/ticketing/ticket-management/skill_based_routing/#sideloads). */
-  include?: string;
+  include?: string | undefined;
 }
 export type SkillBasedRoutingAttributesResponseAttributesList =
   Array<SkillBasedRoutingAttributeObject>;
 export interface SkillBasedRoutingAttributesResponse {
-  attributes?: SkillBasedRoutingAttributesResponseAttributesList;
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
+  attributes?: SkillBasedRoutingAttributesResponseAttributesList | undefined;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
 }
 export interface ListActiveAutomationsRequest {}
 export type AutomationsResponseAutomationsList = Array<AutomationObject>;
 export interface AutomationsResponse {
   automations: AutomationsResponseAutomationsList;
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
 }
 export interface ListActiveMacrosRequest {
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
   /** Filter macros by access. Possible values are "personal", "agents", "shared", or "account". The "agents" value returns all personal macros for the account's agents and is only available to admins. */
-  access?: string;
+  access?: string | undefined;
   /** Filter macros by category */
-  category?: number;
+  category?: number | undefined;
   /** Filter macros by group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", "usage_7d", or "usage_30d". Defaults to alphabetical */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type ListActiveMacrosResponseMacrosList = Array<MacroObject>;
 export interface ListActiveMacrosResponse {
-  macros?: ListActiveMacrosResponseMacrosList;
+  macros?: ListActiveMacrosResponseMacrosList | undefined;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface ListActiveObjectTriggersRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type ObjectTriggersResponseTriggersList = Array<ObjectTriggerObject>;
 export interface ObjectTriggersResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  triggers?: ObjectTriggersResponseTriggersList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  triggers?: ObjectTriggersResponseTriggersList | undefined;
 }
 export interface ListActiveTriggersRequest {
   /** Cursor-based pagination only. Possible values are "alphabetical", "created_at", "updated_at", or "position". */
-  sort?: string;
+  sort?: string | undefined;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Filter triggers by category ID */
-  category_id?: string;
+  category_id?: string | undefined;
 }
 export type TriggersResponseOutputTriggersList = Array<TriggerObjectOutput>;
 export interface TriggersResponseOutput {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
   triggers: TriggersResponseOutputTriggersList;
 }
 export interface ListActiveViewsRequest {
   /** Only views with given access. May be "personal", "shared", or "account" */
-  access?: string;
+  access?: string | undefined;
   /** Only views belonging to given group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** Possible values are "alphabetical", "created_at", or "updated_at". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type ViewsResponseViewsList = Array<ViewObject>;
 export interface ViewsResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
   views: ViewsResponseViewsList;
 }
 /** Cursor pagination parameters (JSON:API style) */
@@ -8253,15 +8280,15 @@ export type ListActivitiesRequestPageCase1 = DynamicContentListVariantsRequestPa
 export type ListActivitiesRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListActivitiesRequest {
   /** A UTC time in ISO 8601 format to return ticket activities since said date. */
-  since?: string;
+  since?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListActivitiesRequestPage;
+  page?: ListActivitiesRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A comma-separated list of sideloads to include. Supported values: `fields_metadata`. */
-  include?: string;
+  include?: string | undefined;
 }
 export type ActivitiesResponseActivitiesList = Array<ActivityObject>;
 export type ActivitiesResponseActorsItemMap = { [key: string]: unknown | undefined };
@@ -8270,11 +8297,11 @@ export type ActivitiesResponseUsersItemMap = { [key: string]: unknown | undefine
 export type ActivitiesResponseUsersList = Array<ActivitiesResponseUsersItemMap>;
 export interface ActivitiesResponse {
   activities: ActivitiesResponseActivitiesList;
-  actors?: ActivitiesResponseActorsList;
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  users?: ActivitiesResponseUsersList;
+  actors?: ActivitiesResponseActorsList | undefined;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  users?: ActivitiesResponseUsersList | undefined;
 }
 export interface ListAgentAttributeValuesRequest {
   /** The id of the user */
@@ -8283,75 +8310,77 @@ export interface ListAgentAttributeValuesRequest {
 export type SkillBasedRoutingAttributeValuesResponseAttributeValuesList =
   Array<SkillBasedRoutingAttributeValueObject>;
 export interface SkillBasedRoutingAttributeValuesResponse {
-  attribute_values?: SkillBasedRoutingAttributeValuesResponseAttributeValuesList;
+  attribute_values?: SkillBasedRoutingAttributeValuesResponseAttributeValuesList | undefined;
 }
 export interface ListApprovalRequestsRequest {
   /** Filter by a comma-separated list of one or more approval statuses. Allowed values are active, approved, rejected, withdrawn. Maximum 100 values. */
-  filter_status_?: string;
+  filter_status_?: string | undefined;
   /** Filter by a comma-separated list of assigned user ids. Maximum 100 ids. */
-  filter_assignee_user_id_?: string;
+  filter_assignee_user_id_?: string | undefined;
   /** Filter by a comma-separated list of assigned group ids. Maximum 100 ids. */
-  filter_assignee_group_id_?: string;
+  filter_assignee_group_id_?: string | undefined;
   /** Cursor for pagination. Fetch records before this cursor */
-  before_cursor?: string;
+  before_cursor?: string | undefined;
   /** Cursor for pagination. Fetch records after this cursor */
-  after_cursor?: string;
+  after_cursor?: string | undefined;
 }
 export interface ApprovalRequestsListResponseApprovalRequestsItemAssigneeGroup {
   /** Unique identifier for the assigned group */
-  id?: number;
+  id?: number | undefined;
   /** Name of the assigned group */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ApprovalRequestsListResponseApprovalRequestsItemAssigneeUser {
   /** Unique identifier for the assigned user */
-  id?: number;
+  id?: number | undefined;
   /** Name of the assigned user */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesItemAuthor {
   /** URL for the author's avatar */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Email of the message author */
-  email?: string;
+  email?: string | undefined;
   /** Unique identifier for the message author */
-  id?: number;
+  id?: number | undefined;
   /** Name of the message author */
-  name?: string;
+  name?: string | undefined;
   /** Role of the message author */
-  role?: string;
+  role?: string | undefined;
 }
 export interface ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesItem {
-  author?: ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesItemAuthor;
+  author?:
+    | ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesItemAuthor
+    | undefined;
   /** When the message was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Unique identifier for the message */
-  id?: string;
+  id?: string | undefined;
   /** The message content */
-  message?: string;
+  message?: string | undefined;
 }
 /** List of clarification messages exchanged on this approval request */
 export type ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesList =
   Array<ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesItem>;
 export interface ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto {
   /** URL for the user's photo */
-  content_url?: string;
+  content_url?: string | undefined;
 }
 export interface ApprovalRequestsListResponseApprovalRequestsItemCreatedByUser {
   /** Unique identifier for the user who created the approval request */
-  id?: number;
+  id?: number | undefined;
   /** Name of the user who created the approval request */
-  name?: string;
-  photo?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto;
+  name?: string | undefined;
+  photo?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto | undefined;
 }
 export type ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemDecidedByUserPhoto =
   ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto;
 export interface ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemDecidedByUser {
   /** Unique identifier for the user who responded */
-  id?: number;
+  id?: number | undefined;
   /** Name of the user who responded */
-  name?: string;
-  photo?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto;
+  name?: string | undefined;
+  photo?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUserPhoto | undefined;
 }
 /** Source where the response was made */
 export type ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemOriginationType =
@@ -8362,14 +8391,19 @@ export type ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemOrigina
   | "UNKNOWN_ORIGINATION";
 export interface ApprovalRequestsListResponseApprovalRequestsItemDecisionsItem {
   /** The time when the response was made */
-  decided_at?: string;
-  decided_by_user?: ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemDecidedByUser;
+  decided_at?: string | undefined;
+  decided_by_user?:
+    | ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemDecidedByUser
+    | undefined;
   /** Notes provided with the decision */
-  decision_notes?: string | null;
+  decision_notes?: string | null | undefined;
   /** Source where the response was made */
-  origination_type?: ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemOriginationType | null;
+  origination_type?:
+    | ApprovalRequestsListResponseApprovalRequestsItemDecisionsItemOriginationType
+    | null
+    | undefined;
   /** The decision status. Allowed values: "approved", "rejected", or "clarification_requested" */
-  status?: string;
+  status?: string | undefined;
 }
 /** List of responses made on this approval request */
 export type ApprovalRequestsListResponseApprovalRequestsItemDecisionsList =
@@ -8385,58 +8419,63 @@ export type ApprovalRequestsListResponseApprovalRequestsItemOriginationType =
   | "UNKNOWN_ORIGINATION";
 export interface ApprovalRequestsListResponseApprovalRequestsItem {
   /** Unique identifier (ULID) of the parent workflow instance. Parallel approval requests share the same ULID. */
-  approval_workflow_instance_id?: string;
-  assignee_group?: ApprovalRequestsListResponseApprovalRequestsItemAssigneeGroup | null;
-  assignee_user?: ApprovalRequestsListResponseApprovalRequestsItemAssigneeUser | null;
+  approval_workflow_instance_id?: string | undefined;
+  assignee_group?: ApprovalRequestsListResponseApprovalRequestsItemAssigneeGroup | null | undefined;
+  assignee_user?: ApprovalRequestsListResponseApprovalRequestsItemAssigneeUser | null | undefined;
   /** List of clarification messages exchanged on this approval request */
-  clarification_flow_messages?: ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesList;
+  clarification_flow_messages?:
+    | ApprovalRequestsListResponseApprovalRequestsItemClarificationFlowMessagesList
+    | undefined;
   /** The time the approval request was created */
-  created_at?: string;
-  created_by_user?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUser;
+  created_at?: string | undefined;
+  created_by_user?: ApprovalRequestsListResponseApprovalRequestsItemCreatedByUser | undefined;
   /** The time when the approval request was responded to */
-  decided_at?: string | null;
+  decided_at?: string | null | undefined;
   /** List of responses made on this approval request */
-  decisions?: ApprovalRequestsListResponseApprovalRequestsItemDecisionsList;
+  decisions?: ApprovalRequestsListResponseApprovalRequestsItemDecisionsList | undefined;
   /** Unique identifier for the approval request */
-  id?: string;
+  id?: string | undefined;
   /** Details for the approval request */
-  message?: string;
+  message?: string | undefined;
   /** Source where the approval request originated from */
-  origination_type?: ApprovalRequestsListResponseApprovalRequestsItemOriginationType | null;
+  origination_type?:
+    | ApprovalRequestsListResponseApprovalRequestsItemOriginationType
+    | null
+    | undefined;
   /** Current status of the approval request (active, approved, rejected, withdrawn) */
-  status?: string;
+  status?: string | undefined;
   /** Subject for the approval request */
-  subject?: string;
+  subject?: string | undefined;
   /** The id of the ticket associated with this approval request */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** Reason provided when the approval request was withdrawn */
-  withdrawn_reason?: string | null;
+  withdrawn_reason?: string | null | undefined;
 }
 export type ApprovalRequestsListResponseApprovalRequestsList =
   Array<ApprovalRequestsListResponseApprovalRequestsItem>;
 /** Links for navigation */
 export interface ApprovalRequestsListResponseLinks {
   /** Link to the next page of results */
-  next?: string | null;
+  next?: string | null | undefined;
   /** Link to the previous page of results */
-  prev?: string | null;
+  prev?: string | null | undefined;
 }
 /** Metadata about the response */
 export interface ApprovalRequestsListResponseMeta {
   /** Cursor for fetching the next page of results */
-  after_cursor?: string | null;
+  after_cursor?: string | null | undefined;
   /** Cursor for fetching the previous page of results */
-  before_cursor?: string | null;
+  before_cursor?: string | null | undefined;
   /** Indicates if there are more results available */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 /** Response for listing approval requests with cursor pagination */
 export interface ApprovalRequestsListResponse {
-  approval_requests?: ApprovalRequestsListResponseApprovalRequestsList;
+  approval_requests?: ApprovalRequestsListResponseApprovalRequestsList | undefined;
   /** Links for navigation */
-  links?: ApprovalRequestsListResponseLinks;
+  links?: ApprovalRequestsListResponseLinks | undefined;
   /** Metadata about the response */
-  meta?: ApprovalRequestsListResponseMeta;
+  meta?: ApprovalRequestsListResponseMeta | undefined;
 }
 export interface ListAssignableGroupMembershipsRequest {}
 export interface ListAssignableGroupMembershipsByGroupRequest {
@@ -8450,61 +8489,63 @@ export interface ListAttributeValuesRequest {
 }
 export interface SkillBasedRoutingAttributeValueWithoutPriorityObject {
   /** Id of the associated attribute */
-  attribute_id?: string;
+  attribute_id?: string | undefined;
   /** When this record was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when an attribute value is created */
-  id?: string;
+  id?: string | undefined;
   /** The name of the attribute value */
-  name?: string;
+  name?: string | undefined;
   /** When this record was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URL of the attribute value */
-  url?: string;
+  url?: string | undefined;
 }
 export type SkillBasedRoutingAttributeValuesWithoutPriorityResponseAttributeValuesList =
   Array<SkillBasedRoutingAttributeValueWithoutPriorityObject>;
 export interface SkillBasedRoutingAttributeValuesWithoutPriorityResponse {
-  attribute_values?: SkillBasedRoutingAttributeValuesWithoutPriorityResponseAttributeValuesList;
+  attribute_values?:
+    | SkillBasedRoutingAttributeValuesWithoutPriorityResponseAttributeValuesList
+    | undefined;
 }
 export type ListAuditLogsRequestIdsList = Array<number>;
 export interface ListAuditLogsRequestPage {
   /** Cursor token for fetching next page */
-  after?: string;
+  after?: string | undefined;
   /** Cursor token for fetching previous page */
-  before?: string;
+  before?: string | undefined;
   /** Number of records per page */
-  size?: number;
+  size?: number | undefined;
 }
 export interface ListAuditLogsRequest {
   /** Filters audit logs by id. To specify multiple ids, repeat the `ids[]` parameter. For example, `?ids[]=1&ids[]=2` */
-  ids__?: ListAuditLogsRequestIdsList;
+  ids__?: ListAuditLogsRequestIdsList | undefined;
   /** Filter audit logs by the source type. For example, user or rule */
-  filter_source_type_?: string;
+  filter_source_type_?: string | undefined;
   /** Filter audit logs by the source id. Requires `filter[source_type]` to also be set */
-  filter_source_id_?: number;
+  filter_source_id_?: number | undefined;
   /** Filter audit logs by the actor id */
-  filter_actor_id_?: number;
+  filter_actor_id_?: number | undefined;
   /** Filter audit logs by the ip address */
-  filter_ip_address_?: string;
+  filter_ip_address_?: string | undefined;
   /** Filter audit logs by the time of creation. When used, you must specify `filter[created_at]` twice in your request, first with the start time and again with an end time */
-  filter_created_at_?: string;
+  filter_created_at_?: string | undefined;
   /** Filter audit logs by the action */
-  filter_action_?: string;
+  filter_action_?: string | undefined;
   /** Offset pagination only. Sort audit logs. Default is `sort_by=created_at` */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Offset pagination only. Sort audit logs. Default is `sort_order=desc` */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Cursor pagination only. Sort audit logs. Default is `sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type AuditLogsResponseAuditLogsList = Array<AuditLogObject>;
 export interface AuditLogsResponse {
-  audit_logs?: AuditLogsResponseAuditLogsList;
+  audit_logs?: AuditLogsResponseAuditLogsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListAuditsForTicketRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -8515,113 +8556,113 @@ export interface ListAuditsForTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListAuditsForTicketRequestPage;
+  page?: ListAuditsForTicketRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
   /** Filter audit events by type. Use the format `filter_events[]=Type1&filter_events[]=Type2`. */
-  filter_events?: ListAuditsForTicketRequestFilterEventsList;
+  filter_events?: ListAuditsForTicketRequestFilterEventsList | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListAuditsForTicketRequestSortOrder | (string & {});
+  sort_order?: ListAuditsForTicketRequestSortOrder | (string & {}) | undefined;
 }
 export type TicketAuditsResponseNoneCursorAuditsList = Array<TicketAuditObject>;
 export interface TicketAuditsResponseNoneCursor {
   audits: TicketAuditsResponseNoneCursorAuditsList;
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListAutomationsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListAutomationsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListAutomationsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListAutomationsRequestPage;
+  page?: ListAutomationsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter by active automations if true or inactive automations if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
 }
 export type ListAvailableAgentsRequestPage = ListAuditLogsRequestPage;
 export interface ListAvailableAgentsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 /** List of active product entitlements for the user */
 export type ListAvailableAgentsResponseUsersItemEntitlementsList = Array<string>;
 export interface ListAvailableAgentsResponseUsersItem {
   /** The ID of the user's custom role, if applicable */
-  custom_role_id?: number | null;
+  custom_role_id?: number | null | undefined;
   /** The user's email address */
-  email?: string;
+  email?: string | undefined;
   /** List of active product entitlements for the user */
-  entitlements?: ListAvailableAgentsResponseUsersItemEntitlementsList | null;
+  entitlements?: ListAvailableAgentsResponseUsersItemEntitlementsList | null | undefined;
   /** The user ID */
-  id?: number;
+  id?: number | undefined;
   /** The user's name */
-  name?: string;
+  name?: string | undefined;
   /** The user's profile picture represented as a URL */
-  photo_url?: string | null;
+  photo_url?: string | null | undefined;
   /** The user's role (lowercase) */
-  role?: string;
+  role?: string | undefined;
   /** The user's role type ID */
-  role_type?: number | null;
+  role_type?: number | null | undefined;
   /** If the agent is suspended */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
 }
 export type ListAvailableAgentsResponseUsersList = Array<ListAvailableAgentsResponseUsersItem>;
 export type ListAvailableAgentsResponseLinks = CustomObjectRecordsResponseLinks;
 export type ListAvailableAgentsResponseMeta = CustomObjectRecordsResponseMeta;
 export interface ListAvailableAgentsResponse {
-  users?: ListAvailableAgentsResponseUsersList;
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
+  users?: ListAvailableAgentsResponseUsersList | undefined;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
 }
 export interface ListAvailablePublicLocalesRequest {}
 export type LocalesResponseLocalesList = Array<LocaleObject>;
 export interface LocalesResponse {
-  locales?: LocalesResponseLocalesList;
+  locales?: LocalesResponseLocalesList | undefined;
 }
 export interface ListBookmarksRequest {}
 export type ListBookmarksResponseBookmarksList = Array<BookmarkObjectOutput>;
 export interface ListBookmarksResponse {
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
-  bookmarks?: ListBookmarksResponseBookmarksList;
+  previous_page?: string | null | undefined;
+  bookmarks?: ListBookmarksResponseBookmarksList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListBrandAgentsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListBrandAgentsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListBrandAgentsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListBrandAgentsRequestPage;
+  page?: ListBrandAgentsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type BrandAgentsResponseBrandAgentsList = Array<BrandAgentObject>;
 export interface BrandAgentsResponse {
-  brand_agents?: BrandAgentsResponseBrandAgentsList;
+  brand_agents?: BrandAgentsResponseBrandAgentsList | undefined;
 }
 export interface ListBrandAgentsByBrandRequest {
   /** The ID of the brand */
@@ -8632,49 +8673,49 @@ export type ListBrandsRequestPageCase1 = DynamicContentListVariantsRequestPageCa
 export type ListBrandsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListBrandsRequest {
   /** Cursor pagination parameters using deepObject format. Use `?page[size]=50&page[after]=cursor` to paginate through results. */
-  page?: ListBrandsRequestPage;
+  page?: ListBrandsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. (Marked internal-only because only used with traditional offset pagination, which is only supported for internal/bime requests) */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Filters brands to only those assignable from the specified brand ID. A brand-separated brand is only assignable to itself, while account-separated brands are assignable to all other account-separated brands. */
-  assignable_from?: number;
+  assignable_from?: number | undefined;
   /** When true, includes soft-deleted brands in the response. */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
 }
 /** Array of brands */
 export type ListBrandsResponseBrandsList = Array<BrandObject>;
 export interface ListBrandsResponse {
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   /** Array of brands */
   brands: ListBrandsResponseBrandsList;
 }
 export interface ListCCDRequestsRequest {
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type RequestsResponseRequestsList = Array<RequestObject>;
 export interface RequestsResponse {
-  requests?: RequestsResponseRequestsList;
+  requests?: RequestsResponseRequestsList | undefined;
 }
 export interface ListCommentsRequest {
   /** The ID of the request */
   request_id: number;
   /** Filters the comments from the given datetime */
-  since?: string;
+  since?: string | undefined;
   /** One of "agent", "end_user". If not specified it does not filter */
-  role?: string;
+  role?: string | undefined;
 }
 export type TicketCommentsResponseCommentsList = Array<TicketCommentObject>;
 export interface TicketCommentsResponse {
-  comments?: TicketCommentsResponseCommentsList;
+  comments?: TicketCommentsResponseCommentsList | undefined;
 }
 export interface ListCompactViewsRequest {}
 export type ListConversationLogForTicketRequestPage = ListAuditLogsRequestPage;
@@ -8682,9 +8723,9 @@ export interface ListConversationLogForTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 /** A collection of attachments (image or file) associated with the event */
 export type ConversationLogObjectAttachmentsList = Array<AttachmentObject>;
@@ -8693,11 +8734,11 @@ export type ConversationLogObjectAuthorType = "user" | "agent" | "bot";
 /** Object that describes the user who created the event */
 export interface ConversationLogObjectAuthor {
   /** Either user, agent, or bot */
-  type?: ConversationLogObjectAuthorType;
+  type?: ConversationLogObjectAuthorType | undefined;
   /** A Zendesk resource name prefix describing a messaging user */
-  zen_sunco_user_id?: string;
+  zen_sunco_user_id?: string | undefined;
   /** A Zendesk resource name prefix describing a Support user */
-  zen_support_user_id?: number;
+  zen_support_user_id?: number | undefined;
   [key: string]: unknown;
 }
 /** Object that describes the content of the message. The inner fields depends on the record type */
@@ -8725,38 +8766,38 @@ export interface ConversationLogObject {
 }
 export type ConversationLogResponseEventsList = Array<ConversationLogObject>;
 export interface ConversationLogResponseLinks {
-  next?: string;
-  prev?: string;
+  next?: string | undefined;
+  prev?: string | undefined;
 }
 export interface ConversationLogResponseMeta {
-  after_cursor?: string;
-  before_cursor?: string;
-  has_more?: boolean;
+  after_cursor?: string | undefined;
+  before_cursor?: string | undefined;
+  has_more?: boolean | undefined;
 }
 export interface ConversationLogResponse {
-  events?: ConversationLogResponseEventsList;
-  links?: ConversationLogResponseLinks;
-  meta?: ConversationLogResponseMeta;
+  events?: ConversationLogResponseEventsList | undefined;
+  links?: ConversationLogResponseLinks | undefined;
+  meta?: ConversationLogResponseMeta | undefined;
 }
 export interface ListCountriesRequest {}
 export type ListCountriesResponseCountriesList = Array<CountryObject>;
 export interface ListCountriesResponse {
-  countries?: ListCountriesResponseCountriesList;
+  countries?: ListCountriesResponseCountriesList | undefined;
 }
 export interface ListCurrentUserOAuthClientsRequest {}
 export type OAuthClientsResponseClientsList = Array<OAuthClientObject>;
 export interface OAuthClientsResponse {
-  clients?: OAuthClientsResponseClientsList;
+  clients?: OAuthClientsResponseClientsList | undefined;
 }
 export interface ListCustomObjectFieldsRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Include standard fields if true. Exclude them if false */
-  include_standard_fields?: boolean;
+  include_standard_fields?: boolean | undefined;
 }
 export type CustomObjectFieldsResponseCustomObjectFieldsList = Array<CustomObjectField>;
 export interface CustomObjectFieldsResponse {
-  custom_object_fields?: CustomObjectFieldsResponseCustomObjectFieldsList;
+  custom_object_fields?: CustomObjectFieldsResponseCustomObjectFieldsList | undefined;
 }
 export interface ListCustomObjectRecordAttachmentsRequest {
   /** The key of a custom object */
@@ -8767,48 +8808,50 @@ export interface ListCustomObjectRecordAttachmentsRequest {
 export type CustomObjectRecordAttachmentsResponseCustomObjectRecordAttachmentsList =
   Array<CustomObjectRecordAttachment>;
 export interface CustomObjectRecordAttachmentsResponse {
-  custom_object_record_attachments?: CustomObjectRecordAttachmentsResponseCustomObjectRecordAttachmentsList;
+  custom_object_record_attachments?:
+    | CustomObjectRecordAttachmentsResponseCustomObjectRecordAttachmentsList
+    | undefined;
 }
 export interface ListCustomObjectRecordsRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Optional comma-separated list of ids to filter records by. If one or more ids are specified, only matching records are returned. The ids must be unique and are case sensitive. */
-  filter_ids_?: string;
+  filter_ids_?: string | undefined;
   /** Optional comma-separated list of external ids to filter records by. If one or more ids are specified, only matching records are returned. The ids must be unique and are case sensitive. */
-  filter_external_ids_?: string;
+  filter_external_ids_?: string | undefined;
   /** One of `id`, `updated_at`, `-id`, or `-updated_at`. The `-` denotes the sort will be descending. */
-  sort?: string;
+  sort?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many records should be returned in the response. You can specify up to 100 records per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
 }
 export interface ListCustomObjectsRequest {
   /** Include UI path in the response */
-  include_ui_path?: boolean;
+  include_ui_path?: boolean | undefined;
 }
 export type CustomObjectsResponseCustomObjectsList = Array<CustomObject>;
 export interface CustomObjectsResponse {
-  custom_objects?: CustomObjectsResponseCustomObjectsList;
+  custom_objects?: CustomObjectsResponseCustomObjectsList | undefined;
 }
 export interface ListCustomRolesRequest {}
 export type CustomRolesResponseCustomRolesList = Array<CustomRoleObject>;
 export interface CustomRolesResponse {
-  custom_roles?: CustomRolesResponseCustomRolesList;
+  custom_roles?: CustomRolesResponseCustomRolesList | undefined;
 }
 export interface ListCustomStatusesRequest {
   /** Filter the list of custom ticket statuses by a comma-separated list of status categories */
-  status_categories?: string;
+  status_categories?: string | undefined;
   /** If true, show only active custom ticket statuses. If false, show only inactive custom ticket statuses. If the filter is not used, show all custom ticket statuses */
-  active?: boolean;
+  active?: boolean | undefined;
   /** If true, show only default custom ticket statuses. If false, show only non-default custom ticket statuses. If the filter is not used, show all custom ticket statuses */
-  default?: boolean;
+  default?: boolean | undefined;
 }
 export type CustomStatusesResponseCustomStatusesList = Array<CustomStatusObject>;
 export interface CustomStatusesResponse {
-  custom_statuses?: CustomStatusesResponseCustomStatusesList;
+  custom_statuses?: CustomStatusesResponseCustomStatusesList | undefined;
 }
 export type ListDeletedTicketsRequestSortBy =
   | "id"
@@ -8828,117 +8871,117 @@ export type ListDeletedTicketsRequestPageCase1 = DynamicContentListVariantsReque
 export type ListDeletedTicketsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListDeletedTicketsRequest {
   /** Sort by */
-  sort_by?: ListDeletedTicketsRequestSortBy | (string & {});
+  sort_by?: ListDeletedTicketsRequestSortBy | (string & {}) | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListDeletedTicketsRequestSortOrder | (string & {});
+  sort_order?: ListDeletedTicketsRequestSortOrder | (string & {}) | undefined;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListDeletedTicketsRequestPage;
+  page?: ListDeletedTicketsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListDeletedTicketsResponseDeletedTicketsItemActor = QueueObjectPrimaryGroupsGroupsItem;
 export interface ListDeletedTicketsResponseDeletedTicketsItem {
-  actor?: QueueObjectPrimaryGroupsGroupsItem;
-  deleted_at?: string;
-  id?: number;
-  previous_state?: string;
-  subject?: string;
+  actor?: QueueObjectPrimaryGroupsGroupsItem | undefined;
+  deleted_at?: string | undefined;
+  id?: number | undefined;
+  previous_state?: string | undefined;
+  subject?: string | undefined;
 }
 export type ListDeletedTicketsResponseDeletedTicketsList =
   Array<ListDeletedTicketsResponseDeletedTicketsItem>;
 export interface ListDeletedTicketsResponse {
   deleted_tickets: ListDeletedTicketsResponseDeletedTicketsList;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListDeletedUsersRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListDeletedUsersRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListDeletedUsersRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListDeletedUsersRequestPage;
+  page?: ListDeletedUsersRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type DeletedUsersResponseDeletedUsersList = Array<DeletedUserObject>;
 export interface DeletedUsersResponse {
-  deleted_users?: DeletedUsersResponseDeletedUsersList;
+  deleted_users?: DeletedUsersResponseDeletedUsersList | undefined;
 }
 export interface ListDeletionSchedulesRequest {}
 export type ListDeletionSchedulesResponseDeletionSchedulesList = Array<DeletionSchedule>;
 export interface ListDeletionSchedulesResponse {
-  deletion_schedules?: ListDeletionSchedulesResponseDeletionSchedulesList;
+  deletion_schedules?: ListDeletionSchedulesResponseDeletionSchedulesList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListDynamicContentsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListDynamicContentsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListDynamicContentsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListDynamicContentsRequestPage;
+  page?: ListDynamicContentsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface ListEmailNotificationsRequestFilter {
-  comment_id?: number;
-  notification_id?: number;
-  ticket_id?: number;
+  comment_id?: number | undefined;
+  notification_id?: number | undefined;
+  ticket_id?: number | undefined;
 }
 export interface ListEmailNotificationsRequest {
   /** Filters the email notifications by ticket, comment, or notification id. */
   filter: ListEmailNotificationsRequestFilter;
   /** The number of records to return per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The field to sort the list. Possible values are "created_at", "updated_at" (ascending order) or "-created_at", "-updated_at" (descending order) */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type EmailNotificationsResponseEmailNotificationsList = Array<EmailNotificationObject>;
 export interface EmailNotificationsResponse {
-  email_notifications?: EmailNotificationsResponseEmailNotificationsList;
+  email_notifications?: EmailNotificationsResponseEmailNotificationsList | undefined;
 }
 export type ListEndUserIdentitiesRequestType = "email" | "phone_number";
 export interface ListEndUserIdentitiesRequest {
   /** The id of the user */
   user_id: number;
   /** Filters results by one or more identity types using the format `?type[]={type}&type[]={type}` */
-  type__?: ListEndUserIdentitiesRequestType | (string & {});
+  type__?: ListEndUserIdentitiesRequestType | (string & {}) | undefined;
 }
 export type UserIdentitiesResponseIdentitiesList = Array<UserIdentityObject>;
 export interface UserIdentitiesResponse {
-  identities?: UserIdentitiesResponseIdentitiesList;
+  identities?: UserIdentitiesResponseIdentitiesList | undefined;
 }
 export type ListGlobalOAuthClientsRequestPage = ListAuditLogsRequestPage;
 export interface ListGlobalOAuthClientsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type GlobalClientsResponseGlobalClientsList = Array<GlobalClientObject>;
 export interface GlobalClientsResponse {
-  global_clients?: GlobalClientsResponseGlobalClientsList;
+  global_clients?: GlobalClientsResponseGlobalClientsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListGroupMembershipsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListGroupMembershipsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListGroupMembershipsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListGroupMembershipsRequestPage;
+  page?: ListGroupMembershipsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. Valid values: `users`, `groups`. */
-  include?: string;
+  include?: string | undefined;
 }
 export interface ListGroupMembershipsByGroupRequest {
   /** The ID of the group */
@@ -8949,49 +8992,49 @@ export type ListGroupsRequestPageCase1 = DynamicContentListVariantsRequestPageCa
 export type ListGroupsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListGroupsRequest {
   /** Whether to exclude deleted entities */
-  exclude_deleted?: boolean;
+  exclude_deleted?: boolean | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. */
-  include?: string;
+  include?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListGroupsRequestPage;
+  page?: ListGroupsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export interface ListGroupSLAPoliciesRequest {}
 export type GroupSLAPoliciesResponseGroupSlaPoliciesList = Array<GroupSLAPolicyObject>;
 export interface GroupSLAPoliciesResponse {
-  count?: number;
-  group_sla_policies?: GroupSLAPoliciesResponseGroupSlaPoliciesList;
-  next_page?: string | null;
-  previous_page?: string | null;
+  count?: number | undefined;
+  group_sla_policies?: GroupSLAPoliciesResponseGroupSlaPoliciesList | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
 }
 export type ListGroupUsersRequestRoleList = Array<string>;
 export interface ListGroupUsersRequest {
   /** The ID of the group */
   group_id: number;
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: ListGroupUsersRequestRoleList;
+  role__?: ListGroupUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
   /** List users by external id. External id has to be unique for each user under the same account. */
-  external_id?: string;
+  external_id?: string | undefined;
 }
 export type ListItamAssetsRequestPage = ListAuditLogsRequestPage;
 export interface ListItamAssetsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Optional comma-separated list of ids to filter assets by. If one or more ids are specified, only matching assets are returned. The ids must be unique and are case sensitive. */
-  filter_ids_?: string;
+  filter_ids_?: string | undefined;
   /** Optional comma-separated list of external ids to filter assets by. If one or more external ids are specified, only matching assets are returned. The external ids must be unique and are case sensitive. */
-  filter_external_ids_?: string;
+  filter_external_ids_?: string | undefined;
 }
 export interface ListItamAssetTypeFieldsRequest {
   /** The id of the asset type */
@@ -8999,48 +9042,48 @@ export interface ListItamAssetTypeFieldsRequest {
 }
 export type ItamAssetTypeFieldsResponseFieldsList = Array<CustomObjectField>;
 export interface ItamAssetTypeFieldsResponse {
-  fields?: ItamAssetTypeFieldsResponseFieldsList;
+  fields?: ItamAssetTypeFieldsResponseFieldsList | undefined;
 }
 export interface ListItamAssetTypesRequest {}
 export type ItamAssetTypesResponseOutputAssetTypesList = Array<ItamAssetTypeOutput>;
 export interface ItamAssetTypesResponseOutput {
-  asset_types?: ItamAssetTypesResponseOutputAssetTypesList;
+  asset_types?: ItamAssetTypesResponseOutputAssetTypesList | undefined;
 }
 export type ListItamFieldsRequestPage = ListAuditLogsRequestPage;
 export interface ListItamFieldsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
 }
 export type ListItamFieldsResponseFieldsList = Array<CustomObjectField>;
 export type ListItamFieldsResponseLinks = CustomObjectRecordsResponseLinks;
 export type ListItamFieldsResponseMeta = CustomObjectRecordsResponseMeta;
 export interface ListItamFieldsResponse {
-  fields?: ListItamFieldsResponseFieldsList;
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
+  fields?: ListItamFieldsResponseFieldsList | undefined;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
 }
 export type ListItamLocationsRequestPage = ListAuditLogsRequestPage;
 export interface ListItamLocationsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
 }
 export type ListItamLocationsResponseLocationsList = Array<ItamAssetLocation>;
 export type ListItamLocationsResponseLinks = CustomObjectRecordsResponseLinks;
 export type ListItamLocationsResponseMeta = CustomObjectRecordsResponseMeta;
 export interface ListItamLocationsResponse {
-  locations?: ListItamLocationsResponseLocationsList;
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
+  locations?: ListItamLocationsResponseLocationsList | undefined;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
 }
 export interface ListItamStatusesRequest {}
 export type ItamAssetStatusesResponseStatusesList = Array<ItamAssetStatus>;
 export interface ItamAssetStatusesResponse {
-  statuses?: ItamAssetStatusesResponseStatusesList;
+  statuses?: ItamAssetStatusesResponseStatusesList | undefined;
 }
 export type ListJobStatusesRequestPage = ListAuditLogsRequestPage;
 export interface ListJobStatusesRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
 }
 export interface ListLinkedTicketsForTaskItemRequest {
   /** The ID of the ticket */
@@ -9050,7 +9093,7 @@ export interface ListLinkedTicketsForTaskItemRequest {
 }
 export type TaskObjectLinksResponseTaskObjectLinksList = Array<TaskObjectLinkObject>;
 export interface TaskObjectLinksResponse {
-  task_object_links?: TaskObjectLinksResponseTaskObjectLinksList;
+  task_object_links?: TaskObjectLinksResponseTaskObjectLinksList | undefined;
 }
 export interface ListLocalesRequest {}
 export interface ListLocalesForAgentRequest {}
@@ -9061,10 +9104,10 @@ export type ListMacroActionDefinitionsResponseDefinitionsActionsItemMap = {
 export type ListMacroActionDefinitionsResponseDefinitionsActionsList =
   Array<ListMacroActionDefinitionsResponseDefinitionsActionsItemMap>;
 export interface ListMacroActionDefinitionsResponseDefinitions {
-  actions?: ListMacroActionDefinitionsResponseDefinitionsActionsList;
+  actions?: ListMacroActionDefinitionsResponseDefinitionsActionsList | undefined;
 }
 export interface ListMacroActionDefinitionsResponse {
-  definitions?: ListMacroActionDefinitionsResponseDefinitions;
+  definitions?: ListMacroActionDefinitionsResponseDefinitions | undefined;
 }
 export interface ListMacroAttachmentsRequest {
   /** The ID of the macro */
@@ -9072,190 +9115,190 @@ export interface ListMacroAttachmentsRequest {
 }
 export type MacroAttachmentsResponseMacroAttachmentsList = Array<MacroAttachmentObject>;
 export interface MacroAttachmentsResponse {
-  macro_attachments?: MacroAttachmentsResponseMacroAttachmentsList;
+  macro_attachments?: MacroAttachmentsResponseMacroAttachmentsList | undefined;
 }
 export interface ListMacroCategoriesRequest {}
 export type MacroCategoriesResponseCategoriesList = Array<string>;
 export interface MacroCategoriesResponse {
-  categories?: MacroCategoriesResponseCategoriesList;
+  categories?: MacroCategoriesResponseCategoriesList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListMacroGroupsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListMacroGroupsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListMacroGroupsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListMacroGroupsRequestPage;
+  page?: ListMacroGroupsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListMacrosRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListMacrosRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListMacrosRequest {
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
   /** Filter macros by access. Possible values are "personal", "agents", "shared", or "account". The "agents" value returns all personal macros for the account's agents and is only available to admins. */
-  access?: string;
+  access?: string | undefined;
   /** Filter by active macros if true or inactive macros if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter macros by category */
-  category?: number;
+  category?: number | undefined;
   /** Filter macros by group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** If true, returns only macros that can be applied to tickets. If false, returns all macros the current user can manage. Default is false */
-  only_viewable?: boolean;
+  only_viewable?: boolean | undefined;
   /** Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", "usage_7d", or "usage_30d". Defaults to alphabetical */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListMacrosRequestPage;
+  page?: ListMacrosRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListMacrosResponseMacrosList = Array<MacroObject>;
 export interface ListMacrosResponse {
   macros: ListMacrosResponseMacrosList;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface ListMacrosActionsRequest {}
 export type ListMacrosActionsResponseActionsItemMap = { [key: string]: unknown | undefined };
 export type ListMacrosActionsResponseActionsList = Array<ListMacrosActionsResponseActionsItemMap>;
 export interface ListMacrosActionsResponse {
-  actions?: ListMacrosActionsResponseActionsList;
+  actions?: ListMacrosActionsResponseActionsList | undefined;
 }
 export interface ListManyAgentsAttributeValuesRequest {
   /** A comma-separated list of agent ids */
   filter_agent_ids_: string;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** The number of items to return per page */
-  page_size_?: number;
+  page_size_?: number | undefined;
 }
 /** The priority of the agent skill for this attribute value */
 export type ManySkillBasedRoutingAttributeValuesAgentSkillPriority = "NORMAL" | "HIGH";
 export interface ManySkillBasedRoutingAttributeValues {
   /** Id of the associated agent */
-  agent_id?: number;
+  agent_id?: number | undefined;
   /** The priority of the agent skill for this attribute value */
-  agent_skill_priority?: ManySkillBasedRoutingAttributeValuesAgentSkillPriority;
+  agent_skill_priority?: ManySkillBasedRoutingAttributeValuesAgentSkillPriority | undefined;
   /** Id of the associated attribute */
-  attribute_id?: string;
+  attribute_id?: string | undefined;
   /** Id of the associated attribute value */
-  attribute_value_id?: string;
+  attribute_value_id?: string | undefined;
   /** The time of creation of the instance value */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned when an instance value is created */
-  id?: string;
+  id?: string | undefined;
   /** Name of the associated attribute value */
-  name?: string;
+  name?: string | undefined;
   /** The time of the last update of the instance value */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL of the associated attribute value */
-  url?: string;
+  url?: string | undefined;
 }
 export type ManySkillBasedRoutingAttributeValuesResponseInstanceValuesList =
   Array<ManySkillBasedRoutingAttributeValues>;
 export interface ManySkillBasedRoutingAttributeValuesResponse {
   /** The number of instance values returned */
-  count?: number;
-  instance_values?: ManySkillBasedRoutingAttributeValuesResponseInstanceValuesList;
+  count?: number | undefined;
+  instance_values?: ManySkillBasedRoutingAttributeValuesResponseInstanceValuesList | undefined;
   /** The URL for the next page of results */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** The URL for the previous page of results */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface ListMonitoredTwitterHandlesRequest {}
 export type TwitterChannelsResponseMonitoredTwitterHandlesList = Array<TwitterChannelObject>;
 export interface TwitterChannelsResponse {
-  monitored_twitter_handles?: TwitterChannelsResponseMonitoredTwitterHandlesList;
+  monitored_twitter_handles?: TwitterChannelsResponseMonitoredTwitterHandlesList | undefined;
 }
 export interface ListMostUsedMacrosRequest {}
 export interface MostUsedMacroObject {
   /** Whether the macro is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The scope of availability of this macro */
-  availability_type?: string;
+  availability_type?: string | undefined;
   /** The time the macro was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the macro */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Automatically assigned when creating macros */
-  id?: number;
+  id?: number | undefined;
   /** The position of the macro */
-  position?: number;
+  position?: number | undefined;
   /** The raw title of the macro with unparsed dynamic content */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The title of the macro */
-  title?: string;
+  title?: string | undefined;
   /** The time of the last update of the macro */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type MostUsedMacrosResponseMostUsedMacrosList = Array<MostUsedMacroObject>;
 export interface MostUsedMacrosResponse {
-  most_used_macros?: MostUsedMacrosResponseMostUsedMacrosList;
+  most_used_macros?: MostUsedMacrosResponseMostUsedMacrosList | undefined;
 }
 export type ListOAuthClientsRequestPage = ListAuditLogsRequestPage;
 export interface ListOAuthClientsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type ListOAuthTokensRequestPage = ListAuditLogsRequestPage;
 export interface ListOAuthTokensRequest {
   /** The id of the OAuth client */
-  client_id?: number;
+  client_id?: number | undefined;
   /** The id of the global OAuth client */
-  global_client_id?: number;
+  global_client_id?: number | undefined;
   /** A boolean that returns all OAuth tokens in the account. Requires admin role */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type OAuthTokensResponseTokensList = Array<OauthTokenObject>;
 export interface OAuthTokensResponse {
-  tokens?: OAuthTokensResponseTokensList;
+  tokens?: OAuthTokensResponseTokensList | undefined;
 }
 export interface ListObjectTriggersRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Filter by active triggers if true or inactive triggers if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export interface ListObjectTriggersDefinitionsRequest {
   /** The key of a custom object */
   custom_object_key: string;
 }
 export interface ObjectTriggerActionDefinitionObjectValuesItem {
-  enabled?: boolean;
-  format?: string;
-  title?: string;
-  value?: string;
+  enabled?: boolean | undefined;
+  format?: string | undefined;
+  title?: string | undefined;
+  value?: string | undefined;
 }
 export type ObjectTriggerActionDefinitionObjectValuesList =
   Array<ObjectTriggerActionDefinitionObjectValuesItem>;
 export interface ObjectTriggerActionDefinitionObject {
-  group?: string;
-  nullable?: boolean;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: ObjectTriggerActionDefinitionObjectValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: ObjectTriggerActionDefinitionObjectValuesList | undefined;
 }
 export type ObjectTriggerDefinitionObjectActionsList = Array<ObjectTriggerActionDefinitionObject>;
 export type ObjectTriggerConditionDefinitionObjectAllOperatorsItem =
@@ -9267,14 +9310,14 @@ export type ObjectTriggerConditionDefinitionObjectAllValuesItem =
 export type ObjectTriggerConditionDefinitionObjectAllValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface ObjectTriggerConditionDefinitionObjectAll {
-  group?: string;
-  nullable?: boolean;
-  operators?: ObjectTriggerConditionDefinitionObjectAllOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: ObjectTriggerConditionDefinitionObjectAllValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: ObjectTriggerConditionDefinitionObjectAllOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: ObjectTriggerConditionDefinitionObjectAllValuesList | undefined;
 }
 export type ObjectTriggerDefinitionObjectConditionsAllList =
   Array<ObjectTriggerConditionDefinitionObjectAll>;
@@ -9287,47 +9330,47 @@ export type ObjectTriggerConditionDefinitionObjectAnyValuesItem =
 export type ObjectTriggerConditionDefinitionObjectAnyValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface ObjectTriggerConditionDefinitionObjectAny {
-  group?: string;
-  nullable?: boolean;
-  operators?: ObjectTriggerConditionDefinitionObjectAnyOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: ObjectTriggerConditionDefinitionObjectAnyValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: ObjectTriggerConditionDefinitionObjectAnyOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: ObjectTriggerConditionDefinitionObjectAnyValuesList | undefined;
 }
 export type ObjectTriggerDefinitionObjectConditionsAnyList =
   Array<ObjectTriggerConditionDefinitionObjectAny>;
 export interface ObjectTriggerDefinitionObject {
-  actions?: ObjectTriggerDefinitionObjectActionsList;
-  conditions_all?: ObjectTriggerDefinitionObjectConditionsAllList;
-  conditions_any?: ObjectTriggerDefinitionObjectConditionsAnyList;
+  actions?: ObjectTriggerDefinitionObjectActionsList | undefined;
+  conditions_all?: ObjectTriggerDefinitionObjectConditionsAllList | undefined;
+  conditions_any?: ObjectTriggerDefinitionObjectConditionsAnyList | undefined;
 }
 export interface ObjectTriggerDefinitionResponse {
-  definitions?: ObjectTriggerDefinitionObject;
+  definitions?: ObjectTriggerDefinitionObject | undefined;
 }
 export interface ListOpenRequestsRequest {
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type ListOrganizationFieldsRequestPage = ListAuditLogsRequestPage;
 export interface ListOrganizationFieldsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** If true, resolves dynamic content placeholders. */
-  resolve_dc?: boolean;
+  resolve_dc?: boolean | undefined;
 }
 export type OrganizationFieldsResponseOrganizationFieldsList = Array<OrganizationFieldObject>;
 export interface OrganizationFieldsResponse {
   /** Total count of records retrieved */
-  count?: number;
+  count?: number | undefined;
   /** URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   organization_fields: OrganizationFieldsResponseOrganizationFieldsList;
   /** URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListOrganizationMembershipsRequestPageCase1 =
@@ -9337,18 +9380,18 @@ export type ListOrganizationMembershipsRequestPage =
   | DynamicContentListVariantsRequestPageCase1;
 export interface ListOrganizationMembershipsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListOrganizationMembershipsRequestPage;
+  page?: ListOrganizationMembershipsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. Valid values: `users`, `organizations`. */
-  include?: string;
+  include?: string | undefined;
 }
 export type OrganizationMembershipsResponseOrganizationMembershipsList =
   Array<OrganizationMembershipObject>;
 export interface OrganizationMembershipsResponse {
-  organization_memberships?: OrganizationMembershipsResponseOrganizationMembershipsList;
+  organization_memberships?: OrganizationMembershipsResponseOrganizationMembershipsList | undefined;
 }
 export interface ListOrganizationMembershipsByOrganizationRequest {
   /** The ID of an organization */
@@ -9364,39 +9407,39 @@ export type OrganizationMergeListResponseOrganizationMergesItemStatus =
   | "error"
   | "complete";
 export interface OrganizationMergeListResponseOrganizationMergesItem {
-  id?: string;
-  loser_id?: number;
-  status?: OrganizationMergeListResponseOrganizationMergesItemStatus;
-  url?: string;
-  winner_id?: number;
+  id?: string | undefined;
+  loser_id?: number | undefined;
+  status?: OrganizationMergeListResponseOrganizationMergesItemStatus | undefined;
+  url?: string | undefined;
+  winner_id?: number | undefined;
 }
 export type OrganizationMergeListResponseOrganizationMergesList =
   Array<OrganizationMergeListResponseOrganizationMergesItem>;
 export interface OrganizationMergeListResponse {
-  organization_merges?: OrganizationMergeListResponseOrganizationMergesList;
+  organization_merges?: OrganizationMergeListResponseOrganizationMergesList | undefined;
 }
 export interface ListOrganizationRequestsRequest {
   /** The ID of an organization */
   organization_id: number;
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListOrganizationsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListOrganizationsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListOrganizationsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListOrganizationsRequestPage;
+  page?: ListOrganizationsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export interface ListOrganizationSubscriptionsRequest {}
 /** An array of organization subscriptions */
@@ -9404,13 +9447,15 @@ export type ListOrganizationSubscriptionsResponseOrganizationSubscriptionsList =
   Array<OrganizationSubscriptionObject>;
 export interface ListOrganizationSubscriptionsResponse {
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   /** An array of organization subscriptions */
-  organization_subscriptions?: ListOrganizationSubscriptionsResponseOrganizationSubscriptionsList;
+  organization_subscriptions?:
+    | ListOrganizationSubscriptionsResponseOrganizationSubscriptionsList
+    | undefined;
 }
 export interface ListOrganizationSubscriptionsByOrganizationRequest {
   /** The ID of an organization */
@@ -9421,13 +9466,15 @@ export type ListOrganizationSubscriptionsByOrganizationResponseOrganizationSubsc
   Array<OrganizationSubscriptionObject>;
 export interface ListOrganizationSubscriptionsByOrganizationResponse {
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   /** An array of organization subscriptions */
-  organization_subscriptions?: ListOrganizationSubscriptionsByOrganizationResponseOrganizationSubscriptionsList;
+  organization_subscriptions?:
+    | ListOrganizationSubscriptionsByOrganizationResponseOrganizationSubscriptionsList
+    | undefined;
 }
 export interface ListOrganizationTagsRequest {
   /** The ID of an organization */
@@ -9447,21 +9494,21 @@ export interface ListOrganizationUsersRequest {
   /** The ID of an organization */
   organization_id: number;
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: ListOrganizationUsersRequestRoleList;
+  role__?: ListOrganizationUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
   /** List users by external id. External id has to be unique for each user under the same account. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The field to sort users by */
-  sort_by?: ListOrganizationUsersRequestSortBy | (string & {});
+  sort_by?: ListOrganizationUsersRequestSortBy | (string & {}) | undefined;
   /** The sort order */
-  sort_order?: ListOrganizationUsersRequestSortOrder | (string & {});
+  sort_order?: ListOrganizationUsersRequestSortOrder | (string & {}) | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListOrganizationUsersRequestPage;
+  page?: ListOrganizationUsersRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListParentTicketReferencesRequest {
   /** The ID of the ticket */
@@ -9469,27 +9516,27 @@ export interface ListParentTicketReferencesRequest {
 }
 export interface ParentTicketTaskItemObject {
   /** The task item description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The task item name */
-  name?: string;
+  name?: string | undefined;
   /** The id of the task item */
-  task_item_id?: string;
+  task_item_id?: string | undefined;
 }
 /** The task items that link to the specified subticket. The array is empty when the parent ticket is private or deleted. */
 export type ParentTicketTaskReferenceObjectTaskItemsList = Array<ParentTicketTaskItemObject>;
 export interface ParentTicketTaskReferenceObject {
   /** The id of the parent ticket. The value is null when the parent ticket is private. */
-  parent_ticket_id?: number | null;
+  parent_ticket_id?: number | null | undefined;
   /** Whether the parent ticket is private to the requester */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The parent ticket status. The value is null when the parent ticket is private. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The task items that link to the specified subticket. The array is empty when the parent ticket is private or deleted. */
-  task_items?: ParentTicketTaskReferenceObjectTaskItemsList;
+  task_items?: ParentTicketTaskReferenceObjectTaskItemsList | undefined;
 }
 export type ParentTicketTasksResponseParentTicketTasksList = Array<ParentTicketTaskReferenceObject>;
 export interface ParentTicketTasksResponse {
-  parent_ticket_tasks?: ParentTicketTasksResponseParentTicketTasksList;
+  parent_ticket_tasks?: ParentTicketTasksResponseParentTicketTasksList | undefined;
 }
 export interface ListPermissionPoliciesRequest {
   /** The key of a custom object */
@@ -9497,7 +9544,7 @@ export interface ListPermissionPoliciesRequest {
 }
 export type PermissionPoliciesResponsePoliciesList = Array<PermissionPolicy>;
 export interface PermissionPoliciesResponse {
-  policies?: PermissionPoliciesResponsePoliciesList;
+  policies?: PermissionPoliciesResponsePoliciesList | undefined;
 }
 export interface ListQueueDefinitionsRequest {}
 export type DefinitionsResponseDefinitionsConditionsAllItemOperatorsItem =
@@ -9509,14 +9556,14 @@ export type DefinitionsResponseDefinitionsConditionsAllItemValuesItem =
 export type DefinitionsResponseDefinitionsConditionsAllItemValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface DefinitionsResponseDefinitionsConditionsAllItem {
-  group?: string;
-  nullable?: boolean;
-  operators?: DefinitionsResponseDefinitionsConditionsAllItemOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: DefinitionsResponseDefinitionsConditionsAllItemValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: DefinitionsResponseDefinitionsConditionsAllItemOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: DefinitionsResponseDefinitionsConditionsAllItemValuesList | undefined;
 }
 export type DefinitionsResponseDefinitionsConditionsAllList =
   Array<DefinitionsResponseDefinitionsConditionsAllItem>;
@@ -9529,33 +9576,33 @@ export type DefinitionsResponseDefinitionsConditionsAnyItemValuesItem =
 export type DefinitionsResponseDefinitionsConditionsAnyItemValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface DefinitionsResponseDefinitionsConditionsAnyItem {
-  group?: string;
-  nullable?: boolean;
-  operators?: DefinitionsResponseDefinitionsConditionsAnyItemOperatorsList;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: DefinitionsResponseDefinitionsConditionsAnyItemValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  operators?: DefinitionsResponseDefinitionsConditionsAnyItemOperatorsList | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: DefinitionsResponseDefinitionsConditionsAnyItemValuesList | undefined;
 }
 export type DefinitionsResponseDefinitionsConditionsAnyList =
   Array<DefinitionsResponseDefinitionsConditionsAnyItem>;
 export interface DefinitionsResponseDefinitions {
-  conditions_all?: DefinitionsResponseDefinitionsConditionsAllList;
-  conditions_any?: DefinitionsResponseDefinitionsConditionsAnyList;
+  conditions_all?: DefinitionsResponseDefinitionsConditionsAllList | undefined;
+  conditions_any?: DefinitionsResponseDefinitionsConditionsAnyList | undefined;
 }
 export interface DefinitionsResponse {
-  definitions?: DefinitionsResponseDefinitions;
+  definitions?: DefinitionsResponseDefinitions | undefined;
 }
 export interface ListQueuesRequest {}
 export type QueuesResponseQueuesList = Array<QueueObject>;
 export interface QueuesResponse {
-  queues?: QueuesResponseQueuesList;
+  queues?: QueuesResponseQueuesList | undefined;
 }
 export interface ListRecentTicketsRequest {}
 export interface ListRemoteAuthenticationsRequest {
   /** When brand separation is enabled, scopes the remote authentications to the specified brand. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 /** Authentication mode */
 export type RemoteAuthenticationObjectAuthFlow = "PKCE" | "authorization_code";
@@ -9569,89 +9616,89 @@ export interface RemoteAuthenticationObject {
   /** If team members for sign-in are redirected to a remote authentication, this is the default method shown to a team member */
   agent_primary: boolean;
   /** Authentication mode */
-  auth_flow?: RemoteAuthenticationObjectAuthFlow;
+  auth_flow?: RemoteAuthenticationObjectAuthFlow | undefined;
   /** The numeric representation of remote authentication type */
   auth_mode: RemoteAuthenticationObjectAuthMode;
   /** The string representation of remote authentication type */
-  auth_mode_name?: RemoteAuthenticationObjectAuthModeName;
+  auth_mode_name?: RemoteAuthenticationObjectAuthModeName | undefined;
   /** For the "oidc" auth mode only. The authorization endpoint to use for the request */
-  auth_url?: string;
+  auth_url?: string | undefined;
   /** For the "oidc" auth mode only. When turned on, Zendesk will automatically extract the configuration details from the OIDC Configuration Document. Only the Issuer URL and Authentication Mode need to be provided */
-  auto_discovery?: boolean;
+  auto_discovery?: boolean | undefined;
   /** The ID of the brand associated with this remote authentication configuration. */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** If users can choose how they sign in, this remote authentication method appears as an option when it's active */
   can_display_button_to_end_users: boolean;
   /** If team members can choose how they sign in, this remote authentication method appears as an option when it's active */
   can_display_button_to_team_members: boolean;
   /** For the "oidc" auth mode only. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** If true, the method is used for the end-user remote authentication */
   end_user: boolean;
   /** If end users for sign-in are redirected to a remote authentication, this is the default method shown to an end user */
   end_user_primary: boolean;
   /** For the "saml" auth mode only. The SHA-256 certificate fingerprint. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Uniquely identifies a remote authentication. Automatically assigned on creation */
-  id?: number;
+  id?: number | undefined;
   /** Requests from these IP ranges will always be routed via remote authentication. Requests from IP addresses outside these ranges will be routed to the normal sign-in form. When this is blank, all requests are routed through remote authentication. An IP range is in the format n.n.n.n, where n is a number or an asterisk (*) wild card. Multiple IP ranges are separated with spaces */
-  ip_ranges?: string | null;
+  ip_ranges?: string | null | undefined;
   /** If true, the method is enabled for end users or team members */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** For the "oidc" auth mode only. This is the URL that is used as the logical identifier for your provider's connection */
-  issuer_url?: string;
+  issuer_url?: string | undefined;
   /** For the "oidc" auth mode only. This is the URL that returns the provider's JSON Web Key Set */
-  jwks_url?: string;
+  jwks_url?: string | undefined;
   /** The sign-in button label */
-  label?: string;
+  label?: string | undefined;
   /** For the "oidc" auth mode only. */
-  masked_client_secret?: string | Redacted.Redacted<string>;
+  masked_client_secret?: string | Redacted.Redacted<string> | undefined;
   /** For the "jwt" auth mode only. The token is a shared secret between you and Zendesk. It must never be publicized */
-  masked_secret?: string | Redacted.Redacted<string>;
+  masked_secret?: string | Redacted.Redacted<string> | undefined;
   /** The name of the remote configuration. It's good to use something recognizable like the identity provider's name */
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   /** The URL that Zendesk invokes to redirect users to the identity provider */
   remote_login_url: string;
   /** The URL that Zendesk uses to redirect users after they sign out. Supported authentication types: SAML, JWT. Not supported for OIDC */
   remote_logout_url: string;
   /** For the "oidc" auth mode only. These are the user details your account can access, like name and email address. Supported scopes within the OIDC standard include `openid`, `profile`, `email`, `address`, and `phone`. It must contain at least `openid` and `email`. Scopes are separated with spaces */
-  scope?: string;
+  scope?: string | undefined;
   /** For the "oidc" auth mode only. Your account uses this URL to request access tokens for users */
-  token_url?: string;
+  token_url?: string | undefined;
   /** For the "jwt" auth mode only. When enabled, the external id of the user being signed in can be updated. This only happens when a user with the external id is not found, but the user's email address is found. The external id is unique for an account. Users without an external id will have one added if it is present in the authentication request */
-  update_external_ids?: boolean;
+  update_external_ids?: boolean | undefined;
   /** For the "oidc" auth mode only. This the URL that returns Claims about the authenticated user */
-  user_info_url?: string;
+  user_info_url?: string | undefined;
 }
 export type RemoteAuthenticationsResponseRemoteAuthenticationsList =
   Array<RemoteAuthenticationObject>;
 export interface RemoteAuthenticationsResponse {
-  remote_authentications?: RemoteAuthenticationsResponseRemoteAuthenticationsList;
+  remote_authentications?: RemoteAuthenticationsResponseRemoteAuthenticationsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListRequestsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListRequestsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListRequestsRequest {
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListRequestsRequestPage;
+  page?: ListRequestsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListResourceCollectionsRequest {
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ResourceCollectionsResponseResourceCollectionsList = Array<ResourceCollectionObject>;
 export interface ResourceCollectionsResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  resource_collections?: ResourceCollectionsResponseResourceCollectionsList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  resource_collections?: ResourceCollectionsResponseResourceCollectionsList | undefined;
 }
 export interface ListResourceTagsRequest {
   /** The ID of the ticket */
@@ -9659,8 +9706,8 @@ export interface ListResourceTagsRequest {
 }
 export interface ListRoutingAttributeDefinitionsRequest {}
 export interface SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllItem {
-  subject?: string;
-  title?: string;
+  subject?: string | undefined;
+  title?: string | undefined;
 }
 export type SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllList =
   Array<SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllItem>;
@@ -9669,16 +9716,16 @@ export type SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAnyItem =
 export type SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAnyList =
   Array<SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllItem>;
 export interface SkillBasedRoutingAttributeDefinitionsDefinitions {
-  conditions_all?: SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllList;
-  conditions_any?: SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAnyList;
+  conditions_all?: SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAllList | undefined;
+  conditions_any?: SkillBasedRoutingAttributeDefinitionsDefinitionsConditionsAnyList | undefined;
 }
 export interface SkillBasedRoutingAttributeDefinitions {
-  definitions?: SkillBasedRoutingAttributeDefinitionsDefinitions;
+  definitions?: SkillBasedRoutingAttributeDefinitionsDefinitions | undefined;
 }
 export interface ListSatisfactionRatingReasonsRequest {}
 export type SatisfactionReasonsResponseReasonsList = Array<SatisfactionReasonObject>;
 export interface SatisfactionReasonsResponse {
-  reasons?: SatisfactionReasonsResponseReasonsList;
+  reasons?: SatisfactionReasonsResponseReasonsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListSatisfactionRatingsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -9687,166 +9734,166 @@ export type ListSatisfactionRatingsRequestPage =
   | DynamicContentListVariantsRequestPageCase1;
 export interface ListSatisfactionRatingsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListSatisfactionRatingsRequestPage;
+  page?: ListSatisfactionRatingsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type SatisfactionRatingsResponseSatisfactionRatingsList = Array<SatisfactionRatingObject>;
 export interface SatisfactionRatingsResponse {
-  satisfaction_ratings?: SatisfactionRatingsResponseSatisfactionRatingsList;
+  satisfaction_ratings?: SatisfactionRatingsResponseSatisfactionRatingsList | undefined;
 }
 export interface ListSavedSearchesRequest {}
 export type SavedSearchesResponseSavedSearchesList = Array<SavedSearchObject>;
 export interface SavedSearchesResponse {
-  saved_searches?: SavedSearchesResponseSavedSearchesList;
+  saved_searches?: SavedSearchesResponseSavedSearchesList | undefined;
 }
 export interface ListSearchResultsRequest {
   /** The search query. See [Query basics](#query-basics) above. For details on the query syntax, see the [Zendesk Support search reference](https://support.zendesk.com/hc/en-us/articles/4408886879258) */
   query: string;
   /** One of `updated_at`, `created_at`, `priority`, `status`, or `ticket_type`. Defaults to sorting by relevance */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of `asc` or `desc`. Defaults to `desc` */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. The available sideloads depend on the search result types. */
-  include?: string;
+  include?: string | undefined;
 }
 /** May consist of tickets, users, groups, or organizations, as specified by the `result_type` property in each result object */
 export type SearchResponseResultsList = Array<SearchResultObject>;
 export interface SearchResponse {
   /** The number of resources returned by the query corresponding to this page of results in the paginated response */
-  count?: number;
+  count?: number | undefined;
   /** The facets corresponding to the search query */
-  facets?: string | null;
+  facets?: string | null | undefined;
   /** URL to the next page of results */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** URL to the previous page of results */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   /** May consist of tickets, users, groups, or organizations, as specified by the `result_type` property in each result object */
-  results?: SearchResponseResultsList;
+  results?: SearchResponseResultsList | undefined;
 }
 export type ListSessionsRequestPage = ListAuditLogsRequestPage;
 export interface ListSessionsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type SessionsResponseSessionsList = Array<SessionObject>;
 export interface SessionsResponse {
-  sessions?: SessionsResponseSessionsList;
+  sessions?: SessionsResponseSessionsList | undefined;
 }
 export interface ListSharingAgreementsRequest {}
 export type SharingAgreementsResponseSharingAgreementsList = Array<SharingAgreementObject>;
 export interface SharingAgreementsResponse {
-  sharing_agreements?: SharingAgreementsResponseSharingAgreementsList;
+  sharing_agreements?: SharingAgreementsResponseSharingAgreementsList | undefined;
 }
 export type ListSkipsRequestSortOrder = "asc" | "desc";
 export interface ListSkipsRequest {
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListSkipsRequestSortOrder | (string & {});
+  sort_order?: ListSkipsRequestSortOrder | (string & {}) | undefined;
 }
 export interface TicketSkipObjectOutput {
   /** Time the skip was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Automatically assigned upon creation */
-  id?: number;
+  id?: number | undefined;
   /** Reason for skipping the ticket */
-  reason?: string;
+  reason?: string | undefined;
   /** The skipped ticket. See the [Ticket object reference](/api-reference/ticketing/tickets/tickets/#json-format) */
-  ticket?: TicketObjectOutput;
+  ticket?: TicketObjectOutput | undefined;
   /** ID of the skipped ticket */
-  ticket_id?: number;
+  ticket_id?: number | undefined;
   /** Time the skip was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** ID of the skipping agent */
-  user_id?: number;
+  user_id?: number | undefined;
 }
 export type TicketSkipsResponseOutputSkipsList = Array<TicketSkipObjectOutput>;
 export interface TicketSkipsResponseOutput {
-  skips?: TicketSkipsResponseOutputSkipsList;
+  skips?: TicketSkipsResponseOutputSkipsList | undefined;
 }
 export interface ListSLAPoliciesRequest {}
 export type SLAPoliciesResponseSlaPoliciesList = Array<SLAPolicyObject>;
 export interface SLAPoliciesResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  sla_policies?: SLAPoliciesResponseSlaPoliciesList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  sla_policies?: SLAPoliciesResponseSlaPoliciesList | undefined;
 }
 export interface ListSolvedRequestsRequest {
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListSupportAddressesRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListSupportAddressesRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListSupportAddressesRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListSupportAddressesRequestPage;
+  page?: ListSupportAddressesRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
 }
 export type SupportAddressesResponseRecipientAddressesList = Array<SupportAddressObject>;
 export interface SupportAddressesResponse {
-  recipient_addresses?: SupportAddressesResponseRecipientAddressesList;
+  recipient_addresses?: SupportAddressesResponseRecipientAddressesList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListSuspendedTicketsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListSuspendedTicketsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListSuspendedTicketsRequest {
   /** The field to sort the suspended tickets by. One of "author_email", "cause", "created_at", or "subject" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The order in which to sort the suspended tickets. This can take value `asc` or `desc`. */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListSuspendedTicketsRequestPage;
+  page?: ListSuspendedTicketsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListTagsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListTagsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListTagsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListTagsRequestPage;
+  page?: ListTagsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface TagListTagObject {
   /** The number of tags */
-  count?: number;
+  count?: number | undefined;
   /** A name for the tag */
-  name?: string;
+  name?: string | undefined;
 }
 export type TagsResponseTagsList = Array<TagListTagObject>;
 export interface TagsResponse {
   /** The number of pages */
-  count?: number;
+  count?: number | undefined;
   /** The url of the previous page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** The url of the next page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   tags: TagsResponseTagsList;
 }
 export interface ListTargetFailuresRequest {}
 export type TargetFailuresResponseTargetFailuresList = Array<TargetFailureObject>;
 export interface TargetFailuresResponse {
-  target_failures?: TargetFailuresResponseTargetFailuresList;
+  target_failures?: TargetFailuresResponseTargetFailuresList | undefined;
 }
 export interface ListTargetsRequest {}
 export type TargetsResponseTargetsList = Array<TargetObject>;
 export interface TargetsResponse {
-  targets?: TargetsResponseTargetsList;
+  targets?: TargetsResponseTargetsList | undefined;
 }
 export interface ListTaskItemsRequest {
   /** The id of the task list */
@@ -9854,19 +9901,19 @@ export interface ListTaskItemsRequest {
 }
 export type TaskItemInstancesResponseTaskItemsList = Array<TaskItemInstanceObject>;
 export interface TaskItemInstancesResponse {
-  count?: number;
-  next_page?: string | null;
-  previous_page?: string | null;
-  task_items?: TaskItemInstancesResponseTaskItemsList;
+  count?: number | undefined;
+  next_page?: string | null | undefined;
+  previous_page?: string | null | undefined;
+  task_items?: TaskItemInstancesResponseTaskItemsList | undefined;
 }
 export interface ListTaskListTemplatesRequest {}
 export type TaskListTemplatesResponseLinks = CustomObjectRecordsResponseLinks;
 export type TaskListTemplatesResponseMeta = CustomObjectRecordsResponseMeta;
 export type TaskListTemplatesResponseTaskListTemplatesList = Array<TaskListTemplateObject>;
 export interface TaskListTemplatesResponse {
-  links?: CustomObjectRecordsResponseLinks;
-  meta?: CustomObjectRecordsResponseMeta;
-  task_list_templates?: TaskListTemplatesResponseTaskListTemplatesList;
+  links?: CustomObjectRecordsResponseLinks | undefined;
+  meta?: CustomObjectRecordsResponseMeta | undefined;
+  task_list_templates?: TaskListTemplatesResponseTaskListTemplatesList | undefined;
 }
 export interface ListTicketAttributeValuesRequest {
   /** The ID of the ticket */
@@ -9874,19 +9921,19 @@ export interface ListTicketAttributeValuesRequest {
 }
 export interface ListTicketAuditsRequest {
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many records to be returned in the response. You can specify up to 100 records per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
 }
 export type TicketAuditsResponseAuditsList = Array<TicketAuditObject>;
 export interface TicketAuditsResponse {
-  after_cursor?: string;
-  after_url?: string;
-  audits?: TicketAuditsResponseAuditsList;
-  before_cursor?: string;
-  before_url?: string;
+  after_cursor?: string | undefined;
+  after_url?: string | undefined;
+  audits?: TicketAuditsResponseAuditsList | undefined;
+  before_cursor?: string | undefined;
+  before_url?: string | undefined;
 }
 export interface ListTicketCollaboratorsRequest {
   /** The ID of the ticket */
@@ -9900,25 +9947,25 @@ export interface ListTicketCommentsRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Default is false. When true, inline images are also listed as attachments in the response */
-  include_inline_images?: boolean;
+  include_inline_images?: boolean | undefined;
   /** Accepts "users". Use this parameter to list email CCs by side-loading users. Example: `?include=users`. **Note**: If the comment source is email, a deleted user will be represented as the CCd email address. If the comment source is anything else, a deleted user will be represented as the user name. */
-  include?: string;
+  include?: string | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListTicketCommentsRequestSortOrder | (string & {});
+  sort_order?: ListTicketCommentsRequestSortOrder | (string & {}) | undefined;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
 }
 export interface ListTicketContentPinsRequest {
   /** The id of the ticket for which to list content pins */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
 }
 export type ListTicketContentPinsResponseTicketContentPinsList = Array<TicketContentPin>;
 export interface ListTicketContentPinsResponse {
   /** Total number of content pins for the ticket. */
-  count?: number;
-  ticket_content_pins?: ListTicketContentPinsResponseTicketContentPinsList;
+  count?: number | undefined;
+  ticket_content_pins?: ListTicketContentPinsResponseTicketContentPinsList | undefined;
 }
 export interface ListTicketEmailCCsRequest {
   /** The ID of the ticket */
@@ -9933,31 +9980,31 @@ export interface ListTicketFieldOptionsRequest {
 export type CustomFieldOptionsResponseCustomFieldOptionsList = Array<CustomFieldOptionObject>;
 export interface CustomFieldOptionsResponse {
   /** Total count of records retrieved */
-  count?: number;
-  custom_field_options?: CustomFieldOptionsResponseCustomFieldOptionsList;
+  count?: number | undefined;
+  custom_field_options?: CustomFieldOptionsResponseCustomFieldOptionsList | undefined;
   /** URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export type ListTicketFieldsRequestPage = ListAuditLogsRequestPage;
 export interface ListTicketFieldsRequest {
   /** Forces the `title_in_portal` property to return a dynamic content variant for the specified locale. Only accepts [active locale ids](/api-reference/ticketing/account-configuration/locales/#list-locales). Example: `locale="de"`. */
-  locale?: string;
+  locale?: string | undefined;
   /** Displays the `creator_user_id` and `creator_app_name` properties. If the ticket field is created by an app, `creator_app_name` is the name of the app and `creator_user_id` is `-1`. If the ticket field is not created by an app, `creator_app_name` is null */
-  creator?: boolean;
+  creator?: boolean | undefined;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export type TicketFieldsResponseTicketFieldsList = Array<TicketFieldObject>;
 export interface TicketFieldsResponse {
-  ticket_fields?: TicketFieldsResponseTicketFieldsList;
+  ticket_fields?: TicketFieldsResponseTicketFieldsList | undefined;
 }
 export interface ListTicketFollowersRequest {
   /** The ID of the ticket */
@@ -9971,56 +10018,56 @@ export type ListTicketFormsRequestPageCase1 = DynamicContentListVariantsRequestP
 export type ListTicketFormsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListTicketFormsRequest {
   /** true returns active ticket forms; false returns inactive ticket forms. If not present, returns both */
-  active?: boolean;
+  active?: boolean | undefined;
   /** true returns ticket forms where `end_user_visible`; false returns ticket forms that are not end-user visible. If not present, returns both */
-  end_user_visible?: boolean;
+  end_user_visible?: boolean | undefined;
   /** true returns the default ticket form when the criteria defined by the parameters results in a set without active and end-user visible ticket forms */
-  fallback_to_default?: boolean;
+  fallback_to_default?: boolean | undefined;
   /** Filter ticket forms by type. Use 'standard' for regular ticket forms, 'service_catalog' for service catalog forms, or 'all' to return all form types */
-  form_type?: ListTicketFormsRequestFormType | (string & {});
+  form_type?: ListTicketFormsRequestFormType | (string & {}) | undefined;
   /** true returns the ticket forms of the brand specified by the url's subdomain */
-  associated_to_brand?: boolean;
+  associated_to_brand?: boolean | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListTicketFormsRequestPage;
+  page?: ListTicketFormsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
   /** Locale to use for the ticket form names. If not specified, the default locale is used. */
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface ListTicketFormStatusesRequestFilter {
   /** Filter by custom status ID (comma-separated) */
-  custom_status_id?: string;
+  custom_status_id?: string | undefined;
   /** Filter by status ID (comma-separated) */
-  id?: string;
+  id?: string | undefined;
 }
 export interface ListTicketFormStatusesRequest {
   /** Filter by ticket form ID. Supports single ID or comma-separated list of IDs. */
-  ticket_form_id?: string;
+  ticket_form_id?: string | undefined;
   /** Additional filter criteria */
-  filter?: ListTicketFormStatusesRequestFilter;
+  filter?: ListTicketFormStatusesRequestFilter | undefined;
 }
 export interface ListTicketGroupSlaPolicyMetricsRequest {
   /** The ID of the ticket */
   ticket_id: number;
 }
 export interface ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsItem {
-  breach_at?: string | null;
-  days?: number;
-  hours?: number;
-  metric?: string;
-  minutes?: number;
-  stage?: string;
+  breach_at?: string | null | undefined;
+  days?: number | undefined;
+  hours?: number | undefined;
+  metric?: string | undefined;
+  minutes?: number | undefined;
+  stage?: string | undefined;
 }
 export type ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsList =
   Array<ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsItem>;
 export interface ListTicketGroupSlaPolicyMetricsResponse {
-  policy_metrics?: ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsList;
+  policy_metrics?: ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsList | undefined;
 }
 export interface ListTicketIncidentsRequest {
   /** The ID of the ticket */
@@ -10032,29 +10079,29 @@ export interface ListTicketMetricEventsRequest {
   /** The Unix UTC epoch time of the oldest event you're interested in. Example: 1332034771. */
   start_time: number;
   /** This optional parameter enhances incremental data retrieval, delivering a consistent and accurate representation of data changes. */
-  include_changes?: boolean;
+  include_changes?: boolean | undefined;
   /** When true, excludes ticket metric events for deleted tickets. Use this to avoid receiving events for tickets that are deleted. */
-  exclude_deleted?: boolean;
+  exclude_deleted?: boolean | undefined;
 }
 export type ListTicketMetricEventsResponseTicketMetricEventsList =
   Array<TicketMetricEventBaseObject>;
 export interface ListTicketMetricEventsResponse {
-  ticket_metric_events?: ListTicketMetricEventsResponseTicketMetricEventsList;
-  count?: number;
-  end_time?: number;
-  next_page?: string;
+  ticket_metric_events?: ListTicketMetricEventsResponseTicketMetricEventsList | undefined;
+  count?: number | undefined;
+  end_time?: number | undefined;
+  next_page?: string | undefined;
 }
 export interface ListTicketMetricEventsByTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
 }
 export interface ListTicketMetricEventsByTicketResponseBodyValueItem {
-  id?: number;
-  instance_id?: number;
-  metric?: string;
-  ticket_id?: number;
-  time?: string;
-  type?: string;
+  id?: number | undefined;
+  instance_id?: number | undefined;
+  metric?: string | undefined;
+  ticket_id?: number | undefined;
+  time?: string | undefined;
+  type?: string | undefined;
 }
 export type ListTicketMetricEventsByTicketResponseBodyValueList =
   Array<ListTicketMetricEventsByTicketResponseBodyValueItem>;
@@ -10065,28 +10112,28 @@ export type ListTicketMetricEventsByTicketResponse = ListTicketMetricEventsByTic
 export type ListTicketMetricsRequestPage = ListAuditLogsRequestPage;
 export interface ListTicketMetricsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type TicketMetricsResponseTicketMetricsList = Array<TicketMetricObject>;
 export interface TicketMetricsResponse {
-  ticket_metrics?: TicketMetricsResponseTicketMetricsList;
+  ticket_metrics?: TicketMetricsResponseTicketMetricsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListTicketProblemsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListTicketProblemsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListTicketProblemsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListTicketProblemsRequestPage;
+  page?: ListTicketProblemsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export type ListTicketProblemsResponse2 = ListTicketProblemsResponse;
 export type ListTicketsRequestSortBy =
@@ -10107,31 +10154,31 @@ export type ListTicketsRequestPageCase1 = DynamicContentListVariantsRequestPageC
 export type ListTicketsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListTicketsRequest {
   /** Lists tickets by external id. External ids don't have to be unique for each ticket. As a result, the request may return multiple tickets with the same external id. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Sort by */
-  sort_by?: ListTicketsRequestSortBy | (string & {});
+  sort_by?: ListTicketsRequestSortBy | (string & {}) | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListTicketsRequestSortOrder | (string & {});
+  sort_order?: ListTicketsRequestSortOrder | (string & {}) | undefined;
   /** Lists tickets by support type. Possible values are "all", "agent", or "ai_agent". Defaults to "agent" */
-  support_type_scope?: string;
+  support_type_scope?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListTicketsRequestPage;
+  page?: ListTicketsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** Unix epoch time to filter tickets. Only tickets created or updated after this time are returned. Example: `?start_time=1332034771` */
-  start_time?: number;
+  start_time?: number | undefined;
 }
 export interface ListTicketsFromViewRequest {
   /** The ID of the view, or one of the string aliases `"incoming"`, `"my"`, or `"my_groups"`. */
   view_id: string;
   /** Sort or group the tickets by a column in the [View columns](#view-columns) table. The `subject` and `submitter` columns are not supported */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export interface ListTicketsFullfilledByUserRequest {
   /** The IDs of the relevant tickets to check for matching attributes */
@@ -10139,21 +10186,21 @@ export interface ListTicketsFullfilledByUserRequest {
 }
 export type SkillBasedRoutingTicketFulfilledResponseFulfilledTicketIdsList = Array<number>;
 export interface SkillBasedRoutingTicketFulfilledResponse {
-  fulfilled_ticket_ids?: SkillBasedRoutingTicketFulfilledResponseFulfilledTicketIdsList;
+  fulfilled_ticket_ids?: SkillBasedRoutingTicketFulfilledResponseFulfilledTicketIdsList | undefined;
 }
 export type ListTicketSkipsRequestSortOrder = "asc" | "desc";
 export interface ListTicketSkipsRequest {
   /** User ID of an agent */
   user_id: number;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListTicketSkipsRequestSortOrder | (string & {});
+  sort_order?: ListTicketSkipsRequestSortOrder | (string & {}) | undefined;
 }
 export type ListTicketSkipsByTicketRequestSortOrder = "asc" | "desc";
 export interface ListTicketSkipsByTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListTicketSkipsByTicketRequestSortOrder | (string & {});
+  sort_order?: ListTicketSkipsByTicketRequestSortOrder | (string & {}) | undefined;
 }
 export interface ListTicketSlaPolicyMetricsRequest {
   /** The ID of the ticket */
@@ -10164,36 +10211,36 @@ export type ListTicketSlaPolicyMetricsResponsePolicyMetricsItem =
 export type ListTicketSlaPolicyMetricsResponsePolicyMetricsList =
   Array<ListTicketGroupSlaPolicyMetricsResponsePolicyMetricsItem>;
 export interface ListTicketSlaPolicyMetricsResponse {
-  policy_metrics?: ListTicketSlaPolicyMetricsResponsePolicyMetricsList;
+  policy_metrics?: ListTicketSlaPolicyMetricsResponsePolicyMetricsList | undefined;
 }
 export interface ListTriggerActionConditionDefinitionsRequest {}
 export type TriggerActionDefinitionObjectValuesItem = TriggerConditionDefinitionObjectAllValuesItem;
 export type TriggerActionDefinitionObjectValuesList =
   Array<TriggerConditionDefinitionObjectAllValuesItem>;
 export interface TriggerActionDefinitionObject {
-  group?: string;
-  nullable?: boolean;
-  repeatable?: boolean;
-  subject?: string;
-  title?: string;
-  type?: string;
-  values?: TriggerActionDefinitionObjectValuesList;
+  group?: string | undefined;
+  nullable?: boolean | undefined;
+  repeatable?: boolean | undefined;
+  subject?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  values?: TriggerActionDefinitionObjectValuesList | undefined;
 }
 export type TriggerDefinitionObjectActionsList = Array<TriggerActionDefinitionObject>;
 export type TriggerDefinitionObjectConditionsAllList = Array<TriggerConditionDefinitionObjectAll>;
 export type TriggerDefinitionObjectConditionsAnyList = Array<TriggerConditionDefinitionObjectAny>;
 export interface TriggerDefinitionObject {
-  actions?: TriggerDefinitionObjectActionsList;
-  conditions_all?: TriggerDefinitionObjectConditionsAllList;
-  conditions_any?: TriggerDefinitionObjectConditionsAnyList;
+  actions?: TriggerDefinitionObjectActionsList | undefined;
+  conditions_all?: TriggerDefinitionObjectConditionsAllList | undefined;
+  conditions_any?: TriggerDefinitionObjectConditionsAnyList | undefined;
 }
 export interface TriggerDefinitionResponse {
-  definitions?: TriggerDefinitionObject;
+  definitions?: TriggerDefinitionObject | undefined;
 }
 export interface ListTriggerCategoriesRequestPage {
-  after?: string;
-  before?: string;
-  size?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  size?: number | undefined;
 }
 export type ListTriggerCategoriesRequestSort =
   | "position"
@@ -10207,23 +10254,23 @@ export type ListTriggerCategoriesRequestSort =
 export type ListTriggerCategoriesRequestInclude = "rule_counts";
 export interface ListTriggerCategoriesRequest {
   /** Pagination parameters */
-  page?: ListTriggerCategoriesRequestPage;
+  page?: ListTriggerCategoriesRequestPage | undefined;
   /** Sort parameters */
-  sort?: ListTriggerCategoriesRequestSort | (string & {});
+  sort?: ListTriggerCategoriesRequestSort | (string & {}) | undefined;
   /** Allowed sideloads */
-  include?: ListTriggerCategoriesRequestInclude | (string & {});
+  include?: ListTriggerCategoriesRequestInclude | (string & {}) | undefined;
 }
 export interface TriggerCategoryRuleCounts {
-  active_count?: number;
-  inactive_count?: number;
+  active_count?: number | undefined;
+  inactive_count?: number | undefined;
 }
 export type ListTriggerCategoriesResponseTriggerCategoriesList = Array<TriggerCategoryRuleCounts>;
 export type ListTriggerCategoriesResponseLinks = ConversationLogResponseLinks;
 export type ListTriggerCategoriesResponseMeta = ConversationLogResponseMeta;
 export interface ListTriggerCategoriesResponse {
-  trigger_categories?: ListTriggerCategoriesResponseTriggerCategoriesList;
-  links?: ConversationLogResponseLinks;
-  meta?: ConversationLogResponseMeta;
+  trigger_categories?: ListTriggerCategoriesResponseTriggerCategoriesList | undefined;
+  links?: ConversationLogResponseLinks | undefined;
+  meta?: ConversationLogResponseMeta | undefined;
 }
 export interface ListTriggerRevisionsRequest {
   /** The ID of the trigger */
@@ -10239,9 +10286,9 @@ export type TriggerChangeObjectContent =
   | TriggerChangeObjectContentCase3List;
 export interface TriggerChangeObject {
   /** One of `-`, `+`, `=` representing the type of change */
-  change?: string;
+  change?: string | undefined;
   /** The value of the item it represents */
-  content?: TriggerChangeObjectContent;
+  content?: TriggerChangeObjectContent | undefined;
 }
 /** An array of [change](#change) objects. */
 export type TriggerActionDiffObjectFieldList = Array<TriggerChangeObject>;
@@ -10249,9 +10296,9 @@ export type TriggerActionDiffObjectFieldList = Array<TriggerChangeObject>;
 export type TriggerActionDiffObjectValueList = Array<TriggerChangeObject>;
 export interface TriggerActionDiffObject {
   /** An array of [change](#change) objects. */
-  field?: TriggerActionDiffObjectFieldList;
+  field?: TriggerActionDiffObjectFieldList | undefined;
   /** An array of [change](#change) objects. */
-  value?: TriggerActionDiffObjectValueList;
+  value?: TriggerActionDiffObjectValueList | undefined;
 }
 /** An array that contain [action diff objects](#Action Diffs) */
 export type TriggerRevisionsResponseTriggerRevisionsItemDiffActionsList =
@@ -10266,11 +10313,11 @@ export type TriggerConditionDiffObjectOperatorList = Array<TriggerChangeObject>;
 export type TriggerConditionDiffObjectValueList = Array<TriggerChangeObject>;
 export interface TriggerConditionDiffObject {
   /** An array of [change](#change) objects */
-  field?: TriggerConditionDiffObjectFieldList;
+  field?: TriggerConditionDiffObjectFieldList | undefined;
   /** An array of [change](#change) objects */
-  operator?: TriggerConditionDiffObjectOperatorList;
+  operator?: TriggerConditionDiffObjectOperatorList | undefined;
   /** An array of [change](#change) objects */
-  value?: TriggerConditionDiffObjectValueList;
+  value?: TriggerConditionDiffObjectValueList | undefined;
 }
 /** An array of [change](#change) objects */
 export type TriggerRevisionsResponseTriggerRevisionsItemDiffDescriptionList =
@@ -10279,70 +10326,70 @@ export type TriggerRevisionsResponseTriggerRevisionsItemDiffDescriptionList =
 export type TriggerRevisionsResponseTriggerRevisionsItemDiffTitleList = Array<TriggerChangeObject>;
 export interface TriggerRevisionsResponseTriggerRevisionsItemDiff {
   /** An array that contain [action diff objects](#Action Diffs) */
-  actions?: TriggerRevisionsResponseTriggerRevisionsItemDiffActionsList;
+  actions?: TriggerRevisionsResponseTriggerRevisionsItemDiffActionsList | undefined;
   /** An array of [change](#change) objects */
-  active?: TriggerRevisionsResponseTriggerRevisionsItemDiffActiveList;
-  conditions?: TriggerConditionDiffObject;
+  active?: TriggerRevisionsResponseTriggerRevisionsItemDiffActiveList | undefined;
+  conditions?: TriggerConditionDiffObject | undefined;
   /** An array of [change](#change) objects */
-  description?: TriggerRevisionsResponseTriggerRevisionsItemDiffDescriptionList;
+  description?: TriggerRevisionsResponseTriggerRevisionsItemDiffDescriptionList | undefined;
   /** ID of the source revision */
-  source_id?: number;
+  source_id?: number | undefined;
   /** ID of the target revision */
-  target_id?: number;
+  target_id?: number | undefined;
   /** An array of [change](#change) objects */
-  title?: TriggerRevisionsResponseTriggerRevisionsItemDiffTitleList;
+  title?: TriggerRevisionsResponseTriggerRevisionsItemDiffTitleList | undefined;
 }
 /** An array of [Actions](#actions) describing what the ticket trigger will do */
 export type TriggerSnapshotObjectActionsList = Array<TriggerActionObject>;
 export interface TriggerSnapshotObject {
   /** An array of [Actions](#actions) describing what the ticket trigger will do */
-  actions?: TriggerSnapshotObjectActionsList;
+  actions?: TriggerSnapshotObjectActionsList | undefined;
   /** Whether the ticket trigger is active */
-  active?: boolean;
-  conditions?: TriggerConditionsObject;
+  active?: boolean | undefined;
+  conditions?: TriggerConditionsObject | undefined;
   /** The description of the ticket trigger */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The title of the ticket trigger */
-  title?: string;
+  title?: string | undefined;
 }
 export interface TriggerRevisionsResponseTriggerRevisionsItem {
-  author_id?: number;
-  created_at?: string;
-  diff?: TriggerRevisionsResponseTriggerRevisionsItemDiff;
-  id?: number;
-  snapshot?: TriggerSnapshotObject;
-  url?: string;
+  author_id?: number | undefined;
+  created_at?: string | undefined;
+  diff?: TriggerRevisionsResponseTriggerRevisionsItemDiff | undefined;
+  id?: number | undefined;
+  snapshot?: TriggerSnapshotObject | undefined;
+  url?: string | undefined;
 }
 export type TriggerRevisionsResponseTriggerRevisionsList =
   Array<TriggerRevisionsResponseTriggerRevisionsItem>;
 export interface TriggerRevisionsResponse {
-  after_cursor?: string;
-  after_url?: string;
-  before_cursor?: string;
-  before_url?: string;
-  count?: number;
-  trigger_revisions?: TriggerRevisionsResponseTriggerRevisionsList;
+  after_cursor?: string | undefined;
+  after_url?: string | undefined;
+  before_cursor?: string | undefined;
+  before_url?: string | undefined;
+  count?: number | undefined;
+  trigger_revisions?: TriggerRevisionsResponseTriggerRevisionsList | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListTriggersRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListTriggersRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListTriggersRequest {
   /** Filter by active triggers if true or inactive triggers if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Cursor-based pagination only. Possible values are "alphabetical", "created_at", "updated_at", or "position". */
-  sort?: string;
+  sort?: string | undefined;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Filter triggers by category ID */
-  category_id?: string;
+  category_id?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListTriggersRequestPage;
+  page?: ListTriggersRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
 }
 export interface ListUserAssignedTicketsRequest {
   /** The id of the user */
@@ -10363,9 +10410,9 @@ export interface ListUserFieldOptionsRequest {
 export type ListUserFieldsRequestPage = ListAuditLogsRequestPage;
 export interface ListUserFieldsRequest {
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** If true, resolves dynamic content placeholders. */
-  resolve_dc?: boolean;
+  resolve_dc?: boolean | undefined;
 }
 export type ListUserFollowedTicketsRequestSortBy =
   | "id"
@@ -10389,15 +10436,15 @@ export interface ListUserFollowedTicketsRequest {
   /** The id of the user */
   user_id: number;
   /** Sort by */
-  sort_by?: ListUserFollowedTicketsRequestSortBy | (string & {});
+  sort_by?: ListUserFollowedTicketsRequestSortBy | (string & {}) | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListUserFollowedTicketsRequestSortOrder | (string & {});
+  sort_order?: ListUserFollowedTicketsRequestSortOrder | (string & {}) | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUserFollowedTicketsRequestPage;
+  page?: ListUserFollowedTicketsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** If true, excludes archived tickets from the results. */
-  exclude_archived?: boolean;
+  exclude_archived?: boolean | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListUserGroupMembershipsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -10408,11 +10455,11 @@ export interface ListUserGroupMembershipsRequest {
   /** The id of the user */
   user_id: number;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUserGroupMembershipsRequestPage;
+  page?: ListUserGroupMembershipsRequestPage | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. Valid values: `users`, `groups`. */
-  include?: string;
+  include?: string | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListUserGroupsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -10421,17 +10468,17 @@ export interface ListUserGroupsRequest {
   /** The id of the user */
   user_id: number;
   /** Whether to exclude deleted entities */
-  exclude_deleted?: boolean;
+  exclude_deleted?: boolean | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUserGroupsRequestPage;
+  page?: ListUserGroupsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export type ListUserIdentitiesRequestTypeItem =
   | "agent_forwarding"
@@ -10452,21 +10499,21 @@ export interface ListUserIdentitiesRequest {
   /** The id of the user */
   user_id: number;
   /** Filters results by one or more identity types using the format `?type[]={type}&type[]={type}` */
-  type?: ListUserIdentitiesRequestTypeList;
+  type?: ListUserIdentitiesRequestTypeList | undefined;
   /** Cursor-based pagination parameters (JSON:API style). Supports nested parameters: - `page[size]` - Number of records per page (default varies by endpoint, typically 100) - `page[after]` - Cursor token to fetch records after this position - `page[before]` - Cursor token to fetch records before this position Example: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9` */
-  page?: ListAuditLogsRequestPage;
+  page?: ListAuditLogsRequestPage | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export interface ListUserOrganizationMembershipsRequest {
   /** The id of the user */
   user_id: number;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. Valid values: `users`, `organizations`. */
-  include?: string;
+  include?: string | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListUserOrganizationsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
@@ -10475,15 +10522,15 @@ export interface ListUserOrganizationsRequest {
   /** The id of the user */
   user_id: number;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUserOrganizationsRequestPage;
+  page?: ListUserOrganizationsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
 }
 export interface ListUserOrganizationSubscriptionsRequest {
   /** The id of the user */
@@ -10494,13 +10541,15 @@ export type ListUserOrganizationSubscriptionsResponseOrganizationSubscriptionsLi
   Array<OrganizationSubscriptionObject>;
 export interface ListUserOrganizationSubscriptionsResponse {
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
   /** An array of organization subscriptions */
-  organization_subscriptions?: ListUserOrganizationSubscriptionsResponseOrganizationSubscriptionsList;
+  organization_subscriptions?:
+    | ListUserOrganizationSubscriptionsResponseOrganizationSubscriptionsList
+    | undefined;
 }
 export type ListUserRequestedTicketsRequestSortBy =
   | "id"
@@ -10524,27 +10573,27 @@ export interface ListUserRequestedTicketsRequest {
   /** The id of the user */
   user_id: number;
   /** Sort by */
-  sort_by?: ListUserRequestedTicketsRequestSortBy | (string & {});
+  sort_by?: ListUserRequestedTicketsRequestSortBy | (string & {}) | undefined;
   /** Sort order. Defaults to "asc" */
-  sort_order?: ListUserRequestedTicketsRequestSortOrder | (string & {});
+  sort_order?: ListUserRequestedTicketsRequestSortOrder | (string & {}) | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUserRequestedTicketsRequestPage;
+  page?: ListUserRequestedTicketsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** If true, excludes archived tickets from the results. */
-  exclude_archived?: boolean;
+  exclude_archived?: boolean | undefined;
   /** If true, excludes the total count from the results. */
-  exclude_count?: boolean;
+  exclude_count?: boolean | undefined;
 }
 export interface ListUserRequestsRequest {
   /** The id of the user */
   user_id: number;
   /** Possible values are "updated_at", "created_at" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc", "desc". Defaults to "asc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 export type ListUsersRequestRoleList = Array<string>;
 /** Cursor pagination parameters (JSON:API style) */
@@ -10554,27 +10603,27 @@ export type ListUsersRequestBrandIdCase0 = "all";
 export type ListUsersRequestBrandId = ListUsersRequestBrandIdCase0 | number;
 export interface ListUsersRequest {
   /** Filters the results by role. Possible values are "end-user", "agent", "admin", or a custom role name */
-  role?: string;
+  role?: string | undefined;
   /** Filters the results by more than one role using the format `role[]={role}&role[]={role}` */
-  role__?: ListUsersRequestRoleList;
+  role__?: ListUsersRequestRoleList | undefined;
   /** For custom roles which is available on the Enterprise plan and above. You can only filter by one role ID per request */
-  permission_set?: number;
+  permission_set?: number | undefined;
   /** List users by external id. External id has to be unique for each user under the same account. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListUsersRequestPage;
+  page?: ListUsersRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort results by. Prefix with `-` for descending order. When used with cursor pagination, this determines the cursor ordering. Example: `?sort=name` or `?sort=-created_at` */
-  sort?: string;
+  sort?: string | undefined;
   /** When true, includes `has_more` indicator in the cursor pagination response meta. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_boundary_indicators?: boolean;
+  include_boundary_indicators?: boolean | undefined;
   /** When true, includes cursor values for each item in the cursor pagination response. Only valid with cursor pagination (page[size], page[after], page[before]). */
-  include_item_cursors?: boolean;
+  include_item_cursors?: boolean | undefined;
   /** When brand separation is enabled, scopes the listing to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- return all users across all brands (no brand filtering applied). * 0 -- return only account-scoped (brand-less) users. * A numeric brand id -- if the brand has user separation enabled, return end users belonging to that brand plus all agents and admins (who are account-level and always included). If the brand does not have user separation enabled, the request falls back to account scope (0). */
-  brand_id?: ListUsersRequestBrandId;
+  brand_id?: ListUsersRequestBrandId | undefined;
 }
 export interface ListUserSessionsRequest {
   /** The id of the user */
@@ -10611,56 +10660,56 @@ export type ListViewDefinitionsResponseDefinitionsSortablesItemMap = {
 export type ListViewDefinitionsResponseDefinitionsSortablesList =
   Array<ListViewDefinitionsResponseDefinitionsSortablesItemMap>;
 export interface ListViewDefinitionsResponseDefinitions {
-  conditions_all?: ListViewDefinitionsResponseDefinitionsConditionsAllList;
-  conditions_any?: ListViewDefinitionsResponseDefinitionsConditionsAnyList;
-  groupables?: ListViewDefinitionsResponseDefinitionsGroupablesList;
-  output?: ListViewDefinitionsResponseDefinitionsOutputList;
-  sortables?: ListViewDefinitionsResponseDefinitionsSortablesList;
+  conditions_all?: ListViewDefinitionsResponseDefinitionsConditionsAllList | undefined;
+  conditions_any?: ListViewDefinitionsResponseDefinitionsConditionsAnyList | undefined;
+  groupables?: ListViewDefinitionsResponseDefinitionsGroupablesList | undefined;
+  output?: ListViewDefinitionsResponseDefinitionsOutputList | undefined;
+  sortables?: ListViewDefinitionsResponseDefinitionsSortablesList | undefined;
 }
 export interface ListViewDefinitionsResponse {
-  definitions?: ListViewDefinitionsResponseDefinitions;
+  definitions?: ListViewDefinitionsResponseDefinitions | undefined;
 }
 /** Cursor pagination parameters (JSON:API style) */
 export type ListViewsRequestPageCase1 = DynamicContentListVariantsRequestPageCase1;
 export type ListViewsRequestPage = number | DynamicContentListVariantsRequestPageCase1;
 export interface ListViewsRequest {
   /** Only views with given access. May be "personal", "shared", or "account" */
-  access?: string;
+  access?: string | undefined;
   /** Only active views if true, inactive views if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Only views belonging to given group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** The sort parameter used with cursor pagination. Defaults to "created_at". Prefix with '-' for descending order */
-  sort?: string;
+  sort?: string | undefined;
   /** The sort_by parameter used with offset pagination. Possible values are "alphabetical", "created_at", or "updated_at". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The sort_order parameter used with offset pagination. One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: ListViewsRequestPage;
+  page?: ListViewsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListViewsByIdRequest {
   /** List of view's ids separated by commas. */
   ids: string;
   /** Only active views if true, inactive views if false */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface ListWorkspacesRequest {}
 export type ListWorkspacesResponseWorkspacesList = Array<WorkspaceObject>;
 export interface ListWorkspacesResponse {
-  workspaces?: ListWorkspacesResponseWorkspacesList;
+  workspaces?: ListWorkspacesResponseWorkspacesList | undefined;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface LogoutManyUsersRequest {
   /** Accepts a comma-separated list of up to 100 user ids. */
-  ids?: string;
+  ids?: string | undefined;
 }
 export interface LogoutManyUsersResponse {}
 export interface MakeEndUserIdentityPrimaryRequest {
@@ -10711,13 +10760,13 @@ export interface MergeTicketsIntoTargetTicketRequest {
   /** Ids of tickets to merge into the target ticket */
   ids: MergeTicketsIntoTargetTicketRequestIdsList;
   /** Private comment to add to the source ticket */
-  source_comment?: string;
+  source_comment?: string | undefined;
   /** Whether comment in source tickets are public or private */
-  source_comment_is_public?: boolean;
+  source_comment_is_public?: boolean | undefined;
   /** Private comment to add to the target ticket */
-  target_comment?: string;
+  target_comment?: string | undefined;
   /** Whether comment in target ticket is public or private */
-  target_comment_is_public?: boolean;
+  target_comment_is_public?: boolean | undefined;
 }
 export interface OpenTicketInAgentBrowserRequest {
   /** ID of an agent */
@@ -10739,12 +10788,12 @@ export interface OrganizationRelatedRequest {
 }
 export interface OrganizationMetadataObject {
   /** The number of tickets for the organization */
-  tickets_count?: number;
+  tickets_count?: number | undefined;
   /** The number of users for the organization */
-  users_count?: number;
+  users_count?: number | undefined;
 }
 export interface OrganizationsRelatedResponse {
-  organization_related?: OrganizationMetadataObject;
+  organization_related?: OrganizationMetadataObject | undefined;
 }
 export interface PermanentlyDeleteUserRequest {
   /** The ID of the deleted user */
@@ -10752,30 +10801,30 @@ export interface PermanentlyDeleteUserRequest {
 }
 export interface PostAutocompleteTagRequest {
   /** A substring of a tag to search for */
-  name?: string;
+  name?: string | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PostAutocompleteUserRequestBrandIdCase0 = "all";
 /** When brand separation is enabled, scopes the autocomplete results to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- search all users across all brands (no brand filtering applied). * 0 -- restrict the autocomplete results to account-scoped (brand-less) users only. * A numeric brand id -- if the brand has user separation enabled, autocomplete returns only end users belonging to that brand. Agents and admins are not included in the results when filtering by a specific brand. If the brand does not have user separation enabled, the request falls back to account scope (0). */
 export type PostAutocompleteUserRequestBrandId = PostAutocompleteUserRequestBrandIdCase0 | number;
 export interface PostAutocompleteUserRequest {
   /** Sideloads to include in the response. Accepts a comma-separated list of values. See [Sideloading](/documentation/api-basics/working-with-data/side_loading/#supported-endpoints). */
-  include?: string;
+  include?: string | undefined;
   /** Filter to apply to autocomplete results. Common values: `assignable`, `requester`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Number of results to return. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** When brand separation is enabled, scopes the autocomplete results to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- search all users across all brands (no brand filtering applied). * 0 -- restrict the autocomplete results to account-scoped (brand-less) users only. * A numeric brand id -- if the brand has user separation enabled, autocomplete returns only end users belonging to that brand. Agents and admins are not included in the results when filtering by a specific brand. If the brand does not have user separation enabled, the request falls back to account scope (0). */
-  brand_id?: PostAutocompleteUserRequestBrandId;
+  brand_id?: PostAutocompleteUserRequestBrandId | undefined;
   /** Field ID for lookup relationship autocomplete */
-  field_id?: number;
+  field_id?: number | undefined;
   /** The name to search for the user */
-  name?: string;
+  name?: string | undefined;
   /** The phone number to search for the user */
-  phone?: string;
+  phone?: string | undefined;
   /** Source for lookup relationship autocomplete */
-  source?: string;
+  source?: string | undefined;
 }
 export interface PreviewCountRequest {}
 /** Cursor pagination parameters (JSON:API style) */
@@ -10792,11 +10841,11 @@ export type ViewPreviewConditionInputValue =
 /** A single condition of the previewed view definition. See the [Conditions reference](/documentation/ticketing/reference-guides/conditions-reference). */
 export interface ViewPreviewConditionInput {
   /** The ticket property the condition tests, such as "status", "priority", "group_id" or "current_tags". Use "custom_fields_{id}" (or "ticket_fields_{id}") for a custom field. A condition object with no `field` is silently discarded instead of returning an error. */
-  field?: string;
+  field?: string | undefined;
   /** The comparison operator, such as "is", "is_not", "less_than", "greater_than" or "includes". Defaults to "is" when omitted */
-  operator?: string;
+  operator?: string | undefined;
   /** The value the condition compares against. A scalar and a single-element array are equivalent - the value is always wrapped in an array before it is used. null is normalized to an empty value, which is what value-less conditions such as "group_is_set_with_no_assignee" expect */
-  value?: ViewPreviewConditionInputValue;
+  value?: ViewPreviewConditionInputValue | undefined;
 }
 /** The conditions a ticket must all meet to appear in the preview. May also be supplied as `conditions.all` */
 export type ViewPreviewInputAllList = Array<ViewPreviewConditionInput>;
@@ -10809,9 +10858,9 @@ export type ViewPreviewInputConditionsAnyList = Array<ViewPreviewConditionInput>
 /** An alternative way of supplying `all` and `any`, mirroring the `conditions` object of the response. The top-level `all` and `any` properties take precedence when both forms are sent */
 export interface ViewPreviewInputConditions {
   /** See the top-level `all` property */
-  all?: ViewPreviewInputConditionsAllList;
+  all?: ViewPreviewInputConditionsAllList | undefined;
   /** See the top-level `any` property */
-  any?: ViewPreviewInputConditionsAnyList;
+  any?: ViewPreviewInputConditionsAnyList | undefined;
 }
 /** An existing active view to base the preview on, or the string alias "incoming" for the built-in incoming view. The conditions and output supplied here are then merged into that view's own definition rather than replacing them. Inactive views cannot be previewed. A numeric string is accepted for the id and coerced to an integer */
 export type ViewPreviewInputId = number | string;
@@ -10821,66 +10870,66 @@ export type ViewPreviewOutputInputColumnsList = Array<ViewPreviewOutputInputColu
 /** The columns, grouping and sorting used when the previewed view is rendered. */
 export interface ViewPreviewOutputInput {
   /** The ticket fields to display, in order. System columns are given by name (see [View columns](#view-columns)). Custom fields are given by their numeric id or by their title. Unrecognized names and the "score" column are silently dropped rather than rejected. A maximum of 15 columns is enforced after that filtering - more than that fails validation. */
-  columns?: ViewPreviewOutputInputColumnsList;
+  columns?: ViewPreviewOutputInputColumnsList | undefined;
   /** The column the tickets are grouped by. Unrecognized values are stored without error and simply do not group the view */
-  group_by?: string;
+  group_by?: string | undefined;
   /** The direction the groups are ordered in. May be "asc" or "desc" */
-  group_order?: string;
+  group_order?: string | undefined;
   /** The column the tickets are sorted by. "id" is stored as "nice_id" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The direction the tickets are sorted in. May be "asc" or "desc" */
-  sort_order?: string;
+  sort_order?: string | undefined;
 }
 /** The view definition to preview. Nothing is persisted. Unless `id` is given, at least one `all` condition must be on "status", "type", "group_id", "assignee_id", "requester_id", "organization_id", "due_date", "support_type", one of the status duration fields ("OPEN", "PENDING", "HOLD", "CLOSED") or, on accounts with custom statuses, "custom_status_id". Otherwise the definition is rejected as invalid. With `id` the referenced view's own conditions are merged in first and can satisfy the requirement on their own. */
 export interface ViewPreviewInput {
   /** The conditions a ticket must all meet to appear in the preview. May also be supplied as `conditions.all` */
-  all?: ViewPreviewInputAllList;
+  all?: ViewPreviewInputAllList | undefined;
   /** The conditions, at least one of which a ticket must meet to appear in the preview. May also be supplied as `conditions.any` */
-  any?: ViewPreviewInputAnyList;
+  any?: ViewPreviewInputAnyList | undefined;
   /** An alternative way of supplying `all` and `any`, mirroring the `conditions` object of the response. The top-level `all` and `any` properties take precedence when both forms are sent */
-  conditions?: ViewPreviewInputConditions;
+  conditions?: ViewPreviewInputConditions | undefined;
   /** An existing active view to base the preview on, or the string alias "incoming" for the built-in incoming view. The conditions and output supplied here are then merged into that view's own definition rather than replacing them. Inactive views cannot be previewed. A numeric string is accepted for the id and coerced to an integer */
-  id?: ViewPreviewInputId;
+  id?: ViewPreviewInputId | undefined;
   /** The columns, grouping and sorting of the previewed view. When `id` is given the supplied properties are merged into that view's own output; otherwise anything left out falls back to its system default */
-  output?: ViewPreviewOutputInput;
+  output?: ViewPreviewOutputInput | undefined;
 }
 export interface PreviewViewsRequest {
   /** Pagination parameter. Supports both traditional offset and cursor-based pagination: - Traditional: `?page=2` (integer page number) - Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before) These are mutually exclusive - use one format or the other, not both. */
-  page?: PreviewViewsRequestPage;
+  page?: PreviewViewsRequestPage | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
   /** A comma-separated list of sideloads to exclude from the response. */
-  exclude?: string;
+  exclude?: string | undefined;
   /** Internal. Whether archived tickets are included in the preview. Defaults to false */
-  _include_archive?: boolean;
+  _include_archive?: boolean | undefined;
   /** When true, the preview results are paginated using the `page` and `per_page` query parameters */
-  paginate?: boolean;
+  paginate?: boolean | undefined;
   view: ViewPreviewInput;
 }
 export interface PushContentToSupportRequest {}
 /** The status of the import for the indicated resource */
 export interface ChannelFrameworkResultStatusObject {
   /** A code indicating the status of the import of the resource, as described in [status codes](#status-codes) */
-  code?: string;
+  code?: string | undefined;
   /** In the case of an exception, a description of the exception. Otherwise, not present. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ChannelFrameworkResultObject {
   /** The external ID of the resource, as passed in */
-  external_resource_id?: string;
-  status?: ChannelFrameworkResultStatusObject;
+  external_resource_id?: string | undefined;
+  status?: ChannelFrameworkResultStatusObject | undefined;
 }
 /** An array of [result objects](#result-object) */
 export type ChannelFrameworkPushResultsResponseResultsList = Array<ChannelFrameworkResultObject>;
 export interface ChannelFrameworkPushResultsResponse {
   /** An array of [result objects](#result-object) */
-  results?: ChannelFrameworkPushResultsResponseResultsList;
+  results?: ChannelFrameworkPushResultsResponseResultsList | undefined;
 }
 export type PushNotificationDevicesInput = Array<string>;
 export interface PushNotificationDevicesRequest {
-  push_notification_devices?: PushNotificationDevicesInput;
+  push_notification_devices?: PushNotificationDevicesInput | undefined;
 }
 export type PushNotificationDevicesResponse = string;
 export interface PutTagsTicketRequest {
@@ -10894,17 +10943,17 @@ export interface PutUserTagsRequest {
 export type RecordNewSkipRequestSortOrder = "asc" | "desc";
 export interface RecordNewSkipRequestSkip {
   /** Reason for skipping the ticket */
-  reason?: string;
+  reason?: string | undefined;
   /** ID of the ticket to skip */
   ticket_id: number;
 }
 export interface RecordNewSkipRequest {
   /** Sort order. Defaults to "asc" */
-  sort_order?: RecordNewSkipRequestSortOrder | (string & {});
+  sort_order?: RecordNewSkipRequestSortOrder | (string & {}) | undefined;
   skip: RecordNewSkipRequestSkip;
 }
 export interface TicketSkipCreationOutput {
-  skip?: TicketSkipObjectOutput;
+  skip?: TicketSkipObjectOutput | undefined;
 }
 export interface RecoverSuspendedTicketRequest {
   /** id of the suspended ticket */
@@ -10912,7 +10961,7 @@ export interface RecoverSuspendedTicketRequest {
 }
 export type RecoverSuspendedTicketResponseOutputTicketList = Array<TicketObjectOutput>;
 export interface RecoverSuspendedTicketResponseOutput {
-  ticket?: RecoverSuspendedTicketResponseOutputTicketList;
+  ticket?: RecoverSuspendedTicketResponseOutputTicketList | undefined;
 }
 export interface RecoverSuspendedTicketsRequest {
   /** A comma separated list of ids of suspended tickets to recover. */
@@ -10920,7 +10969,7 @@ export interface RecoverSuspendedTicketsRequest {
 }
 export type RecoverSuspendedTicketsResponseOutputTicketsList = Array<TicketObjectOutput>;
 export interface RecoverSuspendedTicketsResponseOutput {
-  tickets?: RecoverSuspendedTicketsResponseOutputTicketsList;
+  tickets?: RecoverSuspendedTicketsResponseOutputTicketsList | undefined;
 }
 export interface RedactChatCommentRequest {
   /** The ID of the ticket */
@@ -10928,9 +10977,9 @@ export interface RedactChatCommentRequest {
   /** The `chat_id` in the `ChatStartedEvent` event in the ticket audit. */
   chat_id: string;
   /** The `chat_index` in the `ChatMessage` event in the ticket audit. Mandatory if `message_id` is not used. */
-  chat_index?: number;
+  chat_index?: number | undefined;
   /** The `message_id` of the `ChatMessage` event in the ticket audit that is part of a `ChatStartedEvent` history. Used when redacting a ChatMessage that is part of a conversation history. Mandatory if `chat_index` is not used. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The `message` in the `ChatMessage` event in the ticket audit. Wrap `message` with `<redact>` tags. */
   text: string;
 }
@@ -10943,24 +10992,24 @@ export type TicketChatCommentRedactionResponseChatEventValueHistoryList =
 /** The value of the chat event object */
 export interface TicketChatCommentRedactionResponseChatEventValue {
   /** Id of the chat session */
-  chat_id?: string;
+  chat_id?: string | undefined;
   /** Chat events within the chat session */
-  history?: TicketChatCommentRedactionResponseChatEventValueHistoryList;
+  history?: TicketChatCommentRedactionResponseChatEventValueHistoryList | undefined;
   /** Id assigned to the visitor */
-  visitor_id?: string;
+  visitor_id?: string | undefined;
 }
 /** Chat event object */
 export interface TicketChatCommentRedactionResponseChatEvent {
   /** Id assigned to the chat event object */
-  id?: number;
+  id?: number | undefined;
   /** Type of chat event */
-  type?: string;
+  type?: string | undefined;
   /** The value of the chat event object */
-  value?: TicketChatCommentRedactionResponseChatEventValue;
+  value?: TicketChatCommentRedactionResponseChatEventValue | undefined;
 }
 export interface TicketChatCommentRedactionResponse {
   /** Chat event object */
-  chat_event?: TicketChatCommentRedactionResponseChatEvent;
+  chat_event?: TicketChatCommentRedactionResponseChatEvent | undefined;
 }
 /** The array of `chat_index` in the `ChatFileAttachment` event in the ticket audit. Mandatory if `message_ids` is not used. */
 export type RedactChatCommentAttachmentRequestChatIndexesList = Array<number>;
@@ -10972,9 +11021,9 @@ export interface RedactChatCommentAttachmentRequest {
   /** The `chat_id` in the `ChatStartedEvent` event in the ticket audit. */
   chat_id: string;
   /** The array of `chat_index` in the `ChatFileAttachment` event in the ticket audit. Mandatory if `message_ids` is not used. */
-  chat_indexes?: RedactChatCommentAttachmentRequestChatIndexesList;
+  chat_indexes?: RedactChatCommentAttachmentRequestChatIndexesList | undefined;
   /** The array of `message_id` in the `ChatFileAttachment` event in the ticket audit that is part of a `ChatStartedEvent` history. Used when redacting a ChatFileAttachment that is part of a conversation history. Mandatory if `chat_indexes` is not used. */
-  message_ids?: RedactChatCommentAttachmentRequestMessageIdsList;
+  message_ids?: RedactChatCommentAttachmentRequestMessageIdsList | undefined;
 }
 export interface RedactCommentAttachmentRequest {
   /** The ID of the ticket */
@@ -10998,9 +11047,11 @@ export interface RedactTicketCommentInAgentWorkspaceRequest {
   /** The ID of the ticket comment */
   ticket_comment_id: number;
   /** Array of attachment URLs belonging to the comment to be redacted. */
-  external_attachment_urls?: RedactTicketCommentInAgentWorkspaceRequestExternalAttachmentUrlsList;
+  external_attachment_urls?:
+    | RedactTicketCommentInAgentWorkspaceRequestExternalAttachmentUrlsList
+    | undefined;
   /** The `html_body` of the comment containing `<redact>` tags or `redact` attributes. */
-  html_body?: string;
+  html_body?: string | undefined;
   /** The ID of the ticket. */
   ticket_id: number;
 }
@@ -11011,7 +11062,7 @@ export interface RemoveOrganizationTagsRequest {
 export interface RenewCurrentSessionRequest {}
 export interface RenewSessionResponse {
   /** A token of authenticity for the request */
-  authenticity_token?: string;
+  authenticity_token?: string | undefined;
 }
 export interface ReorderCustomObjectFieldsRequest {
   /** The key of a custom object */
@@ -11021,7 +11072,7 @@ export type ReorderCustomObjectFieldsResponse = string;
 export type ReorderGroupSLAPoliciesRequestGroupSlaPolicyIdsList = Array<string>;
 export interface ReorderGroupSLAPoliciesRequest {
   /** The ids of the Group SLA policies to reorder */
-  group_sla_policy_ids?: ReorderGroupSLAPoliciesRequestGroupSlaPolicyIdsList;
+  group_sla_policy_ids?: ReorderGroupSLAPoliciesRequestGroupSlaPolicyIdsList | undefined;
 }
 export type ReorderGroupSLAPoliciesResponse = string;
 export interface ReorderOrganizationFieldRequest {}
@@ -11031,7 +11082,7 @@ export interface ReorderQueuesResponse {}
 export type ReorderSLAPoliciesRequestSlaPolicyIdsList = Array<number>;
 export interface ReorderSLAPoliciesRequest {
   /** The IDs of the SLA Policies to reorder */
-  sla_policy_ids?: ReorderSLAPoliciesRequestSlaPolicyIdsList;
+  sla_policy_ids?: ReorderSLAPoliciesRequestSlaPolicyIdsList | undefined;
 }
 export type ReorderSLAPoliciesResponse = string;
 export interface ReorderTicketFieldsRequest {}
@@ -11042,7 +11093,7 @@ export interface ReorderUserFieldRequest {}
 export type ReorderUserFieldResponse = string;
 export type ReorderWorkspacesRequestIdsList = Array<number>;
 export interface ReorderWorkspacesRequest {
-  ids?: ReorderWorkspacesRequestIdsList;
+  ids?: ReorderWorkspacesRequestIdsList | undefined;
 }
 export type ReorderWorkspacesResponse = string;
 export interface ReportChannelbackErrorRequest {}
@@ -11060,7 +11111,7 @@ export interface RequestUserVerificationRequest {
   /** The ID of the user identity */
   user_identity_id: number;
   /** When the account has multiple active brands, sets the active brand context for the verification email. Scopes the email template and sender to the specified brand. */
-  brand_id?: number;
+  brand_id?: number | undefined;
 }
 export type RequestUserVerificationResponse = string;
 export interface RestoreDeletedTicketRequest {
@@ -11082,169 +11133,171 @@ export interface SearchAutocompleteCustomObjectRecordRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Part of a name of the record you are searching for */
-  name?: string;
+  name?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** The number of records to return in the response. You can specify up to 100 records per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** The id of the lookup field. If the field has a relationship filter, the filter is applied to the results. Must be used with `source` param. */
-  field_id?: string;
+  field_id?: string | undefined;
   /** One of "zen:user", "zen:ticket", "zen:organization", or "zen:custom_object:CUSTOM_OBJECT_KEY". Represents the object `field_id` belongs to. Must be used with field_id param. */
-  source?: string;
+  source?: string | undefined;
   /** Provided values to be used with [dynamic filters](/api-reference/ticketing/lookup_relationships/lookup_relationships/#using-dynamic-filters). */
-  filter_dynamic_values_?: SearchAutocompleteCustomObjectRecordRequestFilterDynamicValuesMap;
+  filter_dynamic_values_?:
+    | SearchAutocompleteCustomObjectRecordRequestFilterDynamicValuesMap
+    | undefined;
   /** The id of the requester. For use with dynamic filters. */
-  requester_id?: number;
+  requester_id?: number | undefined;
   /** The id of the selected assignee. For use with dynamic filters. */
-  assignee_id?: number;
+  assignee_id?: number | undefined;
   /** The id of the organization the requester belongs to. For use with dynamic filters. */
-  organization_id?: number;
+  organization_id?: number | undefined;
 }
 export interface SearchAutomationsRequest {
   /** Query string used to find all automations with matching title */
   query: string;
   /** Filter by active automations if true or inactive automations if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Possible values are "alphabetical", "created_at", "updated_at", and "position". If unspecified, the automations are sorted by relevance */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
 }
 export interface SearchCustomObjectRecordsRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The query parameter is used to search text-based fields for records that match specific query terms. The query can be multiple words or numbers. Every record that matches the beginning of any word or number in the query string is returned.<br/><br/> Fuzzy search is supported for the following text-based field types: Text fields, Multi Line Text fields, and RegExp fields.<br/><br/> For example, you might want to search for records related to Tesla vehicles: `query=Tesla`. In this example the API would return every record for the given custom object where any of the supported text fields contain the word 'Tesla'.<br/><br/> You can include multiple words or numbers in your search. For example: `query=Tesla Honda 2020`. This search phrase would be URL encoded as `query=Tesla%20Honda%202020` and return every record for the custom object for which any of the supported text fields contained 'Tesla', 'Honda', or '2020'. */
-  query?: string;
+  query?: string | undefined;
   /** One of `name`, `created_at`, `updated_at`, `-name`, `-created_at`, or `-updated_at`. The `-` denotes the sort will be descending. Defaults to sorting by relevance. */
-  sort?: string;
+  sort?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many records should be returned in the response. You can specify up to 100 records per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
 }
 export interface SearchItamAssetsRequest {
   /** Lists the search terms, separated by a space, used to identify the asset records. */
   query: string;
   /** Orders the returned records by: `name`, `created_at`, or `updated_at`. Defaults to sorting by relevance. Prepending `-` (`-name`, `-created_at`, or `-updated_at`) sorts the results in descending order by that value. */
-  sort?: string;
+  sort?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.before_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** A [pagination cursor](/documentation/api-basics/pagination/paginating-through-lists-using-cursor-pagination) that tells the endpoint which page to start on. It should be a `meta.after_cursor` value from a previous request. Note: `page[before]` and `page[after]` can't be used together in the same request. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Specifies how many assets should be returned in the response, up to 100 assets per page. */
-  page_size_?: number;
+  page_size_?: number | undefined;
 }
 export interface SearchMacroRequest {
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
   /** Filter macros by access. Possible values are "personal", "agents", "shared", or "account". The "agents" value returns all personal macros for the account's agents and is only available to admins. */
-  access?: string;
+  access?: string | undefined;
   /** Filter by active macros if true or inactive macros if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter macros by category */
-  category?: number;
+  category?: number | undefined;
   /** Filter macros by group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** If true, returns only macros that can be applied to tickets. If false, returns all macros the current user can manage. Default is false */
-  only_viewable?: boolean;
+  only_viewable?: boolean | undefined;
   /** Possible values are "alphabetical", "created_at", "updated_at", or "position". Defaults to alphabetical */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** Query string used to find macros with matching titles */
   query: string;
 }
 export type SearchMacroResponseMacrosList = Array<MacroObject>;
 export interface SearchMacroResponse {
-  macros?: SearchMacroResponseMacrosList;
+  macros?: SearchMacroResponseMacrosList | undefined;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface SearchObjectTriggersRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** Query string used to find all triggers with matching title */
-  query?: string;
+  query?: string | undefined;
   /** JSON-encoded trigger attribute filters for the search. See [Filter](#filter). Example: `{"json":{"description":"Close a ticket"}}` */
-  filter?: string;
+  filter?: string | undefined;
   /** Filter by active triggers if true or inactive triggers if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Cursor-based pagination only. Possible values are "alphabetical", "created_at", "updated_at", or "position". */
-  sort?: string;
+  sort?: string | undefined;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
 }
 export interface SearchOrganizationsRequest {
   /** The external id of an organization */
-  external_id?: number;
+  external_id?: number | undefined;
   /** The name of an organization */
-  name?: string;
+  name?: string | undefined;
 }
 export interface SearchRequestsRequest {
   /** The syntax and matching logic for the string is detailed in the [Zendesk Support search reference](https://support.zendesk.com/hc/en-us/articles/4408886879258). See also [Query basics](/api-reference/ticketing/ticket-management/search/#query-basics) in the Tickets API doc. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface SearchTriggersRequest {
   /** Query string used to find all triggers with matching title */
-  query?: string;
+  query?: string | undefined;
   /** JSON-encoded trigger attribute filters for the search. See [Filter](#filter). Example: `{"json":{"description":"Close a ticket"}}` */
-  filter?: string;
+  filter?: string | undefined;
   /** Filter by active triggers if true or inactive triggers if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Cursor-based pagination only. Possible values are "alphabetical", "created_at", "updated_at", or "position". */
-  sort?: string;
+  sort?: string | undefined;
   /** Offset pagination only. Possible values are "alphabetical", "created_at", "updated_at", "usage_1h", "usage_24h", or "usage_7d". Defaults to "position" */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-2) */
-  include?: string;
+  include?: string | undefined;
 }
 export type SearchUsersRequestBrandIdCase0 = "all";
 export type SearchUsersRequestBrandId = SearchUsersRequestBrandIdCase0 | number;
 export interface SearchUsersRequest {
   /** Page number for offset-based pagination (non-negative integer). */
-  page?: number;
+  page?: number | undefined;
   /** Number of records to return per page. Note: Default and maximum values vary by endpoint. Check endpoint-specific documentation for limits. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The `query` parameter supports the Zendesk search syntax for more advanced user searches. It can specify a partial or full value of any user property, including name, email address, notes, or phone. Example: `query="jdoe"`. See the [Search API](/api-reference/ticketing/ticket-management/search/). */
-  query?: string;
+  query?: string | undefined;
   /** The `external_id` parameter does not support the search syntax. It only accepts ids. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** When brand separation is enabled, scopes the search to users belonging to the specified brand. Only applicable when the account has brand separation enabled. Accepted values: * "all" -- search all users across all brands (no brand filtering applied). * 0 -- restrict the search to account-scoped (brand-less) users only. * A numeric brand id -- if the brand has user separation enabled, search returns only end users belonging to that brand. Unlike the list, count, and show_many endpoints, agents and admins are not included in the results when filtering by a specific brand. If the brand does not have user separation enabled, the request falls back to account scope (0). */
-  brand_id?: SearchUsersRequestBrandId;
+  brand_id?: SearchUsersRequestBrandId | undefined;
   /** A comma-separated list of sideloads to include in the response. */
-  include?: string;
+  include?: string | undefined;
 }
 export interface SearchViewsRequest {
   /** Query string used to find all views with matching title */
   query: string;
   /** Filter views by access. May be "personal", "shared", or "account" */
-  access?: string;
+  access?: string | undefined;
   /** Filter by active views if true or inactive views if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter views by group */
-  group_id?: number;
+  group_id?: number | undefined;
   /** Possible values are "alphabetical", "created_at", "updated_at", and "position". If unspecified, the views are sorted by relevance */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** One of "asc" or "desc". Defaults to "asc" for alphabetical and position sort, "desc" for all others */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** A sideload to include in the response. See [Sideloads](#sideloads-3) */
-  include?: string;
+  include?: string | undefined;
 }
 /** The IDs of the attribute values to set for the agent */
 export type SetAgentAttributeValuesRequestAttributeValueIdsList = Array<string>;
@@ -11290,18 +11343,18 @@ export interface SetUserTagsRequest {
 export interface SuspendedTicketsAttachmentsRequest {}
 export type SuspendedTicketsAttachmentsResponseUploadAttachmentsList = Array<AttachmentObject>;
 export interface SuspendedTicketsAttachmentsResponseUpload {
-  attachments?: SuspendedTicketsAttachmentsResponseUploadAttachmentsList;
+  attachments?: SuspendedTicketsAttachmentsResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string;
+  token?: string | undefined;
 }
 export interface SuspendedTicketsAttachmentsResponse {
-  upload?: SuspendedTicketsAttachmentsResponseUpload;
+  upload?: SuspendedTicketsAttachmentsResponseUpload | undefined;
 }
 export type TicketBulkImportRequestTicketsList = Array<TicketImportInputInput>;
 export interface TicketBulkImportRequest {
   /** If `true`, any ticket created with a `closed` status bypasses the normal ticket lifecycle and will be created directly in your ticket archive */
-  archive_immediately?: boolean;
-  tickets?: TicketBulkImportRequestTicketsList;
+  archive_immediately?: boolean | undefined;
+  tickets?: TicketBulkImportRequestTicketsList | undefined;
 }
 export interface TicketFormTicketFormStatusesRequest {
   /** The ID of the ticket form */
@@ -11314,24 +11367,24 @@ export interface TicketRelatedInformationRequest {
 export type TicketRelatedInformationFollowupSourceIdsList = Array<string>;
 export type TicketRelatedInformationJiraIssueIdsList = Array<string>;
 export interface TicketRelatedInformation {
-  followup_source_ids?: TicketRelatedInformationFollowupSourceIdsList;
+  followup_source_ids?: TicketRelatedInformationFollowupSourceIdsList | undefined;
   /** Is true if the current ticket is archived */
-  from_archive?: boolean;
+  from_archive?: boolean | undefined;
   /** A count of related incident occurrences */
-  incidents?: number;
-  jira_issue_ids?: TicketRelatedInformationJiraIssueIdsList;
+  incidents?: number | undefined;
+  jira_issue_ids?: TicketRelatedInformationJiraIssueIdsList | undefined;
   /** Related topic in the Web portal (deprecated feature) */
-  topic_id?: string | null;
+  topic_id?: string | null | undefined;
 }
 export type TicketsCreateManyRequestTicketsList = Array<TicketObjectInput>;
 export interface TicketsCreateManyRequest {
-  tickets?: TicketsCreateManyRequestTicketsList;
+  tickets?: TicketsCreateManyRequestTicketsList | undefined;
 }
 export interface TicketsShowManyRequest {
   /** Comma-separated list of ticket ids */
   ids: string;
   /** A comma-separated list of sideloads to include. */
-  include?: string;
+  include?: string | undefined;
 }
 /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
 export type TicketsUpdateRequestInputCase0TicketAdditionalCollaboratorsList =
@@ -11398,9 +11451,9 @@ export type TicketsUpdateRequestInputCase0TicketTdeWorkspaceWorkspace =
   TicketObjectInputTdeWorkspacePreviousWorkspace;
 /** Write only. TDE workspace information for the ticket */
 export interface TicketsUpdateRequestInputCase0TicketTdeWorkspace {
-  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
-  type?: TicketsUpdateRequestInputCase0TicketTdeWorkspaceType | (string & {});
-  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
+  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
+  type?: TicketsUpdateRequestInputCase0TicketTdeWorkspaceType | (string & {}) | undefined;
+  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
 }
 /** Write only. A TPE voice comment for Talk Partner Edition tickets */
 export type TicketsUpdateRequestInputCase0TicketTpeVoiceComment = TicketObjectInputTpeVoiceComment;
@@ -11414,104 +11467,106 @@ export type TicketsUpdateRequestInputCase0TicketAdditionalTagsList = Array<strin
 export type TicketsUpdateRequestInputCase0TicketRemoveTagsList = Array<string>;
 export interface TicketsUpdateRequestInputCase0Ticket {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
-  additional_collaborators?: TicketsUpdateRequestInputCase0TicketAdditionalCollaboratorsList;
+  additional_collaborators?:
+    | TicketsUpdateRequestInputCase0TicketAdditionalCollaboratorsList
+    | undefined;
   /** Write only. The email address of the agent to assign the ticket to */
-  assignee_email?: string;
+  assignee_email?: string | undefined;
   /** The agent currently assigned to the ticket */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** Write only. An array of the IDs of attribute values to be associated with the ticket */
-  attribute_value_ids?: TicketsUpdateRequestInputCase0TicketAttributeValueIdsList;
+  attribute_value_ids?: TicketsUpdateRequestInputCase0TicketAttributeValueIdsList | undefined;
   /** The id of the brand this ticket is associated with. See [Setting up multiple brands](https://support.zendesk.com/hc/en-us/articles/4408829476378) */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: TicketsUpdateRequestInputCase0TicketCollaboratorIdsList;
+  collaborator_ids?: TicketsUpdateRequestInputCase0TicketCollaboratorIdsList | undefined;
   /** Write only. Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
-  collaborators?: TicketsUpdateRequestInputCase0TicketCollaboratorsList;
-  comment?: TicketCommentObjectInput;
+  collaborators?: TicketsUpdateRequestInputCase0TicketCollaboratorsList | undefined;
+  comment?: TicketCommentObjectInput | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
-  custom_fields?: TicketsUpdateRequestInputCase0TicketCustomFieldsList;
+  custom_fields?: TicketsUpdateRequestInputCase0TicketCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket. See [custom ticket statuses](#custom-ticket-statuses) */
-  custom_status_id?: number | null;
+  custom_status_id?: number | null | undefined;
   /** The first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment). On create, can be set directly as an alternative to `comment`. Silently ignored on update. */
-  description?: string;
+  description?: string | undefined;
   /** If this is a ticket of type "task" it has a due date. Due date format uses [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Write only. An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  email_ccs?: TicketsUpdateRequestInputCase0TicketEmailCcsList | null;
+  email_ccs?: TicketsUpdateRequestInputCase0TicketEmailCcsList | null | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Alias for custom_fields. Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  fields?: TicketsUpdateRequestInputCase0TicketFieldsList;
+  fields?: TicketsUpdateRequestInputCase0TicketFieldsList | undefined;
   /** Write only. An array of objects that represents agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-followers). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  followers?: TicketsUpdateRequestInputCase0TicketFollowersList;
+  followers?: TicketsUpdateRequestInputCase0TicketFollowersList | undefined;
   /** The topic in the Zendesk Web portal this ticket originated from, if any. The Web portal is deprecated */
-  forum_topic_id?: number;
+  forum_topic_id?: number | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Write only. A single macro ID to be recorded in the ticket audit */
-  macro_id?: number;
+  macro_id?: number | undefined;
   /** Write only. List of macro IDs to be recorded in the ticket audit */
-  macro_ids?: TicketsUpdateRequestInputCase0TicketMacroIdsList;
+  macro_ids?: TicketsUpdateRequestInputCase0TicketMacroIdsList | undefined;
   /** Write only. Metadata for the audit. In the `audit` object, the data is specified in the `custom` property of the `metadata` object. See [Setting Metadata](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-metadata) */
-  metadata?: TicketsUpdateRequestInputCase0TicketMetadataMap;
+  metadata?: TicketsUpdateRequestInputCase0TicketMetadataMap | undefined;
   /** The organization of the requester. You can only specify the ID of an organization associated with the requester. See [Organization Memberships](/api-reference/ticketing/organizations/organization_memberships/) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** Write only. The Zendesk Resource Name (ZRN) of the origin for this ticket */
-  origin_zrn?: string;
+  origin_zrn?: string | undefined;
   /** The urgency with which the ticket should be addressed */
-  priority?: TicketsUpdateRequestInputCase0TicketPriority | (string & {}) | null;
+  priority?: TicketsUpdateRequestInputCase0TicketPriority | (string & {}) | null | undefined;
   /** For tickets of type "incident", the ID of the problem the incident is linked to */
-  problem_id?: number | null;
+  problem_id?: number | null | undefined;
   /** The dynamic content placeholder, if present, or the "subject" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/). When set on create or update, overrides the `subject` field. */
-  raw_subject?: string;
+  raw_subject?: string | undefined;
   /** The original recipient e-mail address of the ticket. Notification emails for the ticket are sent from this address */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Write only. Alternative to requester_id for specifying the ticket requester. Can be provided as: - Email string: "user@example.com" - User ID integer: 12345 - User object: {name: "John Doe", email: "john@example.com"} If both requester and requester_id are provided, requester_id takes precedence. When creating a ticket, if the user doesn't exist, they may be created automatically depending on account settings. */
-  requester?: TicketsUpdateRequestInputCase0TicketRequester;
+  requester?: TicketsUpdateRequestInputCase0TicketRequester | undefined;
   /** The user who requested this ticket */
-  requester_id?: number | null;
+  requester_id?: number | null | undefined;
   /** Write only. Optional boolean. When true and an `updated_stamp` date is included, protects against ticket update collisions and returns a message to let you know if one occurs. See [Protecting against ticket update collisions](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#protecting-against-ticket-update-collisions). A value of false has the same effect as true. Omit the property to force the updates to not be safe */
-  safe_update?: boolean;
+  safe_update?: boolean | undefined;
   /** An array of the numeric IDs of sharing agreements. Note that this replaces any existing agreements */
-  sharing_agreement_ids?: TicketsUpdateRequestInputCase0TicketSharingAgreementIdsList;
+  sharing_agreement_ids?: TicketsUpdateRequestInputCase0TicketSharingAgreementIdsList | undefined;
   /** Write only. Sharing agreement configuration for the ticket. Accepts a single object or an array of objects. */
-  sharing_agreements?: TicketsUpdateRequestInputCase0TicketSharingAgreements;
+  sharing_agreements?: TicketsUpdateRequestInputCase0TicketSharingAgreements | undefined;
   /** The state of the ticket. If your account has activated custom ticket statuses, this is the ticket's status category. See [custom ticket statuses](#custom-ticket-statuses) */
-  status?: TicketsUpdateRequestInputCase0TicketStatus | (string & {});
+  status?: TicketsUpdateRequestInputCase0TicketStatus | (string & {}) | undefined;
   /** The value of the subject field for this ticket. See [Subject](/api-reference/ticketing/tickets/tickets/#subject) */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket. If not specified, defaults to the authenticated user. */
-  submitter_id?: number | null;
+  submitter_id?: number | null | undefined;
   /** The type of support that handled the ticket */
-  support_type?: TicketsUpdateRequestInputCase0TicketSupportType | (string & {}) | null;
+  support_type?: TicketsUpdateRequestInputCase0TicketSupportType | (string & {}) | null | undefined;
   /** Write only. The ID of the suspended ticket being recovered */
-  suspended_ticket_id?: number;
+  suspended_ticket_id?: number | undefined;
   /** Write only. The suspension type ID when recovering a suspended ticket */
-  suspension_type_id?: number;
+  suspension_type_id?: number | undefined;
   /** Write only. System metadata for the ticket, typically set by internal clients */
-  system_metadata?: TicketObjectInputSystemMetadata;
+  system_metadata?: TicketObjectInputSystemMetadata | undefined;
   /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
-  tags?: TicketsUpdateRequestInputCase0TicketTags;
+  tags?: TicketsUpdateRequestInputCase0TicketTags | undefined;
   /** Write only. TDE workspace information for the ticket */
-  tde_workspace?: TicketsUpdateRequestInputCase0TicketTdeWorkspace;
+  tde_workspace?: TicketsUpdateRequestInputCase0TicketTdeWorkspace | undefined;
   /** Enterprise only. The id of the ticket form to render for the ticket */
-  ticket_form_id?: number | null;
+  ticket_form_id?: number | null | undefined;
   /** Write only. A TPE voice comment for Talk Partner Edition tickets */
-  tpe_voice_comment?: TicketObjectInputTpeVoiceComment;
+  tpe_voice_comment?: TicketObjectInputTpeVoiceComment | undefined;
   /** The type of this ticket */
-  type?: TicketsUpdateRequestInputCase0TicketType | (string & {}) | null;
+  type?: TicketsUpdateRequestInputCase0TicketType | (string & {}) | null | undefined;
   /** Write only. Datetime of last update received from API. See the `safe_update` property */
-  updated_stamp?: string;
+  updated_stamp?: string | undefined;
   /** Write only. The id of a closed ticket when creating a follow-up ticket. See [Creating a follow-up ticket](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#creating-a-follow-up-ticket) */
-  via_followup_source_id?: number;
+  via_followup_source_id?: number | undefined;
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
-  via_id?: number;
+  via_id?: number | undefined;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketObjectInputVoiceComment;
+  voice_comment?: TicketObjectInputVoiceComment | undefined;
   /** Tags to add to existing tags without overwriting */
-  additional_tags?: TicketsUpdateRequestInputCase0TicketAdditionalTagsList;
+  additional_tags?: TicketsUpdateRequestInputCase0TicketAdditionalTagsList | undefined;
   /** Tags to remove from the ticket */
-  remove_tags?: TicketsUpdateRequestInputCase0TicketRemoveTagsList;
+  remove_tags?: TicketsUpdateRequestInputCase0TicketRemoveTagsList | undefined;
 }
 export interface TicketsUpdateRequestInputCase0 {
   ticket: TicketsUpdateRequestInputCase0Ticket;
@@ -11588,9 +11643,9 @@ export type TicketsUpdateRequestInputCase1TicketsItemTdeWorkspaceWorkspace =
   TicketObjectInputTdeWorkspacePreviousWorkspace;
 /** Write only. TDE workspace information for the ticket */
 export interface TicketsUpdateRequestInputCase1TicketsItemTdeWorkspace {
-  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
-  type?: TicketsUpdateRequestInputCase1TicketsItemTdeWorkspaceType | (string & {});
-  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace;
+  previous_workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
+  type?: TicketsUpdateRequestInputCase1TicketsItemTdeWorkspaceType | (string & {}) | undefined;
+  workspace?: TicketObjectInputTdeWorkspacePreviousWorkspace | undefined;
 }
 /** Write only. A TPE voice comment for Talk Partner Edition tickets */
 export type TicketsUpdateRequestInputCase1TicketsItemTpeVoiceComment =
@@ -11609,104 +11664,112 @@ export type TicketsUpdateRequestInputCase1TicketsItemAdditionalTagsList = Array<
 export type TicketsUpdateRequestInputCase1TicketsItemRemoveTagsList = Array<string>;
 export interface TicketsUpdateRequestInputCase1TicketsItem {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
-  additional_collaborators?: TicketsUpdateRequestInputCase1TicketsItemAdditionalCollaboratorsList;
+  additional_collaborators?:
+    | TicketsUpdateRequestInputCase1TicketsItemAdditionalCollaboratorsList
+    | undefined;
   /** Write only. The email address of the agent to assign the ticket to */
-  assignee_email?: string;
+  assignee_email?: string | undefined;
   /** The agent currently assigned to the ticket */
-  assignee_id?: number | null;
+  assignee_id?: number | null | undefined;
   /** Write only. An array of the IDs of attribute values to be associated with the ticket */
-  attribute_value_ids?: TicketsUpdateRequestInputCase1TicketsItemAttributeValueIdsList;
+  attribute_value_ids?: TicketsUpdateRequestInputCase1TicketsItemAttributeValueIdsList | undefined;
   /** The id of the brand this ticket is associated with. See [Setting up multiple brands](https://support.zendesk.com/hc/en-us/articles/4408829476378) */
-  brand_id?: number | null;
+  brand_id?: number | null | undefined;
   /** The ids of users currently CC'ed on the ticket */
-  collaborator_ids?: TicketsUpdateRequestInputCase1TicketsItemCollaboratorIdsList;
+  collaborator_ids?: TicketsUpdateRequestInputCase1TicketsItemCollaboratorIdsList | undefined;
   /** Write only. Users to add as cc's when creating a ticket. See [Setting Collaborators](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-collaborators) */
-  collaborators?: TicketsUpdateRequestInputCase1TicketsItemCollaboratorsList;
-  comment?: TicketCommentObjectInput;
+  collaborators?: TicketsUpdateRequestInputCase1TicketsItemCollaboratorsList | undefined;
+  comment?: TicketCommentObjectInput | undefined;
   /** Custom field values to set on the ticket. Each entry specifies a field ID and its value. See [Setting custom field values](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#setting-custom-field-values) */
-  custom_fields?: TicketsUpdateRequestInputCase1TicketsItemCustomFieldsList;
+  custom_fields?: TicketsUpdateRequestInputCase1TicketsItemCustomFieldsList | undefined;
   /** The custom ticket status id of the ticket. See [custom ticket statuses](#custom-ticket-statuses) */
-  custom_status_id?: number | null;
+  custom_status_id?: number | null | undefined;
   /** The first comment on the ticket. When [creating a ticket](#create-ticket), use `comment` to set the description. See [Description and first comment](#description-and-first-comment). On create, can be set directly as an alternative to `comment`. Silently ignored on update. */
-  description?: string;
+  description?: string | undefined;
   /** If this is a ticket of type "task" it has a due date. Due date format uses [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Write only. An array of objects that represent agent or end users email CCs to add or delete from the ticket. See [Setting email CCs](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-email-ccs). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  email_ccs?: TicketsUpdateRequestInputCase1TicketsItemEmailCcsList | null;
+  email_ccs?: TicketsUpdateRequestInputCase1TicketsItemEmailCcsList | null | undefined;
   /** An id you can use to link Zendesk Support tickets to local records */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Alias for custom_fields. Custom field values to set on the ticket. Each entry specifies a field ID and its value. */
-  fields?: TicketsUpdateRequestInputCase1TicketsItemFieldsList;
+  fields?: TicketsUpdateRequestInputCase1TicketsItemFieldsList | undefined;
   /** Write only. An array of objects that represents agent followers to add or delete from the ticket. See [Setting followers](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-followers). Ignored when [CCs and followers](https://support.zendesk.com/hc/en-us/articles/4408822451482) is not enabled */
-  followers?: TicketsUpdateRequestInputCase1TicketsItemFollowersList;
+  followers?: TicketsUpdateRequestInputCase1TicketsItemFollowersList | undefined;
   /** The topic in the Zendesk Web portal this ticket originated from, if any. The Web portal is deprecated */
-  forum_topic_id?: number;
+  forum_topic_id?: number | undefined;
   /** The group this ticket is assigned to */
-  group_id?: number | null;
+  group_id?: number | null | undefined;
   /** Write only. A single macro ID to be recorded in the ticket audit */
-  macro_id?: number;
+  macro_id?: number | undefined;
   /** Write only. List of macro IDs to be recorded in the ticket audit */
-  macro_ids?: TicketsUpdateRequestInputCase1TicketsItemMacroIdsList;
+  macro_ids?: TicketsUpdateRequestInputCase1TicketsItemMacroIdsList | undefined;
   /** Write only. Metadata for the audit. In the `audit` object, the data is specified in the `custom` property of the `metadata` object. See [Setting Metadata](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#setting-metadata) */
-  metadata?: TicketsUpdateRequestInputCase1TicketsItemMetadataMap;
+  metadata?: TicketsUpdateRequestInputCase1TicketsItemMetadataMap | undefined;
   /** The organization of the requester. You can only specify the ID of an organization associated with the requester. See [Organization Memberships](/api-reference/ticketing/organizations/organization_memberships/) */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** Write only. The Zendesk Resource Name (ZRN) of the origin for this ticket */
-  origin_zrn?: string;
+  origin_zrn?: string | undefined;
   /** The urgency with which the ticket should be addressed */
-  priority?: TicketsUpdateRequestInputCase1TicketsItemPriority | (string & {}) | null;
+  priority?: TicketsUpdateRequestInputCase1TicketsItemPriority | (string & {}) | null | undefined;
   /** For tickets of type "incident", the ID of the problem the incident is linked to */
-  problem_id?: number | null;
+  problem_id?: number | null | undefined;
   /** The dynamic content placeholder, if present, or the "subject" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/). When set on create or update, overrides the `subject` field. */
-  raw_subject?: string;
+  raw_subject?: string | undefined;
   /** The original recipient e-mail address of the ticket. Notification emails for the ticket are sent from this address */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Write only. Alternative to requester_id for specifying the ticket requester. Can be provided as: - Email string: "user@example.com" - User ID integer: 12345 - User object: {name: "John Doe", email: "john@example.com"} If both requester and requester_id are provided, requester_id takes precedence. When creating a ticket, if the user doesn't exist, they may be created automatically depending on account settings. */
-  requester?: TicketsUpdateRequestInputCase1TicketsItemRequester;
+  requester?: TicketsUpdateRequestInputCase1TicketsItemRequester | undefined;
   /** The user who requested this ticket */
-  requester_id?: number | null;
+  requester_id?: number | null | undefined;
   /** Write only. Optional boolean. When true and an `updated_stamp` date is included, protects against ticket update collisions and returns a message to let you know if one occurs. See [Protecting against ticket update collisions](/documentation/ticketing/managing-tickets/creating-and-updating-tickets/#protecting-against-ticket-update-collisions). A value of false has the same effect as true. Omit the property to force the updates to not be safe */
-  safe_update?: boolean;
+  safe_update?: boolean | undefined;
   /** An array of the numeric IDs of sharing agreements. Note that this replaces any existing agreements */
-  sharing_agreement_ids?: TicketsUpdateRequestInputCase1TicketsItemSharingAgreementIdsList;
+  sharing_agreement_ids?:
+    | TicketsUpdateRequestInputCase1TicketsItemSharingAgreementIdsList
+    | undefined;
   /** Write only. Sharing agreement configuration for the ticket. Accepts a single object or an array of objects. */
-  sharing_agreements?: TicketsUpdateRequestInputCase1TicketsItemSharingAgreements;
+  sharing_agreements?: TicketsUpdateRequestInputCase1TicketsItemSharingAgreements | undefined;
   /** The state of the ticket. If your account has activated custom ticket statuses, this is the ticket's status category. See [custom ticket statuses](#custom-ticket-statuses) */
-  status?: TicketsUpdateRequestInputCase1TicketsItemStatus | (string & {});
+  status?: TicketsUpdateRequestInputCase1TicketsItemStatus | (string & {}) | undefined;
   /** The value of the subject field for this ticket. See [Subject](/api-reference/ticketing/tickets/tickets/#subject) */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The user who submitted the ticket. The submitter always becomes the author of the first comment on the ticket. If not specified, defaults to the authenticated user. */
-  submitter_id?: number | null;
+  submitter_id?: number | null | undefined;
   /** The type of support that handled the ticket */
-  support_type?: TicketsUpdateRequestInputCase1TicketsItemSupportType | (string & {}) | null;
+  support_type?:
+    | TicketsUpdateRequestInputCase1TicketsItemSupportType
+    | (string & {})
+    | null
+    | undefined;
   /** Write only. The ID of the suspended ticket being recovered */
-  suspended_ticket_id?: number;
+  suspended_ticket_id?: number | undefined;
   /** Write only. The suspension type ID when recovering a suspended ticket */
-  suspension_type_id?: number;
+  suspension_type_id?: number | undefined;
   /** Write only. System metadata for the ticket, typically set by internal clients */
-  system_metadata?: TicketObjectInputSystemMetadata;
+  system_metadata?: TicketObjectInputSystemMetadata | undefined;
   /** The tags applied to this ticket. Unless otherwise specified, the [set tag](/api-reference/ticketing/ticket-management/tags/#set-tags) behavior is used, which overwrites and replaces existing tags */
-  tags?: TicketsUpdateRequestInputCase1TicketsItemTags;
+  tags?: TicketsUpdateRequestInputCase1TicketsItemTags | undefined;
   /** Write only. TDE workspace information for the ticket */
-  tde_workspace?: TicketsUpdateRequestInputCase1TicketsItemTdeWorkspace;
+  tde_workspace?: TicketsUpdateRequestInputCase1TicketsItemTdeWorkspace | undefined;
   /** Enterprise only. The id of the ticket form to render for the ticket */
-  ticket_form_id?: number | null;
+  ticket_form_id?: number | null | undefined;
   /** Write only. A TPE voice comment for Talk Partner Edition tickets */
-  tpe_voice_comment?: TicketObjectInputTpeVoiceComment;
+  tpe_voice_comment?: TicketObjectInputTpeVoiceComment | undefined;
   /** The type of this ticket */
-  type?: TicketsUpdateRequestInputCase1TicketsItemType | (string & {}) | null;
+  type?: TicketsUpdateRequestInputCase1TicketsItemType | (string & {}) | null | undefined;
   /** Write only. Datetime of last update received from API. See the `safe_update` property */
-  updated_stamp?: string;
+  updated_stamp?: string | undefined;
   /** Write only. The id of a closed ticket when creating a follow-up ticket. See [Creating a follow-up ticket](/documentation/ticketing/managing-tickets/creating-and-updating-tickets#creating-a-follow-up-ticket) */
-  via_followup_source_id?: number;
+  via_followup_source_id?: number | undefined;
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
-  via_id?: number;
+  via_id?: number | undefined;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketObjectInputVoiceComment;
+  voice_comment?: TicketObjectInputVoiceComment | undefined;
   /** Tags to add to existing tags without overwriting */
-  additional_tags?: TicketsUpdateRequestInputCase1TicketsItemAdditionalTagsList;
+  additional_tags?: TicketsUpdateRequestInputCase1TicketsItemAdditionalTagsList | undefined;
   /** Tags to remove from the ticket */
-  remove_tags?: TicketsUpdateRequestInputCase1TicketsItemRemoveTagsList;
+  remove_tags?: TicketsUpdateRequestInputCase1TicketsItemRemoveTagsList | undefined;
 }
 export type TicketsUpdateRequestInputCase1TicketsList =
   Array<TicketsUpdateRequestInputCase1TicketsItem>;
@@ -11718,7 +11781,7 @@ export type TicketsUpdateRequestInput =
   | TicketsUpdateRequestInputCase1;
 export interface TicketsUpdateManyRequest {
   /** Comma-separated list of ticket ids */
-  ids?: string;
+  ids?: string | undefined;
   body: TicketsUpdateRequestInput;
 }
 export interface TriggerRevisionRequest {
@@ -11729,21 +11792,21 @@ export interface TriggerRevisionRequest {
 }
 export type TriggerRevisionResponseTriggerRevisionSnapshotActionsList = Array<TriggerActionObject>;
 export interface TriggerRevisionResponseTriggerRevisionSnapshot {
-  actions?: TriggerRevisionResponseTriggerRevisionSnapshotActionsList;
-  active?: boolean;
-  conditions?: TriggerConditionsObject;
-  description?: string | null;
-  title?: string;
+  actions?: TriggerRevisionResponseTriggerRevisionSnapshotActionsList | undefined;
+  active?: boolean | undefined;
+  conditions?: TriggerConditionsObject | undefined;
+  description?: string | null | undefined;
+  title?: string | undefined;
 }
 export interface TriggerRevisionResponseTriggerRevision {
-  author_id?: number;
-  created_at?: string;
-  id?: number;
-  snapshot?: TriggerRevisionResponseTriggerRevisionSnapshot;
-  url?: string;
+  author_id?: number | undefined;
+  created_at?: string | undefined;
+  id?: number | undefined;
+  snapshot?: TriggerRevisionResponseTriggerRevisionSnapshot | undefined;
+  url?: string | undefined;
 }
 export interface TriggerRevisionResponse {
-  trigger_revision?: TriggerRevisionResponseTriggerRevision;
+  trigger_revision?: TriggerRevisionResponseTriggerRevision | undefined;
 }
 export interface UnassignOrganizationRequest {
   /** The id of the user */
@@ -11768,24 +11831,24 @@ export type UpdateAccessRuleRequestAccessRuleConditionsAnyList = Array<AccessRul
 /** The conditions that define when this rule applies */
 export interface UpdateAccessRuleRequestAccessRuleConditions {
   /** All conditions must be true (AND logic) */
-  all?: UpdateAccessRuleRequestAccessRuleConditionsAllList;
+  all?: UpdateAccessRuleRequestAccessRuleConditionsAllList | undefined;
   /** Any condition can be true (OR logic) */
-  any?: UpdateAccessRuleRequestAccessRuleConditionsAnyList;
+  any?: UpdateAccessRuleRequestAccessRuleConditionsAnyList | undefined;
 }
 export interface UpdateAccessRuleRequestAccessRule {
   /** The conditions that define when this rule applies */
-  conditions?: UpdateAccessRuleRequestAccessRuleConditions;
+  conditions?: UpdateAccessRuleRequestAccessRuleConditions | undefined;
   /** A description of what this access rule does */
-  description?: string;
+  description?: string | undefined;
   /** The title of the access rule */
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateAccessRuleRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The access rule ID */
   id: string;
-  access_rule?: UpdateAccessRuleRequestAccessRule;
+  access_rule?: UpdateAccessRuleRequestAccessRule | undefined;
 }
 export interface UpdateAccountEmailSettingsRequestSettings {
   email: AccountSettingsEmailObject;
@@ -11796,12 +11859,12 @@ export interface UpdateAccountEmailSettingsRequest {
 export interface UpdateAccountSettingsRequest {}
 export interface AttachmentUpdateInput {
   /** If true, allows access to attachments with detected malware. */
-  malware_access_override?: boolean;
+  malware_access_override?: boolean | undefined;
 }
 export interface UpdateAttachmentRequest {
   /** The ID of the attachment */
   attachment_id: number;
-  attachment?: AttachmentUpdateInput;
+  attachment?: AttachmentUpdateInput | undefined;
 }
 export interface UpdateAttributeRequest {
   /** The ID of the skill-based routing attribute */
@@ -11826,7 +11889,7 @@ export interface UpdateAutomationRequest {
 export interface UpdateBrandRequest {
   /** The ID of the brand */
   brand_id: number;
-  brand?: BrandObjectInput;
+  brand?: BrandObjectInput | undefined;
 }
 export interface UpdateBrandLogoRequest {
   /** The ID of the brand */
@@ -11841,7 +11904,7 @@ export interface UpdateClientRequest {
 /** Admin Center UI settings for onboarding and preferences */
 export interface UpdateCurrentUserSettingsRequestSettingsAdminCenter {
   /** Whether the Admin Center side navigation is open */
-  has_admin_center_side_nav_open?: boolean;
+  has_admin_center_side_nav_open?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
@@ -11861,17 +11924,19 @@ export interface UpdateCurrentUserSettingsRequestSettingsLotus {
   /** Agent workspace theme preference (0=light, 1=dark, 2=system) */
   agent_workspace_theme_preference?:
     | UpdateCurrentUserSettingsRequestSettingsLotusAgentWorkspaceThemePreference
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Theme preference for conversation panel (0=light, 1=dark, 2=system) */
   agent_workspace_theme_preference_for_conversation_panel?:
     | UpdateCurrentUserSettingsRequestSettingsLotusAgentWorkspaceThemePreferenceForConversationPanel
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Enable keyboard shortcuts in Lotus */
-  keyboard_shortcuts_enabled?: boolean;
+  keyboard_shortcuts_enabled?: boolean | undefined;
   /** Enable macro shortcuts in Lotus */
-  macro_shortcuts_enabled?: boolean;
+  macro_shortcuts_enabled?: boolean | undefined;
   /** Show tooltips for first-time user */
-  show_onboarding_tooltips?: boolean;
+  show_onboarding_tooltips?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
@@ -11879,13 +11944,19 @@ export type UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList = Array
 /** User settings to update */
 export interface UpdateCurrentUserSettingsRequestSettings {
   /** Admin Center UI settings for onboarding and preferences */
-  admin_center?: UpdateCurrentUserSettingsRequestSettingsAdminCenter;
+  admin_center?: UpdateCurrentUserSettingsRequestSettingsAdminCenter | undefined;
   /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
-  agent_home_pinned_views?: UpdateCurrentUserSettingsRequestSettingsAgentHomePinnedViewsList | null;
+  agent_home_pinned_views?:
+    | UpdateCurrentUserSettingsRequestSettingsAgentHomePinnedViewsList
+    | null
+    | undefined;
   /** Lotus UI settings for onboarding, tooltips, and feature preferences */
-  lotus?: UpdateCurrentUserSettingsRequestSettingsLotus;
+  lotus?: UpdateCurrentUserSettingsRequestSettingsLotus | undefined;
   /** Order of shared views (array of view IDs) */
-  shared_views_order?: UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList | null;
+  shared_views_order?:
+    | UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList
+    | null
+    | undefined;
 }
 export interface UpdateCurrentUserSettingsRequest {
   /** User settings to update */
@@ -11926,39 +11997,39 @@ export interface UpdateCustomRoleByIdRequest {
 }
 export interface CustomStatusUpdateInput {
   /** True if the custom status is set as active; inactive if false */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The dynamic content placeholder, if present, or the "agent_label" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  agent_label?: string;
+  agent_label?: string | undefined;
   /** The dynamic content placeholder, if present, or the "description" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  description?: string;
+  description?: string | undefined;
   /** The dynamic content placeholder, if present, or the "end_user_description" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  end_user_description?: string;
+  end_user_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the "end_user_label" value, if not. See [Dynamic Content Items](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  end_user_label?: string;
+  end_user_label?: string | undefined;
 }
 export interface UpdateCustomStatusRequest {
   /** The id of the custom status */
   custom_status_id: number;
-  custom_status?: CustomStatusUpdateInput;
+  custom_status?: CustomStatusUpdateInput | undefined;
 }
 export interface UpdateCustomTaskListRequestTaskList {
   /** The description of the task list */
-  description?: string;
+  description?: string | undefined;
   /** The name of the task list */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateCustomTaskListRequest {
   /** The id of the task list */
   task_list_id: string;
-  task_list?: UpdateCustomTaskListRequestTaskList;
+  task_list?: UpdateCustomTaskListRequestTaskList | undefined;
 }
 export interface UpdateDeletionScheduleRequest {
   /** The id of the deletion schedule */
   deletion_schedule_id: number;
-  deletion_schedule?: DeletionScheduleInput;
+  deletion_schedule?: DeletionScheduleInput | undefined;
 }
 export interface UpdateDeletionScheduleResponse {
-  deletion_schedule?: DeletionSchedule;
+  deletion_schedule?: DeletionSchedule | undefined;
 }
 export interface UpdateDynamicContentItemRequest {
   /** The ID of the dynamic content item */
@@ -11972,11 +12043,11 @@ export interface UpdateDynamicContentVariantRequest {
 }
 export interface UpdateGroupRequestGroup {
   /** The description of the group */
-  description?: string;
+  description?: string | undefined;
   /** If true, the group is public. If false, the group is private. You can't change a private group to a public group */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** The name of the group */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateGroupRequest {
   /** The ID of the group */
@@ -11995,18 +12066,18 @@ export interface UpdateItamAssetRequest {
 export type UpdateItamAssetTypeRequestAssetTypePhotoMap = { [key: string]: unknown | undefined };
 export interface UpdateItamAssetTypeRequestAssetType {
   /** A description of the asset type */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An id you can use to link asset types to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** A unique display name for the asset type */
-  name?: string;
+  name?: string | undefined;
   /** Sets or removes the asset type's icon. Setting an icon requires a `multipart/form-data` request with a file field named `asset_type[photo][uploaded_data]` -- see the "Adding a photo" code sample. Pass `null` to remove the existing icon via a normal JSON request. */
-  photo?: UpdateItamAssetTypeRequestAssetTypePhotoMap | null;
+  photo?: UpdateItamAssetTypeRequestAssetTypePhotoMap | null | undefined;
 }
 export interface UpdateItamAssetTypeRequest {
   /** The id of the asset type */
   asset_type_id: string;
-  asset_type?: UpdateItamAssetTypeRequestAssetType;
+  asset_type?: UpdateItamAssetTypeRequestAssetType | undefined;
 }
 export type UpdateItamFieldRequestAssetTypeIdsCase0List = Array<string>;
 export type UpdateItamFieldRequestAssetTypeIdsCase1 = "all" | "none";
@@ -12018,40 +12089,40 @@ export interface UpdateItamFieldRequest {
   /** The ID of the asset field */
   id: number;
   /** Array of asset type ids, "all", or "none". If "none", the field isn't attached to any asset type. */
-  asset_type_ids?: UpdateItamFieldRequestAssetTypeIds;
-  field?: CustomObjectFieldInput;
+  asset_type_ids?: UpdateItamFieldRequestAssetTypeIds | undefined;
+  field?: CustomObjectFieldInput | undefined;
 }
 export interface UpdateItamLocationRequestLocation {
   /** An id you can use to connect a location to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Display name for the location */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateItamLocationRequest {
   /** The id of the location */
   location_id: string;
-  location?: UpdateItamLocationRequestLocation;
+  location?: UpdateItamLocationRequestLocation | undefined;
 }
 export interface UpdateItamStatusRequestStatus {
   /** Description of the status */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An id you can use to connect a status to external data */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Display name for the status */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateItamStatusRequest {
   /** The id of the asset status */
   status_id: string;
-  status?: UpdateItamStatusRequestStatus;
+  status?: UpdateItamStatusRequestStatus | undefined;
 }
 export interface UpdateMacroRequest {
   /** The ID of the macro */
   macro_id: number;
-  macro?: MacroInput;
+  macro?: MacroInput | undefined;
 }
 export interface UpdateMacroResponse {
-  macro?: MacroObject;
+  macro?: MacroObject | undefined;
 }
 export interface UpdateManyAutomationsRequest {}
 export interface UpdateManyDynamicContentVariantsRequest {
@@ -12060,59 +12131,59 @@ export interface UpdateManyDynamicContentVariantsRequest {
 }
 export interface UpdateManyMacrosRequestMacrosItem {
   /** The active status of the macro (true or false) */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The ID of the macro to update */
   id: number;
   /** The new position of the macro */
-  position?: number;
+  position?: number | undefined;
 }
 export type UpdateManyMacrosRequestMacrosList = Array<UpdateManyMacrosRequestMacrosItem>;
 export interface UpdateManyMacrosRequest {
-  macros?: UpdateManyMacrosRequestMacrosList;
+  macros?: UpdateManyMacrosRequestMacrosList | undefined;
 }
 export type UpdateManyMacrosResponseMacrosList = Array<MacroObject>;
 export interface UpdateManyMacrosResponse {
-  macros?: UpdateManyMacrosResponseMacrosList;
+  macros?: UpdateManyMacrosResponseMacrosList | undefined;
   /** the total record count */
-  count?: number;
+  count?: number | undefined;
   /** the URL of the next page */
-  next_page?: string | null;
+  next_page?: string | null | undefined;
   /** the URL of the previous page */
-  previous_page?: string | null;
+  previous_page?: string | null | undefined;
 }
 export interface ObjectTriggerBulkUpdateItem {
   /** Whether an object trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The id of the object trigger to update */
   id: number;
   /** The new position of the object trigger */
-  position?: number;
+  position?: number | undefined;
 }
 export type UpdateManyObjectTriggersRequestTriggersList = Array<ObjectTriggerBulkUpdateItem>;
 export interface UpdateManyObjectTriggersRequest {
   /** The key of a custom object */
   custom_object_key: string;
-  triggers?: UpdateManyObjectTriggersRequestTriggersList;
+  triggers?: UpdateManyObjectTriggersRequestTriggersList | undefined;
 }
 export interface UpdateManyOrganizationsRequest {
   /** A list of organization ids */
-  ids?: string;
+  ids?: string | undefined;
   /** A list of external ids */
-  external_ids?: string;
+  external_ids?: string | undefined;
 }
 export interface TriggerBulkUpdateItem {
   /** The active status of the ticket trigger (true or false) */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The ID of the new category the ticket trigger is to be moved to */
-  category_id?: string;
+  category_id?: string | undefined;
   /** The ID of the ticket trigger to update */
   id: number;
   /** The new position of the ticket trigger */
-  position?: number;
+  position?: number | undefined;
 }
 export type UpdateManyTriggersRequestTriggersList = Array<TriggerBulkUpdateItem>;
 export interface UpdateManyTriggersRequest {
-  triggers?: UpdateManyTriggersRequestTriggersList;
+  triggers?: UpdateManyTriggersRequestTriggersList | undefined;
 }
 /** The IDs of the brands the agent is assigned to */
 export type UserUpdateInputAgentBrandIdsList = Array<number>;
@@ -12128,68 +12199,68 @@ export type UserUpdateInputUserFieldsMap = { [key: string]: unknown | undefined 
 /** Input schema for updating a user. All fields are optional - only include the fields you want to update. */
 export interface UserUpdateInput {
   /** The IDs of the brands the agent is assigned to */
-  agent_brand_ids?: UserUpdateInputAgentBrandIdsList | null;
+  agent_brand_ids?: UserUpdateInputAgentBrandIdsList | null | undefined;
   /** An alias displayed to end users */
-  alias?: string | null;
+  alias?: string | null | undefined;
   /** Write-only ownership control for the Shared Email EAP. When true, automatic ownership is applied only to the identity created from `email`. Ignored unless the account has the Shared Email EAP enabled. */
-  auto_ownership?: boolean;
+  auto_ownership?: boolean | undefined;
   /** A custom role if the user is an agent on the Enterprise plan or above */
-  custom_role_id?: number | null;
+  custom_role_id?: number | null | undefined;
   /** The id of the user's default group */
-  default_group_id?: number | null;
+  default_group_id?: number | null | undefined;
   /** Any details you want to store about the user, such as an address */
-  details?: string | null;
+  details?: string | null | undefined;
   /** The user's primary email address */
-  email?: string;
+  email?: string | undefined;
   /** A unique identifier from another system */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the user's default group. Alias for default_group_id */
-  group_id?: number | null;
-  identities?: UserUpdateInputIdentitiesList;
+  group_id?: number | null | undefined;
+  identities?: UserUpdateInputIdentitiesList | undefined;
   /** The user's language preference. Alias for locale. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The user's locale. A BCP-47 compliant tag for the locale. If both "locale" and "locale_id" are present on create or update, "locale_id" is ignored and only "locale" is used. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The user's language identifier */
-  locale_id?: number | null;
+  locale_id?: number | null | undefined;
   /** Designates whether the user has forum moderation capabilities */
-  moderator?: boolean | null;
+  moderator?: boolean | null | undefined;
   /** The user's name */
-  name?: string;
+  name?: string | undefined;
   /** Any notes you want to store about the user */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** true if the user can only create private comments */
-  only_private_comments?: boolean | null;
+  only_private_comments?: boolean | null | undefined;
   /** The id of the user's organization */
-  organization_id?: number | null;
+  organization_id?: number | null | undefined;
   /** The ids of the user's organizations */
-  organization_ids?: UserUpdateInputOrganizationIdsList | null;
+  organization_ids?: UserUpdateInputOrganizationIdsList | null | undefined;
   /** The user's primary phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The user's profile picture */
-  photo?: UserUpdateInputPhotoMap | null;
+  photo?: UserUpdateInputPhotoMap | null | undefined;
   /** A URL pointing to the user's profile picture */
-  remote_photo_url?: string | null;
+  remote_photo_url?: string | null | undefined;
   /** The user's role */
-  role?: string;
+  role?: string | undefined;
   /** Whether the phone number is shared or not */
-  shared_phone_number?: boolean | null;
+  shared_phone_number?: boolean | null | undefined;
   /** The user's signature. Only agents and admins can have signatures */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** If true, the user won't receive a verification email */
-  skip_verify_email?: boolean | null;
+  skip_verify_email?: boolean | null | undefined;
   /** If the user is suspended */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** The user's tags */
-  tags?: UserUpdateInputTagsList | null;
+  tags?: UserUpdateInputTagsList | null | undefined;
   /** Specifies which tickets the user has access to */
-  ticket_restriction?: string | null;
+  ticket_restriction?: string | null | undefined;
   /** The user's time zone */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
   /** Values of custom fields in the user's profile */
-  user_fields?: UserUpdateInputUserFieldsMap | null;
+  user_fields?: UserUpdateInputUserFieldsMap | null | undefined;
   /** Any of the user's identities is verified */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
 }
 export interface UserUpdateRequest {
   user: UserUpdateInput;
@@ -12201,11 +12272,11 @@ export interface UsersRequest {
 export type UpdateManyUsersRequestBody = UserUpdateRequest | UsersRequest;
 export interface UpdateManyUsersRequest {
   /** Id of the users to update. Comma separated */
-  ids?: string;
+  ids?: string | undefined;
   /** External Id of the users to update. Comma separated */
-  external_ids?: string;
+  external_ids?: string | undefined;
   /** Scopes the bulk update of users matched by `external_ids` to a specific brand or to account-scoped (brand-less) users. Only applicable when the account has brand separation enabled (`brand_user_separation_eap`). Ignored otherwise so existing numeric callers continue to behave as before. Accepted values: * 0 -- restrict the lookup to account-scoped (brand-less) users only. * A numeric brand id -- restrict to that brand. Brands without `user_separation` enabled collapse to account scope (0). Rejected with "400 Bad Request": * "all" -- cross-brand bulk update is not supported on this endpoint. * Any other non-numeric string. * A numeric brand id that does not exist on the account. * Combining `brand_id` with `ids` (use `external_ids` instead -- `ids` are globally unique so brand scoping is meaningless). When `external_ids` is provided without `brand_id`, the request defaults to account scope (0). */
-  brand_id?: number;
+  brand_id?: number | undefined;
   body: UpdateManyUsersRequestBody;
 }
 export interface UpdateManyViewsRequest {}
@@ -12213,25 +12284,25 @@ export interface UpdateManyViewsRequest {}
 export type ObjectTriggerUpdateObjectInputActionsList = Array<TriggerActionObject>;
 export interface ObjectTriggerUpdateObjectInput {
   /** An array of actions the trigger does when its conditions are met. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
-  actions?: ObjectTriggerUpdateObjectInputActionsList;
+  actions?: ObjectTriggerUpdateObjectInputActionsList | undefined;
   /** Whether the trigger is active */
-  active?: boolean;
-  conditions?: TriggerConditionsObject;
+  active?: boolean | undefined;
+  conditions?: TriggerConditionsObject | undefined;
   /** The description of the trigger */
-  description?: string;
+  description?: string | undefined;
   /** Position of the trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The title of the trigger */
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateObjectTriggerRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The ID of the trigger */
   trigger_id: number;
-  trigger?: ObjectTriggerUpdateObjectInput;
+  trigger?: ObjectTriggerUpdateObjectInput | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** The ID of an organization */
@@ -12245,14 +12316,14 @@ export interface UpdateOrganizationFieldRequest {
 export type UpdatePermissionPolicyRequestPolicyRecords = PermissionPolicyRecords;
 export interface UpdatePermissionPolicyRequestPolicy {
   /** Permission settings for different record operations */
-  records?: PermissionPolicyRecords;
+  records?: PermissionPolicyRecords | undefined;
 }
 export interface UpdatePermissionPolicyRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The permission policy ID. Use `custom-role-{custom_role_id}` for custom roles or `end-user` for the end user system role. */
   id: string;
-  policy?: UpdatePermissionPolicyRequestPolicy;
+  policy?: UpdatePermissionPolicyRequestPolicy | undefined;
 }
 export interface UpdateQueueRequest {
   /** The id of the omnichannel routing queue */
@@ -12277,7 +12348,7 @@ export interface UpdateSavedSearchRequest {
   /** The UUID of the saved search */
   id: string;
   /** A JSON-stringified array of filter field IDs to persist alongside the search. Optional. */
-  filters?: string;
+  filters?: string | undefined;
   /** The name given by the agent to the saved search. Must be 255 characters or less. */
   name: string;
   /** The search query string. Must be 2000 characters or less. */
@@ -12303,18 +12374,18 @@ export interface UpdateTargetRequest {
 }
 export interface UpdateTaskItemRequestTaskItem {
   /** If true, marks the task item as complete. The response returns the completion status in `is_completed` */
-  completed?: boolean;
+  completed?: boolean | undefined;
   /** The description of the task item */
-  description?: string;
+  description?: string | undefined;
   /** The name of the task item */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateTaskItemRequest {
   /** The id of the task list */
   task_list_id: string;
   /** The id of the task item */
   task_item_id: string;
-  task_item?: UpdateTaskItemRequestTaskItem;
+  task_item?: UpdateTaskItemRequestTaskItem | undefined;
 }
 /** Delete an existing task */
 export interface UpdateTaskListTemplateRequestTaskListTemplateTasksItemCase0 {
@@ -12326,26 +12397,26 @@ export interface UpdateTaskListTemplateRequestTaskListTemplateTasksItemCase0 {
 /** Update an existing task */
 export interface UpdateTaskListTemplateRequestTaskListTemplateTasksItemCase1 {
   /** The new description of the task */
-  description?: string;
+  description?: string | undefined;
   /** The id of the task to update */
   id: string;
   /** The new name of the task */
-  name?: string;
+  name?: string | undefined;
   /** The new position of the task within the task list template */
-  position?: number;
+  position?: number | undefined;
   /** Whether the task is required when an agent adds the task list to a ticket */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Create a new task */
 export interface UpdateTaskListTemplateRequestTaskListTemplateTasksItemCase2 {
   /** The description of the task */
-  description?: string;
+  description?: string | undefined;
   /** The name of the task */
   name: string;
   /** The position of the task within the task list template */
-  position?: number;
+  position?: number | undefined;
   /** Whether the task is required when an agent adds the task list to a ticket */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type UpdateTaskListTemplateRequestTaskListTemplateTasksItem =
   | UpdateTaskListTemplateRequestTaskListTemplateTasksItemCase0
@@ -12356,15 +12427,15 @@ export type UpdateTaskListTemplateRequestTaskListTemplateTasksList =
   Array<UpdateTaskListTemplateRequestTaskListTemplateTasksItem>;
 export interface UpdateTaskListTemplateRequestTaskListTemplate {
   /** The new description of the task list template */
-  description?: string;
+  description?: string | undefined;
   /** The new active status of the task list template */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the task list template is required */
-  is_required?: boolean;
+  is_required?: boolean | undefined;
   /** The new name of the task list template */
-  name?: string;
+  name?: string | undefined;
   /** Tasks to create, update, or delete for the template */
-  tasks?: UpdateTaskListTemplateRequestTaskListTemplateTasksList;
+  tasks?: UpdateTaskListTemplateRequestTaskListTemplateTasksList | undefined;
 }
 export interface UpdateTaskListTemplateRequest {
   /** The id of the task list template */
@@ -12377,45 +12448,45 @@ export interface UpdateTicketRequest {
   /** The ID of the ticket */
   ticket_id: number;
   /** System metadata for the request, typically set by internal clients */
-  system_metadata?: UpdateTicketRequestSystemMetadataMap;
-  ticket?: TicketObjectInput;
+  system_metadata?: UpdateTicketRequestSystemMetadataMap | undefined;
+  ticket?: TicketObjectInput | undefined;
 }
 export type AuditObjectEventsItemValue = string | number;
 export interface AuditObjectEventsItem {
-  body?: string;
-  field_name?: string;
-  id?: number;
-  type?: string;
-  value?: AuditObjectEventsItemValue;
+  body?: string | undefined;
+  field_name?: string | undefined;
+  id?: number | undefined;
+  type?: string | undefined;
+  value?: AuditObjectEventsItemValue | undefined;
 }
 export type AuditObjectEventsList = Array<AuditObjectEventsItem>;
 export interface AuditObject {
-  author_id?: number;
-  created_at?: string;
-  events?: AuditObjectEventsList;
-  id?: number;
-  metadata?: unknown;
-  ticket_id?: number;
-  via?: ViaObject;
+  author_id?: number | undefined;
+  created_at?: string | undefined;
+  events?: AuditObjectEventsList | undefined;
+  id?: number | undefined;
+  metadata?: unknown | undefined;
+  ticket_id?: number | undefined;
+  via?: ViaObject | undefined;
 }
 export interface TicketUpdateResponseOutput {
-  audit?: AuditObject;
-  ticket?: TicketObjectOutput;
+  audit?: AuditObject | undefined;
+  ticket?: TicketObjectOutput | undefined;
 }
 /** The id of an existing option to update. Omit to create a new option */
 export type TicketFieldOptionUpdateInputId = number | string;
 /** An option for a "tagger" or "multiselect" custom ticket field. Include `id` to update an existing option in place. */
 export interface TicketFieldOptionUpdateInput {
   /** Whether the option is selected by default */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The id of an existing option to update. Omit to create a new option */
-  id?: TicketFieldOptionUpdateInputId;
+  id?: TicketFieldOptionUpdateInputId | undefined;
   /** The presentation name of the option */
-  name?: string;
+  name?: string | undefined;
   /** The dynamic content placeholder, if present, or the `name` value if not */
-  raw_name?: string;
+  raw_name?: string | undefined;
   /** The tag value applied to the ticket when the option is selected */
-  value?: string;
+  value?: string | undefined;
 }
 /** For "tagger" and "multiselect" fields. Unless you want to remove some options, you must specify all existing options in any update request. Omitting an option removes it from the field. Include an option's `id` to update it in place; omit `id` to add a new option. */
 export type TicketFieldUpdateInputCustomFieldOptionsList = Array<TicketFieldOptionUpdateInput>;
@@ -12425,55 +12496,55 @@ export type TicketFieldUpdateInputRelationshipFilterAnyList =
   Array<TicketFieldRelationshipFilterCondition>;
 /** A filter definition that allows your autocomplete to filter results */
 export interface TicketFieldUpdateInputRelationshipFilter {
-  all?: TicketFieldUpdateInputRelationshipFilterAllList;
-  any?: TicketFieldUpdateInputRelationshipFilterAnyList;
+  all?: TicketFieldUpdateInputRelationshipFilterAllList | undefined;
+  any?: TicketFieldUpdateInputRelationshipFilterAnyList | undefined;
 }
 /** The writable attributes accepted when updating a ticket field. The field `type` cannot be changed after creation. */
 export interface TicketFieldUpdateInput {
   /** Whether this field is available */
-  active?: boolean;
+  active?: boolean | undefined;
   /** A description of the ticket field that only agents can see */
-  agent_description?: string;
+  agent_description?: string | undefined;
   /** If true, the field is shown to agents by default. If false, the field is hidden alongside infrequently used fields. Classic interface only */
-  collapsed_for_agents?: boolean;
+  collapsed_for_agents?: boolean | undefined;
   /** For "tagger" and "multiselect" fields. Unless you want to remove some options, you must specify all existing options in any update request. Omitting an option removes it from the field. Include an option's `id` to update it in place; omit `id` to add a new option. */
-  custom_field_options?: TicketFieldUpdateInputCustomFieldOptionsList;
+  custom_field_options?: TicketFieldUpdateInputCustomFieldOptionsList | undefined;
   /** Describes the purpose of the ticket field to users */
-  description?: string;
+  description?: string | undefined;
   /** Whether this field is editable by end users in the help center */
-  editable_in_portal?: boolean;
+  editable_in_portal?: boolean | undefined;
   /** The relative position of the ticket field on a ticket. Note that for accounts with ticket forms, positions are controlled by the different forms */
-  position?: number;
+  position?: number | undefined;
   /** The dynamic content placeholder, if present, or the `description` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_description?: string;
+  raw_description?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** The dynamic content placeholder, if present, or the `title_in_portal` value if not. See [Dynamic Content](/api-reference/ticketing/ticket-management/dynamic_content/) */
-  raw_title_in_portal?: string;
+  raw_title_in_portal?: string | undefined;
   /** For "regexp" fields only. The validation pattern for a field value to be deemed valid */
-  regexp_for_validation?: string;
+  regexp_for_validation?: string | undefined;
   /** A filter definition that allows your autocomplete to filter results */
-  relationship_filter?: TicketFieldUpdateInputRelationshipFilter;
+  relationship_filter?: TicketFieldUpdateInputRelationshipFilter | undefined;
   /** If true, agents must enter a value in the field to change the ticket status to solved */
-  required?: boolean;
+  required?: boolean | undefined;
   /** If true, end users must enter a value in the field to create the request */
-  required_in_portal?: boolean;
+  required_in_portal?: boolean | undefined;
   /** For system ticket fields of type "priority" and "status". Defaults to 0. A "priority" sub type of 1 removes the "Low" and "Urgent" options. A "status" sub type of 1 adds the "On-Hold" option */
-  sub_type_id?: number;
+  sub_type_id?: number | undefined;
   /** For "checkbox" fields only. A tag added to tickets when the checkbox field is selected */
-  tag?: string;
+  tag?: string | undefined;
   /** The title of the ticket field */
-  title?: string;
+  title?: string | undefined;
   /** The title of the ticket field for end users in the help center */
-  title_in_portal?: string;
+  title_in_portal?: string | undefined;
   /** Whether this field is visible to end users in the help center */
-  visible_in_portal?: boolean;
+  visible_in_portal?: boolean | undefined;
 }
 export interface UpdateTicketFieldRequest {
   /** The ID of the ticket field */
   ticket_field_id: number;
   /** If true, displays the `creator_user_id` and `creator_app_name` properties. If the ticket field is created by an app, `creator_app_name` is the name of the app and `creator_user_id` is `-1`. If the ticket field is not created by an app, then `creator_app_name` is null */
-  creator?: boolean;
+  creator?: boolean | undefined;
   ticket_field: TicketFieldUpdateInput;
 }
 export interface UpdateTicketFormRequest {
@@ -12482,8 +12553,8 @@ export interface UpdateTicketFormRequest {
 }
 export interface UpdateTicketFormStatusByIdRequestTicketFormStatus {
   /** Set to `"1"` to delete the association. */
-  _destroy?: string;
-  custom_status_id?: number;
+  _destroy?: string | undefined;
+  custom_status_id?: number | undefined;
 }
 export interface UpdateTicketFormStatusByIdRequest {
   /** The ID of the ticket form */
@@ -12494,9 +12565,9 @@ export interface UpdateTicketFormStatusByIdRequest {
 }
 export interface TicketFormStatusesUpdateParams {
   /** If set to a value of \"1\" and an id value is passed, the server will delete the record */
-  _destroy?: string;
-  custom_status_id?: number;
-  id?: string;
+  _destroy?: string | undefined;
+  custom_status_id?: number | undefined;
+  id?: string | undefined;
 }
 export type UpdateTicketFormStatusesRequestTicketFormStatusList =
   Array<TicketFormStatusesUpdateParams>;
@@ -12517,41 +12588,41 @@ export type TriggerUpdateObjectInputCategory = TriggerObjectInputCategory;
 export type TriggerUpdateObjectInputRestrictionMap = { [key: string]: unknown | undefined };
 export interface TriggerUpdateObjectInput {
   /** An array of actions describing what the ticket trigger will do. See [Actions reference](/documentation/ticketing/reference-guides/actions-reference) */
-  actions?: TriggerUpdateObjectInputActionsList;
+  actions?: TriggerUpdateObjectInputActionsList | undefined;
   /** Whether the ticket trigger is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.all instead */
-  all?: TriggerUpdateObjectInputAllList;
+  all?: TriggerUpdateObjectInputAllList | undefined;
   /** Legacy format for conditions (deprecated). Use conditions.any instead */
-  any?: TriggerUpdateObjectInputAnyList;
+  any?: TriggerUpdateObjectInputAnyList | undefined;
   /** The ID of the brand the ticket trigger belongs to */
-  brand_id?: number;
+  brand_id?: number | undefined;
   /** A category to create and assign to the trigger */
-  category?: TriggerObjectInputCategory;
+  category?: TriggerObjectInputCategory | undefined;
   /** The ID of the category the ticket trigger belongs to */
-  category_id?: string | null;
-  conditions?: TriggerConditionsObject;
+  category_id?: string | null | undefined;
+  conditions?: TriggerConditionsObject | undefined;
   /** The description of the ticket trigger */
-  description?: string;
+  description?: string | undefined;
   /** Position of the ticket trigger, determines the order they will execute in */
-  position?: number;
+  position?: number | undefined;
   /** The raw format of the title of the ticket trigger */
-  raw_title?: string;
+  raw_title?: string | undefined;
   /** Access restriction for this trigger. A null value allows unrestricted access */
-  restriction?: TriggerUpdateObjectInputRestrictionMap | null;
+  restriction?: TriggerUpdateObjectInputRestrictionMap | null | undefined;
   /** The title of the ticket trigger */
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateTriggerRequest {
   /** The ID of the trigger */
   trigger_id: number;
-  trigger?: TriggerUpdateObjectInput;
+  trigger?: TriggerUpdateObjectInput | undefined;
 }
 export type TriggerCategoryRequest = TriggerObjectInputCategory;
 export interface UpdateTriggerCategoryRequest {
   /** The id of the ticket trigger category to update */
   trigger_category_id: string;
-  trigger_category?: TriggerObjectInputCategory;
+  trigger_category?: TriggerObjectInputCategory | undefined;
 }
 export interface UpdateUserRequest {
   /** The id of the user */
@@ -12579,10 +12650,10 @@ export type UpdateUserSuspensionRequestSuspensionSuspendedChannelsList = Array<
   UpdateUserSuspensionRequestSuspensionSuspendedChannelsItem | (string & {})
 >;
 export interface UpdateUserSuspensionRequestSuspension {
-  additional_comments?: string;
-  reason?: UpdateUserSuspensionRequestSuspensionReason | (string & {});
+  additional_comments?: string | undefined;
+  reason?: UpdateUserSuspensionRequestSuspensionReason | (string & {}) | undefined;
   /** Only accepted when the account has the messaging channel suspension feature enabled. See [Announcing user suspension from messaging channels only](https://support.zendesk.com/hc/en-us/articles/10575252020250-Announcing-user-suspension-from-messaging-channels-only). */
-  suspended_channels?: UpdateUserSuspensionRequestSuspensionSuspendedChannelsList;
+  suspended_channels?: UpdateUserSuspensionRequestSuspensionSuspendedChannelsList | undefined;
 }
 export interface UpdateUserSuspensionRequest {
   /** The id of the user */
@@ -12596,10 +12667,10 @@ export interface UpdateViewRequest {
 export interface UpdateWorkspaceRequest {
   /** The id of the workspace */
   workspace_id: number;
-  workspace?: WorkspaceInput;
+  workspace?: WorkspaceInput | undefined;
 }
 export interface UpdateWorkspaceResponse {
-  workspace?: WorkspaceObject;
+  workspace?: WorkspaceObject | undefined;
 }
 export interface UploadFilesRequest {
   /** The name to assign to the uploaded file */
@@ -12607,52 +12678,52 @@ export interface UploadFilesRequest {
 }
 export type AttachmentUploadResponseUploadAttachmentsList = Array<AttachmentObject>;
 export interface AttachmentUploadResponseUpload {
-  attachment?: AttachmentObject;
-  attachments?: AttachmentUploadResponseUploadAttachmentsList;
+  attachment?: AttachmentObject | undefined;
+  attachments?: AttachmentUploadResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string;
+  token?: string | undefined;
 }
 export interface AttachmentUploadResponse {
-  upload?: AttachmentUploadResponseUpload;
+  upload?: AttachmentUploadResponseUpload | undefined;
 }
 export interface UpsertCustomObjectRecordByExternalIdOrNameRequest {
   /** The key of a custom object */
   custom_object_key: string;
   /** The external id of a custom object record */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The name of a custom object record */
-  name?: string;
-  custom_object_record?: CustomObjectRecordInput;
+  name?: string | undefined;
+  custom_object_record?: CustomObjectRecordInput | undefined;
 }
 export interface ValidateTokenRequest {}
 export type ValidateTokenResponse = string;
 export interface ValidateTriggerRequest {
   /** Accepted for parity with the create and update trigger endpoints. Does not currently affect the response of this endpoint. */
-  fail_on_validate?: boolean;
-  trigger?: TriggerObjectInput;
+  fail_on_validate?: boolean | undefined;
+  trigger?: TriggerObjectInput | undefined;
 }
 export interface TriggerValidationResponseErrorsItem {
   /** Machine readable error code, when available */
-  code?: string;
+  code?: string | undefined;
   /** The trigger attribute the error applies to */
-  field?: string;
+  field?: string | undefined;
   /** Human readable description of the validation error */
-  message?: string;
+  message?: string | undefined;
 }
 /** Validation errors found on the submitted ticket trigger definition. Empty when `valid` is true */
 export type TriggerValidationResponseErrorsList = Array<TriggerValidationResponseErrorsItem>;
 export interface TriggerValidationResponse {
   /** Validation errors found on the submitted ticket trigger definition. Empty when `valid` is true */
-  errors?: TriggerValidationResponseErrorsList;
+  errors?: TriggerValidationResponseErrorsList | undefined;
   /** Whether the submitted ticket trigger definition is valid */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 export interface VerifySubdomainAvailabilityRequest {
   /** Specify the name of the subdomain you want to verify. The name can't contain underscores, hyphens, or spaces. */
   subdomain: string;
 }
 export interface VerifySubdomainAvailabilityResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface VerifySupportAddressForwardingRequest {
   /** The ID of the support address */

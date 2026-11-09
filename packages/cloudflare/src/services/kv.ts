@@ -331,7 +331,7 @@ export interface ListNamespaceKeysResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesKeysListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesListRequestDirection = "asc" | "desc";
 export type NamespacesListRequestOrder = "id" | "title";
@@ -366,7 +366,7 @@ export interface ListNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesKeysBulkDeleteRequestBodyList = Array<string>;
 export interface NamespacesKeysBulkDeleteRequest {

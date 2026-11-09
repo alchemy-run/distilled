@@ -401,7 +401,7 @@ export interface ListListItemsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListsItemsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListListsRequest {
   /** The Account ID for this resource. */
@@ -431,7 +431,7 @@ export interface ListListsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateListRequest {
   /** The Account ID for this resource. */

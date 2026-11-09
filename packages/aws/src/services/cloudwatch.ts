@@ -582,8 +582,8 @@ export interface WallClockWindow {
 }
 export interface SlidingWindow {}
 export type EvaluationWindow =
-  | { WallClockWindow: WallClockWindow; SlidingWindow?: never }
-  | { WallClockWindow?: never; SlidingWindow: SlidingWindow };
+  | { WallClockWindow: WallClockWindow; SlidingWindow?: undefined }
+  | { WallClockWindow?: undefined; SlidingWindow: SlidingWindow };
 export type WarmUpPeriodDurationInMinutes = number;
 export type OnlyStartEvaluatingAfterWarmUpPeriodEnds = boolean;
 export interface WarmUpConfiguration {

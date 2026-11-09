@@ -77,7 +77,7 @@ export interface ListRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RulesUpdateRequestRulesItemParameters {
   /** Host to perform Cloud Connection to */
@@ -127,7 +127,7 @@ export interface PutRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListRulesError = Forbidden | CloudConnectorRulesNotFound | CloudflareOpError;
 /** Retrieves the Cloud Connector rules configured for a zone. Rules define how traffic is routed to cloud services. */

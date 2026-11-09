@@ -2174,8 +2174,8 @@ export interface InvokeWithResponseStreamCompleteEvent {
   LogResult?: string | undefined;
 }
 export type InvokeWithResponseStreamResponseEvent =
-  | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: never }
-  | { PayloadChunk?: never; InvokeComplete: InvokeWithResponseStreamCompleteEvent };
+  | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: undefined }
+  | { PayloadChunk?: undefined; InvokeComplete: InvokeWithResponseStreamCompleteEvent };
 export interface InvokeWithResponseStreamResponse {
   StatusCode?: number | undefined;
   ExecutedVersion?: string | undefined;

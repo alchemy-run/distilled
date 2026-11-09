@@ -516,7 +516,7 @@ export interface GetSubscriptionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubscriptionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTokenRequest {
   /** Token identifier tag. */
@@ -726,7 +726,7 @@ export interface ListAuditLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AuditLogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BillingHistoryListRequestOrder = "type" | "occurred_at" | "action";
 export interface ListBillingHistoriesRequest {
@@ -768,7 +768,7 @@ export interface ListBillingHistoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: BillingHistoryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListInvitesRequest {}
 export type InvitesListResultItemRolesList = Array<string>;
@@ -801,7 +801,7 @@ export interface ListInvitesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvitesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OrganizationsListRequestDirection = "asc" | "desc";
 export type OrganizationsListRequestMatch = "any" | "all";
@@ -843,7 +843,7 @@ export interface ListOrganizationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OrganizationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTenantsRequest {}
 export type TenantsListResultItemMetaHierarchyTagsList = Array<string>;
@@ -888,7 +888,7 @@ export interface ListTenantsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TenantsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTokenPermissionGroupsRequest {
   /** Filter by the name of the permission group. The value must be URL-encoded. */
@@ -934,7 +934,7 @@ export interface ListTokenPermissionGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensPermissionGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TokensListRequestDirection = "asc" | "desc";
 export interface ListTokensRequest {
@@ -1019,7 +1019,7 @@ export interface ListTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvitesEditRequestStatus = "accepted" | "rejected";
 export interface PatchInviteRequest {

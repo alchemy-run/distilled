@@ -1355,8 +1355,8 @@ export interface InternalStreamingException {
   message?: string | undefined;
 }
 export type GetLogObjectResponseStream =
-  | { fields: FieldsData; InternalStreamingException?: never }
-  | { fields?: never; InternalStreamingException: InternalStreamingException };
+  | { fields: FieldsData; InternalStreamingException?: undefined }
+  | { fields?: undefined; InternalStreamingException: InternalStreamingException };
 export interface GetLogObjectResponse {
   fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never> | undefined;
 }
@@ -2215,26 +2215,26 @@ export interface SessionStreamingException {
 export type StartLiveTailResponseStream =
   | {
       sessionStart: LiveTailSessionStart;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
+      sessionStart?: undefined;
       sessionUpdate: LiveTailSessionUpdate;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
       SessionTimeoutException: SessionTimeoutException;
-      SessionStreamingException?: never;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
       SessionStreamingException: SessionStreamingException;
     };
 export interface StartLiveTailResponse {

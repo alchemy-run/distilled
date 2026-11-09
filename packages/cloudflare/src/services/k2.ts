@@ -336,7 +336,7 @@ export type StreamList = Array<Stream>;
 export interface ListStreamsResponse {
   result: StreamList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSubscriptionsRequest {
   streamId: string;

@@ -699,8 +699,8 @@ export interface DnsValidationChallenge {
   ResourceRecord?: ResourceRecord | undefined;
 }
 export type ValidationChallenge =
-  | { EmailValidationChallenge: EmailValidationChallenge; DnsValidationChallenge?: never }
-  | { EmailValidationChallenge?: never; DnsValidationChallenge: DnsValidationChallenge };
+  | { EmailValidationChallenge: EmailValidationChallenge; DnsValidationChallenge?: undefined }
+  | { EmailValidationChallenge?: undefined; DnsValidationChallenge: DnsValidationChallenge };
 export interface ValidationConfiguration {
   ValidationMethod?: ValidationMethod | undefined;
   ValidationChallenge?: ValidationChallenge | undefined;
@@ -860,245 +860,249 @@ export interface TimestampRange {
 export type X509AttributeFilter =
   | {
       Subject: SubjectFilter;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
+      Subject?: undefined;
       SubjectAlternativeName: SubjectAlternativeNameFilter;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
       ExtendedKeyUsage: ExtendedKeyUsageName;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
       KeyUsage: KeyUsageName;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
       KeyAlgorithm: KeyAlgorithm;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
       SerialNumber: string;
-      NotAfter?: never;
-      NotBefore?: never;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
       NotAfter: TimestampRange;
-      NotBefore?: never;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
       NotBefore: TimestampRange;
     };
 export type AcmCertificateMetadataFilter =
   | {
       Status: CertificateStatus;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
+      Status?: undefined;
       RenewalStatus: RenewalStatus;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
       Type: CertificateType;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
       InUse: boolean;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
       Exported: boolean;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
       ExportOption: CertificateExport;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
       ManagedBy: CertificateManagedBy;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
       ValidationMethod: ValidationMethod;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
       CertificateKeyPairOrigin: CertificateKeyPairOrigin;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn: string;
-      AcmeAccountId?: never;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
       AcmeAccountId: string;
     };
 export type CertificateFilter =
-  | { CertificateArn: string; X509AttributeFilter?: never; AcmCertificateMetadataFilter?: never }
   | {
-      CertificateArn?: never;
-      X509AttributeFilter: X509AttributeFilter;
-      AcmCertificateMetadataFilter?: never;
+      CertificateArn: string;
+      X509AttributeFilter?: undefined;
+      AcmCertificateMetadataFilter?: undefined;
     }
   | {
-      CertificateArn?: never;
-      X509AttributeFilter?: never;
+      CertificateArn?: undefined;
+      X509AttributeFilter: X509AttributeFilter;
+      AcmCertificateMetadataFilter?: undefined;
+    }
+  | {
+      CertificateArn?: undefined;
+      X509AttributeFilter?: undefined;
       AcmCertificateMetadataFilter: AcmCertificateMetadataFilter;
     };
 export type CertificateFilterStatement =
-  | { And: CertificateFilterStatement[]; Or?: never; Not?: never; Filter?: never }
-  | { And?: never; Or: CertificateFilterStatement[]; Not?: never; Filter?: never }
-  | { And?: never; Or?: never; Not: CertificateFilterStatement; Filter?: never }
-  | { And?: never; Or?: never; Not?: never; Filter: CertificateFilter };
+  | { And: CertificateFilterStatement[]; Or?: undefined; Not?: undefined; Filter?: undefined }
+  | { And?: undefined; Or: CertificateFilterStatement[]; Not?: undefined; Filter?: undefined }
+  | { And?: undefined; Or?: undefined; Not: CertificateFilterStatement; Filter?: undefined }
+  | { And?: undefined; Or?: undefined; Not?: undefined; Filter: CertificateFilter };
 export type SearchMaxResults = number;
 export type SearchCertificatesSortBy =
   | "CREATED_AT"
@@ -1162,65 +1166,65 @@ export interface OtherName {
 export type GeneralName =
   | {
       DirectoryName: DistinguishedName;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
+      DirectoryName?: undefined;
       DnsName: string;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
       IpAddress: string;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
       OtherName: OtherName;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
       RegisteredId: string;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
       Rfc822Name: string;
-      UniformResourceIdentifier?: never;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
       UniformResourceIdentifier: string;
     };
 export type GeneralNameList = GeneralName[];

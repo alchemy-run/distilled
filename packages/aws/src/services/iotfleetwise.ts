@@ -249,8 +249,8 @@ export interface PeriodicStateTemplateUpdateStrategy {
 }
 export interface OnChangeStateTemplateUpdateStrategy {}
 export type StateTemplateUpdateStrategy =
-  | { periodic: PeriodicStateTemplateUpdateStrategy; onChange?: never }
-  | { periodic?: never; onChange: OnChangeStateTemplateUpdateStrategy };
+  | { periodic: PeriodicStateTemplateUpdateStrategy; onChange?: undefined }
+  | { periodic?: undefined; onChange: OnChangeStateTemplateUpdateStrategy };
 export interface StateTemplateAssociation {
   identifier: string;
   stateTemplateUpdateStrategy: StateTemplateUpdateStrategy;
@@ -347,9 +347,12 @@ export interface ConditionBasedCollectionScheme {
   conditionLanguageVersion?: number | undefined;
 }
 export type CollectionScheme =
-  | { timeBasedCollectionScheme: TimeBasedCollectionScheme; conditionBasedCollectionScheme?: never }
   | {
-      timeBasedCollectionScheme?: never;
+      timeBasedCollectionScheme: TimeBasedCollectionScheme;
+      conditionBasedCollectionScheme?: undefined;
+    }
+  | {
+      timeBasedCollectionScheme?: undefined;
       conditionBasedCollectionScheme: ConditionBasedCollectionScheme;
     };
 export type NodePath = string;
@@ -376,9 +379,9 @@ export interface MqttTopicConfig {
   executionRoleArn: string;
 }
 export type DataDestinationConfig =
-  | { s3Config: S3Config; timestreamConfig?: never; mqttTopicConfig?: never }
-  | { s3Config?: never; timestreamConfig: TimestreamConfig; mqttTopicConfig?: never }
-  | { s3Config?: never; timestreamConfig?: never; mqttTopicConfig: MqttTopicConfig };
+  | { s3Config: S3Config; timestreamConfig?: undefined; mqttTopicConfig?: undefined }
+  | { s3Config?: undefined; timestreamConfig: TimestreamConfig; mqttTopicConfig?: undefined }
+  | { s3Config?: undefined; timestreamConfig?: undefined; mqttTopicConfig: MqttTopicConfig };
 export type DataDestinationConfigs = DataDestinationConfig[];
 export type StorageMaximumSizeUnit = "MB" | "GB" | "TB" | (string & {});
 export type StorageMaximumSizeValue = number;
@@ -418,8 +421,8 @@ export interface ConditionBasedSignalFetchConfig {
   triggerMode: TriggerMode;
 }
 export type SignalFetchConfig =
-  | { timeBased: TimeBasedSignalFetchConfig; conditionBased?: never }
-  | { timeBased?: never; conditionBased: ConditionBasedSignalFetchConfig };
+  | { timeBased: TimeBasedSignalFetchConfig; conditionBased?: undefined }
+  | { timeBased?: undefined; conditionBased: ConditionBasedSignalFetchConfig };
 export type ActionEventExpression = string | redacted.Redacted<string>;
 export type EventExpressionList = (string | redacted.Redacted<string>)[];
 export interface SignalFetchInformation {
@@ -540,17 +543,17 @@ export type StructuredMessageDefinition = StructuredMessageFieldNameAndDataTypeP
 export type StructuredMessage =
   | {
       primitiveMessageDefinition: PrimitiveMessageDefinition;
-      structuredMessageListDefinition?: never;
-      structuredMessageDefinition?: never;
+      structuredMessageListDefinition?: undefined;
+      structuredMessageDefinition?: undefined;
     }
   | {
-      primitiveMessageDefinition?: never;
+      primitiveMessageDefinition?: undefined;
       structuredMessageListDefinition: StructuredMessageListDefinition;
-      structuredMessageDefinition?: never;
+      structuredMessageDefinition?: undefined;
     }
   | {
-      primitiveMessageDefinition?: never;
-      structuredMessageListDefinition?: never;
+      primitiveMessageDefinition?: undefined;
+      structuredMessageListDefinition?: undefined;
       structuredMessageDefinition: StructuredMessageFieldNameAndDataTypePair[];
     };
 export interface MessageSignal {
@@ -746,50 +749,50 @@ export interface CustomProperty {
 export type Node =
   | {
       branch: Branch;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
+      branch?: undefined;
       sensor: Sensor;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
+      branch?: undefined;
+      sensor?: undefined;
       actuator: Actuator;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
       attribute: Attribute;
-      struct?: never;
-      property?: never;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
       struct: CustomStruct;
-      property?: never;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
       property: CustomProperty;
     };
 export type Nodes = Node[];

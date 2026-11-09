@@ -495,9 +495,9 @@ export interface BatchGetAutomationRulesResponse {
   UnprocessedAutomationRules?: UnprocessedAutomationRule[] | undefined;
 }
 export type Target =
-  | { AccountId: string; OrganizationalUnitId?: never; RootId?: never }
-  | { AccountId?: never; OrganizationalUnitId: string; RootId?: never }
-  | { AccountId?: never; OrganizationalUnitId?: never; RootId: string };
+  | { AccountId: string; OrganizationalUnitId?: undefined; RootId?: undefined }
+  | { AccountId?: undefined; OrganizationalUnitId: string; RootId?: undefined }
+  | { AccountId?: undefined; OrganizationalUnitId?: undefined; RootId: string };
 export interface ConfigurationPolicyAssociation {
   Target?: Target | undefined;
 }
@@ -543,82 +543,82 @@ export type IntegerList = number[];
 export type ParameterValue =
   | {
       Integer: number;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
+      Integer?: undefined;
       IntegerList: number[];
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
       Double: number;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
       String: string;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
       StringList: string[];
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
       Boolean: boolean;
-      Enum?: never;
-      EnumList?: never;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
       Enum: string;
-      EnumList?: never;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
       EnumList: string[];
     };
 export interface ParameterConfiguration {
@@ -5640,8 +5640,8 @@ export interface ResourcesFilters {
   CompositeOperator?: AllowedOperators | undefined;
 }
 export type Criteria =
-  | { OcsfFindingCriteria: OcsfFindingFilters; ResourceCriteria?: never }
-  | { OcsfFindingCriteria?: never; ResourceCriteria: ResourcesFilters };
+  | { OcsfFindingCriteria: OcsfFindingFilters; ResourceCriteria?: undefined }
+  | { OcsfFindingCriteria?: undefined; ResourceCriteria: ResourcesFilters };
 export type AutomationRulesActionTypeV2 =
   | "FINDING_FIELDS_UPDATE"
   | "EXTERNAL_INTEGRATION"
@@ -5766,9 +5766,9 @@ export interface ServiceNowProviderConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowProviderConfiguration; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureProviderConfiguration };
+  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowProviderConfiguration; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureProviderConfiguration };
 export interface CreateConnectorV2Request {
   Name?: string | undefined;
   Description?: string | undefined;
@@ -6375,9 +6375,9 @@ export interface ServiceNowDetail {
   AuthStatus?: ConnectorAuthStatus | undefined;
 }
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowDetail; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail };
 export interface GetConnectorV2Response {
   ConnectorArn?: string | undefined;
   ConnectorId: string;
@@ -7380,82 +7380,82 @@ export interface EnumListConfigurationOptions {
 export type ConfigurationOptions =
   | {
       Integer: IntegerConfigurationOptions;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
+      Integer?: undefined;
       IntegerList: IntegerListConfigurationOptions;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
       Double: DoubleConfigurationOptions;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
       String: StringConfigurationOptions;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
       StringList: StringListConfigurationOptions;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
       Boolean: BooleanConfigurationOptions;
-      Enum?: never;
-      EnumList?: never;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
       Enum: EnumConfigurationOptions;
-      EnumList?: never;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
       EnumList: EnumListConfigurationOptions;
     };
 export interface ParameterDefinition {
@@ -7989,9 +7989,9 @@ export interface ServiceNowUpdateConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowUpdateConfiguration; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureUpdateConfiguration };
+  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowUpdateConfiguration; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureUpdateConfiguration };
 export interface UpdateConnectorV2Request {
   ConnectorId: string;
   Description?: string | undefined;

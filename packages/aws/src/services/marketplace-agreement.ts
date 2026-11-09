@@ -379,17 +379,17 @@ export interface VariablePaymentTermConfiguration {
 export type RequestedTermConfiguration =
   | {
       configurableUpfrontPricingTermConfiguration: ConfigurableUpfrontPricingTermConfiguration;
-      renewalTermConfiguration?: never;
-      variablePaymentTermConfiguration?: never;
+      renewalTermConfiguration?: undefined;
+      variablePaymentTermConfiguration?: undefined;
     }
   | {
-      configurableUpfrontPricingTermConfiguration?: never;
+      configurableUpfrontPricingTermConfiguration?: undefined;
       renewalTermConfiguration: RenewalTermConfiguration;
-      variablePaymentTermConfiguration?: never;
+      variablePaymentTermConfiguration?: undefined;
     }
   | {
-      configurableUpfrontPricingTermConfiguration?: never;
-      renewalTermConfiguration?: never;
+      configurableUpfrontPricingTermConfiguration?: undefined;
+      renewalTermConfiguration?: undefined;
       variablePaymentTermConfiguration: VariablePaymentTermConfiguration;
     };
 export interface RequestedTerm {
@@ -630,8 +630,8 @@ export interface PercentageRange {
   defaultValue?: string | undefined;
 }
 export type PriceIncrease =
-  | { fixedPercentage: FixedPercentage; percentageRange?: never }
-  | { fixedPercentage?: never; percentageRange: PercentageRange };
+  | { fixedPercentage: FixedPercentage; percentageRange?: undefined }
+  | { fixedPercentage?: undefined; percentageRange: PercentageRange };
 export type OffsetDuration = string;
 export type ChargePercentage = string;
 export interface PaymentScheduleEntry {
@@ -755,197 +755,197 @@ export interface NetPaymentTerm {
 export type AcceptedTerm =
   | {
       legalTerm: LegalTerm;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
+      legalTerm?: undefined;
       supportTerm: SupportTerm;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
       renewalTerm: RenewalTerm;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
       usageBasedPricingTerm: UsageBasedPricingTerm;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
       configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
       byolPricingTerm: ByolPricingTerm;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
       recurringPaymentTerm: RecurringPaymentTerm;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
       validityTerm: ValidityTerm;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
       paymentScheduleTerm: PaymentScheduleTerm;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
       freeTrialPricingTerm: FreeTrialPricingTerm;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
       fixedUpfrontPricingTerm: FixedUpfrontPricingTerm;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
       variablePaymentTerm: VariablePaymentTerm;
-      netPaymentTerm?: never;
+      netPaymentTerm?: undefined;
     }
   | {
-      legalTerm?: never;
-      supportTerm?: never;
-      renewalTerm?: never;
-      usageBasedPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      byolPricingTerm?: never;
-      recurringPaymentTerm?: never;
-      validityTerm?: never;
-      paymentScheduleTerm?: never;
-      freeTrialPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      variablePaymentTerm?: never;
+      legalTerm?: undefined;
+      supportTerm?: undefined;
+      renewalTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      byolPricingTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      validityTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      variablePaymentTerm?: undefined;
       netPaymentTerm: NetPaymentTerm;
     };
 export type AcceptedTermList = AcceptedTerm[];

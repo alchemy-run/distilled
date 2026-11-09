@@ -166,26 +166,26 @@ export interface NegateSavingsPlanAction {
 export type BillScenarioCommitmentModificationAction =
   | {
       addReservedInstanceAction: AddReservedInstanceAction;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
       addSavingsPlanAction: AddSavingsPlanAction;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
       negateReservedInstanceAction: NegateReservedInstanceAction;
-      negateSavingsPlanAction?: never;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
       negateSavingsPlanAction: NegateSavingsPlanAction;
     };
 export interface BatchCreateBillScenarioCommitmentModificationEntry {

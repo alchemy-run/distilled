@@ -34,21 +34,21 @@ export class ImageNotFound
   ) {}
 
 export interface DeleteImageRequest {
-  imageId?: string;
+  imageId?: string | undefined;
 }
 export interface DeleteImageResponse {}
 export interface DeleteImageNameRequest {
   /** Named image reference: "[environment/]name[:tag]". */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface DeleteImageNameResponse {}
 export interface GetImageBuildChainRequest {
-  imageId?: string;
+  imageId?: string | undefined;
 }
 export interface ImageBuildStep {
   imageId: string;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
   builderAppId: string;
   builderTaskId: string;
 }
@@ -57,43 +57,43 @@ export interface GetImageBuildChainResponse {
   buildSteps: ImageBuildStepList;
 }
 export interface ImageFromIdRequest {
-  imageId?: string;
+  imageId?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface ImageMetadata {
   /** The output of `python -VV. Not set if missing */
-  pythonVersionInfo?: string;
+  pythonVersionInfo?: string | undefined;
   /** Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing */
   pythonPackages: StringMap;
   /** The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`. */
-  workdir?: string;
+  workdir?: string | undefined;
   /** The version of glibc in this image, if any. */
-  libcVersionInfo?: string;
+  libcVersionInfo?: string | undefined;
   /** The builder version for/with which the image was created. */
-  imageBuilderVersion?: string;
+  imageBuilderVersion?: string | undefined;
 }
 export interface ImageFromIdResponse {
   imageId: string;
-  metadata?: ImageMetadata;
+  metadata?: ImageMetadata | undefined;
 }
 export interface ImageGetByTagRequest {
   /** Named image reference: "[[workspace/]environment/]name[:tag]". The tag suffix defaults to "latest" when omitted. */
-  tag?: string;
+  tag?: string | undefined;
   /** New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix. */
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface ImageGetByTagResponse {
   imageId: string;
 }
 export interface BaseImage {
-  imageId?: string;
-  dockerTag?: string;
+  imageId?: string | undefined;
+  dockerTag?: string | undefined;
 }
 export type BaseImageList = Array<BaseImage>;
 export type StringList = Array<string>;
 export interface ImageContextFile {
-  filename?: string;
-  data?: string;
+  filename?: string | undefined;
+  data?: string | undefined;
 }
 export type ImageContextFileList = Array<ImageContextFile>;
 export type GPUType =
@@ -108,10 +108,10 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {});
+  type?: GPUType | (string & {}) | undefined;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  count?: number | undefined;
+  gpuType?: string | undefined;
 }
 export type RegistryAuthType =
   | "REGISTRY_AUTH_TYPE_UNSPECIFIED"
@@ -120,8 +120,8 @@ export type RegistryAuthType =
   | "REGISTRY_AUTH_TYPE_PUBLIC"
   | "REGISTRY_AUTH_TYPE_STATIC_CREDS";
 export interface ImageRegistryConfig {
-  registryAuthType?: RegistryAuthType | (string & {});
-  secretId?: string;
+  registryAuthType?: RegistryAuthType | (string & {}) | undefined;
+  secretId?: string | undefined;
 }
 /** Which data format a binary message is encoded with. */
 export type DataFormat =
@@ -132,70 +132,70 @@ export type DataFormat =
   | "DATA_FORMAT_CBOR";
 export interface FunctionInput {
   /** serialized (args, kwargs). */
-  args?: string;
-  argsBlobId?: string;
-  finalInput?: boolean;
-  dataFormat?: DataFormat | (string & {});
+  args?: string | undefined;
+  argsBlobId?: string | undefined;
+  finalInput?: boolean | undefined;
+  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
-  methodName?: string;
+  methodName?: string | undefined;
 }
 export interface BuildFunction {
-  definition?: string;
-  globals?: string;
-  input?: FunctionInput;
+  definition?: string | undefined;
+  globals?: string | undefined;
+  input?: FunctionInput | undefined;
 }
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 /** CPU architecture an image is built for and must run on. */
 export type Arch = "ARCH_UNSPECIFIED" | "ARCH_X86_64" | "ARCH_AARCH64";
 export interface Image {
-  baseImages?: BaseImageList;
-  dockerfileCommands?: StringList;
-  contextFiles?: ImageContextFileList;
-  version?: string;
-  secretIds?: StringList;
+  baseImages?: BaseImageList | undefined;
+  dockerfileCommands?: StringList | undefined;
+  contextFiles?: ImageContextFileList | undefined;
+  version?: string | undefined;
+  secretIds?: StringList | undefined;
   /** Part of Image definition, because presence of GPU drivers affects the image that's built. */
-  contextMountId?: string;
-  gpuConfig?: GPUConfig;
-  imageRegistryConfig?: ImageRegistryConfig;
-  buildFunctionDef?: string;
+  contextMountId?: string | undefined;
+  gpuConfig?: GPUConfig | undefined;
+  imageRegistryConfig?: ImageRegistryConfig | undefined;
+  buildFunctionDef?: string | undefined;
   /** deprecated after 0.58.96 */
-  buildFunctionGlobals?: string;
+  buildFunctionGlobals?: string | undefined;
   /** deprecated after 0.58.96 If set, overrides the runtime used by the function. Specify either "runc" or "gvisor". */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Not included in image definition checksum as debug features do not affect built image. */
-  runtimeDebug?: boolean;
-  buildFunction?: BuildFunction;
+  runtimeDebug?: boolean | undefined;
+  buildFunction?: BuildFunction | undefined;
   /** Build arguments for the image (--build-arg) for ARG substitution in Dockerfile. */
-  buildArgs?: StringMap;
+  buildArgs?: StringMap | undefined;
   /** Volume mount for RUN commands */
-  volumeMounts?: VolumeMountList;
+  volumeMounts?: VolumeMountList | undefined;
   /** CPU architecture the image is built for. Images with an unspecified arch predate this field and are treated as x86_64. */
-  arch?: Arch | (string & {});
+  arch?: Arch | (string & {}) | undefined;
 }
 export type DeploymentNamespace =
   | "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
   | "DEPLOYMENT_NAMESPACE_WORKSPACE"
   | "DEPLOYMENT_NAMESPACE_GLOBAL";
 export interface ImageGetOrCreateRequest {
-  image?: Image;
-  appId?: string;
-  existingImageId?: string;
+  image?: Image | undefined;
+  appId?: string | undefined;
+  existingImageId?: string | undefined;
   /** ignored */
-  buildFunctionId?: string;
-  forceBuild?: boolean;
-  namespace?: DeploymentNamespace | (string & {});
-  builderVersion?: string;
+  buildFunctionId?: string | undefined;
+  forceBuild?: boolean | undefined;
+  namespace?: DeploymentNamespace | (string & {}) | undefined;
+  builderVersion?: string | undefined;
   /** Only admins can publish global images, but this provides an extra failsafe */
-  allowGlobalDeployment?: boolean;
+  allowGlobalDeployment?: boolean | undefined;
   /** Force the Image to build but don't clobber any Images with the same recipe in the cache */
-  ignoreCache?: boolean;
+  ignoreCache?: boolean | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -224,9 +224,9 @@ export interface GenericResult {
   /** Pickled traceback object. */
   tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
   propagationReason: string;
 }
@@ -234,15 +234,15 @@ export interface ImageGetOrCreateResponse {
   /** image_id is set regardless if the image is built (use ImageJoinStreaming to wait for build) */
   imageId: string;
   /** result of build - only set if the image has finished building (regardless if success or not) */
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   /** image metadata - only set if the image has built successfully */
-  metadata?: ImageMetadata;
+  metadata?: ImageMetadata | undefined;
 }
 export interface ImageJoinStreamingRequest {
-  imageId?: string;
-  timeout?: number;
-  lastEntryId?: string;
-  includeLogsForFinished?: boolean;
+  imageId?: string | undefined;
+  timeout?: number | undefined;
+  lastEntryId?: string | undefined;
+  includeLogsForFinished?: boolean | undefined;
 }
 export type TaskState =
   | "TASK_STATE_UNSPECIFIED"
@@ -274,7 +274,7 @@ export interface TaskLogs {
   taskState: TaskState;
   timestamp: number;
   fileDescriptor: FileDescriptor;
-  taskProgress?: TaskProgress;
+  taskProgress?: TaskProgress | undefined;
   functionCallId: string;
   inputId: string;
   timestampNs: string;
@@ -283,11 +283,11 @@ export interface TaskLogs {
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface ImageJoinStreamingResponse {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   taskLogs: TaskLogsList;
   entryId: string;
   eof: boolean;
-  metadata?: ImageMetadata;
+  metadata?: ImageMetadata | undefined;
 }
 export type ImageJoinStreamingResponseList = Array<ImageJoinStreamingResponse>;
 export interface ImageJoinStreamingStream {
@@ -295,14 +295,14 @@ export interface ImageJoinStreamingStream {
   items: ImageJoinStreamingResponseList;
 }
 export interface ImageListTagsRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Prefix search over full "name:tag" strings. */
-  tagPrefix?: string;
+  tagPrefix?: string | undefined;
   /** Defaults to 100. Values above 100 are rejected by the server. */
-  maxObjects?: number;
-  pageToken?: string;
+  maxObjects?: number | undefined;
+  pageToken?: string | undefined;
   /** Returns only the tags that currently point at this image. Optional. */
-  imageId?: string;
+  imageId?: string | undefined;
 }
 /** set on success */
 export interface ImageListTagsItem {
@@ -322,12 +322,12 @@ export interface ImageListTagsResponse {
 }
 export interface ImageTagRevisionsRequest {
   /** Named image reference: "[[workspace/]environment/]name[:tag]". The tag suffix defaults to "latest" when omitted. */
-  tag?: string;
+  tag?: string | undefined;
   /** New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Defaults to 100. Values above 100 are rejected by the server. */
-  maxObjects?: number;
-  pageToken?: string;
+  maxObjects?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ImageTagRevisionsItem {
   imageId: string;
@@ -343,13 +343,13 @@ export interface ImageTagRevisionsResponse {
   environmentName: string;
 }
 export interface PublishImageRequest {
-  imageId?: string;
+  imageId?: string | undefined;
   /** Named image reference: "[[workspace/]environment/]name[:tag]". The tag suffix defaults to "latest" when omitted. */
-  tag?: string;
+  tag?: string | undefined;
   /** New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Explicit opt-in required when publishing to a public environment. */
-  allowPublic?: boolean;
+  allowPublic?: boolean | undefined;
 }
 export interface PublishImageResponse {
   imageId: string;

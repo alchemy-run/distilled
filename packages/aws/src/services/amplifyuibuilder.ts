@@ -315,9 +315,9 @@ export interface FormDataTypeConfig {
 export type FormActionType = "create" | "update" | (string & {});
 export type FixedPosition = "first" | (string & {});
 export type FieldPosition =
-  | { fixed: FixedPosition; rightOf?: never; below?: never }
-  | { fixed?: never; rightOf: string; below?: never }
-  | { fixed?: never; rightOf?: never; below: string };
+  | { fixed: FixedPosition; rightOf?: undefined; below?: undefined }
+  | { fixed?: undefined; rightOf: string; below?: undefined }
+  | { fixed?: undefined; rightOf?: undefined; below: string };
 export interface FormInputValuePropertyBindingProperties {
   property: string;
   field?: string | undefined;
@@ -392,8 +392,8 @@ export interface FieldConfig {
 }
 export type FieldsMap = { [key: string]: FieldConfig | undefined };
 export type FormStyleConfig =
-  | { tokenReference: string; value?: never }
-  | { tokenReference?: never; value: string };
+  | { tokenReference: string; value?: undefined }
+  | { tokenReference?: undefined; value: string };
 export interface FormStyle {
   horizontalGap?: FormStyleConfig | undefined;
   verticalGap?: FormStyleConfig | undefined;
@@ -576,9 +576,9 @@ export interface GraphQLRenderConfig {
 export interface DataStoreRenderConfig {}
 export interface NoApiRenderConfig {}
 export type ApiConfiguration =
-  | { graphQLConfig: GraphQLRenderConfig; dataStoreConfig?: never; noApiConfig?: never }
-  | { graphQLConfig?: never; dataStoreConfig: DataStoreRenderConfig; noApiConfig?: never }
-  | { graphQLConfig?: never; dataStoreConfig?: never; noApiConfig: NoApiRenderConfig };
+  | { graphQLConfig: GraphQLRenderConfig; dataStoreConfig?: undefined; noApiConfig?: undefined }
+  | { graphQLConfig?: undefined; dataStoreConfig: DataStoreRenderConfig; noApiConfig?: undefined }
+  | { graphQLConfig?: undefined; dataStoreConfig?: undefined; noApiConfig: NoApiRenderConfig };
 export type ReactCodegenDependencies = { [key: string]: string | undefined };
 export interface ReactStartCodegenJobData {
   module?: JSModule | undefined;

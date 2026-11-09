@@ -75,14 +75,14 @@ export interface DeletePoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type DeletePoolResponse = unknown;
 export interface GetPoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface Pool {
   /** Name of the node pool. */
@@ -105,11 +105,11 @@ export interface ListPoolNodesRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Maximum number of results to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor from the previous response's `pagination.cursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface Node {
   /** Node key, unique within the pool. */
@@ -140,11 +140,11 @@ export interface PoolsListNodesResponse {
 }
 export interface ListPoolsRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Maximum number of results to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the last pool on the previous page. Pass the `pagination.cursor` value from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PoolsListResponsePoolsList = Array<Pool>;
 export interface PoolsListResponse {
@@ -155,17 +155,17 @@ export interface UpsertPoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Drain nodes running an older version when a newer version connects. */
-  drain_on_version_upgrade?: boolean;
+  drain_on_version_upgrade?: boolean | undefined;
   /** Seconds to wait before evicting actors from a draining node. */
-  actor_eviction_delay?: number;
+  actor_eviction_delay?: number | undefined;
   /** Seconds over which actors are evicted from a draining node. */
-  actor_eviction_period?: number;
+  actor_eviction_period?: number | undefined;
   /** Rate at which actors are evicted from a draining node. Must be finite and greater than 0. */
-  actor_eviction_rate?: number;
+  actor_eviction_rate?: number | undefined;
   /** Opaque JSON stored with the pool, at most 16 KiB when serialized. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type DeletePoolError =
   | PoolNotFound

@@ -67,13 +67,13 @@ export interface ArchiveAiGatewayBudgetRequest {
   /** The budget scope to archive. */
   scopeType: ArchiveAiGatewayBudgetRequestScopeType | (string & {});
   /** Required when scopeType is "project". */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required when scopeType is "user". */
-  userId?: string;
+  userId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
@@ -82,21 +82,21 @@ export type AiGatewayBudgetScopeType = "api-key" | "project" | "team" | "user";
 export type AiGatewayBudgetSource = "default";
 export interface AiGatewayBudget {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetAlertThresholdsList | undefined;
   archived: boolean;
   createdAt: number;
   currentByokSpend: number;
   currentSpend: number;
   includeByokInQuota: boolean;
   limitAmount: number;
-  name?: string;
+  name?: string | undefined;
   quotaEntityId: string;
   refreshPeriod: AiGatewayBudgetRefreshPeriod;
   /** The native Vercel id of the scoped entity. Team/project ids already carry their prefix, so this equals `quotaEntityId` (`team_...` / `prj_...`); for the api-key scope it is the api key id (the `api_key_id_` prefix stripped). */
   scopeId: string;
   scopeType: AiGatewayBudgetScopeType;
   /** Set when the row is inherited from the team's budget default. */
-  source?: AiGatewayBudgetSource;
+  source?: AiGatewayBudgetSource | undefined;
   updatedAt: number;
 }
 /** The budget default scope to delete. */
@@ -105,45 +105,45 @@ export interface ArchiveAiGatewayBudgetDefaultRequest {
   /** The budget default scope to delete. */
   scopeType: ArchiveAiGatewayBudgetDefaultRequestScopeType | (string & {});
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ArchiveAiGatewayBudgetDefaultResponse {}
 export interface CreateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface AiGatewayRuleAction {
-  reason?: string;
-  rewriteModel?: string;
+  reason?: string | undefined;
+  rewriteModel?: string | undefined;
 }
 export interface AiGatewayRuleMatch {
-  model?: string;
+  model?: string | undefined;
 }
 export type AiGatewayRuleType = "deny" | "rewrite";
 /** Public response shape for AI Gateway routing rules. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
 export interface AiGatewayRule {
-  action?: AiGatewayRuleAction;
+  action?: AiGatewayRuleAction | undefined;
   createdAt: number;
-  createdBy?: string;
-  deleted?: boolean;
-  description?: string;
+  createdBy?: string | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
   enabled: boolean;
-  match?: AiGatewayRuleMatch;
+  match?: AiGatewayRuleMatch | undefined;
   ownerId: string;
   ruleId: string;
   type: AiGatewayRuleType;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 export interface CreateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** BYOK credential IDs allowed for this VMC. */
 export type AiGatewayVirtualModelConfigByokCredentialIdsList = Array<string>;
@@ -166,11 +166,11 @@ export type AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope =
 /** Per-provider region overrides keyed by provider slug. */
 export interface AiGatewayVirtualModelConfigInferenceRegionProvidersValue {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope | undefined;
 }
 /** Per-provider region overrides keyed by provider slug. */
 export type AiGatewayVirtualModelConfigInferenceRegionProvidersMap = {
@@ -181,30 +181,30 @@ export type AiGatewayVirtualModelConfigInferenceRegionScope = "global" | "specif
 /** Region pinned on the VMC for system-credential routing (alias/router only). */
 export interface AiGatewayVirtualModelConfigInferenceRegion {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Per-provider region overrides keyed by provider slug. */
-  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap;
+  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionScope | undefined;
 }
 /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
 export interface AiGatewayVirtualModelConfigModelsItemCase1 {
   /** Highest task level the member handles, in [0, 1]. Read by the intelligence selector. */
-  intelligence?: number;
+  intelligence?: number | undefined;
   slug: string;
 }
 /** Without a question, checks every Choice and Score question. */
 export interface AiGatewayEvaluationFallbackConditionCase0 {
   confidenceBelow: number;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList = Array<number>;
 /** Without a question, checks every Boolean question. */
 export interface AiGatewayEvaluationFallbackConditionCase1 {
   probabilityBetween: AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase2AnyList =
   Array<AiGatewayEvaluationFallbackCondition>;
@@ -259,7 +259,7 @@ export type AiGatewayVirtualModelConfigProviderTimeoutsByokMap = {
 };
 /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
 export interface AiGatewayVirtualModelConfigProviderTimeouts {
-  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap;
+  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap | undefined;
 }
 /** For kind=router: how to order candidates. Absent means declared order. */
 export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
@@ -267,9 +267,9 @@ export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
 export type AiGatewayRouterSelectorOptionBag = { [key: string]: unknown | undefined };
 /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
 export interface AiGatewayVirtualModelConfigSelectorOptions {
-  cost?: AiGatewayRouterSelectorOptionBag;
-  tps?: AiGatewayRouterSelectorOptionBag;
-  ttft?: AiGatewayRouterSelectorOptionBag;
+  cost?: AiGatewayRouterSelectorOptionBag | undefined;
+  tps?: AiGatewayRouterSelectorOptionBag | undefined;
+  ttft?: AiGatewayRouterSelectorOptionBag | undefined;
 }
 /** Service tier for providers that support it. */
 export type AiGatewayVirtualModelConfigServiceTier = "fast" | "flex" | "priority";
@@ -286,115 +286,115 @@ export type AiGatewayVirtualModelConfigSpeed = "fast";
 /** Public response shape for virtual model configs. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
 export interface AiGatewayVirtualModelConfig {
   /** Allow fallback from fast to standard providers on failure. */
-  allowFallbackFromFast?: boolean;
+  allowFallbackFromFast?: boolean | undefined;
   /** For kind=relay: URL the gateway forwards requests to as a transparent proxy. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** BYOK credential IDs allowed for this VMC. */
-  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList;
+  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList | undefined;
   /** Use caching if available. */
-  caching?: AiGatewayVirtualModelConfigCaching;
+  caching?: AiGatewayVirtualModelConfigCaching | undefined;
   /** Creation timestamp (epoch ms). */
   createdAt: number;
   /** User or app id that created this VMC. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Whether this VMC is soft-deleted. */
   deleted: boolean;
   /** Optional description for UI. */
-  description?: string;
+  description?: string | undefined;
   /** Only use providers that will not train on your prompts. */
-  disallowPromptTraining?: boolean;
+  disallowPromptTraining?: boolean | undefined;
   /** Human-readable name for UI. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Limit providers to those with these features. */
-  has?: AiGatewayVirtualModelConfigHasList;
+  has?: AiGatewayVirtualModelConfigHasList | undefined;
   /** Only use HIPAA-compliant providers. */
-  hipaaCompliant?: boolean;
+  hipaaCompliant?: boolean | undefined;
   /** Region pinned on the VMC for system-credential routing (alias/router only). */
-  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion;
+  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion | undefined;
   /** The concrete model-provider instance this VMC resolves to. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** VMC kind: alias, relay, or router. */
   kind: string;
   /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
-  models?: AiGatewayVirtualModelConfigModelsList;
+  models?: AiGatewayVirtualModelConfigModelsList | undefined;
   /** Canonical model slug this VMC maps to (e.g. "creator/model"). Not used by kind=router. */
-  modelSlug?: string;
+  modelSlug?: string | undefined;
   /** Observability tags attached to requests through this VMC. */
-  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList;
+  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList | undefined;
   /** Team (owner) that owns this VMC. */
   ownerId: string;
   /** Restrict routing to only these providers. */
-  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList;
+  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList | undefined;
   /** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
-  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap;
+  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap | undefined;
   /** Ordered list of providers to try as fallbacks on failure. */
-  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList;
+  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList | undefined;
   /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
-  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts;
+  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts | undefined;
   /** For kind=router: how to order candidates. Absent means declared order. */
-  selector?: AiGatewayVirtualModelConfigSelector;
+  selector?: AiGatewayVirtualModelConfigSelector | undefined;
   /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
-  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions;
+  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions | undefined;
   /** Service tier for providers that support it. */
-  serviceTier?: AiGatewayVirtualModelConfigServiceTier;
+  serviceTier?: AiGatewayVirtualModelConfigServiceTier | undefined;
   /** Rank eligible providers by an attribute. */
-  sort?: AiGatewayVirtualModelConfigSort;
+  sort?: AiGatewayVirtualModelConfigSort | undefined;
   /** Only use fastest providers with short timeouts. */
-  speed?: AiGatewayVirtualModelConfigSpeed;
+  speed?: AiGatewayVirtualModelConfigSpeed | undefined;
   /** UI lifecycle status: draft, active, or archived. */
   status: string;
   /** Last update timestamp (epoch ms). */
   updatedAt: number;
   /** User or app id that last updated this VMC. */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   /** Client-facing alias used as the model slug in Gateway calls. */
   virtualModelSlug: string;
   /** Visibility in listings: public, internal, or stealth. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** Only use providers with zero data retention. */
-  zeroDataRetention?: boolean;
+  zeroDataRetention?: boolean | undefined;
 }
 export interface DeleteAiGatewayRuleRequest {
   ruleId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayRuleResponse = unknown;
 export interface DeleteAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
+  ownerId?: string | undefined;
   virtualModelSlug: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
 export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  ownerId?: string | undefined;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
 export interface GetAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
-  virtualModelSlug?: string;
-  limit?: number;
-  cursor?: string;
+  ownerId?: string | undefined;
+  virtualModelSlug?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The page of VMCs. */
 export type AiGatewayVirtualModelConfigListVirtualModelConfigsList =
@@ -411,24 +411,24 @@ export type GetAiGatewayVirtualModelConfigResponseBody =
 export type GetAiGatewayVirtualModelConfigResponse = GetAiGatewayVirtualModelConfigResponseBody;
 export interface GetAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListAiGatewayBudgetDefaultsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetDefaultAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetDefaultRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
 export type AiGatewayBudgetDefaultScopeType = "api-key" | "project" | "team" | "user";
 export interface AiGatewayBudgetDefault {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList | undefined;
   createdAt: number;
   limitAmount: number;
   refreshPeriod: AiGatewayBudgetDefaultRefreshPeriod;
@@ -443,54 +443,54 @@ export interface AiGatewayBudgetDefaultList {
 export type ListAiGatewayBudgetsRequestScopeType = "team" | "project" | "user" | "api-key";
 export interface ListAiGatewayBudgetsRequest {
   /** Restrict the list to a single budget scope. */
-  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {});
+  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetListBudgetsList = Array<AiGatewayBudget>;
 export interface AiGatewayBudgetList {
   budgets: AiGatewayBudgetListBudgetsList;
 }
 export interface ListAiGatewayRulesRequest {
-  includeDisabled?: boolean;
+  includeDisabled?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayRuleListRulesList = Array<AiGatewayRule>;
 export interface AiGatewayRuleList {
   rules: AiGatewayRuleListRulesList;
 }
 export interface ListAiGatewayVirtualModelConfigsRequest {
-  ownerId?: string;
-  limit?: number;
-  cursor?: string;
+  ownerId?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type UpsertAiGatewayBudgetRequestScopeType = "team" | "project" | "user";
 export type UpsertAiGatewayBudgetRequestRefreshPeriod = "daily" | "weekly" | "monthly" | "none";
@@ -500,20 +500,20 @@ export type UpsertAiGatewayBudgetRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetRequestScopeType | (string & {});
   /** Required when scopeType is "project". */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required when scopeType is "user". */
-  userId?: string;
+  userId?: string | undefined;
   /** Budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {});
+  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {}) | undefined;
   /** Whether BYOK usage counts toward this budget. */
-  includeByokInQuota?: boolean;
-  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList;
+  includeByokInQuota?: boolean | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList | undefined;
 }
 export type UpsertAiGatewayBudgetDefaultRequestScopeType = "team" | "project" | "api-key" | "user";
 export type UpsertAiGatewayBudgetDefaultRequestRefreshPeriod =
@@ -527,14 +527,14 @@ export type UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetDefaultRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetDefaultRequestScopeType | (string & {});
   /** Default budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {});
-  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList;
+  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {}) | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList | undefined;
 }
 export type ArchiveAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Archive AI Gateway budget Archive a team-, project-, or user-scope AI Gateway budget. */

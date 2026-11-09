@@ -450,8 +450,8 @@ export interface IcebergSnapshotManagementSettings {
   maxSnapshotAgeHours?: number | undefined;
 }
 export type TableMaintenanceSettings =
-  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: never }
-  | { icebergCompaction?: never; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
+  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: undefined }
+  | { icebergCompaction?: undefined; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
 export interface TableMaintenanceConfigurationValue {
   status?: MaintenanceStatus | undefined;
   settings?: TableMaintenanceSettings | undefined;

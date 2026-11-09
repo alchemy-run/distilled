@@ -69,7 +69,7 @@ export interface PublicCloudInstanceAutobackupInstanceRef {
 /** Resource location */
 export interface PublicCloudCommonLocation {
   /** Availability zone within the region */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
   /** Region code */
   region: string;
 }
@@ -78,7 +78,7 @@ export interface PublicCloudInstanceAutobackupTargetSpec {
   /** Cron schedule pattern (e.g. '0 2 * * *') */
   cron: string;
   /** Cross-region backup configuration */
-  distant?: PublicCloudInstanceAutobackupDistant | null;
+  distant?: PublicCloudInstanceAutobackupDistant | null | undefined;
   /** Backup image name prefix */
   imageName: string;
   /** Reference to the source instance */
@@ -105,15 +105,15 @@ export type PublicCloudInstanceAutobackupExecutionStateEnum =
 /** A single execution of an instance autobackup, as recorded by the autobackup execution engine when the backup workflow runs */
 export interface PublicCloudInstanceAutobackupExecution {
   /** Error message reported by the autobackup execution engine, populated only when state is ERROR */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** Backup execution unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the execution started */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Current state of the execution */
-  state?: PublicCloudInstanceAutobackupExecutionStateEnum;
+  state?: PublicCloudInstanceAutobackupExecutionStateEnum | undefined;
   /** Timestamp of the last state update reported by the autobackup execution engine */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 /** Last 5 backup executions, newest first. Populated on GET only - null on LIST. */
 export type PublicCloudInstanceAutobackupCurrentStateLastExecutionsList =
@@ -121,30 +121,30 @@ export type PublicCloudInstanceAutobackupCurrentStateLastExecutionsList =
 /** Current state of an instance autobackup as observed from the infrastructure */
 export interface PublicCloudInstanceAutobackupCurrentState {
   /** Cron schedule pattern */
-  cron?: string;
+  cron?: string | undefined;
   /** Cross-region backup configuration */
-  distant?: PublicCloudInstanceAutobackupDistant | null;
+  distant?: PublicCloudInstanceAutobackupDistant | null | undefined;
   /** Backup image name prefix */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Reference to the source instance */
-  instance?: PublicCloudInstanceAutobackupInstanceRef;
+  instance?: PublicCloudInstanceAutobackupInstanceRef | undefined;
   /** Last 5 backup executions, newest first. Populated on GET only - null on LIST. */
-  lastExecutions?: PublicCloudInstanceAutobackupCurrentStateLastExecutionsList | null;
+  lastExecutions?: PublicCloudInstanceAutobackupCurrentStateLastExecutionsList | null | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Crontrigger name */
-  name?: string;
+  name?: string | undefined;
   /** Next scheduled execution time */
-  nextExecutionTime?: string | null;
+  nextExecutionTime?: string | null | undefined;
   /** Number of backup versions to keep */
-  rotation?: number;
+  rotation?: number | undefined;
   /** OpenStack Mistral workflow name (e.g. ovh.backup_vm or ovh.backup_vm_remote_region) */
-  workflowName?: string;
+  workflowName?: string | undefined;
 }
 /** Errors that occured on the task */
 export interface CommonTaskError {
   /** Error description */
-  message?: string;
+  message?: string | undefined;
 }
 /** Errors that occured on the task */
 export type CommonCurrentTaskErrorsList = Array<CommonTaskError>;
@@ -158,15 +158,15 @@ export type CommonCurrentTaskStatusEnum =
 /** Asynchronous operation currently running */
 export interface CommonCurrentTask {
   /** Errors that occured on the task */
-  errors?: CommonCurrentTaskErrorsList | null;
+  errors?: CommonCurrentTaskErrorsList | null | undefined;
   /** Identifier of the current task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the task details */
-  link?: string;
+  link?: string | undefined;
   /** Current global status of the current task */
-  status?: CommonCurrentTaskStatusEnum | null;
+  status?: CommonCurrentTaskStatusEnum | null | undefined;
   /** Type of the current task */
-  type?: string;
+  type?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the autobackup */
 export type PublicCloudInstanceAutobackupCurrentTasksList = Array<CommonCurrentTask>;
@@ -183,21 +183,21 @@ export type CommonResourceStatusEnum =
 /** A Public Cloud instance autobackup (Mistral crontrigger for scheduled automatic backups) */
 export interface PublicCloudInstanceAutobackup {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the autobackup */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the autobackup */
-  currentState?: PublicCloudInstanceAutobackupCurrentState | null;
+  currentState?: PublicCloudInstanceAutobackupCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the autobackup */
-  currentTasks?: PublicCloudInstanceAutobackupCurrentTasksList | null;
+  currentTasks?: PublicCloudInstanceAutobackupCurrentTasksList | null | undefined;
   /** Unique identifier of the autobackup */
-  id?: string;
+  id?: string | undefined;
   /** Autobackup readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the autobackup */
-  targetSpec?: PublicCloudInstanceAutobackupTargetSpec;
+  targetSpec?: PublicCloudInstanceAutobackupTargetSpec | undefined;
   /** Last update date of the autobackup */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Reference to the source instance for a backup */
 export interface PublicCloudInstanceBackupInstanceRef {
@@ -234,42 +234,42 @@ export type PublicCloudInstanceImageVisibilityEnum = "COMMUNITY" | "PRIVATE" | "
 /** Current state of an instance backup as observed from the infrastructure */
 export interface PublicCloudInstanceBackupCurrentState {
   /** Source instance reference */
-  instance?: PublicCloudInstanceBackupInstanceRef;
+  instance?: PublicCloudInstanceBackupInstanceRef | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Minimum disk size in GB required to boot */
-  minDisk?: number | null;
+  minDisk?: number | null | undefined;
   /** Minimum RAM in MB required to boot */
-  minRam?: number | null;
+  minRam?: number | null | undefined;
   /** Current backup name */
-  name?: string;
+  name?: string | undefined;
   /** Image size in bytes */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Image status in the backend */
-  status?: PublicCloudInstanceImageStatusEnum;
+  status?: PublicCloudInstanceImageStatusEnum | undefined;
   /** Image visibility */
-  visibility?: PublicCloudInstanceImageVisibilityEnum;
+  visibility?: PublicCloudInstanceImageVisibilityEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the backup */
 export type PublicCloudInstanceBackupCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud instance backup (Glance image created from an instance) */
 export interface PublicCloudInstanceBackup {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the backup */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the backup */
-  currentState?: PublicCloudInstanceBackupCurrentState | null;
+  currentState?: PublicCloudInstanceBackupCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the backup */
-  currentTasks?: PublicCloudInstanceBackupCurrentTasksList | null;
+  currentTasks?: PublicCloudInstanceBackupCurrentTasksList | null | undefined;
   /** Unique identifier of the backup */
-  id?: string;
+  id?: string | undefined;
   /** Backup readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the backup */
-  targetSpec?: PublicCloudInstanceBackupTargetSpec;
+  targetSpec?: PublicCloudInstanceBackupTargetSpec | undefined;
   /** Last update date of the backup */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Reference to a flavor for instance target spec */
 export interface PublicCloudInstanceInstanceFlavorRef {
@@ -291,13 +291,13 @@ export type PublicCloudInstanceInstanceLocation = PublicCloudCommonLocation;
 /** Reference to a network for instance target spec */
 export interface PublicCloudInstanceInstanceNetworkRef {
   /** Associated floating IP identifier */
-  floatingIpId?: string | null;
+  floatingIpId?: string | null | undefined;
   /** Network identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** True if the network is public, false if private */
   public: boolean;
   /** Subnet identifier (required for private networks) */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
 }
 /** Network references */
 export type PublicCloudInstanceInstanceTargetSpecNetworksList =
@@ -325,7 +325,7 @@ export interface PublicCloudInstanceInstanceTargetSpec {
   /** Flavor reference */
   flavor: PublicCloudInstanceInstanceFlavorRef;
   /** Instance group reference (placement policy, immutable after creation) */
-  group?: PublicCloudInstanceInstanceGroupRef | null;
+  group?: PublicCloudInstanceInstanceGroupRef | null | undefined;
   /** Image reference */
   image: PublicCloudInstanceInstanceImageRef;
   /** Target location */
@@ -335,11 +335,11 @@ export interface PublicCloudInstanceInstanceTargetSpec {
   /** Network references */
   networks: PublicCloudInstanceInstanceTargetSpecNetworksList | null;
   /** Desired power state (defaults to ACTIVE if omitted) */
-  powerState?: PublicCloudInstancePowerStateEnum | (string & {}) | null;
+  powerState?: PublicCloudInstancePowerStateEnum | (string & {}) | null | undefined;
   /** Security group references to apply to all instance ports */
-  securityGroups?: PublicCloudInstanceInstanceTargetSpecSecurityGroupsList | null;
+  securityGroups?: PublicCloudInstanceInstanceTargetSpecSecurityGroupsList | null | undefined;
   /** Associated SSH key name */
-  sshKeyName?: string | null;
+  sshKeyName?: string | null | undefined;
   /** Volume references */
   volumes: PublicCloudInstanceInstanceTargetSpecVolumesList | null;
 }
@@ -352,39 +352,39 @@ export interface CreatePublicCloudProjectComputeInstanceRequest {
 /** Flavor details of an instance */
 export interface PublicCloudInstanceInstanceFlavor {
   /** Local disk size in GB */
-  disk?: number;
+  disk?: number | undefined;
   /** Flavor identifier */
-  id?: string;
+  id?: string | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** RAM in MB */
-  ram?: number;
+  ram?: number | undefined;
   /** Number of vCPUs */
-  vcpus?: number;
+  vcpus?: number | undefined;
 }
 /** Image details of an instance */
 export interface PublicCloudInstanceInstanceImage {
   /** Whether the image is deprecated */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
   /** Image identifier */
-  id?: string;
+  id?: string | undefined;
   /** Image name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Image size in bytes */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Image status */
-  status?: PublicCloudInstanceImageStatusEnum | null;
+  status?: PublicCloudInstanceImageStatusEnum | null | undefined;
 }
 /** An IP address of an instance network interface */
 export interface PublicCloudInstanceInstanceNetworkAddress {
   /** IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** MAC address */
-  mac?: string;
+  mac?: string | undefined;
   /** Address type (fixed, floating, ... ) */
-  type?: string;
+  type?: string | undefined;
   /** IP version */
-  version?: number;
+  version?: number | undefined;
 }
 /** IP addresses */
 export type PublicCloudInstanceInstanceNetworkAddressesList =
@@ -392,17 +392,17 @@ export type PublicCloudInstanceInstanceNetworkAddressesList =
 /** Network attached to the instance */
 export interface PublicCloudInstanceInstanceNetwork {
   /** IP addresses */
-  addresses?: PublicCloudInstanceInstanceNetworkAddressesList | null;
+  addresses?: PublicCloudInstanceInstanceNetworkAddressesList | null | undefined;
   /** Associated floating IP identifier */
-  floatingIpId?: string | null;
+  floatingIpId?: string | null | undefined;
   /** Associated gateway identifier */
-  gatewayId?: string | null;
+  gatewayId?: string | null | undefined;
   /** Network identifier */
-  id?: string;
+  id?: string | undefined;
   /** True if the network is public, false if private */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Subnet identifier */
-  subnetId?: string | null;
+  subnetId?: string | null | undefined;
 }
 /** List of instance networks */
 export type PublicCloudInstanceInstanceCurrentStateNetworksList =
@@ -413,11 +413,11 @@ export type PublicCloudInstanceInstanceCurrentStateSecurityGroupsList =
 /** Volume attached to the instance */
 export interface PublicCloudInstanceInstanceVolume {
   /** Volume identifier */
-  id?: string;
+  id?: string | undefined;
   /** Volume name */
-  name?: string;
+  name?: string | undefined;
   /** Volume size in GB */
-  size?: number;
+  size?: number | undefined;
 }
 /** Attached block volumes */
 export type PublicCloudInstanceInstanceCurrentStateVolumesList =
@@ -425,61 +425,61 @@ export type PublicCloudInstanceInstanceCurrentStateVolumesList =
 /** Current state details of an instance */
 export interface PublicCloudInstanceInstanceCurrentState {
   /** Flavor details */
-  flavor?: PublicCloudInstanceInstanceFlavor;
+  flavor?: PublicCloudInstanceInstanceFlavor | undefined;
   /** Instance group this instance belongs to */
-  group?: PublicCloudInstanceInstanceGroupRef | null;
+  group?: PublicCloudInstanceInstanceGroupRef | null | undefined;
   /** Host identifier */
-  hostId?: string | null;
+  hostId?: string | null | undefined;
   /** Image details */
-  image?: PublicCloudInstanceInstanceImage;
+  image?: PublicCloudInstanceInstanceImage | undefined;
   /** Location details */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Whether the instance is locked against modifications */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** Instance name */
-  name?: string;
+  name?: string | undefined;
   /** List of instance networks */
-  networks?: PublicCloudInstanceInstanceCurrentStateNetworksList | null;
+  networks?: PublicCloudInstanceInstanceCurrentStateNetworksList | null | undefined;
   /** Actual power state as reported by OpenStack */
-  powerState?: PublicCloudInstancePowerStateEnum;
+  powerState?: PublicCloudInstancePowerStateEnum | undefined;
   /** Project identifier */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Security group references attached to the instance */
-  securityGroups?: PublicCloudInstanceInstanceCurrentStateSecurityGroupsList | null;
+  securityGroups?: PublicCloudInstanceInstanceCurrentStateSecurityGroupsList | null | undefined;
   /** Associated SSH key name */
-  sshKeyName?: string | null;
+  sshKeyName?: string | null | undefined;
   /** User identifier */
-  userId?: string;
+  userId?: string | undefined;
   /** Attached block volumes */
-  volumes?: PublicCloudInstanceInstanceCurrentStateVolumesList | null;
+  volumes?: PublicCloudInstanceInstanceCurrentStateVolumesList | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the instance */
 export type PublicCloudInstanceInstanceCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud compute instance */
 export interface PublicCloudInstanceInstance {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the instance */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the instance */
-  currentState?: PublicCloudInstanceInstanceCurrentState | null;
+  currentState?: PublicCloudInstanceInstanceCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the instance */
-  currentTasks?: PublicCloudInstanceInstanceCurrentTasksList | null;
+  currentTasks?: PublicCloudInstanceInstanceCurrentTasksList | null | undefined;
   /** Unique identifier of the instance */
-  id?: string;
+  id?: string | undefined;
   /** Instance readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the instance */
-  targetSpec?: PublicCloudInstanceInstanceTargetSpec;
+  targetSpec?: PublicCloudInstanceInstanceTargetSpec | undefined;
   /** Last update date of the instance */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Optional parameters for an instance action */
 export interface PublicCloudInstanceInstanceActionParameters {
   /** Whether to perform a hard reboot (only for REBOOT action) */
-  hard?: boolean | null;
+  hard?: boolean | null | undefined;
   /** Rescue image ID (only for RESCUE action) */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
 }
 /** Supported imperative action types for an instance */
 export type PublicCloudInstanceInstanceActionTypeEnum =
@@ -496,7 +496,7 @@ export interface CreatePublicCloudProjectComputeInstanceActionRequest {
   /** Current resource checksum for optimistic concurrency control */
   checksum: string;
   /** Optional parameters for the action */
-  parameters?: PublicCloudInstanceInstanceActionParameters | null;
+  parameters?: PublicCloudInstanceInstanceActionParameters | null | undefined;
   /** The action to perform */
   type: PublicCloudInstanceInstanceActionTypeEnum | (string & {});
 }
@@ -521,11 +521,11 @@ export interface CreatePublicCloudProjectComputeInstanceConsoleRequest {
 /** A remote console session for an instance */
 export interface PublicCloudInstanceRemoteConsole {
   /** The remote console protocol */
-  protocol?: PublicCloudInstanceRemoteConsoleProtocolEnum;
+  protocol?: PublicCloudInstanceRemoteConsoleProtocolEnum | undefined;
   /** The display type for the remote console */
-  type?: PublicCloudInstanceRemoteConsoleTypeEnum;
+  type?: PublicCloudInstanceRemoteConsoleTypeEnum | undefined;
   /** The URL to connect to the remote console */
-  url?: string;
+  url?: string | undefined;
 }
 /** Placement policy for an instance group */
 export type PublicCloudInstanceGroupPolicyEnum = "AFFINITY" | "ANTI_AFFINITY";
@@ -547,7 +547,7 @@ export interface CreatePublicCloudProjectComputeInstanceGroupRequest {
 /** Reference to an instance member of a group */
 export interface PublicCloudInstanceGroupInstanceGroupMemberRef {
   /** Instance identifier */
-  id?: string;
+  id?: string | undefined;
 }
 /** Instances in this group */
 export type PublicCloudInstanceGroupInstanceGroupCurrentStateMembersList =
@@ -555,41 +555,41 @@ export type PublicCloudInstanceGroupInstanceGroupCurrentStateMembersList =
 /** Current state of an instance group */
 export interface PublicCloudInstanceGroupInstanceGroupCurrentState {
   /** Deployment location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Instances in this group */
-  members?: PublicCloudInstanceGroupInstanceGroupCurrentStateMembersList | null;
+  members?: PublicCloudInstanceGroupInstanceGroupCurrentStateMembersList | null | undefined;
   /** Instance group name */
-  name?: string;
+  name?: string | undefined;
   /** Placement policy */
-  policy?: PublicCloudInstanceGroupPolicyEnum;
+  policy?: PublicCloudInstanceGroupPolicyEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the instance group */
 export type PublicCloudInstanceGroupInstanceGroupCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud instance group (server group with placement policy) */
 export interface PublicCloudInstanceGroupInstanceGroup {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the instance group */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the instance group */
-  currentState?: PublicCloudInstanceGroupInstanceGroupCurrentState | null;
+  currentState?: PublicCloudInstanceGroupInstanceGroupCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the instance group */
-  currentTasks?: PublicCloudInstanceGroupInstanceGroupCurrentTasksList | null;
+  currentTasks?: PublicCloudInstanceGroupInstanceGroupCurrentTasksList | null | undefined;
   /** Unique identifier of the instance group */
-  id?: string;
+  id?: string | undefined;
   /** Instance group readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the instance group */
-  targetSpec?: PublicCloudInstanceGroupInstanceGroupTargetSpec;
+  targetSpec?: PublicCloudInstanceGroupInstanceGroupTargetSpec | undefined;
   /** Last update date of the instance group */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Floating IP location */
 export type PublicCloudFloatingIpFloatingIPLocation = PublicCloudCommonLocation;
 /** Desired specification for a floating IP */
 export interface PublicCloudFloatingIpFloatingIPTargetSpec {
   /** Floating IP description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
 }
@@ -602,43 +602,43 @@ export interface CreatePublicCloudProjectFloatingIpRequest {
 /** A network reference for a floating IP */
 export interface PublicCloudFloatingIpFloatingIPNetwork {
   /** Network ID */
-  id?: string;
+  id?: string | undefined;
 }
 /** OpenStack floating IP status */
 export type PublicCloudFloatingIpFloatingIPStatusEnum = "ACTIVE" | "DOWN" | "ERROR";
 /** Current state of a floating IP from OpenStack */
 export interface PublicCloudFloatingIpFloatingIPCurrentState {
   /** Floating IP description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Floating IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Associated network */
-  network?: PublicCloudFloatingIpFloatingIPNetwork;
+  network?: PublicCloudFloatingIpFloatingIPNetwork | undefined;
   /** OpenStack floating IP status */
-  status?: PublicCloudFloatingIpFloatingIPStatusEnum;
+  status?: PublicCloudFloatingIpFloatingIPStatusEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the floating IP */
 export type PublicCloudFloatingIpFloatingIPCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud floating IP */
 export interface PublicCloudFloatingIpFloatingIP {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the floating IP */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the floating IP */
-  currentState?: PublicCloudFloatingIpFloatingIPCurrentState | null;
+  currentState?: PublicCloudFloatingIpFloatingIPCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the floating IP */
-  currentTasks?: PublicCloudFloatingIpFloatingIPCurrentTasksList | null;
+  currentTasks?: PublicCloudFloatingIpFloatingIPCurrentTasksList | null | undefined;
   /** Unique identifier of the floating IP */
-  id?: string;
+  id?: string | undefined;
   /** Floating IP readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the floating IP */
-  targetSpec?: PublicCloudFloatingIpFloatingIPTargetSpec;
+  targetSpec?: PublicCloudFloatingIpFloatingIPTargetSpec | undefined;
   /** Last update date of the floating IP */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** External gateway sizing model */
 export type PublicCloudGatewayExternalGatewayModelEnum = "2XL" | "3XL" | "L" | "M" | "S" | "XL";
@@ -647,7 +647,7 @@ export interface PublicCloudGatewayExternalGateway {
   /** Whether the external gateway is enabled */
   enabled: boolean;
   /** External gateway sizing model. Present only when enabled is true. */
-  model?: PublicCloudGatewayExternalGatewayModelEnum | (string & {}) | null;
+  model?: PublicCloudGatewayExternalGatewayModelEnum | (string & {}) | null | undefined;
 }
 /** Gateway location */
 export type PublicCloudGatewayGatewayLocation = PublicCloudCommonLocation;
@@ -661,7 +661,7 @@ export type PublicCloudGatewayGatewayTargetSpecSubnetsList = Array<PublicCloudGa
 /** Desired specification for a gateway */
 export interface PublicCloudGatewayGatewayTargetSpec {
   /** Gateway description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** External gateway configuration */
   externalGateway: PublicCloudGatewayExternalGateway;
   /** Target location */
@@ -669,7 +669,7 @@ export interface PublicCloudGatewayGatewayTargetSpec {
   /** Gateway name */
   name: string;
   /** Subnets to attach as router interfaces */
-  subnets?: PublicCloudGatewayGatewayTargetSpecSubnetsList | null;
+  subnets?: PublicCloudGatewayGatewayTargetSpecSubnetsList | null | undefined;
 }
 export interface CreatePublicCloudProjectGatewayRequest {
   /** Project ID */
@@ -685,40 +685,40 @@ export type PublicCloudGatewayGatewayCurrentStateSubnetsList =
 /** Current state of a gateway from OpenStack */
 export interface PublicCloudGatewayGatewayCurrentState {
   /** Gateway description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** External gateway configuration */
-  externalGateway?: PublicCloudGatewayExternalGateway;
+  externalGateway?: PublicCloudGatewayExternalGateway | undefined;
   /** External IP address assigned to the gateway */
-  externalIp?: string | null;
+  externalIp?: string | null | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Gateway name */
-  name?: string;
+  name?: string | undefined;
   /** OpenStack router status */
-  status?: PublicCloudGatewayGatewayStatusEnum;
+  status?: PublicCloudGatewayGatewayStatusEnum | undefined;
   /** Currently attached subnets */
-  subnets?: PublicCloudGatewayGatewayCurrentStateSubnetsList | null;
+  subnets?: PublicCloudGatewayGatewayCurrentStateSubnetsList | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the gateway */
 export type PublicCloudGatewayGatewayCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud gateway (OpenStack router) */
 export interface PublicCloudGatewayGateway {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the gateway */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the gateway */
-  currentState?: PublicCloudGatewayGatewayCurrentState | null;
+  currentState?: PublicCloudGatewayGatewayCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the gateway */
-  currentTasks?: PublicCloudGatewayGatewayCurrentTasksList | null;
+  currentTasks?: PublicCloudGatewayGatewayCurrentTasksList | null | undefined;
   /** Unique identifier of the gateway */
-  id?: string;
+  id?: string | undefined;
   /** Gateway readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the gateway */
-  targetSpec?: PublicCloudGatewayGatewayTargetSpec;
+  targetSpec?: PublicCloudGatewayGatewayTargetSpec | undefined;
   /** Last update date of the gateway */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Reference to a secret by ID */
 export interface PublicCloudKeyManagerContainerSecretRefSecret {
@@ -744,7 +744,7 @@ export interface PublicCloudKeyManagerContainerTargetSpec {
   /** Desired container name */
   name: string;
   /** Secret references to include in the container */
-  secretRefs?: PublicCloudKeyManagerContainerTargetSpecSecretRefsList | null;
+  secretRefs?: PublicCloudKeyManagerContainerTargetSpecSecretRefsList | null | undefined;
   /** Type of the container */
   type: PublicCloudKeyManagerContainerTypeEnum | (string & {});
 }
@@ -762,38 +762,38 @@ export type PublicCloudKeyManagerContainerStatusEnum = "ACTIVE" | "ERROR";
 /** Current state of a key manager container as observed from the infrastructure */
 export interface PublicCloudKeyManagerContainerCurrentState {
   /** Identifier of the user who created the container */
-  creatorId?: string | null;
+  creatorId?: string | null | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Current container name */
-  name?: string;
+  name?: string | undefined;
   /** Current secret references in the container */
-  secretRefs?: PublicCloudKeyManagerContainerCurrentStateSecretRefsList | null;
+  secretRefs?: PublicCloudKeyManagerContainerCurrentStateSecretRefsList | null | undefined;
   /** OpenStack container status */
-  status?: PublicCloudKeyManagerContainerStatusEnum;
+  status?: PublicCloudKeyManagerContainerStatusEnum | undefined;
   /** Current container type */
-  type?: PublicCloudKeyManagerContainerTypeEnum;
+  type?: PublicCloudKeyManagerContainerTypeEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the container */
 export type PublicCloudKeyManagerContainerCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud key manager container */
 export interface PublicCloudKeyManagerContainer {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the container */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the container from the infrastructure */
-  currentState?: PublicCloudKeyManagerContainerCurrentState | null;
+  currentState?: PublicCloudKeyManagerContainerCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the container */
-  currentTasks?: PublicCloudKeyManagerContainerCurrentTasksList | null;
+  currentTasks?: PublicCloudKeyManagerContainerCurrentTasksList | null | undefined;
   /** Unique identifier of the container */
-  id?: string;
+  id?: string | undefined;
   /** Container readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the container */
-  targetSpec?: PublicCloudKeyManagerContainerTargetSpec;
+  targetSpec?: PublicCloudKeyManagerContainerTargetSpec | undefined;
   /** Last update date of the container */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Type of resource consuming a Key Manager secret */
 export type PublicCloudKeyManagerConsumerResourceTypeEnum = "IMAGE" | "INSTANCE" | "LOADBALANCER";
@@ -818,13 +818,13 @@ export interface CreatePublicCloudProjectKeyManagerContainerConsumerRequest {
 /** A consumer registered for a Key Manager container */
 export interface PublicCloudKeyManagerContainerConsumer {
   /** Computed consumer identifier */
-  id?: string;
+  id?: string | undefined;
   /** UUID of the resource consuming the container */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of the resource consuming the container */
-  resourceType?: PublicCloudKeyManagerConsumerResourceTypeEnum;
+  resourceType?: PublicCloudKeyManagerConsumerResourceTypeEnum | undefined;
   /** OpenStack service type of the consumer */
-  service?: PublicCloudKeyManagerConsumerServiceEnum;
+  service?: PublicCloudKeyManagerConsumerServiceEnum | undefined;
 }
 /** Algorithm associated with a Key Manager secret */
 export type PublicCloudKeyManagerAlgorithmEnum = "AES" | "DH" | "DSA" | "EC" | "RSA";
@@ -853,23 +853,27 @@ export type PublicCloudKeyManagerSecretTypeEnum =
 /** Desired specification for a Key Manager secret */
 export interface PublicCloudKeyManagerSecretTargetSpec {
   /** Algorithm associated with the secret */
-  algorithm?: PublicCloudKeyManagerAlgorithmEnum | (string & {}) | null;
+  algorithm?: PublicCloudKeyManagerAlgorithmEnum | (string & {}) | null | undefined;
   /** Bit length of the secret */
-  bitLength?: PublicCloudKeyManagerBitLengthEnum | (number & {}) | null;
+  bitLength?: PublicCloudKeyManagerBitLengthEnum | (number & {}) | null | undefined;
   /** Expiration date and time of the secret */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** Target location for the secret */
   location: PublicCloudCommonLocation;
   /** Key-value metadata pairs for the secret */
-  metadata?: PublicCloudKeyManagerSecretTargetSpecMetadataMap | null;
+  metadata?: PublicCloudKeyManagerSecretTargetSpecMetadataMap | null | undefined;
   /** Mode of the algorithm */
-  mode?: PublicCloudKeyManagerModeEnum | (string & {}) | null;
+  mode?: PublicCloudKeyManagerModeEnum | (string & {}) | null | undefined;
   /** Human-readable name of the secret */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Secret payload data (base64-encoded). Write-only, never returned in responses. Requires payloadContentType. */
-  payload?: string | null;
+  payload?: string | null | undefined;
   /** Content type of the secret payload */
-  payloadContentType?: PublicCloudKeyManagerPayloadContentTypeEnum | (string & {}) | null;
+  payloadContentType?:
+    | PublicCloudKeyManagerPayloadContentTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Type of the secret */
   secretType: PublicCloudKeyManagerSecretTypeEnum | (string & {});
 }
@@ -888,48 +892,48 @@ export type PublicCloudKeyManagerSecretStatusEnum = "ACTIVE" | "ERROR";
 /** Current state of a Key Manager secret from OpenStack */
 export interface PublicCloudKeyManagerSecretCurrentState {
   /** Algorithm associated with the secret */
-  algorithm?: PublicCloudKeyManagerAlgorithmEnum | null;
+  algorithm?: PublicCloudKeyManagerAlgorithmEnum | null | undefined;
   /** Bit length of the secret */
-  bitLength?: PublicCloudKeyManagerBitLengthEnum | null;
+  bitLength?: PublicCloudKeyManagerBitLengthEnum | null | undefined;
   /** Identifier of the user who created the secret */
-  creatorId?: string | null;
+  creatorId?: string | null | undefined;
   /** Expiration date and time of the secret */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** Current location of the secret */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Key-value metadata pairs for the secret */
-  metadata?: PublicCloudKeyManagerSecretCurrentStateMetadataMap | null;
+  metadata?: PublicCloudKeyManagerSecretCurrentStateMetadataMap | null | undefined;
   /** Mode of the algorithm */
-  mode?: PublicCloudKeyManagerModeEnum | null;
+  mode?: PublicCloudKeyManagerModeEnum | null | undefined;
   /** Human-readable name of the secret */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Content type of the secret payload */
-  payloadContentType?: PublicCloudKeyManagerPayloadContentTypeEnum | null;
+  payloadContentType?: PublicCloudKeyManagerPayloadContentTypeEnum | null | undefined;
   /** Type of the secret */
-  secretType?: PublicCloudKeyManagerSecretTypeEnum;
+  secretType?: PublicCloudKeyManagerSecretTypeEnum | undefined;
   /** OpenStack status of the secret */
-  status?: PublicCloudKeyManagerSecretStatusEnum;
+  status?: PublicCloudKeyManagerSecretStatusEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the secret */
 export type PublicCloudKeyManagerSecretCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud Key Manager secret */
 export interface PublicCloudKeyManagerSecret {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the secret */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the secret */
-  currentState?: PublicCloudKeyManagerSecretCurrentState | null;
+  currentState?: PublicCloudKeyManagerSecretCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the secret */
-  currentTasks?: PublicCloudKeyManagerSecretCurrentTasksList | null;
+  currentTasks?: PublicCloudKeyManagerSecretCurrentTasksList | null | undefined;
   /** Unique identifier of the secret */
-  id?: string;
+  id?: string | undefined;
   /** Secret readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the secret */
-  targetSpec?: PublicCloudKeyManagerSecretTargetSpec;
+  targetSpec?: PublicCloudKeyManagerSecretTargetSpec | undefined;
   /** Last update date of the secret */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreatePublicCloudProjectKeyManagerSecretConsumerRequest {
   /** Project ID */
@@ -946,13 +950,13 @@ export interface CreatePublicCloudProjectKeyManagerSecretConsumerRequest {
 /** A consumer registered for a Key Manager secret */
 export interface PublicCloudKeyManagerSecretConsumer {
   /** Computed consumer identifier */
-  id?: string;
+  id?: string | undefined;
   /** UUID of the resource consuming the secret */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of the resource consuming the secret */
-  resourceType?: PublicCloudKeyManagerConsumerResourceTypeEnum;
+  resourceType?: PublicCloudKeyManagerConsumerResourceTypeEnum | undefined;
   /** OpenStack service type of the consumer */
-  service?: PublicCloudKeyManagerConsumerServiceEnum;
+  service?: PublicCloudKeyManagerConsumerServiceEnum | undefined;
 }
 export interface CreatePublicCloudProjectKeyManagerSecretPayloadRequest {
   /** Project ID */
@@ -963,7 +967,7 @@ export interface CreatePublicCloudProjectKeyManagerSecretPayloadRequest {
 /** Payload content of a Key Manager secret */
 export interface PublicCloudKeyManagerSecretPayload {
   /** Secret payload data */
-  payload?: string;
+  payload?: string | undefined;
 }
 /** Available Octavia load balancer flavor names */
 export type PublicCloudLoadbalancerLoadbalancerFlavorNameEnum = "LARGE" | "MEDIUM" | "SMALL" | "XL";
@@ -985,7 +989,7 @@ export interface PublicCloudLoadbalancerLoadbalancerSubnetRef {
 /** Desired specification for a load balancer */
 export interface PublicCloudLoadbalancerLoadbalancerTargetSpec {
   /** Load balancer description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Octavia flavor reference */
   flavor: PublicCloudLoadbalancerLoadbalancerFlavorRef;
   /** Target location */
@@ -1022,44 +1026,44 @@ export type PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum =
 /** Current state of a load balancer from OpenStack */
 export interface PublicCloudLoadbalancerLoadbalancerCurrentState {
   /** Load balancer description */
-  description?: string;
+  description?: string | undefined;
   /** Octavia flavor */
-  flavor?: PublicCloudLoadbalancerLoadbalancerFlavorRef;
+  flavor?: PublicCloudLoadbalancerLoadbalancerFlavorRef | undefined;
   /** Location details */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Load balancer name */
-  name?: string;
+  name?: string | undefined;
   /** Operating status */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | undefined;
   /** Provisioning status in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | undefined;
   /** Virtual IP address */
-  vipAddress?: string;
+  vipAddress?: string | undefined;
   /** Network of the VIP */
-  vipNetwork?: PublicCloudLoadbalancerLoadbalancerNetworkRef;
+  vipNetwork?: PublicCloudLoadbalancerLoadbalancerNetworkRef | undefined;
   /** Subnet of the VIP */
-  vipSubnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef;
+  vipSubnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef | undefined;
 }
 /** Ongoing asynchronous tasks related to the load balancer */
 export type PublicCloudLoadbalancerLoadbalancerCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud load balancer */
 export interface PublicCloudLoadbalancerLoadbalancer {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the load balancer */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the load balancer */
-  currentState?: PublicCloudLoadbalancerLoadbalancerCurrentState | null;
+  currentState?: PublicCloudLoadbalancerLoadbalancerCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the load balancer */
-  currentTasks?: PublicCloudLoadbalancerLoadbalancerCurrentTasksList | null;
+  currentTasks?: PublicCloudLoadbalancerLoadbalancerCurrentTasksList | null | undefined;
   /** Unique identifier of the load balancer */
-  id?: string;
+  id?: string | undefined;
   /** Load balancer readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the load balancer */
-  targetSpec?: PublicCloudLoadbalancerLoadbalancerTargetSpec;
+  targetSpec?: PublicCloudLoadbalancerLoadbalancerTargetSpec | undefined;
   /** Last update date of the load balancer */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** CIDR blocks allowed to connect to this listener */
 export type PublicCloudLoadbalancerListenerTargetSpecAllowedCidrsList = Array<string>;
@@ -1071,17 +1075,17 @@ export interface PublicCloudLoadbalancerListenerDefaultPoolRef {
 /** Headers that the load balancer inserts into requests before forwarding to backend members */
 export interface PublicCloudLoadbalancerListenerInsertHeaders {
   /** When true, inserts X-Forwarded-For header with the client IP address */
-  xForwardedFor?: boolean | null;
+  xForwardedFor?: boolean | null | undefined;
   /** When true, inserts X-Forwarded-Port header with the listener port */
-  xForwardedPort?: boolean | null;
+  xForwardedPort?: boolean | null | undefined;
   /** When true, inserts X-Forwarded-Proto header with the listener protocol */
-  xForwardedProto?: boolean | null;
+  xForwardedProto?: boolean | null | undefined;
   /** When true, inserts X-SSL-Client-DN header with the client certificate distinguished name */
-  xSslClientDn?: boolean | null;
+  xSslClientDn?: boolean | null | undefined;
   /** When true, inserts X-SSL-Client-Has-Cert header indicating whether a client certificate is presented */
-  xSslClientHasCert?: boolean | null;
+  xSslClientHasCert?: boolean | null | undefined;
   /** When true, inserts X-SSL-Client-Verify header with the client certificate verification result */
-  xSslClientVerify?: boolean | null;
+  xSslClientVerify?: boolean | null | undefined;
 }
 /** Protocol of a load balancer listener */
 export type PublicCloudLoadbalancerListenerProtocolEnum =
@@ -1098,17 +1102,17 @@ export type PublicCloudLoadbalancerListenerTargetSpecTlsVersionsList = Array<str
 /** Desired specification for creating a load balancer listener */
 export interface PublicCloudLoadbalancerListenerTargetSpec {
   /** CIDR blocks allowed to connect to this listener */
-  allowedCidrs?: PublicCloudLoadbalancerListenerTargetSpecAllowedCidrsList | null;
+  allowedCidrs?: PublicCloudLoadbalancerListenerTargetSpecAllowedCidrsList | null | undefined;
   /** Maximum number of connections permitted for this listener (-1 for unlimited) */
-  connectionLimit?: number | null;
+  connectionLimit?: number | null | undefined;
   /** Reference to the default pool that handles traffic for this listener */
-  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolRef | null;
+  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolRef | null | undefined;
   /** Reference to the default TLS certificate container (for TERMINATED_HTTPS) */
-  defaultTlsContainerRef?: string | null;
+  defaultTlsContainerRef?: string | null | undefined;
   /** Listener description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Optional headers to insert into requests before forwarding to backend members */
-  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null;
+  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null | undefined;
   /** Listener name */
   name: string;
   /** Protocol of the listener */
@@ -1116,17 +1120,20 @@ export interface PublicCloudLoadbalancerListenerTargetSpec {
   /** Port on which the listener accepts traffic */
   protocolPort: number;
   /** References to TLS certificate containers for SNI (for TERMINATED_HTTPS) */
-  sniContainerRefs?: PublicCloudLoadbalancerListenerTargetSpecSniContainerRefsList | null;
+  sniContainerRefs?:
+    | PublicCloudLoadbalancerListenerTargetSpecSniContainerRefsList
+    | null
+    | undefined;
   /** Frontend client inactivity timeout in milliseconds */
-  timeoutClientData?: number | null;
+  timeoutClientData?: number | null | undefined;
   /** Backend member connection timeout in milliseconds */
-  timeoutMemberConnect?: number | null;
+  timeoutMemberConnect?: number | null | undefined;
   /** Backend member inactivity timeout in milliseconds */
-  timeoutMemberData?: number | null;
+  timeoutMemberData?: number | null | undefined;
   /** Time in milliseconds to wait for additional TCP packets for content inspection */
-  timeoutTcpInspect?: number | null;
+  timeoutTcpInspect?: number | null | undefined;
   /** List of TLS protocol versions allowed (e.g. TLSv1.2, TLSv1.3) */
-  tlsVersions?: PublicCloudLoadbalancerListenerTargetSpecTlsVersionsList | null;
+  tlsVersions?: PublicCloudLoadbalancerListenerTargetSpecTlsVersionsList | null | undefined;
 }
 export interface CreatePublicCloudProjectLoadbalancerListenerRequest {
   /** Project ID */
@@ -1141,7 +1148,7 @@ export type PublicCloudLoadbalancerListenerCurrentStateAllowedCidrsList = Array<
 /** Default pool details for a listener in current state */
 export interface PublicCloudLoadbalancerListenerDefaultPoolDetail {
   /** Identifier of the default pool for this listener */
-  id?: string;
+  id?: string | undefined;
 }
 /** References to TLS certificate containers for SNI */
 export type PublicCloudLoadbalancerListenerCurrentStateSniContainerRefsList = Array<string>;
@@ -1150,60 +1157,63 @@ export type PublicCloudLoadbalancerListenerCurrentStateTlsVersionsList = Array<s
 /** Current state of a load balancer listener from OpenStack */
 export interface PublicCloudLoadbalancerListenerCurrentState {
   /** CIDR blocks allowed to connect to this listener */
-  allowedCidrs?: PublicCloudLoadbalancerListenerCurrentStateAllowedCidrsList | null;
+  allowedCidrs?: PublicCloudLoadbalancerListenerCurrentStateAllowedCidrsList | null | undefined;
   /** Maximum number of connections permitted for this listener (-1 for unlimited) */
-  connectionLimit?: number | null;
+  connectionLimit?: number | null | undefined;
   /** Default pool that handles traffic for this listener */
-  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolDetail | null;
+  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolDetail | null | undefined;
   /** Reference to the default TLS certificate container */
-  defaultTlsContainerRef?: string | null;
+  defaultTlsContainerRef?: string | null | undefined;
   /** Listener description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Headers inserted into requests before forwarding to backend members */
-  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null;
+  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null | undefined;
   /** Listener name */
-  name?: string;
+  name?: string | undefined;
   /** Operating status */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | undefined;
   /** Protocol of the listener */
-  protocol?: PublicCloudLoadbalancerListenerProtocolEnum;
+  protocol?: PublicCloudLoadbalancerListenerProtocolEnum | undefined;
   /** Port on which the listener accepts traffic */
-  protocolPort?: number;
+  protocolPort?: number | undefined;
   /** Provisioning status in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | undefined;
   /** References to TLS certificate containers for SNI */
-  sniContainerRefs?: PublicCloudLoadbalancerListenerCurrentStateSniContainerRefsList | null;
+  sniContainerRefs?:
+    | PublicCloudLoadbalancerListenerCurrentStateSniContainerRefsList
+    | null
+    | undefined;
   /** Frontend client inactivity timeout in milliseconds */
-  timeoutClientData?: number | null;
+  timeoutClientData?: number | null | undefined;
   /** Backend member connection timeout in milliseconds */
-  timeoutMemberConnect?: number | null;
+  timeoutMemberConnect?: number | null | undefined;
   /** Backend member inactivity timeout in milliseconds */
-  timeoutMemberData?: number | null;
+  timeoutMemberData?: number | null | undefined;
   /** Time in milliseconds to wait for additional TCP packets for content inspection */
-  timeoutTcpInspect?: number | null;
+  timeoutTcpInspect?: number | null | undefined;
   /** List of TLS protocol versions allowed */
-  tlsVersions?: PublicCloudLoadbalancerListenerCurrentStateTlsVersionsList | null;
+  tlsVersions?: PublicCloudLoadbalancerListenerCurrentStateTlsVersionsList | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the listener */
 export type PublicCloudLoadbalancerListenerCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud load balancer listener */
 export interface PublicCloudLoadbalancerListener {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the listener */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the listener */
-  currentState?: PublicCloudLoadbalancerListenerCurrentState | null;
+  currentState?: PublicCloudLoadbalancerListenerCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the listener */
-  currentTasks?: PublicCloudLoadbalancerListenerCurrentTasksList | null;
+  currentTasks?: PublicCloudLoadbalancerListenerCurrentTasksList | null | undefined;
   /** Unique identifier of the listener */
-  id?: string;
+  id?: string | undefined;
   /** Listener readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the listener */
-  targetSpec?: PublicCloudLoadbalancerListenerTargetSpec;
+  targetSpec?: PublicCloudLoadbalancerListenerTargetSpec | undefined;
   /** Last update date of the listener */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Action to take when an L7 policy matches */
 export type PublicCloudLoadbalancerL7PolicyActionEnum =
@@ -1235,9 +1245,9 @@ export interface PublicCloudLoadbalancerL7RuleSpec {
   /** Comparison method for matching the value */
   compareType: PublicCloudLoadbalancerL7RuleCompareTypeEnum | (string & {});
   /** When true, inverts the logic of the rule (matches when the rule does not match) */
-  invert?: boolean | null;
+  invert?: boolean | null | undefined;
   /** Key to use for the comparison (required for COOKIE and HEADER rule types) */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Type of attribute to match (COOKIE, FILE_TYPE, HEADER, HOST_NAME, PATH) */
   type: PublicCloudLoadbalancerL7RuleTypeEnum | (string & {});
   /** Value to compare against the attribute */
@@ -1251,21 +1261,21 @@ export interface PublicCloudLoadbalancerL7PolicyTargetSpec {
   /** Action to take when the policy matches (REDIRECT_PREFIX, REDIRECT_TO_POOL, REDIRECT_TO_URL, REJECT) */
   action: PublicCloudLoadbalancerL7PolicyActionEnum | (string & {});
   /** Description of the L7 policy */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Human-readable name of the L7 policy */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Evaluation position of this policy relative to other policies (starting at 1) */
-  position?: number | null;
+  position?: number | null | undefined;
   /** HTTP status code used for redirect responses (e.g. 301, 302, 303, 307, 308) */
-  redirectHttpCode?: number | null;
+  redirectHttpCode?: number | null | undefined;
   /** Reference to the pool to redirect traffic to (for REDIRECT_TO_POOL action) */
-  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolRef | null;
+  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolRef | null | undefined;
   /** URL prefix to redirect requests to (for REDIRECT_PREFIX action) */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** URL to redirect requests to (for REDIRECT_TO_URL action) */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
   /** L7 rules that determine when this policy matches */
-  rules?: PublicCloudLoadbalancerL7PolicyTargetSpecRulesList | null;
+  rules?: PublicCloudLoadbalancerL7PolicyTargetSpecRulesList | null | undefined;
 }
 export interface CreatePublicCloudProjectLoadbalancerListenerL7policyRequest {
   /** Project ID */
@@ -1280,26 +1290,26 @@ export interface CreatePublicCloudProjectLoadbalancerListenerL7policyRequest {
 /** Pool details for an L7 policy redirect in current state */
 export interface PublicCloudLoadbalancerL7PolicyRedirectPoolDetail {
   /** Identifier of the pool traffic is redirected to */
-  id?: string;
+  id?: string | undefined;
 }
 /** Current state of an L7 rule from OpenStack */
 export interface PublicCloudLoadbalancerL7RuleState {
   /** Comparison method used for matching */
-  compareType?: string;
+  compareType?: string | undefined;
   /** Unique identifier of the L7 rule */
-  id?: string;
+  id?: string | undefined;
   /** Whether the rule logic is inverted */
-  invert?: boolean | null;
+  invert?: boolean | null | undefined;
   /** Key used for the comparison (for COOKIE and HEADER rule types) */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Operating status of the L7 rule */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | null;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | null | undefined;
   /** Provisioning status of the L7 rule in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | null;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | null | undefined;
   /** Type of attribute matched by the rule */
-  type?: string;
+  type?: string | undefined;
   /** Value compared against the attribute */
-  value?: string;
+  value?: string | undefined;
 }
 /** L7 rules associated with this policy */
 export type PublicCloudLoadbalancerL7PolicyCurrentStateRulesList =
@@ -1307,48 +1317,48 @@ export type PublicCloudLoadbalancerL7PolicyCurrentStateRulesList =
 /** Current state of an L7 policy from OpenStack */
 export interface PublicCloudLoadbalancerL7PolicyCurrentState {
   /** Action taken when the policy matches */
-  action?: PublicCloudLoadbalancerL7PolicyActionEnum;
+  action?: PublicCloudLoadbalancerL7PolicyActionEnum | undefined;
   /** Description of the L7 policy */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Human-readable name of the L7 policy */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Operating status of the L7 policy */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | null;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | null | undefined;
   /** Evaluation position of this policy relative to other policies */
-  position?: number | null;
+  position?: number | null | undefined;
   /** Provisioning status of the L7 policy in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | null;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | null | undefined;
   /** HTTP status code used for redirect responses */
-  redirectHttpCode?: number | null;
+  redirectHttpCode?: number | null | undefined;
   /** Pool traffic is redirected to */
-  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolDetail | null;
+  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolDetail | null | undefined;
   /** URL prefix requests are redirected to */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** URL requests are redirected to */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
   /** L7 rules associated with this policy */
-  rules?: PublicCloudLoadbalancerL7PolicyCurrentStateRulesList | null;
+  rules?: PublicCloudLoadbalancerL7PolicyCurrentStateRulesList | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the L7 policy */
 export type PublicCloudLoadbalancerL7PolicyCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud load balancer L7 policy */
 export interface PublicCloudLoadbalancerL7Policy {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the L7 policy */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the L7 policy */
-  currentState?: PublicCloudLoadbalancerL7PolicyCurrentState | null;
+  currentState?: PublicCloudLoadbalancerL7PolicyCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the L7 policy */
-  currentTasks?: PublicCloudLoadbalancerL7PolicyCurrentTasksList | null;
+  currentTasks?: PublicCloudLoadbalancerL7PolicyCurrentTasksList | null | undefined;
   /** Unique identifier of the L7 policy */
-  id?: string;
+  id?: string | undefined;
   /** L7 policy readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the L7 policy */
-  targetSpec?: PublicCloudLoadbalancerL7PolicyTargetSpec;
+  targetSpec?: PublicCloudLoadbalancerL7PolicyTargetSpec | undefined;
   /** Last update date of the L7 policy */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Load balancing algorithm for a pool */
 export type PublicCloudLoadbalancerPoolAlgorithmEnum =
@@ -1381,25 +1391,29 @@ export interface PublicCloudLoadbalancerHealthMonitorTargetSpec {
   /** Time in seconds between sending health check probes to members */
   delay: number;
   /** Domain name injected into the HTTP Host header for HTTP/HTTPS health checks */
-  domainName?: string | null;
+  domainName?: string | null | undefined;
   /** Expected HTTP status codes for HTTP/HTTPS health checks (e.g. 200, 200-202, 200-202,401) */
-  expectedCodes?: string | null;
+  expectedCodes?: string | null | undefined;
   /** HTTP method used for HTTP/HTTPS health checks */
-  httpMethod?: PublicCloudLoadbalancerHealthMonitorHttpMethodEnum | (string & {}) | null;
+  httpMethod?:
+    | PublicCloudLoadbalancerHealthMonitorHttpMethodEnum
+    | (string & {})
+    | null
+    | undefined;
   /** HTTP version for HTTP/HTTPS health checks (1.0 or 1.1) */
-  httpVersion?: string | null;
+  httpVersion?: string | null | undefined;
   /** Number of consecutive health check failures before marking a member as INACTIVE (1-10) */
   maxRetries: number;
   /** Number of consecutive health check failures before marking a member as ERROR (1-10) */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Human-readable name for the health monitor */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Maximum time in seconds to wait for a health check reply (must be less than or equal to delay) */
   timeout: number;
   /** Type of health check probe (immutable after creation) */
   type: PublicCloudLoadbalancerHealthMonitorTypeEnum | (string & {});
   /** URI path for HTTP/HTTPS health checks (must start with /) */
-  urlPath?: string | null;
+  urlPath?: string | null | undefined;
 }
 /** Type of session persistence for a load balancer pool */
 export type PublicCloudLoadbalancerSessionPersistenceTypeEnum =
@@ -1409,7 +1423,7 @@ export type PublicCloudLoadbalancerSessionPersistenceTypeEnum =
 /** Session persistence configuration for a load balancer pool */
 export interface PublicCloudLoadbalancerSessionPersistence {
   /** Name of the cookie for HTTP_COOKIE or APP_COOKIE persistence types */
-  cookieName?: string | null;
+  cookieName?: string | null | undefined;
   /** Type of session persistence */
   type: PublicCloudLoadbalancerSessionPersistenceTypeEnum | (string & {});
 }
@@ -1427,13 +1441,13 @@ export interface PublicCloudLoadbalancerPoolTargetSpec {
   /** Load balancing algorithm */
   algorithm: PublicCloudLoadbalancerPoolAlgorithmEnum | (string & {});
   /** Pool description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Health monitor configuration for this pool */
-  healthMonitor?: PublicCloudLoadbalancerHealthMonitorTargetSpec | null;
+  healthMonitor?: PublicCloudLoadbalancerHealthMonitorTargetSpec | null | undefined;
   /** Pool name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Session persistence configuration */
-  persistence?: PublicCloudLoadbalancerSessionPersistence | null;
+  persistence?: PublicCloudLoadbalancerSessionPersistence | null | undefined;
   /** Protocol of the pool */
   protocol: PublicCloudLoadbalancerPoolProtocolEnum | (string & {});
 }
@@ -1448,97 +1462,97 @@ export interface CreatePublicCloudProjectLoadbalancerPoolRequest {
 /** Current state of a health monitor from OpenStack */
 export interface PublicCloudLoadbalancerHealthMonitorCurrentState {
   /** Time in seconds between sending health check probes to members */
-  delay?: number;
+  delay?: number | undefined;
   /** Domain name injected into the HTTP Host header */
-  domainName?: string | null;
+  domainName?: string | null | undefined;
   /** Expected HTTP status codes for HTTP/HTTPS health checks */
-  expectedCodes?: string | null;
+  expectedCodes?: string | null | undefined;
   /** HTTP method used for HTTP/HTTPS health checks */
-  httpMethod?: string | null;
+  httpMethod?: string | null | undefined;
   /** HTTP version for HTTP/HTTPS health checks */
-  httpVersion?: string | null;
+  httpVersion?: string | null | undefined;
   /** Health monitor unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Number of consecutive health check failures before marking a member as INACTIVE */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** Number of consecutive health check failures before marking a member as ERROR */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Human-readable name for the health monitor */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Operating status of the health monitor */
-  operatingStatus?: string | null;
+  operatingStatus?: string | null | undefined;
   /** Provisioning status of the health monitor */
-  provisioningStatus?: string | null;
+  provisioningStatus?: string | null | undefined;
   /** Maximum time in seconds to wait for a health check reply */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Type of health check probe */
-  type?: PublicCloudLoadbalancerHealthMonitorTypeEnum;
+  type?: PublicCloudLoadbalancerHealthMonitorTypeEnum | undefined;
   /** URI path for HTTP/HTTPS health checks */
-  urlPath?: string | null;
+  urlPath?: string | null | undefined;
 }
 /** Current state of a load balancer pool from OpenStack */
 export interface PublicCloudLoadbalancerPoolCurrentState {
   /** Load balancing algorithm */
-  algorithm?: PublicCloudLoadbalancerPoolAlgorithmEnum;
+  algorithm?: PublicCloudLoadbalancerPoolAlgorithmEnum | undefined;
   /** Pool description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Health monitor associated with this pool */
-  healthMonitor?: PublicCloudLoadbalancerHealthMonitorCurrentState | null;
+  healthMonitor?: PublicCloudLoadbalancerHealthMonitorCurrentState | null | undefined;
   /** Pool name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Operating status */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | undefined;
   /** Session persistence configuration */
-  persistence?: PublicCloudLoadbalancerSessionPersistence | null;
+  persistence?: PublicCloudLoadbalancerSessionPersistence | null | undefined;
   /** Protocol of the pool */
-  protocol?: PublicCloudLoadbalancerPoolProtocolEnum;
+  protocol?: PublicCloudLoadbalancerPoolProtocolEnum | undefined;
   /** Provisioning status in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the pool */
 export type PublicCloudLoadbalancerPoolCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud load balancer pool */
 export interface PublicCloudLoadbalancerPool {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the pool */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the pool */
-  currentState?: PublicCloudLoadbalancerPoolCurrentState | null;
+  currentState?: PublicCloudLoadbalancerPoolCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the pool */
-  currentTasks?: PublicCloudLoadbalancerPoolCurrentTasksList | null;
+  currentTasks?: PublicCloudLoadbalancerPoolCurrentTasksList | null | undefined;
   /** Unique identifier of the pool */
-  id?: string;
+  id?: string | undefined;
   /** Pool readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the pool */
-  targetSpec?: PublicCloudLoadbalancerPoolTargetSpec;
+  targetSpec?: PublicCloudLoadbalancerPoolTargetSpec | undefined;
   /** Last update date of the pool */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Alternate address and port for health monitoring of a pool member */
 export interface PublicCloudLoadbalancerMemberMonitor {
   /** Alternate IP address for health monitoring */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Alternate port for health monitoring */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 /** Desired specification for creating a load balancer pool member */
 export interface PublicCloudLoadbalancerMemberTargetSpec {
   /** IP address of the member backend server */
   address: string;
   /** Whether this is a backup member */
-  backup?: boolean | null;
+  backup?: boolean | null | undefined;
   /** Alternate address and port for health monitoring. If not specified, the member address and protocol port will be used for health monitoring */
-  monitor?: PublicCloudLoadbalancerMemberMonitor | null;
+  monitor?: PublicCloudLoadbalancerMemberMonitor | null | undefined;
   /** Member name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Port the member backend server listens on */
   protocolPort: number;
   /** Subnet reference for the member */
-  subnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef | null;
+  subnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef | null | undefined;
   /** Weight for load balancing (1-256) */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface CreatePublicCloudProjectLoadbalancerPoolMemberRequest {
   /** Project ID */
@@ -1553,55 +1567,55 @@ export interface CreatePublicCloudProjectLoadbalancerPoolMemberRequest {
 /** Current state of a load balancer pool member from OpenStack */
 export interface PublicCloudLoadbalancerMemberCurrentState {
   /** IP address of the member backend server */
-  address?: string;
+  address?: string | undefined;
   /** Whether this is a backup member */
-  backup?: boolean | null;
+  backup?: boolean | null | undefined;
   /** Alternate address and port for health monitoring. If not specified, the member address and protocol port will be used for health monitoring */
-  monitor?: PublicCloudLoadbalancerMemberMonitor | null;
+  monitor?: PublicCloudLoadbalancerMemberMonitor | null | undefined;
   /** Member name */
-  name?: string;
+  name?: string | undefined;
   /** Operating status */
-  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum;
+  operatingStatus?: PublicCloudLoadbalancerLoadbalancerOperatingStatusEnum | undefined;
   /** Port the member backend server listens on */
-  protocolPort?: number;
+  protocolPort?: number | undefined;
   /** Provisioning status in OpenStack */
-  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum;
+  provisioningStatus?: PublicCloudLoadbalancerLoadbalancerProvisioningStatusEnum | undefined;
   /** Subnet reference for the member */
-  subnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef | null;
+  subnet?: PublicCloudLoadbalancerLoadbalancerSubnetRef | null | undefined;
   /** Weight for load balancing */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Ongoing asynchronous tasks related to the member */
 export type PublicCloudLoadbalancerMemberCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud load balancer pool member */
 export interface PublicCloudLoadbalancerMember {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the member */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the member */
-  currentState?: PublicCloudLoadbalancerMemberCurrentState | null;
+  currentState?: PublicCloudLoadbalancerMemberCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the member */
-  currentTasks?: PublicCloudLoadbalancerMemberCurrentTasksList | null;
+  currentTasks?: PublicCloudLoadbalancerMemberCurrentTasksList | null | undefined;
   /** Unique identifier of the member */
-  id?: string;
+  id?: string | undefined;
   /** Member readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the member */
-  targetSpec?: PublicCloudLoadbalancerMemberTargetSpec;
+  targetSpec?: PublicCloudLoadbalancerMemberTargetSpec | undefined;
   /** Last update date of the member */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Desired specification for a network */
 export interface PublicCloudNetworkNetworkTargetSpec {
   /** Network description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
   /** Network name */
   name: string;
   /** VLAN segmentation id. Not supported on localzone regions. */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
 }
 export interface CreatePublicCloudProjectNetworkRequest {
   /** Project ID */
@@ -1612,34 +1626,34 @@ export interface CreatePublicCloudProjectNetworkRequest {
 /** Current state of a network from OpenStack */
 export interface PublicCloudNetworkNetworkCurrentState {
   /** Network description */
-  description?: string;
+  description?: string | undefined;
   /** Location details */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Network name */
-  name?: string;
+  name?: string | undefined;
   /** VLAN segmentation id. */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the network */
 export type PublicCloudNetworkNetworkCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud network */
 export interface PublicCloudNetworkNetwork {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the network */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the network */
-  currentState?: PublicCloudNetworkNetworkCurrentState | null;
+  currentState?: PublicCloudNetworkNetworkCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the network */
-  currentTasks?: PublicCloudNetworkNetworkCurrentTasksList | null;
+  currentTasks?: PublicCloudNetworkNetworkCurrentTasksList | null | undefined;
   /** Unique identifier of the network */
-  id?: string;
+  id?: string | undefined;
   /** Network readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the network */
-  targetSpec?: PublicCloudNetworkNetworkTargetSpec;
+  targetSpec?: PublicCloudNetworkNetworkTargetSpec | undefined;
   /** Last update date of the network */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** IP address pool for dynamic allocation within a subnet */
 export interface PublicCloudNetworkSubnetAllocationPool {
@@ -1656,17 +1670,17 @@ export type PublicCloudNetworkSubnetTargetSpecDnsNameserversList = Array<string>
 /** Desired specification for a subnet */
 export interface PublicCloudNetworkSubnetTargetSpec {
   /** IP address allocation pools */
-  allocationPools?: PublicCloudNetworkSubnetTargetSpecAllocationPoolsList | null;
+  allocationPools?: PublicCloudNetworkSubnetTargetSpecAllocationPoolsList | null | undefined;
   /** CIDR address range (immutable after creation) */
   cidr: string;
   /** Subnet description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether DHCP is enabled */
-  dhcpEnabled?: boolean | null;
+  dhcpEnabled?: boolean | null | undefined;
   /** DNS nameservers for the subnet */
-  dnsNameservers?: PublicCloudNetworkSubnetTargetSpecDnsNameserversList | null;
+  dnsNameservers?: PublicCloudNetworkSubnetTargetSpecDnsNameserversList | null | undefined;
   /** Default gateway IP address */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
   /** Subnet name */
@@ -1688,9 +1702,9 @@ export type PublicCloudNetworkSubnetCurrentStateDnsNameserversList = Array<strin
 /** Static host route for devices in a subnet */
 export interface PublicCloudNetworkSubnetHostRoute {
   /** Destination CIDR */
-  destination?: string;
+  destination?: string | undefined;
   /** Next hop IP address */
-  nextHop?: string;
+  nextHop?: string | undefined;
 }
 /** Static host routes */
 export type PublicCloudNetworkSubnetCurrentStateHostRoutesList =
@@ -1698,44 +1712,44 @@ export type PublicCloudNetworkSubnetCurrentStateHostRoutesList =
 /** Current state of a subnet from OpenStack */
 export interface PublicCloudNetworkSubnetCurrentState {
   /** Allocation pools */
-  allocationPools?: PublicCloudNetworkSubnetCurrentStateAllocationPoolsList | null;
+  allocationPools?: PublicCloudNetworkSubnetCurrentStateAllocationPoolsList | null | undefined;
   /** CIDR address range */
-  cidr?: string;
+  cidr?: string | undefined;
   /** Subnet description */
-  description?: string;
+  description?: string | undefined;
   /** Whether DHCP is enabled */
-  dhcpEnabled?: boolean;
+  dhcpEnabled?: boolean | undefined;
   /** DNS nameservers */
-  dnsNameservers?: PublicCloudNetworkSubnetCurrentStateDnsNameserversList | null;
+  dnsNameservers?: PublicCloudNetworkSubnetCurrentStateDnsNameserversList | null | undefined;
   /** Default gateway IP */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Static host routes */
-  hostRoutes?: PublicCloudNetworkSubnetCurrentStateHostRoutesList | null;
+  hostRoutes?: PublicCloudNetworkSubnetCurrentStateHostRoutesList | null | undefined;
   /** Location details */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Subnet name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the subnet */
 export type PublicCloudNetworkSubnetCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud subnet */
 export interface PublicCloudNetworkSubnet {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the subnet */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the subnet */
-  currentState?: PublicCloudNetworkSubnetCurrentState | null;
+  currentState?: PublicCloudNetworkSubnetCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the subnet */
-  currentTasks?: PublicCloudNetworkSubnetCurrentTasksList | null;
+  currentTasks?: PublicCloudNetworkSubnetCurrentTasksList | null | undefined;
   /** Unique identifier of the subnet */
-  id?: string;
+  id?: string | undefined;
   /** Subnet readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the subnet */
-  targetSpec?: PublicCloudNetworkSubnetTargetSpec;
+  targetSpec?: PublicCloudNetworkSubnetTargetSpec | undefined;
   /** Last update date of the subnet */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Desired specification for a floating IP */
 export type PublicCloudPublicIpFloatingIPTargetSpec = PublicCloudFloatingIpFloatingIPTargetSpec;
@@ -1750,9 +1764,9 @@ export type PublicCloudPublicIpPublicIPAssociatedResourceTypeEnum = "INSTANCE";
 /** Resource associated with a public IP */
 export interface PublicCloudPublicIpPublicIPAssociatedResource {
   /** Associated resource identifier */
-  id?: string;
+  id?: string | undefined;
   /** Associated resource type */
-  type?: PublicCloudPublicIpPublicIPAssociatedResourceTypeEnum;
+  type?: PublicCloudPublicIpPublicIPAssociatedResourceTypeEnum | undefined;
 }
 /** A network reference for a floating IP */
 export type PublicCloudPublicIpFloatingIPNetwork = PublicCloudFloatingIpFloatingIPNetwork;
@@ -1768,53 +1782,53 @@ export type PublicCloudPublicIpFloatingIPStatusEnum =
 /** Current state of a floating IP from OpenStack */
 export interface PublicCloudPublicIpFloatingIPCurrentState {
   /** Resource currently associated with this floating IP */
-  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null;
+  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null | undefined;
   /** Floating IP description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ID of the underlying OpenStack resource */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Floating IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Network the floating IP is allocated on */
-  network?: PublicCloudFloatingIpFloatingIPNetwork | null;
+  network?: PublicCloudFloatingIpFloatingIPNetwork | null | undefined;
   /** OpenStack floating IP status */
-  status?: PublicCloudPublicIpFloatingIPStatusEnum;
+  status?: PublicCloudPublicIpFloatingIPStatusEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the floating IP */
 export type PublicCloudPublicIpFloatingIPCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud floating public IP (keyed by IP address) */
 export interface PublicCloudPublicIpFloatingIP {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the floating IP */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the floating IP */
-  currentState?: PublicCloudPublicIpFloatingIPCurrentState | null;
+  currentState?: PublicCloudPublicIpFloatingIPCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the floating IP */
-  currentTasks?: PublicCloudPublicIpFloatingIPCurrentTasksList;
+  currentTasks?: PublicCloudPublicIpFloatingIPCurrentTasksList | undefined;
   /** The floating IP address, used as identifier */
-  id?: string;
+  id?: string | undefined;
   /** Floating IP readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the floating IP */
-  targetSpec?: PublicCloudFloatingIpFloatingIPTargetSpec;
+  targetSpec?: PublicCloudFloatingIpFloatingIPTargetSpec | undefined;
   /** Last update date of the floating IP */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Possible values for managed Rancher plans */
 export type PublicCloudRancherPlanEnum = "OVHCLOUD_EDITION" | "STANDARD";
 /** Target specification of the managed Rancher service */
 export interface PublicCloudRancherRancherCreationTargetSpec {
   /** Allows Rancher to use identities managed by OVHcloud IAM (Identity and Access Management) to control access */
-  iamAuthEnabled?: boolean;
+  iamAuthEnabled?: boolean | undefined;
   /** Name of the managed Rancher service */
   name: string;
   /** Plan of the managed Rancher service. Available plans for an existing managed Rancher can be retrieved using GET /rancher/rancherID/capabilities/plan */
   plan: PublicCloudRancherPlanEnum | (string & {});
   /** Version of the managed Rancher service. Available versions for an existing managed Rancher can be retrieved using GET /rancher/rancherID/capabilities/version. Default is the latest version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreatePublicCloudProjectRancherRequest {
   /** Project ID */
@@ -1837,39 +1851,39 @@ export type PublicCloudRancherNetworkingEgressCidrBlocksList = Array<string>;
 /** Networking properties of a managed Rancher service */
 export interface PublicCloudRancherNetworking {
   /** Specifies the CIDR ranges for egress IP addresses used by Rancher. Ensure these ranges are allowed in any IP restrictions for services that Rancher will access. */
-  egressCidrBlocks?: PublicCloudRancherNetworkingEgressCidrBlocksList;
+  egressCidrBlocks?: PublicCloudRancherNetworkingEgressCidrBlocksList | undefined;
 }
 /** Possible values for managed Rancher regions */
 export type PublicCloudRancherRegionEnum = "EU_WEST_GRA" | "EU_WEST_RBX" | "EU_WEST_SBG";
 /** A metric sample about a managed Rancher usage */
 export interface PublicCloudRancherUsage {
   /** Date of the sample */
-  datetime?: string;
+  datetime?: string | undefined;
   /** Total number of vCPUs orchestrated by the managed Rancher service through the downstream clusters */
-  orchestratedVcpus?: number;
+  orchestratedVcpus?: number | undefined;
 }
 /** Current state of the managed Rancher service */
 export interface PublicCloudRancherRancherCurrentState {
   /** Bootstrap password of the managed Rancher service, returned only on creation */
-  bootstrapPassword?: string | Redacted.Redacted<string> | null;
+  bootstrapPassword?: string | Redacted.Redacted<string> | null | undefined;
   /** Allows Rancher to use identities managed by OVHcloud IAM (Identity and Access Management) to control access */
-  iamAuthEnabled?: boolean | null;
+  iamAuthEnabled?: boolean | null | undefined;
   /** List of allowed CIDR blocks for a managed Rancher service's IP restrictions. When empty, any IP is allowed */
-  ipRestrictions?: PublicCloudRancherRancherCurrentStateIpRestrictionsList | null;
+  ipRestrictions?: PublicCloudRancherRancherCurrentStateIpRestrictionsList | null | undefined;
   /** Name of the managed Rancher service */
-  name?: string;
+  name?: string | undefined;
   /** Networking properties of a managed Rancher service */
-  networking?: PublicCloudRancherNetworking | null;
+  networking?: PublicCloudRancherNetworking | null | undefined;
   /** Plan of the managed Rancher service */
-  plan?: PublicCloudRancherPlanEnum;
+  plan?: PublicCloudRancherPlanEnum | undefined;
   /** Region of the managed Rancher service */
-  region?: PublicCloudRancherRegionEnum;
+  region?: PublicCloudRancherRegionEnum | undefined;
   /** URL of the managed Rancher service */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Latest metrics regarding the usage of the managed Rancher service */
-  usage?: PublicCloudRancherUsage | null;
+  usage?: PublicCloudRancherUsage | null | undefined;
   /** Version of the managed Rancher service */
-  version?: string;
+  version?: string | undefined;
 }
 /** Asynchronous operations ongoing on the managed Rancher service */
 export type PublicCloudRancherRancherCurrentTasksList = Array<CommonCurrentTask>;
@@ -1879,9 +1893,9 @@ export type PublicCloudRancherRancherTargetSpecIpRestrictionsList =
 /** Target specification of the managed Rancher service */
 export interface PublicCloudRancherRancherTargetSpec {
   /** Allows Rancher to use identities managed by OVHcloud IAM (Identity and Access Management) to control access */
-  iamAuthEnabled?: boolean;
+  iamAuthEnabled?: boolean | undefined;
   /** List of allowed CIDR blocks for a managed Rancher service's IP restrictions. When empty, any IP is allowed */
-  ipRestrictions?: PublicCloudRancherRancherTargetSpecIpRestrictionsList;
+  ipRestrictions?: PublicCloudRancherRancherTargetSpecIpRestrictionsList | undefined;
   /** Name of the managed Rancher service */
   name: string;
   /** Plan of the managed Rancher service. Available plans for an existing managed Rancher can be retrieved using GET /rancher/rancherID/capabilities/plan */
@@ -1892,19 +1906,19 @@ export interface PublicCloudRancherRancherTargetSpec {
 /** A managed Rancher service object */
 export interface PublicCloudRancherRancher {
   /** Date of the managed Rancher service creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current configuration applied to the managed Rancher service */
-  currentState?: PublicCloudRancherRancherCurrentState;
+  currentState?: PublicCloudRancherRancherCurrentState | undefined;
   /** Asynchronous operations ongoing on the managed Rancher service */
-  currentTasks?: PublicCloudRancherRancherCurrentTasksList | null;
+  currentTasks?: PublicCloudRancherRancherCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the managed Rancher service. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the managed Rancher service */
-  targetSpec?: PublicCloudRancherRancherTargetSpec;
+  targetSpec?: PublicCloudRancherRancherTargetSpec | undefined;
   /** Date of the last managed Rancher service update */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreatePublicCloudProjectRancherAdminCredentialsRequest {
   /** Project ID */
@@ -1915,9 +1929,9 @@ export interface CreatePublicCloudProjectRancherAdminCredentialsRequest {
 /** Represents a username/password couple for a managed Rancher user */
 export interface PublicCloudRancherCredentials {
   /** Password of the user */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the user */
-  username?: string;
+  username?: string | undefined;
 }
 /** Flow rule of traffic for a security group rule */
 export type PublicCloudSecurityGroupTrafficFlowEnum = "EGRESS" | "INGRESS";
@@ -1944,21 +1958,21 @@ export type PublicCloudSecurityGroupProtocolEnum =
 /** Desired firewall rule for a security group */
 export interface PublicCloudSecurityGroupSecurityGroupTargetRule {
   /** Rule description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic flow */
   direction: PublicCloudSecurityGroupTrafficFlowEnum | (string & {});
   /** Ethernet type */
   ethernetType: PublicCloudSecurityGroupEthernetTypeEnum | (string & {});
   /** Maximum port number */
-  portRangeMax?: number | null;
+  portRangeMax?: number | null | undefined;
   /** Minimum port number */
-  portRangeMin?: number | null;
+  portRangeMin?: number | null | undefined;
   /** Network protocol */
-  protocol?: PublicCloudSecurityGroupProtocolEnum | (string & {}) | null;
+  protocol?: PublicCloudSecurityGroupProtocolEnum | (string & {}) | null | undefined;
   /** Reference to remote security group (mutually exclusive with remoteIpPrefix) */
-  remoteGroup?: PublicCloudSecurityGroupSecurityGroupRef | null;
+  remoteGroup?: PublicCloudSecurityGroupSecurityGroupRef | null | undefined;
   /** Remote CIDR prefix (mutually exclusive with remoteGroup) */
-  remoteIpPrefix?: string | null;
+  remoteIpPrefix?: string | null | undefined;
 }
 /** Desired firewall rules */
 export type PublicCloudSecurityGroupSecurityGroupTargetSpecRulesList =
@@ -1966,13 +1980,13 @@ export type PublicCloudSecurityGroupSecurityGroupTargetSpecRulesList =
 /** Desired specification for creating a security group */
 export interface PublicCloudSecurityGroupSecurityGroupTargetSpec {
   /** Security group description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Geographic location */
   location: PublicCloudCommonLocation;
   /** Security group name */
   name: string;
   /** Desired firewall rules */
-  rules?: PublicCloudSecurityGroupSecurityGroupTargetSpecRulesList | null;
+  rules?: PublicCloudSecurityGroupSecurityGroupTargetSpecRulesList | null | undefined;
 }
 export interface CreatePublicCloudProjectSecurityGroupRequest {
   /** Project ID */
@@ -1983,23 +1997,23 @@ export interface CreatePublicCloudProjectSecurityGroupRequest {
 /** Actual firewall rule from OpenStack for a security group */
 export interface PublicCloudSecurityGroupSecurityGroupStateRule {
   /** Rule description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic flow */
-  direction?: PublicCloudSecurityGroupTrafficFlowEnum;
+  direction?: PublicCloudSecurityGroupTrafficFlowEnum | undefined;
   /** Ethernet type */
-  ethernetType?: PublicCloudSecurityGroupEthernetTypeEnum;
+  ethernetType?: PublicCloudSecurityGroupEthernetTypeEnum | undefined;
   /** Rule identifier from OpenStack */
-  id?: string;
+  id?: string | undefined;
   /** Maximum port number */
-  portRangeMax?: number | null;
+  portRangeMax?: number | null | undefined;
   /** Minimum port number */
-  portRangeMin?: number | null;
+  portRangeMin?: number | null | undefined;
   /** Network protocol */
-  protocol?: PublicCloudSecurityGroupProtocolEnum | null;
+  protocol?: PublicCloudSecurityGroupProtocolEnum | null | undefined;
   /** Reference to remote security group */
-  remoteGroup?: PublicCloudSecurityGroupSecurityGroupRef | null;
+  remoteGroup?: PublicCloudSecurityGroupSecurityGroupRef | null | undefined;
   /** Remote CIDR prefix */
-  remoteIpPrefix?: string | null;
+  remoteIpPrefix?: string | null | undefined;
 }
 /** Default egress rules auto-created by OpenStack */
 export type PublicCloudSecurityGroupSecurityGroupCurrentStateDefaultRulesList =
@@ -2010,36 +2024,39 @@ export type PublicCloudSecurityGroupSecurityGroupCurrentStateRulesList =
 /** Current state of a security group from OpenStack */
 export interface PublicCloudSecurityGroupSecurityGroupCurrentState {
   /** Default egress rules auto-created by OpenStack */
-  defaultRules?: PublicCloudSecurityGroupSecurityGroupCurrentStateDefaultRulesList | null;
+  defaultRules?:
+    | PublicCloudSecurityGroupSecurityGroupCurrentStateDefaultRulesList
+    | null
+    | undefined;
   /** Security group description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Geographic location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Security group name */
-  name?: string;
+  name?: string | undefined;
   /** User-specified firewall rules */
-  rules?: PublicCloudSecurityGroupSecurityGroupCurrentStateRulesList;
+  rules?: PublicCloudSecurityGroupSecurityGroupCurrentStateRulesList | undefined;
 }
 /** Ongoing asynchronous tasks related to the security group */
 export type PublicCloudSecurityGroupSecurityGroupCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud security group */
 export interface PublicCloudSecurityGroupSecurityGroup {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the security group */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the security group */
-  currentState?: PublicCloudSecurityGroupSecurityGroupCurrentState | null;
+  currentState?: PublicCloudSecurityGroupSecurityGroupCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the security group */
-  currentTasks?: PublicCloudSecurityGroupSecurityGroupCurrentTasksList | null;
+  currentTasks?: PublicCloudSecurityGroupSecurityGroupCurrentTasksList | null | undefined;
   /** Unique identifier of the security group */
-  id?: string;
+  id?: string | undefined;
   /** Security group readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the security group */
-  targetSpec?: PublicCloudSecurityGroupSecurityGroupTargetSpec;
+  targetSpec?: PublicCloudSecurityGroupSecurityGroupTargetSpec | undefined;
   /** Last update date of the security group */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreatePublicCloudProjectSshKeyRequest {
   /** Project ID */
@@ -2052,18 +2069,18 @@ export interface CreatePublicCloudProjectSshKeyRequest {
 /** A Public Cloud SSH key (stored in database, synced to OpenStack on instance creation) */
 export interface PublicCloudSshKeySSHKey {
   /** Creation date of the SSH key */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Unique name of the SSH key */
-  name?: string;
+  name?: string | undefined;
   /** SSH public key content */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Last update date of the SSH key */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Target specification for a block storage backup */
 export interface PublicCloudBlockStorageBackupTargetSpec {
   /** Desired backup description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
   /** Desired backup name */
@@ -2080,41 +2097,41 @@ export interface CreatePublicCloudProjectStorageBlockBackupRequest {
 /** Current state of a block storage backup as observed from the infrastructure */
 export interface PublicCloudBlockStorageBackupCurrentState {
   /** Backup description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Current backup name */
-  name?: string;
+  name?: string | undefined;
   /** Size of the backup in GB */
-  size?: number;
+  size?: number | undefined;
   /** Identifier of the source volume */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the backup */
 export type PublicCloudBlockStorageBackupCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud block storage backup */
 export interface PublicCloudBlockStorageBackup {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the backup */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the backup from the infrastructure */
-  currentState?: PublicCloudBlockStorageBackupCurrentState | null;
+  currentState?: PublicCloudBlockStorageBackupCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the backup */
-  currentTasks?: PublicCloudBlockStorageBackupCurrentTasksList | null;
+  currentTasks?: PublicCloudBlockStorageBackupCurrentTasksList | null | undefined;
   /** Unique identifier of the backup */
-  id?: string;
+  id?: string | undefined;
   /** Backup readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the backup */
-  targetSpec?: PublicCloudBlockStorageBackupTargetSpec;
+  targetSpec?: PublicCloudBlockStorageBackupTargetSpec | undefined;
   /** Last update date of the backup */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Target specification for a block storage volume snapshot */
 export interface PublicCloudBlockStorageSnapshotTargetSpec {
   /** Desired snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
   /** Desired snapshot name */
@@ -2131,45 +2148,45 @@ export interface CreatePublicCloudProjectStorageBlockSnapshotRequest {
 /** Current state of a block storage volume snapshot as observed from the infrastructure */
 export interface PublicCloudBlockStorageSnapshotCurrentState {
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Current snapshot name */
-  name?: string;
+  name?: string | undefined;
   /** Size of the snapshot in GB */
-  size?: number;
+  size?: number | undefined;
   /** ID of the volume this snapshot was created from */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the snapshot */
 export type PublicCloudBlockStorageSnapshotCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud block storage volume snapshot */
 export interface PublicCloudBlockStorageSnapshot {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the snapshot */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the snapshot from the infrastructure */
-  currentState?: PublicCloudBlockStorageSnapshotCurrentState | null;
+  currentState?: PublicCloudBlockStorageSnapshotCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the snapshot */
-  currentTasks?: PublicCloudBlockStorageSnapshotCurrentTasksList | null;
+  currentTasks?: PublicCloudBlockStorageSnapshotCurrentTasksList | null | undefined;
   /** Unique identifier of the snapshot */
-  id?: string;
+  id?: string | undefined;
   /** Snapshot readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the snapshot */
-  targetSpec?: PublicCloudBlockStorageSnapshotTargetSpec;
+  targetSpec?: PublicCloudBlockStorageSnapshotTargetSpec | undefined;
   /** Last update date of the snapshot */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Optional source to create a block storage volume from (backup, snapshot, or image). Only one source may be specified. */
 export interface PublicCloudBlockStorageBlockCreateFrom {
   /** UUID of a backup to restore from */
-  backupId?: string | null;
+  backupId?: string | null | undefined;
   /** UUID of a Glance image to create the volume from. The resulting volume will be bootable. `volumeType` is required when using this field. */
-  imageId?: string | null;
+  imageId?: string | null | undefined;
   /** UUID of a snapshot to create from */
-  snapshotId?: string | null;
+  snapshotId?: string | null | undefined;
 }
 /** Encryption configuration for a block storage volume */
 export interface PublicCloudBlockStorageBlockEncryption {
@@ -2183,9 +2200,9 @@ export type PublicCloudBlockStorageVolumeTypeEnum = "CLASSIC" | "HIGH_SPEED" | "
 /** Target specification for a block storage volume */
 export interface PublicCloudBlockStorageBlockTargetSpec {
   /** Optional source to create the volume from (backup or snapshot). Cannot be changed after creation. */
-  createFrom?: PublicCloudBlockStorageBlockCreateFrom | null;
+  createFrom?: PublicCloudBlockStorageBlockCreateFrom | null | undefined;
   /** Encryption configuration for the volume */
-  encryption?: PublicCloudBlockStorageBlockEncryption | null;
+  encryption?: PublicCloudBlockStorageBlockEncryption | null | undefined;
   /** Target location */
   location: PublicCloudCommonLocation;
   /** Desired volume name */
@@ -2193,7 +2210,7 @@ export interface PublicCloudBlockStorageBlockTargetSpec {
   /** Size of the volume in GB */
   size: number;
   /** Type of the volume. Required when creating a blank volume, omitted when creating from a backup or snapshot (inherited from source). */
-  volumeType?: PublicCloudBlockStorageVolumeTypeEnum | (string & {}) | null;
+  volumeType?: PublicCloudBlockStorageVolumeTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreatePublicCloudProjectStorageBlockVolumeRequest {
   /** Project ID */
@@ -2204,7 +2221,7 @@ export interface CreatePublicCloudProjectStorageBlockVolumeRequest {
 /** An instance currently attached to a block storage volume */
 export interface PublicCloudBlockStorageBlockAttachedInstance {
   /** Instance unique identifier */
-  id?: string;
+  id?: string | undefined;
 }
 /** Instances currently attached to this volume */
 export type PublicCloudBlockStorageBlockCurrentStateAttachedInstancesList =
@@ -2228,46 +2245,49 @@ export type PublicCloudBlockStorageVolumeStatusEnum =
 /** Current state of a block storage volume as observed from the infrastructure */
 export interface PublicCloudBlockStorageBlockCurrentState {
   /** Instances currently attached to this volume */
-  attachedInstances?: PublicCloudBlockStorageBlockCurrentStateAttachedInstancesList | null;
+  attachedInstances?:
+    | PublicCloudBlockStorageBlockCurrentStateAttachedInstancesList
+    | null
+    | undefined;
   /** Whether the volume is bootable */
-  bootable?: boolean;
+  bootable?: boolean | undefined;
   /** Volume description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Encryption configuration of the volume */
-  encryption?: PublicCloudBlockStorageBlockEncryption;
+  encryption?: PublicCloudBlockStorageBlockEncryption | undefined;
   /** Current location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Whether the volume is locked */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** Current volume name */
-  name?: string;
+  name?: string | undefined;
   /** Current size of the volume in GB */
-  size?: number;
+  size?: number | undefined;
   /** OpenStack volume status */
-  status?: PublicCloudBlockStorageVolumeStatusEnum;
+  status?: PublicCloudBlockStorageVolumeStatusEnum | undefined;
   /** Current volume type */
-  volumeType?: PublicCloudBlockStorageVolumeTypeEnum;
+  volumeType?: PublicCloudBlockStorageVolumeTypeEnum | undefined;
 }
 /** Ongoing asynchronous tasks related to the volume */
 export type PublicCloudBlockStorageBlockCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud block storage volume */
 export interface PublicCloudBlockStorageBlock {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the volume */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the volume from the infrastructure */
-  currentState?: PublicCloudBlockStorageBlockCurrentState | null;
+  currentState?: PublicCloudBlockStorageBlockCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the volume */
-  currentTasks?: PublicCloudBlockStorageBlockCurrentTasksList | null;
+  currentTasks?: PublicCloudBlockStorageBlockCurrentTasksList | null | undefined;
   /** Unique identifier of the volume */
-  id?: string;
+  id?: string | undefined;
   /** Volume readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the volume */
-  targetSpec?: PublicCloudBlockStorageBlockTargetSpec;
+  targetSpec?: PublicCloudBlockStorageBlockTargetSpec | undefined;
   /** Last update date of the volume */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork {
   id: string;
@@ -2275,7 +2295,7 @@ export interface PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork {
 export type PublicCloudStorageFileFileStorageNetworkTargetSpecSubnet =
   PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
 export interface PublicCloudStorageFileFileStorageNetworkTargetSpec {
-  description?: string | null;
+  description?: string | null | undefined;
   location: PublicCloudCommonLocation;
   name: string;
   network: PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
@@ -2287,10 +2307,10 @@ export interface CreatePublicCloudProjectStorageFileNetworkRequest {
 }
 /** A Public Cloud file storage share network */
 export interface PublicCloudStorageFileFileStorageNetwork {
-  id?: string;
-  resourceStatus?: CommonResourceStatusEnum;
-  targetSpec?: PublicCloudStorageFileFileStorageNetworkTargetSpec;
-  currentState?: PublicCloudStorageFileFileStorageNetworkTargetSpec | null;
+  id?: string | undefined;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  targetSpec?: PublicCloudStorageFileFileStorageNetworkTargetSpec | undefined;
+  currentState?: PublicCloudStorageFileFileStorageNetworkTargetSpec | null | undefined;
 }
 /** Parent file storage share */
 export interface PublicCloudStorageFileFileStorageSnapshotTargetSpecShare {
@@ -2300,9 +2320,9 @@ export interface PublicCloudStorageFileFileStorageSnapshotTargetSpecShare {
 /** Target specification for a file storage snapshot */
 export interface PublicCloudStorageFileFileStorageSnapshotTargetSpec {
   /** Description of the snapshot */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Desired snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Parent file storage share */
   share: PublicCloudStorageFileFileStorageSnapshotTargetSpecShare;
 }
@@ -2315,41 +2335,41 @@ export interface CreatePublicCloudProjectStorageFileSnapshotRequest {
 /** Parent file storage share */
 export interface PublicCloudStorageFileFileStorageSnapshotCurrentStateShare {
   /** ID of the parent file storage share */
-  id?: string;
+  id?: string | undefined;
 }
 /** Current state of a file storage snapshot as observed from the infrastructure */
 export interface PublicCloudStorageFileFileStorageSnapshotCurrentState {
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Current resource location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Current snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Parent file storage share */
-  share?: PublicCloudStorageFileFileStorageSnapshotCurrentStateShare;
+  share?: PublicCloudStorageFileFileStorageSnapshotCurrentStateShare | undefined;
   /** Size of the snapshot in GB */
-  size?: number;
+  size?: number | undefined;
 }
 /** Ongoing asynchronous tasks related to the snapshot */
 export type PublicCloudStorageFileFileStorageSnapshotCurrentTasksList = Array<CommonCurrentTask>;
 /** A snapshot of a Public Cloud file storage (NFS share) */
 export interface PublicCloudStorageFileFileStorageSnapshot {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the snapshot */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the snapshot from the infrastructure */
-  currentState?: PublicCloudStorageFileFileStorageSnapshotCurrentState | null;
+  currentState?: PublicCloudStorageFileFileStorageSnapshotCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the snapshot */
-  currentTasks?: PublicCloudStorageFileFileStorageSnapshotCurrentTasksList | null;
+  currentTasks?: PublicCloudStorageFileFileStorageSnapshotCurrentTasksList | null | undefined;
   /** Unique identifier of the snapshot */
-  id?: string;
+  id?: string | undefined;
   /** Snapshot readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the snapshot */
-  targetSpec?: PublicCloudStorageFileFileStorageSnapshotTargetSpec;
+  targetSpec?: PublicCloudStorageFileFileStorageSnapshotTargetSpec | undefined;
   /** Last update date of the snapshot */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Supported encryption algorithms for S3 buckets */
 export type PublicCloudStorageObjectBucketEncryptionAlgorithmEnum = "AES256";
@@ -2389,19 +2409,19 @@ export interface PublicCloudStorageObjectBucketVersioningConfig {
 /** Target specification for an S3 bucket */
 export interface PublicCloudStorageObjectBucketTargetSpecInput {
   /** Server-side encryption configuration */
-  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null;
+  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null | undefined;
   /** Target geographic region */
   location: PublicCloudStorageObjectBucketLocation;
   /** Bucket name (must be globally unique and DNS-compatible) */
   name: string;
   /** Object lock (WORM) configuration; requires versioning to be enabled */
-  objectLock?: PublicCloudStorageObjectBucketObjectLockConfigInput | null;
+  objectLock?: PublicCloudStorageObjectBucketObjectLockConfigInput | null | undefined;
   /** Owner user identifier */
-  ownerUserId?: string | null;
+  ownerUserId?: string | null | undefined;
   /** Metadata tags for the bucket */
-  tags?: PublicCloudStorageObjectBucketTargetSpecInputTagsMap | null;
+  tags?: PublicCloudStorageObjectBucketTargetSpecInputTagsMap | null | undefined;
   /** Versioning configuration */
-  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null;
+  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null | undefined;
 }
 export interface CreatePublicCloudProjectStorageObjectBucketRequest {
   /** Project ID */
@@ -2416,7 +2436,7 @@ export interface PublicCloudStorageObjectBucketObjectLockConfig {
   /** Number of days to retain objects */
   retentionDays: number;
   /** Number of years to retain objects (alternative to retentionDays) */
-  retentionYears?: number | null;
+  retentionYears?: number | null | undefined;
 }
 /** Current metadata tags */
 export type PublicCloudStorageObjectBucketCurrentStateTagsMap = {
@@ -2425,17 +2445,17 @@ export type PublicCloudStorageObjectBucketCurrentStateTagsMap = {
 /** Current observed state of an S3 bucket from the S3 backend */
 export interface PublicCloudStorageObjectBucketCurrentState {
   /** Current encryption configuration */
-  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null;
+  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null | undefined;
   /** Geographic region where the bucket is located */
-  location?: PublicCloudStorageObjectBucketLocation;
+  location?: PublicCloudStorageObjectBucketLocation | undefined;
   /** Bucket name */
-  name?: string;
+  name?: string | undefined;
   /** Current object lock configuration */
-  objectLock?: PublicCloudStorageObjectBucketObjectLockConfig | null;
+  objectLock?: PublicCloudStorageObjectBucketObjectLockConfig | null | undefined;
   /** Current metadata tags */
-  tags?: PublicCloudStorageObjectBucketCurrentStateTagsMap | null;
+  tags?: PublicCloudStorageObjectBucketCurrentStateTagsMap | null | undefined;
   /** Current versioning configuration */
-  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null;
+  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the bucket */
 export type PublicCloudStorageObjectBucketCurrentTasksList = Array<CommonCurrentTask>;
@@ -2444,38 +2464,38 @@ export type PublicCloudStorageObjectBucketTargetSpecTagsMap = { [key: string]: s
 /** Target specification for an S3 bucket */
 export interface PublicCloudStorageObjectBucketTargetSpec {
   /** Server-side encryption configuration */
-  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null;
+  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null | undefined;
   /** Target geographic region */
   location: PublicCloudStorageObjectBucketLocation;
   /** Bucket name (must be globally unique and DNS-compatible) */
   name: string;
   /** Object lock (WORM) configuration; requires versioning to be enabled */
-  objectLock?: PublicCloudStorageObjectBucketObjectLockConfig | null;
+  objectLock?: PublicCloudStorageObjectBucketObjectLockConfig | null | undefined;
   /** Owner user identifier */
-  ownerUserId?: string | null;
+  ownerUserId?: string | null | undefined;
   /** Metadata tags for the bucket */
-  tags?: PublicCloudStorageObjectBucketTargetSpecTagsMap | null;
+  tags?: PublicCloudStorageObjectBucketTargetSpecTagsMap | null | undefined;
   /** Versioning configuration */
-  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null;
+  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null | undefined;
 }
 /** An S3-compatible object storage bucket */
 export interface PublicCloudStorageObjectBucket {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the bucket */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the bucket */
-  currentState?: PublicCloudStorageObjectBucketCurrentState | null;
+  currentState?: PublicCloudStorageObjectBucketCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the bucket */
-  currentTasks?: PublicCloudStorageObjectBucketCurrentTasksList | null;
+  currentTasks?: PublicCloudStorageObjectBucketCurrentTasksList | null | undefined;
   /** Bucket name (used as unique identifier) */
-  id?: string;
+  id?: string | undefined;
   /** Bucket readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the bucket */
-  targetSpec?: PublicCloudStorageObjectBucketTargetSpec;
+  targetSpec?: PublicCloudStorageObjectBucketTargetSpec | undefined;
   /** Last update date of the bucket */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface DeletePublicCloudProjectComputeAutobackupRequest {
   /** Project ID */
@@ -2606,32 +2626,32 @@ export interface DeletePublicCloudProjectPublicIpExtNetRequest {
 /** Current state of an Ext-Net IP */
 export interface PublicCloudPublicIpExtNetIPCurrentState {
   /** Resource currently associated with this IP */
-  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null;
+  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null | undefined;
   /** ID of the underlying OpenStack resource */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Ext-Net IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Location where the IP resides */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
 }
 /** Ongoing asynchronous tasks related to the Ext-Net IP */
 export type PublicCloudPublicIpExtNetIPCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud Ext-Net public IP (keyed by IP address) */
 export interface PublicCloudPublicIpExtNetIP {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the Ext-Net IP */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the Ext-Net IP */
-  currentState?: PublicCloudPublicIpExtNetIPCurrentState;
+  currentState?: PublicCloudPublicIpExtNetIPCurrentState | undefined;
   /** Ongoing asynchronous tasks related to the Ext-Net IP */
-  currentTasks?: PublicCloudPublicIpExtNetIPCurrentTasksList;
+  currentTasks?: PublicCloudPublicIpExtNetIPCurrentTasksList | undefined;
   /** The Ext-Net IP address, used as identifier */
-  id?: string;
+  id?: string | undefined;
   /** Ext-Net IP readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last update date of the Ext-Net IP */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface DeletePublicCloudProjectPublicIpFloatingRequest {
   /** Project ID */
@@ -2696,15 +2716,15 @@ export type PublicCloudStorageFileFileStorageAccessRuleStateEnum =
 /** An access rule controlling which IP addresses can access a file storage */
 export interface PublicCloudStorageFileFileStorageAccessRule {
   /** Access level granted (read-write or read-only) */
-  accessLevel?: PublicCloudStorageFileFileStorageAccessLevelEnum;
+  accessLevel?: PublicCloudStorageFileFileStorageAccessLevelEnum | undefined;
   /** IP address or CIDR allowed to access the file storage */
-  accessTo?: string;
+  accessTo?: string | undefined;
   /** Creation date of the access rule */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique identifier of the access rule */
-  id?: string;
+  id?: string | undefined;
   /** Current state of the access rule */
-  state?: PublicCloudStorageFileFileStorageAccessRuleStateEnum;
+  state?: PublicCloudStorageFileFileStorageAccessRuleStateEnum | undefined;
 }
 /** Current access rules on the file storage */
 export type PublicCloudStorageFileFileStorageCurrentStateAccessRulesList =
@@ -2712,9 +2732,9 @@ export type PublicCloudStorageFileFileStorageCurrentStateAccessRulesList =
 /** An NFS export path for a file storage */
 export interface PublicCloudStorageFileFileStorageExportLocation {
   /** NFS export path for mounting */
-  path?: string;
+  path?: string | undefined;
   /** Whether this is the preferred export location */
-  preferred?: boolean;
+  preferred?: boolean | undefined;
 }
 /** NFS export paths for mounting the file storage */
 export type PublicCloudStorageFileFileStorageCurrentStateExportLocationsList =
@@ -2726,25 +2746,28 @@ export type PublicCloudStorageFileFileStorageTypeEnum = "STANDARD_1AZ";
 /** Current state of a file storage as observed from the infrastructure */
 export interface PublicCloudStorageFileFileStorageCurrentState {
   /** Current access rules on the file storage */
-  accessRules?: PublicCloudStorageFileFileStorageCurrentStateAccessRulesList | null;
+  accessRules?: PublicCloudStorageFileFileStorageCurrentStateAccessRulesList | null | undefined;
   /** File storage description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** NFS export paths for mounting the file storage */
-  exportLocations?: PublicCloudStorageFileFileStorageCurrentStateExportLocationsList | null;
+  exportLocations?:
+    | PublicCloudStorageFileFileStorageCurrentStateExportLocationsList
+    | null
+    | undefined;
   /** Current resource location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Current file storage name */
-  name?: string;
+  name?: string | undefined;
   /** Private network ID the file storage is attached to */
-  networkId?: string;
+  networkId?: string | undefined;
   /** File sharing protocol */
-  protocol?: PublicCloudStorageFileFileStorageProtocolEnum;
+  protocol?: PublicCloudStorageFileFileStorageProtocolEnum | undefined;
   /** File storage type (performance tier) */
-  shareType?: PublicCloudStorageFileFileStorageTypeEnum;
+  shareType?: PublicCloudStorageFileFileStorageTypeEnum | undefined;
   /** Current size of the file storage in GB */
-  size?: number;
+  size?: number | undefined;
   /** Subnet ID within the private network */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the file storage */
 export type PublicCloudStorageFileFileStorageCurrentTasksList = Array<CommonCurrentTask>;
@@ -2766,9 +2789,9 @@ export interface PublicCloudStorageFileFileStorageTargetSpecShareNetwork {
 /** Target specification for a file storage */
 export interface PublicCloudStorageFileFileStorageTargetSpec {
   /** Access rules controlling which IPs can access the file storage */
-  accessRules?: PublicCloudStorageFileFileStorageTargetSpecAccessRulesList | null;
+  accessRules?: PublicCloudStorageFileFileStorageTargetSpecAccessRulesList | null | undefined;
   /** Description of the file storage */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Desired resource location */
   location: PublicCloudCommonLocation;
   /** Desired file storage name */
@@ -2785,21 +2808,21 @@ export interface PublicCloudStorageFileFileStorageTargetSpec {
 /** A Public Cloud file storage (NFS share) */
 export interface PublicCloudStorageFileFileStorage {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the file storage */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current observed state of the file storage from the infrastructure */
-  currentState?: PublicCloudStorageFileFileStorageCurrentState | null;
+  currentState?: PublicCloudStorageFileFileStorageCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the file storage */
-  currentTasks?: PublicCloudStorageFileFileStorageCurrentTasksList | null;
+  currentTasks?: PublicCloudStorageFileFileStorageCurrentTasksList | null | undefined;
   /** Unique identifier of the file storage */
-  id?: string;
+  id?: string | undefined;
   /** File storage readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the file storage */
-  targetSpec?: PublicCloudStorageFileFileStorageTargetSpec;
+  targetSpec?: PublicCloudStorageFileFileStorageTargetSpec | undefined;
   /** Last update date of the file storage */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface DeletePublicCloudProjectStorageFileSnapshotRequest {
   /** Project ID */
@@ -2822,9 +2845,9 @@ export type PublicCloudProjectModeEnum = "CLASSIC" | "DISCOVERY";
 /** Current state of the cloud project */
 export interface PublicCloudProjectProjectCurrentState {
   /** Project mode */
-  mode?: PublicCloudProjectModeEnum;
+  mode?: PublicCloudProjectModeEnum | undefined;
   /** Name of the cloud project */
-  name?: string;
+  name?: string | undefined;
 }
 /** Asynchronous operations ongoing on the cloud project */
 export type PublicCloudProjectProjectAsyncWithIAMCurrentTasksList = Array<CommonCurrentTask>;
@@ -2835,15 +2858,15 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource state */
-  state?: IamResourceMetadataStateEnum | null;
+  state?: IamResourceMetadataStateEnum | null | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Target specification of the cloud project */
 export interface PublicCloudProjectProjectTargetSpec {
@@ -2855,23 +2878,23 @@ export interface PublicCloudProjectProjectTargetSpec {
 /** A Public Cloud project */
 export interface PublicCloudProjectProjectAsyncWithIAM {
   /** Date of project creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current configuration applied to the cloud project */
-  currentState?: PublicCloudProjectProjectCurrentState;
+  currentState?: PublicCloudProjectProjectCurrentState | undefined;
   /** Asynchronous operations ongoing on the cloud project */
-  currentTasks?: PublicCloudProjectProjectAsyncWithIAMCurrentTasksList | null;
+  currentTasks?: PublicCloudProjectProjectAsyncWithIAMCurrentTasksList | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Project ID */
-  id?: string;
+  id?: string | undefined;
   /** Project name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Reflects the readiness of the cloud project. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the cloud project */
-  targetSpec?: PublicCloudProjectProjectTargetSpec;
+  targetSpec?: PublicCloudProjectProjectTargetSpec | undefined;
   /** Date of the last cloud project update */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetPublicCloudProjectComputeAutobackupRequest {
   /** Project ID */
@@ -2897,12 +2920,12 @@ export interface GetPublicCloudProjectComputeInstanceConsoleOutputRequest {
   /** Instance ID */
   instanceId: string;
   /** Number of lines to retrieve from the end of the console log. If omitted, returns all available output. */
-  length?: number;
+  length?: number | undefined;
 }
 /** Console output (log) retrieved from an instance */
 export interface PublicCloudInstanceConsoleOutput {
   /** The console output text */
-  output?: string;
+  output?: string | undefined;
 }
 export interface GetPublicCloudProjectComputeInstanceGroupRequest {
   /** Project ID */
@@ -3015,28 +3038,28 @@ export interface GetPublicCloudProjectPublicIpAdditionalRequest {
 /** Current state of an additional IP */
 export interface PublicCloudPublicIpAdditionalIPCurrentState {
   /** Resource currently associated with this IP */
-  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null;
+  associatedResource?: PublicCloudPublicIpPublicIPAssociatedResource | null | undefined;
   /** IP block the additional IP belongs to */
-  block?: string | null;
+  block?: string | null | undefined;
   /** ID of the underlying OpenStack resource */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The additional IP address */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Ongoing asynchronous tasks related to the additional IP */
 export type PublicCloudPublicIpAdditionalIPCurrentTasksList = Array<CommonCurrentTask>;
 /** A Public Cloud additional public IP (keyed by IP address) */
 export interface PublicCloudPublicIpAdditionalIP {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Current state of the additional IP */
-  currentState?: PublicCloudPublicIpAdditionalIPCurrentState;
+  currentState?: PublicCloudPublicIpAdditionalIPCurrentState | undefined;
   /** Ongoing asynchronous tasks related to the additional IP */
-  currentTasks?: PublicCloudPublicIpAdditionalIPCurrentTasksList;
+  currentTasks?: PublicCloudPublicIpAdditionalIPCurrentTasksList | undefined;
   /** The additional IP address, used as identifier */
-  id?: string;
+  id?: string | undefined;
   /** Additional IP readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
 }
 export interface GetPublicCloudProjectPublicIpExtNetRequest {
   /** Project ID */
@@ -3054,105 +3077,105 @@ export interface GetPublicCloudProjectQuotaRequest {
   /** Project ID */
   projectId: string;
   /** Optional region filter */
-  region?: string;
+  region?: string | undefined;
 }
 /** Compute limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileCompute {
   /** Maximum allowed CPU cores */
-  cores?: number;
+  cores?: number | undefined;
   /** Maximum allowed instances */
-  instances?: number;
+  instances?: number | undefined;
   /** Maximum allowed memory in MB */
-  memory?: number;
+  memory?: number | undefined;
 }
 /** Key manager limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileKeyManager {
   /** Maximum allowed containers */
-  containers?: number;
+  containers?: number | undefined;
   /** Maximum allowed secrets */
-  secrets?: number;
+  secrets?: number | undefined;
 }
 /** Keypair limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileKeypair {
   /** Maximum allowed keypairs */
-  keypairs?: number;
+  keypairs?: number | undefined;
 }
 /** Loadbalancer limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileLoadbalancer {
   /** Maximum allowed health monitors */
-  healthMonitors?: number;
+  healthMonitors?: number | undefined;
   /** Maximum allowed L7 policies */
-  l7Policies?: number;
+  l7Policies?: number | undefined;
   /** Maximum allowed L7 rules */
-  l7Rules?: number;
+  l7Rules?: number | undefined;
   /** Maximum allowed listeners */
-  listeners?: number;
+  listeners?: number | undefined;
   /** Maximum allowed loadbalancers */
-  loadbalancers?: number;
+  loadbalancers?: number | undefined;
   /** Maximum allowed pool members */
-  members?: number;
+  members?: number | undefined;
   /** Maximum allowed pools */
-  pools?: number;
+  pools?: number | undefined;
 }
 /** Network limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileNetwork {
   /** Maximum allowed floating IPs */
-  floatingIps?: number;
+  floatingIps?: number | undefined;
   /** Maximum allowed gateways */
-  gateways?: number;
+  gateways?: number | undefined;
   /** Maximum allowed networks */
-  networks?: number;
+  networks?: number | undefined;
   /** Maximum allowed security group rules */
-  securityGroupRules?: number;
+  securityGroupRules?: number | undefined;
   /** Maximum allowed security groups */
-  securityGroups?: number;
+  securityGroups?: number | undefined;
   /** Maximum allowed subnets */
-  subnets?: number;
+  subnets?: number | undefined;
 }
 /** File storage limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileShare {
   /** Maximum allowed total backup storage size in GB */
-  backupSizeTotal?: number;
+  backupSizeTotal?: number | undefined;
   /** Maximum allowed share backups */
-  backups?: number;
+  backups?: number | undefined;
   /** Maximum allowed shares */
-  shares?: number;
+  shares?: number | undefined;
   /** Maximum allowed total share storage size in GB */
-  sizeTotal?: number;
+  sizeTotal?: number | undefined;
   /** Maximum allowed share snapshots */
-  snapshots?: number;
+  snapshots?: number | undefined;
 }
 /** Block storage limits for a quota profile */
 export interface PublicCloudQuotaQuotaProfileVolume {
   /** Maximum allowed total backup storage size in GB */
-  backupSizeTotal?: number;
+  backupSizeTotal?: number | undefined;
   /** Maximum allowed volume backups */
-  backups?: number;
+  backups?: number | undefined;
   /** Maximum allowed total volume storage size in GB */
-  sizeTotal?: number;
+  sizeTotal?: number | undefined;
   /** Maximum allowed volume snapshots */
-  snapshots?: number;
+  snapshots?: number | undefined;
   /** Maximum allowed volumes */
-  volumes?: number;
+  volumes?: number | undefined;
 }
 /** A Public Cloud quota profile (read-only reference data) */
 export interface PublicCloudQuotaQuotaProfile {
   /** Compute limits */
-  compute?: PublicCloudQuotaQuotaProfileCompute | null;
+  compute?: PublicCloudQuotaQuotaProfileCompute | null | undefined;
   /** Key manager limits */
-  keyManager?: PublicCloudQuotaQuotaProfileKeyManager | null;
+  keyManager?: PublicCloudQuotaQuotaProfileKeyManager | null | undefined;
   /** Keypair limits */
-  keypair?: PublicCloudQuotaQuotaProfileKeypair | null;
+  keypair?: PublicCloudQuotaQuotaProfileKeypair | null | undefined;
   /** Loadbalancer limits */
-  loadbalancer?: PublicCloudQuotaQuotaProfileLoadbalancer | null;
+  loadbalancer?: PublicCloudQuotaQuotaProfileLoadbalancer | null | undefined;
   /** Profile name */
-  name?: string;
+  name?: string | undefined;
   /** Network limits */
-  network?: PublicCloudQuotaQuotaProfileNetwork | null;
+  network?: PublicCloudQuotaQuotaProfileNetwork | null | undefined;
   /** File storage limits */
-  share?: PublicCloudQuotaQuotaProfileShare | null;
+  share?: PublicCloudQuotaQuotaProfileShare | null | undefined;
   /** Block storage limits */
-  volume?: PublicCloudQuotaQuotaProfileVolume | null;
+  volume?: PublicCloudQuotaQuotaProfileVolume | null | undefined;
 }
 /** Quota profiles available to this project */
 export type PublicCloudQuotaQuotaCurrentStateAvailableProfilesList =
@@ -3162,131 +3185,131 @@ export type PublicCloudQuotaQuotaUnitEnum = "COUNT" | "GB" | "GiB" | "MB" | "MiB
 /** Quota usage with limit and current consumption */
 export interface PublicCloudQuotaQuotaUsage {
   /** Maximum allowed */
-  limit?: number;
+  limit?: number | undefined;
   /** Unit of measurement */
-  unit?: PublicCloudQuotaQuotaUnitEnum;
+  unit?: PublicCloudQuotaQuotaUnitEnum | undefined;
   /** Currently used (may be omitted when not available) */
-  used?: number | null;
+  used?: number | null | undefined;
 }
 /** Per-region compute quota usage */
 export interface PublicCloudQuotaQuotaRegionCompute {
   /** CPU cores quota usage */
-  cores?: PublicCloudQuotaQuotaUsage;
+  cores?: PublicCloudQuotaQuotaUsage | undefined;
   /** Instances quota usage */
-  instances?: PublicCloudQuotaQuotaUsage;
+  instances?: PublicCloudQuotaQuotaUsage | undefined;
   /** Memory quota usage in MB */
-  memory?: PublicCloudQuotaQuotaUsage;
+  memory?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Per-region key manager quota usage */
 export interface PublicCloudQuotaQuotaRegionKeyManager {
   /** Containers quota usage */
-  containers?: PublicCloudQuotaQuotaUsage;
+  containers?: PublicCloudQuotaQuotaUsage | undefined;
   /** Secrets quota usage */
-  secrets?: PublicCloudQuotaQuotaUsage;
+  secrets?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Per-region keypair quota */
 export interface PublicCloudQuotaQuotaRegionKeypair {
   /** Keypairs quota */
-  keypairs?: PublicCloudQuotaQuotaUsage;
+  keypairs?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Per-region load balancer quota usage */
 export interface PublicCloudQuotaQuotaRegionLoadbalancer {
   /** Health monitors quota usage */
-  healthMonitors?: PublicCloudQuotaQuotaUsage;
+  healthMonitors?: PublicCloudQuotaQuotaUsage | undefined;
   /** L7 policies quota usage */
-  l7Policies?: PublicCloudQuotaQuotaUsage;
+  l7Policies?: PublicCloudQuotaQuotaUsage | undefined;
   /** L7 rules quota usage */
-  l7Rules?: PublicCloudQuotaQuotaUsage;
+  l7Rules?: PublicCloudQuotaQuotaUsage | undefined;
   /** Listeners quota usage */
-  listeners?: PublicCloudQuotaQuotaUsage;
+  listeners?: PublicCloudQuotaQuotaUsage | undefined;
   /** Load balancers quota usage */
-  loadbalancers?: PublicCloudQuotaQuotaUsage;
+  loadbalancers?: PublicCloudQuotaQuotaUsage | undefined;
   /** Pool members quota usage */
-  members?: PublicCloudQuotaQuotaUsage;
+  members?: PublicCloudQuotaQuotaUsage | undefined;
   /** Pools quota usage */
-  pools?: PublicCloudQuotaQuotaUsage;
+  pools?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Per-region network quota usage */
 export interface PublicCloudQuotaQuotaRegionNetwork {
   /** Floating IPs quota usage */
-  floatingIps?: PublicCloudQuotaQuotaUsage;
+  floatingIps?: PublicCloudQuotaQuotaUsage | undefined;
   /** Gateways quota usage */
-  gateways?: PublicCloudQuotaQuotaUsage;
+  gateways?: PublicCloudQuotaQuotaUsage | undefined;
   /** Networks quota usage */
-  networks?: PublicCloudQuotaQuotaUsage;
+  networks?: PublicCloudQuotaQuotaUsage | undefined;
   /** Security group rules quota usage */
-  securityGroupRules?: PublicCloudQuotaQuotaUsage;
+  securityGroupRules?: PublicCloudQuotaQuotaUsage | undefined;
   /** Security groups quota usage */
-  securityGroups?: PublicCloudQuotaQuotaUsage;
+  securityGroups?: PublicCloudQuotaQuotaUsage | undefined;
   /** Subnets quota usage */
-  subnets?: PublicCloudQuotaQuotaUsage;
+  subnets?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Quota limit without usage tracking (for per-item size caps) */
 export interface PublicCloudQuotaQuotaLimit {
   /** Maximum allowed */
-  limit?: number;
+  limit?: number | undefined;
   /** Unit of measurement */
-  unit?: PublicCloudQuotaQuotaUnitEnum;
+  unit?: PublicCloudQuotaQuotaUnitEnum | undefined;
 }
 /** Per-region file storage quota usage */
 export interface PublicCloudQuotaQuotaRegionShare {
   /** File storage backup storage quota usage */
-  backupSizeTotal?: PublicCloudQuotaQuotaUsage;
+  backupSizeTotal?: PublicCloudQuotaQuotaUsage | undefined;
   /** File storage backups quota usage */
-  backups?: PublicCloudQuotaQuotaUsage;
+  backups?: PublicCloudQuotaQuotaUsage | undefined;
   /** Maximum size per individual share */
-  perShareSize?: PublicCloudQuotaQuotaLimit;
+  perShareSize?: PublicCloudQuotaQuotaLimit | undefined;
   /** Share networks quota usage */
-  shareNetworks?: PublicCloudQuotaQuotaUsage;
+  shareNetworks?: PublicCloudQuotaQuotaUsage | undefined;
   /** File storages quota usage */
-  shares?: PublicCloudQuotaQuotaUsage;
+  shares?: PublicCloudQuotaQuotaUsage | undefined;
   /** Total file storage size quota usage in GB */
-  sizeTotal?: PublicCloudQuotaQuotaUsage;
+  sizeTotal?: PublicCloudQuotaQuotaUsage | undefined;
   /** File storage snapshot storage quota usage */
-  snapshotSizeTotal?: PublicCloudQuotaQuotaUsage;
+  snapshotSizeTotal?: PublicCloudQuotaQuotaUsage | undefined;
   /** File storage snapshots quota usage */
-  snapshots?: PublicCloudQuotaQuotaUsage;
+  snapshots?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Per-region volume quota usage */
 export interface PublicCloudQuotaQuotaRegionVolume {
   /** Volume backup storage quota usage */
-  backupSizeTotal?: PublicCloudQuotaQuotaUsage;
+  backupSizeTotal?: PublicCloudQuotaQuotaUsage | undefined;
   /** Volume backups quota usage */
-  backups?: PublicCloudQuotaQuotaUsage;
+  backups?: PublicCloudQuotaQuotaUsage | undefined;
   /** Maximum size per individual volume */
-  perVolumeSize?: PublicCloudQuotaQuotaLimit;
+  perVolumeSize?: PublicCloudQuotaQuotaLimit | undefined;
   /** Total volume storage quota usage */
-  sizeTotal?: PublicCloudQuotaQuotaUsage;
+  sizeTotal?: PublicCloudQuotaQuotaUsage | undefined;
   /** Volume snapshots quota usage */
-  snapshots?: PublicCloudQuotaQuotaUsage;
+  snapshots?: PublicCloudQuotaQuotaUsage | undefined;
   /** Volumes quota usage */
-  volumes?: PublicCloudQuotaQuotaUsage;
+  volumes?: PublicCloudQuotaQuotaUsage | undefined;
 }
 /** Quota usage across all services for a single region */
 export interface PublicCloudQuotaQuotaUsageDetails {
   /** Compute quota usage */
-  compute?: PublicCloudQuotaQuotaRegionCompute | null;
+  compute?: PublicCloudQuotaQuotaRegionCompute | null | undefined;
   /** Key manager quota usage */
-  keyManager?: PublicCloudQuotaQuotaRegionKeyManager | null;
+  keyManager?: PublicCloudQuotaQuotaRegionKeyManager | null | undefined;
   /** Keypair quota usage */
-  keypair?: PublicCloudQuotaQuotaRegionKeypair | null;
+  keypair?: PublicCloudQuotaQuotaRegionKeypair | null | undefined;
   /** Load balancer quota usage */
-  loadbalancer?: PublicCloudQuotaQuotaRegionLoadbalancer | null;
+  loadbalancer?: PublicCloudQuotaQuotaRegionLoadbalancer | null | undefined;
   /** Network quota usage */
-  network?: PublicCloudQuotaQuotaRegionNetwork | null;
+  network?: PublicCloudQuotaQuotaRegionNetwork | null | undefined;
   /** File storage quota usage */
-  share?: PublicCloudQuotaQuotaRegionShare | null;
+  share?: PublicCloudQuotaQuotaRegionShare | null | undefined;
   /** Block storage quota usage */
-  volume?: PublicCloudQuotaQuotaRegionVolume | null;
+  volume?: PublicCloudQuotaQuotaRegionVolume | null | undefined;
 }
 /** Current state of the project quota in a single region */
 export interface PublicCloudQuotaQuotaRegionCurrentState {
   /** Region where the quota applies */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Currently applied quota profile name */
-  profile?: string;
+  profile?: string | undefined;
   /** Quota usage for this region */
-  usage?: PublicCloudQuotaQuotaUsageDetails | null;
+  usage?: PublicCloudQuotaQuotaUsageDetails | null | undefined;
 }
 /** Current state per region */
 export type PublicCloudQuotaQuotaCurrentStateRegionsList =
@@ -3294,11 +3317,11 @@ export type PublicCloudQuotaQuotaCurrentStateRegionsList =
 /** Current state of the project quota */
 export interface PublicCloudQuotaQuotaCurrentState {
   /** Quota profiles available to this project */
-  availableProfiles?: PublicCloudQuotaQuotaCurrentStateAvailableProfilesList | null;
+  availableProfiles?: PublicCloudQuotaQuotaCurrentStateAvailableProfilesList | null | undefined;
   /** When true, automatic quota upgrades are disabled for this project */
-  preventAutomaticQuotaUpgrade?: boolean;
+  preventAutomaticQuotaUpgrade?: boolean | undefined;
   /** Current state per region */
-  regions?: PublicCloudQuotaQuotaCurrentStateRegionsList | null;
+  regions?: PublicCloudQuotaQuotaCurrentStateRegionsList | null | undefined;
 }
 /** Ongoing asynchronous tasks related to the quota */
 export type PublicCloudQuotaQuotaCurrentTasksList = Array<CommonCurrentTask>;
@@ -3315,28 +3338,28 @@ export type PublicCloudQuotaQuotaTargetSpecRegionsList =
 /** Target specification for the project quota */
 export interface PublicCloudQuotaQuotaTargetSpec {
   /** When true, automatic quota upgrades are disabled for this project */
-  preventAutomaticQuotaUpgrade?: boolean;
+  preventAutomaticQuotaUpgrade?: boolean | undefined;
   /** Target quota profile per region */
-  regions?: PublicCloudQuotaQuotaTargetSpecRegionsList;
+  regions?: PublicCloudQuotaQuotaTargetSpecRegionsList | undefined;
 }
 /** A Public Cloud project quota */
 export interface PublicCloudQuotaQuota {
   /** Computed hash representing the current target specification value */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Creation date of the quota */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current state of the quota */
-  currentState?: PublicCloudQuotaQuotaCurrentState | null;
+  currentState?: PublicCloudQuotaQuotaCurrentState | null | undefined;
   /** Ongoing asynchronous tasks related to the quota */
-  currentTasks?: PublicCloudQuotaQuotaCurrentTasksList | null;
+  currentTasks?: PublicCloudQuotaQuotaCurrentTasksList | null | undefined;
   /** Project ID this quota belongs to */
-  id?: string;
+  id?: string | undefined;
   /** Quota readiness in the system */
-  resourceStatus?: CommonResourceStatusEnum;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
   /** Last target specification of the quota */
-  targetSpec?: PublicCloudQuotaQuotaTargetSpec;
+  targetSpec?: PublicCloudQuotaQuotaTargetSpec | undefined;
   /** Last update date of the quota */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetPublicCloudProjectRancherRequest {
   /** Project ID */
@@ -3365,36 +3388,36 @@ export type CommonTaskStatusEnum =
 /** Detailed information about an asynchronous operation progress steps */
 export interface CommonTaskProgress {
   /** Progress step name */
-  name?: string;
+  name?: string | undefined;
   /** Current status of the progress step */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
 }
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
 /** Asynchronous operation */
 export interface CommonTask {
   /** Creation date of the task */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Errors that occured on the task */
-  errors?: CommonTaskErrorsList | null;
+  errors?: CommonTaskErrorsList | null | undefined;
   /** Ending date of the task */
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
   /** Identifier of the task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the related resource */
-  link?: string;
+  link?: string | undefined;
   /** Description of the task */
-  message?: string;
+  message?: string | undefined;
   /** Progress steps of the asynchronous operation */
-  progress?: CommonTaskProgressList;
+  progress?: CommonTaskProgressList | undefined;
   /** Starting date of the task */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Current global status of the task */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
   /** Type of the task */
-  type?: string;
+  type?: string | undefined;
   /** Last update of the task */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetPublicCloudProjectReferenceInstanceFlavorRequest {
   /** Project ID */
@@ -3405,25 +3428,25 @@ export interface GetPublicCloudProjectReferenceInstanceFlavorRequest {
 /** A Public Cloud instance flavor (read-only reference data) */
 export interface PublicCloudReferenceInstanceFlavor {
   /** Flavor description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Root disk size in GB */
-  disk?: number;
+  disk?: number | undefined;
   /** Ephemeral disk size in GB */
-  ephemeral?: number;
+  ephemeral?: number | undefined;
   /** Flavor unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Whether the flavor is publicly available */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Flavor location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Flavor name */
-  name?: string;
+  name?: string | undefined;
   /** RAM in MB */
-  ram?: number;
+  ram?: number | undefined;
   /** Swap space in MB */
-  swap?: number;
+  swap?: number | undefined;
   /** Number of virtual CPUs */
-  vcpus?: number;
+  vcpus?: number | undefined;
 }
 export interface GetPublicCloudProjectReferenceInstanceImageRequest {
   /** Project ID */
@@ -3434,25 +3457,25 @@ export interface GetPublicCloudProjectReferenceInstanceImageRequest {
 /** A Public Cloud instance image (read-only reference data) */
 export interface PublicCloudReferenceInstanceImage {
   /** Image creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Image unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Image location */
-  location?: PublicCloudCommonLocation;
+  location?: PublicCloudCommonLocation | undefined;
   /** Minimum disk size required in GB */
-  minDisk?: number;
+  minDisk?: number | undefined;
   /** Minimum RAM required in MB */
-  minRam?: number;
+  minRam?: number | undefined;
   /** Image name */
-  name?: string;
+  name?: string | undefined;
   /** Image size in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Image status */
-  status?: PublicCloudInstanceImageStatusEnum;
+  status?: PublicCloudInstanceImageStatusEnum | undefined;
   /** Image last update date */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Image visibility */
-  visibility?: PublicCloudInstanceImageVisibilityEnum;
+  visibility?: PublicCloudInstanceImageVisibilityEnum | undefined;
 }
 export interface GetPublicCloudProjectReferenceRancherEligibilityRequest {
   /** Project ID */
@@ -3461,7 +3484,7 @@ export interface GetPublicCloudProjectReferenceRancherEligibilityRequest {
 /** A managed Rancher service eligibility reference, applicable to service creations */
 export interface PublicCloudRancherEligibilityReference {
   /** Whether the project is eligible for free trial for the Rancher product */
-  freeTrial?: boolean;
+  freeTrial?: boolean | undefined;
 }
 export interface GetPublicCloudProjectReferenceRegionRequest {
   /** Project ID */
@@ -3478,19 +3501,19 @@ export type PublicCloudReferenceRegionStatusEnum = "DISABLED" | "ENABLED" | "MAI
 /** A Public Cloud region (read-only reference data) */
 export interface PublicCloudReferenceRegion {
   /** Availability zones in this region */
-  availabilityZones?: PublicCloudReferenceRegionAvailabilityZonesList | null;
+  availabilityZones?: PublicCloudReferenceRegionAvailabilityZonesList | null | undefined;
   /** Continent code */
-  continent?: string;
+  continent?: string | undefined;
   /** Country code */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Datacenter display name */
-  datacenterName?: string | null;
+  datacenterName?: string | null | undefined;
   /** Region identifier (e.g. GRA1) */
-  name?: string;
+  name?: string | undefined;
   /** Available OpenStack services */
-  services?: PublicCloudReferenceRegionServicesList;
+  services?: PublicCloudReferenceRegionServicesList | undefined;
   /** Region status */
-  status?: PublicCloudReferenceRegionStatusEnum;
+  status?: PublicCloudReferenceRegionStatusEnum | undefined;
 }
 export interface GetPublicCloudProjectSecurityGroupRequest {
   /** Project ID */
@@ -3552,11 +3575,11 @@ export type ListPublicCloudProjectRequestIamTagsMap = {
 };
 export interface ListPublicCloudProjectRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListPublicCloudProjectRequestIamTagsMap;
+  iamTags?: ListPublicCloudProjectRequestIamTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectResponseBodyList = Array<PublicCloudProjectProjectAsyncWithIAM>;
 export type ListPublicCloudProjectResponse = ListPublicCloudProjectResponseBodyList;
@@ -3564,9 +3587,9 @@ export interface ListPublicCloudProjectComputeAutobackupRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectComputeAutobackupResponseBodyList =
   Array<PublicCloudInstanceAutobackup>;
@@ -3576,9 +3599,9 @@ export interface ListPublicCloudProjectComputeBackupRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectComputeBackupResponseBodyList = Array<PublicCloudInstanceBackup>;
 export type ListPublicCloudProjectComputeBackupResponse =
@@ -3587,9 +3610,9 @@ export interface ListPublicCloudProjectComputeInstanceRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectComputeInstanceResponseBodyList =
   Array<PublicCloudInstanceInstance>;
@@ -3601,9 +3624,9 @@ export interface ListPublicCloudProjectComputeInstanceEventsRequest {
   /** Instance ID */
   instanceId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** List all defined values for an event type field */
 export type CommonEventTypeEnum =
@@ -3614,15 +3637,15 @@ export type CommonEventTypeEnum =
 /** Represents an event for an async envelope */
 export interface CommonEvent {
   /** Creation date of the event */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Nature of the event */
-  kind?: string;
+  kind?: string | undefined;
   /** Link to the event related resource */
-  link?: string | null;
+  link?: string | null | undefined;
   /** Description of what happened on the event */
-  message?: string;
+  message?: string | undefined;
   /** Type of the event */
-  type?: CommonEventTypeEnum;
+  type?: CommonEventTypeEnum | undefined;
 }
 export type ListPublicCloudProjectComputeInstanceEventsResponseBodyList = Array<CommonEvent>;
 export type ListPublicCloudProjectComputeInstanceEventsResponse =
@@ -3631,9 +3654,9 @@ export interface ListPublicCloudProjectComputeInstanceGroupRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectComputeInstanceGroupResponseBodyList =
   Array<PublicCloudInstanceGroupInstanceGroup>;
@@ -3643,9 +3666,9 @@ export interface ListPublicCloudProjectFloatingIpRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectFloatingIpResponseBodyList =
   Array<PublicCloudFloatingIpFloatingIP>;
@@ -3655,9 +3678,9 @@ export interface ListPublicCloudProjectGatewayRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectGatewayResponseBodyList = Array<PublicCloudGatewayGateway>;
 export type ListPublicCloudProjectGatewayResponse = ListPublicCloudProjectGatewayResponseBodyList;
@@ -3665,9 +3688,9 @@ export interface ListPublicCloudProjectKeyManagerContainerRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectKeyManagerContainerResponseBodyList =
   Array<PublicCloudKeyManagerContainer>;
@@ -3679,9 +3702,9 @@ export interface ListPublicCloudProjectKeyManagerContainerConsumerRequest {
   /** Container ID */
   containerId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectKeyManagerContainerConsumerResponseBodyList =
   Array<PublicCloudKeyManagerContainerConsumer>;
@@ -3691,9 +3714,9 @@ export interface ListPublicCloudProjectKeyManagerSecretRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectKeyManagerSecretResponseBodyList =
   Array<PublicCloudKeyManagerSecret>;
@@ -3705,9 +3728,9 @@ export interface ListPublicCloudProjectKeyManagerSecretConsumerRequest {
   /** Secret ID */
   secretId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectKeyManagerSecretConsumerResponseBodyList =
   Array<PublicCloudKeyManagerSecretConsumer>;
@@ -3717,9 +3740,9 @@ export interface ListPublicCloudProjectLoadbalancerRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectLoadbalancerResponseBodyList =
   Array<PublicCloudLoadbalancerLoadbalancer>;
@@ -3731,9 +3754,9 @@ export interface ListPublicCloudProjectLoadbalancerListenerRequest {
   /** Loadbalancer ID */
   loadbalancerId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectLoadbalancerListenerResponseBodyList =
   Array<PublicCloudLoadbalancerListener>;
@@ -3747,9 +3770,9 @@ export interface ListPublicCloudProjectLoadbalancerListenerL7policyRequest {
   /** Listener ID */
   listenerId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectLoadbalancerListenerL7policyResponseBodyList =
   Array<PublicCloudLoadbalancerL7Policy>;
@@ -3761,9 +3784,9 @@ export interface ListPublicCloudProjectLoadbalancerPoolRequest {
   /** Loadbalancer ID */
   loadbalancerId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectLoadbalancerPoolResponseBodyList =
   Array<PublicCloudLoadbalancerPool>;
@@ -3777,9 +3800,9 @@ export interface ListPublicCloudProjectLoadbalancerPoolMemberRequest {
   /** Pool ID */
   poolId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectLoadbalancerPoolMemberResponseBodyList =
   Array<PublicCloudLoadbalancerMember>;
@@ -3789,9 +3812,9 @@ export interface ListPublicCloudProjectNetworkRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectNetworkResponseBodyList = Array<PublicCloudNetworkNetwork>;
 export type ListPublicCloudProjectNetworkResponse = ListPublicCloudProjectNetworkResponseBodyList;
@@ -3801,9 +3824,9 @@ export interface ListPublicCloudProjectNetworkSubnetRequest {
   /** Network ID */
   networkId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectNetworkSubnetResponseBodyList = Array<PublicCloudNetworkSubnet>;
 export type ListPublicCloudProjectNetworkSubnetResponse =
@@ -3812,18 +3835,18 @@ export interface ListPublicCloudProjectPublicIpRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** Kind of a Public Cloud public IP address */
 export type PublicCloudPublicIpPublicIPKindEnum = "ADDITIONAL_IP" | "EXT_NET_IP" | "FLOATING_IP";
 /** Lightweight view of a Public Cloud public IP, exposing only its kind and address */
 export interface PublicCloudPublicIpPublicIPSummary {
   /** The public IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** Kind of the public IP address */
-  type?: PublicCloudPublicIpPublicIPKindEnum;
+  type?: PublicCloudPublicIpPublicIPKindEnum | undefined;
 }
 export type ListPublicCloudProjectPublicIpResponseBodyList =
   Array<PublicCloudPublicIpPublicIPSummary>;
@@ -3832,9 +3855,9 @@ export interface ListPublicCloudProjectPublicIpAdditionalRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectPublicIpAdditionalResponseBodyList =
   Array<PublicCloudPublicIpAdditionalIP>;
@@ -3844,9 +3867,9 @@ export interface ListPublicCloudProjectPublicIpExtNetRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectPublicIpExtNetResponseBodyList =
   Array<PublicCloudPublicIpExtNetIP>;
@@ -3856,9 +3879,9 @@ export interface ListPublicCloudProjectPublicIpFloatingRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectPublicIpFloatingResponseBodyList =
   Array<PublicCloudPublicIpFloatingIP>;
@@ -3868,9 +3891,9 @@ export interface ListPublicCloudProjectRancherRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectRancherResponseBodyList = Array<PublicCloudRancherRancher>;
 export type ListPublicCloudProjectRancherResponse = ListPublicCloudProjectRancherResponseBodyList;
@@ -3880,9 +3903,9 @@ export interface ListPublicCloudProjectRancherCapabilityPlanRequest {
   /** Rancher ID */
   rancherId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** Possible causes for a managed Rancher plan being unavailable */
 export type PublicCloudRancherPlanUnavailabilityCauseEnum =
@@ -3894,13 +3917,13 @@ export type PublicCloudRancherPlanCapabilityStatusEnum = "AVAILABLE" | "CURRENT"
 /** A managed Rancher service plan capability, applicable to an existing managed Rancher */
 export interface PublicCloudRancherPlanCapability {
   /** Cause for an unavailability */
-  cause?: PublicCloudRancherPlanUnavailabilityCauseEnum | null;
+  cause?: PublicCloudRancherPlanUnavailabilityCauseEnum | null | undefined;
   /** Human-readable description of the unavailability cause */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Name of the plan */
-  name?: PublicCloudRancherPlanEnum;
+  name?: PublicCloudRancherPlanEnum | undefined;
   /** Status of the plan */
-  status?: PublicCloudRancherPlanCapabilityStatusEnum;
+  status?: PublicCloudRancherPlanCapabilityStatusEnum | undefined;
 }
 export type ListPublicCloudProjectRancherCapabilityPlanResponseBodyList =
   Array<PublicCloudRancherPlanCapability>;
@@ -3912,9 +3935,9 @@ export interface ListPublicCloudProjectRancherCapabilityVersionRequest {
   /** Rancher ID */
   rancherId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** Possible causes for a managed Rancher version being unavailable */
 export type PublicCloudRancherVersionUnavailabilityCauseEnum =
@@ -3929,15 +3952,15 @@ export type PublicCloudRancherVersionCapabilityStatusEnum = "AVAILABLE" | "UNAVA
 /** A managed Rancher service version capability, applicable to an existing managed Rancher */
 export interface PublicCloudRancherVersionCapability {
   /** Cause for an unavailability */
-  cause?: PublicCloudRancherVersionUnavailabilityCauseEnum | null;
+  cause?: PublicCloudRancherVersionUnavailabilityCauseEnum | null | undefined;
   /** Changelog URL of the version */
-  changelogUrl?: string;
+  changelogUrl?: string | undefined;
   /** Human-readable description of the unavailability cause */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Name of the version */
-  name?: string;
+  name?: string | undefined;
   /** Status of the version */
-  status?: PublicCloudRancherVersionCapabilityStatusEnum;
+  status?: PublicCloudRancherVersionCapabilityStatusEnum | undefined;
 }
 export type ListPublicCloudProjectRancherCapabilityVersionResponseBodyList =
   Array<PublicCloudRancherVersionCapability>;
@@ -3949,9 +3972,9 @@ export interface ListPublicCloudProjectRancherEventRequest {
   /** Rancher ID */
   rancherId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectRancherEventResponseBodyList = Array<CommonEvent>;
 export type ListPublicCloudProjectRancherEventResponse =
@@ -3962,9 +3985,9 @@ export interface ListPublicCloudProjectRancherTaskRequest {
   /** Rancher ID */
   rancherId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectRancherTaskResponseBodyList = Array<CommonTask>;
 export type ListPublicCloudProjectRancherTaskResponse =
@@ -3973,11 +3996,11 @@ export interface ListPublicCloudProjectReferenceInstanceFlavorRequest {
   /** Project ID */
   projectId: string;
   /** Optional region filter */
-  region?: string;
+  region?: string | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectReferenceInstanceFlavorResponseBodyList =
   Array<PublicCloudReferenceInstanceFlavor>;
@@ -3987,11 +4010,11 @@ export interface ListPublicCloudProjectReferenceInstanceImageRequest {
   /** Project ID */
   projectId: string;
   /** Optional region filter */
-  region?: string;
+  region?: string | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectReferenceInstanceImageResponseBodyList =
   Array<PublicCloudReferenceInstanceImage>;
@@ -4001,22 +4024,22 @@ export interface ListPublicCloudProjectReferenceRancherPlanRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** Possible statuses for a managed Rancher plan reference */
 export type PublicCloudRancherPlanReferenceStatusEnum = "AVAILABLE" | "UNAVAILABLE";
 /** A managed Rancher service plan reference, applicable to service creations */
 export interface PublicCloudRancherPlanReference {
   /** Cause for an unavailability */
-  cause?: PublicCloudRancherPlanUnavailabilityCauseEnum | null;
+  cause?: PublicCloudRancherPlanUnavailabilityCauseEnum | null | undefined;
   /** Human-readable description of the unavailability cause */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Name of the plan */
-  name?: PublicCloudRancherPlanEnum;
+  name?: PublicCloudRancherPlanEnum | undefined;
   /** Status of the plan */
-  status?: PublicCloudRancherPlanReferenceStatusEnum;
+  status?: PublicCloudRancherPlanReferenceStatusEnum | undefined;
 }
 export type ListPublicCloudProjectReferenceRancherPlanResponseBodyList =
   Array<PublicCloudRancherPlanReference>;
@@ -4026,24 +4049,24 @@ export interface ListPublicCloudProjectReferenceRancherVersionRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** Possible statuses for a managed Rancher version reference */
 export type PublicCloudRancherVersionReferenceStatusEnum = "AVAILABLE" | "UNAVAILABLE";
 /** A managed Rancher service version reference, applicable to service creations */
 export interface PublicCloudRancherVersionReference {
   /** Cause for an unavailability */
-  cause?: PublicCloudRancherVersionUnavailabilityCauseEnum | null;
+  cause?: PublicCloudRancherVersionUnavailabilityCauseEnum | null | undefined;
   /** Changelog URL of the version */
-  changelogUrl?: string;
+  changelogUrl?: string | undefined;
   /** Human-readable description of the unavailability cause */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Name of the version */
-  name?: string;
+  name?: string | undefined;
   /** Status of the version */
-  status?: PublicCloudRancherVersionReferenceStatusEnum;
+  status?: PublicCloudRancherVersionReferenceStatusEnum | undefined;
 }
 export type ListPublicCloudProjectReferenceRancherVersionResponseBodyList =
   Array<PublicCloudRancherVersionReference>;
@@ -4053,9 +4076,9 @@ export interface ListPublicCloudProjectReferenceRegionRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectReferenceRegionResponseBodyList =
   Array<PublicCloudReferenceRegion>;
@@ -4065,9 +4088,9 @@ export interface ListPublicCloudProjectSecurityGroupRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectSecurityGroupResponseBodyList =
   Array<PublicCloudSecurityGroupSecurityGroup>;
@@ -4077,9 +4100,9 @@ export interface ListPublicCloudProjectSshKeyRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectSshKeyResponseBodyList = Array<PublicCloudSshKeySSHKey>;
 export type ListPublicCloudProjectSshKeyResponse = ListPublicCloudProjectSshKeyResponseBodyList;
@@ -4087,11 +4110,11 @@ export interface ListPublicCloudProjectStorageBlockBackupRequest {
   /** Project ID */
   projectId: string;
   /** Filter by source volume ID */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageBlockBackupResponseBodyList =
   Array<PublicCloudBlockStorageBackup>;
@@ -4101,11 +4124,11 @@ export interface ListPublicCloudProjectStorageBlockSnapshotRequest {
   /** Project ID */
   projectId: string;
   /** Filter by source volume ID */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageBlockSnapshotResponseBodyList =
   Array<PublicCloudBlockStorageSnapshot>;
@@ -4115,9 +4138,9 @@ export interface ListPublicCloudProjectStorageBlockVolumeRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageBlockVolumeResponseBodyList =
   Array<PublicCloudBlockStorageBlock>;
@@ -4134,9 +4157,9 @@ export interface ListPublicCloudProjectStorageFileShareRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageFileShareResponseBodyList =
   Array<PublicCloudStorageFileFileStorage>;
@@ -4146,9 +4169,9 @@ export interface ListPublicCloudProjectStorageFileSnapshotRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageFileSnapshotResponseBodyList =
   Array<PublicCloudStorageFileFileStorageSnapshot>;
@@ -4158,9 +4181,9 @@ export interface ListPublicCloudProjectStorageObjectBucketRequest {
   /** Project ID */
   projectId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListPublicCloudProjectStorageObjectBucketResponseBodyList =
   Array<PublicCloudStorageObjectBucket>;
@@ -4180,11 +4203,11 @@ export interface PublicCloudStorageObjectLifecycleRuleAbortIncompleteMultipartUp
 /** Expiration settings for current object versions in a lifecycle rule */
 export interface PublicCloudStorageObjectLifecycleRuleExpiration {
   /** Date when objects expire */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Number of days after creation when objects expire */
-  days?: number | null;
+  days?: number | null | undefined;
   /** Whether to remove expired object delete markers */
-  expiredObjectDeleteMarker?: boolean | null;
+  expiredObjectDeleteMarker?: boolean | null | undefined;
 }
 /** Key-value tag pairs to filter objects */
 export type PublicCloudStorageObjectLifecycleRuleFilterTagsMap = {
@@ -4193,18 +4216,18 @@ export type PublicCloudStorageObjectLifecycleRuleFilterTagsMap = {
 /** Filter criteria to select which objects a lifecycle rule applies to */
 export interface PublicCloudStorageObjectLifecycleRuleFilter {
   /** Minimum object size in bytes for the rule to apply */
-  objectSizeGreaterThan?: number | null;
+  objectSizeGreaterThan?: number | null | undefined;
   /** Maximum object size in bytes for the rule to apply */
-  objectSizeLessThan?: number | null;
+  objectSizeLessThan?: number | null | undefined;
   /** Key prefix to filter objects */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Key-value tag pairs to filter objects */
-  tags?: PublicCloudStorageObjectLifecycleRuleFilterTagsMap | null;
+  tags?: PublicCloudStorageObjectLifecycleRuleFilterTagsMap | null | undefined;
 }
 /** Expiration settings for noncurrent object versions in a lifecycle rule */
 export interface PublicCloudStorageObjectLifecycleRuleNoncurrentVersionExpiration {
   /** Number of newer noncurrent versions to retain */
-  newerNoncurrentVersions?: number | null;
+  newerNoncurrentVersions?: number | null | undefined;
   /** Number of days after an object version becomes noncurrent before it expires */
   noncurrentDays: number;
 }
@@ -4218,7 +4241,7 @@ export type PublicCloudStorageObjectStorageClassEnum =
 /** Storage class transition for noncurrent object versions */
 export interface PublicCloudStorageObjectLifecycleRuleNoncurrentVersionTransition {
   /** Number of newer noncurrent versions to retain before transitioning */
-  newerNoncurrentVersions?: number | null;
+  newerNoncurrentVersions?: number | null | undefined;
   /** Number of days after an object version becomes noncurrent before it transitions */
   noncurrentDays: number;
   /** Target storage class for the transition */
@@ -4232,9 +4255,9 @@ export type PublicCloudStorageObjectLifecycleRuleStatusEnum = "DISABLED" | "ENAB
 /** Storage class transition for current object versions */
 export interface PublicCloudStorageObjectLifecycleRuleTransition {
   /** Date (YYYY-MM-DD) when objects transition to another storage class */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Number of days after creation when objects transition */
-  days?: number | null;
+  days?: number | null | undefined;
   /** Target storage class for the transition */
   storageClass: PublicCloudStorageObjectStorageClassEnum | (string & {});
 }
@@ -4244,21 +4267,30 @@ export type PublicCloudStorageObjectLifecycleRuleTransitionsList =
 /** An S3 bucket lifecycle rule */
 export interface PublicCloudStorageObjectLifecycleRule {
   /** Settings for aborting incomplete multipart uploads */
-  abortIncompleteMultipartUpload?: PublicCloudStorageObjectLifecycleRuleAbortIncompleteMultipartUpload | null;
+  abortIncompleteMultipartUpload?:
+    | PublicCloudStorageObjectLifecycleRuleAbortIncompleteMultipartUpload
+    | null
+    | undefined;
   /** Expiration settings for current version objects */
-  expiration?: PublicCloudStorageObjectLifecycleRuleExpiration | null;
+  expiration?: PublicCloudStorageObjectLifecycleRuleExpiration | null | undefined;
   /** Filter criteria for the rule */
-  filter?: PublicCloudStorageObjectLifecycleRuleFilter | null;
+  filter?: PublicCloudStorageObjectLifecycleRuleFilter | null | undefined;
   /** Lifecycle rule unique identifier */
   id: string;
   /** Expiration settings for noncurrent version objects */
-  noncurrentVersionExpiration?: PublicCloudStorageObjectLifecycleRuleNoncurrentVersionExpiration | null;
+  noncurrentVersionExpiration?:
+    | PublicCloudStorageObjectLifecycleRuleNoncurrentVersionExpiration
+    | null
+    | undefined;
   /** Transition rules for noncurrent version objects */
-  noncurrentVersionTransitions?: PublicCloudStorageObjectLifecycleRuleNoncurrentVersionTransitionsList | null;
+  noncurrentVersionTransitions?:
+    | PublicCloudStorageObjectLifecycleRuleNoncurrentVersionTransitionsList
+    | null
+    | undefined;
   /** Whether the rule is enabled or disabled */
   status: PublicCloudStorageObjectLifecycleRuleStatusEnum | (string & {});
   /** Transition rules for current version objects */
-  transitions?: PublicCloudStorageObjectLifecycleRuleTransitionsList | null;
+  transitions?: PublicCloudStorageObjectLifecycleRuleTransitionsList | null | undefined;
 }
 /** Array of lifecycle rules */
 export type PublicCloudStorageObjectLifecycleRulesResponseRulesList =
@@ -4266,7 +4298,7 @@ export type PublicCloudStorageObjectLifecycleRulesResponseRulesList =
 /** Response containing lifecycle rules for an S3 bucket */
 export interface PublicCloudStorageObjectLifecycleRulesResponse {
   /** Array of lifecycle rules */
-  rules?: PublicCloudStorageObjectLifecycleRulesResponseRulesList;
+  rules?: PublicCloudStorageObjectLifecycleRulesResponseRulesList | undefined;
 }
 export interface ListPublicCloudProjectStorageObjectBucketReplicationRequest {
   /** Project ID */
@@ -4283,7 +4315,7 @@ export interface PublicCloudStorageObjectReplicationRuleDestination {
   /** Region of the destination bucket */
   region: string;
   /** Storage class for replicated objects in the destination bucket */
-  storageClass?: PublicCloudStorageObjectStorageClassEnum | (string & {}) | null;
+  storageClass?: PublicCloudStorageObjectStorageClassEnum | (string & {}) | null | undefined;
 }
 /** Key-value tag pairs to filter objects */
 export type PublicCloudStorageObjectReplicationRuleFilterTagsMap = {
@@ -4292,9 +4324,9 @@ export type PublicCloudStorageObjectReplicationRuleFilterTagsMap = {
 /** Filter criteria to select which objects a replication rule applies to */
 export interface PublicCloudStorageObjectReplicationRuleFilter {
   /** Key prefix to filter objects */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Key-value tag pairs to filter objects */
-  tags?: PublicCloudStorageObjectReplicationRuleFilterTagsMap | null;
+  tags?: PublicCloudStorageObjectReplicationRuleFilterTagsMap | null | undefined;
 }
 /** An S3 bucket replication rule */
 export interface PublicCloudStorageObjectReplicationRule {
@@ -4303,7 +4335,7 @@ export interface PublicCloudStorageObjectReplicationRule {
   /** Destination bucket and settings for replicated objects */
   destination: PublicCloudStorageObjectReplicationRuleDestination;
   /** Filter criteria for the rule */
-  filter?: PublicCloudStorageObjectReplicationRuleFilter | null;
+  filter?: PublicCloudStorageObjectReplicationRuleFilter | null | undefined;
   /** Replication rule unique identifier */
   id: string;
   /** Priority of the replication rule */
@@ -4317,7 +4349,7 @@ export type PublicCloudStorageObjectReplicationRulesResponseRulesList =
 /** Response containing replication rules for an S3 bucket */
 export interface PublicCloudStorageObjectReplicationRulesResponse {
   /** Array of replication rules */
-  rules?: PublicCloudStorageObjectReplicationRulesResponseRulesList;
+  rules?: PublicCloudStorageObjectReplicationRulesResponseRulesList | undefined;
 }
 /** Network references */
 export type PublicCloudInstanceInstanceUpdateTargetSpecNetworksList =
@@ -4339,9 +4371,9 @@ export interface PublicCloudInstanceInstanceUpdateTargetSpec {
   /** Network references */
   networks: PublicCloudInstanceInstanceUpdateTargetSpecNetworksList | null;
   /** Desired power state (defaults to ACTIVE if omitted) */
-  powerState?: PublicCloudInstancePowerStateEnum | (string & {}) | null;
+  powerState?: PublicCloudInstancePowerStateEnum | (string & {}) | null | undefined;
   /** Security group references to apply to all instance ports */
-  securityGroups?: PublicCloudInstanceInstanceUpdateTargetSpecSecurityGroupsList | null;
+  securityGroups?: PublicCloudInstanceInstanceUpdateTargetSpecSecurityGroupsList | null | undefined;
   /** Volume references */
   volumes: PublicCloudInstanceInstanceUpdateTargetSpecVolumesList | null;
 }
@@ -4376,13 +4408,13 @@ export type PublicCloudGatewayGatewayUpdateTargetSpecSubnetsList =
 /** Desired specification for updating a gateway (mutable fields only) */
 export interface PublicCloudGatewayGatewayUpdateTargetSpec {
   /** Gateway description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** External gateway configuration */
   externalGateway: PublicCloudGatewayExternalGateway;
   /** Gateway name */
   name: string;
   /** Subnets to attach as router interfaces */
-  subnets?: PublicCloudGatewayGatewayUpdateTargetSpecSubnetsList | null;
+  subnets?: PublicCloudGatewayGatewayUpdateTargetSpecSubnetsList | null | undefined;
 }
 export interface PutPublicCloudProjectGatewayRequest {
   /** Project ID */
@@ -4434,7 +4466,7 @@ export interface PutPublicCloudProjectKeyManagerSecretRequest {
 /** Desired specification for updating a load balancer (excludes immutable fields) */
 export interface PublicCloudLoadbalancerLoadbalancerPutTargetSpec {
   /** Load balancer description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Load balancer name */
   name: string;
 }
@@ -4457,31 +4489,34 @@ export type PublicCloudLoadbalancerListenerPutTargetSpecTlsVersionsList = Array<
 /** Desired specification for updating a load balancer listener (excludes immutable fields) */
 export interface PublicCloudLoadbalancerListenerPutTargetSpec {
   /** CIDR blocks allowed to connect to this listener */
-  allowedCidrs?: PublicCloudLoadbalancerListenerPutTargetSpecAllowedCidrsList | null;
+  allowedCidrs?: PublicCloudLoadbalancerListenerPutTargetSpecAllowedCidrsList | null | undefined;
   /** Maximum number of connections permitted for this listener (-1 for unlimited) */
-  connectionLimit?: number | null;
+  connectionLimit?: number | null | undefined;
   /** Reference to the default pool that handles traffic for this listener */
-  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolRef | null;
+  defaultPool?: PublicCloudLoadbalancerListenerDefaultPoolRef | null | undefined;
   /** Reference to the default TLS certificate container (for TERMINATED_HTTPS) */
-  defaultTlsContainerRef?: string | null;
+  defaultTlsContainerRef?: string | null | undefined;
   /** Listener description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Optional headers to insert into requests before forwarding to backend members */
-  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null;
+  insertHeaders?: PublicCloudLoadbalancerListenerInsertHeaders | null | undefined;
   /** Listener name */
   name: string;
   /** References to TLS certificate containers for SNI (for TERMINATED_HTTPS) */
-  sniContainerRefs?: PublicCloudLoadbalancerListenerPutTargetSpecSniContainerRefsList | null;
+  sniContainerRefs?:
+    | PublicCloudLoadbalancerListenerPutTargetSpecSniContainerRefsList
+    | null
+    | undefined;
   /** Frontend client inactivity timeout in milliseconds */
-  timeoutClientData?: number | null;
+  timeoutClientData?: number | null | undefined;
   /** Backend member connection timeout in milliseconds */
-  timeoutMemberConnect?: number | null;
+  timeoutMemberConnect?: number | null | undefined;
   /** Backend member inactivity timeout in milliseconds */
-  timeoutMemberData?: number | null;
+  timeoutMemberData?: number | null | undefined;
   /** Time in milliseconds to wait for additional TCP packets for content inspection */
-  timeoutTcpInspect?: number | null;
+  timeoutTcpInspect?: number | null | undefined;
   /** List of TLS protocol versions allowed (e.g. TLSv1.2, TLSv1.3) */
-  tlsVersions?: PublicCloudLoadbalancerListenerPutTargetSpecTlsVersionsList | null;
+  tlsVersions?: PublicCloudLoadbalancerListenerPutTargetSpecTlsVersionsList | null | undefined;
 }
 export interface PutPublicCloudProjectLoadbalancerListenerRequest {
   /** Project ID */
@@ -4503,21 +4538,21 @@ export interface PublicCloudLoadbalancerL7PolicyUpdateTargetSpec {
   /** Action to take when the policy matches (determines which redirect fields are valid) */
   action: PublicCloudLoadbalancerL7PolicyActionEnum | (string & {});
   /** Description of the L7 policy */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Human-readable name of the L7 policy */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Evaluation position of this policy relative to other policies (starting at 1) */
-  position?: number | null;
+  position?: number | null | undefined;
   /** HTTP status code used for redirect responses (e.g. 301, 302, 303, 307, 308) */
-  redirectHttpCode?: number | null;
+  redirectHttpCode?: number | null | undefined;
   /** Reference to the pool to redirect traffic to (for REDIRECT_TO_POOL action) */
-  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolRef | null;
+  redirectPool?: PublicCloudLoadbalancerL7PolicyRedirectPoolRef | null | undefined;
   /** URL prefix to redirect requests to (for REDIRECT_PREFIX action) */
-  redirectPrefix?: string | null;
+  redirectPrefix?: string | null | undefined;
   /** URL to redirect requests to (for REDIRECT_TO_URL action) */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
   /** L7 rules that determine when this policy matches */
-  rules?: PublicCloudLoadbalancerL7PolicyUpdateTargetSpecRulesList | null;
+  rules?: PublicCloudLoadbalancerL7PolicyUpdateTargetSpecRulesList | null | undefined;
 }
 export interface PutPublicCloudProjectLoadbalancerListenerL7policyRequest {
   /** Project ID */
@@ -4538,36 +4573,40 @@ export interface PublicCloudLoadbalancerHealthMonitorUpdateTargetSpec {
   /** Time in seconds between sending health check probes to members */
   delay: number;
   /** Domain name injected into the HTTP Host header for HTTP/HTTPS health checks */
-  domainName?: string | null;
+  domainName?: string | null | undefined;
   /** Expected HTTP status codes for HTTP/HTTPS health checks (e.g. 200, 200-202, 200-202,401) */
-  expectedCodes?: string | null;
+  expectedCodes?: string | null | undefined;
   /** HTTP method used for HTTP/HTTPS health checks */
-  httpMethod?: PublicCloudLoadbalancerHealthMonitorHttpMethodEnum | (string & {}) | null;
+  httpMethod?:
+    | PublicCloudLoadbalancerHealthMonitorHttpMethodEnum
+    | (string & {})
+    | null
+    | undefined;
   /** HTTP version for HTTP/HTTPS health checks (1.0 or 1.1) */
-  httpVersion?: string | null;
+  httpVersion?: string | null | undefined;
   /** Number of consecutive health check failures before marking a member as INACTIVE (1-10) */
   maxRetries: number;
   /** Number of consecutive health check failures before marking a member as ERROR (1-10) */
-  maxRetriesDown?: number | null;
+  maxRetriesDown?: number | null | undefined;
   /** Human-readable name for the health monitor */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Maximum time in seconds to wait for a health check reply (must be less than or equal to delay) */
   timeout: number;
   /** URI path for HTTP/HTTPS health checks (must start with /) */
-  urlPath?: string | null;
+  urlPath?: string | null | undefined;
 }
 /** Desired specification for updating a load balancer pool (excludes immutable fields) */
 export interface PublicCloudLoadbalancerPoolUpdateTargetSpec {
   /** Load balancing algorithm */
   algorithm: PublicCloudLoadbalancerPoolAlgorithmEnum | (string & {});
   /** Pool description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Health monitor configuration for this pool */
-  healthMonitor?: PublicCloudLoadbalancerHealthMonitorUpdateTargetSpec | null;
+  healthMonitor?: PublicCloudLoadbalancerHealthMonitorUpdateTargetSpec | null | undefined;
   /** Pool name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Session persistence configuration */
-  persistence?: PublicCloudLoadbalancerSessionPersistence | null;
+  persistence?: PublicCloudLoadbalancerSessionPersistence | null | undefined;
 }
 export interface PutPublicCloudProjectLoadbalancerPoolRequest {
   /** Project ID */
@@ -4584,13 +4623,13 @@ export interface PutPublicCloudProjectLoadbalancerPoolRequest {
 /** Desired specification for updating a load balancer pool member (excludes immutable fields) */
 export interface PublicCloudLoadbalancerMemberUpdateTargetSpec {
   /** Whether this is a backup member */
-  backup?: boolean | null;
+  backup?: boolean | null | undefined;
   /** Alternate address and port for health monitoring. If not specified, the member address and protocol port will be used for health monitoring */
-  monitor?: PublicCloudLoadbalancerMemberMonitor | null;
+  monitor?: PublicCloudLoadbalancerMemberMonitor | null | undefined;
   /** Member name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Weight for load balancing (1-256) */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface PutPublicCloudProjectLoadbalancerPoolMemberRequest {
   /** Project ID */
@@ -4629,15 +4668,15 @@ export type PublicCloudNetworkSubnetPutTargetSpecDnsNameserversList = Array<stri
 /** Desired specification for updating a subnet (excludes immutable fields) */
 export interface PublicCloudNetworkSubnetPutTargetSpec {
   /** IP address allocation pools */
-  allocationPools?: PublicCloudNetworkSubnetPutTargetSpecAllocationPoolsList | null;
+  allocationPools?: PublicCloudNetworkSubnetPutTargetSpecAllocationPoolsList | null | undefined;
   /** Subnet description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether DHCP is enabled */
-  dhcpEnabled?: boolean | null;
+  dhcpEnabled?: boolean | null | undefined;
   /** DNS nameservers for the subnet */
-  dnsNameservers?: PublicCloudNetworkSubnetPutTargetSpecDnsNameserversList | null;
+  dnsNameservers?: PublicCloudNetworkSubnetPutTargetSpecDnsNameserversList | null | undefined;
   /** Default gateway IP address */
-  gatewayIp?: string | null;
+  gatewayIp?: string | null | undefined;
   /** Subnet name */
   name: string;
 }
@@ -4698,11 +4737,11 @@ export type PublicCloudSecurityGroupSecurityGroupUpdateTargetSpecRulesList =
 /** Desired specification for updating a security group (mutable fields only) */
 export interface PublicCloudSecurityGroupSecurityGroupUpdateTargetSpec {
   /** Security group description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Security group name */
   name: string;
   /** Desired firewall rules */
-  rules?: PublicCloudSecurityGroupSecurityGroupUpdateTargetSpecRulesList | null;
+  rules?: PublicCloudSecurityGroupSecurityGroupUpdateTargetSpecRulesList | null | undefined;
 }
 export interface PutPublicCloudProjectSecurityGroupRequest {
   /** Project ID */
@@ -4717,9 +4756,9 @@ export interface PutPublicCloudProjectSecurityGroupRequest {
 /** Target specification for updating a block storage backup (immutable fields like location and volumeId are excluded) */
 export interface PublicCloudBlockStorageBackupUpdateTargetSpec {
   /** Desired backup description */
-  description?: string;
+  description?: string | undefined;
   /** Desired backup name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutPublicCloudProjectStorageBlockBackupRequest {
   /** Project ID */
@@ -4734,7 +4773,7 @@ export interface PutPublicCloudProjectStorageBlockBackupRequest {
 /** Target specification for updating a block storage volume snapshot (immutable fields like location and volumeId are excluded) */
 export interface PublicCloudBlockStorageSnapshotUpdateTargetSpec {
   /** Desired snapshot description */
-  description?: string;
+  description?: string | undefined;
   /** Desired snapshot name */
   name: string;
 }
@@ -4755,7 +4794,7 @@ export interface PublicCloudBlockStorageBlockUpdateTargetSpec {
   /** Size of the volume in GB */
   size: number;
   /** Target volume type. Changing this triggers an online retype (migration). */
-  volumeType?: PublicCloudBlockStorageVolumeTypeEnum | (string & {}) | null;
+  volumeType?: PublicCloudBlockStorageVolumeTypeEnum | (string & {}) | null | undefined;
 }
 export interface PutPublicCloudProjectStorageBlockVolumeRequest {
   /** Project ID */
@@ -4773,9 +4812,9 @@ export type PublicCloudStorageFileFileStorageUpdateTargetSpecAccessRulesList =
 /** Target specification for updating a file storage (immutable fields like protocol, shareType, networkId, subnetId are excluded) */
 export interface PublicCloudStorageFileFileStorageUpdateTargetSpec {
   /** Access rules controlling which IPs can access the file storage (replaces all existing rules) */
-  accessRules?: PublicCloudStorageFileFileStorageUpdateTargetSpecAccessRulesList | null;
+  accessRules?: PublicCloudStorageFileFileStorageUpdateTargetSpecAccessRulesList | null | undefined;
   /** Description of the file storage */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Desired file storage name */
   name: string;
   /** Size of the file storage in GB (can only be increased, not reduced) */
@@ -4794,9 +4833,9 @@ export interface PutPublicCloudProjectStorageFileShareRequest {
 /** Target specification for updating a file storage snapshot (only name and description are mutable) */
 export interface PublicCloudStorageFileFileStorageSnapshotUpdateTargetSpec {
   /** Description of the snapshot */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Desired snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface PutPublicCloudProjectStorageFileSnapshotRequest {
   /** Project ID */
@@ -4815,15 +4854,15 @@ export type PublicCloudStorageObjectBucketUpdateTargetSpecInputTagsMap = {
 /** Target specification for updating an S3 bucket (mutable fields only) */
 export interface PublicCloudStorageObjectBucketUpdateTargetSpecInput {
   /** Server-side encryption configuration */
-  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null;
+  encryption?: PublicCloudStorageObjectBucketEncryptionConfig | null | undefined;
   /** Object lock (WORM) configuration; requires versioning to be enabled */
-  objectLock?: PublicCloudStorageObjectBucketObjectLockConfigInput | null;
+  objectLock?: PublicCloudStorageObjectBucketObjectLockConfigInput | null | undefined;
   /** Owner user identifier */
-  ownerUserId?: string | null;
+  ownerUserId?: string | null | undefined;
   /** Metadata tags for the bucket */
-  tags?: PublicCloudStorageObjectBucketUpdateTargetSpecInputTagsMap | null;
+  tags?: PublicCloudStorageObjectBucketUpdateTargetSpecInputTagsMap | null | undefined;
   /** Versioning configuration */
-  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null;
+  versioning?: PublicCloudStorageObjectBucketVersioningConfig | null | undefined;
 }
 export interface PutPublicCloudProjectStorageObjectBucketRequest {
   /** Project ID */

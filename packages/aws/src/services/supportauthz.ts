@@ -159,16 +159,16 @@ export class ValidationException
 export type Action = string;
 export type Actions = string[];
 export type ActionSet =
-  | { allActions: Record<string, never>; actions?: never }
-  | { allActions?: never; actions: string[] };
+  | { allActions: Record<string, never>; actions?: undefined }
+  | { allActions?: undefined; actions: string[] };
 export type Resource = string;
 export type Resources = string[];
 export type ResourceSet =
-  | { allResourcesInRegion: Record<string, never>; resources?: never }
-  | { allResourcesInRegion?: never; resources: string[] };
+  | { allResourcesInRegion: Record<string, never>; resources?: undefined }
+  | { allResourcesInRegion?: undefined; resources: string[] };
 export type Condition =
-  | { allowAfter: Date; allowBefore?: never }
-  | { allowAfter?: never; allowBefore: Date };
+  | { allowAfter: Date; allowBefore?: undefined }
+  | { allowAfter?: undefined; allowBefore: Date };
 export type Conditions = Condition[];
 export interface Permit {
   actions: ActionSet;

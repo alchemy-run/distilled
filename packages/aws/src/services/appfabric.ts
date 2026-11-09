@@ -248,8 +248,8 @@ export interface ApiKeyCredential {
   apiKey: string | redacted.Redacted<string>;
 }
 export type Credential =
-  | { oauth2Credential: Oauth2Credential; apiKeyCredential?: never }
-  | { oauth2Credential?: never; apiKeyCredential: ApiKeyCredential };
+  | { oauth2Credential: Oauth2Credential; apiKeyCredential?: undefined }
+  | { oauth2Credential?: undefined; apiKeyCredential: ApiKeyCredential };
 export type AuthType = "oauth2" | "apiKey" | (string & {});
 export type TagKey = string;
 export type TagValue = string;
@@ -336,8 +336,8 @@ export interface FirehoseStream {
   streamName: string;
 }
 export type Destination =
-  | { s3Bucket: S3Bucket; firehoseStream?: never }
-  | { s3Bucket?: never; firehoseStream: FirehoseStream };
+  | { s3Bucket: S3Bucket; firehoseStream?: undefined }
+  | { s3Bucket?: undefined; firehoseStream: FirehoseStream };
 export interface AuditLogDestinationConfiguration {
   destination: Destination;
 }

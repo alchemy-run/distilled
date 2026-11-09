@@ -9838,7 +9838,7 @@ export interface KeysObservabilityTelemetryResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ObservabilityTelemetryKeysResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BetaWorkersListRequestOrder = "asc" | "desc";
 export type BetaWorkersListRequestOrderBy = "deployed_on" | "updated_on" | "created_on" | "name";
@@ -10116,7 +10116,7 @@ export interface ListBetaWorkersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: BetaWorkersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListBetaWorkerVersionsRequest {
   /** Identifier. */
@@ -11117,7 +11117,7 @@ export interface ListBetaWorkerVersionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: BetaWorkersVersionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDomainsRequest {
   /** Identifier. */
@@ -11162,7 +11162,7 @@ export interface ListDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ObservabilityDestinationsListRequestOrder = "asc" | "desc";
 export type ObservabilityDestinationsListRequestOrderBy = "created" | "updated";
@@ -11206,7 +11206,7 @@ export interface ListObservabilityDestinationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ObservabilityDestinationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListObservabilityIssueAutomationsRequest {
   accountId: string;
@@ -11458,7 +11458,7 @@ export interface ListObservabilityQueriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ObservabilityQueriesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRoutesRequest {
   /** Identifier. */
@@ -11477,7 +11477,7 @@ export interface ListRoutesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RoutesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListScriptDeploymentsRequest {
   /** Identifier. */
@@ -11862,7 +11862,7 @@ export interface ListScriptsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ScriptsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListScriptSecretsRequest {
   /** Identifier. */
@@ -11916,7 +11916,7 @@ export interface ListScriptSecretsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ScriptsSecretsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListScriptVersionsRequest {
   /** Identifier. */
@@ -16803,7 +16803,7 @@ export interface ValuesObservabilityTelemetryResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ObservabilityTelemetryValuesResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BetaWorkersVersionsProfileError = CloudflareOpError;
 /** Captures a CPU or heap profile from a recently active isolate running the specified Worker version. This endpoint requires the Worker profiling feature to be enabled for the account. */

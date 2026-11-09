@@ -1106,8 +1106,8 @@ export interface DatasetItem {
   exportDataTypes?: ExportDataType[] | undefined;
 }
 export type ProcessingInput =
-  | { timeseries: TimeseriesItem[]; dataset?: never }
-  | { timeseries?: never; dataset: DatasetItem };
+  | { timeseries: TimeseriesItem[]; dataset?: undefined }
+  | { timeseries?: undefined; dataset: DatasetItem };
 export interface ExportErrorReportLocation {
   s3Uri: string;
 }
@@ -2538,101 +2538,101 @@ export type ResourceArn = string;
 export type ResponseStream =
   | {
       trace: Trace;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
+      trace?: undefined;
       output: InvocationOutput;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
+      trace?: undefined;
+      output?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
       conflictingOperationException: ConflictingOperationException;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
       internalFailureException: InternalFailureException;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
       invalidRequestException: InvalidRequestException;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
       limitExceededException: LimitExceededException;
-      resourceNotFoundException?: never;
-      throttlingException?: never;
+      resourceNotFoundException?: undefined;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      throttlingException?: never;
+      throttlingException?: undefined;
     }
   | {
-      trace?: never;
-      output?: never;
-      accessDeniedException?: never;
-      conflictingOperationException?: never;
-      internalFailureException?: never;
-      invalidRequestException?: never;
-      limitExceededException?: never;
-      resourceNotFoundException?: never;
+      trace?: undefined;
+      output?: undefined;
+      accessDeniedException?: undefined;
+      conflictingOperationException?: undefined;
+      internalFailureException?: undefined;
+      invalidRequestException?: undefined;
+      limitExceededException?: undefined;
+      resourceNotFoundException?: undefined;
       throttlingException: ThrottlingException;
     };
 export interface InvokeAssistantResponse {

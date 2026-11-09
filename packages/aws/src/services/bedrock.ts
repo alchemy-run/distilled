@@ -451,8 +451,8 @@ export type MetricName = string | redacted.Redacted<string>;
 export type CustomMetricInstructions = string;
 export type RatingScaleItemDefinition = string;
 export type RatingScaleItemValue =
-  | { stringValue: string; floatValue?: never }
-  | { stringValue?: never; floatValue: number };
+  | { stringValue: string; floatValue?: undefined }
+  | { stringValue?: undefined; floatValue: number };
 export interface RatingScaleItem {
   definition: string;
   value: RatingScaleItemValue;
@@ -503,8 +503,8 @@ export interface HumanEvaluationConfig {
   datasetMetricConfigs: EvaluationDatasetMetricConfig[];
 }
 export type EvaluationConfig =
-  | { automated: AutomatedEvaluationConfig; human?: never }
-  | { automated?: never; human: HumanEvaluationConfig };
+  | { automated: AutomatedEvaluationConfig; human?: undefined }
+  | { automated?: undefined; human: HumanEvaluationConfig };
 export type EvaluationBedrockModelIdentifier = string;
 export type EvaluationModelInferenceParams = string | redacted.Redacted<string>;
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
@@ -521,8 +521,8 @@ export interface EvaluationPrecomputedInferenceSource {
   inferenceSourceIdentifier: string;
 }
 export type EvaluationModelConfig =
-  | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: never }
-  | { bedrockModel?: never; precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
+  | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: undefined }
+  | { bedrockModel?: undefined; precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
 export type EvaluationModelConfigs = EvaluationModelConfig[];
 export type KnowledgeBaseId = string;
 export type SearchType = "HYBRID" | "SEMANTIC" | (string & {});
@@ -536,197 +536,197 @@ export type RetrievalFilterList = RetrievalFilter[];
 export type RetrievalFilter =
   | {
       equals: FilterAttribute;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
+      equals?: undefined;
       notEquals: FilterAttribute;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
       greaterThan: FilterAttribute;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEquals: FilterAttribute;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
       lessThan: FilterAttribute;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
       lessThanOrEquals: FilterAttribute;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
       in: FilterAttribute;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
       notIn: FilterAttribute;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
       startsWith: FilterAttribute;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
       listContains: FilterAttribute;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
       stringContains: FilterAttribute;
-      andAll?: never;
-      orAll?: never;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
       andAll: RetrievalFilter[];
-      orAll?: never;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
       orAll: RetrievalFilter[];
     };
 export type AttributeType = "STRING" | "NUMBER" | "BOOLEAN" | "STRING_LIST" | (string & {});
@@ -753,8 +753,8 @@ export interface FieldForReranking {
 }
 export type FieldsForReranking = FieldForReranking[];
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
-  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: undefined }
+  | { fieldsToInclude?: undefined; fieldsToExclude: FieldForReranking[] };
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
   selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration | undefined;
@@ -860,8 +860,8 @@ export interface RetrieveAndGenerateConfiguration {
   externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration | undefined;
 }
 export type KnowledgeBaseConfig =
-  | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: never }
-  | { retrieveConfig?: never; retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
+  | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: undefined }
+  | { retrieveConfig?: undefined; retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
 export type EvaluationPrecomputedRagSourceIdentifier = string;
 export interface EvaluationPrecomputedRetrieveSourceConfig {
   ragSourceIdentifier: string;
@@ -872,22 +872,22 @@ export interface EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
 export type EvaluationPrecomputedRagSourceConfig =
   | {
       retrieveSourceConfig: EvaluationPrecomputedRetrieveSourceConfig;
-      retrieveAndGenerateSourceConfig?: never;
+      retrieveAndGenerateSourceConfig?: undefined;
     }
   | {
-      retrieveSourceConfig?: never;
+      retrieveSourceConfig?: undefined;
       retrieveAndGenerateSourceConfig: EvaluationPrecomputedRetrieveAndGenerateSourceConfig;
     };
 export type RAGConfig =
-  | { knowledgeBaseConfig: KnowledgeBaseConfig; precomputedRagSourceConfig?: never }
+  | { knowledgeBaseConfig: KnowledgeBaseConfig; precomputedRagSourceConfig?: undefined }
   | {
-      knowledgeBaseConfig?: never;
+      knowledgeBaseConfig?: undefined;
       precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig;
     };
 export type RagConfigs = RAGConfig[];
 export type EvaluationInferenceConfig =
-  | { models: EvaluationModelConfig[]; ragConfigs?: never }
-  | { models?: never; ragConfigs: RAGConfig[] };
+  | { models: EvaluationModelConfig[]; ragConfigs?: undefined }
+  | { models?: undefined; ragConfigs: RAGConfig[] };
 export interface EvaluationOutputDataConfig {
   s3Uri: string;
 }
@@ -1207,18 +1207,28 @@ export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
 export type RequestMetadataFilters =
   | {
       equals: { [key: string]: string | undefined };
-      notEquals?: never;
-      andAll?: never;
-      orAll?: never;
+      notEquals?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
+      equals?: undefined;
       notEquals: { [key: string]: string | undefined };
-      andAll?: never;
-      orAll?: never;
+      andAll?: undefined;
+      orAll?: undefined;
     }
-  | { equals?: never; notEquals?: never; andAll: RequestMetadataBaseFilters[]; orAll?: never }
-  | { equals?: never; notEquals?: never; andAll?: never; orAll: RequestMetadataBaseFilters[] };
+  | {
+      equals?: undefined;
+      notEquals?: undefined;
+      andAll: RequestMetadataBaseFilters[];
+      orAll?: undefined;
+    }
+  | {
+      equals?: undefined;
+      notEquals?: undefined;
+      andAll?: undefined;
+      orAll: RequestMetadataBaseFilters[];
+    };
 export interface InvocationLogsConfig {
   usePromptResponse?: boolean | undefined;
   invocationLogSource: InvocationLogSource;
@@ -1275,8 +1285,8 @@ export interface RFTConfig {
   hyperParameters?: RFTHyperParameters | undefined;
 }
 export type CustomizationConfig =
-  | { distillationConfig: DistillationConfig; rftConfig?: never }
-  | { distillationConfig?: never; rftConfig: RFTConfig };
+  | { distillationConfig: DistillationConfig; rftConfig?: undefined }
+  | { distillationConfig?: undefined; rftConfig: RFTConfig };
 export interface CreateModelCustomizationJobRequest {
   jobName: string;
   customModelName: string;
@@ -1540,17 +1550,17 @@ export interface AutomatedReasoningPolicyDeleteTypeValue {
 export type AutomatedReasoningPolicyTypeValueAnnotation =
   | {
       addTypeValue: AutomatedReasoningPolicyAddTypeValue;
-      updateTypeValue?: never;
-      deleteTypeValue?: never;
+      updateTypeValue?: undefined;
+      deleteTypeValue?: undefined;
     }
   | {
-      addTypeValue?: never;
+      addTypeValue?: undefined;
       updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue;
-      deleteTypeValue?: never;
+      deleteTypeValue?: undefined;
     }
   | {
-      addTypeValue?: never;
-      updateTypeValue?: never;
+      addTypeValue?: undefined;
+      updateTypeValue?: undefined;
       deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue;
     };
 export type AutomatedReasoningPolicyTypeValueAnnotationList =
@@ -1614,197 +1624,197 @@ export interface AutomatedReasoningPolicyIngestContentAnnotation {
 export type AutomatedReasoningPolicyAnnotation =
   | {
       addType: AutomatedReasoningPolicyAddTypeAnnotation;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
+      addType?: undefined;
       updateType: AutomatedReasoningPolicyUpdateTypeAnnotation;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
+      addType?: undefined;
+      updateType?: undefined;
       deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
       addVariable: AutomatedReasoningPolicyAddVariableAnnotation;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
       updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
       deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
       addRule: AutomatedReasoningPolicyAddRuleAnnotation;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
       updateRule: AutomatedReasoningPolicyUpdateRuleAnnotation;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
       deleteRule: AutomatedReasoningPolicyDeleteRuleAnnotation;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
       addRuleFromNaturalLanguage: AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
       updateFromRulesFeedback: AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
       updateFromScenarioFeedback: AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation;
-      ingestContent?: never;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
       ingestContent: AutomatedReasoningPolicyIngestContentAnnotation;
     };
 export type AutomatedReasoningPolicyAnnotationList = AutomatedReasoningPolicyAnnotation[];
@@ -1930,120 +1940,120 @@ export interface AutomatedReasoningPolicyDeleteRuleMutation {
 export type AutomatedReasoningPolicyMutation =
   | {
       addType: AutomatedReasoningPolicyAddTypeMutation;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
+      addType?: undefined;
       updateType: AutomatedReasoningPolicyUpdateTypeMutation;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
+      addType?: undefined;
+      updateType?: undefined;
       deleteType: AutomatedReasoningPolicyDeleteTypeMutation;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
       addVariable: AutomatedReasoningPolicyAddVariableMutation;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
       updateVariable: AutomatedReasoningPolicyUpdateVariableMutation;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
       deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
       addRule: AutomatedReasoningPolicyAddRuleMutation;
-      updateRule?: never;
-      deleteRule?: never;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
       updateRule: AutomatedReasoningPolicyUpdateRuleMutation;
-      deleteRule?: never;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
       deleteRule: AutomatedReasoningPolicyDeleteRuleMutation;
     };
 export type AutomatedReasoningPolicyBuildStepContext =
-  | { planning: AutomatedReasoningPolicyPlanning; mutation?: never }
-  | { planning?: never; mutation: AutomatedReasoningPolicyMutation };
+  | { planning: AutomatedReasoningPolicyPlanning; mutation?: undefined }
+  | { planning?: undefined; mutation: AutomatedReasoningPolicyMutation };
 export type AutomatedReasoningPolicyDefinitionElement =
   | {
       policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable;
-      policyDefinitionType?: never;
-      policyDefinitionRule?: never;
+      policyDefinitionType?: undefined;
+      policyDefinitionRule?: undefined;
     }
   | {
-      policyDefinitionVariable?: never;
+      policyDefinitionVariable?: undefined;
       policyDefinitionType: AutomatedReasoningPolicyDefinitionType;
-      policyDefinitionRule?: never;
+      policyDefinitionRule?: undefined;
     }
   | {
-      policyDefinitionVariable?: never;
-      policyDefinitionType?: never;
+      policyDefinitionVariable?: undefined;
+      policyDefinitionType?: undefined;
       policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
     };
 export type AutomatedReasoningPolicyBuildMessageType = "INFO" | "WARNING" | "ERROR" | (string & {});
@@ -2188,82 +2198,82 @@ export interface AutomatedReasoningPolicyFidelityReport {
 export type AutomatedReasoningPolicyBuildResultAssets =
   | {
       policyDefinition: AutomatedReasoningPolicyDefinition;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
+      policyDefinition?: undefined;
       qualityReport: AutomatedReasoningPolicyDefinitionQualityReport;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
       buildLog: AutomatedReasoningPolicyBuildLog;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
       generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
       policyScenarios: AutomatedReasoningPolicyScenarios;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
       assetManifest: AutomatedReasoningPolicyBuildResultAssetManifest;
-      document?: never;
-      fidelityReport?: never;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
       document: AutomatedReasoningPolicySourceDocument;
-      fidelityReport?: never;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
       fidelityReport: AutomatedReasoningPolicyFidelityReport;
     };
 export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
@@ -2382,65 +2392,65 @@ export interface AutomatedReasoningCheckNoTranslationsFinding {}
 export type AutomatedReasoningCheckFinding =
   | {
       valid: AutomatedReasoningCheckValidFinding;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
+      valid?: undefined;
       invalid: AutomatedReasoningCheckInvalidFinding;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
+      valid?: undefined;
+      invalid?: undefined;
       satisfiable: AutomatedReasoningCheckSatisfiableFinding;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
       impossible: AutomatedReasoningCheckImpossibleFinding;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
       translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding;
-      tooComplex?: never;
-      noTranslations?: never;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
       tooComplex: AutomatedReasoningCheckTooComplexFinding;
-      noTranslations?: never;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
       noTranslations: AutomatedReasoningCheckNoTranslationsFinding;
     };
 export type AutomatedReasoningCheckFindingList = AutomatedReasoningCheckFinding[];
@@ -3627,26 +3637,26 @@ export interface AutomatedReasoningPolicyIterativeRefinementContent {
 export type AutomatedReasoningPolicyWorkflowTypeContent =
   | {
       documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
-      policyRepairAssets?: never;
-      generateFidelityReportContent?: never;
-      iterativeRefinementContent?: never;
+      policyRepairAssets?: undefined;
+      generateFidelityReportContent?: undefined;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
+      documents?: undefined;
       policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
-      generateFidelityReportContent?: never;
-      iterativeRefinementContent?: never;
+      generateFidelityReportContent?: undefined;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
-      policyRepairAssets?: never;
+      documents?: undefined;
+      policyRepairAssets?: undefined;
       generateFidelityReportContent: AutomatedReasoningPolicyGenerateFidelityReportContent;
-      iterativeRefinementContent?: never;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
-      policyRepairAssets?: never;
-      generateFidelityReportContent?: never;
+      documents?: undefined;
+      policyRepairAssets?: undefined;
+      generateFidelityReportContent?: undefined;
       iterativeRefinementContent: AutomatedReasoningPolicyIterativeRefinementContent;
     };
 export interface AutomatedReasoningPolicyBuildWorkflowSource {

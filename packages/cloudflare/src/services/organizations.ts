@@ -623,7 +623,7 @@ export interface ListLogAuditsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogsAuditListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListMembersRequestStatus = "active" | "pending" | "rejected" | "canceled";
 export type ListMembersRequestStatusList = Array<ListMembersRequestStatus | (string & {})>;
@@ -711,7 +711,7 @@ export interface ListOrganizationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type LogsAuditHistoryRequestDirection = "desc" | "asc";
 export interface LogsAuditHistoryRequest {

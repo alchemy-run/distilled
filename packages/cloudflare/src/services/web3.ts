@@ -280,7 +280,7 @@ export interface ListHostnamesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnamesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchHostnameRequest {
   /** Specify the identifier of the hostname. */

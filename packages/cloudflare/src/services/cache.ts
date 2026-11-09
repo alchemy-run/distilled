@@ -443,7 +443,7 @@ export interface ListOriginCloudRegionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OriginCloudRegionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface OriginCloudRegionsBulkDeleteV1Request {
   /** Identifier. */

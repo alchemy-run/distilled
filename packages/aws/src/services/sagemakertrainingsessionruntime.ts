@@ -165,11 +165,15 @@ export interface LoadWeightsForSamplingConfig {
   modelPackageArn: string;
 }
 export type SampleOperationConfig =
-  | { sample: SampleConfig; computeLogprobs?: never; loadWeightsForSampling?: never }
-  | { sample?: never; computeLogprobs: ComputeLogprobsConfig; loadWeightsForSampling?: never }
+  | { sample: SampleConfig; computeLogprobs?: undefined; loadWeightsForSampling?: undefined }
   | {
-      sample?: never;
-      computeLogprobs?: never;
+      sample?: undefined;
+      computeLogprobs: ComputeLogprobsConfig;
+      loadWeightsForSampling?: undefined;
+    }
+  | {
+      sample?: undefined;
+      computeLogprobs?: undefined;
       loadWeightsForSampling: LoadWeightsForSamplingConfig;
     };
 export interface ExecuteSamplingOperationInput {
@@ -230,50 +234,50 @@ export interface LoadStateConfig {
 export type OperationConfig =
   | {
       forward: ForwardConfig;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
+      forward?: undefined;
       forwardBackward: ForwardBackwardConfig;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
       optimizerStep: OptimizerStepConfig;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
       saveWeights: SaveWeightsConfig;
-      saveState?: never;
-      loadState?: never;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
       saveState: SaveStateConfig;
-      loadState?: never;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
       loadState: LoadStateConfig;
     };
 export interface ExecuteTrainingOperationInput {
@@ -325,11 +329,15 @@ export interface ComputeLogprobsResult {
 }
 export interface LoadWeightsForSamplingResult {}
 export type SampleOperationResult =
-  | { sample: SampleResponse; computeLogprobs?: never; loadWeightsForSampling?: never }
-  | { sample?: never; computeLogprobs: ComputeLogprobsResult; loadWeightsForSampling?: never }
+  | { sample: SampleResponse; computeLogprobs?: undefined; loadWeightsForSampling?: undefined }
   | {
-      sample?: never;
-      computeLogprobs?: never;
+      sample?: undefined;
+      computeLogprobs: ComputeLogprobsResult;
+      loadWeightsForSampling?: undefined;
+    }
+  | {
+      sample?: undefined;
+      computeLogprobs?: undefined;
       loadWeightsForSampling: LoadWeightsForSamplingResult;
     };
 export interface GetSamplingOperationResultOutput {
@@ -371,50 +379,50 @@ export interface LoadStateResult {}
 export type OperationResult =
   | {
       forward: ForwardResult;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
+      forward?: undefined;
       forwardBackward: ForwardBackwardResult;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
       optimizerStep: OptimizerStepResult;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
       saveWeights: SaveWeightsResult;
-      saveState?: never;
-      loadState?: never;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
       saveState: SaveStateResult;
-      loadState?: never;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
       loadState: LoadStateResult;
     };
 export interface GetTrainingOperationResultOutput {

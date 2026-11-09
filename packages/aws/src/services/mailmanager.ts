@@ -236,11 +236,11 @@ export interface TlsAuthConfiguration {
 export type IngressPointConfiguration =
   | {
       SmtpPassword: string | redacted.Redacted<string>;
-      SecretArn?: never;
-      TlsAuthConfiguration?: never;
+      SecretArn?: undefined;
+      TlsAuthConfiguration?: undefined;
     }
-  | { SmtpPassword?: never; SecretArn: string; TlsAuthConfiguration?: never }
-  | { SmtpPassword?: never; SecretArn?: never; TlsAuthConfiguration: TlsAuthConfiguration };
+  | { SmtpPassword?: undefined; SecretArn: string; TlsAuthConfiguration?: undefined }
+  | { SmtpPassword?: undefined; SecretArn?: undefined; TlsAuthConfiguration: TlsAuthConfiguration };
 export type IpType = "IPV4" | "DUAL_STACK" | (string & {});
 export interface PublicNetworkConfiguration {
   IpType: IpType;
@@ -250,9 +250,12 @@ export interface PrivateNetworkConfiguration {
   VpcEndpointId: string;
 }
 export type NetworkConfiguration =
-  | { PublicNetworkConfiguration: PublicNetworkConfiguration; PrivateNetworkConfiguration?: never }
   | {
-      PublicNetworkConfiguration?: never;
+      PublicNetworkConfiguration: PublicNetworkConfiguration;
+      PrivateNetworkConfiguration?: undefined;
+    }
+  | {
+      PublicNetworkConfiguration?: undefined;
       PrivateNetworkConfiguration: PrivateNetworkConfiguration;
     };
 export type TlsPolicy = "REQUIRED" | "OPTIONAL" | "FIPS" | (string & {});
@@ -276,8 +279,8 @@ export type RelayServerName = string;
 export type RelayServerPort = number;
 export interface NoAuthentication {}
 export type RelayAuthentication =
-  | { SecretArn: string; NoAuthentication?: never }
-  | { SecretArn?: never; NoAuthentication: NoAuthentication };
+  | { SecretArn: string; NoAuthentication?: undefined }
+  | { SecretArn?: undefined; NoAuthentication: NoAuthentication };
 export interface CreateRelayRequest {
   ClientToken?: string | undefined;
   RelayName: string;
@@ -318,9 +321,9 @@ export interface RuleIsInAddressList {
   AddressLists: string[];
 }
 export type RuleBooleanToEvaluate =
-  | { Attribute: RuleBooleanEmailAttribute; Analysis?: never; IsInAddressList?: never }
-  | { Attribute?: never; Analysis: Analysis; IsInAddressList?: never }
-  | { Attribute?: never; Analysis?: never; IsInAddressList: RuleIsInAddressList };
+  | { Attribute: RuleBooleanEmailAttribute; Analysis?: undefined; IsInAddressList?: undefined }
+  | { Attribute?: undefined; Analysis: Analysis; IsInAddressList?: undefined }
+  | { Attribute?: undefined; Analysis?: undefined; IsInAddressList: RuleIsInAddressList };
 export type RuleBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
 export interface RuleBooleanExpression {
   Evaluate: RuleBooleanToEvaluate;
@@ -350,26 +353,26 @@ export type RuleClientCertificateAttribute =
 export type RuleStringToEvaluate =
   | {
       Attribute: RuleStringEmailAttribute;
-      MimeHeaderAttribute?: never;
-      Analysis?: never;
-      ClientCertificateAttribute?: never;
+      MimeHeaderAttribute?: undefined;
+      Analysis?: undefined;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
+      Attribute?: undefined;
       MimeHeaderAttribute: string;
-      Analysis?: never;
-      ClientCertificateAttribute?: never;
+      Analysis?: undefined;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
-      MimeHeaderAttribute?: never;
+      Attribute?: undefined;
+      MimeHeaderAttribute?: undefined;
       Analysis: Analysis;
-      ClientCertificateAttribute?: never;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
-      MimeHeaderAttribute?: never;
-      Analysis?: never;
+      Attribute?: undefined;
+      MimeHeaderAttribute?: undefined;
+      Analysis?: undefined;
       ClientCertificateAttribute: RuleClientCertificateAttribute;
     };
 export type RuleStringOperator =
@@ -413,8 +416,8 @@ export interface RuleIpExpression {
 }
 export type RuleVerdictAttribute = "SPF" | "DKIM" | (string & {});
 export type RuleVerdictToEvaluate =
-  | { Attribute: RuleVerdictAttribute; Analysis?: never }
-  | { Attribute?: never; Analysis: Analysis };
+  | { Attribute: RuleVerdictAttribute; Analysis?: undefined }
+  | { Attribute?: undefined; Analysis: Analysis };
 export type RuleVerdictOperator = "EQUALS" | "NOT_EQUALS" | (string & {});
 export type RuleVerdict = "PASS" | "FAIL" | "GRAY" | "PROCESSING_FAILED" | (string & {});
 export type RuleVerdictValueList = RuleVerdict[];
@@ -433,50 +436,50 @@ export interface RuleDmarcExpression {
 export type RuleCondition =
   | {
       BooleanExpression: RuleBooleanExpression;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
+      BooleanExpression?: undefined;
       StringExpression: RuleStringExpression;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
       NumberExpression: RuleNumberExpression;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
       IpExpression: RuleIpExpression;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
       VerdictExpression: RuleVerdictExpression;
-      DmarcExpression?: never;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
       DmarcExpression: RuleDmarcExpression;
     };
 export type RuleConditions = RuleCondition[];
@@ -569,170 +572,170 @@ export interface InvokeLambdaAction {
 export type RuleAction =
   | {
       Drop: DropAction;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
+      Drop?: undefined;
       Relay: RelayAction;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
+      Drop?: undefined;
+      Relay?: undefined;
       Archive: ArchiveAction;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
       WriteToS3: S3Action;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
       Send: SendAction;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
       AddHeader: AddHeaderAction;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
       ReplaceRecipient: ReplaceRecipientAction;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
       DeliverToMailbox: DeliverToMailboxAction;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
       DeliverToQBusiness: DeliverToQBusinessAction;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
       PublishToSns: SnsAction;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
       Bounce: BounceAction;
-      InvokeLambda?: never;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
       InvokeLambda: InvokeLambdaAction;
     };
 export type RuleActions = RuleAction[];
@@ -759,8 +762,8 @@ export interface IngressAnalysis {
   ResultField: string;
 }
 export type IngressStringToEvaluate =
-  | { Attribute: IngressStringEmailAttribute; Analysis?: never }
-  | { Attribute?: never; Analysis: IngressAnalysis };
+  | { Attribute: IngressStringEmailAttribute; Analysis?: undefined }
+  | { Attribute?: undefined; Analysis: IngressAnalysis };
 export type IngressStringOperator =
   | "EQUALS"
   | "NOT_EQUALS"
@@ -809,8 +812,8 @@ export interface IngressIsInAddressList {
   AddressLists: string[];
 }
 export type IngressBooleanToEvaluate =
-  | { Analysis: IngressAnalysis; IsInAddressList?: never }
-  | { Analysis?: never; IsInAddressList: IngressIsInAddressList };
+  | { Analysis: IngressAnalysis; IsInAddressList?: undefined }
+  | { Analysis?: undefined; IsInAddressList: IngressIsInAddressList };
 export type IngressBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
 export interface IngressBooleanExpression {
   Evaluate: IngressBooleanToEvaluate;
@@ -819,37 +822,37 @@ export interface IngressBooleanExpression {
 export type PolicyCondition =
   | {
       StringExpression: IngressStringExpression;
-      IpExpression?: never;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
+      StringExpression?: undefined;
       IpExpression: IngressIpv4Expression;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
       Ipv6Expression: IngressIpv6Expression;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
-      Ipv6Expression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
       TlsExpression: IngressTlsProtocolExpression;
-      BooleanExpression?: never;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
       BooleanExpression: IngressBooleanExpression;
     };
 export type PolicyConditions = PolicyCondition[];
@@ -1009,8 +1012,8 @@ export interface ArchiveBooleanExpression {
   Operator: ArchiveBooleanOperator;
 }
 export type ArchiveFilterCondition =
-  | { StringExpression: ArchiveStringExpression; BooleanExpression?: never }
-  | { StringExpression?: never; BooleanExpression: ArchiveBooleanExpression };
+  | { StringExpression: ArchiveStringExpression; BooleanExpression?: undefined }
+  | { StringExpression?: undefined; BooleanExpression: ArchiveBooleanExpression };
 export type ArchiveFilterConditions = ArchiveFilterCondition[];
 export interface ArchiveFilters {
   Include?: ArchiveFilterCondition[] | undefined;

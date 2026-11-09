@@ -187,26 +187,26 @@ export interface SentimentFilter {
 export type Rule =
   | {
       NonTalkTimeFilter: NonTalkTimeFilter;
-      InterruptionFilter?: never;
-      TranscriptFilter?: never;
-      SentimentFilter?: never;
+      InterruptionFilter?: undefined;
+      TranscriptFilter?: undefined;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
+      NonTalkTimeFilter?: undefined;
       InterruptionFilter: InterruptionFilter;
-      TranscriptFilter?: never;
-      SentimentFilter?: never;
+      TranscriptFilter?: undefined;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
-      InterruptionFilter?: never;
+      NonTalkTimeFilter?: undefined;
+      InterruptionFilter?: undefined;
       TranscriptFilter: TranscriptFilter;
-      SentimentFilter?: never;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
-      InterruptionFilter?: never;
-      TranscriptFilter?: never;
+      NonTalkTimeFilter?: undefined;
+      InterruptionFilter?: undefined;
+      TranscriptFilter?: undefined;
       SentimentFilter: SentimentFilter;
     };
 export type RuleList = Rule[];

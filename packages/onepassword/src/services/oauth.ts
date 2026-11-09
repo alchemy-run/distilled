@@ -38,37 +38,37 @@ export class BadRequest
 export type IntrospectAccessTokenRequestTokenTypeHint = "access_token";
 export interface IntrospectAccessTokenRequest {
   /** The client ID of the OAuth application. Use together with `client_secret` as an alternative to HTTP Basic authentication. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to introspect. */
   token: string;
   /** A hint about the type of token. Optional; only access tokens are issued. */
-  token_type_hint?: IntrospectAccessTokenRequestTokenTypeHint | (string & {});
+  token_type_hint?: IntrospectAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
 export interface IntrospectionResponse {
   /** Whether the token is currently active. `false` for tokens that are expired, revoked, unknown, or issued to a different OAuth application; the remaining fields are omitted in that case. */
   active: boolean;
   /** The scopes granted to the token, separated by spaces. */
-  scope?: string;
+  scope?: string | undefined;
   /** The client ID of the OAuth application the token was issued to. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The subject of the token. For client credentials tokens, this is the client ID. */
-  sub?: string;
+  sub?: string | undefined;
   /** The token type. Always `Bearer` for active tokens. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** When the token expires, as a Unix timestamp in seconds. */
-  exp?: number;
+  exp?: number | undefined;
   /** When the token was issued, as a Unix timestamp in seconds. */
-  iat?: number;
+  iat?: number | undefined;
 }
 /** The OAuth 2.0 grant type. Must be `client_credentials`. */
 export type RequestAccessTokenRequestGrantType = "client_credentials";
 export interface RequestAccessTokenRequest {
   /** The client ID of the OAuth application. Use together with `client_secret` as an alternative to HTTP Basic authentication. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth 2.0 grant type. Must be `client_credentials`. */
   grant_type: RequestAccessTokenRequestGrantType | (string & {});
 }
@@ -80,19 +80,19 @@ export interface TokenResponse {
   /** The lifetime of the access token in seconds. Access tokens expire after 15 minutes (900 seconds). */
   expires_in: number;
   /** The scopes granted to the access token, separated by spaces. These are the scopes configured for the OAuth application, for example `users.view`, `users.suspend`, and `users.reactivate`. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** A hint about the type of token being revoked. Optional; only access tokens are issued. */
 export type RevokeAccessTokenRequestTokenTypeHint = "access_token";
 export interface RevokeAccessTokenRequest {
   /** The client ID of the OAuth application. Use together with `client_secret` as an alternative to HTTP Basic authentication. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to revoke. */
   token: string;
   /** A hint about the type of token being revoked. Optional; only access tokens are issued. */
-  token_type_hint?: RevokeAccessTokenRequestTokenTypeHint | (string & {});
+  token_type_hint?: RevokeAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
 export interface RevokeAccessTokenResponse {}
 export type IntrospectAccessTokenError = BadRequest | OnepasswordOpError;

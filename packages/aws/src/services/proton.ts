@@ -608,26 +608,26 @@ export interface ComponentState {
 export type DeploymentState =
   | {
       serviceInstance: ServiceInstanceState;
-      environment?: never;
-      servicePipeline?: never;
-      component?: never;
+      environment?: undefined;
+      servicePipeline?: undefined;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
+      serviceInstance?: undefined;
       environment: EnvironmentState;
-      servicePipeline?: never;
-      component?: never;
+      servicePipeline?: undefined;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
-      environment?: never;
+      serviceInstance?: undefined;
+      environment?: undefined;
       servicePipeline: ServicePipelineState;
-      component?: never;
+      component?: undefined;
     }
   | {
-      serviceInstance?: never;
-      environment?: never;
-      servicePipeline?: never;
+      serviceInstance?: undefined;
+      environment?: undefined;
+      servicePipeline?: undefined;
       component: ComponentState;
     };
 export interface Deployment {

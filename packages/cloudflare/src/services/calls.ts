@@ -186,7 +186,7 @@ export interface ListSfusResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SfuListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTurnsRequest {
   /** The account identifier tag. */
@@ -198,7 +198,7 @@ export interface ListTurnsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TurnListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateSfuRequest {
   /** The account identifier tag. */

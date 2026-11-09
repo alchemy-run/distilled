@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface GetClusterRequest {
-  clusterId?: string;
+  clusterId?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ClusterStats {
@@ -34,10 +34,10 @@ export interface ClusterStats {
   startedAt: number;
 }
 export interface GetClusterResponse {
-  cluster?: ClusterStats;
+  cluster?: ClusterStats | undefined;
 }
 export interface ListClusterRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export type ClusterStatsList = Array<ClusterStats>;
 export interface ListClusterResponse {

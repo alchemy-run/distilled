@@ -1215,7 +1215,7 @@ export interface GetSubscriptionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubscriptionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTokenRequest {
   /** Account identifier tag. */
@@ -1366,7 +1366,7 @@ export interface ListAccountsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListEntitlementsRequest {
   /** Identifier tag. */
@@ -1697,7 +1697,7 @@ export interface ListLogAuditsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogsAuditListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type MembersListRequestDirection = "asc" | "desc";
 export type MembersListRequestOrder =
@@ -1810,7 +1810,7 @@ export interface ListMembersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MembersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPaymentMethodsRequest {
   /** Identifier */
@@ -1915,7 +1915,7 @@ export interface ListRolesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RolesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TokensListRequestDirection = "asc" | "desc";
 export interface ListTokensRequest {
@@ -2002,7 +2002,7 @@ export interface ListTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTokensPermissionGroupsRequest {
   /** Account identifier tag. */

@@ -116,7 +116,7 @@ export interface DeleteCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetCustomNameserverRequest {
   /** Account identifier tag. */
@@ -148,7 +148,7 @@ export interface GetCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateCustomNameserverError =
   | CustomNameserversNotEnabled

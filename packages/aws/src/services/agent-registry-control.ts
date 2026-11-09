@@ -126,8 +126,8 @@ export type InboundTokenClaimValueType = "STRING" | "STRING_ARRAY" | (string & {
 export type MatchValueString = string;
 export type MatchValueStringList = string[];
 export type ClaimMatchValueType =
-  | { matchValueString: string; matchValueStringList?: never }
-  | { matchValueString?: never; matchValueStringList: string[] };
+  | { matchValueString: string; matchValueStringList?: undefined }
+  | { matchValueString?: undefined; matchValueStringList: string[] };
 export type ClaimMatchOperatorType = "EQUALS" | "CONTAINS" | "CONTAINS_ANY" | (string & {});
 export interface AuthorizingClaimMatchValueType {
   claimMatchValue: ClaimMatchValueType;
@@ -160,8 +160,8 @@ export interface ManagedVpcResource {
   routingDomain?: string | undefined;
 }
 export type PrivateEndpoint =
-  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: never }
-  | { selfManagedLatticeResource?: never; managedVpcResource: ManagedVpcResource };
+  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: undefined }
+  | { selfManagedLatticeResource?: undefined; managedVpcResource: ManagedVpcResource };
 export type PrivateEndpointOverrideDomain = string;
 export interface PrivateEndpointOverride {
   domain: string;
@@ -255,9 +255,12 @@ export interface RegistryRecordIamCredentialProvider {
 export type RegistryRecordCredentialProviderUnion =
   | {
       oauthCredentialProvider: RegistryRecordOAuthCredentialProvider;
-      iamCredentialProvider?: never;
+      iamCredentialProvider?: undefined;
     }
-  | { oauthCredentialProvider?: never; iamCredentialProvider: RegistryRecordIamCredentialProvider };
+  | {
+      oauthCredentialProvider?: undefined;
+      iamCredentialProvider: RegistryRecordIamCredentialProvider;
+    };
 export interface RegistryRecordCredentialProviderConfiguration {
   credentialProviderType: RegistryRecordCredentialProviderType;
   credentialProvider: RegistryRecordCredentialProviderUnion;
@@ -339,8 +342,8 @@ export interface AgentCoreGatewaySourceDetails {
   workloadIdentityDetails?: WorkloadIdentityDetails | undefined;
 }
 export type SourceDetails =
-  | { agentcoreRuntime: AgentCoreRuntimeSourceDetails; agentcoreGateway?: never }
-  | { agentcoreRuntime?: never; agentcoreGateway: AgentCoreGatewaySourceDetails };
+  | { agentcoreRuntime: AgentCoreRuntimeSourceDetails; agentcoreGateway?: undefined }
+  | { agentcoreRuntime?: undefined; agentcoreGateway: AgentCoreGatewaySourceDetails };
 export interface Provenance {
   relation: ProvenanceRelation;
   sourceId: string;

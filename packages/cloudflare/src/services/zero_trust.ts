@@ -1353,7 +1353,7 @@ export interface BulkPutAccessInfrastructureTargetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessInfrastructureTargetsBulkUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CasbPostureFindingsIgnoreRequestChecksList = Array<string>;
 export interface CasbPostureFindingsIgnoreRequest {
@@ -22383,7 +22383,7 @@ export interface CreateDlpDatasetVersionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpDatasetsVersionsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateDlpDatasetVersionEntryRequest {
   accountId: string;
@@ -27623,7 +27623,7 @@ export interface DeleteDeviceNetworkResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesNetworksDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteDevicePolicyCustomRequest {
   accountId: string;
@@ -27780,7 +27780,7 @@ export interface DeleteDevicePolicyCustomResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteDevicePostureRequest {
   accountId: string;
@@ -40784,7 +40784,7 @@ export interface GetAccessCertificateSettingResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessCertificatesSettingsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetAccessCertificateSettingForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -43667,7 +43667,7 @@ export interface GetDevicePolicyCustomExcludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomExcludesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePolicyCustomFallbackDomainRequest {
   accountId: string;
@@ -43688,7 +43688,7 @@ export interface GetDevicePolicyCustomFallbackDomainResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomFallbackDomainsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePolicyCustomIncludeRequest {
   accountId: string;
@@ -43707,7 +43707,7 @@ export interface GetDevicePolicyCustomIncludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomIncludesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePolicyDefaultRequest {
   accountId: string;
@@ -43848,7 +43848,7 @@ export interface GetDevicePolicyDefaultExcludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultExcludesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePolicyDefaultFallbackDomainRequest {
   accountId: string;
@@ -43868,7 +43868,7 @@ export interface GetDevicePolicyDefaultFallbackDomainResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultFallbackDomainsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePolicyDefaultIncludeRequest {
   accountId: string;
@@ -43886,7 +43886,7 @@ export interface GetDevicePolicyDefaultIncludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultIncludesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDevicePostureRequest {
   accountId: string;
@@ -50566,7 +50566,7 @@ export interface GetTunnelCloudflaredConnectionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TunnelsCloudflaredConnectionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTunnelCloudflaredConnectorRequest {
   /** Cloudflare account ID */
@@ -50747,7 +50747,7 @@ export interface GetTunnelWarpConnectorConnectionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TunnelsWarpConnectorConnectionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTunnelWarpConnectorConnectorRequest {
   /** Cloudflare account ID */
@@ -50948,7 +50948,7 @@ export interface ListAccessAiControlMcpPortalsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessAiControlsMcpPortalsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessAiControlMcpServersRequest {
   accountId: string;
@@ -51066,7 +51066,7 @@ export interface ListAccessAiControlMcpServersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessAiControlsMcpServersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessApplicationCasForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -51089,7 +51089,7 @@ export interface ListAccessApplicationCasResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessApplicationsCasListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessApplicationCasForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -52099,7 +52099,7 @@ export interface ListAccessApplicationPoliciesForAccountResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessApplicationsPoliciesListForAccountResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessApplicationPoliciesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -52120,7 +52120,7 @@ export interface ListAccessApplicationPoliciesForZoneResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessApplicationsPoliciesListForZoneResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AccessApplicationsPolicyTestsUsersListRequestStatus = "success" | "fail" | "error";
 export interface ListAccessApplicationPolicyTestUsersRequest {
@@ -52154,7 +52154,7 @@ export interface ListAccessApplicationPolicyTestUsersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessApplicationsPolicyTestsUsersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessApplicationsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -63213,7 +63213,7 @@ export interface ListAccessApplicationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessApplicationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessApplicationsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -63298,7 +63298,7 @@ export interface ListAccessBookmarksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessBookmarksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessCertificatesForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -63325,7 +63325,7 @@ export interface ListAccessCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessCertificatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessCertificatesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -63369,7 +63369,7 @@ export interface ListAccessCustomPagesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessCustomPagesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessGatewayCasRequest {
   /** Identifier. */
@@ -63386,7 +63386,7 @@ export interface ListAccessGatewayCasResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessGatewayCaListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessGroupsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -63827,7 +63827,7 @@ export interface ListAccessGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessGroupsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -63934,7 +63934,7 @@ export interface ListAccessInfrastructureTargetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessInfrastructureTargetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AccessLogsAccessRequestsListRequestAllowedOp = "eq" | "neq";
 export type AccessLogsAccessRequestsListRequestAppTypeOp = "eq" | "neq";
@@ -64087,7 +64087,7 @@ export interface ListAccessLogScimUpdatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessLogsScimUpdatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListAccessLogsJitRequestsRequestStatus =
   | "PENDING"
@@ -64672,7 +64672,7 @@ export interface ListAccessPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessPoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessSamlCertificatesRequest {
   /** Identifier. */
@@ -64703,7 +64703,7 @@ export interface ListAccessSamlCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessSamlCertificatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessServiceTokensForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -64741,7 +64741,7 @@ export interface ListAccessServiceTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessServiceTokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessServiceTokensForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -64772,7 +64772,7 @@ export interface ListAccessTagsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessTagsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessUserActiveSessionsRequest {
   /** Identifier. */
@@ -64807,7 +64807,7 @@ export interface ListAccessUserActiveSessionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessUsersActiveSessionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessUserFailedLoginsRequest {
   /** Identifier. */
@@ -64824,7 +64824,7 @@ export interface ListAccessUserFailedLoginsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessUsersFailedLoginsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessUserPopulationsRequest {
   /** Identifier. */
@@ -64931,7 +64931,7 @@ export interface ListAccessUsersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessUsersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCasbApplicationsRequest {
   accountId: string;
@@ -66740,7 +66740,7 @@ export interface ListDeviceDeploymentGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesDeploymentGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesDevicesListRequestIdList = Array<string>;
 export type DevicesDevicesListRequestActiveRegistrations = "include" | "only" | "exclude";
@@ -66847,7 +66847,7 @@ export interface ListDeviceDevicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesDevicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesDexTestsListRequestKind = "http" | "traceroute";
 export interface ListDeviceDexTestsRequest {
@@ -66902,7 +66902,7 @@ export interface ListDeviceDexTestsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesDexTestsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDeviceIpProfilesRequest {
   accountId: string;
@@ -66936,7 +66936,7 @@ export interface ListDeviceIpProfilesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesIpProfilesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDeviceNetworksRequest {
   accountId: string;
@@ -66958,7 +66958,7 @@ export interface ListDeviceNetworksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesNetworksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDeviceOverrideCodesRequest {
   accountId: string;
@@ -67138,7 +67138,7 @@ export interface ListDevicePolicyCustomsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDevicePostureIntegrationsRequest {
   accountId: string;
@@ -67172,7 +67172,7 @@ export interface ListDevicePostureIntegrationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPostureIntegrationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDevicePosturesRequest {
   accountId: string;
@@ -67599,7 +67599,7 @@ export interface ListDevicePosturesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPostureListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesRegistrationsListRequestIdList = Array<string>;
 export interface DevicesRegistrationsListRequestDevice {
@@ -67693,7 +67693,7 @@ export interface ListDeviceRegistrationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesRegistrationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDevicesRequest {
   accountId: string;
@@ -67751,7 +67751,7 @@ export interface ListDevicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DexColosListRequestSortBy = "fleet-status-usage" | "application-tests-usage";
 export interface ListDexColosRequest {
@@ -67777,7 +67777,7 @@ export interface ListDexColosResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DexColosListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDexCommandDevicesRequest {
   /** Unique identifier linked to an account. */
@@ -68070,7 +68070,7 @@ export interface ListDexFleetStatusDevicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DexFleetStatusDevicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DexRulesListRequestSortBy = "name" | "created_at" | "updated_at";
 export type DexRulesListRequestSortOrder = "ASC" | "DESC";
@@ -68559,7 +68559,7 @@ export interface ListDlpCustomEntriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListDlpCustomEntriesResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpCustomPromptTopicsRequest {
   accountId: string;
@@ -68579,7 +68579,7 @@ export interface ListDlpCustomPromptTopicsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpCustomPromptTopicsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpDataClassesRequest {
   accountId: string;
@@ -68604,7 +68604,7 @@ export interface ListDlpDataClassesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpDataClassesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpDatasetsRequest {
   accountId: string;
@@ -68680,7 +68680,7 @@ export interface ListDlpDataTagCategoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpDataTagCategoriesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpDataTagCategoryDataTagsRequest {
   accountId: string;
@@ -68693,7 +68693,7 @@ export interface ListDlpDataTagCategoryDataTagsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpDataTagCategoriesDataTagsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpEmailRulesRequest {
   accountId: string;
@@ -68740,7 +68740,7 @@ export interface ListDlpEmailRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpEmailRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpEntriesRequest {
   accountId: string;
@@ -68923,7 +68923,7 @@ export interface ListDlpEntriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpEntriesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpEntriesIntegrationRequest {
   accountId: string;
@@ -69107,7 +69107,7 @@ export interface ListDlpEntriesIntegrationResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListDlpEntriesIntegrationResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpEntriesPredefinedRequest {
   accountId: string;
@@ -69291,7 +69291,7 @@ export interface ListDlpEntriesPredefinedResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListDlpEntriesPredefinedResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpLimitsRequest {
   accountId: string;
@@ -70116,7 +70116,7 @@ export interface ListDlpProfilesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpProfilesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpSensitivityGroupLevelsRequest {
   accountId: string;
@@ -70129,7 +70129,7 @@ export interface ListDlpSensitivityGroupLevelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpSensitivityGroupsLevelsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDlpSensitivityGroupsRequest {
   accountId: string;
@@ -70152,7 +70152,7 @@ export interface ListDlpSensitivityGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DlpSensitivityGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListDlpValidatorsRequestKind = "proximity_words" | "worker";
 export interface ListDlpValidatorsRequest {
@@ -70327,7 +70327,7 @@ export interface ListGatewayAppTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayAppTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListGatewayCategoriesRequest {
   /** Provide the identifier string. */
@@ -70378,7 +70378,7 @@ export interface ListGatewayCategoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayCategoriesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListGatewayCertificatesRequest {
   /** Specify the Cloudflare account identifier. */
@@ -70419,7 +70419,7 @@ export interface ListGatewayCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayCertificatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListGatewayDnsDestinationIpsRequest {
   /** Specify the Cloudflare account identifier. */
@@ -70451,7 +70451,7 @@ export interface ListGatewayListItemsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayListsItemsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GatewayListsListRequestDirection = "asc" | "desc";
 export type GatewayListsListRequestFilterList = Array<string>;
@@ -70513,7 +70513,7 @@ export interface ListGatewayListsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayListsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GatewayLocationsListRequestDirection = "asc" | "desc";
 export type GatewayLocationsListRequestFilterList = Array<string>;
@@ -70616,7 +70616,7 @@ export interface ListGatewayLocationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayLocationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListGatewayPacfilesRequest {
   /** Specify the Cloudflare account identifier. */
@@ -70644,7 +70644,7 @@ export interface ListGatewayPacfilesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayPacfilesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GatewayProxyEndpointsListRequestDirection = "asc" | "desc";
 export type GatewayProxyEndpointsListRequestFilterList = Array<string>;
@@ -70696,7 +70696,7 @@ export interface ListGatewayProxyEndpointsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayProxyEndpointsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GatewayRulesListRequestDirection = "asc" | "desc";
 export type GatewayRulesListRequestFilterList = Array<string>;
@@ -70971,7 +70971,7 @@ export interface ListGatewayRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListGatewaysRequest {
   /** Specify the Cloudflare account identifier. */
@@ -71025,7 +71025,7 @@ export interface ListIdentityProviderScimGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: IdentityProvidersScimGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type IdentityProvidersScimUsersListRequestCfResourceIdList = Array<string>;
 export type IdentityProvidersScimUsersListRequestIdpResourceIdList = Array<string>;
@@ -71077,7 +71077,7 @@ export interface ListIdentityProviderScimUsersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: IdentityProvidersScimUsersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListIdentityProvidersForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -72332,7 +72332,7 @@ export interface ListIdentityProvidersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: IdentityProvidersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListIdentityProvidersForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -72395,7 +72395,7 @@ export interface ListNetworkHostnameRoutesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NetworksHostnameRoutesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NetworksRoutesListRequestTunTypes =
   | "cfd_tunnel"
@@ -72469,7 +72469,7 @@ export interface ListNetworkRoutesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NetworksRoutesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NetworksSubnetsListRequestAddressFamily = "v4" | "v6";
 export type NetworksSubnetsListRequestSortOrder = "asc" | "desc";
@@ -72533,7 +72533,7 @@ export interface ListNetworkSubnetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NetworksSubnetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNetworkVirtualNetworksRequest {
   /** Cloudflare account ID */
@@ -72568,7 +72568,7 @@ export interface ListNetworkVirtualNetworksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NetworksVirtualNetworksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOrganizationsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -72767,7 +72767,7 @@ export interface ListResourceLibraryApplicationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourceLibraryApplicationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListResourceLibraryCategoriesRequest {
   accountId: string;
@@ -72794,7 +72794,7 @@ export interface ListResourceLibraryCategoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourceLibraryCategoriesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRiskScoringIntegrationsRequest {
   accountId: string;
@@ -72822,7 +72822,7 @@ export interface ListRiskScoringIntegrationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RiskScoringIntegrationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTenantGatewayRuleRequest {
   /** Specify the Cloudflare account identifier. */
@@ -73107,7 +73107,7 @@ export interface ListTenantGatewayRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GatewayRulesListTenantResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TunnelsCloudflaredListRequestStatus = "inactive" | "degraded" | "healthy" | "down";
 export interface ListTunnelCloudflaredsRequest {
@@ -73179,7 +73179,7 @@ export interface ListTunnelCloudflaredsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TunnelsCloudflaredListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TunnelsListRequestStatus = "inactive" | "degraded" | "healthy" | "down";
 export type TunnelsListRequestTunTypes =
@@ -73310,7 +73310,7 @@ export interface ListTunnelsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TunnelsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TunnelsWarpConnectorListRequestStatus = "inactive" | "degraded" | "healthy" | "down";
 export interface ListTunnelWarpConnectorsRequest {
@@ -73377,7 +73377,7 @@ export interface ListTunnelWarpConnectorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TunnelsWarpConnectorListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface LiveDexFleetStatusRequest {
   /** Unique identifier linked to an account. */
@@ -74821,7 +74821,7 @@ export interface PatchSeatResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SeatsEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchTunnelCloudflaredRequest {
   /** Cloudflare account ID */
@@ -75019,7 +75019,7 @@ export interface PutAccessCertificateSettingResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessCertificatesSettingsUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PutAccessCertificateSettingForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -75068,7 +75068,7 @@ export interface PutDevicePolicyCustomExcludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomExcludesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesPoliciesCustomFallbackDomainsUpdateRequestDomainsItemDnsServerList =
   Array<string>;
@@ -75102,7 +75102,7 @@ export interface PutDevicePolicyCustomFallbackDomainResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomFallbackDomainsUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesPoliciesCustomIncludesUpdateRequestBodyItemTeamsDevicesIncludeSplitTunnelWithAddress =
   DevicesPoliciesCustomCreateRequestIncludeItemTeamsDevicesIncludeSplitTunnelWithAddress;
@@ -75131,7 +75131,7 @@ export interface PutDevicePolicyCustomIncludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesCustomIncludesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesPoliciesDefaultExcludesUpdateRequestBodyItemTeamsDevicesExcludeSplitTunnelWithAddress =
   DevicesPoliciesCustomCreateRequestExcludeItemTeamsDevicesExcludeSplitTunnelWithAddress;
@@ -75159,7 +75159,7 @@ export interface PutDevicePolicyDefaultExcludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultExcludesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesPoliciesDefaultFallbackDomainsUpdateRequestDomainsItemDnsServerList =
   Array<string>;
@@ -75194,7 +75194,7 @@ export interface PutDevicePolicyDefaultFallbackDomainResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultFallbackDomainsUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DevicesPoliciesDefaultIncludesUpdateRequestBodyItemTeamsDevicesIncludeSplitTunnelWithAddress =
   DevicesPoliciesCustomCreateRequestIncludeItemTeamsDevicesIncludeSplitTunnelWithAddress;
@@ -75222,7 +75222,7 @@ export interface PutDevicePolicyDefaultIncludeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DevicesPoliciesDefaultIncludesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PutDeviceSettingRequest {
   accountId: string;

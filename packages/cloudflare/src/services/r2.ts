@@ -1444,7 +1444,7 @@ export interface ListBucketObjectsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: BucketsObjectsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BucketsListRequestDirection = "asc" | "desc";
 export type BucketsListRequestOrder = "name";
@@ -1644,7 +1644,7 @@ export interface ListSuperSlurperJobLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SuperSlurperJobsLogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSuperSlurperJobsRequest {
   accountId: string;
@@ -1711,7 +1711,7 @@ export interface ListSuperSlurperJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SuperSlurperJobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BucketsEditRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
 export type BucketsEditRequestCfR2Jurisdiction =

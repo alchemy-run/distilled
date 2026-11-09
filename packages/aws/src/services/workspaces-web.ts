@@ -443,8 +443,8 @@ export type Event =
   | (string & {});
 export type Events = Event[];
 export type EventFilter =
-  | { all: Record<string, never>; include?: never }
-  | { all?: never; include: Event[] };
+  | { all: Record<string, never>; include?: undefined }
+  | { all?: undefined; include: Event[] };
 export type S3Bucket = string | redacted.Redacted<string>;
 export type S3KeyPrefix = string | redacted.Redacted<string>;
 export type S3BucketOwner = string;
@@ -520,11 +520,13 @@ export interface ToolbarConfiguration {
 }
 export type IconImage = Uint8Array;
 export type S3Uri = string;
-export type IconImageInput = { blob: Uint8Array; s3Uri?: never } | { blob?: never; s3Uri: string };
+export type IconImageInput =
+  | { blob: Uint8Array; s3Uri?: undefined }
+  | { blob?: undefined; s3Uri: string };
 export type WallpaperImage = Uint8Array;
 export type WallpaperImageInput =
-  | { blob: Uint8Array; s3Uri?: never }
-  | { blob?: never; s3Uri: string };
+  | { blob: Uint8Array; s3Uri?: undefined }
+  | { blob?: undefined; s3Uri: string };
 export type Locale =
   | "de-DE"
   | "en-US"

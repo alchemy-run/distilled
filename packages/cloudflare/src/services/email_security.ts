@@ -267,7 +267,7 @@ export interface BulkInvestigateMoveResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateMoveBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateReleaseBulkRequestIdsList = Array<string>;
 export interface BulkInvestigateReleaseRequest {
@@ -293,7 +293,7 @@ export interface BulkInvestigateReleaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateReleaseBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateBulkCreateRequestAction = "MOVE" | "RELEASE";
 export type InvestigateBulkCreateRequestSearchParamsDeliveryStatus =
@@ -690,7 +690,7 @@ export interface CreateInvestigateMoveResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateMoveCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateInvestigatePreviewRequest {
   /** Identifier. */
@@ -2308,7 +2308,7 @@ export interface ListInvestigateBulkMessagesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateBulkMessagesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateBulkListRequestActionType = "MOVE" | "RELEASE";
 export type InvestigateBulkListRequestStatus =
@@ -2461,7 +2461,7 @@ export interface ListInvestigateBulksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateBulkListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateListRequestDeliveryStatus =
   | "delivered"
@@ -2701,7 +2701,7 @@ export interface ListInvestigatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPhishguardReportsRequest {
   /** Identifier. */
@@ -2764,7 +2764,7 @@ export interface ListPhishguardReportsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PhishguardReportsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAllowPoliciesListRequestDirection = "asc" | "desc";
 export type SettingsAllowPoliciesListRequestOrder = "pattern" | "created_at";
@@ -2833,7 +2833,7 @@ export interface ListSettingAllowPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsAllowPoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsBlockSendersListRequestDirection = "asc" | "desc";
 export type SettingsBlockSendersListRequestOrder = "pattern" | "created_at";
@@ -2881,7 +2881,7 @@ export interface ListSettingBlockSendersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsBlockSendersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsDomainsListRequestActiveDeliveryMode =
   | "DIRECT"
@@ -2993,7 +2993,7 @@ export interface ListSettingDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsImpersonationRegistryListRequestDirection = "asc" | "desc";
 export type SettingsImpersonationRegistryListRequestOrder = "name" | "email" | "created_at";
@@ -3052,7 +3052,7 @@ export interface ListSettingImpersonationRegistriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsImpersonationRegistryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListSettingsContentPoliciesRequestDirection = "asc" | "desc";
 export type ListSettingsContentPoliciesRequestOrder = "name" | "created_at";
@@ -3135,7 +3135,7 @@ export interface ListSettingSendingDomainRestrictionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsSendingDomainRestrictionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsTrustedDomainsListRequestDirection = "asc" | "desc";
 export type SettingsTrustedDomainsListRequestOrder = "pattern" | "created_at";
@@ -3180,7 +3180,7 @@ export interface ListSettingTrustedDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsTrustedDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingUrlIgnorePatternsRequest {
   /** Identifier. */
@@ -3208,7 +3208,7 @@ export interface ListSettingUrlIgnorePatternsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsUrlIgnorePatternsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SubmissionsListRequestDirection = "asc" | "desc";
 export type SubmissionsListRequestOrder =
@@ -3343,7 +3343,7 @@ export interface ListSubmissionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubmissionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAllowPoliciesEditRequestPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface PatchSettingAllowPolicyRequest {

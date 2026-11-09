@@ -197,8 +197,8 @@ export interface GuardrailImageBlock {
   source: GuardrailImageSource;
 }
 export type GuardrailContentBlock =
-  | { text: GuardrailTextBlock; image?: never }
-  | { text?: never; image: GuardrailImageBlock };
+  | { text: GuardrailTextBlock; image?: undefined }
+  | { text?: undefined; image: GuardrailImageBlock };
 export type GuardrailContentBlockList = GuardrailContentBlock[];
 export type GuardrailOutputScope = "INTERVENTIONS" | "FULL" | (string & {});
 export interface ApplyGuardrailRequest {
@@ -437,65 +437,65 @@ export interface GuardrailAutomatedReasoningNoTranslationsFinding {}
 export type GuardrailAutomatedReasoningFinding =
   | {
       valid: GuardrailAutomatedReasoningValidFinding;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
+      valid?: undefined;
       invalid: GuardrailAutomatedReasoningInvalidFinding;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
+      valid?: undefined;
+      invalid?: undefined;
       satisfiable: GuardrailAutomatedReasoningSatisfiableFinding;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
       impossible: GuardrailAutomatedReasoningImpossibleFinding;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
       translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding;
-      tooComplex?: never;
-      noTranslations?: never;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
       tooComplex: GuardrailAutomatedReasoningTooComplexFinding;
-      noTranslations?: never;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
       noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding;
     };
 export type GuardrailAutomatedReasoningFindingList = GuardrailAutomatedReasoningFinding[];
@@ -569,8 +569,8 @@ export interface S3Location {
   bucketOwner?: string | undefined;
 }
 export type ImageSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface ErrorBlock {
   message?: string | undefined;
 }
@@ -593,10 +593,15 @@ export type DocumentFormat =
 export type DocumentContentBlock = { text: string };
 export type DocumentContentBlocks = DocumentContentBlock[];
 export type DocumentSource =
-  | { bytes: Uint8Array; s3Location?: never; text?: never; content?: never }
-  | { bytes?: never; s3Location: S3Location; text?: never; content?: never }
-  | { bytes?: never; s3Location?: never; text: string; content?: never }
-  | { bytes?: never; s3Location?: never; text?: never; content: DocumentContentBlock[] };
+  | { bytes: Uint8Array; s3Location?: undefined; text?: undefined; content?: undefined }
+  | { bytes?: undefined; s3Location: S3Location; text?: undefined; content?: undefined }
+  | { bytes?: undefined; s3Location?: undefined; text: string; content?: undefined }
+  | {
+      bytes?: undefined;
+      s3Location?: undefined;
+      text?: undefined;
+      content: DocumentContentBlock[];
+    };
 export interface CitationsConfig {
   enabled: boolean;
 }
@@ -619,8 +624,8 @@ export type VideoFormat =
   | "three_gp"
   | (string & {});
 export type VideoSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface VideoBlock {
   format: VideoFormat;
   source: VideoSource;
@@ -643,8 +648,8 @@ export type AudioFormat =
   | "webm"
   | (string & {});
 export type AudioSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface AudioBlock {
   format: AudioFormat;
   source: AudioSource;
@@ -672,50 +677,50 @@ export interface SearchResultBlock {
 export type ToolResultContentBlock =
   | {
       json: any;
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
+      json?: undefined;
       text: string;
-      image?: never;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
+      json?: undefined;
+      text?: undefined;
       image: ImageBlock;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
       document: DocumentBlock;
-      video?: never;
-      searchResult?: never;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
-      document?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
       video: VideoBlock;
-      searchResult?: never;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
       searchResult: SearchResultBlock;
     };
 export type ToolResultContentBlocks = ToolResultContentBlock[];
@@ -743,8 +748,8 @@ export interface GuardrailConverseImageBlock {
   source: GuardrailConverseImageSource;
 }
 export type GuardrailConverseContentBlock =
-  | { text: GuardrailConverseTextBlock; image?: never }
-  | { text?: never; image: GuardrailConverseImageBlock };
+  | { text: GuardrailConverseTextBlock; image?: undefined }
+  | { text?: undefined; image: GuardrailConverseImageBlock };
 export type CachePointType = "default" | (string & {});
 export type CacheTTL = "5m" | "1h" | (string & {});
 export interface CachePointBlock {
@@ -756,8 +761,8 @@ export interface ReasoningTextBlock {
   signature?: string | undefined;
 }
 export type ReasoningContentBlock =
-  | { reasoningText: ReasoningTextBlock; redactedContent?: never }
-  | { reasoningText?: never; redactedContent: Uint8Array };
+  | { reasoningText: ReasoningTextBlock; redactedContent?: undefined }
+  | { reasoningText?: undefined; redactedContent: Uint8Array };
 export type CitationGeneratedContent = { text: string };
 export type CitationGeneratedContentList = CitationGeneratedContent[];
 export type CitationSourceContent = { text: string };
@@ -789,37 +794,37 @@ export interface SearchResultLocation {
 export type CitationLocation =
   | {
       web: WebLocation;
-      documentChar?: never;
-      documentPage?: never;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentChar?: undefined;
+      documentPage?: undefined;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
+      web?: undefined;
       documentChar: DocumentCharLocation;
-      documentPage?: never;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentPage?: undefined;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
+      web?: undefined;
+      documentChar?: undefined;
       documentPage: DocumentPageLocation;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
-      documentPage?: never;
+      web?: undefined;
+      documentChar?: undefined;
+      documentPage?: undefined;
       documentChunk: DocumentChunkLocation;
-      searchResultLocation?: never;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
-      documentPage?: never;
-      documentChunk?: never;
+      web?: undefined;
+      documentChar?: undefined;
+      documentPage?: undefined;
+      documentChunk?: undefined;
       searchResultLocation: SearchResultLocation;
     };
 export interface Citation {
@@ -847,226 +852,226 @@ export interface ToolRemovalBlock {
 export type ContentBlock =
   | {
       text: string;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       image: ImageBlock;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
+      text?: undefined;
+      image?: undefined;
       document: DocumentBlock;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
       video: VideoBlock;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
       audio: AudioBlock;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
       toolUse: ToolUseBlock;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
       toolResult: ToolResultBlock;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       guardContent: GuardrailConverseContentBlock;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
       cachePoint: CachePointBlock;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
       reasoningContent: ReasoningContentBlock;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
       citationsContent: CitationsContentBlock;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
       searchResult: SearchResultBlock;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
       toolAddition: ToolAdditionBlock;
-      toolRemoval?: never;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
       toolRemoval: ToolRemovalBlock;
     };
 export type ContentBlocks = ContentBlock[];
@@ -1077,9 +1082,9 @@ export interface Message {
 export type Messages = Message[];
 export type NonEmptyString = string;
 export type SystemContentBlock =
-  | { text: string; guardContent?: never; cachePoint?: never }
-  | { text?: never; guardContent: GuardrailConverseContentBlock; cachePoint?: never }
-  | { text?: never; guardContent?: never; cachePoint: CachePointBlock };
+  | { text: string; guardContent?: undefined; cachePoint?: undefined }
+  | { text?: undefined; guardContent: GuardrailConverseContentBlock; cachePoint?: undefined }
+  | { text?: undefined; guardContent?: undefined; cachePoint: CachePointBlock };
 export type SystemContentBlocks = SystemContentBlock[];
 export type NonEmptyStringList = string[];
 export interface InferenceConfiguration {
@@ -1099,9 +1104,9 @@ export interface SystemTool {
   name: string;
 }
 export type Tool =
-  | { toolSpec: ToolSpecification; systemTool?: never; cachePoint?: never }
-  | { toolSpec?: never; systemTool: SystemTool; cachePoint?: never }
-  | { toolSpec?: never; systemTool?: never; cachePoint: CachePointBlock };
+  | { toolSpec: ToolSpecification; systemTool?: undefined; cachePoint?: undefined }
+  | { toolSpec?: undefined; systemTool: SystemTool; cachePoint?: undefined }
+  | { toolSpec?: undefined; systemTool?: undefined; cachePoint: CachePointBlock };
 export type Tools = Tool[];
 export interface AutoToolChoice {}
 export interface AnyToolChoice {}
@@ -1109,9 +1114,9 @@ export interface SpecificToolChoice {
   name: string;
 }
 export type ToolChoice =
-  | { auto: AutoToolChoice; any?: never; tool?: never }
-  | { auto?: never; any: AnyToolChoice; tool?: never }
-  | { auto?: never; any?: never; tool: SpecificToolChoice };
+  | { auto: AutoToolChoice; any?: undefined; tool?: undefined }
+  | { auto?: undefined; any: AnyToolChoice; tool?: undefined }
+  | { auto?: undefined; any?: undefined; tool: SpecificToolChoice };
 export interface ToolConfiguration {
   tools: Tool[];
   toolChoice?: ToolChoice | undefined;
@@ -1258,9 +1263,9 @@ export interface ImageBlockStart {
   format: ImageFormat;
 }
 export type ContentBlockStart =
-  | { toolUse: ToolUseBlockStart; toolResult?: never; image?: never }
-  | { toolUse?: never; toolResult: ToolResultBlockStart; image?: never }
-  | { toolUse?: never; toolResult?: never; image: ImageBlockStart };
+  | { toolUse: ToolUseBlockStart; toolResult?: undefined; image?: undefined }
+  | { toolUse?: undefined; toolResult: ToolResultBlockStart; image?: undefined }
+  | { toolUse?: undefined; toolResult?: undefined; image: ImageBlockStart };
 export type NonNegativeInteger = number;
 export interface ContentBlockStartEvent {
   start: ContentBlockStart;
@@ -1269,12 +1274,14 @@ export interface ContentBlockStartEvent {
 export interface ToolUseBlockDelta {
   input: string;
 }
-export type ToolResultBlockDelta = { text: string; json?: never } | { text?: never; json: any };
+export type ToolResultBlockDelta =
+  | { text: string; json?: undefined }
+  | { text?: undefined; json: any };
 export type ToolResultBlocksDelta = ToolResultBlockDelta[];
 export type ReasoningContentBlockDelta =
-  | { text: string; redactedContent?: never; signature?: never }
-  | { text?: never; redactedContent: Uint8Array; signature?: never }
-  | { text?: never; redactedContent?: never; signature: string };
+  | { text: string; redactedContent?: undefined; signature?: undefined }
+  | { text?: undefined; redactedContent: Uint8Array; signature?: undefined }
+  | { text?: undefined; redactedContent?: undefined; signature: string };
 export interface CitationSourceContentDelta {
   text?: string | undefined;
 }
@@ -1292,50 +1299,50 @@ export interface ImageBlockDelta {
 export type ContentBlockDelta =
   | {
       text: string;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       toolUse: ToolUseBlockDelta;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
+      text?: undefined;
+      toolUse?: undefined;
       toolResult: ToolResultBlockDelta[];
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: ReasoningContentBlockDelta;
-      citation?: never;
-      image?: never;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
       citation: CitationsDelta;
-      image?: never;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
       image: ImageBlockDelta;
     };
 export interface ContentBlockDeltaEvent {
@@ -1368,145 +1375,145 @@ export type StatusCode = number;
 export type ConverseStreamOutput =
   | {
       messageStart: MessageStartEvent;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
+      messageStart?: undefined;
       contentBlockStart: ContentBlockStartEvent;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
       contentBlockDelta: ContentBlockDeltaEvent;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
       contentBlockStop: ContentBlockStopEvent;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
       messageStop: MessageStopEvent;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
       metadata: ConverseStreamMetadataEvent;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface ConverseStreamResponse {
@@ -1524,8 +1531,8 @@ export interface ConverseTokensRequest {
   additionalModelRequestFields?: any | undefined;
 }
 export type CountTokensInput =
-  | { invokeModel: InvokeModelTokensRequest; converse?: never }
-  | { invokeModel?: never; converse: ConverseTokensRequest };
+  | { invokeModel: InvokeModelTokensRequest; converse?: undefined }
+  | { invokeModel?: undefined; converse: ConverseTokensRequest };
 export interface CountTokensRequest {
   modelId: string;
   input: CountTokensInput;
@@ -1736,65 +1743,65 @@ export interface BidirectionalOutputPayloadPart {
 export type InvokeModelWithBidirectionalStreamOutput =
   | {
       chunk: BidirectionalOutputPayloadPart;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       modelTimeoutException: ModelTimeoutException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface InvokeModelWithBidirectionalStreamResponse {
@@ -1818,65 +1825,65 @@ export interface PayloadPart {
 export type ResponseStream =
   | {
       chunk: PayloadPart;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       modelTimeoutException: ModelTimeoutException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface InvokeModelWithResponseStreamResponse {

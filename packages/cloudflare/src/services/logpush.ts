@@ -694,7 +694,7 @@ export interface GetDatasetJobResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatasetsJobsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDatasetJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -723,7 +723,7 @@ export interface GetEdgeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EdgeGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1018,7 +1018,7 @@ export interface ListJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: JobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListJobsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

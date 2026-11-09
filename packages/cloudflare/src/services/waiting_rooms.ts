@@ -218,7 +218,7 @@ export interface CreateRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateRequestAdditionalRoutesItem {
   /** The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://). */
@@ -489,7 +489,7 @@ export interface DeleteRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteWaitingRoomRequest {
   /** Identifier. */
@@ -606,7 +606,7 @@ export interface GetRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetSettingRequest {
   /** Identifier. */
@@ -807,7 +807,7 @@ export interface ListEventsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EventsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWaitingRoomsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -934,7 +934,7 @@ export interface ListWaitingRoomsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWaitingRoomsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1083,7 +1083,7 @@ export interface PatchRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchSettingRequest {
   /** Identifier. */
@@ -1462,7 +1462,7 @@ export interface UpdateRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UpdateRequestAdditionalRoutesItem = CreateRequestAdditionalRoutesItem;
 export type UpdateRequestAdditionalRoutesList = Array<CreateRequestAdditionalRoutesItem>;

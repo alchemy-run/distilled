@@ -74,11 +74,13 @@ export interface CarbonServiceQueryCarbonEmissionReportsRequest {
   /** List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100. */
   subscriptionList: CarbonServiceQueryCarbonEmissionReportsRequestSubscriptionListList;
   /** List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase. */
-  resourceGroupUrlList?: CarbonServiceQueryCarbonEmissionReportsRequestResourceGroupUrlListList;
+  resourceGroupUrlList?:
+    | CarbonServiceQueryCarbonEmissionReportsRequestResourceGroupUrlListList
+    | undefined;
   /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
-  resourceTypeList?: CarbonServiceQueryCarbonEmissionReportsRequestResourceTypeListList;
+  resourceTypeList?: CarbonServiceQueryCarbonEmissionReportsRequestResourceTypeListList | undefined;
   /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
-  locationList?: CarbonServiceQueryCarbonEmissionReportsRequestLocationListList;
+  locationList?: CarbonServiceQueryCarbonEmissionReportsRequestLocationListList | undefined;
   /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
   carbonScopeList: CarbonServiceQueryCarbonEmissionReportsRequestCarbonScopeListList;
 }
@@ -104,9 +106,9 @@ export interface CarbonEmissionData {
   /** Total carbon emissions for the previous month's date range, which is the same period as the specified date range but shifted left by one month (e.g., if the specified range is March - June, the previous month's range will be Feb - May). The value is measured in kgCO2E. */
   previousMonthEmissions: number;
   /** The percentage change in carbon emissions between the current and previous DateRange. This is calculated as: (latestMonthEmissions - previousMonthEmissions) / previousMonthEmissions. */
-  monthOverMonthEmissionsChangeRatio?: number;
+  monthOverMonthEmissionsChangeRatio?: number | undefined;
   /** The change in carbon emissions between the current and previous period, calculated as: latestMonthEmissions - previousMonthEmissions. */
-  monthlyEmissionsChangeValue?: number;
+  monthlyEmissionsChangeValue?: number | undefined;
 }
 /** The CarbonEmissionData items on this page */
 export type CarbonEmissionDataListResultValueList = Array<CarbonEmissionData>;
@@ -119,7 +121,7 @@ export interface SubscriptionAccessDecision {
   /** Access decision to subscription */
   decision: AccessDecisionEnum;
   /** The reason why access request got denied */
-  denialReason?: string;
+  denialReason?: string | undefined;
 }
 /** The access decision list for each input subscription */
 export type CarbonEmissionDataListResultSubscriptionAccessDecisionListList =
@@ -129,21 +131,23 @@ export interface CarbonEmissionDataListResult {
   /** The CarbonEmissionData items on this page */
   value: CarbonEmissionDataListResultValueList;
   /** The pagination token to fetch next page data, it's null or empty if it doesn't have next page data */
-  skipToken?: string;
+  skipToken?: string | undefined;
   /** The access decision list for each input subscription */
-  subscriptionAccessDecisionList?: CarbonEmissionDataListResultSubscriptionAccessDecisionListList;
+  subscriptionAccessDecisionList?:
+    | CarbonEmissionDataListResultSubscriptionAccessDecisionListList
+    | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -152,23 +156,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type CarbonServiceQueryCarbonEmissionDataAvailableDateRangeError = AzureOpError;
 /** API for query carbon emission data available date range */

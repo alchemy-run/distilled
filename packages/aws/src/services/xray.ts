@@ -726,9 +726,9 @@ export interface Http {
 }
 export type AnnotationKey = string;
 export type AnnotationValue =
-  | { NumberValue: number; BooleanValue?: never; StringValue?: never }
-  | { NumberValue?: never; BooleanValue: boolean; StringValue?: never }
-  | { NumberValue?: never; BooleanValue?: never; StringValue: string };
+  | { NumberValue: number; BooleanValue?: undefined; StringValue?: undefined }
+  | { NumberValue?: undefined; BooleanValue: boolean; StringValue?: undefined }
+  | { NumberValue?: undefined; BooleanValue?: undefined; StringValue: string };
 export type ServiceIds = ServiceId[];
 export interface ValueWithServiceIds {
   AnnotationValue?: AnnotationValue | undefined;

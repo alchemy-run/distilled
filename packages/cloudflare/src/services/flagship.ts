@@ -1927,7 +1927,7 @@ export interface ListAppFlagChangelogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsFlagsChangelogListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAppFlagsRequest {
   /** Cloudflare account ID that owns the Flagship app. */
@@ -2217,7 +2217,7 @@ export interface ListAppFlagsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsFlagsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAppsRequest {
   /** Cloudflare account ID that owns the Flagship app. */
@@ -2236,7 +2236,7 @@ export interface ListAppsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateAppRequest {
   /** Cloudflare account ID that owns the Flagship app. */

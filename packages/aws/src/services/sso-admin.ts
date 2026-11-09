@@ -645,26 +645,26 @@ export interface TokenExchangeGrant {}
 export type Grant =
   | {
       AuthorizationCode: AuthorizationCodeGrant;
-      JwtBearer?: never;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
+      AuthorizationCode?: undefined;
       JwtBearer: JwtBearerGrant;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
       RefreshToken: RefreshTokenGrant;
-      TokenExchange?: never;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
-      RefreshToken?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
       TokenExchange: TokenExchangeGrant;
     };
 export interface GetApplicationGrantResponse {

@@ -316,8 +316,8 @@ export interface CreateDataLakeOrganizationConfigurationRequest {
 export interface CreateDataLakeOrganizationConfigurationResponse {}
 export type DescriptionString = string;
 export type LogSourceResource =
-  | { awsLogSource: AwsLogSourceResource; customLogSource?: never }
-  | { awsLogSource?: never; customLogSource: CustomLogSourceResource };
+  | { awsLogSource: AwsLogSourceResource; customLogSource?: undefined }
+  | { awsLogSource?: undefined; customLogSource: CustomLogSourceResource };
 export type LogSourceResourceList = LogSourceResource[];
 export type AccessType = "LAKEFORMATION" | "S3" | (string & {});
 export type AccessTypeList = AccessType[];
@@ -365,10 +365,10 @@ export interface HttpsNotificationConfiguration {
 export type NotificationConfiguration =
   | {
       sqsNotificationConfiguration: SqsNotificationConfiguration;
-      httpsNotificationConfiguration?: never;
+      httpsNotificationConfiguration?: undefined;
     }
   | {
-      sqsNotificationConfiguration?: never;
+      sqsNotificationConfiguration?: undefined;
       httpsNotificationConfiguration: HttpsNotificationConfiguration;
     };
 export interface CreateSubscriberNotificationRequest {

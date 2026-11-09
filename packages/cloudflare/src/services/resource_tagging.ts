@@ -1733,7 +1733,7 @@ export interface ListKeysResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: KeysListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListRequestIdList = Array<string>;
 export type ListRequestTagList = Array<string>;
@@ -2574,7 +2574,7 @@ export interface ListResourceTaggingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ValuesListRequestType =
   | "access_application"
@@ -2637,7 +2637,7 @@ export interface ListValuesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ValuesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AccountTagsUpdateRequestResourceType =
   | "worker_version"

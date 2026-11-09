@@ -1945,50 +1945,50 @@ export interface RcsCreateCalendarEventAction {
 export type RcsSuggestedAction =
   | {
       Reply: RcsReplyAction;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
+      Reply?: undefined;
       OpenUrl: RcsOpenUrlAction;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
       DialPhone: RcsDialPhoneAction;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
       ShowLocation: RcsShowLocationAction;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
       RequestLocation: RcsRequestLocationAction;
-      CreateCalendarEvent?: never;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
       CreateCalendarEvent: RcsCreateCalendarEventAction;
     };
 export type RcsCardSuggestedActionList = RcsSuggestedAction[];
@@ -2020,10 +2020,30 @@ export interface RcsCarousel {
   CardContents: RcsCarouselCardContent[];
 }
 export type RcsContent =
-  | { TextMessage: RcsTextMessage; FileMessage?: never; RichCard?: never; Carousel?: never }
-  | { TextMessage?: never; FileMessage: RcsFileMessage; RichCard?: never; Carousel?: never }
-  | { TextMessage?: never; FileMessage?: never; RichCard: RcsStandaloneCard; Carousel?: never }
-  | { TextMessage?: never; FileMessage?: never; RichCard?: never; Carousel: RcsCarousel };
+  | {
+      TextMessage: RcsTextMessage;
+      FileMessage?: undefined;
+      RichCard?: undefined;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage: RcsFileMessage;
+      RichCard?: undefined;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage?: undefined;
+      RichCard: RcsStandaloneCard;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage?: undefined;
+      RichCard?: undefined;
+      Carousel: RcsCarousel;
+    };
 export type RcsSuggestedActionList = RcsSuggestedAction[];
 export interface RcsMessageContent {
   Content: RcsContent;

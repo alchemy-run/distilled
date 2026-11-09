@@ -288,8 +288,8 @@ export type Priority = number;
 export type TemplateIdentifier = string;
 export type RuleIdentifier = string;
 export type TemplateOrRuleReference =
-  | { templateIdentifier: string; ruleIdentifier?: never }
-  | { templateIdentifier?: never; ruleIdentifier: string };
+  | { templateIdentifier: string; ruleIdentifier?: undefined }
+  | { templateIdentifier?: undefined; ruleIdentifier: string };
 export type TemplateAndRuleReferenceList = TemplateOrRuleReference[];
 export type RemediationEnabled = boolean;
 export type ResourcesCleanUp = boolean;
@@ -323,8 +323,8 @@ export type PolicyId = string;
 export type TemplateArn = string;
 export type RuleArn = string;
 export type AssociatedTemplateOrRule =
-  | { templateArn: string; ruleArn?: never }
-  | { templateArn?: never; ruleArn: string };
+  | { templateArn: string; ruleArn?: undefined }
+  | { templateArn?: undefined; ruleArn: string };
 export type AssociatedTemplateAndRuleList = AssociatedTemplateOrRule[];
 export interface CreatePolicyOutput {
   policyId: string;
@@ -423,9 +423,9 @@ export interface AccountSet {
   organizationalUnits?: string[] | undefined;
 }
 export type AccountFilter =
-  | { includeAll: Record<string, never>; include?: never; exclude?: never }
-  | { includeAll?: never; include: AccountSet; exclude?: never }
-  | { includeAll?: never; include?: never; exclude: AccountSet };
+  | { includeAll: Record<string, never>; include?: undefined; exclude?: undefined }
+  | { includeAll?: undefined; include: AccountSet; exclude?: undefined }
+  | { includeAll?: undefined; include?: undefined; exclude: AccountSet };
 export type Arn = string;
 export type ResourceArnList = string[];
 export type StringMap = { [key: string]: string | undefined };
@@ -436,14 +436,14 @@ export interface AlbConfiguration {
   ipAddressType?: IpAddressType | undefined;
 }
 export type ResourceCriteria =
-  | { tags: { [key: string]: string | undefined }; albConfig?: never }
-  | { tags?: never; albConfig: AlbConfiguration };
+  | { tags: { [key: string]: string | undefined }; albConfig?: undefined }
+  | { tags?: undefined; albConfig: AlbConfiguration };
 export type ResourceLogicalExpressionList = ResourceLogicalExpression[];
 export type ResourceLogicalExpression =
-  | { criteria: ResourceCriteria; and?: never; or?: never; not?: never }
-  | { criteria?: never; and: ResourceLogicalExpression[]; or?: never; not?: never }
-  | { criteria?: never; and?: never; or: ResourceLogicalExpression[]; not?: never }
-  | { criteria?: never; and?: never; or?: never; not: ResourceLogicalExpression };
+  | { criteria: ResourceCriteria; and?: undefined; or?: undefined; not?: undefined }
+  | { criteria?: undefined; and: ResourceLogicalExpression[]; or?: undefined; not?: undefined }
+  | { criteria?: undefined; and?: undefined; or: ResourceLogicalExpression[]; not?: undefined }
+  | { criteria?: undefined; and?: undefined; or?: undefined; not: ResourceLogicalExpression };
 export interface ResourceSet {
   explicitArns?: string[] | undefined;
   expression?: ResourceLogicalExpression | undefined;
@@ -623,9 +623,9 @@ export interface AdminScopeSelection {
   organizationalUnits?: OrganizationalUnitReference[] | undefined;
 }
 export type AdminScopeFilter =
-  | { includeAll: Record<string, never>; includeOnly?: never; excludeOnly?: never }
-  | { includeAll?: never; includeOnly: AdminScopeSelection; excludeOnly?: never }
-  | { includeAll?: never; includeOnly?: never; excludeOnly: AdminScopeSelection };
+  | { includeAll: Record<string, never>; includeOnly?: undefined; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly: AdminScopeSelection; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly?: undefined; excludeOnly: AdminScopeSelection };
 export type FirewallTypeList = PolicyFirewallType[];
 export interface AdminFirewallTypeScope {
   allFirewallTypesEnabled?: boolean | undefined;
@@ -785,15 +785,15 @@ export interface InvalidFirewallReasons {
   unexpectedMergeableConfigurationValues?: ConfigurationIssue[] | undefined;
 }
 export type FirewallSyncReason =
-  | { missingFirewall: string; invalidFirewall?: never }
-  | { missingFirewall?: never; invalidFirewall: InvalidFirewallReasons };
+  | { missingFirewall: string; invalidFirewall?: undefined }
+  | { missingFirewall?: undefined; invalidFirewall: InvalidFirewallReasons };
 export type OutOfSyncReasons = { [key in PolicyFirewallType]?: FirewallSyncReason | undefined };
 export interface NotVisibleMarker {
   reason: string;
 }
 export type OutOfSyncReasonsView =
-  | { reasons: { [key: string]: FirewallSyncReason | undefined }; notVisible?: never }
-  | { reasons?: never; notVisible: NotVisibleMarker };
+  | { reasons: { [key: string]: FirewallSyncReason | undefined }; notVisible?: undefined }
+  | { reasons?: undefined; notVisible: NotVisibleMarker };
 export interface RemediationIssueDetails {
   issueType?: string | undefined;
   message?: string | undefined;
@@ -803,8 +803,8 @@ export type RemediationIssues = {
   [key in PolicyFirewallType]?: RemediationIssueDetails | undefined;
 };
 export type RemediationIssuesView =
-  | { issues: { [key: string]: RemediationIssueDetails | undefined }; notVisible?: never }
-  | { issues?: never; notVisible: NotVisibleMarker };
+  | { issues: { [key: string]: RemediationIssueDetails | undefined }; notVisible?: undefined }
+  | { issues?: undefined; notVisible: NotVisibleMarker };
 export interface ResourceSynchronizationStatusSummary {
   synchronizationStatus: SynchronizationStatus;
   accountId: string;
@@ -1012,9 +1012,9 @@ export interface AdminScopeSelectionInput {
   organizationalUnits?: string[] | undefined;
 }
 export type AdminScopeFilterInput =
-  | { includeAll: Record<string, never>; includeOnly?: never; excludeOnly?: never }
-  | { includeAll?: never; includeOnly: AdminScopeSelectionInput; excludeOnly?: never }
-  | { includeAll?: never; includeOnly?: never; excludeOnly: AdminScopeSelectionInput };
+  | { includeAll: Record<string, never>; includeOnly?: undefined; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly: AdminScopeSelectionInput; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly?: undefined; excludeOnly: AdminScopeSelectionInput };
 export interface AdminScopeInput {
   scopeFilter?: AdminScopeFilterInput | undefined;
   firewallTypeScope?: AdminFirewallTypeScope | undefined;

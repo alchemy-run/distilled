@@ -455,8 +455,8 @@ export interface SecretsManagerEncryptionKeyConfiguration {
 }
 export interface AutomaticEncryptionKeyConfiguration {}
 export type FlowTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface FlowTransitEncryption {
   EncryptionKeyType?: FlowTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: FlowTransitEncryptionKeyConfiguration;
@@ -791,15 +791,30 @@ export interface RtpRouterInputConfiguration {
   ForwardErrorCorrection?: ForwardErrorCorrectionState | undefined;
 }
 export type RouterInputProtocolConfiguration =
-  | { Rist: RistRouterInputConfiguration; SrtListener?: never; SrtCaller?: never; Rtp?: never }
   | {
-      Rist?: never;
-      SrtListener: SrtListenerRouterInputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      Rist: RistRouterInputConfiguration;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
-  | { Rist?: never; SrtListener?: never; SrtCaller: SrtCallerRouterInputConfiguration; Rtp?: never }
-  | { Rist?: never; SrtListener?: never; SrtCaller?: never; Rtp: RtpRouterInputConfiguration };
+  | {
+      Rist?: undefined;
+      SrtListener: SrtListenerRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller: SrtCallerRouterInputConfiguration;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp: RtpRouterInputConfiguration;
+    };
 export type RouterInputProtocol = "RTP" | "RIST" | "SRT_CALLER" | "SRT_LISTENER" | (string & {});
 export interface StandardRouterInputConfiguration {
   NetworkInterfaceArn: string;
@@ -810,8 +825,8 @@ export type MediaLiveChannelArn = string;
 export type MediaLiveChannelPipelineId = "PIPELINE_0" | "PIPELINE_1" | (string & {});
 export type MediaLiveTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC" | (string & {});
 export type MediaLiveTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface MediaLiveTransitEncryption {
   EncryptionKeyType?: MediaLiveTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: MediaLiveTransitEncryptionKeyConfiguration;
@@ -823,15 +838,30 @@ export interface MediaLiveChannelRouterInputConfiguration {
   SourceTransitDecryption: MediaLiveTransitEncryption;
 }
 export type FailoverRouterInputProtocolConfiguration =
-  | { Rist: RistRouterInputConfiguration; SrtListener?: never; SrtCaller?: never; Rtp?: never }
   | {
-      Rist?: never;
-      SrtListener: SrtListenerRouterInputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      Rist: RistRouterInputConfiguration;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
-  | { Rist?: never; SrtListener?: never; SrtCaller: SrtCallerRouterInputConfiguration; Rtp?: never }
-  | { Rist?: never; SrtListener?: never; SrtCaller?: never; Rtp: RtpRouterInputConfiguration };
+  | {
+      Rist?: undefined;
+      SrtListener: SrtListenerRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller: SrtCallerRouterInputConfiguration;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp: RtpRouterInputConfiguration;
+    };
 export type FailoverRouterInputProtocolConfigurationList =
   FailoverRouterInputProtocolConfiguration[];
 export type FailoverInputSourcePriorityMode = "NO_PRIORITY" | "PRIMARY_SECONDARY" | (string & {});
@@ -848,8 +878,8 @@ export interface MediaConnectFlowRouterInputConfiguration {
   SourceTransitDecryption: FlowTransitEncryption;
 }
 export type MergeRouterInputProtocolConfiguration =
-  | { Rtp: RtpRouterInputConfiguration; Rist?: never }
-  | { Rtp?: never; Rist: RistRouterInputConfiguration };
+  | { Rtp: RtpRouterInputConfiguration; Rist?: undefined }
+  | { Rtp?: undefined; Rist: RistRouterInputConfiguration };
 export type MergeRouterInputProtocolConfigurationList = MergeRouterInputProtocolConfiguration[];
 export interface MergeRouterInputConfiguration {
   NetworkInterfaceArn: string;
@@ -859,37 +889,37 @@ export interface MergeRouterInputConfiguration {
 export type RouterInputConfiguration =
   | {
       Standard: StandardRouterInputConfiguration;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaLiveChannel: MediaLiveChannelRouterInputConfiguration;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
       Failover: FailoverRouterInputConfiguration;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterInputConfiguration;
-      Merge?: never;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
       Merge: MergeRouterInputConfiguration;
     };
 export type RouterInputTier =
@@ -907,8 +937,8 @@ export interface RouterInputMessage {
 export type RouterInputMessages = RouterInputMessage[];
 export type RouterInputTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC" | (string & {});
 export type RouterInputTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface RouterInputTransitEncryption {
   EncryptionKeyType?: RouterInputTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: RouterInputTransitEncryptionKeyConfiguration;
@@ -937,37 +967,37 @@ export interface MergeRouterInputStreamDetails {
 export type RouterInputStreamDetails =
   | {
       Standard: StandardRouterInputStreamDetails;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaLiveChannel: MediaLiveChannelRouterInputStreamDetails;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
       Failover: FailoverRouterInputStreamDetails;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterInputStreamDetails;
-      Merge?: never;
+      Merge?: undefined;
     }
   | {
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
       Merge: MergeRouterInputStreamDetails;
     };
 export type MaintenanceType = "PREFERRED_DAY_TIME" | "DEFAULT" | (string & {});
@@ -986,8 +1016,8 @@ export interface PreferredDayTimeMaintenanceConfiguration {
 }
 export interface DefaultMaintenanceConfiguration {}
 export type MaintenanceConfiguration =
-  | { PreferredDayTime: PreferredDayTimeMaintenanceConfiguration; Default?: never }
-  | { PreferredDayTime?: never; Default: DefaultMaintenanceConfiguration };
+  | { PreferredDayTime: PreferredDayTimeMaintenanceConfiguration; Default?: undefined }
+  | { PreferredDayTime?: undefined; Default: DefaultMaintenanceConfiguration };
 export type MaintenanceScheduleType = "WINDOW" | (string & {});
 export interface WindowMaintenanceSchedule {
   Start: Date;
@@ -1089,8 +1119,8 @@ export interface VpcRouterNetworkInterfaceConfiguration {
   SubnetId: string;
 }
 export type RouterNetworkInterfaceConfiguration =
-  | { Public: PublicRouterNetworkInterfaceConfiguration; Vpc?: never }
-  | { Public?: never; Vpc: VpcRouterNetworkInterfaceConfiguration };
+  | { Public: PublicRouterNetworkInterfaceConfiguration; Vpc?: undefined }
+  | { Public?: undefined; Vpc: VpcRouterNetworkInterfaceConfiguration };
 export interface RouterNetworkInterface {
   Name: string;
   Arn: string;
@@ -1176,37 +1206,37 @@ export interface RtpRouterOutputConfiguration {
 export type RouterOutputProtocolConfiguration =
   | {
       Rist: RistRouterOutputConfiguration;
-      SrtListener?: never;
-      RtmpPush?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
+      Rist?: undefined;
       SrtListener: SrtListenerRouterOutputConfiguration;
-      RtmpPush?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
       RtmpPush: RtmpPushRouterOutputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      RtmpPush?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller: SrtCallerRouterOutputConfiguration;
-      Rtp?: never;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      RtmpPush?: never;
-      SrtCaller?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
       Rtp: RtpRouterOutputConfiguration;
     };
 export type RouterOutputProtocol =
@@ -1237,17 +1267,17 @@ export interface MediaLiveInputRouterOutputConfiguration {
 export type RouterOutputConfiguration =
   | {
       Standard: StandardRouterOutputConfiguration;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterOutputConfiguration;
-      MediaLiveInput?: never;
+      MediaLiveInput?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
       MediaLiveInput: MediaLiveInputRouterOutputConfiguration;
     };
 export type RouterOutputRoutedState = "ROUTED" | "ROUTING" | "UNROUTED" | (string & {});
@@ -1271,17 +1301,17 @@ export interface MediaLiveInputRouterOutputStreamDetails {}
 export type RouterOutputStreamDetails =
   | {
       Standard: StandardRouterOutputStreamDetails;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterOutputStreamDetails;
-      MediaLiveInput?: never;
+      MediaLiveInput?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
       MediaLiveInput: MediaLiveInputRouterOutputStreamDetails;
     };
 export type FabricLatencyMode = "BALANCED" | "LOW_LATENCY" | (string & {});
@@ -2446,37 +2476,37 @@ export type RouterInputTypeList = RouterInputType[];
 export type RouterInputFilter =
   | {
       NameContains: string[];
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      InputTypes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
+      NameContains?: undefined;
       RegionNames: string[];
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      InputTypes?: never;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
       NetworkInterfaceArns: string[];
-      RoutingScopes?: never;
-      InputTypes?: never;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
       RoutingScopes: RoutingScope[];
-      InputTypes?: never;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
       InputTypes: RouterInputType[];
     };
 export type RouterInputFilterList = RouterInputFilter[];
@@ -2510,13 +2540,13 @@ export interface ListRouterInputsResponse {
 }
 export type RouterNetworkInterfaceTypeList = RouterNetworkInterfaceType[];
 export type RouterNetworkInterfaceFilter =
-  | { RegionNames: string[]; NetworkInterfaceTypes?: never; NameContains?: never }
+  | { RegionNames: string[]; NetworkInterfaceTypes?: undefined; NameContains?: undefined }
   | {
-      RegionNames?: never;
+      RegionNames?: undefined;
       NetworkInterfaceTypes: RouterNetworkInterfaceType[];
-      NameContains?: never;
+      NameContains?: undefined;
     }
-  | { RegionNames?: never; NetworkInterfaceTypes?: never; NameContains: string[] };
+  | { RegionNames?: undefined; NetworkInterfaceTypes?: undefined; NameContains: string[] };
 export type RouterNetworkInterfaceFilterList = RouterNetworkInterfaceFilter[];
 export interface ListRouterNetworkInterfacesRequest {
   MaxResults?: number | undefined;
@@ -2544,50 +2574,50 @@ export type RouterOutputTypeList = RouterOutputType[];
 export type RouterOutputFilter =
   | {
       RegionNames: string[];
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
+      RegionNames?: undefined;
       NetworkInterfaceArns: string[];
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
       RoutingScopes: RoutingScope[];
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
       OutputTypes: RouterOutputType[];
-      RoutedInputArns?: never;
-      NameContains?: never;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
       RoutedInputArns: string[];
-      NameContains?: never;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
       NameContains: string[];
     };
 export type RouterOutputFilterList = RouterOutputFilter[];

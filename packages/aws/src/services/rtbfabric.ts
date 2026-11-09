@@ -209,8 +209,8 @@ export interface HeaderTagAction {
   value: string;
 }
 export type Action =
-  | { noBid: NoBidAction; headerTag?: never }
-  | { noBid?: never; headerTag: HeaderTagAction };
+  | { noBid: NoBidAction; headerTag?: undefined }
+  | { noBid?: undefined; headerTag: HeaderTagAction };
 export interface OpenRtbAttributeModuleParameters {
   filterType: FilterType;
   filterConfiguration: Filter[];
@@ -221,9 +221,13 @@ export interface RateLimiterModuleParameters {
   tps?: number | undefined;
 }
 export type ModuleParameters =
-  | { noBid: NoBidModuleParameters; openRtbAttribute?: never; rateLimiter?: never }
-  | { noBid?: never; openRtbAttribute: OpenRtbAttributeModuleParameters; rateLimiter?: never }
-  | { noBid?: never; openRtbAttribute?: never; rateLimiter: RateLimiterModuleParameters };
+  | { noBid: NoBidModuleParameters; openRtbAttribute?: undefined; rateLimiter?: undefined }
+  | {
+      noBid?: undefined;
+      openRtbAttribute: OpenRtbAttributeModuleParameters;
+      rateLimiter?: undefined;
+    }
+  | { noBid?: undefined; openRtbAttribute?: undefined; rateLimiter: RateLimiterModuleParameters };
 export interface ModuleConfiguration {
   version?: string | undefined;
   name: string;
@@ -429,8 +433,8 @@ export interface EksEndpointsConfiguration {
   roleArn: string;
 }
 export type ManagedEndpointConfiguration =
-  | { autoScalingGroups: AutoScalingGroupsConfiguration; eksEndpoints?: never }
-  | { autoScalingGroups?: never; eksEndpoints: EksEndpointsConfiguration };
+  | { autoScalingGroups: AutoScalingGroupsConfiguration; eksEndpoints?: undefined }
+  | { autoScalingGroups?: undefined; eksEndpoints: EksEndpointsConfiguration };
 export type GatewayType = "EXTERNAL" | "INTERNAL" | (string & {});
 export type ClientRoutingPolicy =
   | "AVAILABILITY_ZONE_AFFINITY"

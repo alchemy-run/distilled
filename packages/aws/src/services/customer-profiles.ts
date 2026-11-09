@@ -1131,9 +1131,9 @@ export type CalculatedCustomAttributes = {
   [key: string]: CalculatedAttributeDimension | undefined;
 };
 export type Dimension =
-  | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: never }
+  | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: undefined }
   | {
-      ProfileAttributes?: never;
+      ProfileAttributes?: undefined;
       CalculatedAttributes: { [key: string]: CalculatedAttributeDimension | undefined };
     };
 export type DimensionList = Dimension[];

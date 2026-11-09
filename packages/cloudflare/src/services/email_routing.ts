@@ -737,7 +737,7 @@ export interface ListAddressesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AddressesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRulesRequest {
   /** Identifier. */
@@ -752,7 +752,7 @@ export interface ListRulesResponse {
   /** Routing rules for the zone. */
   result: ListRulesResponseResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchDnsRequest {
   /** Identifier. */

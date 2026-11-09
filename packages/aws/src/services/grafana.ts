@@ -366,7 +366,7 @@ export interface DescribeWorkspaceAuthenticationRequest {
   workspaceId: string;
 }
 export type IdpMetadataUrl = string;
-export type IdpMetadata = { url: string; xml?: never } | { url?: never; xml: string };
+export type IdpMetadata = { url: string; xml?: undefined } | { url?: undefined; xml: string };
 export type AssertionAttribute = string;
 export interface AssertionAttributes {
   name?: string | undefined;

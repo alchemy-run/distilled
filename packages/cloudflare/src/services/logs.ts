@@ -292,7 +292,7 @@ export interface ListLogExplorerDatasetAvailablesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogExplorerDatasetsAvailableListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListLogExplorerDatasetAvailablesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -328,7 +328,7 @@ export interface ListLogExplorerDatasetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogExplorerDatasetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListLogExplorerDatasetsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -386,7 +386,7 @@ export interface SqlLogExplorerQueryResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogExplorerQuerySqlResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface SqlLogExplorerQueryForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

@@ -485,7 +485,7 @@ export interface ListHostnameCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnameCertificatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOriginTlsClientAuthsRequest {
   /** Identifier. */
@@ -511,7 +511,7 @@ export interface ListOriginTlsClientAuthsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneCertificatesRequest {
   /** Identifier. */
@@ -532,7 +532,7 @@ export interface ListZoneCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListZoneCertificatesResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface HostnamesUpdateRequestConfigItem {
   /** Certificate identifier tag. */
@@ -567,7 +567,7 @@ export interface PutHostnameResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnamesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PutSettingRequest {
   /** Identifier. */

@@ -1398,8 +1398,8 @@ export interface AIAdapterS3Entry {
 }
 export type AIAdapterS3EntryList = AIAdapterS3Entry[];
 export type AIAdapterSource =
-  | { ModelPackageArns: AIAdapterModelPackageEntry[]; S3Uris?: never }
-  | { ModelPackageArns?: never; S3Uris: AIAdapterS3Entry[] };
+  | { ModelPackageArns: AIAdapterModelPackageEntry[]; S3Uris?: undefined }
+  | { ModelPackageArns?: undefined; S3Uris: AIAdapterS3Entry[] };
 export interface CreateAIRecommendationJobRequest {
   AIRecommendationJobName?: string | undefined;
   ModelSource?: AIModelSource | undefined;
@@ -2455,37 +2455,37 @@ export interface TextGenerationJobConfig {
 export type AutoMLProblemTypeConfig =
   | {
       ImageClassificationJobConfig: ImageClassificationJobConfig;
-      TextClassificationJobConfig?: never;
-      TimeSeriesForecastingJobConfig?: never;
-      TabularJobConfig?: never;
-      TextGenerationJobConfig?: never;
+      TextClassificationJobConfig?: undefined;
+      TimeSeriesForecastingJobConfig?: undefined;
+      TabularJobConfig?: undefined;
+      TextGenerationJobConfig?: undefined;
     }
   | {
-      ImageClassificationJobConfig?: never;
+      ImageClassificationJobConfig?: undefined;
       TextClassificationJobConfig: TextClassificationJobConfig;
-      TimeSeriesForecastingJobConfig?: never;
-      TabularJobConfig?: never;
-      TextGenerationJobConfig?: never;
+      TimeSeriesForecastingJobConfig?: undefined;
+      TabularJobConfig?: undefined;
+      TextGenerationJobConfig?: undefined;
     }
   | {
-      ImageClassificationJobConfig?: never;
-      TextClassificationJobConfig?: never;
+      ImageClassificationJobConfig?: undefined;
+      TextClassificationJobConfig?: undefined;
       TimeSeriesForecastingJobConfig: TimeSeriesForecastingJobConfig;
-      TabularJobConfig?: never;
-      TextGenerationJobConfig?: never;
+      TabularJobConfig?: undefined;
+      TextGenerationJobConfig?: undefined;
     }
   | {
-      ImageClassificationJobConfig?: never;
-      TextClassificationJobConfig?: never;
-      TimeSeriesForecastingJobConfig?: never;
+      ImageClassificationJobConfig?: undefined;
+      TextClassificationJobConfig?: undefined;
+      TimeSeriesForecastingJobConfig?: undefined;
       TabularJobConfig: TabularJobConfig;
-      TextGenerationJobConfig?: never;
+      TextGenerationJobConfig?: undefined;
     }
   | {
-      ImageClassificationJobConfig?: never;
-      TextClassificationJobConfig?: never;
-      TimeSeriesForecastingJobConfig?: never;
-      TabularJobConfig?: never;
+      ImageClassificationJobConfig?: undefined;
+      TextClassificationJobConfig?: undefined;
+      TimeSeriesForecastingJobConfig?: undefined;
+      TabularJobConfig?: undefined;
       TextGenerationJobConfig: TextGenerationJobConfig;
     };
 export interface EmrServerlessComputeConfig {
@@ -2541,9 +2541,21 @@ export interface ClusterFsxOpenZfsConfig {
   MountPath?: string | undefined;
 }
 export type ClusterInstanceStorageConfig =
-  | { EbsVolumeConfig: ClusterEbsVolumeConfig; FsxLustreConfig?: never; FsxOpenZfsConfig?: never }
-  | { EbsVolumeConfig?: never; FsxLustreConfig: ClusterFsxLustreConfig; FsxOpenZfsConfig?: never }
-  | { EbsVolumeConfig?: never; FsxLustreConfig?: never; FsxOpenZfsConfig: ClusterFsxOpenZfsConfig };
+  | {
+      EbsVolumeConfig: ClusterEbsVolumeConfig;
+      FsxLustreConfig?: undefined;
+      FsxOpenZfsConfig?: undefined;
+    }
+  | {
+      EbsVolumeConfig?: undefined;
+      FsxLustreConfig: ClusterFsxLustreConfig;
+      FsxOpenZfsConfig?: undefined;
+    }
+  | {
+      EbsVolumeConfig?: undefined;
+      FsxLustreConfig?: undefined;
+      FsxOpenZfsConfig: ClusterFsxOpenZfsConfig;
+    };
 export type ClusterInstanceStorageConfigs = ClusterInstanceStorageConfig[];
 export type DeepHealthCheckType = "InstanceStress" | "InstanceConnectivity" | (string & {});
 export type OnStartDeepHealthChecks = DeepHealthCheckType[];
@@ -3494,17 +3506,17 @@ export interface S3FileSystemConfig {
 export type CustomFileSystemConfig =
   | {
       EFSFileSystemConfig: EFSFileSystemConfig;
-      FSxLustreFileSystemConfig?: never;
-      S3FileSystemConfig?: never;
+      FSxLustreFileSystemConfig?: undefined;
+      S3FileSystemConfig?: undefined;
     }
   | {
-      EFSFileSystemConfig?: never;
+      EFSFileSystemConfig?: undefined;
       FSxLustreFileSystemConfig: FSxLustreFileSystemConfig;
-      S3FileSystemConfig?: never;
+      S3FileSystemConfig?: undefined;
     }
   | {
-      EFSFileSystemConfig?: never;
-      FSxLustreFileSystemConfig?: never;
+      EFSFileSystemConfig?: undefined;
+      FSxLustreFileSystemConfig?: undefined;
       S3FileSystemConfig: S3FileSystemConfig;
     };
 export type CustomFileSystemConfigs = CustomFileSystemConfig[];
@@ -5647,26 +5659,26 @@ export interface ModelSpeculativeDecodingConfig {
 export type OptimizationConfig =
   | {
       ModelQuantizationConfig: ModelQuantizationConfig;
-      ModelCompilationConfig?: never;
-      ModelShardingConfig?: never;
-      ModelSpeculativeDecodingConfig?: never;
+      ModelCompilationConfig?: undefined;
+      ModelShardingConfig?: undefined;
+      ModelSpeculativeDecodingConfig?: undefined;
     }
   | {
-      ModelQuantizationConfig?: never;
+      ModelQuantizationConfig?: undefined;
       ModelCompilationConfig: ModelCompilationConfig;
-      ModelShardingConfig?: never;
-      ModelSpeculativeDecodingConfig?: never;
+      ModelShardingConfig?: undefined;
+      ModelSpeculativeDecodingConfig?: undefined;
     }
   | {
-      ModelQuantizationConfig?: never;
-      ModelCompilationConfig?: never;
+      ModelQuantizationConfig?: undefined;
+      ModelCompilationConfig?: undefined;
       ModelShardingConfig: ModelShardingConfig;
-      ModelSpeculativeDecodingConfig?: never;
+      ModelSpeculativeDecodingConfig?: undefined;
     }
   | {
-      ModelQuantizationConfig?: never;
-      ModelCompilationConfig?: never;
-      ModelShardingConfig?: never;
+      ModelQuantizationConfig?: undefined;
+      ModelCompilationConfig?: undefined;
+      ModelShardingConfig?: undefined;
       ModelSpeculativeDecodingConfig: ModelSpeculativeDecodingConfig;
     };
 export type OptimizationConfigs = OptimizationConfig[];
@@ -6047,9 +6059,13 @@ export interface S3FileSystem {
   S3Uri?: string | undefined;
 }
 export type CustomFileSystem =
-  | { EFSFileSystem: EFSFileSystem; FSxLustreFileSystem?: never; S3FileSystem?: never }
-  | { EFSFileSystem?: never; FSxLustreFileSystem: FSxLustreFileSystem; S3FileSystem?: never }
-  | { EFSFileSystem?: never; FSxLustreFileSystem?: never; S3FileSystem: S3FileSystem };
+  | { EFSFileSystem: EFSFileSystem; FSxLustreFileSystem?: undefined; S3FileSystem?: undefined }
+  | {
+      EFSFileSystem?: undefined;
+      FSxLustreFileSystem: FSxLustreFileSystem;
+      S3FileSystem?: undefined;
+    }
+  | { EFSFileSystem?: undefined; FSxLustreFileSystem?: undefined; S3FileSystem: S3FileSystem };
 export type CustomFileSystems = CustomFileSystem[];
 export interface SpaceSettings {
   JupyterServerAppSettings?: JupyterServerAppSettings | undefined;
@@ -6368,8 +6384,8 @@ export interface TrialComponentStatus {
 export type TrialComponentKey320 = string;
 export type DoubleParameterValue = number;
 export type TrialComponentParameterValue =
-  | { StringValue: string; NumberValue?: never }
-  | { StringValue?: never; NumberValue: number };
+  | { StringValue: string; NumberValue?: undefined }
+  | { StringValue?: undefined; NumberValue: number };
 export type TrialComponentParameters = { [key: string]: TrialComponentParameterValue | undefined };
 export type TrialComponentKey128 = string;
 export type MediaType = string;
@@ -7503,10 +7519,10 @@ export interface TextGenerationResolvedAttributes {
 export type AutoMLProblemTypeResolvedAttributes =
   | {
       TabularResolvedAttributes: TabularResolvedAttributes;
-      TextGenerationResolvedAttributes?: never;
+      TextGenerationResolvedAttributes?: undefined;
     }
   | {
-      TabularResolvedAttributes?: never;
+      TabularResolvedAttributes?: undefined;
       TextGenerationResolvedAttributes: TextGenerationResolvedAttributes;
     };
 export interface AutoMLResolvedAttributes {
@@ -7909,50 +7925,50 @@ export interface SlurmHealthMetadata {
 export type EventMetadata =
   | {
       Cluster: ClusterMetadata;
-      InstanceGroup?: never;
-      InstanceGroupScaling?: never;
-      Instance?: never;
-      DatabaseConfiguration?: never;
-      SlurmHealth?: never;
+      InstanceGroup?: undefined;
+      InstanceGroupScaling?: undefined;
+      Instance?: undefined;
+      DatabaseConfiguration?: undefined;
+      SlurmHealth?: undefined;
     }
   | {
-      Cluster?: never;
+      Cluster?: undefined;
       InstanceGroup: InstanceGroupMetadata;
-      InstanceGroupScaling?: never;
-      Instance?: never;
-      DatabaseConfiguration?: never;
-      SlurmHealth?: never;
+      InstanceGroupScaling?: undefined;
+      Instance?: undefined;
+      DatabaseConfiguration?: undefined;
+      SlurmHealth?: undefined;
     }
   | {
-      Cluster?: never;
-      InstanceGroup?: never;
+      Cluster?: undefined;
+      InstanceGroup?: undefined;
       InstanceGroupScaling: InstanceGroupScalingMetadata;
-      Instance?: never;
-      DatabaseConfiguration?: never;
-      SlurmHealth?: never;
+      Instance?: undefined;
+      DatabaseConfiguration?: undefined;
+      SlurmHealth?: undefined;
     }
   | {
-      Cluster?: never;
-      InstanceGroup?: never;
-      InstanceGroupScaling?: never;
+      Cluster?: undefined;
+      InstanceGroup?: undefined;
+      InstanceGroupScaling?: undefined;
       Instance: InstanceMetadata;
-      DatabaseConfiguration?: never;
-      SlurmHealth?: never;
+      DatabaseConfiguration?: undefined;
+      SlurmHealth?: undefined;
     }
   | {
-      Cluster?: never;
-      InstanceGroup?: never;
-      InstanceGroupScaling?: never;
-      Instance?: never;
+      Cluster?: undefined;
+      InstanceGroup?: undefined;
+      InstanceGroupScaling?: undefined;
+      Instance?: undefined;
       DatabaseConfiguration: DatabaseConfigurationMetadata;
-      SlurmHealth?: never;
+      SlurmHealth?: undefined;
     }
   | {
-      Cluster?: never;
-      InstanceGroup?: never;
-      InstanceGroupScaling?: never;
-      Instance?: never;
-      DatabaseConfiguration?: never;
+      Cluster?: undefined;
+      InstanceGroup?: undefined;
+      InstanceGroupScaling?: undefined;
+      Instance?: undefined;
+      DatabaseConfiguration?: undefined;
       SlurmHealth: SlurmHealthMetadata;
     };
 export interface EventDetails {
@@ -11771,8 +11787,8 @@ export interface CustomizedMetricSpecification {
   Statistic?: Statistic | undefined;
 }
 export type MetricSpecification =
-  | { Predefined: PredefinedMetricSpecification; Customized?: never }
-  | { Predefined?: never; Customized: CustomizedMetricSpecification };
+  | { Predefined: PredefinedMetricSpecification; Customized?: undefined }
+  | { Predefined?: undefined; Customized: CustomizedMetricSpecification };
 export interface TargetTrackingScalingPolicyConfiguration {
   MetricSpecification?: MetricSpecification | undefined;
   TargetValue?: number | undefined;

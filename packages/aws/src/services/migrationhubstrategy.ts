@@ -207,15 +207,27 @@ export interface AppUnitError {
 }
 export type AnalysisType = string;
 export type AnalysisStatusUnion =
-  | { runtimeAnalysisStatus: string; srcCodeOrDbAnalysisStatus?: never }
-  | { runtimeAnalysisStatus?: never; srcCodeOrDbAnalysisStatus: string };
+  | { runtimeAnalysisStatus: string; srcCodeOrDbAnalysisStatus?: undefined }
+  | { runtimeAnalysisStatus?: undefined; srcCodeOrDbAnalysisStatus: string };
 export type BinaryAnalyzerName = string;
 export type RunTimeAnalyzerName = string;
 export type SourceCodeAnalyzerName = string;
 export type AnalyzerNameUnion =
-  | { binaryAnalyzerName: string; runTimeAnalyzerName?: never; sourceCodeAnalyzerName?: never }
-  | { binaryAnalyzerName?: never; runTimeAnalyzerName: string; sourceCodeAnalyzerName?: never }
-  | { binaryAnalyzerName?: never; runTimeAnalyzerName?: never; sourceCodeAnalyzerName: string };
+  | {
+      binaryAnalyzerName: string;
+      runTimeAnalyzerName?: undefined;
+      sourceCodeAnalyzerName?: undefined;
+    }
+  | {
+      binaryAnalyzerName?: undefined;
+      runTimeAnalyzerName: string;
+      sourceCodeAnalyzerName?: undefined;
+    }
+  | {
+      binaryAnalyzerName?: undefined;
+      runTimeAnalyzerName?: undefined;
+      sourceCodeAnalyzerName: string;
+    };
 export interface AntipatternReportResult {
   analyzerName?: AnalyzerNameUnion | undefined;
   antiPatternReportS3Object?: S3Object | undefined;
@@ -359,11 +371,19 @@ export interface NoManagementPreference {
   targetDestination: string[];
 }
 export type ManagementPreference =
-  | { awsManagedResources: AwsManagedResources; selfManageResources?: never; noPreference?: never }
-  | { awsManagedResources?: never; selfManageResources: SelfManageResources; noPreference?: never }
   | {
-      awsManagedResources?: never;
-      selfManageResources?: never;
+      awsManagedResources: AwsManagedResources;
+      selfManageResources?: undefined;
+      noPreference?: undefined;
+    }
+  | {
+      awsManagedResources?: undefined;
+      selfManageResources: SelfManageResources;
+      noPreference?: undefined;
+    }
+  | {
+      awsManagedResources?: undefined;
+      selfManageResources?: undefined;
       noPreference: NoManagementPreference;
     };
 export interface ApplicationPreferences {
@@ -386,9 +406,13 @@ export interface NoDatabaseMigrationPreference {
   targetDatabaseEngine: string[];
 }
 export type DatabaseMigrationPreference =
-  | { heterogeneous: Heterogeneous; homogeneous?: never; noPreference?: never }
-  | { heterogeneous?: never; homogeneous: Homogeneous; noPreference?: never }
-  | { heterogeneous?: never; homogeneous?: never; noPreference: NoDatabaseMigrationPreference };
+  | { heterogeneous: Heterogeneous; homogeneous?: undefined; noPreference?: undefined }
+  | { heterogeneous?: undefined; homogeneous: Homogeneous; noPreference?: undefined }
+  | {
+      heterogeneous?: undefined;
+      homogeneous?: undefined;
+      noPreference: NoDatabaseMigrationPreference;
+    };
 export interface DatabasePreferences {
   databaseManagementPreference?: string | undefined;
   databaseMigrationPreference?: DatabaseMigrationPreference | undefined;

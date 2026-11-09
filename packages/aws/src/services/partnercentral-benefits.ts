@@ -400,26 +400,26 @@ export interface AccessDetails {
 export type FulfillmentDetails =
   | {
       DisbursementDetails: DisbursementDetails;
-      ConsumableDetails?: never;
-      CreditDetails?: never;
-      AccessDetails?: never;
+      ConsumableDetails?: undefined;
+      CreditDetails?: undefined;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
+      DisbursementDetails?: undefined;
       ConsumableDetails: ConsumableDetails;
-      CreditDetails?: never;
-      AccessDetails?: never;
+      CreditDetails?: undefined;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
-      ConsumableDetails?: never;
+      DisbursementDetails?: undefined;
+      ConsumableDetails?: undefined;
       CreditDetails: CreditDetails;
-      AccessDetails?: never;
+      AccessDetails?: undefined;
     }
   | {
-      DisbursementDetails?: never;
-      ConsumableDetails?: never;
-      CreditDetails?: never;
+      DisbursementDetails?: undefined;
+      ConsumableDetails?: undefined;
+      CreditDetails?: undefined;
       AccessDetails: AccessDetails;
     };
 export interface GetBenefitAllocationOutput {

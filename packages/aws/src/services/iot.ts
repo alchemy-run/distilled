@@ -1684,10 +1684,30 @@ export type AssetPropertyIntegerValue = string;
 export type AssetPropertyDoubleValue = string;
 export type AssetPropertyBooleanValue = string;
 export type AssetPropertyVariant =
-  | { stringValue: string; integerValue?: never; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; integerValue: string; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; integerValue?: never; doubleValue: string; booleanValue?: never }
-  | { stringValue?: never; integerValue?: never; doubleValue?: never; booleanValue: string };
+  | {
+      stringValue: string;
+      integerValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue: string;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue?: undefined;
+      doubleValue: string;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue: string;
+    };
 export type AssetPropertyTimeInSeconds = string;
 export type AssetPropertyOffsetInNanos = string;
 export interface AssetPropertyTimestamp {

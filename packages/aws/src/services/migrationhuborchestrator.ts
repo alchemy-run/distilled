@@ -158,26 +158,26 @@ export type StringList = string[];
 export type StepInput =
   | {
       integerValue: number;
-      stringValue?: never;
-      listOfStringsValue?: never;
-      mapOfStringValue?: never;
+      stringValue?: undefined;
+      listOfStringsValue?: undefined;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
+      integerValue?: undefined;
       stringValue: string;
-      listOfStringsValue?: never;
-      mapOfStringValue?: never;
+      listOfStringsValue?: undefined;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
-      stringValue?: never;
+      integerValue?: undefined;
+      stringValue?: undefined;
       listOfStringsValue: string[];
-      mapOfStringValue?: never;
+      mapOfStringValue?: undefined;
     }
   | {
-      integerValue?: never;
-      stringValue?: never;
-      listOfStringsValue?: never;
+      integerValue?: undefined;
+      stringValue?: undefined;
+      listOfStringsValue?: undefined;
       mapOfStringValue: { [key: string]: string | undefined };
     };
 export type StepInputParameters = { [key: string]: StepInput | undefined };
@@ -232,9 +232,9 @@ export type DataType = string;
 export type MaxStringValue = string;
 export type MaxStringList = string[];
 export type WorkflowStepOutputUnion =
-  | { integerValue: number; stringValue?: never; listOfStringValue?: never }
-  | { integerValue?: never; stringValue: string; listOfStringValue?: never }
-  | { integerValue?: never; stringValue?: never; listOfStringValue: string[] };
+  | { integerValue: number; stringValue?: undefined; listOfStringValue?: undefined }
+  | { integerValue?: undefined; stringValue: string; listOfStringValue?: undefined }
+  | { integerValue?: undefined; stringValue?: undefined; listOfStringValue: string[] };
 export interface WorkflowStepOutput {
   name?: string | undefined;
   dataType?: string | undefined;

@@ -595,7 +595,7 @@ export interface ListRecipientsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecipientsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ResourcesListRequestResourceType =
   | "custom-ruleset"
@@ -654,7 +654,7 @@ export interface ListResourcesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourcesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListRequestDirection = "asc" | "desc";
 export type ListRequestKind = "sent" | "received";
@@ -764,7 +764,7 @@ export interface ListResourceSharingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateResourceRequest {
   /** Account identifier. */

@@ -744,8 +744,8 @@ export interface VcfOptions {
   ignoreFilterField?: boolean | undefined;
 }
 export type FormatOptions =
-  | { tsvOptions: TsvOptions; vcfOptions?: never }
-  | { tsvOptions?: never; vcfOptions: VcfOptions };
+  | { tsvOptions: TsvOptions; vcfOptions?: undefined }
+  | { tsvOptions?: undefined; vcfOptions: VcfOptions };
 export type AnnotationFieldMap = { [key: string]: string | undefined };
 export interface GetAnnotationImportResponse {
   id: string;
@@ -2249,8 +2249,8 @@ export interface InlineSetting {
 export type InlineSettings = InlineSetting[];
 export type S3UriSettings = string;
 export type BatchRunSettings =
-  | { inlineSettings: InlineSetting[]; s3UriSettings?: never }
-  | { inlineSettings?: never; s3UriSettings: string };
+  | { inlineSettings: InlineSetting[]; s3UriSettings?: undefined }
+  | { inlineSettings?: undefined; s3UriSettings: string };
 export interface StartRunBatchRequest {
   batchName?: string | undefined;
   requestId: string;

@@ -2603,7 +2603,7 @@ export interface ListProjectDeploymentsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsDeploymentsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProjectDomainsRequest {
   /** Identifier. */
@@ -2660,7 +2660,7 @@ export interface ListProjectDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProjectsRequest {
   /** Identifier. */
@@ -3348,7 +3348,7 @@ export interface ListProjectsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ProjectsEditRequestBuildConfig = ProjectsCreateRequestBuildConfig;
 export type ProjectsEditRequestDeploymentConfigsPreviewAiBindingsValue =

@@ -230,10 +230,30 @@ export interface PreviewConfig {
   agentActions?: string[] | undefined;
 }
 export type TelephonyOutboundMode =
-  | { progressive: ProgressiveConfig; predictive?: never; agentless?: never; preview?: never }
-  | { progressive?: never; predictive: PredictiveConfig; agentless?: never; preview?: never }
-  | { progressive?: never; predictive?: never; agentless: AgentlessConfig; preview?: never }
-  | { progressive?: never; predictive?: never; agentless?: never; preview: PreviewConfig };
+  | {
+      progressive: ProgressiveConfig;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive: PredictiveConfig;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless: AgentlessConfig;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview: PreviewConfig;
+    };
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export interface AnswerMachineDetectionConfig {
@@ -298,8 +318,8 @@ export interface EventTrigger {
   customerProfilesDomainArn?: string | undefined;
 }
 export type Source =
-  | { customerProfilesSegmentArn: string; eventTrigger?: never }
-  | { customerProfilesSegmentArn?: never; eventTrigger: EventTrigger };
+  | { customerProfilesSegmentArn: string; eventTrigger?: undefined }
+  | { customerProfilesSegmentArn?: undefined; eventTrigger: EventTrigger };
 export type Iso8601Duration = string;
 export interface Schedule {
   startTime: Date;
@@ -427,9 +447,13 @@ export interface LambdaIntegrationIdentifier {
   functionArn: string;
 }
 export type IntegrationIdentifier =
-  | { customerProfiles: CustomerProfilesIntegrationIdentifier; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationIdentifier; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationIdentifier };
+  | {
+      customerProfiles: CustomerProfilesIntegrationIdentifier;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationIdentifier; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationIdentifier };
 export interface DeleteConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationIdentifier: IntegrationIdentifier;
@@ -579,9 +603,13 @@ export interface LambdaIntegrationSummary {
   functionArn: string;
 }
 export type IntegrationSummary =
-  | { customerProfiles: CustomerProfilesIntegrationSummary; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationSummary; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationSummary };
+  | {
+      customerProfiles: CustomerProfilesIntegrationSummary;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationSummary; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationSummary };
 export type IntegrationSummaryList = IntegrationSummary[];
 export interface ListConnectInstanceIntegrationsResponse {
   nextToken?: string | undefined;
@@ -608,9 +636,13 @@ export interface LambdaIntegrationConfig {
   functionArn: string;
 }
 export type IntegrationConfig =
-  | { customerProfiles: CustomerProfilesIntegrationConfig; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationConfig; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationConfig };
+  | {
+      customerProfiles: CustomerProfilesIntegrationConfig;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationConfig; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationConfig };
 export interface PutConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationConfig: IntegrationConfig;
@@ -652,10 +684,30 @@ export interface WhatsAppChannelSubtypeParameters {
   templateParameters: { [key: string]: string | undefined };
 }
 export type ChannelSubtypeParameters =
-  | { telephony: TelephonyChannelSubtypeParameters; sms?: never; email?: never; whatsApp?: never }
-  | { telephony?: never; sms: SmsChannelSubtypeParameters; email?: never; whatsApp?: never }
-  | { telephony?: never; sms?: never; email: EmailChannelSubtypeParameters; whatsApp?: never }
-  | { telephony?: never; sms?: never; email?: never; whatsApp: WhatsAppChannelSubtypeParameters };
+  | {
+      telephony: TelephonyChannelSubtypeParameters;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms: SmsChannelSubtypeParameters;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email: EmailChannelSubtypeParameters;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp: WhatsAppChannelSubtypeParameters;
+    };
 export interface OutboundRequest {
   clientToken: string;
   expirationTime: Date;

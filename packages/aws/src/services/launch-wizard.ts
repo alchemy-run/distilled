@@ -206,8 +206,8 @@ export interface DelegatedAdminConstraint {
   servicePrincipal: string;
 }
 export type AccountConstraint =
-  | { managementAccount: ManagementAccountConstraint; delegatedAdmin?: never }
-  | { managementAccount?: never; delegatedAdmin: DelegatedAdminConstraint };
+  | { managementAccount: ManagementAccountConstraint; delegatedAdmin?: undefined }
+  | { managementAccount?: undefined; delegatedAdmin: DelegatedAdminConstraint };
 export type AccountConstraintsList = AccountConstraint[];
 export interface WorkloadData {
   workloadName?: string | undefined;

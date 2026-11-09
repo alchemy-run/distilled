@@ -173,8 +173,8 @@ export interface ProfileDetailResponse {
 }
 export type TrustAnchorType = string;
 export type SourceData =
-  | { x509CertificateData: string; acmPcaArn?: never }
-  | { x509CertificateData?: never; acmPcaArn: string };
+  | { x509CertificateData: string; acmPcaArn?: undefined }
+  | { x509CertificateData?: undefined; acmPcaArn: string };
 export interface Source {
   sourceType?: string | undefined;
   sourceData?: SourceData | undefined;

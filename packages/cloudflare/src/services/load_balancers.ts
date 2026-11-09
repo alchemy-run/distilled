@@ -345,7 +345,7 @@ export interface BulkPatchPoolsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoolsBulkEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateRequestDefaultPoolsList = Array<string>;
 export interface CreateRequestAdaptiveRouting {
@@ -1817,7 +1817,7 @@ export interface GetMonitorGroupReferenceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MonitorGroupsReferencesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetMonitorReferenceRequest {
   /** Identifier. */
@@ -1836,7 +1836,7 @@ export interface GetMonitorReferenceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MonitorsReferencesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetPoolRequest {
   /** Identifier. */
@@ -2004,7 +2004,7 @@ export interface GetPoolReferenceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoolsReferencesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetPreviewRequest {
   /** Identifier. */
@@ -2360,7 +2360,7 @@ export interface ListLoadBalancersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListMonitorGroupsRequest {
   /** Identifier. */
@@ -2385,7 +2385,7 @@ export interface ListMonitorGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MonitorGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListMonitorsRequest {
   /** Identifier. */
@@ -2444,7 +2444,7 @@ export interface ListMonitorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MonitorsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPoolsRequest {
   /** Identifier. */
@@ -2568,7 +2568,7 @@ export interface ListPoolsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoolsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRegionsRequest {
   /** Identifier. */

@@ -2800,7 +2800,7 @@ export interface ListInstanceJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesJobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesListRequestOrderBy = "created_at";
 export type InstancesListRequestOrderByDirection = "asc" | "desc";
@@ -3048,7 +3048,7 @@ export interface ListInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesInstancesItemsListRequestSortBy = "status" | "modified_at";
 export type NamespacesInstancesItemsListRequestStatus =
@@ -3112,7 +3112,7 @@ export interface ListNamespaceInstanceItemsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesItemsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNamespaceInstanceJobsRequest {
   accountId: string;
@@ -3137,7 +3137,7 @@ export interface ListNamespaceInstanceJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesJobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type NamespacesInstancesListRequestOrderBy = "created_at";
 export type NamespacesInstancesListRequestOrderByDirection = "asc" | "desc";
@@ -3410,7 +3410,7 @@ export interface ListNamespaceInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesInstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListNamespacesRequest {
   accountId: string;
@@ -3472,7 +3472,7 @@ export interface ListNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: NamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTokensRequest {
   accountId: string;
@@ -3499,7 +3499,7 @@ export interface ListTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface LogsInstanceJobRequest {
   accountId: string;

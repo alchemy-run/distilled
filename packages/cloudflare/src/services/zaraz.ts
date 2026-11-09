@@ -462,7 +462,7 @@ export interface ListHistoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HistoryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ConfigUpdateRequestSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export interface ConfigUpdateRequestSettings {

@@ -294,50 +294,50 @@ export interface CloneToRefreshableConfiguration {
 export type SourceConfiguration =
   | {
       databaseClone: DatabaseCloneConfiguration;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
+      databaseClone?: undefined;
       restoreFromBackup: RestoreFromBackupConfiguration;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
       pointInTimeRestore: PointInTimeRestoreConfiguration;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
       crossRegionDataGuard: CrossRegionDataGuardConfiguration;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
       crossRegionDisasterRecovery: CrossRegionDisasterRecoveryConfiguration;
-      cloneToRefreshable?: never;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
       cloneToRefreshable: CloneToRefreshableConfiguration;
     };
 export type EncryptionKeyProviderInput = "ORACLE_MANAGED" | "AWS_KMS" | (string & {});
@@ -869,17 +869,17 @@ export interface OkvEncryptionKeyConfiguration {
 export type EncryptionKeyConfiguration =
   | {
       awsEncryptionKey: AwsEncryptionKeyConfiguration;
-      ociEncryptionKey?: never;
-      okvEncryptionKey?: never;
+      ociEncryptionKey?: undefined;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
       ociEncryptionKey: OciEncryptionKeyConfiguration;
-      okvEncryptionKey?: never;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
-      ociEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
+      ociEncryptionKey?: undefined;
       okvEncryptionKey: OkvEncryptionKeyConfiguration;
     };
 export interface EncryptionSummary {

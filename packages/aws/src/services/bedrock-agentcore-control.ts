@@ -218,8 +218,8 @@ export interface S3Source {
   s3Uri: string;
 }
 export type DataSourceType =
-  | { inlineExamples: InlineExamplesSource; s3Source?: never }
-  | { inlineExamples?: never; s3Source: S3Source };
+  | { inlineExamples: InlineExamplesSource; s3Source?: undefined }
+  | { inlineExamples?: undefined; s3Source: S3Source };
 export interface AddDatasetExamplesRequest {
   datasetId: string;
   clientToken?: string | undefined;
@@ -324,8 +324,8 @@ export interface CodeConfiguration {
   entryPoint: string[];
 }
 export type AgentRuntimeArtifact =
-  | { containerConfiguration: ContainerConfiguration; codeConfiguration?: never }
-  | { containerConfiguration?: never; codeConfiguration: CodeConfiguration };
+  | { containerConfiguration: ContainerConfiguration; codeConfiguration?: undefined }
+  | { containerConfiguration?: undefined; codeConfiguration: CodeConfiguration };
 export type RoleArn = string;
 export type NetworkMode = "PUBLIC" | "VPC" | (string & {});
 export type SecurityGroupId = string;
@@ -355,8 +355,8 @@ export type InboundTokenClaimValueType = "STRING" | "STRING_ARRAY" | (string & {
 export type MatchValueString = string;
 export type MatchValueStringList = string[];
 export type ClaimMatchValueType =
-  | { matchValueString: string; matchValueStringList?: never }
-  | { matchValueString?: never; matchValueStringList: string[] };
+  | { matchValueString: string; matchValueStringList?: undefined }
+  | { matchValueString?: undefined; matchValueStringList: string[] };
 export type ClaimMatchOperatorType = "EQUALS" | "CONTAINS" | "CONTAINS_ANY" | (string & {});
 export interface AuthorizingClaimMatchValueType {
   claimMatchValue: ClaimMatchValueType;
@@ -388,8 +388,8 @@ export interface ManagedVpcResource {
   routingDomain?: string | undefined;
 }
 export type PrivateEndpoint =
-  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: never }
-  | { selfManagedLatticeResource?: never; managedVpcResource: ManagedVpcResource };
+  | { selfManagedLatticeResource: SelfManagedLatticeResource; managedVpcResource?: undefined }
+  | { selfManagedLatticeResource?: undefined; managedVpcResource: ManagedVpcResource };
 export type PrivateEndpointOverrideDomain = string;
 export interface PrivateEndpointOverride {
   domain: string;
@@ -455,26 +455,26 @@ export interface CapacityProviderVolumeConfiguration {
 export type FilesystemConfiguration =
   | {
       sessionStorage: SessionStorageConfiguration;
-      s3FilesAccessPoint?: never;
-      efsAccessPoint?: never;
-      capacityProviderVolume?: never;
+      s3FilesAccessPoint?: undefined;
+      efsAccessPoint?: undefined;
+      capacityProviderVolume?: undefined;
     }
   | {
-      sessionStorage?: never;
+      sessionStorage?: undefined;
       s3FilesAccessPoint: S3FilesAccessPointConfiguration;
-      efsAccessPoint?: never;
-      capacityProviderVolume?: never;
+      efsAccessPoint?: undefined;
+      capacityProviderVolume?: undefined;
     }
   | {
-      sessionStorage?: never;
-      s3FilesAccessPoint?: never;
+      sessionStorage?: undefined;
+      s3FilesAccessPoint?: undefined;
       efsAccessPoint: EfsAccessPointConfiguration;
-      capacityProviderVolume?: never;
+      capacityProviderVolume?: undefined;
     }
   | {
-      sessionStorage?: never;
-      s3FilesAccessPoint?: never;
-      efsAccessPoint?: never;
+      sessionStorage?: undefined;
+      s3FilesAccessPoint?: undefined;
+      efsAccessPoint?: undefined;
       capacityProviderVolume: CapacityProviderVolumeConfiguration;
     };
 export type FilesystemConfigurations = FilesystemConfiguration[];
@@ -623,8 +623,8 @@ export interface EfsConfiguration {
   fileSystemArn: string;
 }
 export type ToolsFileSystemConfiguration =
-  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: never }
-  | { s3FilesConfiguration?: never; efsConfiguration: EfsConfiguration };
+  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: undefined }
+  | { s3FilesConfiguration?: undefined; efsConfiguration: EfsConfiguration };
 export type ToolsFileSystemConfigurations = ToolsFileSystemConfiguration[];
 export interface CreateBrowserRequest {
   name: string;
@@ -977,8 +977,8 @@ export interface CategoricalScaleDefinition {
 }
 export type CategoricalScaleDefinitions = CategoricalScaleDefinition[];
 export type RatingScale =
-  | { numerical: NumericalScaleDefinition[]; categorical?: never }
-  | { numerical?: never; categorical: CategoricalScaleDefinition[] };
+  | { numerical: NumericalScaleDefinition[]; categorical?: undefined }
+  | { numerical?: undefined; categorical: CategoricalScaleDefinition[] };
 export type ModelId = string;
 export type NonEmptyString = string;
 export type NonEmptyStringList = string[];
@@ -1007,10 +1007,10 @@ export interface OpenResponsesEvaluatorModelConfig {
 export type EvaluatorModelConfig =
   | {
       bedrockEvaluatorModelConfig: BedrockEvaluatorModelConfig;
-      responsesEvaluatorModelConfig?: never;
+      responsesEvaluatorModelConfig?: undefined;
     }
   | {
-      bedrockEvaluatorModelConfig?: never;
+      bedrockEvaluatorModelConfig?: undefined;
       responsesEvaluatorModelConfig: OpenResponsesEvaluatorModelConfig;
     };
 export interface LlmAsAJudgeEvaluatorConfig {
@@ -1030,9 +1030,9 @@ export interface DerivedEvaluatorConfig {
   modelConfig: EvaluatorModelConfig;
 }
 export type EvaluatorConfig =
-  | { llmAsAJudge: LlmAsAJudgeEvaluatorConfig; codeBased?: never; derived?: never }
-  | { llmAsAJudge?: never; codeBased: CodeBasedEvaluatorConfig; derived?: never }
-  | { llmAsAJudge?: never; codeBased?: never; derived: DerivedEvaluatorConfig };
+  | { llmAsAJudge: LlmAsAJudgeEvaluatorConfig; codeBased?: undefined; derived?: undefined }
+  | { llmAsAJudge?: undefined; codeBased: CodeBasedEvaluatorConfig; derived?: undefined }
+  | { llmAsAJudge?: undefined; codeBased?: undefined; derived: DerivedEvaluatorConfig };
 export type EvaluatorLevel = "TOOL_CALL" | "TRACE" | "SESSION" | (string & {});
 export interface CreateEvaluatorRequest {
   clientToken?: string | undefined;
@@ -1215,8 +1215,8 @@ export interface MatchPaths {
   anyOf: string[];
 }
 export type Condition =
-  | { matchPrincipals: MatchPrincipals; matchPaths?: never }
-  | { matchPrincipals?: never; matchPaths: MatchPaths };
+  | { matchPrincipals: MatchPrincipals; matchPaths?: undefined }
+  | { matchPrincipals?: undefined; matchPaths: MatchPaths };
 export type Conditions = Condition[];
 export type GatewayConfigurationBundleArn = string;
 export interface StaticOverride {
@@ -1242,8 +1242,8 @@ export interface WeightedOverride {
   trafficSplit: TrafficSplitEntry[];
 }
 export type ConfigurationBundleAction =
-  | { staticOverride: StaticOverride; weightedOverride?: never }
-  | { staticOverride?: never; weightedOverride: WeightedOverride };
+  | { staticOverride: StaticOverride; weightedOverride?: undefined }
+  | { staticOverride?: undefined; weightedOverride: WeightedOverride };
 export type TargetName = string | redacted.Redacted<string>;
 export interface StaticRoute {
   targetName: string | redacted.Redacted<string>;
@@ -1260,11 +1260,11 @@ export interface WeightedRoute {
   trafficSplit: TargetTrafficSplitEntry[];
 }
 export type RouteToTargetAction =
-  | { staticRoute: StaticRoute; weightedRoute?: never }
-  | { staticRoute?: never; weightedRoute: WeightedRoute };
+  | { staticRoute: StaticRoute; weightedRoute?: undefined }
+  | { staticRoute?: undefined; weightedRoute: WeightedRoute };
 export type Action =
-  | { configurationBundle: ConfigurationBundleAction; routeToTarget?: never }
-  | { configurationBundle?: never; routeToTarget: RouteToTargetAction };
+  | { configurationBundle: ConfigurationBundleAction; routeToTarget?: undefined }
+  | { configurationBundle?: undefined; routeToTarget: RouteToTargetAction };
 export type Actions = Action[];
 export type GatewayRuleDescription = string;
 export interface CreateGatewayRuleRequest {
@@ -1300,8 +1300,8 @@ export interface S3Configuration {
 }
 export type InlinePayload = string | redacted.Redacted<string>;
 export type ApiSchemaConfiguration =
-  | { s3: S3Configuration; inlinePayload?: never }
-  | { s3?: never; inlinePayload: string | redacted.Redacted<string> };
+  | { s3: S3Configuration; inlinePayload?: undefined }
+  | { s3?: undefined; inlinePayload: string | redacted.Redacted<string> };
 export type SchemaType =
   | "string"
   | "number"
@@ -1327,15 +1327,15 @@ export interface ToolDefinition {
 }
 export type ToolDefinitions = ToolDefinition[];
 export type ToolSchema =
-  | { s3: S3Configuration; inlinePayload?: never }
-  | { s3?: never; inlinePayload: ToolDefinition[] };
+  | { s3: S3Configuration; inlinePayload?: undefined }
+  | { s3?: undefined; inlinePayload: ToolDefinition[] };
 export interface McpLambdaTargetConfiguration {
   lambdaArn: string;
   toolSchema: ToolSchema;
 }
 export type McpToolSchemaConfiguration =
-  | { s3: S3Configuration; inlinePayload?: never }
-  | { s3?: never; inlinePayload: string | redacted.Redacted<string> };
+  | { s3: S3Configuration; inlinePayload?: undefined }
+  | { s3?: undefined; inlinePayload: string | redacted.Redacted<string> };
 export type ListingMode = "DEFAULT" | "DYNAMIC" | (string & {});
 export type TargetResourcePriority = number;
 export interface McpServerTargetConfiguration {
@@ -1403,50 +1403,50 @@ export interface ConnectorTargetConfiguration {
 export type McpTargetConfiguration =
   | {
       openApiSchema: ApiSchemaConfiguration;
-      smithyModel?: never;
-      lambda?: never;
-      mcpServer?: never;
-      apiGateway?: never;
-      connector?: never;
+      smithyModel?: undefined;
+      lambda?: undefined;
+      mcpServer?: undefined;
+      apiGateway?: undefined;
+      connector?: undefined;
     }
   | {
-      openApiSchema?: never;
+      openApiSchema?: undefined;
       smithyModel: ApiSchemaConfiguration;
-      lambda?: never;
-      mcpServer?: never;
-      apiGateway?: never;
-      connector?: never;
+      lambda?: undefined;
+      mcpServer?: undefined;
+      apiGateway?: undefined;
+      connector?: undefined;
     }
   | {
-      openApiSchema?: never;
-      smithyModel?: never;
+      openApiSchema?: undefined;
+      smithyModel?: undefined;
       lambda: McpLambdaTargetConfiguration;
-      mcpServer?: never;
-      apiGateway?: never;
-      connector?: never;
+      mcpServer?: undefined;
+      apiGateway?: undefined;
+      connector?: undefined;
     }
   | {
-      openApiSchema?: never;
-      smithyModel?: never;
-      lambda?: never;
+      openApiSchema?: undefined;
+      smithyModel?: undefined;
+      lambda?: undefined;
       mcpServer: McpServerTargetConfiguration;
-      apiGateway?: never;
-      connector?: never;
+      apiGateway?: undefined;
+      connector?: undefined;
     }
   | {
-      openApiSchema?: never;
-      smithyModel?: never;
-      lambda?: never;
-      mcpServer?: never;
+      openApiSchema?: undefined;
+      smithyModel?: undefined;
+      lambda?: undefined;
+      mcpServer?: undefined;
       apiGateway: ApiGatewayTargetConfiguration;
-      connector?: never;
+      connector?: undefined;
     }
   | {
-      openApiSchema?: never;
-      smithyModel?: never;
-      lambda?: never;
-      mcpServer?: never;
-      apiGateway?: never;
+      openApiSchema?: undefined;
+      smithyModel?: undefined;
+      lambda?: undefined;
+      mcpServer?: undefined;
+      apiGateway?: undefined;
       connector: ConnectorTargetConfiguration;
     };
 export type RuntimeArn = string;
@@ -1499,9 +1499,17 @@ export interface HttpConnectorTargetConfiguration {
   parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type HttpTargetConfiguration =
-  | { agentcoreRuntime: RuntimeTargetConfiguration; passthrough?: never; connector?: never }
-  | { agentcoreRuntime?: never; passthrough: PassthroughTargetConfiguration; connector?: never }
-  | { agentcoreRuntime?: never; passthrough?: never; connector: HttpConnectorTargetConfiguration };
+  | { agentcoreRuntime: RuntimeTargetConfiguration; passthrough?: undefined; connector?: undefined }
+  | {
+      agentcoreRuntime?: undefined;
+      passthrough: PassthroughTargetConfiguration;
+      connector?: undefined;
+    }
+  | {
+      agentcoreRuntime?: undefined;
+      passthrough?: undefined;
+      connector: HttpConnectorTargetConfiguration;
+    };
 export type InferenceConnectorId = string;
 export interface InferenceConnectorSource {
   connectorId: string;
@@ -1534,12 +1542,12 @@ export interface InferenceProviderTargetConfiguration {
   operations?: InferenceOperationConfiguration[] | undefined;
 }
 export type InferenceTargetConfiguration =
-  | { connector: InferenceConnectorTargetConfiguration; provider?: never }
-  | { connector?: never; provider: InferenceProviderTargetConfiguration };
+  | { connector: InferenceConnectorTargetConfiguration; provider?: undefined }
+  | { connector?: undefined; provider: InferenceProviderTargetConfiguration };
 export type TargetConfiguration =
-  | { mcp: McpTargetConfiguration; http?: never; inference?: never }
-  | { mcp?: never; http: HttpTargetConfiguration; inference?: never }
-  | { mcp?: never; http?: never; inference: InferenceTargetConfiguration };
+  | { mcp: McpTargetConfiguration; http?: undefined; inference?: undefined }
+  | { mcp?: undefined; http: HttpTargetConfiguration; inference?: undefined }
+  | { mcp?: undefined; http?: undefined; inference: InferenceTargetConfiguration };
 export type CredentialProviderType =
   | "GATEWAY_IAM_ROLE"
   | "OAUTH"
@@ -1585,17 +1593,17 @@ export interface IamCredentialProvider {
 export type CredentialProvider =
   | {
       oauthCredentialProvider: OAuthCredentialProvider;
-      apiKeyCredentialProvider?: never;
-      iamCredentialProvider?: never;
+      apiKeyCredentialProvider?: undefined;
+      iamCredentialProvider?: undefined;
     }
   | {
-      oauthCredentialProvider?: never;
+      oauthCredentialProvider?: undefined;
       apiKeyCredentialProvider: GatewayApiKeyCredentialProvider;
-      iamCredentialProvider?: never;
+      iamCredentialProvider?: undefined;
     }
   | {
-      oauthCredentialProvider?: never;
-      apiKeyCredentialProvider?: never;
+      oauthCredentialProvider?: undefined;
+      apiKeyCredentialProvider?: undefined;
       iamCredentialProvider: IamCredentialProvider;
     };
 export interface CredentialProviderConfiguration {
@@ -1624,8 +1632,8 @@ export interface SecretsManagerCertificateConfiguration {
   secretArn: string;
 }
 export type CertificateConfiguration =
-  | { s3: S3CertificateConfiguration; secretsManager?: never }
-  | { s3?: never; secretsManager: SecretsManagerCertificateConfiguration };
+  | { s3: S3CertificateConfiguration; secretsManager?: undefined }
+  | { s3?: undefined; secretsManager: SecretsManagerCertificateConfiguration };
 export type CertificateConfigurationList = CertificateConfiguration[];
 export interface CreateGatewayTargetRequest {
   gatewayIdentifier: string;
@@ -1748,26 +1756,26 @@ export interface HarnessLiteLlmModelConfig {
 export type HarnessModelConfiguration =
   | {
       bedrockModelConfig: HarnessBedrockModelConfig;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
+      bedrockModelConfig?: undefined;
       openAiModelConfig: HarnessOpenAiModelConfig;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
       geminiModelConfig: HarnessGeminiModelConfig;
-      liteLlmModelConfig?: never;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
       liteLlmModelConfig: HarnessLiteLlmModelConfig;
     };
 export type SensitiveText = string | redacted.Redacted<string>;
@@ -1794,9 +1802,9 @@ export interface HarnessAgentCoreBrowserConfig {
   browserArn?: string | undefined;
 }
 export type HarnessGatewayOutboundAuth =
-  | { awsIam: Record<string, never>; none?: never; oauth?: never }
-  | { awsIam?: never; none: Record<string, never>; oauth?: never }
-  | { awsIam?: never; none?: never; oauth: OAuthCredentialProvider };
+  | { awsIam: Record<string, never>; none?: undefined; oauth?: undefined }
+  | { awsIam?: undefined; none: Record<string, never>; oauth?: undefined }
+  | { awsIam?: undefined; none?: undefined; oauth: OAuthCredentialProvider };
 export interface HarnessAgentCoreGatewayConfig {
   gatewayArn: string;
   outboundAuth?: HarnessGatewayOutboundAuth | undefined;
@@ -1813,37 +1821,37 @@ export interface HarnessAgentCoreCodeInterpreterConfig {
 export type HarnessToolConfiguration =
   | {
       remoteMcp: HarnessRemoteMcpConfig;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
+      remoteMcp?: undefined;
       agentCoreBrowser: HarnessAgentCoreBrowserConfig;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
       agentCoreGateway: HarnessAgentCoreGatewayConfig;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
       inlineFunction: HarnessInlineFunctionConfig;
-      agentCoreCodeInterpreter?: never;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
       agentCoreCodeInterpreter: HarnessAgentCoreCodeInterpreterConfig;
     };
 export interface HarnessTool {
@@ -1873,10 +1881,10 @@ export interface HarnessSkillAwsSkillsSource {
   paths?: string[] | undefined;
 }
 export type HarnessSkill =
-  | { path: string; s3?: never; git?: never; awsSkills?: never }
-  | { path?: never; s3: HarnessSkillS3Source; git?: never; awsSkills?: never }
-  | { path?: never; s3?: never; git: HarnessSkillGitSource; awsSkills?: never }
-  | { path?: never; s3?: never; git?: never; awsSkills: HarnessSkillAwsSkillsSource };
+  | { path: string; s3?: undefined; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3: HarnessSkillS3Source; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git: HarnessSkillGitSource; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git?: undefined; awsSkills: HarnessSkillAwsSkillsSource };
 export type HarnessSkills = HarnessSkill[];
 export type HarnessAllowedTool = string;
 export type HarnessAllowedTools = string[];
@@ -1914,17 +1922,17 @@ export interface HarnessDisabledMemoryConfiguration {}
 export type HarnessMemoryConfiguration =
   | {
       agentCoreMemoryConfiguration: HarnessAgentCoreMemoryConfiguration;
-      managedMemoryConfiguration?: never;
-      disabled?: never;
+      managedMemoryConfiguration?: undefined;
+      disabled?: undefined;
     }
   | {
-      agentCoreMemoryConfiguration?: never;
+      agentCoreMemoryConfiguration?: undefined;
       managedMemoryConfiguration: HarnessManagedMemoryConfiguration;
-      disabled?: never;
+      disabled?: undefined;
     }
   | {
-      agentCoreMemoryConfiguration?: never;
-      managedMemoryConfiguration?: never;
+      agentCoreMemoryConfiguration?: undefined;
+      managedMemoryConfiguration?: undefined;
       disabled: HarnessDisabledMemoryConfiguration;
     };
 export type HarnessTruncationStrategy = "sliding_window" | "summarization" | "none" | (string & {});
@@ -1937,8 +1945,8 @@ export interface HarnessSummarizationConfiguration {
   summarizationSystemPrompt?: string | undefined;
 }
 export type HarnessTruncationStrategyConfiguration =
-  | { slidingWindow: HarnessSlidingWindowConfiguration; summarization?: never }
-  | { slidingWindow?: never; summarization: HarnessSummarizationConfiguration };
+  | { slidingWindow: HarnessSlidingWindowConfiguration; summarization?: undefined }
+  | { slidingWindow?: undefined; summarization: HarnessSummarizationConfiguration };
 export interface HarnessTruncationConfiguration {
   strategy: HarnessTruncationStrategy;
   config?: HarnessTruncationStrategyConfiguration | undefined;
@@ -1960,9 +1968,9 @@ export interface HarnessHookEventBridgeTarget {
   arn: string;
 }
 export type HarnessHookTarget =
-  | { lambda: HarnessHookLambdaTarget; sns?: never; eventBridge?: never }
-  | { lambda?: never; sns: HarnessHookSnsTarget; eventBridge?: never }
-  | { lambda?: never; sns?: never; eventBridge: HarnessHookEventBridgeTarget };
+  | { lambda: HarnessHookLambdaTarget; sns?: undefined; eventBridge?: undefined }
+  | { lambda?: undefined; sns: HarnessHookSnsTarget; eventBridge?: undefined }
+  | { lambda?: undefined; sns?: undefined; eventBridge: HarnessHookEventBridgeTarget };
 export interface HarnessBeforeInvocationHook {
   name: string;
   target: HarnessHookTarget;
@@ -1982,26 +1990,26 @@ export interface HarnessAfterToolCallHook {
 export type HarnessHook =
   | {
       beforeInvocation: HarnessBeforeInvocationHook;
-      afterInvocation?: never;
-      beforeToolCall?: never;
-      afterToolCall?: never;
+      afterInvocation?: undefined;
+      beforeToolCall?: undefined;
+      afterToolCall?: undefined;
     }
   | {
-      beforeInvocation?: never;
+      beforeInvocation?: undefined;
       afterInvocation: HarnessAfterInvocationHook;
-      beforeToolCall?: never;
-      afterToolCall?: never;
+      beforeToolCall?: undefined;
+      afterToolCall?: undefined;
     }
   | {
-      beforeInvocation?: never;
-      afterInvocation?: never;
+      beforeInvocation?: undefined;
+      afterInvocation?: undefined;
       beforeToolCall: HarnessBeforeToolCallHook;
-      afterToolCall?: never;
+      afterToolCall?: undefined;
     }
   | {
-      beforeInvocation?: never;
-      afterInvocation?: never;
-      beforeToolCall?: never;
+      beforeInvocation?: undefined;
+      afterInvocation?: undefined;
+      beforeToolCall?: undefined;
       afterToolCall: HarnessAfterToolCallHook;
     };
 export type HarnessHooks = HarnessHook[];
@@ -2139,13 +2147,21 @@ export interface NumberValidation {
   maxValue?: number | undefined;
 }
 export type Validation =
-  | { stringValidation: StringValidation; stringListValidation?: never; numberValidation?: never }
   | {
-      stringValidation?: never;
-      stringListValidation: StringListValidation;
-      numberValidation?: never;
+      stringValidation: StringValidation;
+      stringListValidation?: undefined;
+      numberValidation?: undefined;
     }
-  | { stringValidation?: never; stringListValidation?: never; numberValidation: NumberValidation };
+  | {
+      stringValidation?: undefined;
+      stringListValidation: StringListValidation;
+      numberValidation?: undefined;
+    }
+  | {
+      stringValidation?: undefined;
+      stringListValidation?: undefined;
+      numberValidation: NumberValidation;
+    };
 export interface LlmExtractionConfig {
   llmExtractionInstruction?: string | redacted.Redacted<string> | undefined;
   definition: string | redacted.Redacted<string>;
@@ -2165,8 +2181,8 @@ export interface MemoryRecordSchema {
 export type RecordExpiryDurationDays = number;
 export type RecordExpiryAction = "REMOVE" | (string & {});
 export type RecordExpirySpecification =
-  | { recordExpiryDurationDays: number; action?: never }
-  | { recordExpiryDurationDays?: never; action: RecordExpiryAction };
+  | { recordExpiryDurationDays: number; action?: undefined }
+  | { recordExpiryDurationDays?: undefined; action: RecordExpiryAction };
 export interface SemanticMemoryStrategyInput {
   name: string;
   description?: string | redacted.Redacted<string> | undefined;
@@ -2255,17 +2271,17 @@ export interface TimeBasedTriggerInput {
 export type TriggerConditionInput =
   | {
       messageBasedTrigger: MessageBasedTriggerInput;
-      tokenBasedTrigger?: never;
-      timeBasedTrigger?: never;
+      tokenBasedTrigger?: undefined;
+      timeBasedTrigger?: undefined;
     }
   | {
-      messageBasedTrigger?: never;
+      messageBasedTrigger?: undefined;
       tokenBasedTrigger: TokenBasedTriggerInput;
-      timeBasedTrigger?: never;
+      timeBasedTrigger?: undefined;
     }
   | {
-      messageBasedTrigger?: never;
-      tokenBasedTrigger?: never;
+      messageBasedTrigger?: undefined;
+      tokenBasedTrigger?: undefined;
       timeBasedTrigger: TimeBasedTriggerInput;
     };
 export type TriggerConditionInputList = TriggerConditionInput[];
@@ -2281,37 +2297,37 @@ export interface SelfManagedConfigurationInput {
 export type CustomConfigurationInput =
   | {
       semanticOverride: SemanticOverrideConfigurationInput;
-      summaryOverride?: never;
-      userPreferenceOverride?: never;
-      episodicOverride?: never;
-      selfManagedConfiguration?: never;
+      summaryOverride?: undefined;
+      userPreferenceOverride?: undefined;
+      episodicOverride?: undefined;
+      selfManagedConfiguration?: undefined;
     }
   | {
-      semanticOverride?: never;
+      semanticOverride?: undefined;
       summaryOverride: SummaryOverrideConfigurationInput;
-      userPreferenceOverride?: never;
-      episodicOverride?: never;
-      selfManagedConfiguration?: never;
+      userPreferenceOverride?: undefined;
+      episodicOverride?: undefined;
+      selfManagedConfiguration?: undefined;
     }
   | {
-      semanticOverride?: never;
-      summaryOverride?: never;
+      semanticOverride?: undefined;
+      summaryOverride?: undefined;
       userPreferenceOverride: UserPreferenceOverrideConfigurationInput;
-      episodicOverride?: never;
-      selfManagedConfiguration?: never;
+      episodicOverride?: undefined;
+      selfManagedConfiguration?: undefined;
     }
   | {
-      semanticOverride?: never;
-      summaryOverride?: never;
-      userPreferenceOverride?: never;
+      semanticOverride?: undefined;
+      summaryOverride?: undefined;
+      userPreferenceOverride?: undefined;
       episodicOverride: EpisodicOverrideConfigurationInput;
-      selfManagedConfiguration?: never;
+      selfManagedConfiguration?: undefined;
     }
   | {
-      semanticOverride?: never;
-      summaryOverride?: never;
-      userPreferenceOverride?: never;
-      episodicOverride?: never;
+      semanticOverride?: undefined;
+      summaryOverride?: undefined;
+      userPreferenceOverride?: undefined;
+      episodicOverride?: undefined;
       selfManagedConfiguration: SelfManagedConfigurationInput;
     };
 export interface CustomMemoryStrategyInput {
@@ -2340,37 +2356,37 @@ export interface EpisodicMemoryStrategyInput {
 export type MemoryStrategyInput =
   | {
       semanticMemoryStrategy: SemanticMemoryStrategyInput;
-      summaryMemoryStrategy?: never;
-      userPreferenceMemoryStrategy?: never;
-      customMemoryStrategy?: never;
-      episodicMemoryStrategy?: never;
+      summaryMemoryStrategy?: undefined;
+      userPreferenceMemoryStrategy?: undefined;
+      customMemoryStrategy?: undefined;
+      episodicMemoryStrategy?: undefined;
     }
   | {
-      semanticMemoryStrategy?: never;
+      semanticMemoryStrategy?: undefined;
       summaryMemoryStrategy: SummaryMemoryStrategyInput;
-      userPreferenceMemoryStrategy?: never;
-      customMemoryStrategy?: never;
-      episodicMemoryStrategy?: never;
+      userPreferenceMemoryStrategy?: undefined;
+      customMemoryStrategy?: undefined;
+      episodicMemoryStrategy?: undefined;
     }
   | {
-      semanticMemoryStrategy?: never;
-      summaryMemoryStrategy?: never;
+      semanticMemoryStrategy?: undefined;
+      summaryMemoryStrategy?: undefined;
       userPreferenceMemoryStrategy: UserPreferenceMemoryStrategyInput;
-      customMemoryStrategy?: never;
-      episodicMemoryStrategy?: never;
+      customMemoryStrategy?: undefined;
+      episodicMemoryStrategy?: undefined;
     }
   | {
-      semanticMemoryStrategy?: never;
-      summaryMemoryStrategy?: never;
-      userPreferenceMemoryStrategy?: never;
+      semanticMemoryStrategy?: undefined;
+      summaryMemoryStrategy?: undefined;
+      userPreferenceMemoryStrategy?: undefined;
       customMemoryStrategy: CustomMemoryStrategyInput;
-      episodicMemoryStrategy?: never;
+      episodicMemoryStrategy?: undefined;
     }
   | {
-      semanticMemoryStrategy?: never;
-      summaryMemoryStrategy?: never;
-      userPreferenceMemoryStrategy?: never;
-      customMemoryStrategy?: never;
+      semanticMemoryStrategy?: undefined;
+      summaryMemoryStrategy?: undefined;
+      userPreferenceMemoryStrategy?: undefined;
+      customMemoryStrategy?: undefined;
       episodicMemoryStrategy: EpisodicMemoryStrategyInput;
     };
 export type MemoryStrategyInputList = MemoryStrategyInput[];
@@ -2452,17 +2468,17 @@ export interface EpisodicExtractionOverride {
 export type CustomExtractionConfiguration =
   | {
       semanticExtractionOverride: SemanticExtractionOverride;
-      userPreferenceExtractionOverride?: never;
-      episodicExtractionOverride?: never;
+      userPreferenceExtractionOverride?: undefined;
+      episodicExtractionOverride?: undefined;
     }
   | {
-      semanticExtractionOverride?: never;
+      semanticExtractionOverride?: undefined;
       userPreferenceExtractionOverride: UserPreferenceExtractionOverride;
-      episodicExtractionOverride?: never;
+      episodicExtractionOverride?: undefined;
     }
   | {
-      semanticExtractionOverride?: never;
-      userPreferenceExtractionOverride?: never;
+      semanticExtractionOverride?: undefined;
+      userPreferenceExtractionOverride?: undefined;
       episodicExtractionOverride: EpisodicExtractionOverride;
     };
 export type ExtractionConfiguration = {
@@ -2487,26 +2503,26 @@ export interface EpisodicConsolidationOverride {
 export type CustomConsolidationConfiguration =
   | {
       semanticConsolidationOverride: SemanticConsolidationOverride;
-      summaryConsolidationOverride?: never;
-      userPreferenceConsolidationOverride?: never;
-      episodicConsolidationOverride?: never;
+      summaryConsolidationOverride?: undefined;
+      userPreferenceConsolidationOverride?: undefined;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
       summaryConsolidationOverride: SummaryConsolidationOverride;
-      userPreferenceConsolidationOverride?: never;
-      episodicConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: undefined;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
-      summaryConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
+      summaryConsolidationOverride?: undefined;
       userPreferenceConsolidationOverride: UserPreferenceConsolidationOverride;
-      episodicConsolidationOverride?: never;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
-      summaryConsolidationOverride?: never;
-      userPreferenceConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
+      summaryConsolidationOverride?: undefined;
+      userPreferenceConsolidationOverride?: undefined;
       episodicConsolidationOverride: EpisodicConsolidationOverride;
     };
 export type ConsolidationConfiguration = {
@@ -2530,10 +2546,10 @@ export interface EpisodicReflectionConfiguration {
 export type ReflectionConfiguration =
   | {
       customReflectionConfiguration: CustomReflectionConfiguration;
-      episodicReflectionConfiguration?: never;
+      episodicReflectionConfiguration?: undefined;
     }
   | {
-      customReflectionConfiguration?: never;
+      customReflectionConfiguration?: undefined;
       episodicReflectionConfiguration: EpisodicReflectionConfiguration;
     };
 export interface MessageBasedTrigger {
@@ -2548,11 +2564,19 @@ export interface TimeBasedTrigger {
 export type TriggerCondition =
   | {
       messageBasedTrigger: MessageBasedTrigger;
-      tokenBasedTrigger?: never;
-      timeBasedTrigger?: never;
+      tokenBasedTrigger?: undefined;
+      timeBasedTrigger?: undefined;
     }
-  | { messageBasedTrigger?: never; tokenBasedTrigger: TokenBasedTrigger; timeBasedTrigger?: never }
-  | { messageBasedTrigger?: never; tokenBasedTrigger?: never; timeBasedTrigger: TimeBasedTrigger };
+  | {
+      messageBasedTrigger?: undefined;
+      tokenBasedTrigger: TokenBasedTrigger;
+      timeBasedTrigger?: undefined;
+    }
+  | {
+      messageBasedTrigger?: undefined;
+      tokenBasedTrigger?: undefined;
+      timeBasedTrigger: TimeBasedTrigger;
+    };
 export type TriggerConditionsList = TriggerCondition[];
 export interface InvocationConfiguration {
   topicArn: string;
@@ -2657,8 +2681,8 @@ export interface Oauth2AuthorizationServerMetadata {
   tokenEndpointAuthMethods?: string[] | undefined;
 }
 export type Oauth2Discovery =
-  | { discoveryUrl: string; authorizationServerMetadata?: never }
-  | { discoveryUrl?: never; authorizationServerMetadata: Oauth2AuthorizationServerMetadata };
+  | { discoveryUrl: string; authorizationServerMetadata?: undefined }
+  | { discoveryUrl?: undefined; authorizationServerMetadata: Oauth2AuthorizationServerMetadata };
 export type DefaultClientIdType = string;
 export type DefaultClientSecretType = string | redacted.Redacted<string>;
 export type OnBehalfOfTokenExchangeGrantTypeType =
@@ -2769,101 +2793,101 @@ export interface IncludedOauth2ProviderConfigInput {
 export type Oauth2ProviderConfigInput =
   | {
       customOauth2ProviderConfig: CustomOauth2ProviderConfigInput;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
       googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
       githubOauth2ProviderConfig: GithubOauth2ProviderConfigInput;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
       slackOauth2ProviderConfig: SlackOauth2ProviderConfigInput;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
       salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigInput;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
       microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigInput;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
       atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigInput;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
       linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigInput;
-      includedOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
       includedOauth2ProviderConfig: IncludedOauth2ProviderConfigInput;
     };
 export interface CreateOauth2CredentialProviderRequest {
@@ -2917,101 +2941,101 @@ export interface IncludedOauth2ProviderConfigOutput {
 export type Oauth2ProviderConfigOutput =
   | {
       customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
       googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
       githubOauth2ProviderConfig: GithubOauth2ProviderConfigOutput;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
       slackOauth2ProviderConfig: SlackOauth2ProviderConfigOutput;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
       salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigOutput;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
       microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigOutput;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
       atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigOutput;
-      linkedinOauth2ProviderConfig?: never;
-      includedOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: undefined;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
       linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigOutput;
-      includedOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: undefined;
     }
   | {
-      customOauth2ProviderConfig?: never;
-      googleOauth2ProviderConfig?: never;
-      githubOauth2ProviderConfig?: never;
-      slackOauth2ProviderConfig?: never;
-      salesforceOauth2ProviderConfig?: never;
-      microsoftOauth2ProviderConfig?: never;
-      atlassianOauth2ProviderConfig?: never;
-      linkedinOauth2ProviderConfig?: never;
+      customOauth2ProviderConfig?: undefined;
+      googleOauth2ProviderConfig?: undefined;
+      githubOauth2ProviderConfig?: undefined;
+      slackOauth2ProviderConfig?: undefined;
+      salesforceOauth2ProviderConfig?: undefined;
+      microsoftOauth2ProviderConfig?: undefined;
+      atlassianOauth2ProviderConfig?: undefined;
+      linkedinOauth2ProviderConfig?: undefined;
       includedOauth2ProviderConfig: IncludedOauth2ProviderConfigOutput;
     };
 export type Status =
@@ -3050,9 +3074,9 @@ export type FilterOperator =
   | "NotContains"
   | (string & {});
 export type FilterValue =
-  | { stringValue: string; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; doubleValue: number; booleanValue?: never }
-  | { stringValue?: never; doubleValue?: never; booleanValue: boolean };
+  | { stringValue: string; doubleValue?: undefined; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue: number; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue?: undefined; booleanValue: boolean };
 export interface Filter {
   key: string;
   operator: FilterOperator;
@@ -3146,8 +3170,8 @@ export interface PaymentCredentialProviderConfiguration {
   credentialProviderArn: string;
 }
 export type CredentialsProviderConfiguration =
-  | { coinbaseCDP: PaymentCredentialProviderConfiguration; stripePrivy?: never }
-  | { coinbaseCDP?: never; stripePrivy: PaymentCredentialProviderConfiguration };
+  | { coinbaseCDP: PaymentCredentialProviderConfiguration; stripePrivy?: undefined }
+  | { coinbaseCDP?: undefined; stripePrivy: PaymentCredentialProviderConfiguration };
 export type CredentialsProviderConfigurations = CredentialsProviderConfiguration[];
 export type PaymentConnectorProvisionMode = "MANUAL" | "QUICK_CREATE" | (string & {});
 export interface CreatePaymentConnectorRequest {
@@ -3213,8 +3237,14 @@ export interface StripePrivyConfigurationInput {
   authorizationId: string;
 }
 export type PaymentProviderConfigurationInput =
-  | { coinbaseCdpConfiguration: CoinbaseCdpConfigurationInput; stripePrivyConfiguration?: never }
-  | { coinbaseCdpConfiguration?: never; stripePrivyConfiguration: StripePrivyConfigurationInput };
+  | {
+      coinbaseCdpConfiguration: CoinbaseCdpConfigurationInput;
+      stripePrivyConfiguration?: undefined;
+    }
+  | {
+      coinbaseCdpConfiguration?: undefined;
+      stripePrivyConfiguration: StripePrivyConfigurationInput;
+    };
 export interface CreatePaymentCredentialProviderRequest {
   name: string;
   credentialProviderVendor: PaymentCredentialProviderVendorType;
@@ -3242,8 +3272,14 @@ export interface StripePrivyConfigurationOutput {
   authorizationId: string;
 }
 export type PaymentProviderConfigurationOutput =
-  | { coinbaseCdpConfiguration: CoinbaseCdpConfigurationOutput; stripePrivyConfiguration?: never }
-  | { coinbaseCdpConfiguration?: never; stripePrivyConfiguration: StripePrivyConfigurationOutput };
+  | {
+      coinbaseCdpConfiguration: CoinbaseCdpConfigurationOutput;
+      stripePrivyConfiguration?: undefined;
+    }
+  | {
+      coinbaseCdpConfiguration?: undefined;
+      stripePrivyConfiguration: StripePrivyConfigurationOutput;
+    };
 export interface CreatePaymentCredentialProviderResponse {
   name: string;
   credentialProviderVendor: PaymentCredentialProviderVendorType;
@@ -3299,9 +3335,9 @@ export interface PolicyStatement {
   statement: string;
 }
 export type PolicyDefinition =
-  | { cedar: CedarPolicy; policyGeneration?: never; policy?: never }
-  | { cedar?: never; policyGeneration: PolicyGenerationDetails; policy?: never }
-  | { cedar?: never; policyGeneration?: never; policy: PolicyStatement };
+  | { cedar: CedarPolicy; policyGeneration?: undefined; policy?: undefined }
+  | { cedar?: undefined; policyGeneration: PolicyGenerationDetails; policy?: undefined }
+  | { cedar?: undefined; policyGeneration?: undefined; policy: PolicyStatement };
 export type PolicyValidationMode = "FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS" | (string & {});
 export type EnforcementMode = "ACTIVE" | "LOG_ONLY" | (string & {});
 export interface CreatePolicyRequest {
@@ -3452,9 +3488,12 @@ export interface RegistryRecordIamCredentialProvider {
 export type RegistryRecordCredentialProviderUnion =
   | {
       oauthCredentialProvider: RegistryRecordOAuthCredentialProvider;
-      iamCredentialProvider?: never;
+      iamCredentialProvider?: undefined;
     }
-  | { oauthCredentialProvider?: never; iamCredentialProvider: RegistryRecordIamCredentialProvider };
+  | {
+      oauthCredentialProvider?: undefined;
+      iamCredentialProvider: RegistryRecordIamCredentialProvider;
+    };
 export interface RegistryRecordCredentialProviderConfiguration {
   credentialProviderType: RegistryRecordCredentialProviderType;
   credentialProvider: RegistryRecordCredentialProviderUnion;
@@ -5544,17 +5583,17 @@ export interface UpdateHarnessEndpointResponse {
 export type CustomExtractionConfigurationInput =
   | {
       semanticExtractionOverride: SemanticOverrideExtractionConfigurationInput;
-      userPreferenceExtractionOverride?: never;
-      episodicExtractionOverride?: never;
+      userPreferenceExtractionOverride?: undefined;
+      episodicExtractionOverride?: undefined;
     }
   | {
-      semanticExtractionOverride?: never;
+      semanticExtractionOverride?: undefined;
       userPreferenceExtractionOverride: UserPreferenceOverrideExtractionConfigurationInput;
-      episodicExtractionOverride?: never;
+      episodicExtractionOverride?: undefined;
     }
   | {
-      semanticExtractionOverride?: never;
-      userPreferenceExtractionOverride?: never;
+      semanticExtractionOverride?: undefined;
+      userPreferenceExtractionOverride?: undefined;
       episodicExtractionOverride: EpisodicOverrideExtractionConfigurationInput;
     };
 export type ModifyExtractionConfiguration = {
@@ -5563,26 +5602,26 @@ export type ModifyExtractionConfiguration = {
 export type CustomConsolidationConfigurationInput =
   | {
       semanticConsolidationOverride: SemanticOverrideConsolidationConfigurationInput;
-      summaryConsolidationOverride?: never;
-      userPreferenceConsolidationOverride?: never;
-      episodicConsolidationOverride?: never;
+      summaryConsolidationOverride?: undefined;
+      userPreferenceConsolidationOverride?: undefined;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
       summaryConsolidationOverride: SummaryOverrideConsolidationConfigurationInput;
-      userPreferenceConsolidationOverride?: never;
-      episodicConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: undefined;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
-      summaryConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
+      summaryConsolidationOverride?: undefined;
       userPreferenceConsolidationOverride: UserPreferenceOverrideConsolidationConfigurationInput;
-      episodicConsolidationOverride?: never;
+      episodicConsolidationOverride?: undefined;
     }
   | {
-      semanticConsolidationOverride?: never;
-      summaryConsolidationOverride?: never;
-      userPreferenceConsolidationOverride?: never;
+      semanticConsolidationOverride?: undefined;
+      summaryConsolidationOverride?: undefined;
+      userPreferenceConsolidationOverride?: undefined;
       episodicConsolidationOverride: EpisodicOverrideConsolidationConfigurationInput;
     };
 export type ModifyConsolidationConfiguration = {
@@ -5594,10 +5633,10 @@ export type CustomReflectionConfigurationInput = {
 export type ModifyReflectionConfiguration =
   | {
       episodicReflectionConfiguration: EpisodicReflectionConfigurationInput;
-      customReflectionConfiguration?: never;
+      customReflectionConfiguration?: undefined;
     }
   | {
-      episodicReflectionConfiguration?: never;
+      episodicReflectionConfiguration?: undefined;
       customReflectionConfiguration: CustomReflectionConfigurationInput;
     };
 export interface ModifyInvocationConfigurationInput {

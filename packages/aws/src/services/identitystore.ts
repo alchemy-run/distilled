@@ -373,8 +373,8 @@ export interface UniqueAttribute {
   AttributeValue: any;
 }
 export type AlternateIdentifier =
-  | { ExternalId: ExternalId; UniqueAttribute?: never }
-  | { ExternalId?: never; UniqueAttribute: UniqueAttribute };
+  | { ExternalId: ExternalId; UniqueAttribute?: undefined }
+  | { ExternalId?: undefined; UniqueAttribute: UniqueAttribute };
 export interface GetGroupIdRequest {
   IdentityStoreId: string;
   AlternateIdentifier: AlternateIdentifier;

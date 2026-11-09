@@ -264,9 +264,21 @@ export interface PrometheusDirectQueryDataSource {
   WorkspaceArn: string;
 }
 export type DirectQueryDataSourceType =
-  | { CloudWatchLog: CloudWatchDirectQueryDataSource; SecurityLake?: never; Prometheus?: never }
-  | { CloudWatchLog?: never; SecurityLake: SecurityLakeDirectQueryDataSource; Prometheus?: never }
-  | { CloudWatchLog?: never; SecurityLake?: never; Prometheus: PrometheusDirectQueryDataSource };
+  | {
+      CloudWatchLog: CloudWatchDirectQueryDataSource;
+      SecurityLake?: undefined;
+      Prometheus?: undefined;
+    }
+  | {
+      CloudWatchLog?: undefined;
+      SecurityLake: SecurityLakeDirectQueryDataSource;
+      Prometheus?: undefined;
+    }
+  | {
+      CloudWatchLog?: undefined;
+      SecurityLake?: undefined;
+      Prometheus: PrometheusDirectQueryDataSource;
+    };
 export type DirectQueryDataSourceDescription = string;
 export type ARN = string;
 export type DirectQueryOpenSearchARNList = string[];

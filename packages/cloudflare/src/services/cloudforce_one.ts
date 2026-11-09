@@ -218,7 +218,7 @@ export interface CreateRequestAssetResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RequestsAssetsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateRequestMessageRequest {
   /** Identifier. */
@@ -2166,7 +2166,7 @@ export interface GetRequestMessageResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RequestsMessageGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetRequestPriorityRequest {
   /** Identifier. */
@@ -2747,7 +2747,7 @@ export interface ListScanConfigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ScansConfigListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ThreatEventsAttackersListRequestDatasetIdsList = Array<string>;
 export interface ListThreatEventAttackersRequest {

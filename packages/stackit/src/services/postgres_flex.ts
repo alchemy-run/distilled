@@ -74,7 +74,7 @@ export class UnprocessableEntity
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
 export interface CloneInstanceOverrides {
   class: string;
-  name?: string;
+  name?: string | undefined;
   size: number;
 }
 export interface CloneInstanceRequest {
@@ -99,7 +99,7 @@ export interface CreateDatabaseRequest {
   /** The ID of the instance. */
   instanceId: string;
   name: string;
-  owner?: string;
+  owner?: string | undefined;
 }
 export interface CreateDatabaseResponse {
   id: number;
@@ -123,7 +123,7 @@ export type InstanceNetworkAccessScope = "PUBLIC" | "SNA";
 export type Acl = Array<string>;
 /** The access configuration of the instance */
 export interface InstanceNetworkCreate {
-  accessScope?: InstanceNetworkAccessScope | (string & {});
+  accessScope?: InstanceNetworkAccessScope | (string & {}) | undefined;
   acl: Acl;
 }
 /** The object containing information about the storage size and class. */
@@ -137,9 +137,9 @@ export interface CreateInstanceRequest {
   /** The region which should be addressed */
   region: CreateInstanceRequestRegion | (string & {});
   backupSchedule: string;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetworkCreate;
   retentionDays: number | null;
@@ -161,7 +161,7 @@ export interface CreateUserRequest {
   instanceId: string;
   name: string;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
-  roles?: CreateUserRequestRolesList;
+  roles?: CreateUserRequestRolesList | undefined;
 }
 export interface CreateUserResponse {
   id: number;
@@ -260,26 +260,26 @@ export interface InstanceConnectionInfo {
 }
 /** The access configuration of the instance */
 export interface InstanceNetwork {
-  accessScope?: InstanceNetworkAccessScope;
+  accessScope?: InstanceNetworkAccessScope | undefined;
   acl: Acl;
-  instanceAddress?: string;
-  routerAddress?: string;
+  instanceAddress?: string | undefined;
+  routerAddress?: string | undefined;
 }
 /** The current state of the instance. */
 export type State = "READY" | "PENDING" | "PROGRESSING" | "FAILURE" | "UNKNOWN" | "TERMINATING";
 /** The object containing information about the storage size and class. */
 export interface Storage {
-  class?: string;
-  size?: number;
+  class?: string | undefined;
+  size?: number | undefined;
 }
 export interface GetInstanceResponse {
   backupSchedule: string;
   connectionInfo: InstanceConnectionInfo;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
   id: string;
   isDeletable: boolean;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetwork;
   retentionDays: number | null;
@@ -329,11 +329,11 @@ export interface ListBackupsRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the backups to be returned on each page. */
-  sort?: BackupSort | (string & {});
+  sort?: BackupSort | (string & {}) | undefined;
 }
 /** The list containing the information about the backups. */
 export type ListBackupsResponseBackupsList = Array<BackupData>;
@@ -382,11 +382,11 @@ export interface ListDatabasesRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the databases to be returned on each page. */
-  sort?: DatabaseSort | (string & {});
+  sort?: DatabaseSort | (string & {}) | undefined;
 }
 export interface ListDatabase {
   id: number;
@@ -424,11 +424,11 @@ export interface ListFlavorsRequest {
   /** The region which should be addressed */
   region: ListFlavorsRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the flavors to be returned on each page. */
-  sort?: FlavorSort | (string & {});
+  sort?: FlavorSort | (string & {}) | undefined;
 }
 /** a storageClass defines how efficient the storage can work */
 export interface FlavorStorageClassesStorageClass {
@@ -472,11 +472,11 @@ export interface ListInstancesRequest {
   /** The region which should be addressed */
   region: ListInstancesRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the items to be returned on each page. */
-  sort?: InstanceSort | (string & {});
+  sort?: InstanceSort | (string & {}) | undefined;
 }
 export interface ListInstance {
   id: string;
@@ -516,11 +516,11 @@ export interface ListUsersRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the users to be returned on each page. */
-  sort?: UserSort | (string & {});
+  sort?: UserSort | (string & {}) | undefined;
 }
 export interface ListUser {
   id: number;
@@ -568,8 +568,8 @@ export interface PartialUpdateDatabaseRequest {
   instanceId: string;
   /** The ID of the database. */
   databaseId: number;
-  name?: string;
-  owner?: string;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 export interface PartialUpdateDatabaseResponse {}
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
@@ -577,11 +577,11 @@ export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
 export type AclOpt = Array<string>;
 /** The access configuration of the instance */
 export interface InstanceNetworkOpt {
-  acl?: AclOpt;
+  acl?: AclOpt | undefined;
 }
 /** The object containing information about the storage size and class. */
 export interface StorageUpdate {
-  size?: number;
+  size?: number | undefined;
 }
 export interface PartialUpdateInstanceRequest {
   /** The STACKIT project ID. */
@@ -590,14 +590,14 @@ export interface PartialUpdateInstanceRequest {
   region: PartialUpdateInstanceRequestRegion | (string & {});
   /** The ID of the instance. */
   instanceId: string;
-  backupSchedule?: string;
-  flavorId?: string;
-  labels?: Labels;
-  name?: string;
-  network?: InstanceNetworkOpt;
-  retentionDays?: number;
-  storage?: StorageUpdate;
-  version?: string;
+  backupSchedule?: string | undefined;
+  flavorId?: string | undefined;
+  labels?: Labels | undefined;
+  name?: string | undefined;
+  network?: InstanceNetworkOpt | undefined;
+  retentionDays?: number | undefined;
+  storage?: StorageUpdate | undefined;
+  version?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
@@ -612,9 +612,9 @@ export interface PartialUpdateUserRequest {
   instanceId: string;
   /** The ID of the user. */
   userId: number;
-  name?: string;
+  name?: string | undefined;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
-  roles?: PartialUpdateUserRequestRolesList;
+  roles?: PartialUpdateUserRequestRolesList | undefined;
 }
 export interface PartialUpdateUserResponse {}
 export type ResetUserPasswordRequestRegion = "eu01" | "eu02";
@@ -661,7 +661,7 @@ export interface UpdateInstanceRequest {
   instanceId: string;
   backupSchedule: string;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetworkUpdate;
   retentionDays: number | null;
@@ -694,7 +694,7 @@ export interface UpdateUserRequest {
   instanceId: string;
   /** The ID of the user. */
   userId: number;
-  name?: string;
+  name?: string | undefined;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
   roles: UpdateUserRequestRolesList;
 }

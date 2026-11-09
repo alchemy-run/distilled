@@ -20596,7 +20596,7 @@ export interface ListPhasVersionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesetSummaryList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPhasVersionsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -20616,7 +20616,7 @@ export interface ListRulesetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesetSummaryList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRulesetsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -20636,7 +20636,7 @@ export interface ListVersionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesetSummaryList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListVersionsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

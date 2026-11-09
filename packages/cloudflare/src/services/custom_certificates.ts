@@ -343,7 +343,7 @@ export interface ListCustomCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type EditRequestBundleMethod = "ubiquitous" | "optimal" | "force";
 export type EditRequestDeploy = "staging" | "production";
@@ -520,7 +520,7 @@ export interface PutPrioritizeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrioritizeUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateCustomCertificateError = PlanLevelNotAllowed | Forbidden | CloudflareOpError;
 /** Upload a new SSL certificate for a zone. */

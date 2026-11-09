@@ -193,9 +193,9 @@ export interface AccountSummary {
   Name: string;
 }
 export type Participant =
-  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: never; Account?: never }
-  | { PartnerProfile?: never; SellerProfile: SellerProfileSummary; Account?: never }
-  | { PartnerProfile?: never; SellerProfile?: never; Account: AccountSummary };
+  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: undefined; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile: SellerProfileSummary; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile?: undefined; Account: AccountSummary };
 export interface ConnectionTypeDetail {
   CreatedAt: Date;
   InviterEmail: string;
@@ -653,10 +653,10 @@ export interface RegistrantVerificationResponse {
 export type VerificationResponseDetails =
   | {
       BusinessVerificationResponse: BusinessVerificationResponse;
-      RegistrantVerificationResponse?: never;
+      RegistrantVerificationResponse?: undefined;
     }
   | {
-      BusinessVerificationResponse?: never;
+      BusinessVerificationResponse?: undefined;
       RegistrantVerificationResponse: RegistrantVerificationResponse;
     };
 export interface GetVerificationResponse {
@@ -850,10 +850,10 @@ export interface RegistrantVerificationDetails {}
 export type VerificationDetails =
   | {
       BusinessVerificationDetails: BusinessVerificationDetails;
-      RegistrantVerificationDetails?: never;
+      RegistrantVerificationDetails?: undefined;
     }
   | {
-      BusinessVerificationDetails?: never;
+      BusinessVerificationDetails?: undefined;
       RegistrantVerificationDetails: RegistrantVerificationDetails;
     };
 export interface StartVerificationRequest {
@@ -973,8 +973,8 @@ export interface BusinessValidationError {
   Code: BusinessValidationCode;
 }
 export type ValidationError =
-  | { FieldValidationError: FieldValidationError; BusinessValidationError?: never }
-  | { FieldValidationError?: never; BusinessValidationError: BusinessValidationError };
+  | { FieldValidationError: FieldValidationError; BusinessValidationError?: undefined }
+  | { FieldValidationError?: undefined; BusinessValidationError: BusinessValidationError };
 export type ValidationErrorList = ValidationError[];
 export type AcceptConnectionInvitationError =
   | AccessDeniedException

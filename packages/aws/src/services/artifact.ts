@@ -212,8 +212,8 @@ export interface InquiryFileContent {
   content: Uint8Array;
 }
 export type InquiryContent =
-  | { query: string; fileContent?: never }
-  | { query?: never; fileContent: InquiryFileContent };
+  | { query: string; fileContent?: undefined }
+  | { query?: undefined; fileContent: InquiryFileContent };
 export type IdempotentClientToken = string;
 export type InquirySupportMode = "AI_ONLY" | "FULL_SUPPORT" | (string & {});
 export type TagKey = string;

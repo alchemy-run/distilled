@@ -160,7 +160,7 @@ export interface ListAuthorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AuthorsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListFinetunePublicsRequest {
   accountId: string;
@@ -185,7 +185,7 @@ export interface ListFinetunePublicsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: FinetunesPublicListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListFinetunesRequest {
   accountId: string;
@@ -229,7 +229,7 @@ export interface ListTasksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TasksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type RunRequestTextTextEmbeddingsCase1List = Array<string>;
 export type RunRequestTextTextEmbeddings = string | RunRequestTextTextEmbeddingsCase1List;
@@ -555,7 +555,7 @@ export interface SupportedToMarkdownResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ToMarkdownSupportedResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ToMarkdownTransformRequestFileFilesList = Array<string>;
 export interface ToMarkdownTransformRequestFile {

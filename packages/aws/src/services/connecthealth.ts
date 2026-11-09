@@ -277,8 +277,8 @@ export interface CustomTemplateResponse {
   templateType?: CustomTemplateBase | undefined;
 }
 export type NoteTemplateSettingsResponse =
-  | { managedTemplate: ManagedTemplateResponse; customTemplate?: never }
-  | { managedTemplate?: never; customTemplate: CustomTemplateResponse };
+  | { managedTemplate: ManagedTemplateResponse; customTemplate?: undefined }
+  | { managedTemplate?: undefined; customTemplate: CustomTemplateResponse };
 export interface ClinicalNoteGenerationSettingsResponse {
   noteTemplateSettings?: NoteTemplateSettingsResponse | undefined;
 }
@@ -460,8 +460,8 @@ export interface CustomTemplate {
   templateInstructions: TemplateSectionInstruction[];
 }
 export type NoteTemplateSettings =
-  | { managedTemplate: ManagedTemplate; customTemplate?: never }
-  | { managedTemplate?: never; customTemplate: CustomTemplate };
+  | { managedTemplate: ManagedTemplate; customTemplate?: undefined }
+  | { managedTemplate?: undefined; customTemplate: CustomTemplate };
 export interface ClinicalNoteGenerationSettings {
   noteTemplateSettings: NoteTemplateSettings;
 }
@@ -480,26 +480,26 @@ export interface MedicalScribeConfigurationEvent {
 export type MedicalScribeInputStream =
   | {
       audioEvent: MedicalScribeAudioEvent;
-      binaryAudioEvent?: never;
-      sessionControlEvent?: never;
-      configurationEvent?: never;
+      binaryAudioEvent?: undefined;
+      sessionControlEvent?: undefined;
+      configurationEvent?: undefined;
     }
   | {
-      audioEvent?: never;
+      audioEvent?: undefined;
       binaryAudioEvent: MedicalScribeBinaryAudioEvent;
-      sessionControlEvent?: never;
-      configurationEvent?: never;
+      sessionControlEvent?: undefined;
+      configurationEvent?: undefined;
     }
   | {
-      audioEvent?: never;
-      binaryAudioEvent?: never;
+      audioEvent?: undefined;
+      binaryAudioEvent?: undefined;
       sessionControlEvent: MedicalScribeSessionControlEvent;
-      configurationEvent?: never;
+      configurationEvent?: undefined;
     }
   | {
-      audioEvent?: never;
-      binaryAudioEvent?: never;
-      sessionControlEvent?: never;
+      audioEvent?: undefined;
+      binaryAudioEvent?: undefined;
+      sessionControlEvent?: undefined;
       configurationEvent: MedicalScribeConfigurationEvent;
     };
 export interface StartMedicalScribeListeningSessionInput {
@@ -527,17 +527,17 @@ export interface MedicalScribeTranscriptEvent {
 export type MedicalScribeOutputStream =
   | {
       transcriptEvent: MedicalScribeTranscriptEvent;
-      internalFailureException?: never;
-      validationException?: never;
+      internalFailureException?: undefined;
+      validationException?: undefined;
     }
   | {
-      transcriptEvent?: never;
+      transcriptEvent?: undefined;
       internalFailureException: InternalServerException;
-      validationException?: never;
+      validationException?: undefined;
     }
   | {
-      transcriptEvent?: never;
-      internalFailureException?: never;
+      transcriptEvent?: undefined;
+      internalFailureException?: undefined;
       validationException: ValidationException;
     };
 export interface StartMedicalScribeListeningSessionOutput {

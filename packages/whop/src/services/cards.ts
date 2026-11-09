@@ -65,21 +65,21 @@ export class NotFound
 export type CreateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
 export interface CreateCardRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts, and whenever a company API key files an account's first card application. */
-  assigned_user_id?: string;
+  assigned_user_id?: string | undefined;
   /** A display name for the card. */
-  name?: string;
+  name?: string | undefined;
   /** Spending limit amount, in dollars. */
-  spend_limit?: number;
+  spend_limit?: number | undefined;
   /** The window the spend limit applies to. */
-  spend_limit_frequency?: CreateCardRequestSpendLimitFrequency | (string & {});
+  spend_limit_frequency?: CreateCardRequestSpendLimitFrequency | (string & {}) | undefined;
   /** Per-transaction limit amount, in dollars. */
-  transaction_limit?: number;
+  transaction_limit?: number | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The billing address. */
 export interface CreateCardResponseBilling {
@@ -147,7 +147,7 @@ export interface CreateCardResponse {
   name: string | null;
   object: CreateCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -161,9 +161,9 @@ export interface GetCardRequest {
   /** Card ID to retrieve, prefixed `icrd_`. */
   id: string;
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type GetCardResponseBilling = CreateCardResponseBilling;
@@ -209,7 +209,7 @@ export interface GetCardResponse {
   name: string | null;
   object: GetCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -223,7 +223,7 @@ export interface GetCardTransactionRequest {
   /** The card transaction ID, prefixed `citx_`. */
   id: string;
   /** The account that owns the transaction, prefixed `biz_`. Defaults to the credential's account. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 /** Current status of the transaction. */
 export type CardTransactionStatus = "pending" | "completed" | "reversed" | "declined";
@@ -267,9 +267,9 @@ export interface CardTransaction {
 }
 export interface ListCardsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type ListCardsResponseDataItemBilling = CreateCardResponseBilling;
@@ -320,7 +320,7 @@ export interface ListCardsResponseDataItem {
   name: string | null;
   object: ListCardsResponseDataItemObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -342,31 +342,31 @@ export type ListCardTransactionsRequestOrder = "created_at";
 export type ListCardTransactionsRequestDirection = "asc" | "desc";
 export interface ListCardTransactionsRequest {
   /** The account whose card transactions to list, prefixed `biz_`. Defaults to the credential's account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Return only these card transactions, each prefixed `citx_`. Repeat the parameter, or pass one comma-separated value. */
-  transaction_ids?: ListCardTransactionsRequestTransactionIdsList;
+  transaction_ids?: ListCardTransactionsRequestTransactionIdsList | undefined;
   /** Return only transactions charged to these cards, each prefixed `icrd_`. */
-  card_id?: ListCardTransactionsRequestCardIdList;
+  card_id?: ListCardTransactionsRequestCardIdList | undefined;
   /** Return only transactions on cards assigned to these users, each prefixed `user_`. */
-  cardholder_id?: ListCardTransactionsRequestCardholderIdList;
+  cardholder_id?: ListCardTransactionsRequestCardholderIdList | undefined;
   /** Return only transactions with this status. */
-  status?: ListCardTransactionsRequestStatus | (string & {});
+  status?: ListCardTransactionsRequestStatus | (string & {}) | undefined;
   /** Return only transactions authorized at or after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Return only transactions authorized at or before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** The field to sort by. Defaults to `created_at`. */
-  order?: ListCardTransactionsRequestOrder | (string & {});
+  order?: ListCardTransactionsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to `desc`. */
-  direction?: ListCardTransactionsRequestDirection | (string & {});
+  direction?: ListCardTransactionsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListCardTransactionsResponseDataList = Array<CardTransaction>;
 export interface ListCardTransactionsResponsePageInfo {
@@ -388,22 +388,22 @@ export interface UpdateCardRequestBilling {
   /** Street address line 1. */
   line1: string;
   /** Street address line 2. */
-  line2?: string;
+  line2?: string | undefined;
   /** Billing postal code. */
   postal_code: string;
   /** Billing region or state. Required when updating an issued card's billing address. */
-  region?: string;
+  region?: string | undefined;
 }
 /** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
 export interface UpdateCardRequestCardholder {
   /** Email address for the invited cardholder. */
-  email?: string;
+  email?: string | undefined;
   /** Legal first name of the invited cardholder. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Legal last name of the invited cardholder. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Phone number for the invited cardholder. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** The window the spend limit applies to. */
 export type UpdateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
@@ -411,29 +411,29 @@ export interface UpdateCardRequest {
   /** Card ID to retrieve, prefixed `icrd_`. */
   id: string;
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning. */
-  billing?: UpdateCardRequestBilling;
+  billing?: UpdateCardRequestBilling | undefined;
   /** Pass `true` to permanently cancel the card. A canceled card cannot be uncanceled. Cannot be combined with other fields. */
-  canceled?: boolean;
+  canceled?: boolean | undefined;
   /** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
-  cardholder?: UpdateCardRequestCardholder;
+  cardholder?: UpdateCardRequestCardholder | undefined;
   /** Pass `true` to freeze the card, `false` to unfreeze it. The assigned cardholder may freeze their own card without the payout:account:update scope. */
-  frozen?: boolean;
+  frozen?: boolean | undefined;
   /** A display name for the card. */
-  name?: string;
+  name?: string | undefined;
   /** New 4-digit PIN. Can only be set on a card assigned to the acting user, who may set it without the payout:account:update scope. */
-  pin?: string;
+  pin?: string | undefined;
   /** Pass `true` to remove the spending limit (make the card unlimited). */
-  remove_limit?: boolean;
+  remove_limit?: boolean | undefined;
   /** Spending limit amount, in dollars. */
-  spend_limit?: number;
+  spend_limit?: number | undefined;
   /** The window the spend limit applies to. */
-  spend_limit_frequency?: UpdateCardRequestSpendLimitFrequency | (string & {});
+  spend_limit_frequency?: UpdateCardRequestSpendLimitFrequency | (string & {}) | undefined;
   /** Per-transaction limit amount, in dollars. */
-  transaction_limit?: number;
+  transaction_limit?: number | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type UpdateCardResponseBilling = CreateCardResponseBilling;
@@ -479,7 +479,7 @@ export interface UpdateCardResponse {
   name: string | null;
   object: UpdateCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */

@@ -53,7 +53,7 @@ export interface AddItemRequest {
   slug: string;
   id: string;
   item: AddItemRequestItem;
-  note?: string;
+  note?: string | undefined;
 }
 export interface AddItemResponseGatingCase1Case1 {
   mode: string;
@@ -61,7 +61,7 @@ export interface AddItemResponseGatingCase1Case1 {
 export type AddItemResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface AddItemResponseGatingCase1Case2Notifications {
   mode: AddItemResponseGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface AddItemResponseGatingCase1Case2 {
   mode: string;
@@ -82,10 +82,10 @@ export interface AddItemResponseOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemResponseOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemResponseOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemResponseOwnerCase1PrimaryOrgPlan = "team" | "enterprise" | "plus" | "academia";
 export type AddItemResponseOwnerCase1PrimaryOrgUserRole =
@@ -100,12 +100,12 @@ export interface AddItemResponseOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemResponseOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemResponseOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemResponseOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -116,11 +116,11 @@ export interface AddItemResponseOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemResponseOwnerCase1PrimaryOrg | undefined;
 }
 export type AddItemResponseOwner = AddItemResponseOwnerCase0 | AddItemResponseOwnerCase1;
 export type AddItemResponseTheme = "orange" | "blue" | "green" | "purple" | "pink" | "indigo";
@@ -128,7 +128,7 @@ export interface AddItemResponseResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseItemsItemCase0Note {
   html: string;
@@ -195,23 +195,23 @@ export type AddItemResponseItemsItemCase0Gated = boolean | AddItemResponseItemsI
 export type AddItemResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface AddItemResponseItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: AddItemResponseItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: AddItemResponseItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: AddItemResponseItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type AddItemResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -304,7 +304,7 @@ export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "other"
   | "conversational";
 export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures {
-  toolCalling?: boolean;
+  toolCalling?: boolean | undefined;
 }
 export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
@@ -312,15 +312,15 @@ export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItem {
   modelStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type AddItemResponseItemsItemCase1AvailableInferenceProvidersList =
   Array<AddItemResponseItemsItemCase1AvailableInferenceProvidersItem>;
@@ -341,10 +341,10 @@ export interface AddItemResponseItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemResponseItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemResponseItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -363,12 +363,12 @@ export interface AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -379,11 +379,11 @@ export interface AddItemResponseItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type AddItemResponseItemsItemCase1AuthorData =
   | AddItemResponseItemsItemCase1AuthorDataCase0
@@ -391,8 +391,8 @@ export type AddItemResponseItemsItemCase1AuthorData =
 export type AddItemResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface AddItemResponseItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -401,15 +401,15 @@ export interface AddItemResponseItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: AddItemResponseItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: AddItemResponseItemsItemCase1AuthorData;
-  widgetOutputUrls?: AddItemResponseItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: AddItemResponseItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: AddItemResponseItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type AddItemResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -495,7 +495,7 @@ export interface AddItemResponseItemsItemCase2RuntimeHardware {
 }
 export type AddItemResponseItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface AddItemResponseItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: AddItemResponseItemsItemCase2RuntimeReplicasRequested;
 }
 export type AddItemResponseItemsItemCase2RuntimeDomainsItemStage =
@@ -506,7 +506,7 @@ export type AddItemResponseItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface AddItemResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: AddItemResponseItemsItemCase2RuntimeDomainsItemStage;
 }
 export type AddItemResponseItemsItemCase2RuntimeDomainsList =
@@ -522,13 +522,13 @@ export interface AddItemResponseItemsItemCase2RuntimeHotReloading {
 export interface AddItemResponseItemsItemCase2Runtime {
   stage: AddItemResponseItemsItemCase2RuntimeStage;
   hardware: AddItemResponseItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: AddItemResponseItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: AddItemResponseItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: AddItemResponseItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: AddItemResponseItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: AddItemResponseItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -544,10 +544,10 @@ export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -566,12 +566,12 @@ export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -582,11 +582,11 @@ export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg | undefined;
 }
 export type AddItemResponseItemsItemCase2OriginRepoAuthor =
   | AddItemResponseItemsItemCase2OriginRepoAuthorCase0
@@ -611,10 +611,10 @@ export interface AddItemResponseItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemResponseItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemResponseItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -633,12 +633,12 @@ export interface AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -649,11 +649,11 @@ export interface AddItemResponseItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type AddItemResponseItemsItemCase2AuthorData =
   | AddItemResponseItemsItemCase2AuthorDataCase0
@@ -661,8 +661,8 @@ export type AddItemResponseItemsItemCase2AuthorData =
 export type AddItemResponseItemsItemCase2Visibility = "public" | "private" | "protected";
 export interface AddItemResponseItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -677,18 +677,18 @@ export interface AddItemResponseItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: AddItemResponseItemsItemCase2Sdk;
+  sdk?: AddItemResponseItemsItemCase2Sdk | undefined;
   runtime: AddItemResponseItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: AddItemResponseItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: AddItemResponseItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: AddItemResponseItemsItemCase2TagsList;
-  authorData?: AddItemResponseItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: AddItemResponseItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: AddItemResponseItemsItemCase2Visibility;
   type: string;
@@ -697,15 +697,15 @@ export type AddItemResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Not
 export type AddItemResponseItemsItemCase3GalleryList = Array<string>;
 export interface AddItemResponseItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type AddItemResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -724,10 +724,10 @@ export interface AddItemResponseItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemResponseItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemResponseItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -746,12 +746,12 @@ export interface AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemResponseItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -762,11 +762,11 @@ export interface AddItemResponseItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type AddItemResponseItemsItemCase4Owner =
   | AddItemResponseItemsItemCase4OwnerCase0
@@ -780,12 +780,12 @@ export type AddItemResponseItemsItemCase4Theme =
   | "indigo";
 export interface AddItemResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: AddItemResponseItemsItemCase4Owner;
   title: string;
   theme: AddItemResponseItemsItemCase4Theme;
@@ -802,7 +802,7 @@ export type AddItemResponseItemsItemCase5RepoType = "bucket" | "container";
 export type AddItemResponseItemsItemCase5AdminTagsList = Array<string>;
 export interface AddItemResponseItemsItemCase5Disabled {
   reason: string;
-  hideReadme?: boolean;
+  hideReadme?: boolean | undefined;
 }
 export type AddItemResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
 export type AddItemResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
@@ -815,14 +815,14 @@ export type AddItemResponseItemsItemCase5CdnRegionsList =
 export type AddItemResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface AddItemResponseItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemResponseItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemResponseItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -831,10 +831,10 @@ export interface AddItemResponseItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: AddItemResponseItemsItemCase5RepoType;
-  adminTags?: AddItemResponseItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: AddItemResponseItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: AddItemResponseItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type AddItemResponseItemsItem =
@@ -848,7 +848,7 @@ export type AddItemResponseItemsList = Array<AddItemResponseItemsItem>;
 export interface AddItemResponse {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: AddItemResponseGating;
   owner: AddItemResponseOwner;
@@ -858,7 +858,7 @@ export interface AddItemResponse {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: AddItemResponseItemsList;
 }
 export type AddItemBySlugRequestItemType =
@@ -876,13 +876,13 @@ export interface AddItemBySlugRequest {
   namespace: string;
   slug: string;
   item: AddItemBySlugRequestItem;
-  note?: string;
+  note?: string | undefined;
 }
 export type AddItemBySlugResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export type AddItemBySlugResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface AddItemBySlugResponseGatingCase1Case2Notifications {
   mode: AddItemBySlugResponseGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface AddItemBySlugResponseGatingCase1Case2 {
   mode: string;
@@ -903,10 +903,10 @@ export interface AddItemBySlugResponseOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemBySlugResponseOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemBySlugResponseOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemBySlugResponseOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -925,12 +925,12 @@ export interface AddItemBySlugResponseOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemBySlugResponseOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemBySlugResponseOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemBySlugResponseOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemBySlugResponseOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -941,11 +941,11 @@ export interface AddItemBySlugResponseOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemBySlugResponseOwnerCase1PrimaryOrg | undefined;
 }
 export type AddItemBySlugResponseOwner =
   | AddItemBySlugResponseOwnerCase0
@@ -1016,23 +1016,23 @@ export type AddItemBySlugResponseItemsItemCase0Gated =
 export type AddItemBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface AddItemBySlugResponseItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: AddItemBySlugResponseItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: AddItemBySlugResponseItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: AddItemBySlugResponseItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type AddItemBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -1132,15 +1132,15 @@ export interface AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersI
   modelStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
   Array<AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
@@ -1163,10 +1163,10 @@ export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -1185,12 +1185,12 @@ export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1201,11 +1201,11 @@ export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase1AuthorData =
   | AddItemBySlugResponseItemsItemCase1AuthorDataCase0
@@ -1213,8 +1213,8 @@ export type AddItemBySlugResponseItemsItemCase1AuthorData =
 export type AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface AddItemBySlugResponseItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -1223,15 +1223,15 @@ export interface AddItemBySlugResponseItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: AddItemBySlugResponseItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: AddItemBySlugResponseItemsItemCase1AuthorData;
-  widgetOutputUrls?: AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: AddItemBySlugResponseItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type AddItemBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -1317,7 +1317,7 @@ export interface AddItemBySlugResponseItemsItemCase2RuntimeHardware {
 }
 export type AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface AddItemBySlugResponseItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested;
 }
 export type AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
@@ -1328,7 +1328,7 @@ export type AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage;
 }
 export type AddItemBySlugResponseItemsItemCase2RuntimeDomainsList =
@@ -1344,13 +1344,13 @@ export interface AddItemBySlugResponseItemsItemCase2RuntimeHotReloading {
 export interface AddItemBySlugResponseItemsItemCase2Runtime {
   stage: AddItemBySlugResponseItemsItemCase2RuntimeStage;
   hardware: AddItemBySlugResponseItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: AddItemBySlugResponseItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: AddItemBySlugResponseItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: AddItemBySlugResponseItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: AddItemBySlugResponseItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: AddItemBySlugResponseItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -1366,10 +1366,10 @@ export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -1388,12 +1388,12 @@ export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1404,11 +1404,11 @@ export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthor =
   | AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0
@@ -1433,10 +1433,10 @@ export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -1455,12 +1455,12 @@ export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1471,11 +1471,11 @@ export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase2AuthorData =
   | AddItemBySlugResponseItemsItemCase2AuthorDataCase0
@@ -1483,8 +1483,8 @@ export type AddItemBySlugResponseItemsItemCase2AuthorData =
 export type AddItemBySlugResponseItemsItemCase2Visibility = "public" | "private" | "protected";
 export interface AddItemBySlugResponseItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -1499,18 +1499,18 @@ export interface AddItemBySlugResponseItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: AddItemBySlugResponseItemsItemCase2Sdk;
+  sdk?: AddItemBySlugResponseItemsItemCase2Sdk | undefined;
   runtime: AddItemBySlugResponseItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: AddItemBySlugResponseItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: AddItemBySlugResponseItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: AddItemBySlugResponseItemsItemCase2TagsList;
-  authorData?: AddItemBySlugResponseItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: AddItemBySlugResponseItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: AddItemBySlugResponseItemsItemCase2Visibility;
   type: string;
@@ -1519,15 +1519,15 @@ export type AddItemBySlugResponseItemsItemCase3Note = AddItemResponseItemsItemCa
 export type AddItemBySlugResponseItemsItemCase3GalleryList = Array<string>;
 export interface AddItemBySlugResponseItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type AddItemBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -1546,10 +1546,10 @@ export interface AddItemBySlugResponseItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -1568,12 +1568,12 @@ export interface AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface AddItemBySlugResponseItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1584,11 +1584,11 @@ export interface AddItemBySlugResponseItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type AddItemBySlugResponseItemsItemCase4Owner =
   | AddItemBySlugResponseItemsItemCase4OwnerCase0
@@ -1602,12 +1602,12 @@ export type AddItemBySlugResponseItemsItemCase4Theme =
   | "indigo";
 export interface AddItemBySlugResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: AddItemBySlugResponseItemsItemCase4Owner;
   title: string;
   theme: AddItemBySlugResponseItemsItemCase4Theme;
@@ -1634,14 +1634,14 @@ export type AddItemBySlugResponseItemsItemCase5CdnRegionsList =
 export type AddItemBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface AddItemBySlugResponseItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: AddItemBySlugResponseItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: AddItemBySlugResponseItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -1650,10 +1650,10 @@ export interface AddItemBySlugResponseItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: AddItemBySlugResponseItemsItemCase5RepoType;
-  adminTags?: AddItemBySlugResponseItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: AddItemBySlugResponseItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: AddItemBySlugResponseItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type AddItemBySlugResponseItemsItem =
@@ -1667,7 +1667,7 @@ export type AddItemBySlugResponseItemsList = Array<AddItemBySlugResponseItemsIte
 export interface AddItemBySlugResponse {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: AddItemBySlugResponseGating;
   owner: AddItemBySlugResponseOwner;
@@ -1677,15 +1677,15 @@ export interface AddItemBySlugResponse {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: AddItemBySlugResponseItemsList;
 }
 export type BatchUpdateItemsRequestBodyItemAction = "update";
 export type BatchUpdateItemsRequestBodyItemDataGalleryList = Array<string>;
 export interface BatchUpdateItemsRequestBodyItemData {
-  gallery?: BatchUpdateItemsRequestBodyItemDataGalleryList;
-  note?: string;
-  position?: number;
+  gallery?: BatchUpdateItemsRequestBodyItemDataGalleryList | undefined;
+  note?: string | undefined;
+  position?: number | undefined;
 }
 export interface BatchUpdateItemsRequestBodyItem {
   action: BatchUpdateItemsRequestBodyItemAction | (string & {});
@@ -1697,15 +1697,15 @@ export interface BatchUpdateItemsRequest {
   namespace: string;
   slug: string;
   id: string;
-  body?: BatchUpdateItemsRequestBodyList;
+  body?: BatchUpdateItemsRequestBodyList | undefined;
 }
 export interface BatchUpdateItemsResponse {}
 export type BatchUpdateItemsBySlugRequestBodyItemAction = "update";
 export type BatchUpdateItemsBySlugRequestBodyItemDataGalleryList = Array<string>;
 export interface BatchUpdateItemsBySlugRequestBodyItemData {
-  gallery?: BatchUpdateItemsBySlugRequestBodyItemDataGalleryList;
-  note?: string;
-  position?: number;
+  gallery?: BatchUpdateItemsBySlugRequestBodyItemDataGalleryList | undefined;
+  note?: string | undefined;
+  position?: number | undefined;
 }
 export interface BatchUpdateItemsBySlugRequestBodyItem {
   action: BatchUpdateItemsBySlugRequestBodyItemAction | (string & {});
@@ -1716,7 +1716,7 @@ export type BatchUpdateItemsBySlugRequestBodyList = Array<BatchUpdateItemsBySlug
 export interface BatchUpdateItemsBySlugRequest {
   namespace: string;
   slug: string;
-  body?: BatchUpdateItemsBySlugRequestBodyList;
+  body?: BatchUpdateItemsBySlugRequestBodyList | undefined;
 }
 export interface BatchUpdateItemsBySlugResponse {}
 export type CreateCollectionRequestItemType =
@@ -1732,19 +1732,19 @@ export interface CreateCollectionRequestItem {
 }
 export interface CreateCollectionRequest {
   title: string;
-  description?: string;
+  description?: string | undefined;
   namespace: string;
-  item?: CreateCollectionRequestItem;
+  item?: CreateCollectionRequestItem | undefined;
   /** If not provided, the collection will be public. This field will respect the organization's visibility setting. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Assign the collection to a resource group of the owning organization. Only valid for organization-owned collections. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
 }
 export type CreateCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export type CreateCollectionResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface CreateCollectionResponseGatingCase1Case2Notifications {
   mode: CreateCollectionResponseGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface CreateCollectionResponseGatingCase1Case2 {
   mode: string;
@@ -1765,10 +1765,10 @@ export interface CreateCollectionResponseOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCollectionResponseOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCollectionResponseOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCollectionResponseOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -1787,12 +1787,12 @@ export interface CreateCollectionResponseOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCollectionResponseOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCollectionResponseOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateCollectionResponseOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCollectionResponseOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -1803,11 +1803,11 @@ export interface CreateCollectionResponseOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCollectionResponseOwnerCase1PrimaryOrg | undefined;
 }
 export type CreateCollectionResponseOwner =
   | CreateCollectionResponseOwnerCase0
@@ -1884,23 +1884,23 @@ export type CreateCollectionResponseItemsItemCase0Gated =
 export type CreateCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface CreateCollectionResponseItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: CreateCollectionResponseItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: CreateCollectionResponseItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: CreateCollectionResponseItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type CreateCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -2000,15 +2000,15 @@ export interface CreateCollectionResponseItemsItemCase1AvailableInferenceProvide
   modelStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
   Array<CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
@@ -2031,10 +2031,10 @@ export interface CreateCollectionResponseItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -2053,12 +2053,12 @@ export interface CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCollectionResponseItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2069,11 +2069,11 @@ export interface CreateCollectionResponseItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type CreateCollectionResponseItemsItemCase1AuthorData =
   | CreateCollectionResponseItemsItemCase1AuthorDataCase0
@@ -2081,8 +2081,8 @@ export type CreateCollectionResponseItemsItemCase1AuthorData =
 export type CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface CreateCollectionResponseItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -2091,15 +2091,15 @@ export interface CreateCollectionResponseItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: CreateCollectionResponseItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: CreateCollectionResponseItemsItemCase1AuthorData;
-  widgetOutputUrls?: CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: CreateCollectionResponseItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type CreateCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -2189,7 +2189,7 @@ export interface CreateCollectionResponseItemsItemCase2RuntimeHardware {
 }
 export type CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface CreateCollectionResponseItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested;
 }
 export type CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
@@ -2200,7 +2200,7 @@ export type CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface CreateCollectionResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage;
 }
 export type CreateCollectionResponseItemsItemCase2RuntimeDomainsList =
@@ -2216,13 +2216,13 @@ export interface CreateCollectionResponseItemsItemCase2RuntimeHotReloading {
 export interface CreateCollectionResponseItemsItemCase2Runtime {
   stage: CreateCollectionResponseItemsItemCase2RuntimeStage;
   hardware: CreateCollectionResponseItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: CreateCollectionResponseItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: CreateCollectionResponseItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: CreateCollectionResponseItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: CreateCollectionResponseItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: CreateCollectionResponseItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -2238,10 +2238,10 @@ export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -2260,12 +2260,14 @@ export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1Prim
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2276,11 +2278,11 @@ export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg | undefined;
 }
 export type CreateCollectionResponseItemsItemCase2OriginRepoAuthor =
   | CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0
@@ -2305,10 +2307,10 @@ export interface CreateCollectionResponseItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -2327,12 +2329,12 @@ export interface CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCollectionResponseItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2343,11 +2345,11 @@ export interface CreateCollectionResponseItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type CreateCollectionResponseItemsItemCase2AuthorData =
   | CreateCollectionResponseItemsItemCase2AuthorDataCase0
@@ -2355,8 +2357,8 @@ export type CreateCollectionResponseItemsItemCase2AuthorData =
 export type CreateCollectionResponseItemsItemCase2Visibility = "public" | "private" | "protected";
 export interface CreateCollectionResponseItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -2371,18 +2373,18 @@ export interface CreateCollectionResponseItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: CreateCollectionResponseItemsItemCase2Sdk;
+  sdk?: CreateCollectionResponseItemsItemCase2Sdk | undefined;
   runtime: CreateCollectionResponseItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: CreateCollectionResponseItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: CreateCollectionResponseItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: CreateCollectionResponseItemsItemCase2TagsList;
-  authorData?: CreateCollectionResponseItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: CreateCollectionResponseItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: CreateCollectionResponseItemsItemCase2Visibility;
   type: string;
@@ -2391,15 +2393,15 @@ export type CreateCollectionResponseItemsItemCase3Note = AddItemResponseItemsIte
 export type CreateCollectionResponseItemsItemCase3GalleryList = Array<string>;
 export interface CreateCollectionResponseItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type CreateCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -2418,10 +2420,10 @@ export interface CreateCollectionResponseItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: CreateCollectionResponseItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: CreateCollectionResponseItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -2440,12 +2442,12 @@ export interface CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface CreateCollectionResponseItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2456,11 +2458,11 @@ export interface CreateCollectionResponseItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type CreateCollectionResponseItemsItemCase4Owner =
   | CreateCollectionResponseItemsItemCase4OwnerCase0
@@ -2474,12 +2476,12 @@ export type CreateCollectionResponseItemsItemCase4Theme =
   | "indigo";
 export interface CreateCollectionResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: CreateCollectionResponseItemsItemCase4Owner;
   title: string;
   theme: CreateCollectionResponseItemsItemCase4Theme;
@@ -2506,14 +2508,14 @@ export type CreateCollectionResponseItemsItemCase5CdnRegionsList =
 export type CreateCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface CreateCollectionResponseItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: CreateCollectionResponseItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: CreateCollectionResponseItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -2522,10 +2524,10 @@ export interface CreateCollectionResponseItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: CreateCollectionResponseItemsItemCase5RepoType;
-  adminTags?: CreateCollectionResponseItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: CreateCollectionResponseItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: CreateCollectionResponseItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type CreateCollectionResponseItemsItem =
@@ -2539,7 +2541,7 @@ export type CreateCollectionResponseItemsList = Array<CreateCollectionResponseIt
 export interface CreateCollectionResponse {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: CreateCollectionResponseGating;
   owner: CreateCollectionResponseOwner;
@@ -2549,7 +2551,7 @@ export interface CreateCollectionResponse {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: CreateCollectionResponseItemsList;
 }
 export interface DeleteCollectionRequest {
@@ -2584,7 +2586,7 @@ export type GetCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Ca
 export type GetCollectionResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface GetCollectionResponseGatingCase1Case2Notifications {
   mode: GetCollectionResponseGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetCollectionResponseGatingCase1Case2 {
   mode: string;
@@ -2605,10 +2607,10 @@ export interface GetCollectionResponseOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionResponseOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionResponseOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionResponseOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -2627,12 +2629,12 @@ export interface GetCollectionResponseOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionResponseOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionResponseOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionResponseOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResponseOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2643,11 +2645,11 @@ export interface GetCollectionResponseOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionResponseOwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionResponseOwner =
   | GetCollectionResponseOwnerCase0
@@ -2718,23 +2720,23 @@ export type GetCollectionResponseItemsItemCase0Gated =
 export type GetCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface GetCollectionResponseItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: GetCollectionResponseItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: GetCollectionResponseItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: GetCollectionResponseItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type GetCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -2834,15 +2836,15 @@ export interface GetCollectionResponseItemsItemCase1AvailableInferenceProvidersI
   modelStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
   Array<GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
@@ -2865,10 +2867,10 @@ export interface GetCollectionResponseItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -2887,12 +2889,12 @@ export interface GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResponseItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -2903,11 +2905,11 @@ export interface GetCollectionResponseItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetCollectionResponseItemsItemCase1AuthorData =
   | GetCollectionResponseItemsItemCase1AuthorDataCase0
@@ -2915,8 +2917,8 @@ export type GetCollectionResponseItemsItemCase1AuthorData =
 export type GetCollectionResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface GetCollectionResponseItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -2925,15 +2927,15 @@ export interface GetCollectionResponseItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: GetCollectionResponseItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: GetCollectionResponseItemsItemCase1AuthorData;
-  widgetOutputUrls?: GetCollectionResponseItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: GetCollectionResponseItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: GetCollectionResponseItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type GetCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -3019,7 +3021,7 @@ export interface GetCollectionResponseItemsItemCase2RuntimeHardware {
 }
 export type GetCollectionResponseItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface GetCollectionResponseItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: GetCollectionResponseItemsItemCase2RuntimeReplicasRequested;
 }
 export type GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
@@ -3030,7 +3032,7 @@ export type GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface GetCollectionResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage;
 }
 export type GetCollectionResponseItemsItemCase2RuntimeDomainsList =
@@ -3046,13 +3048,13 @@ export interface GetCollectionResponseItemsItemCase2RuntimeHotReloading {
 export interface GetCollectionResponseItemsItemCase2Runtime {
   stage: GetCollectionResponseItemsItemCase2RuntimeStage;
   hardware: GetCollectionResponseItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: GetCollectionResponseItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: GetCollectionResponseItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: GetCollectionResponseItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: GetCollectionResponseItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: GetCollectionResponseItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -3068,10 +3070,10 @@ export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -3090,12 +3092,12 @@ export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3106,11 +3108,11 @@ export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg | undefined;
 }
 export type GetCollectionResponseItemsItemCase2OriginRepoAuthor =
   | GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0
@@ -3135,10 +3137,10 @@ export interface GetCollectionResponseItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -3157,12 +3159,12 @@ export interface GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResponseItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3173,11 +3175,11 @@ export interface GetCollectionResponseItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetCollectionResponseItemsItemCase2AuthorData =
   | GetCollectionResponseItemsItemCase2AuthorDataCase0
@@ -3185,8 +3187,8 @@ export type GetCollectionResponseItemsItemCase2AuthorData =
 export type GetCollectionResponseItemsItemCase2Visibility = "public" | "private" | "protected";
 export interface GetCollectionResponseItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -3201,18 +3203,18 @@ export interface GetCollectionResponseItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: GetCollectionResponseItemsItemCase2Sdk;
+  sdk?: GetCollectionResponseItemsItemCase2Sdk | undefined;
   runtime: GetCollectionResponseItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: GetCollectionResponseItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: GetCollectionResponseItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: GetCollectionResponseItemsItemCase2TagsList;
-  authorData?: GetCollectionResponseItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: GetCollectionResponseItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: GetCollectionResponseItemsItemCase2Visibility;
   type: string;
@@ -3221,15 +3223,15 @@ export type GetCollectionResponseItemsItemCase3Note = AddItemResponseItemsItemCa
 export type GetCollectionResponseItemsItemCase3GalleryList = Array<string>;
 export interface GetCollectionResponseItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type GetCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -3248,10 +3250,10 @@ export interface GetCollectionResponseItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionResponseItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionResponseItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -3270,12 +3272,12 @@ export interface GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResponseItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3286,11 +3288,11 @@ export interface GetCollectionResponseItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionResponseItemsItemCase4Owner =
   | GetCollectionResponseItemsItemCase4OwnerCase0
@@ -3304,12 +3306,12 @@ export type GetCollectionResponseItemsItemCase4Theme =
   | "indigo";
 export interface GetCollectionResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: GetCollectionResponseItemsItemCase4Owner;
   title: string;
   theme: GetCollectionResponseItemsItemCase4Theme;
@@ -3336,14 +3338,14 @@ export type GetCollectionResponseItemsItemCase5CdnRegionsList =
 export type GetCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface GetCollectionResponseItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionResponseItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionResponseItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -3352,10 +3354,10 @@ export interface GetCollectionResponseItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: GetCollectionResponseItemsItemCase5RepoType;
-  adminTags?: GetCollectionResponseItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: GetCollectionResponseItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: GetCollectionResponseItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type GetCollectionResponseItemsItem =
@@ -3369,7 +3371,7 @@ export type GetCollectionResponseItemsList = Array<GetCollectionResponseItemsIte
 export interface GetCollectionResponse {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: GetCollectionResponseGating;
   owner: GetCollectionResponseOwner;
@@ -3379,7 +3381,7 @@ export interface GetCollectionResponse {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: GetCollectionResponseItemsList;
 }
 export interface GetCollectionBySlugRequest {
@@ -3390,7 +3392,7 @@ export type GetCollectionBySlugResponseGatingCase1Case1 = AddItemResponseGatingC
 export type GetCollectionBySlugResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface GetCollectionBySlugResponseGatingCase1Case2Notifications {
   mode: GetCollectionBySlugResponseGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetCollectionBySlugResponseGatingCase1Case2 {
   mode: string;
@@ -3411,10 +3413,10 @@ export interface GetCollectionBySlugResponseOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionBySlugResponseOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionBySlugResponseOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -3433,12 +3435,12 @@ export interface GetCollectionBySlugResponseOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionBySlugResponseOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionBySlugResponseOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionBySlugResponseOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3449,11 +3451,11 @@ export interface GetCollectionBySlugResponseOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionBySlugResponseOwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionBySlugResponseOwner =
   | GetCollectionBySlugResponseOwnerCase0
@@ -3530,23 +3532,23 @@ export type GetCollectionBySlugResponseItemsItemCase0Gated =
 export type GetCollectionBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface GetCollectionBySlugResponseItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: GetCollectionBySlugResponseItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type GetCollectionBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -3646,15 +3648,15 @@ export interface GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProv
   modelStatus: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
   Array<GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
@@ -3677,10 +3679,10 @@ export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -3699,12 +3701,12 @@ export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3715,11 +3717,11 @@ export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase1AuthorData =
   | GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0
@@ -3727,8 +3729,8 @@ export type GetCollectionBySlugResponseItemsItemCase1AuthorData =
 export type GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface GetCollectionBySlugResponseItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -3737,15 +3739,15 @@ export interface GetCollectionBySlugResponseItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: GetCollectionBySlugResponseItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: GetCollectionBySlugResponseItemsItemCase1AuthorData;
-  widgetOutputUrls?: GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: GetCollectionBySlugResponseItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type GetCollectionBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -3835,7 +3837,7 @@ export interface GetCollectionBySlugResponseItemsItemCase2RuntimeHardware {
 }
 export type GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested;
 }
 export type GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
@@ -3846,7 +3848,7 @@ export type GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage;
 }
 export type GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList =
@@ -3862,13 +3864,13 @@ export interface GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading {
 export interface GetCollectionBySlugResponseItemsItemCase2Runtime {
   stage: GetCollectionBySlugResponseItemsItemCase2RuntimeStage;
   hardware: GetCollectionBySlugResponseItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -3884,10 +3886,10 @@ export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0 
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -3906,12 +3908,14 @@ export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1P
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3922,11 +3926,11 @@ export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1 
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor =
   | GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0
@@ -3951,10 +3955,10 @@ export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -3973,12 +3977,12 @@ export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1Primary
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -3989,11 +3993,11 @@ export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase2AuthorData =
   | GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0
@@ -4004,8 +4008,8 @@ export type GetCollectionBySlugResponseItemsItemCase2Visibility =
   | "protected";
 export interface GetCollectionBySlugResponseItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -4020,18 +4024,18 @@ export interface GetCollectionBySlugResponseItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: GetCollectionBySlugResponseItemsItemCase2Sdk;
+  sdk?: GetCollectionBySlugResponseItemsItemCase2Sdk | undefined;
   runtime: GetCollectionBySlugResponseItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: GetCollectionBySlugResponseItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: GetCollectionBySlugResponseItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: GetCollectionBySlugResponseItemsItemCase2TagsList;
-  authorData?: GetCollectionBySlugResponseItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: GetCollectionBySlugResponseItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: GetCollectionBySlugResponseItemsItemCase2Visibility;
   type: string;
@@ -4040,15 +4044,15 @@ export type GetCollectionBySlugResponseItemsItemCase3Note = AddItemResponseItems
 export type GetCollectionBySlugResponseItemsItemCase3GalleryList = Array<string>;
 export interface GetCollectionBySlugResponseItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type GetCollectionBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -4067,10 +4071,10 @@ export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -4089,12 +4093,12 @@ export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4105,11 +4109,11 @@ export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionBySlugResponseItemsItemCase4Owner =
   | GetCollectionBySlugResponseItemsItemCase4OwnerCase0
@@ -4123,12 +4127,12 @@ export type GetCollectionBySlugResponseItemsItemCase4Theme =
   | "indigo";
 export interface GetCollectionBySlugResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: GetCollectionBySlugResponseItemsItemCase4Owner;
   title: string;
   theme: GetCollectionBySlugResponseItemsItemCase4Theme;
@@ -4156,14 +4160,14 @@ export type GetCollectionBySlugResponseItemsItemCase5CdnRegionsList =
 export type GetCollectionBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface GetCollectionBySlugResponseItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionBySlugResponseItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionBySlugResponseItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -4172,10 +4176,10 @@ export interface GetCollectionBySlugResponseItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: GetCollectionBySlugResponseItemsItemCase5RepoType;
-  adminTags?: GetCollectionBySlugResponseItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: GetCollectionBySlugResponseItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: GetCollectionBySlugResponseItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type GetCollectionBySlugResponseItemsItem =
@@ -4189,7 +4193,7 @@ export type GetCollectionBySlugResponseItemsList = Array<GetCollectionBySlugResp
 export interface GetCollectionBySlugResponse {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: GetCollectionBySlugResponseGating;
   owner: GetCollectionBySlugResponseOwner;
@@ -4199,7 +4203,7 @@ export interface GetCollectionBySlugResponse {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: GetCollectionBySlugResponseItemsList;
 }
 export interface GetCollectionResourceGroupRequest {
@@ -4211,7 +4215,7 @@ export interface GetCollectionResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionResourceGroupBySlugRequest {
   namespace: string;
@@ -4221,7 +4225,7 @@ export interface GetCollectionResourceGroupBySlugResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export type GetCollectionsRequestItemCase0List = Array<string>;
 export type GetCollectionsRequestItem = GetCollectionsRequestItemCase0List | string;
@@ -4233,13 +4237,13 @@ export type GetCollectionsRequestOwner =
   | GetCollectionsRequestOwnerCase2Map;
 export type GetCollectionsRequestSort = "upvotes" | "lastModified" | "trending";
 export interface GetCollectionsRequest {
-  item?: GetCollectionsRequestItem;
-  owner?: GetCollectionsRequestOwner;
-  q?: string;
-  sort?: GetCollectionsRequestSort | (string & {});
-  cursor?: string;
-  expand?: string;
-  limit?: number;
+  item?: GetCollectionsRequestItem | undefined;
+  owner?: GetCollectionsRequestOwner | undefined;
+  q?: string | undefined;
+  sort?: GetCollectionsRequestSort | (string & {}) | undefined;
+  cursor?: string | undefined;
+  expand?: string | undefined;
+  limit?: number | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2NotificationsMode =
@@ -4247,7 +4251,7 @@ export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2NotificationsMode
   | "real-time";
 export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications {
   mode: GetCollectionsResponseBodyCase0ItemGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case2 {
   mode: string;
@@ -4274,10 +4278,10 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionsResponseBodyCase0ItemOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -4296,12 +4300,12 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4312,11 +4316,11 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemOwner =
   | GetCollectionsResponseBodyCase0ItemOwnerCase0
@@ -4395,23 +4399,25 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase0ResourceGroup =
   AddItemResponseResourceGroup;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo
+    | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1Note =
@@ -4512,15 +4518,15 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInfer
   modelStatus: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList =
   Array<GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem>;
@@ -4544,10 +4550,10 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -4566,12 +4572,14 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4582,11 +4590,13 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg
+    | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData =
   | GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0
@@ -4594,8 +4604,8 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData =
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -4604,15 +4614,17 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData;
-  widgetOutputUrls?: GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList
+    | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2Note =
@@ -4705,7 +4717,7 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequ
   | number
   | string;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage =
@@ -4716,7 +4728,7 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemS
   | "MISCONFIGURED";
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList =
@@ -4732,13 +4744,13 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotRelo
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime {
   stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeStage;
   hardware: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -4754,10 +4766,10 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuth
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -4776,12 +4788,16 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuth
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4792,11 +4808,13 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuth
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor =
   | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0
@@ -4822,10 +4840,10 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -4844,12 +4862,14 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4860,11 +4880,13 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg
+    | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData =
   | GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0
@@ -4875,8 +4897,8 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility =
   | "protected";
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -4891,18 +4913,18 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk;
+  sdk?: GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk | undefined;
   runtime: GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList;
-  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility;
   type: string;
@@ -4912,15 +4934,15 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase3Note =
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList = Array<string>;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Note =
@@ -4940,10 +4962,10 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -4962,12 +4984,14 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1Prim
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -4978,11 +5002,11 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner =
   | GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0
@@ -4996,12 +5020,12 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme =
   | "indigo";
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner;
   title: string;
   theme: GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme;
@@ -5031,14 +5055,14 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase5ResourceGroup =
   AddItemResponseResourceGroup;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -5047,10 +5071,10 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: GetCollectionsResponseBodyCase0ItemItemsItemCase5RepoType;
-  adminTags?: GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type GetCollectionsResponseBodyCase0ItemItemsItem =
@@ -5065,7 +5089,7 @@ export type GetCollectionsResponseBodyCase0ItemItemsList =
 export interface GetCollectionsResponseBodyCase0Item {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: GetCollectionsResponseBodyCase0ItemGating;
   owner: GetCollectionsResponseBodyCase0ItemOwner;
@@ -5073,7 +5097,7 @@ export interface GetCollectionsResponseBodyCase0Item {
   private: boolean;
   upvotes: number;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: GetCollectionsResponseBodyCase0ItemItemsList;
 }
 export type GetCollectionsResponseBodyCase0List = Array<GetCollectionsResponseBodyCase0Item>;
@@ -5082,7 +5106,7 @@ export interface GetCollectionsResponseBodyCase1Item {
   title: string;
   private: boolean;
   upvotes: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   name: string;
 }
 export type GetCollectionsResponseBodyCase1List = Array<GetCollectionsResponseBodyCase1Item>;
@@ -5128,7 +5152,7 @@ export type UpdateCollectionRequestGatingCase1 = AddItemResponseGatingCase1Case1
 export type UpdateCollectionRequestGatingCase2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionRequestGatingCase2Notifications {
   mode: UpdateCollectionRequestGatingCase2NotificationsMode | (string & {});
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateCollectionRequestGatingCase2 {
   mode: string;
@@ -5142,18 +5166,18 @@ export interface UpdateCollectionRequest {
   namespace: string;
   slug: string;
   id: string;
-  position?: number;
-  private?: boolean;
-  theme?: UpdateCollectionRequestTheme | (string & {});
-  title?: string;
-  description?: string;
-  gating?: UpdateCollectionRequestGating;
+  position?: number | undefined;
+  private?: boolean | undefined;
+  theme?: UpdateCollectionRequestTheme | (string & {}) | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  gating?: UpdateCollectionRequestGating | undefined;
 }
 export type UpdateCollectionResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export type UpdateCollectionResponseDataGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionResponseDataGatingCase1Case2Notifications {
   mode: UpdateCollectionResponseDataGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateCollectionResponseDataGatingCase1Case2 {
   mode: string;
@@ -5178,10 +5202,10 @@ export interface UpdateCollectionResponseDataOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionResponseDataOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionResponseDataOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -5200,12 +5224,12 @@ export interface UpdateCollectionResponseDataOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionResponseDataOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: UpdateCollectionResponseDataOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionResponseDataOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -5216,11 +5240,11 @@ export interface UpdateCollectionResponseDataOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionResponseDataOwnerCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionResponseDataOwner =
   | UpdateCollectionResponseDataOwnerCase0
@@ -5297,23 +5321,23 @@ export type UpdateCollectionResponseDataItemsItemCase0Gated =
 export type UpdateCollectionResponseDataItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 export interface UpdateCollectionResponseDataItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: UpdateCollectionResponseDataItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionResponseDataItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
@@ -5413,15 +5437,15 @@ export interface UpdateCollectionResponseDataItemsItemCase1AvailableInferencePro
   modelStatus: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList =
   Array<UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
@@ -5444,10 +5468,10 @@ export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -5466,12 +5490,14 @@ export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1Primar
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -5482,11 +5508,11 @@ export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase1AuthorData =
   | UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0
@@ -5494,8 +5520,8 @@ export type UpdateCollectionResponseDataItemsItemCase1AuthorData =
 export type UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface UpdateCollectionResponseDataItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -5504,15 +5530,15 @@ export interface UpdateCollectionResponseDataItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: UpdateCollectionResponseDataItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: UpdateCollectionResponseDataItemsItemCase1AuthorData;
-  widgetOutputUrls?: UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: UpdateCollectionResponseDataItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?: UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionResponseDataItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
@@ -5602,7 +5628,7 @@ export interface UpdateCollectionResponseDataItemsItemCase2RuntimeHardware {
 }
 export type UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested = number | string;
 export interface UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested;
 }
 export type UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage =
@@ -5613,7 +5639,7 @@ export type UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage =
   | "MISCONFIGURED";
 export interface UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage;
 }
 export type UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList =
@@ -5629,13 +5655,13 @@ export interface UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading {
 export interface UpdateCollectionResponseDataItemsItemCase2Runtime {
   stage: UpdateCollectionResponseDataItemsItemCase2RuntimeStage;
   hardware: UpdateCollectionResponseDataItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -5651,10 +5677,10 @@ export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -5673,12 +5699,14 @@ export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -5689,11 +5717,13 @@ export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor =
   | UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0
@@ -5718,10 +5748,10 @@ export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -5740,12 +5770,14 @@ export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1Primar
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -5756,11 +5788,11 @@ export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase2AuthorData =
   | UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0
@@ -5771,8 +5803,8 @@ export type UpdateCollectionResponseDataItemsItemCase2Visibility =
   | "protected";
 export interface UpdateCollectionResponseDataItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -5787,18 +5819,18 @@ export interface UpdateCollectionResponseDataItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: UpdateCollectionResponseDataItemsItemCase2Sdk;
+  sdk?: UpdateCollectionResponseDataItemsItemCase2Sdk | undefined;
   runtime: UpdateCollectionResponseDataItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: UpdateCollectionResponseDataItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: UpdateCollectionResponseDataItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: UpdateCollectionResponseDataItemsItemCase2TagsList;
-  authorData?: UpdateCollectionResponseDataItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: UpdateCollectionResponseDataItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: UpdateCollectionResponseDataItemsItemCase2Visibility;
   type: string;
@@ -5807,15 +5839,15 @@ export type UpdateCollectionResponseDataItemsItemCase3Note = AddItemResponseItem
 export type UpdateCollectionResponseDataItemsItemCase3GalleryList = Array<string>;
 export interface UpdateCollectionResponseDataItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionResponseDataItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
@@ -5834,10 +5866,10 @@ export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -5856,12 +5888,12 @@ export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg 
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -5872,11 +5904,11 @@ export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionResponseDataItemsItemCase4Owner =
   | UpdateCollectionResponseDataItemsItemCase4OwnerCase0
@@ -5890,12 +5922,12 @@ export type UpdateCollectionResponseDataItemsItemCase4Theme =
   | "indigo";
 export interface UpdateCollectionResponseDataItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: UpdateCollectionResponseDataItemsItemCase4Owner;
   title: string;
   theme: UpdateCollectionResponseDataItemsItemCase4Theme;
@@ -5923,14 +5955,14 @@ export type UpdateCollectionResponseDataItemsItemCase5CdnRegionsList =
 export type UpdateCollectionResponseDataItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
 export interface UpdateCollectionResponseDataItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionResponseDataItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionResponseDataItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -5939,10 +5971,10 @@ export interface UpdateCollectionResponseDataItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: UpdateCollectionResponseDataItemsItemCase5RepoType;
-  adminTags?: UpdateCollectionResponseDataItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: UpdateCollectionResponseDataItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: UpdateCollectionResponseDataItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type UpdateCollectionResponseDataItemsItem =
@@ -5956,7 +5988,7 @@ export type UpdateCollectionResponseDataItemsList = Array<UpdateCollectionRespon
 export interface UpdateCollectionResponseData {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: UpdateCollectionResponseDataGating;
   owner: UpdateCollectionResponseDataOwner;
@@ -5966,7 +5998,7 @@ export interface UpdateCollectionResponseData {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: UpdateCollectionResponseDataItemsList;
 }
 export interface UpdateCollectionResponse {
@@ -5983,7 +6015,7 @@ export type UpdateCollectionBySlugRequestGatingCase1 = AddItemResponseGatingCase
 export type UpdateCollectionBySlugRequestGatingCase2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionBySlugRequestGatingCase2Notifications {
   mode: UpdateCollectionBySlugRequestGatingCase2NotificationsMode | (string & {});
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateCollectionBySlugRequestGatingCase2 {
   mode: string;
@@ -5996,12 +6028,12 @@ export type UpdateCollectionBySlugRequestGating =
 export interface UpdateCollectionBySlugRequest {
   namespace: string;
   slug: string;
-  position?: number;
-  private?: boolean;
-  theme?: UpdateCollectionBySlugRequestTheme | (string & {});
-  title?: string;
-  description?: string;
-  gating?: UpdateCollectionBySlugRequestGating;
+  position?: number | undefined;
+  private?: boolean | undefined;
+  theme?: UpdateCollectionBySlugRequestTheme | (string & {}) | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  gating?: UpdateCollectionBySlugRequestGating | undefined;
 }
 export type UpdateCollectionBySlugResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export type UpdateCollectionBySlugResponseDataGatingCase1Case2NotificationsMode =
@@ -6009,7 +6041,7 @@ export type UpdateCollectionBySlugResponseDataGatingCase1Case2NotificationsMode 
   | "real-time";
 export interface UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications {
   mode: UpdateCollectionBySlugResponseDataGatingCase1Case2NotificationsMode;
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataGatingCase1Case2 {
   mode: string;
@@ -6036,10 +6068,10 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionBySlugResponseDataOwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataOwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgPlan =
   | "team"
@@ -6058,12 +6090,12 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataOwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -6074,11 +6106,11 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionBySlugResponseDataOwner =
   | UpdateCollectionBySlugResponseDataOwnerCase0
@@ -6157,23 +6189,25 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase0ResourceGroup =
   AddItemResponseResourceGroup;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase0 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList | undefined;
   position: number;
   author: string;
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo;
+  datasetsServerInfo?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo
+    | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: UpdateCollectionBySlugResponseDataItemsItemCase0Gated;
   lastModified: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase1Note =
@@ -6274,15 +6308,15 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInfere
   modelStatus: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList =
   Array<UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
@@ -6306,10 +6340,10 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -6328,12 +6362,14 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -6344,11 +6380,13 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg
+    | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData =
   | UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0
@@ -6356,8 +6394,8 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData =
 export type UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList = Array<string>;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase1 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList | undefined;
   position: number;
   author: string;
   downloads: number;
@@ -6366,15 +6404,17 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase1 {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: UpdateCollectionBySlugResponseDataItemsItemCase1Gated;
-  resourceGroup?: AddItemResponseResourceGroup;
-  numParameters?: number;
-  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData;
-  widgetOutputUrls?: UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData | undefined;
+  widgetOutputUrls?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList
+    | undefined;
+  isPreRelease?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2Note =
@@ -6467,7 +6507,7 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasReque
   | number
   | string;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas {
-  current?: number | null;
+  current?: number | null | undefined;
   requested: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage =
@@ -6478,7 +6518,7 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemSt
   | "MISCONFIGURED";
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem {
   domain: string;
-  isCustom?: boolean | null;
+  isCustom?: boolean | null | undefined;
   stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList =
@@ -6494,13 +6534,13 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloa
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2Runtime {
   stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeStage;
   hardware: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware;
-  errorMessage?: string;
-  gcTimeout?: number | null;
+  errorMessage?: string | undefined;
+  gcTimeout?: number | null | undefined;
   replicas: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas;
-  devMode?: boolean;
-  domains?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList;
-  sha?: string;
-  hotReloading?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading;
+  devMode?: boolean | undefined;
+  domains?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList | undefined;
+  sha?: string | undefined;
+  hotReloading?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
@@ -6516,10 +6556,10 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAutho
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -6538,12 +6578,16 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAutho
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -6554,11 +6598,13 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAutho
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg
+    | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor =
   | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0
@@ -6584,10 +6630,10 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -6606,12 +6652,14 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -6622,11 +6670,13 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg
+    | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData =
   | UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0
@@ -6637,8 +6687,8 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase2Visibility =
   | "protected";
 export interface UpdateCollectionBySlugResponseDataItemsItemCase2 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList | undefined;
   position: number;
   author: string;
   colorFrom: string;
@@ -6653,18 +6703,18 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase2 {
   private: boolean;
   repoType: string;
   title: string;
-  sdk?: UpdateCollectionBySlugResponseDataItemsItemCase2Sdk;
+  sdk?: UpdateCollectionBySlugResponseDataItemsItemCase2Sdk | undefined;
   runtime: UpdateCollectionBySlugResponseDataItemsItemCase2Runtime;
   disabled: boolean;
-  originRepo?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  resourceGroup?: AddItemResponseResourceGroup;
+  originRepo?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo | undefined;
+  ai_short_description?: string | undefined;
+  ai_category?: string | undefined;
+  trendingScore?: number | undefined;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   tags: UpdateCollectionBySlugResponseDataItemsItemCase2TagsList;
-  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
+  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData | undefined;
+  shortDescription?: string | undefined;
+  semanticRelevancyScore?: number | undefined;
   featured: boolean;
   visibility: UpdateCollectionBySlugResponseDataItemsItemCase2Visibility;
   type: string;
@@ -6674,15 +6724,15 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase3Note =
 export type UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList = Array<string>;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase3 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList | undefined;
   position: number;
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
+  thumbnailUrl?: string | undefined;
+  isUpvotedByUser?: boolean | undefined;
   type: string;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase4Note =
@@ -6702,10 +6752,10 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan =
   | "team"
@@ -6724,12 +6774,14 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1Prima
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
 }
 export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -6740,11 +6792,11 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg | undefined;
 }
 export type UpdateCollectionBySlugResponseDataItemsItemCase4Owner =
   | UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0
@@ -6758,12 +6810,12 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase4Theme =
   | "indigo";
 export interface UpdateCollectionBySlugResponseDataItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList | undefined;
   position: number;
   slug: string;
   lastUpdated: string;
-  description?: string;
+  description?: string | undefined;
   owner: UpdateCollectionBySlugResponseDataItemsItemCase4Owner;
   title: string;
   theme: UpdateCollectionBySlugResponseDataItemsItemCase4Theme;
@@ -6793,14 +6845,14 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase5ResourceGroup =
   AddItemResponseResourceGroup;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase5 {
   _id: unknown;
-  note?: AddItemResponseItemsItemCase0Note;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList;
+  note?: AddItemResponseItemsItemCase0Note | undefined;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList | undefined;
   position: number;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -6809,10 +6861,10 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase5 {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: UpdateCollectionBySlugResponseDataItemsItemCase5RepoType;
-  adminTags?: UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList;
-  disabled?: AddItemResponseItemsItemCase5Disabled;
+  adminTags?: UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList | undefined;
+  disabled?: AddItemResponseItemsItemCase5Disabled | undefined;
   cdnRegions: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   type: string;
 }
 export type UpdateCollectionBySlugResponseDataItemsItem =
@@ -6827,7 +6879,7 @@ export type UpdateCollectionBySlugResponseDataItemsList =
 export interface UpdateCollectionBySlugResponseData {
   slug: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdated: string;
   gating: UpdateCollectionBySlugResponseDataGating;
   owner: UpdateCollectionBySlugResponseDataOwner;
@@ -6837,7 +6889,7 @@ export interface UpdateCollectionBySlugResponseData {
   upvotes: number;
   shareUrl: string;
   isUpvotedByUser: boolean;
-  resourceGroup?: AddItemResponseResourceGroup;
+  resourceGroup?: AddItemResponseResourceGroup | undefined;
   items: UpdateCollectionBySlugResponseDataItemsList;
 }
 export interface UpdateCollectionBySlugResponse {
@@ -6849,18 +6901,18 @@ export interface UpdateItemRequest {
   slug: string;
   id: string;
   itemId: string;
-  gallery?: UpdateItemRequestGalleryList;
-  note?: string;
-  position?: number;
+  gallery?: UpdateItemRequestGalleryList | undefined;
+  note?: string | undefined;
+  position?: number | undefined;
 }
 export interface UpdateItemResponse {}
 export type UpdateItemBySlugRequestGalleryList = Array<string>;
 export interface UpdateItemBySlugRequest {
   namespace: string;
   slug: string;
-  gallery?: UpdateItemBySlugRequestGalleryList;
-  note?: string;
-  position?: number;
+  gallery?: UpdateItemBySlugRequestGalleryList | undefined;
+  note?: string | undefined;
+  position?: number | undefined;
 }
 export interface UpdateItemBySlugResponse {}
 export type AddItemError = HuggingFaceOpError;

@@ -329,50 +329,50 @@ export type BoxedDouble = number;
 export type Field =
   | {
       isNull: boolean;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       booleanValue: boolean;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
       longValue: number;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
       doubleValue: number;
-      stringValue?: never;
-      blobValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
       stringValue: string;
-      blobValue?: never;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
     };
 export type FieldList = Field[];

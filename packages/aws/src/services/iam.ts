@@ -2527,9 +2527,17 @@ export interface InlinePolicyIdentifierType {
   AttachmentName: string;
 }
 export type PolicyIdentifier =
-  | { PolicyType: PolicyIdentifierPolicyType; PolicyArn?: never; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn: string; InlinePolicyIdentifier?: never }
-  | { PolicyType?: never; PolicyArn?: never; InlinePolicyIdentifier: InlinePolicyIdentifierType };
+  | {
+      PolicyType: PolicyIdentifierPolicyType;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier?: undefined;
+    }
+  | { PolicyType?: undefined; PolicyArn: string; InlinePolicyIdentifier?: undefined }
+  | {
+      PolicyType?: undefined;
+      PolicyArn?: undefined;
+      InlinePolicyIdentifier: InlinePolicyIdentifierType;
+    };
 export type PolicyExclusionsListType = PolicyIdentifier[];
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;

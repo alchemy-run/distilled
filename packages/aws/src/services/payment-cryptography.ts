@@ -384,37 +384,37 @@ export interface ExportAs2805KeyCryptogram {
 export type ExportKeyMaterial =
   | {
       Tr31KeyBlock: ExportTr31KeyBlock;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      Tr31KeyBlock?: never;
+      Tr31KeyBlock?: undefined;
       Tr34KeyBlock: ExportTr34KeyBlock;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
       KeyCryptogram: ExportKeyCryptogram;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
       DiffieHellmanTr31KeyBlock: ExportDiffieHellmanTr31KeyBlock;
-      As2805KeyCryptogram?: never;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
       As2805KeyCryptogram: ExportAs2805KeyCryptogram;
     };
 export type HexLength20Or24 = string;
@@ -578,65 +578,65 @@ export interface ImportAs2805KeyCryptogram {
 export type ImportKeyMaterial =
   | {
       RootCertificatePublicKey: RootCertificatePublicKey;
-      TrustedCertificatePublicKey?: never;
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      TrustedCertificatePublicKey?: undefined;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
+      RootCertificatePublicKey?: undefined;
       TrustedCertificatePublicKey: TrustedCertificatePublicKey;
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
-      TrustedCertificatePublicKey?: never;
+      RootCertificatePublicKey?: undefined;
+      TrustedCertificatePublicKey?: undefined;
       Tr31KeyBlock: ImportTr31KeyBlock;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
-      TrustedCertificatePublicKey?: never;
-      Tr31KeyBlock?: never;
+      RootCertificatePublicKey?: undefined;
+      TrustedCertificatePublicKey?: undefined;
+      Tr31KeyBlock?: undefined;
       Tr34KeyBlock: ImportTr34KeyBlock;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
-      TrustedCertificatePublicKey?: never;
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
+      RootCertificatePublicKey?: undefined;
+      TrustedCertificatePublicKey?: undefined;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
       KeyCryptogram: ImportKeyCryptogram;
-      DiffieHellmanTr31KeyBlock?: never;
-      As2805KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: undefined;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
-      TrustedCertificatePublicKey?: never;
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
+      RootCertificatePublicKey?: undefined;
+      TrustedCertificatePublicKey?: undefined;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
       DiffieHellmanTr31KeyBlock: ImportDiffieHellmanTr31KeyBlock;
-      As2805KeyCryptogram?: never;
+      As2805KeyCryptogram?: undefined;
     }
   | {
-      RootCertificatePublicKey?: never;
-      TrustedCertificatePublicKey?: never;
-      Tr31KeyBlock?: never;
-      Tr34KeyBlock?: never;
-      KeyCryptogram?: never;
-      DiffieHellmanTr31KeyBlock?: never;
+      RootCertificatePublicKey?: undefined;
+      TrustedCertificatePublicKey?: undefined;
+      Tr31KeyBlock?: undefined;
+      Tr34KeyBlock?: undefined;
+      KeyCryptogram?: undefined;
+      DiffieHellmanTr31KeyBlock?: undefined;
       As2805KeyCryptogram: ImportAs2805KeyCryptogram;
     };
 export interface ImportKeyInput {

@@ -761,7 +761,7 @@ export interface GetRatePlanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RatePlansGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetSettingRequest {
   /** Identifier */
@@ -1995,7 +1995,7 @@ export interface ListPlansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PlansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingsRequest {
   /** Identifier */
@@ -3030,7 +3030,7 @@ export interface ListZonesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CtAlertingEditRequestEmailsList = Array<string>;
 export interface PatchCtAlertingRequest {
@@ -4122,7 +4122,7 @@ export interface PutCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CustomNameserversUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RollbackEnvironmentRequest {
   zoneId: string;

@@ -26,13 +26,13 @@ const TELEMETRY = {
 
 export interface TestApiRequest {
   /** Error response to return */
-  error?: string;
+  error?: string | undefined;
 }
 export type TestApiResponseArgsMap = { [key: string]: unknown | undefined };
 export interface TestApiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  args?: TestApiResponseArgsMap;
+  args?: TestApiResponseArgsMap | undefined;
 }
 export type TestApiError = SlackOpError;
 /** Checks API calling code. Rate limit tier: 4 See https://docs.slack.dev/reference/methods/api.test */

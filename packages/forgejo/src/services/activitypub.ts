@@ -36,7 +36,7 @@ export class Forbidden
 export interface ActivitypubInstanceActorRequest {}
 /** ActivityPub type */
 export interface ActivityPub {
-  _context?: string;
+  _context?: string | undefined;
 }
 export interface ActivitypubInstanceActorInboxRequest {}
 export interface ActivitypubInstanceActorInboxResponse {}

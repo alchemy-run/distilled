@@ -195,8 +195,8 @@ export interface AnalysisTemplateArtifacts {
   roleArn: string;
 }
 export type AnalysisSource =
-  | { text: string | redacted.Redacted<string>; artifacts?: never }
-  | { text?: never; artifacts: AnalysisTemplateArtifacts };
+  | { text: string | redacted.Redacted<string>; artifacts?: undefined }
+  | { text?: undefined; artifacts: AnalysisTemplateArtifacts };
 export interface Hash {
   sha256?: string | undefined;
 }
@@ -393,17 +393,17 @@ export interface ConfiguredTableAssociationSchemaTypeProperties {
 export type SchemaTypeProperties =
   | {
       idMappingTable: IdMappingTableSchemaTypeProperties;
-      intermediateTable?: never;
-      configuredTableAssociation?: never;
+      intermediateTable?: undefined;
+      configuredTableAssociation?: undefined;
     }
   | {
-      idMappingTable?: never;
+      idMappingTable?: undefined;
       intermediateTable: IntermediateTableSchemaTypeProperties;
-      configuredTableAssociation?: never;
+      configuredTableAssociation?: undefined;
     }
   | {
-      idMappingTable?: never;
-      intermediateTable?: never;
+      idMappingTable?: undefined;
+      intermediateTable?: undefined;
       configuredTableAssociation: ConfiguredTableAssociationSchemaTypeProperties;
     };
 export interface Schema {
@@ -536,13 +536,28 @@ export interface AnalysisRuleIdMappingTable {
   dimensionColumns?: string[] | undefined;
 }
 export type AnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList; aggregation?: never; custom?: never; idMappingTable?: never }
-  | { list?: never; aggregation: AnalysisRuleAggregation; custom?: never; idMappingTable?: never }
-  | { list?: never; aggregation?: never; custom: AnalysisRuleCustom; idMappingTable?: never }
   | {
-      list?: never;
-      aggregation?: never;
-      custom?: never;
+      list: AnalysisRuleList;
+      aggregation?: undefined;
+      custom?: undefined;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation: AnalysisRuleAggregation;
+      custom?: undefined;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom: AnalysisRuleCustom;
+      idMappingTable?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom?: undefined;
       idMappingTable: AnalysisRuleIdMappingTable;
     };
 export type AnalysisRulePolicy = { v1: AnalysisRulePolicyV1 };
@@ -559,9 +574,21 @@ export interface ConfiguredTableAssociationAnalysisRuleCustom {
   allowedAdditionalAnalyses?: string[] | undefined;
 }
 export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
-  | { list: ConfiguredTableAssociationAnalysisRuleList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: ConfiguredTableAssociationAnalysisRuleAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: ConfiguredTableAssociationAnalysisRuleCustom };
+  | {
+      list: ConfiguredTableAssociationAnalysisRuleList;
+      aggregation?: undefined;
+      custom?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation: ConfiguredTableAssociationAnalysisRuleAggregation;
+      custom?: undefined;
+    }
+  | {
+      list?: undefined;
+      aggregation?: undefined;
+      custom: ConfiguredTableAssociationAnalysisRuleCustom;
+    };
 export type ConfiguredTableAssociationAnalysisRulePolicy = {
   v1: ConfiguredTableAssociationAnalysisRulePolicyV1;
 };
@@ -597,9 +624,9 @@ export interface ConsolidatedPolicyCustom {
   allowedAdditionalAnalyses?: string[] | undefined;
 }
 export type ConsolidatedPolicyV1 =
-  | { list: ConsolidatedPolicyList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: ConsolidatedPolicyAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: ConsolidatedPolicyCustom };
+  | { list: ConsolidatedPolicyList; aggregation?: undefined; custom?: undefined }
+  | { list?: undefined; aggregation: ConsolidatedPolicyAggregation; custom?: undefined }
+  | { list?: undefined; aggregation?: undefined; custom: ConsolidatedPolicyCustom };
 export type ConsolidatedPolicy = { v1: ConsolidatedPolicyV1 };
 export interface AnalysisRule {
   collaborationId: string;
@@ -820,8 +847,8 @@ export interface CollaborationChangeSpecification {
   autoApprovedChangeTypes?: AutoApprovedChangeType[] | undefined;
 }
 export type ChangeSpecification =
-  | { member: MemberChangeSpecification; collaboration?: never }
-  | { member?: never; collaboration: CollaborationChangeSpecification };
+  | { member: MemberChangeSpecification; collaboration?: undefined }
+  | { member?: undefined; collaboration: CollaborationChangeSpecification };
 export interface ChangeInput {
   specificationType: ChangeSpecificationType;
   specification: ChangeSpecification;
@@ -981,9 +1008,9 @@ export interface AthenaTableReference {
   catalogName?: string | undefined;
 }
 export type TableReference =
-  | { glue: GlueTableReference; snowflake?: never; athena?: never }
-  | { glue?: never; snowflake: SnowflakeTableReference; athena?: never }
-  | { glue?: never; snowflake?: never; athena: AthenaTableReference };
+  | { glue: GlueTableReference; snowflake?: undefined; athena?: undefined }
+  | { glue?: undefined; snowflake: SnowflakeTableReference; athena?: undefined }
+  | { glue?: undefined; snowflake?: undefined; athena: AthenaTableReference };
 export type AllowedColumnList = string[];
 export interface CreateConfiguredTableInput {
   name: string;
@@ -1015,9 +1042,9 @@ export interface CreateConfiguredTableOutput {
 }
 export type ConfiguredTableIdentifier = string;
 export type ConfiguredTableAnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList; aggregation?: never; custom?: never }
-  | { list?: never; aggregation: AnalysisRuleAggregation; custom?: never }
-  | { list?: never; aggregation?: never; custom: AnalysisRuleCustom };
+  | { list: AnalysisRuleList; aggregation?: undefined; custom?: undefined }
+  | { list?: undefined; aggregation: AnalysisRuleAggregation; custom?: undefined }
+  | { list?: undefined; aggregation?: undefined; custom: AnalysisRuleCustom };
 export type ConfiguredTableAnalysisRulePolicy = { v1: ConfiguredTableAnalysisRulePolicyV1 };
 export interface CreateConfiguredTableAnalysisRuleInput {
   configuredTableIdentifier: string;
@@ -1468,8 +1495,8 @@ export interface AccessBudgetsPrivacyTemplateParametersInput {
   resourceArn: string;
 }
 export type PrivacyBudgetTemplateParametersInput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
 export interface CreatePrivacyBudgetTemplateInput {
   membershipIdentifier: string;
   autoRefresh?: PrivacyBudgetTemplateAutoRefresh | undefined;
@@ -1488,8 +1515,8 @@ export interface AccessBudgetsPrivacyTemplateParametersOutput {
   resourceArn: string;
 }
 export type PrivacyBudgetTemplateParametersOutput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
 export interface PrivacyBudgetTemplate {
   id: string;
   arn: string;
@@ -1808,8 +1835,8 @@ export interface ProtectedJobMemberOutputConfigurationOutput {
   accountId: string;
 }
 export type ProtectedJobOutputConfigurationOutput =
-  | { s3: ProtectedJobS3OutputConfigurationOutput; member?: never }
-  | { s3?: never; member: ProtectedJobMemberOutputConfigurationOutput };
+  | { s3: ProtectedJobS3OutputConfigurationOutput; member?: undefined }
+  | { s3?: undefined; member: ProtectedJobMemberOutputConfigurationOutput };
 export interface ProtectedJobResultConfigurationOutput {
   outputConfiguration: ProtectedJobOutputConfigurationOutput;
 }
@@ -1828,8 +1855,8 @@ export interface ProtectedJobSingleMemberOutput {
 }
 export type ProtectedJobMemberOutputList = ProtectedJobSingleMemberOutput[];
 export type ProtectedJobOutput =
-  | { s3: ProtectedJobS3Output; memberList?: never }
-  | { s3?: never; memberList: ProtectedJobSingleMemberOutput[] };
+  | { s3: ProtectedJobS3Output; memberList?: undefined }
+  | { s3?: undefined; memberList: ProtectedJobSingleMemberOutput[] };
 export interface ProtectedJobResult {
   output: ProtectedJobOutput;
 }
@@ -1880,8 +1907,8 @@ export interface ProtectedQueryMemberOutputConfiguration {
   accountId: string;
 }
 export type ProtectedQueryDistributeOutputConfigurationLocation =
-  | { s3: ProtectedQueryS3OutputConfiguration; member?: never }
-  | { s3?: never; member: ProtectedQueryMemberOutputConfiguration };
+  | { s3: ProtectedQueryS3OutputConfiguration; member?: undefined }
+  | { s3?: undefined; member: ProtectedQueryMemberOutputConfiguration };
 export type ProtectedQueryDistributeOutputConfigurationLocations =
   ProtectedQueryDistributeOutputConfigurationLocation[];
 export interface ProtectedQueryDistributeOutputConfiguration {
@@ -1895,26 +1922,26 @@ export interface IntermediateTableOutputConfiguration {
 export type ProtectedQueryOutputConfiguration =
   | {
       s3: ProtectedQueryS3OutputConfiguration;
-      member?: never;
-      distribute?: never;
-      intermediateTable?: never;
+      member?: undefined;
+      distribute?: undefined;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
+      s3?: undefined;
       member: ProtectedQueryMemberOutputConfiguration;
-      distribute?: never;
-      intermediateTable?: never;
+      distribute?: undefined;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
-      member?: never;
+      s3?: undefined;
+      member?: undefined;
       distribute: ProtectedQueryDistributeOutputConfiguration;
-      intermediateTable?: never;
+      intermediateTable?: undefined;
     }
   | {
-      s3?: never;
-      member?: never;
-      distribute?: never;
+      s3?: undefined;
+      member?: undefined;
+      distribute?: undefined;
       intermediateTable: IntermediateTableOutputConfiguration;
     };
 export interface ProtectedQueryResultConfiguration {
@@ -1939,9 +1966,9 @@ export interface ProtectedQueryDistributeOutput {
   memberList?: ProtectedQuerySingleMemberOutput[] | undefined;
 }
 export type ProtectedQueryOutput =
-  | { s3: ProtectedQueryS3Output; memberList?: never; distribute?: never }
-  | { s3?: never; memberList: ProtectedQuerySingleMemberOutput[]; distribute?: never }
-  | { s3?: never; memberList?: never; distribute: ProtectedQueryDistributeOutput };
+  | { s3: ProtectedQueryS3Output; memberList?: undefined; distribute?: undefined }
+  | { s3?: undefined; memberList: ProtectedQuerySingleMemberOutput[]; distribute?: undefined }
+  | { s3?: undefined; memberList?: undefined; distribute: ProtectedQueryDistributeOutput };
 export interface ProtectedQueryResult {
   output: ProtectedQueryOutput;
 }
@@ -2179,8 +2206,8 @@ export interface AccessBudget {
   aggregateRemainingBudget: number;
 }
 export type PrivacyBudget =
-  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudget };
+  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudget };
 export interface CollaborationPrivacyBudgetSummary {
   id: string;
   privacyBudgetTemplateId: string;
@@ -2837,8 +2864,8 @@ export interface AccessBudgetsPrivacyTemplateUpdateParameters {
   budgetParameters: BudgetParameter[];
 }
 export type PrivacyBudgetTemplateUpdateParameters =
-  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters; accessBudget?: never }
-  | { differentialPrivacy?: never; accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
+  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters; accessBudget?: undefined }
+  | { differentialPrivacy?: undefined; accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
 export interface UpdatePrivacyBudgetTemplateInput {
   membershipIdentifier: string;
   privacyBudgetTemplateIdentifier: string;

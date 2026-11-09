@@ -188,26 +188,26 @@ export interface SampleDataSource {
 export type CreateDataTransformationProfileSource =
   | {
       StarterProfile: StarterProfileSource;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
+      StarterProfile?: undefined;
       ExistingVersionedProfileId: ExistingVersionedProfileSource;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
       ProfileMapping: ProfileMappingSource;
-      SampleData?: never;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
       SampleData: SampleDataSource;
     };
 export type KmsKeyId = string;

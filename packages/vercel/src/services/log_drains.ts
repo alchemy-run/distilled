@@ -74,24 +74,24 @@ export type CreateConfigurableLogDrainRequestEnvironmentsList = Array<
 >;
 export interface CreateConfigurableLogDrainRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The delivery log format */
   deliveryFormat: CreateConfigurableLogDrainRequestDeliveryFormat | (string & {});
   /** The log drain url */
   url: string;
   /** Headers to be sent together with the request */
-  headers?: CreateConfigurableLogDrainRequestHeadersMap;
-  projectIds?: CreateConfigurableLogDrainRequestProjectIdsList;
+  headers?: CreateConfigurableLogDrainRequestHeadersMap | undefined;
+  projectIds?: CreateConfigurableLogDrainRequestProjectIdsList | undefined;
   sources: CreateConfigurableLogDrainRequestSourcesList;
-  environments?: CreateConfigurableLogDrainRequestEnvironmentsList;
+  environments?: CreateConfigurableLogDrainRequestEnvironmentsList | undefined;
   /** Custom secret of log drain */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The sampling rate for this log drain. It should be a percentage rate between 0 and 100. With max 2 decimal points */
-  samplingRate?: number;
+  samplingRate?: number | undefined;
   /** The custom name of this log drain. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateConfigurableLogDrainResponse = unknown;
 export type CreateLogDrainRequestProjectIdsList = Array<string>;
@@ -115,22 +115,22 @@ export type CreateLogDrainRequestEnvironmentsList = Array<
 >;
 export interface CreateLogDrainRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the log drain */
   name: string;
-  projectIds?: CreateLogDrainRequestProjectIdsList;
+  projectIds?: CreateLogDrainRequestProjectIdsList | undefined;
   /** A secret to sign log drain notification headers so a consumer can verify their authenticity */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The delivery log format */
-  deliveryFormat?: CreateLogDrainRequestDeliveryFormat | (string & {});
+  deliveryFormat?: CreateLogDrainRequestDeliveryFormat | (string & {}) | undefined;
   /** The url where you will receive logs. The protocol must be `https://` or `http://` when type is `json` and `ndjson`. */
   url: string;
-  sources?: CreateLogDrainRequestSourcesList;
+  sources?: CreateLogDrainRequestSourcesList | undefined;
   /** Headers to be sent together with the request */
-  headers?: CreateLogDrainRequestHeadersMap;
-  environments?: CreateLogDrainRequestEnvironmentsList;
+  headers?: CreateLogDrainRequestHeadersMap | undefined;
+  environments?: CreateLogDrainRequestEnvironmentsList | undefined;
 }
 /** Whether the log drain was created by an integration or by a user */
 export type CreateLogDrainResponseCreatedFrom = "integration" | "self-served";
@@ -149,16 +149,16 @@ export type CreateLogDrainResponseSourceCase0DefaultFor = "eve-tracing";
 export type CreateLogDrainResponseSourceCase0Kind = "self-served";
 export interface CreateLogDrainResponseSourceCase0 {
   /** Informational marker for a system-owned default drain. */
-  defaultFor?: CreateLogDrainResponseSourceCase0DefaultFor;
+  defaultFor?: CreateLogDrainResponseSourceCase0DefaultFor | undefined;
   kind: CreateLogDrainResponseSourceCase0Kind;
 }
 export type CreateLogDrainResponseSourceCase1Kind = "integration";
 export interface CreateLogDrainResponseSourceCase1 {
-  externalResourceId?: string;
+  externalResourceId?: string | undefined;
   integrationConfigurationId: string;
   integrationId: string;
   kind: CreateLogDrainResponseSourceCase1Kind;
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type CreateLogDrainResponseSource =
   | CreateLogDrainResponseSourceCase0
@@ -176,63 +176,63 @@ export type CreateLogDrainResponseSourcesItem =
 export type CreateLogDrainResponseSourcesList = Array<CreateLogDrainResponseSourcesItem>;
 export interface CreateLogDrainResponse {
   /** The branch regexp of log drain */
-  branch?: string;
+  branch?: string | undefined;
   /** The oauth2 client application id that created this log drain */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The client configuration this log drain was created with */
-  configurationId?: string;
+  configurationId?: string | undefined;
   /** A timestamp that tells you when the log drain was created */
   createdAt: number;
   /** Whether the log drain was created by an integration or by a user */
-  createdFrom?: CreateLogDrainResponseCreatedFrom;
+  createdFrom?: CreateLogDrainResponseCreatedFrom | undefined;
   /** The delivery log format */
-  deliveryFormat?: CreateLogDrainResponseDeliveryFormat;
+  deliveryFormat?: CreateLogDrainResponseDeliveryFormat | undefined;
   /** The environment of log drain */
-  environments?: CreateLogDrainResponseEnvironmentsList;
+  environments?: CreateLogDrainResponseEnvironmentsList | undefined;
   /** The headers to send with the request */
-  headers?: CreateLogDrainResponseHeadersMap;
+  headers?: CreateLogDrainResponseHeadersMap | undefined;
   /** The unique identifier of the log drain. Always prefixed with `ld_` */
   id: string;
   /** The name of the log drain */
   name: string;
   /** The identifier of the team or user whose events will trigger the log drain */
   ownerId: string;
-  projectId?: string | null;
+  projectId?: string | null | undefined;
   /** The identifier of the projects this log drain is associated with */
-  projectIds?: CreateLogDrainResponseProjectIdsList;
+  projectIds?: CreateLogDrainResponseProjectIdsList | undefined;
   /** The sampling rate of log drain */
-  samplingRate?: number;
+  samplingRate?: number | undefined;
   source: CreateLogDrainResponseSource;
   /** The sources from which logs are currently being delivered to this log drain. */
-  sources?: CreateLogDrainResponseSourcesList;
+  sources?: CreateLogDrainResponseSourcesList | undefined;
   /** The URL to call when logs are generated */
   url: string;
 }
 export interface DeleteConfigurableLogDrainRequest {
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteConfigurableLogDrainResponse {}
 export interface DeleteIntegrationLogDrainRequest {
   /** ID of the log drain to be deleted */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteIntegrationLogDrainResponse {}
 export interface GetAllLogDrainsRequest {
-  projectId?: string;
-  projectIdOrName?: string;
-  includeMetadata?: boolean;
+  projectId?: string | undefined;
+  projectIdOrName?: string | undefined;
+  includeMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework =
   | "actix-web"
@@ -310,21 +310,21 @@ export type GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework =
   | "xmcp"
   | "zola";
 export interface GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem {
-  framework?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework | null;
+  framework?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework | null | undefined;
   id: string;
-  latestDeployment?: string;
+  latestDeployment?: string | undefined;
   name: string;
 }
 export type GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList =
   Array<GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem>;
 export interface GetAllLogDrainsResponseBodyCase0Item {
-  clientId?: string;
-  configurationId?: string;
+  clientId?: string | undefined;
+  configurationId?: string | undefined;
   createdFrom: string;
-  integrationConfigurationUri?: string;
-  integrationIcon?: string;
-  integrationWebsite?: string;
-  projectsMetadata?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList | null;
+  integrationConfigurationUri?: string | undefined;
+  integrationIcon?: string | undefined;
+  integrationWebsite?: string | undefined;
+  projectsMetadata?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList | null | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase0List = Array<GetAllLogDrainsResponseBodyCase0Item>;
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression =
@@ -346,11 +346,11 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret =
   | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0SecretCase1;
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type = "http";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0 {
-  compression?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression;
+  compression?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression | undefined;
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding;
   endpoint: string;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0HeadersMap;
-  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret;
+  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding = "json" | "proto";
@@ -373,7 +373,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding;
   endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1HeadersMap;
-  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret;
+  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type = "clickhouse";
@@ -405,10 +405,12 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure;
-  objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl;
+  objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
-  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption;
+  serverSideEncryption?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption
+    | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Target =
@@ -436,37 +438,37 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv =
   | "production";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType = "head_sampling";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem {
-  env?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv;
+  env?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv | undefined;
   rate: number;
-  requestPath?: string;
+  requestPath?: string | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas {
-  ai_gateway?: unknown;
-  analytics?: unknown;
-  audit_log?: unknown;
-  connect?: unknown;
-  log?: unknown;
-  speed_insights?: unknown;
-  trace?: unknown;
+  ai_gateway?: unknown | undefined;
+  analytics?: unknown | undefined;
+  audit_log?: unknown | undefined;
+  connect?: unknown | undefined;
+  log?: unknown | undefined;
+  speed_insights?: unknown | undefined;
+  trace?: unknown | undefined;
 }
 /** Informational marker for a system-owned default drain. */
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor = "eve-tracing";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind = "self-served";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
-  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor;
+  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor | undefined;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind = "integration";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1 {
-  externalResourceId?: string;
+  externalResourceId?: string | undefined;
   integrationConfigurationId: string;
   integrationId: string;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind;
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource =
   | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0
@@ -481,7 +483,9 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0De
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsList =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment {
-  environments?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsList;
+  environments?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem =
   | "build"
@@ -494,19 +498,25 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Lo
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log {
-  legacy_excludeCachedStaticAssetLogs?: boolean;
-  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList;
+  legacy_excludeCachedStaticAssetLogs?: boolean | undefined;
+  sources?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList =
   Array<string>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project {
-  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList;
+  ids?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type = "basic";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0 {
-  deployment?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment;
-  log?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log;
-  project?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project;
+  deployment?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment
+    | undefined;
+  log?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log | undefined;
+  project?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type = "odata";
@@ -525,21 +535,21 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2 {
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0Item {
   createdAt: number;
   delivery: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery;
-  disabledAt?: number;
-  disabledBy?: string;
-  disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason;
-  firstErrorTimestamp?: number;
+  disabledAt?: number | undefined;
+  disabledBy?: string | undefined;
+  disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason | undefined;
+  firstErrorTimestamp?: number | undefined;
   id: string;
   name: string;
   ownerId: string;
-  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList;
-  sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList;
+  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList | undefined;
+  sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList | undefined;
   schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
   source: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource;
-  status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus;
-  teamId?: string | null;
+  status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus | undefined;
+  teamId?: string | null | undefined;
   updatedAt: number;
-  filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2;
+  filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2 | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0List =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase0Item>;
@@ -562,11 +572,11 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret =
   | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0SecretCase1;
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type = "http";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0 {
-  compression?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression;
+  compression?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression | undefined;
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding;
   endpoint: string;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0HeadersMap;
-  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret;
+  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding = "json" | "proto";
@@ -588,7 +598,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding;
   endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1HeadersMap;
-  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret;
+  secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type = "clickhouse";
@@ -620,10 +630,12 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure;
-  objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl;
+  objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
-  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption;
+  serverSideEncryption?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption
+    | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Target =
@@ -651,9 +663,9 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv =
   | "production";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType = "head_sampling";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItem {
-  env?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv;
+  env?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv | undefined;
   rate: number;
-  requestPath?: string;
+  requestPath?: string | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList =
@@ -665,16 +677,16 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind = "self-served";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
-  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor;
+  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor | undefined;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind = "integration";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1 {
-  externalResourceId?: string;
+  externalResourceId?: string | undefined;
   integrationConfigurationId: string;
   integrationId: string;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind;
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource =
   | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0
@@ -689,7 +701,9 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0De
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsList =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment {
-  environments?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsList;
+  environments?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem =
   | "build"
@@ -702,19 +716,25 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Lo
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log {
-  legacy_excludeCachedStaticAssetLogs?: boolean;
-  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList;
+  legacy_excludeCachedStaticAssetLogs?: boolean | undefined;
+  sources?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList =
   Array<string>;
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project {
-  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList;
+  ids?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList
+    | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type = "basic";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0 {
-  deployment?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment;
-  log?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log;
-  project?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project;
+  deployment?:
+    | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment
+    | undefined;
+  log?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log | undefined;
+  project?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project | undefined;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type = "odata";
@@ -755,25 +775,25 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess =
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1Item {
   createdAt: number;
   delivery: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery;
-  disabledAt?: number;
-  disabledBy?: string;
-  disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason;
-  firstErrorTimestamp?: number;
+  disabledAt?: number | undefined;
+  disabledBy?: string | undefined;
+  disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason | undefined;
+  firstErrorTimestamp?: number | undefined;
   id: string;
   name: string;
   ownerId: string;
-  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList;
-  sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList;
+  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList | undefined;
+  sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList | undefined;
   schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
   source: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource;
-  status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus;
-  teamId?: string | null;
+  status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus | undefined;
+  teamId?: string | null | undefined;
   updatedAt: number;
-  filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2;
-  integrationConfigurationUri?: string;
-  integrationIcon?: string;
-  integrationWebsite?: string;
-  projectAccess?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess;
+  filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2 | undefined;
+  integrationConfigurationUri?: string | undefined;
+  integrationIcon?: string | undefined;
+  integrationWebsite?: string | undefined;
+  projectAccess?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess | undefined;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1List =
   Array<GetAllLogDrainsResponseBodyCase1DrainsCase1Item>;
@@ -790,9 +810,9 @@ export type GetAllLogDrainsResponse = GetAllLogDrainsResponseBody;
 export interface GetConfigurableLogDrainRequest {
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetConfigurableLogDrainResponseProjectsMetadataItemFramework =
   | "actix-web"
@@ -870,27 +890,27 @@ export type GetConfigurableLogDrainResponseProjectsMetadataItemFramework =
   | "xmcp"
   | "zola";
 export interface GetConfigurableLogDrainResponseProjectsMetadataItem {
-  framework?: GetConfigurableLogDrainResponseProjectsMetadataItemFramework | null;
+  framework?: GetConfigurableLogDrainResponseProjectsMetadataItemFramework | null | undefined;
   id: string;
-  latestDeployment?: string;
+  latestDeployment?: string | undefined;
   name: string;
 }
 export type GetConfigurableLogDrainResponseProjectsMetadataList =
   Array<GetConfigurableLogDrainResponseProjectsMetadataItem>;
 export interface GetConfigurableLogDrainResponse {
-  clientId?: string;
-  configurationId?: string;
+  clientId?: string | undefined;
+  configurationId?: string | undefined;
   createdFrom: string;
-  integrationConfigurationUri?: string;
-  integrationIcon?: string;
-  integrationWebsite?: string;
-  projectsMetadata?: GetConfigurableLogDrainResponseProjectsMetadataList | null;
+  integrationConfigurationUri?: string | undefined;
+  integrationIcon?: string | undefined;
+  integrationWebsite?: string | undefined;
+  projectsMetadata?: GetConfigurableLogDrainResponseProjectsMetadataList | null | undefined;
 }
 export interface GetIntegrationLogDrainsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Whether the log drain was created by an integration or by a user */
 export type GetIntegrationLogDrainsResponseBodyItemCreatedFrom = "integration" | "self-served";
@@ -912,16 +932,16 @@ export type GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor = "eve-
 export type GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = "self-served";
 export interface GetIntegrationLogDrainsResponseBodyItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
-  defaultFor?: GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor;
+  defaultFor?: GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor | undefined;
   kind: GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind;
 }
 export type GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind = "integration";
 export interface GetIntegrationLogDrainsResponseBodyItemSourceCase1 {
-  externalResourceId?: string;
+  externalResourceId?: string | undefined;
   integrationConfigurationId: string;
   integrationId: string;
   kind: GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind;
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type GetIntegrationLogDrainsResponseBodyItemSource =
   | GetIntegrationLogDrainsResponseBodyItemSourceCase0
@@ -940,35 +960,35 @@ export type GetIntegrationLogDrainsResponseBodyItemSourcesList =
   Array<GetIntegrationLogDrainsResponseBodyItemSourcesItem>;
 export interface GetIntegrationLogDrainsResponseBodyItem {
   /** The branch regexp of log drain */
-  branch?: string;
+  branch?: string | undefined;
   /** The oauth2 client application id that created this log drain */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The client configuration this log drain was created with */
-  configurationId?: string;
+  configurationId?: string | undefined;
   /** A timestamp that tells you when the log drain was created */
   createdAt: number;
   /** Whether the log drain was created by an integration or by a user */
-  createdFrom?: GetIntegrationLogDrainsResponseBodyItemCreatedFrom;
+  createdFrom?: GetIntegrationLogDrainsResponseBodyItemCreatedFrom | undefined;
   /** The delivery log format */
-  deliveryFormat?: GetIntegrationLogDrainsResponseBodyItemDeliveryFormat;
+  deliveryFormat?: GetIntegrationLogDrainsResponseBodyItemDeliveryFormat | undefined;
   /** The environment of log drain */
-  environments?: GetIntegrationLogDrainsResponseBodyItemEnvironmentsList;
+  environments?: GetIntegrationLogDrainsResponseBodyItemEnvironmentsList | undefined;
   /** The headers to send with the request */
-  headers?: GetIntegrationLogDrainsResponseBodyItemHeadersMap;
+  headers?: GetIntegrationLogDrainsResponseBodyItemHeadersMap | undefined;
   /** The unique identifier of the log drain. Always prefixed with `ld_` */
   id: string;
   /** The name of the log drain */
   name: string;
   /** The identifier of the team or user whose events will trigger the log drain */
   ownerId: string;
-  projectId?: string | null;
+  projectId?: string | null | undefined;
   /** The identifier of the projects this log drain is associated with */
-  projectIds?: GetIntegrationLogDrainsResponseBodyItemProjectIdsList;
+  projectIds?: GetIntegrationLogDrainsResponseBodyItemProjectIdsList | undefined;
   /** The sampling rate of log drain */
-  samplingRate?: number;
+  samplingRate?: number | undefined;
   source: GetIntegrationLogDrainsResponseBodyItemSource;
   /** The sources from which logs are currently being delivered to this log drain. */
-  sources?: GetIntegrationLogDrainsResponseBodyItemSourcesList;
+  sources?: GetIntegrationLogDrainsResponseBodyItemSourcesList | undefined;
   /** The URL to call when logs are generated */
   url: string;
 }

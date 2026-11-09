@@ -179,8 +179,8 @@ export interface CloudFormationStackUpdate {
   stackArn: string;
 }
 export type FindingDetails =
-  | { codeDeployDeployment: CodeDeployDeployment; cloudFormationStackUpdate?: never }
-  | { codeDeployDeployment?: never; cloudFormationStackUpdate: CloudFormationStackUpdate };
+  | { codeDeployDeployment: CodeDeployDeployment; cloudFormationStackUpdate?: undefined }
+  | { codeDeployDeployment?: undefined; cloudFormationStackUpdate: CloudFormationStackUpdate };
 export interface Finding {
   id: string;
   creationTime: Date;
@@ -236,8 +236,8 @@ export interface EmptyChatChannel {}
 export type SnsArn = string;
 export type ChatbotSnsConfigurationSet = string[];
 export type ChatChannel =
-  | { empty: EmptyChatChannel; chatbotSns?: never }
-  | { empty?: never; chatbotSns: string[] };
+  | { empty: EmptyChatChannel; chatbotSns?: undefined }
+  | { empty?: undefined; chatbotSns: string[] };
 export type SsmContactsArn = string;
 export type EngagementSet = string[];
 export type RoleArn = string;
@@ -285,8 +285,8 @@ export type TimelineEventType = string;
 export type EventData = string;
 export type GeneratedId = string;
 export type EventReference =
-  | { resource: string; relatedItemId?: never }
-  | { resource?: never; relatedItemId: string };
+  | { resource: string; relatedItemId?: undefined }
+  | { resource?: undefined; relatedItemId: string };
 export type EventReferenceList = EventReference[];
 export interface CreateTimelineEventInput {
   clientToken?: string | undefined;
@@ -446,12 +446,12 @@ export interface ListIncidentFindingsOutput {
 export type StringList = string[];
 export type IntegerList = number[];
 export type AttributeValueList =
-  | { stringValues: string[]; integerValues?: never }
-  | { stringValues?: never; integerValues: number[] };
+  | { stringValues: string[]; integerValues?: undefined }
+  | { stringValues?: undefined; integerValues: number[] };
 export type Condition =
-  | { before: Date; after?: never; equals?: never }
-  | { before?: never; after: Date; equals?: never }
-  | { before?: never; after?: never; equals: AttributeValueList };
+  | { before: Date; after?: undefined; equals?: undefined }
+  | { before?: undefined; after: Date; equals?: undefined }
+  | { before?: undefined; after?: undefined; equals: AttributeValueList };
 export interface Filter {
   key: string;
   condition: Condition;
@@ -489,13 +489,28 @@ export interface PagerDutyIncidentDetail {
   secretId?: string | undefined;
 }
 export type ItemValue =
-  | { arn: string; url?: never; metricDefinition?: never; pagerDutyIncidentDetail?: never }
-  | { arn?: never; url: string; metricDefinition?: never; pagerDutyIncidentDetail?: never }
-  | { arn?: never; url?: never; metricDefinition: string; pagerDutyIncidentDetail?: never }
   | {
-      arn?: never;
-      url?: never;
-      metricDefinition?: never;
+      arn: string;
+      url?: undefined;
+      metricDefinition?: undefined;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url: string;
+      metricDefinition?: undefined;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url?: undefined;
+      metricDefinition: string;
+      pagerDutyIncidentDetail?: undefined;
+    }
+  | {
+      arn?: undefined;
+      url?: undefined;
+      metricDefinition?: undefined;
       pagerDutyIncidentDetail: PagerDutyIncidentDetail;
     };
 export type ItemType = string;
@@ -619,8 +634,8 @@ export interface UpdateIncidentRecordInput {
 }
 export interface UpdateIncidentRecordOutput {}
 export type RelatedItemsUpdate =
-  | { itemToAdd: RelatedItem; itemToRemove?: never }
-  | { itemToAdd?: never; itemToRemove: ItemIdentifier };
+  | { itemToAdd: RelatedItem; itemToRemove?: undefined }
+  | { itemToAdd?: undefined; itemToRemove: ItemIdentifier };
 export interface UpdateRelatedItemsInput {
   clientToken?: string | undefined;
   incidentRecordArn: string;
@@ -635,8 +650,8 @@ export interface DeleteRegionAction {
   regionName: string;
 }
 export type UpdateReplicationSetAction =
-  | { addRegionAction: AddRegionAction; deleteRegionAction?: never }
-  | { addRegionAction?: never; deleteRegionAction: DeleteRegionAction };
+  | { addRegionAction: AddRegionAction; deleteRegionAction?: undefined }
+  | { addRegionAction?: undefined; deleteRegionAction: DeleteRegionAction };
 export type UpdateActionList = UpdateReplicationSetAction[];
 export interface UpdateReplicationSetInput {
   arn: string;

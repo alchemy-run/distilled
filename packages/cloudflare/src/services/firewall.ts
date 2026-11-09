@@ -174,7 +174,7 @@ export interface BulkDeleteRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkDeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkPatchRulesRequest {
   /** Defines an identifier. */
@@ -227,7 +227,7 @@ export interface BulkPatchRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface BulkPutRulesRequest {
   /** Defines an identifier. */
@@ -280,7 +280,7 @@ export interface BulkPutRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesBulkUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export interface AccessRulesCreateRequestConfigurationAccessRuleIPConfiguration {
@@ -588,7 +588,7 @@ export interface CreateRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UaRulesCreateRequestConfigurationTarget = "ua";
 export interface UaRulesCreateRequestConfiguration {
@@ -1094,7 +1094,7 @@ export interface ListAccessRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccessRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccessRulesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1165,7 +1165,7 @@ export interface ListLockdownsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LockdownsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRulesRequest {
   /** Defines an identifier. */
@@ -1226,7 +1226,7 @@ export interface ListRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListUaRulesRequest {
   /** Defines an identifier. */
@@ -1265,7 +1265,7 @@ export interface ListUaRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UaRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWafOverridesRequest {
   /** Defines an identifier. */
@@ -1329,7 +1329,7 @@ export interface ListWafPackageGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WafPackagesGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesRulesListRequestDirection = "asc" | "desc";
 export type WafPackagesRulesListRequestMatch = "any" | "all";
@@ -1457,7 +1457,7 @@ export interface ListWafPackageRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WafPackagesRulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesListRequestDirection = "asc" | "desc";
 export type WafPackagesListRequestMatch = "any" | "all";
@@ -1692,7 +1692,7 @@ export interface PatchRuleResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesEditResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type WafPackagesGroupsEditRequestMode = "on" | "off";
 export interface PatchWafPackageGroupRequest {

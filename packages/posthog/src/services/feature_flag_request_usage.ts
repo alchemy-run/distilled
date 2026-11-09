@@ -32,7 +32,7 @@ export interface ListFeatureFlagRequestUsageRequest {
   /** Exclusive end of the usage period. */
   date_to: string;
   /** Time bucket used to group request usage. Hourly queries are limited to 8 days. * `hour` - hour * `day` - day */
-  time_interval?: ListFeatureFlagRequestUsageRequestTimeInterval | (string & {});
+  time_interval?: ListFeatureFlagRequestUsageRequestTimeInterval | (string & {}) | undefined;
 }
 /** * `remote_evaluation` - remote_evaluation * `local_evaluation` - local_evaluation */
 export type FeatureFlagRequestTypeEnum = "remote_evaluation" | "local_evaluation";

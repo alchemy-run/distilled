@@ -381,7 +381,7 @@ export interface CreateSnapshotScheduleActionParameters {
   tags?: Tag[] | undefined;
 }
 export type TargetAction = { createSnapshot: CreateSnapshotScheduleActionParameters };
-export type Schedule = { at: Date; cron?: never } | { at?: never; cron: string };
+export type Schedule = { at: Date; cron?: undefined } | { at?: undefined; cron: string };
 export interface CreateScheduledActionRequest {
   scheduledActionName: string;
   targetAction: TargetAction;

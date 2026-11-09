@@ -393,8 +393,8 @@ export interface Hive {
   parameters?: string | redacted.Redacted<string> | undefined;
 }
 export type JobDriver =
-  | { sparkSubmit: SparkSubmit; hive?: never }
-  | { sparkSubmit?: never; hive: Hive };
+  | { sparkSubmit: SparkSubmit; hive?: undefined }
+  | { sparkSubmit?: undefined; hive: Hive };
 export interface TotalResourceUtilization {
   vCPUHour?: number | undefined;
   memoryGBHour?: number | undefined;

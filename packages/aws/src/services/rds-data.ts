@@ -210,101 +210,101 @@ export type ArrayOfArray = ArrayValue[];
 export type ArrayValue =
   | {
       booleanValues: boolean[];
-      longValues?: never;
-      doubleValues?: never;
-      stringValues?: never;
-      arrayValues?: never;
+      longValues?: undefined;
+      doubleValues?: undefined;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
+      booleanValues?: undefined;
       longValues: number[];
-      doubleValues?: never;
-      stringValues?: never;
-      arrayValues?: never;
+      doubleValues?: undefined;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
       doubleValues: number[];
-      stringValues?: never;
-      arrayValues?: never;
+      stringValues?: undefined;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
-      doubleValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
+      doubleValues?: undefined;
       stringValues: string[];
-      arrayValues?: never;
+      arrayValues?: undefined;
     }
   | {
-      booleanValues?: never;
-      longValues?: never;
-      doubleValues?: never;
-      stringValues?: never;
+      booleanValues?: undefined;
+      longValues?: undefined;
+      doubleValues?: undefined;
+      stringValues?: undefined;
       arrayValues: ArrayValue[];
     };
 export type Field =
   | {
       isNull: boolean;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       booleanValue: boolean;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
       longValue: number;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
       doubleValue: number;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
       stringValue: string;
-      blobValue?: never;
-      arrayValue?: never;
+      blobValue?: undefined;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
-      arrayValue?: never;
+      arrayValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
       arrayValue: ArrayValue;
     };
 export type TypeHint = "JSON" | "UUID" | "TIMESTAMP" | "DATE" | "TIME" | "DECIMAL" | (string & {});
@@ -388,122 +388,122 @@ export interface StructValue {
 export type Value =
   | {
       isNull: boolean;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       bitValue: boolean;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
       bigIntValue: number;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
       intValue: number;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
       doubleValue: number;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
       realValue: number;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
       stringValue: string;
-      blobValue?: never;
-      arrayValues?: never;
-      structValue?: never;
+      blobValue?: undefined;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
-      arrayValues?: never;
-      structValue?: never;
+      arrayValues?: undefined;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
       arrayValues: Value[];
-      structValue?: never;
+      structValue?: undefined;
     }
   | {
-      isNull?: never;
-      bitValue?: never;
-      bigIntValue?: never;
-      intValue?: never;
-      doubleValue?: never;
-      realValue?: never;
-      stringValue?: never;
-      blobValue?: never;
-      arrayValues?: never;
+      isNull?: undefined;
+      bitValue?: undefined;
+      bigIntValue?: undefined;
+      intValue?: undefined;
+      doubleValue?: undefined;
+      realValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
+      arrayValues?: undefined;
       structValue: StructValue;
     };
 export type Row = Value[];

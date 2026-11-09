@@ -550,8 +550,8 @@ export interface TextEvent {
 }
 export interface CloseStreamEvent {}
 export type StartSpeechSynthesisStreamActionStream =
-  | { TextEvent: TextEvent; CloseStreamEvent?: never }
-  | { TextEvent?: never; CloseStreamEvent: CloseStreamEvent };
+  | { TextEvent: TextEvent; CloseStreamEvent?: undefined }
+  | { TextEvent?: undefined; CloseStreamEvent: CloseStreamEvent };
 export interface StartSpeechSynthesisStreamInput {
   Engine: Engine;
   LanguageCode?: LanguageCode | undefined;
@@ -598,50 +598,50 @@ export type ThrottlingReasonList = ThrottlingReason[];
 export type StartSpeechSynthesisStreamEventStream =
   | {
       AudioEvent: AudioEvent;
-      StreamClosedEvent?: never;
-      ValidationException?: never;
-      ServiceQuotaExceededException?: never;
-      ServiceFailureException?: never;
-      ThrottlingException?: never;
+      StreamClosedEvent?: undefined;
+      ValidationException?: undefined;
+      ServiceQuotaExceededException?: undefined;
+      ServiceFailureException?: undefined;
+      ThrottlingException?: undefined;
     }
   | {
-      AudioEvent?: never;
+      AudioEvent?: undefined;
       StreamClosedEvent: StreamClosedEvent;
-      ValidationException?: never;
-      ServiceQuotaExceededException?: never;
-      ServiceFailureException?: never;
-      ThrottlingException?: never;
+      ValidationException?: undefined;
+      ServiceQuotaExceededException?: undefined;
+      ServiceFailureException?: undefined;
+      ThrottlingException?: undefined;
     }
   | {
-      AudioEvent?: never;
-      StreamClosedEvent?: never;
+      AudioEvent?: undefined;
+      StreamClosedEvent?: undefined;
       ValidationException: ValidationException;
-      ServiceQuotaExceededException?: never;
-      ServiceFailureException?: never;
-      ThrottlingException?: never;
+      ServiceQuotaExceededException?: undefined;
+      ServiceFailureException?: undefined;
+      ThrottlingException?: undefined;
     }
   | {
-      AudioEvent?: never;
-      StreamClosedEvent?: never;
-      ValidationException?: never;
+      AudioEvent?: undefined;
+      StreamClosedEvent?: undefined;
+      ValidationException?: undefined;
       ServiceQuotaExceededException: ServiceQuotaExceededException;
-      ServiceFailureException?: never;
-      ThrottlingException?: never;
+      ServiceFailureException?: undefined;
+      ThrottlingException?: undefined;
     }
   | {
-      AudioEvent?: never;
-      StreamClosedEvent?: never;
-      ValidationException?: never;
-      ServiceQuotaExceededException?: never;
+      AudioEvent?: undefined;
+      StreamClosedEvent?: undefined;
+      ValidationException?: undefined;
+      ServiceQuotaExceededException?: undefined;
       ServiceFailureException: ServiceFailureException;
-      ThrottlingException?: never;
+      ThrottlingException?: undefined;
     }
   | {
-      AudioEvent?: never;
-      StreamClosedEvent?: never;
-      ValidationException?: never;
-      ServiceQuotaExceededException?: never;
-      ServiceFailureException?: never;
+      AudioEvent?: undefined;
+      StreamClosedEvent?: undefined;
+      ValidationException?: undefined;
+      ServiceQuotaExceededException?: undefined;
+      ServiceFailureException?: undefined;
       ThrottlingException: ThrottlingException;
     };
 export interface StartSpeechSynthesisStreamOutput {

@@ -65,9 +65,9 @@ export interface UpdateHeatmapCaptureSettingsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether to capture heatmap data from every page ('all') or only listed URLs ('url_allowlist'). * `all` - All URLs * `url_allowlist` - Only listed URLs */
-  capture_mode?: TeamHeatmapConfigCaptureModeEnum | (string & {});
+  capture_mode?: TeamHeatmapConfigCaptureModeEnum | (string & {}) | undefined;
   /** Full http(s) URLs that may send heatmap data. Use * to match any characters. */
-  url_allowlist?: UpdateHeatmapCaptureSettingsRequestUrlAllowlistList;
+  url_allowlist?: UpdateHeatmapCaptureSettingsRequestUrlAllowlistList | undefined;
 }
 export type GetHeatmapCapturePageError = PosthogOpError;
 export const getHeatmapCapturePage: API.OperationMethod<

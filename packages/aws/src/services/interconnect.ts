@@ -89,8 +89,8 @@ const TELEMETRY = {
 export type DirectConnectGatewayAttachPoint = string;
 export type AmazonResourceName = string;
 export type AttachPoint =
-  | { directConnectGateway: string; arn?: never }
-  | { directConnectGateway?: never; arn: string };
+  | { directConnectGateway: string; arn?: undefined }
+  | { directConnectGateway?: undefined; arn: string };
 export type ActivationKey = string | redacted.Redacted<string>;
 export type ConnectionDescription = string;
 export type TagKey = string;
@@ -109,8 +109,8 @@ export type EnvironmentId = string;
 export type CloudServiceProvider = string;
 export type LastMileProvider = string;
 export type Provider =
-  | { cloudServiceProvider: string; lastMileProvider?: never }
-  | { cloudServiceProvider?: never; lastMileProvider: string };
+  | { cloudServiceProvider: string; lastMileProvider?: undefined }
+  | { cloudServiceProvider?: undefined; lastMileProvider: string };
 export type Location = string;
 export type ProductType = string;
 export type ConnectionState =

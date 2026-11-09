@@ -48,7 +48,7 @@ export interface ActivateSnapshotRequest {
   /** Snapshot ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type SnapshotState =
   | "building"
@@ -74,9 +74,9 @@ export type GpuType =
 export type BuildInfoContextHashesList = Array<string>;
 export interface BuildInfo {
   /** The Dockerfile content used for the build */
-  dockerfileContent?: string;
+  dockerfileContent?: string | undefined;
   /** The context hashes used for the build */
-  contextHashes?: BuildInfoContextHashesList;
+  contextHashes?: BuildInfoContextHashesList | undefined;
   /** The creation timestamp */
   createdAt: string;
   /** The last update timestamp */
@@ -90,17 +90,17 @@ export type SnapshotDtoRegionIdsList = Array<string>;
 export type SnapshotDtoSandboxClass = "linux-vm" | "container" | "windows";
 export interface SnapshotDto {
   id: string;
-  organizationId?: string;
+  organizationId?: string | undefined;
   general: boolean;
   name: string;
-  imageName?: string;
+  imageName?: string | undefined;
   state: SnapshotState;
   size: number | null;
   entrypoint: SnapshotDtoEntrypointList | null;
   cpu: number;
   gpu: number;
   /** The GPU type assigned to the snapshot */
-  gpuType?: GpuType;
+  gpuType?: GpuType | undefined;
   mem: number;
   disk: number;
   errorReason: string | null;
@@ -108,17 +108,17 @@ export interface SnapshotDto {
   updatedAt: string;
   lastUsedAt: string | null;
   /** Build information for the snapshot */
-  buildInfo?: BuildInfo;
+  buildInfo?: BuildInfo | undefined;
   /** IDs of regions where the snapshot is available */
-  regionIds?: SnapshotDtoRegionIdsList;
+  regionIds?: SnapshotDtoRegionIdsList | undefined;
   /** The initial runner ID of the snapshot */
-  initialRunnerId?: string;
+  initialRunnerId?: string | undefined;
   /** The snapshot reference */
-  ref?: string;
+  ref?: string | undefined;
   /** The ID of the sandbox the snapshot was created from */
   sourceSandboxId: string | null;
   /** The sandbox class of the snapshot */
-  sandboxClass?: SnapshotDtoSandboxClass;
+  sandboxClass?: SnapshotDtoSandboxClass | undefined;
 }
 /** The entrypoint command for the snapshot */
 export type CreateSnapshotRequestEntrypointList = Array<string>;
@@ -130,59 +130,59 @@ export interface CreateBuildInfo {
   /** The Dockerfile content used for the build */
   dockerfileContent: string;
   /** The context hashes used for the build */
-  contextHashes?: CreateBuildInfoContextHashesList;
+  contextHashes?: CreateBuildInfoContextHashesList | undefined;
 }
 export type SandboxClass = "linux-vm" | "container" | "windows";
 export interface CreateSnapshotRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The name of the snapshot */
   name: string;
   /** The image name of the snapshot */
-  imageName?: string;
+  imageName?: string | undefined;
   /** The entrypoint command for the snapshot */
-  entrypoint?: CreateSnapshotRequestEntrypointList;
+  entrypoint?: CreateSnapshotRequestEntrypointList | undefined;
   /** CPU cores allocated to the resulting sandbox */
-  cpu?: number;
+  cpu?: number | undefined;
   /** GPU units allocated to the resulting sandbox */
-  gpu?: number;
+  gpu?: number | undefined;
   /** Preferred GPU type for the resulting sandbox. */
-  gpuType?: CreateSnapshotRequestGpuTypeList;
+  gpuType?: CreateSnapshotRequestGpuTypeList | undefined;
   /** Memory allocated to the resulting sandbox in GB */
-  memory?: number;
+  memory?: number | undefined;
   /** Disk space allocated to the sandbox in GB */
-  disk?: number;
+  disk?: number | undefined;
   /** Build information for the snapshot */
-  buildInfo?: CreateBuildInfo;
+  buildInfo?: CreateBuildInfo | undefined;
   /** ID of the region where the snapshot will be available. Defaults to organization default region if not specified. */
-  regionId?: string;
+  regionId?: string | undefined;
   /** Target sandbox class. Determines which runners can host sandboxes created from this snapshot. */
-  sandboxClass?: SandboxClass | (string & {});
+  sandboxClass?: SandboxClass | (string & {}) | undefined;
 }
 export interface DeactivateSnapshotRequest {
   /** Snapshot ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeactivateSnapshotResponse {}
 export type GetAllSnapshotsRequestSort = "name" | "state" | "lastUsedAt" | "createdAt";
 export type GetAllSnapshotsRequestOrder = "asc" | "desc";
 export interface GetAllSnapshotsRequest {
   /** Page number of the results */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by partial name match */
-  name?: string;
+  name?: string | undefined;
   /** Filter by the ID of the sandbox the snapshot was created from */
-  sourceSandboxId?: string;
+  sourceSandboxId?: string | undefined;
   /** Field to sort by */
-  sort?: GetAllSnapshotsRequestSort | (string & {});
+  sort?: GetAllSnapshotsRequestSort | (string & {}) | undefined;
   /** Direction to sort by */
-  order?: GetAllSnapshotsRequestOrder | (string & {});
+  order?: GetAllSnapshotsRequestOrder | (string & {}) | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type PaginatedSnapshotsItemsList = Array<SnapshotDto>;
 export interface PaginatedSnapshots {
@@ -195,13 +195,13 @@ export interface GetSnapshotRequest {
   /** Snapshot ID or name */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface GetSnapshotBuildLogsUrlRequest {
   /** Snapshot ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface Url {
   /** URL response */
@@ -211,7 +211,7 @@ export interface RemoveSnapshotRequest {
   /** Snapshot ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RemoveSnapshotResponse {}
 export type ActivateSnapshotError = SnapshotNotFound | DaytonaOpError;
