@@ -341,6 +341,12 @@
       "path": "./packages/docker/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/dokploy/tsconfig.json"
+    },
+    {
+      "path": "./packages/dokploy/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/doppler/tsconfig.json"
     },
     {

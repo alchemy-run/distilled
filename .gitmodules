@@ -473,3 +473,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-polymarket.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/dokploy/specs/spec-mirror-dokploy"]
+	path = packages/dokploy/specs/spec-mirror-dokploy
+	url = https://github.com/distilled-mirror/spec-mirror-dokploy.git
+	ignore = dirty
+	shallow = true
