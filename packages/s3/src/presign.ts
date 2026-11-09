@@ -1,9 +1,11 @@
 import * as API from "@distilled.cloud/core/api";
+import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import {
   type InvalidInput,
   InvalidInput as InvalidInputError,
 } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -17,6 +19,7 @@ import type { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
+import { toBase64 } from "./util/base64.ts";
 import {
   encodeGreedyLabel,
   encodeLabel,
@@ -125,6 +128,41 @@ export const presignUrl: (
 );
 
 /**
+ * `path` under the bucket's URL: virtual-hosted
+ * (`https://{bucket}.s3.{region}.{dnsSuffix}/{path}`), or path-style under a
+ * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a bucket or
+ * key that would address another resource.
+ */
+const objectUrl = (
+  bucket: string,
+  key: string,
+  region: string,
+  path: string,
+): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> =>
+  Effect.flatMap(
+    Effect.flatten(
+      Effect.map(
+        Effect.serviceOption(Endpoint.Endpoint),
+        Option.getOrElse(() => Effect.undefined),
+      ),
+    ),
+    (customEndpoint): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> => {
+      const invalid =
+        invalidAwsLabel("bucket", bucket, false) ??
+        invalidAwsLabel("key", key, true) ??
+        (!customEndpoint && encodeLabel(bucket) !== bucket
+          ? invalidHostLabel("bucket", bucket)
+          : undefined);
+      if (invalid !== undefined) return Effect.fail(invalid);
+      return parseUrl(
+        customEndpoint
+          ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(bucket)}/${path}`
+          : `https://${bucket}.s3.${region}.${dnsSuffix(region)}/${path}`,
+      );
+    },
+  );
+
+/**
  * Options for {@link presignS3Url}.
  */
 export interface PresignS3UrlOptions {
@@ -196,22 +234,11 @@ export const presignS3Url: (
 ) => Effect.Effect<string, PresignError, PresignContext> = /*@__PURE__*/ Effect.fnUntraced(
   function* (options: PresignS3UrlOptions) {
     const region = options.region ?? (yield* yield* Region.Region);
-    const customEndpoint = yield* yield* Effect.serviceOption(Endpoint.Endpoint).pipe(
-      Effect.map(Option.getOrElse(() => Effect.undefined)),
-    );
-
-    const invalid =
-      invalidAwsLabel("bucket", options.bucket, false) ??
-      invalidAwsLabel("key", options.key, true) ??
-      (!customEndpoint && encodeLabel(options.bucket) !== options.bucket
-        ? invalidHostLabel("bucket", options.bucket)
-        : undefined);
-    if (invalid !== undefined) return yield* invalid;
-    const encodedKey = encodeGreedyLabel(options.key);
-    const url = yield* parseUrl(
-      customEndpoint
-        ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(options.bucket)}/${encodedKey}`
-        : `https://${options.bucket}.s3.${region}.${dnsSuffix(region)}/${encodedKey}`,
+    const url = yield* objectUrl(
+      options.bucket,
+      options.key,
+      region,
+      encodeGreedyLabel(options.key),
     );
     if (options.versionId !== undefined) {
       url.searchParams.set("versionId", options.versionId);
@@ -405,3 +432,162 @@ const presignedRequestOf =
     }
     return signed === undefined ? Effect.map(SigV4.sign(sign), toRequest) : toRequest(signed);
   };
+
+/**
+ * A condition in an S3 POST policy: an exact field match (`{ acl: "private" }`),
+ * a prefix match (`["starts-with", "$key", "uploads/"]`), or a size range
+ * in bytes (`["content-length-range", 0, 10485760]`).
+ */
+export type PostPolicyCondition =
+  | Readonly<Record<string, string>>
+  | readonly ["eq" | "starts-with", string, string]
+  | readonly ["content-length-range", number, number];
+
+/**
+ * Options for {@link presignPost}.
+ */
+export interface PresignPostOptions {
+  /** Bucket the form uploads into. */
+  readonly bucket: string;
+  /**
+   * Key of the uploaded object. A key ending in `${filename}` lets the
+   * browser fill in the file's name: the policy then allows any key that
+   * starts with the text before it.
+   */
+  readonly key: string;
+  /**
+   * Region the bucket lives in (used for both the endpoint and the SigV4
+   * credential scope). Defaults to the {@link Region.Region} service.
+   */
+  readonly region?: string;
+  /**
+   * Number of seconds the policy remains valid.
+   * @default 900
+   */
+  readonly expiresIn?: number;
+  /**
+   * Conditions the upload must meet besides the returned fields, for example
+   * `["content-length-range", 0, 10485760]` or
+   * `["starts-with", "$Content-Type", "image/"]`.
+   */
+  readonly conditions?: ReadonlyArray<PostPolicyCondition>;
+  /**
+   * Form fields to send with exactly these values (`Content-Type`, `acl`,
+   * `x-amz-meta-*`, `success_action_status`, ...). Each one is also added to
+   * the policy as an exact match.
+   */
+  readonly fields?: Readonly<Record<string, string>>;
+  /** Fixed signing datetime in `YYYYMMDDTHHMMSSZ` format. Defaults to now. */
+  readonly datetime?: string;
+}
+
+/**
+ * A browser upload form presigned by {@link presignPost}.
+ */
+export interface PresignedPost {
+  /** The form's `action`: the bucket's URL. */
+  readonly url: string;
+  /**
+   * Fields to send, in this order, before the `file` field, including the
+   * policy and its signature.
+   */
+  readonly fields: Record<string, string>;
+}
+
+/** `YYYYMMDDTHHMMSSZ` for `millis`. */
+const amzDate = (millis: number) => new Date(millis).toISOString().replace(/[:-]|\.\d{3}/g, "");
+
+/**
+ * Presign an S3 POST policy for a browser form upload, like the AWS SDK's
+ * `createPresignedPost`. The browser sends a `multipart/form-data` POST to
+ * `url` with `fields` and then the `file` field; S3 accepts it while the
+ * policy is valid and the upload meets every condition.
+ *
+ * A policy can allow ranges and prefixes that a presigned URL can't, such as
+ * any size up to 10 MB or any key under `uploads/`. For one exact request,
+ * use {@link presignS3Url}.
+ *
+ * Pure client-side computation -- no AWS API call is made. The upload
+ * inherits the IAM permissions of the identity resolved from the
+ * {@link Credentials.Credentials} service. Fails with `InvalidInput` for a
+ * bucket or key that would address another resource, as
+ * {@link presignS3Url} does.
+ *
+ * @example
+ * ```ts
+ * const post = yield* Presign.presignPost({
+ *   bucket: "uploads",
+ *   key: "avatars/${filename}",
+ *   conditions: [["content-length-range", 0, 10 * 1024 * 1024]],
+ *   fields: { "Content-Type": "image/png" },
+ * });
+ * const form = new FormData();
+ * for (const [name, value] of Object.entries(post.fields)) form.append(name, value);
+ * form.append("file", file);
+ * // fetch(post.url, { method: "POST", body: form })
+ * ```
+ */
+export const presignPost: (
+  options: PresignPostOptions,
+) => Effect.Effect<PresignedPost, PresignError, PresignContext> = /*@__PURE__*/ Effect.fnUntraced(
+  function* (options: PresignPostOptions) {
+    const credentials = yield* yield* Credentials.Credentials;
+    const region = options.region ?? (yield* yield* Region.Region);
+    const url = yield* objectUrl(options.bucket, options.key, region, "");
+
+    const datetime = options.datetime ?? amzDate(yield* Clock.currentTimeMillis);
+    const date = datetime.slice(0, 8);
+    const signedAt = Date.UTC(
+      Number(date.slice(0, 4)),
+      Number(date.slice(4, 6)) - 1,
+      Number(date.slice(6, 8)),
+      Number(datetime.slice(9, 11)),
+      Number(datetime.slice(11, 13)),
+      Number(datetime.slice(13, 15)),
+    );
+    const expiration = new Date(signedAt + (options.expiresIn ?? 900) * 1000).toISOString();
+
+    const fields: Record<string, string> = {
+      ...options.fields,
+      bucket: options.bucket,
+      "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+      "X-Amz-Credential": `${Redacted.value(credentials.accessKeyId)}/${date}/${region}/s3/aws4_request`,
+      "X-Amz-Date": datetime,
+    };
+    if (credentials.sessionToken !== undefined) {
+      fields["X-Amz-Security-Token"] = Redacted.value(credentials.sessionToken);
+    }
+    const filename = options.key.lastIndexOf("${filename}");
+    const policy = JSON.stringify({
+      expiration,
+      conditions: [
+        ...(options.conditions ?? []),
+        ...Object.entries(fields).map(([name, value]) => ({ [name]: value })),
+        filename >= 0 && filename === options.key.length - "${filename}".length
+          ? ["starts-with", "$key", options.key.slice(0, filename)]
+          : { key: options.key },
+      ],
+    });
+    const encodedPolicy = toBase64(new TextEncoder().encode(policy));
+
+    const signingKey = yield* SigV4.deriveSigningKey({
+      secretAccessKey: credentials.secretAccessKey,
+      date,
+      region,
+      service: "s3",
+    });
+    const signature = yield* Effect.mapError(
+      signingKey.impl.hmacSha256(signingKey.key, encodedPolicy),
+      (e) => new SigV4.CryptoError({ operation: "hmac", cause: e.cause }),
+    );
+    return {
+      url: url.toString(),
+      fields: {
+        ...fields,
+        key: options.key,
+        Policy: encodedPolicy,
+        "X-Amz-Signature": CoreCrypto.hex(signature),
+      },
+    };
+  },
+);
