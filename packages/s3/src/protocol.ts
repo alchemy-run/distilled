@@ -47,7 +47,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
-import { type PresignSettings, Presigning, presignedRequestOf } from "./client/presigning.ts";
+import { type PresignSettings, Presigning } from "./client/presigning.ts";
 import {
   loadHandler,
   serializeFailure,
@@ -319,8 +319,7 @@ const toHttpRequest = (
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
   if (presign !== undefined) {
-    return presignedRequestOf(
-      presign,
+    return presign.presign(
       {
         operation: prepared.operationName,
         method: resolvedRequest.method,
